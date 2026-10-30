@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Chùa Trường Yến 3D — Tịnh Độ Hay Độ Khách</title>
+<title>Chùa Trường Yến 3D (Sansa Edition) — Đi Chùa Tích Phước & Xả Nghiệp</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
   * {
     box-sizing: border-box;
     margin: 0;
@@ -15,517 +15,607 @@
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
-  body, html {
+  html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: #14100c;
     font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #0f172a;
-    color: #fff;
+    color: #f5f5f4;
   }
   #canvas-container {
     position: fixed;
     inset: 0;
     z-index: 1;
   }
-  /* Floating text container */
+
+  /* Frosted Glass UI System (Sansa Korean Temple App Style) */
+  .glass-pill {
+    background: rgba(28, 25, 23, 0.58);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    color: #f5f5f4;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Top Bar */
+  #top-bar {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .top-left-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+  }
+  .icon-circle-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .icon-circle-btn:active {
+    transform: scale(0.92);
+  }
+  .room-select-pill {
+    padding: 8px 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+  }
+  .room-select-pill select {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    padding-right: 16px;
+  }
+  .room-select-pill select option {
+    background: #1c1917;
+    color: #fff;
+  }
+
+  .top-right-stats {
+    pointer-events: auto;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .stat-item b {
+    color: #fde68a;
+    font-weight: 800;
+  }
+
+  /* Right Floating Chant / Audio Pill */
+  .sub-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+  }
+  .merit-badge {
+    pointer-events: auto;
+    padding: 8px 15px;
+    font-size: 12.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .chant-btn {
+    pointer-events: auto;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chant-btn.active {
+    background: rgba(217, 119, 6, 0.72);
+    border-color: #fde68a;
+  }
+
+  /* Center Translucent Feed Toast (Just like Sansa's "다정한 나무님이 합장으로 인사했어요") */
+  #live-feed-pill {
+    position: fixed;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    padding: 13px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    background: rgba(28, 25, 23, 0.62);
+  }
+
+  /* Floating Merit / Curse Popups */
   #floating-layer {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 15;
+    z-index: 25;
     overflow: hidden;
   }
-  .float-text {
+  .float-pop {
     position: absolute;
     font-weight: 800;
-    font-size: 18px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.85);
-    pointer-events: none;
-    animation: floatUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    font-size: 16px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+    animation: popFloat 1.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     white-space: nowrap;
   }
-  @keyframes floatUp {
-    0% { opacity: 0; transform: translate(-50%, 10px) scale(0.7); }
-    18% { opacity: 1; transform: translate(-50%, -15px) scale(1.1); }
-    100% { opacity: 0; transform: translate(-50%, -110px) scale(0.95); }
-  }
-  /* Screen flash & shake */
-  .screen-shake {
-    animation: shakeAnim 0.35s ease-in-out;
-  }
-  @keyframes shakeAnim {
-    0%, 100% { transform: translate(0, 0); }
-    20% { transform: translate(-10px, 6px); }
-    40% { transform: translate(10px, -8px); }
-    60% { transform: translate(-8px, -4px); }
-    80% { transform: translate(8px, 6px); }
-  }
-  #flash-overlay {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 14;
-    opacity: 0;
-    transition: opacity 0.25s ease;
+  @keyframes popFloat {
+    0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -12px) scale(1.08); }
+    100% { opacity: 0; transform: translate(-50%, -95px) scale(0.95); }
   }
 
-  /* Top HUD */
-  #top-hud {
+  /* Virtual Walk Joystick (Bottom Left above dock) */
+  #joystick-zone {
     position: fixed;
-    top: 10px;
-    left: 10px;
-    right: 10px;
+    bottom: 112px;
+    left: 18px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: rgba(28, 25, 23, 0.45);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    z-index: 20;
+    touch-action: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #joystick-knob {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+    pointer-events: none;
+    transition: transform 0.05s linear;
+  }
+  #joystick-hint {
+    position: absolute;
+    bottom: -20px;
+    width: 120px;
+    text-align: center;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.75);
+    text-shadow: 0 1px 4px #000;
+    pointer-events: none;
+  }
+
+  /* Camera & Avatar Quick Switch (Bottom Right above dock) */
+  #quick-side-btns {
+    position: fixed;
+    bottom: 112px;
+    right: 16px;
     z-index: 20;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    pointer-events: none;
+    align-items: flex-end;
   }
-  .hud-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .brand-pill {
-    pointer-events: auto;
-    background: linear-gradient(135deg, rgba(20, 30, 48, 0.88), rgba(36, 59, 85, 0.88));
-    border: 1.5px solid rgba(251, 191, 36, 0.65);
-    border-radius: 16px;
+  .mini-pill-btn {
     padding: 8px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
-    backdrop-filter: blur(10px);
-  }
-  .brand-title {
-    font-size: 14px;
-    font-weight: 900;
-    color: #fde68a;
-    letter-spacing: 0.3px;
-  }
-  .brand-sub {
-    font-size: 11px;
-    color: #cbd5e1;
-  }
-  .stats-bar {
-    pointer-events: auto;
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .stat-chip {
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 12px;
-    padding: 6px 11px;
     font-size: 12px;
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.25);
   }
-  .stat-chip span.val {
-    color: #fbbf24;
-    font-size: 13.5px;
-    font-weight: 900;
-  }
-  .stat-chip.rage span.val {
-    color: #f87171;
-  }
-  .stat-chip.bow span.val {
-    color: #38bdf8;
+  .mini-pill-btn.active {
+    background: rgba(234, 179, 8, 0.75);
+    color: #fff;
+    border-color: #fef08a;
   }
 
-  /* Zone Switcher Banner */
-  .zone-switch-bar {
-    pointer-events: auto;
-    display: flex;
-    gap: 8px;
-    align-self: center;
-    background: rgba(15, 23, 42, 0.82);
-    padding: 5px;
-    border-radius: 999px;
-    border: 1px solid rgba(251, 191, 36, 0.4);
-    backdrop-filter: blur(10px);
+  /* Bottom Frosted Glass Dock (Exact Sansa Layout: 합장 | 절하기 | 염주 + Khấn + Xả Nghiệp) */
+  #bottom-bar-wrap {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    width: min(94vw, 520px);
   }
-  .zone-btn {
+  #bottom-glass-dock {
+    width: 100%;
+    height: 78px;
+    border-radius: 40px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    padding: 6px 10px;
+    background: rgba(28, 25, 23, 0.62);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  }
+  .dock-action {
     border: none;
     background: transparent;
-    color: #cbd5e1;
-    padding: 7px 14px;
-    border-radius: 999px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 800;
+    color: #e7e5e4;
+    height: 64px;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
     cursor: pointer;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
     transition: all 0.2s;
   }
-  .zone-btn.active-zen {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+  .dock-action svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .zone-btn.active-rage {
-    background: linear-gradient(135deg, #ef4444, #991b1b);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
+  .dock-action.active {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fde68a;
   }
-
-  /* Boss Speech & HP Overlay (for Rage Mode) */
-  #boss-hud {
-    pointer-events: auto;
-    align-self: center;
-    width: min(94vw, 440px);
-    background: rgba(24, 10, 14, 0.88);
-    border: 2px solid #ef4444;
-    border-radius: 16px;
-    padding: 10px 14px;
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
-    backdrop-filter: blur(8px);
-  }
-  .boss-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 800;
+  .dock-action.rage-highlight {
     color: #fca5a5;
   }
-  .hp-bar-bg {
-    width: 100%;
-    height: 12px;
-    background: #3f1d24;
-    border-radius: 99px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-  .hp-bar-fill {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, #ef4444, #f97316);
-    transition: width 0.2s ease;
-  }
-  .boss-quote {
-    font-size: 12.5px;
-    font-style: italic;
-    color: #fef08a;
-    background: rgba(0,0,0,0.45);
-    padding: 6px 10px;
-    border-radius: 10px;
-    border-left: 3px solid #f59e0b;
+  .dock-action.rage-highlight.active {
+    background: rgba(220, 38, 38, 0.35);
+    border-color: rgba(248, 113, 113, 0.6);
+    color: #fecaca;
   }
 
-  /* Prayer / Fortune Modal Banner */
-  #center-toast {
+  /* Slide-up Glass Drawer for Khấn Nguyện & Chửi Xả Nghiệp */
+  #drawer-modal {
     position: fixed;
-    top: 42%;
+    bottom: 104px;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translateX(-50%) translateY(20px);
+    width: min(94vw, 520px);
+    max-height: 54vh;
+    overflow-y: auto;
     z-index: 30;
-    width: min(90vw, 420px);
-    background: linear-gradient(145deg, rgba(30, 20, 10, 0.96), rgba(60, 35, 12, 0.96));
-    border: 2px solid #fbbf24;
-    border-radius: 20px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 30px rgba(251, 191, 36, 0.35);
+    padding: 16px;
+    border-radius: 26px;
+    background: rgba(24, 21, 19, 0.86);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.75);
     display: none;
     opacity: 0;
-    transition: all 0.25s ease;
+    transition: all 0.22s ease;
   }
-  #center-toast.show {
+  #drawer-modal.open {
     display: block;
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateX(-50%) translateY(0);
   }
-  #center-toast h3 {
-    color: #fde68a;
-    font-size: 17px;
-    margin-bottom: 8px;
-  }
-  #center-toast p {
-    color: #fff;
-    font-size: 13.5px;
-    line-height: 1.5;
-    margin-bottom: 14px;
-  }
-  #center-toast button {
-    background: linear-gradient(135deg, #f59e0b, #b45309);
-    border: none;
-    color: #fff;
-    font-weight: 800;
-    padding: 8px 20px;
-    border-radius: 99px;
-    cursor: pointer;
-    font-family: inherit;
-  }
-
-  /* Bottom Control Dock */
-  #bottom-dock {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    background: linear-gradient(to top, rgba(10, 15, 29, 0.96) 75%, rgba(10, 15, 29, 0.0));
-    padding: 18px 10px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .action-panel {
-    width: min(96vw, 600px);
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(251, 191, 36, 0.35);
-    border-radius: 18px;
-    padding: 11px 12px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 -4px 25px rgba(0,0,0,0.45);
-    max-height: 36vh;
-    overflow-y: auto;
-  }
-  .panel-header {
+  .drawer-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
-    font-size: 12.5px;
+    margin-bottom: 10px;
+    font-size: 14px;
     font-weight: 800;
     color: #fde68a;
   }
-  .btn-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 7px;
-  }
-  .act-btn {
-    border: 1px solid rgba(255,255,255,0.16);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
-    color: #f8fafc;
-    padding: 9px 10px;
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 700;
+  .drawer-close {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    text-align: left;
-    transition: transform 0.1s, background 0.2s, border-color 0.2s;
-  }
-  .act-btn:active {
-    transform: scale(0.95);
-  }
-  .act-btn.gold {
-    background: linear-gradient(135deg, #d97706, #92400e);
-    border-color: #fbbf24;
-    color: #fff;
     font-weight: 800;
   }
-  .act-btn.fire {
-    background: linear-gradient(135deg, #dc2626, #7f1d1d);
-    border-color: #f87171;
-    color: #fff;
-    font-weight: 800;
+  .preset-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
-  .act-btn.jade {
-    background: linear-gradient(135deg, #059669, #065f46);
-    border-color: #34d399;
-    color: #fff;
-    font-weight: 800;
-  }
-  .act-btn.full-col {
-    grid-column: span 2;
-    justify-content: center;
-    font-size: 13px;
-    padding: 10px;
-  }
-
-  .input-row {
-    display: flex;
-    gap: 6px;
-    margin-top: 7px;
-  }
-  .input-row input, .input-row select {
-    flex: 1;
-    background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 10px;
-    padding: 8px 10px;
-    color: #fff;
+  .preset-btn {
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #f5f5f4;
+    padding: 10px 11px;
+    border-radius: 14px;
     font-family: inherit;
     font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+  }
+  .preset-btn:active {
+    transform: scale(0.96);
+  }
+  .preset-btn.rage-btn {
+    background: rgba(185, 28, 28, 0.35);
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #fee2e2;
+  }
+  .preset-btn.gold-btn {
+    background: rgba(217, 119, 6, 0.32);
+    border-color: rgba(251, 191, 36, 0.45);
+    color: #fef3c7;
+  }
+  .drawer-input-row {
+    display: flex;
+    gap: 7px;
+    margin-top: 10px;
+  }
+  .drawer-input-row input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 12px;
+    padding: 9px 12px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 12.5px;
     outline: none;
   }
-  .input-row input:focus {
-    border-color: #fbbf24;
+  .drawer-send-btn {
+    background: linear-gradient(135deg, #d97706, #92400e);
+    border: 1px solid #fbbf24;
+    color: #fff;
+    font-weight: 800;
+    padding: 9px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
   }
 
-  /* Bottom Navigation Tabs */
-  .nav-tabs {
-    width: min(96vw, 600px);
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 5px;
-    background: rgba(15, 23, 42, 0.95);
-    padding: 5px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.12);
-  }
-  .tab-btn {
-    border: none;
-    background: transparent;
-    color: #94a3b8;
-    padding: 7px 2px;
-    border-radius: 11px;
-    font-family: inherit;
-    font-size: 10.5px;
-    font-weight: 800;
-    cursor: pointer;
-    display: flex;
+  /* Boss HP Bar inside Rage Hall */
+  #boss-banner {
+    position: fixed;
+    top: 118px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 18;
+    width: min(92vw, 420px);
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: rgba(45, 10, 14, 0.78);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(248, 113, 113, 0.65);
+    display: none;
     flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    transition: all 0.2s;
+    gap: 6px;
   }
-  .tab-btn span.ico {
-    font-size: 17px;
+  .boss-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #fecaca;
   }
-  .tab-btn.active {
-    background: rgba(251, 191, 36, 0.18);
+  .boss-hp-track {
+    height: 9px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .boss-hp-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ef4444, #fb923c);
+    transition: width 0.2s;
+  }
+  .boss-speech {
+    font-size: 12px;
     color: #fde68a;
-    border: 1px solid rgba(251, 191, 36, 0.45);
-  }
-  .tab-btn.active-rage-tab {
-    background: rgba(239, 68, 68, 0.22);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.5);
+    font-style: italic;
   }
 </style>
 </head>
 <body>
 
 <div id="canvas-container"></div>
-<div id="flash-overlay"></div>
 <div id="floating-layer"></div>
 
-<!-- Top HUD -->
-<div id="top-hud">
-  <div class="hud-row">
-    <div class="brand-pill">
-      <div style="font-size: 24px;">🏯</div>
-      <div>
-        <div class="brand-title">CHÙA TRƯỜNG YẾN 3D</div>
-        <div class="brand-sub" id="zone-subtitle">Chánh Điện Tĩnh Tâm • Tích Phước Chốt Đơn</div>
+<!-- Top Frosted Glass HUD (Sansa Style) -->
+<div id="top-bar">
+  <div class="top-row">
+    <div class="top-left-group">
+      <button class="glass-pill icon-circle-btn" onclick="resetCameraBehindPlayer()" title="Về góc nhìn sau lưng">
+        ↦
+      </button>
+      <div class="glass-pill room-select-pill">
+        <select id="room-select" onchange="changeRoom(this.value)">
+          <option value="hall">Thanh Liên Đường 01 (98 Phật tử) ▾</option>
+          <option value="courtyard">Sân Chùa Ngàn Đệm (71 Phật tử) ▾</option>
+          <option value="rage">Am Xả Nghiệp — Độ Khách & Xe ▾</option>
+        </select>
       </div>
     </div>
-    <div class="stats-bar">
-      <div class="stat-chip">✨ Công Đức: <span class="val" id="stat-merit">888</span></div>
-      <div class="stat-chip bow">🙇 Số Lạy: <span class="val" id="stat-bows">0</span>/108</div>
-      <div class="stat-chip rage">🔥 Đã Xả: <span class="val" id="stat-rage">0</span> Cơn Tức</div>
+
+    <div class="glass-pill top-right-stats">
+      <div class="stat-item">👥 <b id="online-count">98</b></div>
+      <div class="stat-item" style="cursor:pointer" onclick="toggleChantAudio()" id="speaker-icon">🔊</div>
+      <div class="stat-item">🙇 <b id="bow-count">0</b></div>
+      <div class="stat-item">✨ <b id="merit-count">888</b></div>
     </div>
   </div>
 
-  <div class="zone-switch-bar">
-    <button class="zone-btn active-zen" id="btn-zone-zen" onclick="switchZone('zen')">🌸 Chánh Điện Tĩnh Tâm</button>
-    <button class="zone-btn" id="btn-zone-rage" onclick="switchZone('rage')">🔥 Am Xả Nghiệp (Chửi Khách / Xe)</button>
-  </div>
+  <div class="sub-top-row">
+    <div class="glass-pill merit-badge">
+      <span>🧘 Người tu:</span>
+      <select id="avatar-select" onchange="changeAvatarName(this.value)" style="background:transparent;border:none;color:#fde68a;font-weight:800;font-family:inherit;outline:none;cursor:pointer;">
+        <option value="Sếp Thành">Sếp Thành</option>
+        <option value="Minh Anh">Sale Minh Anh</option>
+        <option value="Kiều Trang">Sale Kiều Trang</option>
+        <option value="Huế">Sale Huế</option>
+        <option value="Bích Thủy">Sale Bích Thủy</option>
+        <option value="Ánh Nguyệt">Sale Ánh Nguyệt</option>
+        <option value="Thế Anh">Thế Anh</option>
+      </select>
+    </div>
 
-  <!-- Boss HUD for Rage Mode -->
-  <div id="boss-hud">
-    <div class="boss-header">
-      <span id="boss-name">👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT</span>
-      <span id="boss-hp-text">Độ Lì Đòn: 100%</span>
-    </div>
-    <div class="hp-bar-bg">
-      <div class="hp-bar-fill" id="boss-hp-bar"></div>
-    </div>
-    <div class="boss-quote" id="boss-quote">"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến bà nội đã nhé!"</div>
+    <button class="glass-pill chant-btn" id="btn-auto-bow" onclick="toggleAutoBow()">
+      🙏 Tự Lạy 108 Lạy
+    </button>
   </div>
 </div>
 
-<!-- Center Modal Toast -->
-<div id="center-toast">
-  <h3 id="toast-title">✨ QUẺ ĐẠI CÁT TRƯỜNG YẾN</h3>
-  <p id="toast-body">Nội dung quẻ...</p>
-  <button onclick="closeToast()">🙏 Nam Mô Công Đức Vô Lượng</button>
+<!-- Boss Banner (only shown in Am Xả Nghiệp) -->
+<div id="boss-banner">
+  <div class="boss-top">
+    <span id="boss-title">👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT</span>
+    <span id="boss-hp-label">Độ Lì: 100%</span>
+  </div>
+  <div class="boss-hp-track"><div class="boss-hp-fill" id="boss-hp-fill"></div></div>
+  <div class="boss-speech" id="boss-speech">"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến vợ đã nhé!"</div>
 </div>
 
-<!-- Bottom Interactive Dock -->
-<div id="bottom-dock">
-  <div class="action-panel" id="panel-content">
-    <!-- Dynamically populated by active tab -->
-  </div>
+<!-- Center Translucent Live Feed Pill (Exact Sansa Center Toast) -->
+<div class="glass-pill" id="live-feed-pill">
+  Sếp Thành vừa chắp tay bước vào Chánh Điện 🙏
+</div>
 
-  <div class="nav-tabs">
-    <button class="tab-btn active" id="tab-mo" onclick="selectTab('mo')">
-      <span class="ico">🪵</span><span>Gõ Mõ</span>
+<!-- Virtual Joystick for Walking Around the Temple Hall -->
+<div id="joystick-zone">
+  <div id="joystick-knob"></div>
+  <div id="joystick-hint">Kéo để đi bộ</div>
+</div>
+
+<!-- Quick Camera / Cushion Teleport Buttons -->
+<div id="quick-side-btns">
+  <button class="glass-pill mini-pill-btn" onclick="toggleWideView()">🎥 Đổi Góc Nhìn (Sau Lưng / Toàn Cảnh)</button>
+  <button class="glass-pill mini-pill-btn" onclick="walkToNearestCushion()">🪑 Ngồi Đệm Gần Nhất</button>
+  <button class="glass-pill mini-pill-btn" onclick="shakeFortune()">🎋 Xin Quẻ Đại Cát</button>
+</div>
+
+<!-- Slide-up Glass Drawer (for Khấn Đơn / Xả Nghiệp Chửi Khách & Xe) -->
+<div id="drawer-modal">
+  <div class="drawer-header">
+    <span id="drawer-title">🙏 DÂNG HƯƠNG & KHẤN NGUYỆN</span>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div id="drawer-body"></div>
+</div>
+
+<!-- Bottom Frosted Glass Bar (Exact Sansa Style: Chắp Tay | Quỳ Lạy | Tràng Hạt/Mõ | Khấn | Xả Nghiệp) -->
+<div id="bottom-bar-wrap">
+  <div id="bottom-glass-dock">
+    <!-- 1. 합장 (Chắp Tay) -->
+    <button class="dock-action active" id="act-chaptay" onclick="doChapTay()">
+      <svg viewBox="0 0 24 24"><path d="M12 2L9 12l3 9 3-9-3-10z"/><path d="M7 13l5-11 5 11"/></svg>
+      <span id="label-chaptay">Chắp tay</span>
     </button>
-    <button class="tab-btn" id="tab-lay" onclick="selectTab('lay')">
-      <span class="ico">🙇</span><span>Lạy Phật</span>
+
+    <!-- 2. 절하기 (Quỳ Lạy) -->
+    <button class="dock-action" id="act-quylay" onclick="doQuyLay()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M6 19c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M4 21h16"/></svg>
+      <span>Quỳ lạy</span>
     </button>
-    <button class="tab-btn" id="tab-khan" onclick="selectTab('khan')">
-      <span class="ico">🙏</span><span>Khấn Đơn</span>
+
+    <!-- 3. 염주 / Mõ (Tích Phước) -->
+    <button class="dock-action" id="act-mo" onclick="doGoMo()">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="17" cy="8" r="2"/><circle cx="19" cy="14" r="2"/><circle cx="15" cy="19" r="2"/><circle cx="9" cy="19" r="2"/><circle cx="5" cy="14" r="2"/><circle cx="7" cy="8" r="2"/></svg>
+      <span>Gõ mõ</span>
     </button>
-    <button class="tab-btn" id="tab-khach" onclick="selectTab('khach')">
-      <span class="ico">🤬</span><span>Chửi Khách</span>
+
+    <!-- 4. Khấn Nguyện -->
+    <button class="dock-action" id="act-khan" onclick="openDrawer('khan')">
+      <svg viewBox="0 0 24 24"><path d="M12 2v6"/><path d="M9 4v4"/><path d="M15 4v4"/><path d="M6 12h12l-1 8H7l-1-8z"/></svg>
+      <span>Khấn đơn</span>
     </button>
-    <button class="tab-btn" id="tab-xe" onclick="selectTab('xe')">
-      <span class="ico">🚚</span><span>Chửi Xe</span>
-    </button>
-    <button class="tab-btn" id="tab-giai" onclick="selectTab('giai')">
-      <span class="ico">🔔</span><span>Giải Nghiệp</span>
+
+    <!-- 5. Xả Nghiệp (Chửi Khách / Xe) -->
+    <button class="dock-action rage-highlight" id="act-xanghiep" onclick="openDrawer('rage')">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <span>Xả nghiệp</span>
     </button>
   </div>
 </div>
 
 <script>
 /* =========================================================
-   1. STATE & STORAGE
+   1. STATE & AUDIO SYNTHESIZER
    ========================================================= */
 const state = {
-  merit: parseInt(localStorage.getItem('ty_merit') || '888', 10),
-  bows: parseInt(localStorage.getItem('ty_bows') || '0', 10),
-  rageReleased: parseInt(localStorage.getItem('ty_rage') || '0', 10),
-  zone: 'zen', // 'zen' | 'rage'
-  tab: 'mo',
-  autoMo: false,
-  autoBow: false,
-  zenMusic: false,
+  merit: parseInt(localStorage.getItem('ty_merit_v2') || '888', 10),
+  bows: parseInt(localStorage.getItem('ty_bows_v2') || '0', 10),
+  room: 'hall', // 'hall' | 'courtyard' | 'rage'
   avatarName: 'Sếp Thành',
-  bossType: 'khach', // 'khach' | 'xe'
-  bossHp: 100,
-  bossMaxHp: 100,
-  weapon: 'lightning' // 'lightning' | 'hammer' | 'fireball' | 'sandal'
+  chapTay: true,
+  bowState: 0, // 0 idle, 1 kneeling down, 2 full prostration on cushion, 3 rising up
+  bowTimer: 0,
+  autoBow: false,
+  soundOn: true,
+  bossType: 'khach',
+  bossHp: 100
 };
 
-function saveState() {
-  localStorage.setItem('ty_merit', state.merit);
-  localStorage.setItem('ty_bows', state.bows);
-  localStorage.setItem('ty_rage', state.rageReleased);
-  document.getElementById('stat-merit').textContent = state.merit.toLocaleString('vi-VN');
-  document.getElementById('stat-bows').textContent = state.bows;
-  document.getElementById('stat-rage').textContent = state.rageReleased.toLocaleString('vi-VN');
+function updateHUD() {
+  localStorage.setItem('ty_merit_v2', state.merit);
+  localStorage.setItem('ty_bows_v2', state.bows);
+  document.getElementById('merit-count').textContent = state.merit.toLocaleString('vi-VN');
+  document.getElementById('bow-count').textContent = state.bows;
 }
-saveState();
+updateHUD();
 
-/* =========================================================
-   2. WEB AUDIO SYNTHESIZER (Mõ, Chuông, Sấm Sét, Nổ, Nhạc Thiền)
-   ========================================================= */
 let audioCtx = null;
-function getAudio() {
+function ensureAudio() {
+  if (!state.soundOn) return null;
   if (!audioCtx) {
     const AC = window.AudioContext || window.webkitAudioContext;
     audioCtx = new AC();
@@ -534,913 +624,1066 @@ function getAudio() {
   return audioCtx;
 }
 
-// Tiếng Mõ Gỗ ("Cốc!")
-function playWoodblockSound() {
-  try {
-    const ctx = getAudio();
-    const now = ctx.currentTime;
+function playMoSound() {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(760, now);
+  osc.frequency.exponentialRampToValueAtTime(330, now + 0.09);
+  gain.gain.setValueAtTime(0.75, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.15);
+}
+
+function playBellSound(deep = true) {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const freqs = deep ? [196, 392, 587.3, 784] : [523.25, 1046.5];
+  freqs.forEach((f, i) => {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(780, now);
-    osc.frequency.exponentialRampToValueAtTime(340, now + 0.09);
-    gain.gain.setValueAtTime(0.9, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(f, now);
+    const dur = deep ? 3.8 : 1.6;
+    gain.gain.setValueAtTime(0.28 / (i + 1), now);
+    gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.start(now);
-    osc.stop(now + 0.15);
-  } catch (e) {}
+    osc.stop(now + dur);
+  });
 }
 
-// Tiếng Đại Hồng Chuông ("BOOOOONG!")
-function playBellSound(deep = true) {
-  try {
-    const ctx = getAudio();
-    const now = ctx.currentTime;
-    const freqs = deep ? [196, 392, 587.3, 880] : [523.25, 1046.5, 1568];
-    freqs.forEach((f, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(f, now);
-      const dur = deep ? 4.2 : 1.8;
-      gain.gain.setValueAtTime(0.35 / (idx + 1), now);
-      gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now);
-      osc.stop(now + dur);
-    });
-  } catch (e) {}
+function playThunderSound() {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const bufSize = ctx.sampleRate * 0.4;
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.12));
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buf;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.85, now);
+  gain.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+  noise.connect(gain);
+  gain.connect(ctx.destination);
+  noise.start(now);
 }
 
-// Tiếng Sấm Sét / Đập Búa Nổ (Xả Nghiệp)
-function playSmashSound(type = 'lightning') {
+function speakVN(text) {
+  if (!state.soundOn || !('speechSynthesis' in window)) return;
   try {
-    const ctx = getAudio();
-    const now = ctx.currentTime;
-    // White noise burst + sub bass drop
-    const bufferSize = ctx.sampleRate * 0.45;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.12));
-    }
-    const noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(type === 'lightning' ? 2800 : 1200, now);
-
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.95, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.44);
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    noise.start(now);
-
-    // Punchy bass impact
-    const osc = ctx.createOscillator();
-    const bGain = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(160, now);
-    osc.frequency.exponentialRampToValueAtTime(32, now + 0.35);
-    bGain.gain.setValueAtTime(0.8, now);
-    bGain.gain.exponentialRampToValueAtTime(0.01, now + 0.36);
-    osc.connect(bGain);
-    bGain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.37);
-  } catch (e) {}
-}
-
-// Giọng đọc AI (Web Speech Synthesis) khi Chửi hoặc Khấn
-function speakVietnamese(text, pitch = 1.0, rate = 1.15) {
-  try {
-    if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'vi-VN';
-    u.pitch = pitch;
-    u.rate = rate;
+    u.rate = 1.18;
     window.speechSynthesis.speak(u);
   } catch (e) {}
 }
 
-/* =========================================================
-   3. FLOATING TEXT & SCREEN EFFECTS
-   ========================================================= */
-function spawnFloatingText(text, color = '#fde047', xPct = null, yPct = null) {
+function toggleChantAudio() {
+  state.soundOn = !state.soundOn;
+  document.getElementById('speaker-icon').textContent = state.soundOn ? '🔊' : '🔇';
+  showFeedToast(state.soundOn ? 'Đã bật âm thanh Chuông Mõ Chánh Điện 🔔' : 'Đã tắt âm thanh 🔇');
+}
+
+function showFeedToast(msg) {
+  const el = document.getElementById('live-feed-pill');
+  el.textContent = msg;
+  el.style.opacity = '1';
+  el.style.transform = 'translate(-50%, -50%) scale(1.03)';
+  setTimeout(() => {
+    el.style.transform = 'translate(-50%, -50%) scale(1)';
+  }, 200);
+}
+
+function spawnFloat(text, color = '#fde68a', x = 50, y = 45) {
   const layer = document.getElementById('floating-layer');
-  const el = document.createElement('div');
-  el.className = 'float-text';
-  el.textContent = text;
-  el.style.color = color;
-  const x = xPct !== null ? xPct : (32 + Math.random() * 36);
-  const y = yPct !== null ? yPct : (38 + Math.random() * 18);
-  el.style.left = x + '%';
-  el.style.top = y + '%';
-  layer.appendChild(el);
-  setTimeout(() => el.remove(), 1800);
-}
-
-function triggerScreenFlash(color = 'rgba(239, 68, 68, 0.45)', shake = true) {
-  const fl = document.getElementById('flash-overlay');
-  fl.style.background = color;
-  fl.style.opacity = '1';
-  setTimeout(() => { fl.style.opacity = '0'; }, 180);
-  if (shake) {
-    document.body.classList.remove('screen-shake');
-    void document.body.offsetWidth;
-    document.body.classList.add('screen-shake');
-  }
-}
-
-function showToast(title, body) {
-  document.getElementById('toast-title').textContent = title;
-  document.getElementById('toast-body').innerHTML = body;
-  document.getElementById('center-toast').classList.add('show');
-}
-function closeToast() {
-  document.getElementById('center-toast').classList.remove('show');
+  const d = document.createElement('div');
+  d.className = 'float-pop';
+  d.textContent = text;
+  d.style.color = color;
+  d.style.left = (x + (Math.random() - 0.5) * 16) + '%';
+  d.style.top = (y + (Math.random() - 0.5) * 10) + '%';
+  layer.appendChild(d);
+  setTimeout(() => d.remove(), 1700);
 }
 
 /* =========================================================
-   4. THREE.JS 3D WORLD (CHÁNH ĐIỆN + AM XẢ NGHIỆP)
+   2. PROCEDURAL TEXTURES (Wood Floor, Ornate Mandala Thangka, Chibi Face)
+   ========================================================= */
+function createWoodFloorTexture() {
+  const c = document.createElement('canvas');
+  c.width = 512;
+  c.height = 512;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#36271c';
+  ctx.fillRect(0, 0, 512, 512);
+  // Plank lines
+  for (let y = 0; y < 512; y += 64) {
+    ctx.fillStyle = (y / 64) % 2 === 0 ? '#3a2a1e' : '#322318';
+    ctx.fillRect(0, y, 512, 62);
+    ctx.fillStyle = '#1f150e';
+    ctx.fillRect(0, y + 62, 512, 2);
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(8, 10);
+  return tex;
+}
+
+function createMandalaBackdropTexture() {
+  const c = document.createElement('canvas');
+  c.width = 1024;
+  c.height = 512;
+  const ctx = c.getContext('2d');
+
+  // Deep antique temple tapestry background
+  const bgGrad = ctx.createRadialGradient(512, 256, 30, 512, 256, 520);
+  bgGrad.addColorStop(0, '#5c2d16');
+  bgGrad.addColorStop(0.5, '#3b190d');
+  bgGrad.addColorStop(1, '#1e0d07');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, 1024, 512);
+
+  // Ornate border
+  ctx.strokeStyle = '#d97706';
+  ctx.lineWidth = 10;
+  ctx.strokeRect(14, 14, 996, 484);
+
+  // Decorative floral clouds across background
+  for (let i = 0; i < 90; i++) {
+    const rx = (i * 137) % 980 + 22;
+    const ry = (i * 293) % 460 + 26;
+    ctx.fillStyle = i % 3 === 0 ? 'rgba(180, 83, 9, 0.28)' : (i % 3 === 1 ? 'rgba(21, 128, 61, 0.25)' : 'rgba(185, 28, 28, 0.25)');
+    ctx.beginPath();
+    ctx.arc(rx, ry, 18 + (i % 16), 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Center Sacred Lotus Mandala Halo behind Buddha
+  const radii = [215, 185, 150, 115, 80];
+  const colors = ['#15803d', '#b91c1c', '#d97706', '#991b1b', '#f59e0b'];
+  radii.forEach((r, idx) => {
+    ctx.beginPath();
+    ctx.arc(512, 240, r, 0, Math.PI * 2);
+    ctx.fillStyle = colors[idx];
+    ctx.globalAlpha = 0.68;
+    ctx.fill();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#fde68a';
+    ctx.stroke();
+  });
+  ctx.globalAlpha = 1.0;
+
+  // Lotus petals around the Mandala
+  for (let a = 0; a < 24; a++) {
+    const ang = (a / 24) * Math.PI * 2;
+    const px = 512 + Math.cos(ang) * 198;
+    const py = 240 + Math.sin(ang) * 198;
+    ctx.fillStyle = a % 2 === 0 ? '#f59e0b' : '#dc2626';
+    ctx.beginPath();
+    ctx.arc(px, py, 14, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Left & Right Attending Bodhisattvas on Tapestry
+  [210, 814].forEach(bx => {
+    ctx.fillStyle = 'rgba(251, 191, 36, 0.28)';
+    ctx.beginPath();
+    ctx.arc(bx, 185, 72, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fbbf24';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = '#d97706';
+    ctx.beginPath();
+    ctx.arc(bx, 175, 28, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(bx - 45, 380);
+    ctx.lineTo(bx + 45, 380);
+    ctx.lineTo(bx + 25, 210);
+    ctx.lineTo(bx - 25, 210);
+    ctx.closePath();
+    ctx.fill();
+  });
+
+  return new THREE.CanvasTexture(c);
+}
+
+function createWindowForestTexture() {
+  const c = document.createElement('canvas');
+  c.width = 512;
+  c.height = 256;
+  const ctx = c.getContext('2d');
+  // Daylight sky + green pine mountain outside window
+  const g = ctx.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0, '#bae6fd');
+  g.addColorStop(0.55, '#86efac');
+  g.addColorStop(1, '#166534');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 512, 256);
+
+  // Lattice wooden bars
+  ctx.strokeStyle = '#271a10';
+  ctx.lineWidth = 10;
+  for (let x = 0; x <= 512; x += 64) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 256); ctx.stroke();
+  }
+  for (let y = 0; y <= 256; y += 64) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(512, y); ctx.stroke();
+  }
+  return new THREE.CanvasTexture(c);
+}
+
+/* =========================================================
+   3. THREE.JS SCENE: CHÁNH ĐIỆN GỖ CỔ KÍNH + 48 BỒ ĐOÀN + TƯỢNG PHẬT ĐÀI SEN
    ========================================================= */
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0f172a);
-scene.fog = new THREE.FogExp2(0x1e293b, 0.018);
+scene.background = new THREE.Color(0x1b130d);
+scene.fog = new THREE.FogExp2(0x1b130d, 0.015);
 
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
-camera.position.set(0, 6.2, 14.5);
-camera.lookAt(0, 2.5, 0);
-
-const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance' });
+const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 160);
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 container.appendChild(renderer.domElement);
 
-// Lights
-const ambientLight = new THREE.AmbientLight(0xfffbeb, 0.65);
+// Warm Atmospheric Temple Lighting
+const ambientLight = new THREE.AmbientLight(0xffe4b5, 0.72);
 scene.add(ambientLight);
 
-const sunLight = new THREE.DirectionalLight(0xfde68a, 1.15);
-sunLight.position.set(12, 24, 16);
-sunLight.castShadow = true;
-scene.add(sunLight);
+const buddhaSpot = new THREE.PointLight(0xffb703, 1.95, 28);
+buddhaSpot.position.set(0, 6.5, -9.5);
+scene.add(buddhaSpot);
 
-const altarGlow = new THREE.PointLight(0xf59e0b, 1.8, 18);
-altarGlow.position.set(0, 4.5, -2);
-scene.add(altarGlow);
+const hallLight = new THREE.DirectionalLight(0xfff1d0, 0.85);
+hallLight.position.set(8, 14, 10);
+scene.add(hallLight);
 
-const rageGlow = new THREE.PointLight(0xffedd5, 2.5, 45);
-rageGlow.position.set(22, 7, 6);
-scene.add(rageGlow);
+// Groups for switching rooms
+const hallWallGroup = new THREE.Group();
+scene.add(hallWallGroup);
 
-// Ground Courtyard
-const groundGeo = new THREE.CylinderGeometry(45, 45, 1, 48);
-const groundMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.85 });
-const ground = new THREE.Mesh(groundGeo, groundMat);
-ground.position.y = -0.5;
-ground.receiveShadow = true;
-scene.add(ground);
+const rageArenaGroup = new THREE.Group();
+rageArenaGroup.visible = false;
+scene.add(rageArenaGroup);
 
-// Zen Courtyard Stone Tiles
-for (let i = -3; i <= 3; i++) {
-  const tile = new THREE.Mesh(
-    new THREE.BoxGeometry(2.2, 0.08, 1.4),
-    new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.7 })
+// Floor (Wooden Plank Floor in Hall, Grass/Stone in Courtyard)
+const woodTex = createWoodFloorTexture();
+const floorMat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.65 });
+const floorMesh = new THREE.Mesh(new THREE.PlaneGeometry(38, 46), floorMat);
+floorMesh.rotation.x = -Math.PI / 2;
+floorMesh.receiveShadow = true;
+scene.add(floorMesh);
+
+// Wooden Ceiling & Beams (for Hall)
+const ceilingMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(38, 46),
+  new THREE.MeshStandardMaterial({ color: 0x21150d, roughness: 0.9, side: THREE.DoubleSide })
+);
+ceilingMesh.rotation.x = Math.PI / 2;
+ceilingMesh.position.y = 9.5;
+hallWallGroup.add(ceilingMesh);
+
+// Wooden Roof Rafters
+for (let z = -14; z <= 16; z += 4) {
+  const beam = new THREE.Mesh(
+    new THREE.BoxGeometry(28, 0.45, 0.55),
+    new THREE.MeshStandardMaterial({ color: 0x291a10, roughness: 0.8 })
   );
-  tile.position.set(0, 0.04, i * 1.8 + 2);
-  scene.add(tile);
+  beam.position.set(0, 9.2, z);
+  hallWallGroup.add(beam);
 }
 
-// =========================================================
-// ZONE 1: CHÁNH ĐIỆN TĨNH TÂM (At X = 0, Z = -3)
-// =========================================================
-const zenGroup = new THREE.Group();
-scene.add(zenGroup);
+// Side Wooden Pillars & Lattice Windows (Right & Left Walls)
+const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b281a, roughness: 0.8 });
+const backWall = new THREE.Mesh(new THREE.PlaneGeometry(34, 10), wallMat);
+backWall.position.set(0, 4.8, -15.2);
+hallWallGroup.add(backWall);
 
-// Temple Pagoda Roof & Pillars
-const basePlatform = new THREE.Mesh(
-  new THREE.BoxGeometry(12, 0.8, 7),
-  new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.6 })
-);
-basePlatform.position.set(0, 0.4, -3.5);
-zenGroup.add(basePlatform);
+const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 10), wallMat);
+rightWall.rotation.y = -Math.PI / 2;
+rightWall.position.set(13.5, 4.8, 0);
+hallWallGroup.add(rightWall);
 
-const pillarGeo = new THREE.CylinderGeometry(0.28, 0.32, 5.5, 16);
-const pillarMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.4 });
-[-4.8, -2.2, 2.2, 4.8].forEach(px => {
-  const p = new THREE.Mesh(pillarGeo, pillarMat);
-  p.position.set(px, 3.2, -1.2);
-  zenGroup.add(p);
+const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 10), wallMat);
+leftWall.rotation.y = Math.PI / 2;
+leftWall.position.set(-13.5, 4.8, 0);
+hallWallGroup.add(leftWall);
+
+// Lattice Windows on Right Wall looking out to green pine trees (Just like frame_02.jpg!)
+const winTex = createWindowForestTexture();
+[-6, 3].forEach(wz => {
+  const winMesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(6.8, 3.6),
+    new THREE.MeshBasicMaterial({ map: winTex })
+  );
+  winMesh.rotation.y = -Math.PI / 2;
+  winMesh.position.set(13.4, 4.8, wz);
+  hallWallGroup.add(winMesh);
 });
 
-const roofGeo = new THREE.ConeGeometry(9.2, 2.8, 4);
-const roofMat = new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.5, metalness: 0.2 });
-const roof = new THREE.Mesh(roofGeo, roofMat);
-roof.position.set(0, 7.1, -3.5);
-roof.rotation.y = Math.PI / 4;
-zenGroup.add(roof);
+// Timber Columns along Hall
+const colGeo = new THREE.CylinderGeometry(0.42, 0.45, 9.6, 16);
+const colMat = new THREE.MeshStandardMaterial({ color: 0x26170e, roughness: 0.6 });
+[-10.5, 10.5].forEach(cx => {
+  [-12, -4, 4, 12].forEach(cz => {
+    const col = new THREE.Mesh(colGeo, colMat);
+    col.position.set(cx, 4.8, cz);
+    hallWallGroup.add(col);
+  });
+});
 
-// 3D Golden Buddha on Lotus Pedestal
-const buddhaGroup = new THREE.Group();
-buddhaGroup.position.set(0, 1.2, -3.8);
-zenGroup.add(buddhaGroup);
+// Ornate Mandala Thangka Tapestry on Back Wall
+const mandalaTex = createMandalaBackdropTexture();
+const mandalaMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(16.5, 8.2),
+  new THREE.MeshStandardMaterial({ map: mandalaTex, roughness: 0.5 })
+);
+mandalaMesh.position.set(0, 4.9, -14.8);
+scene.add(mandalaMesh);
 
-const goldMat = new THREE.MeshStandardMaterial({
+// =========================================================
+// SCULPTED GOLDEN SEATED BUDDHA STATUE ON LOTUS THRONE (Just like frame_07.jpg)
+// =========================================================
+const altarGroup = new THREE.Group();
+altarGroup.position.set(0, 0, -12.6);
+scene.add(altarGroup);
+
+// Wooden Altar Base Platform
+const altarTable = new THREE.Mesh(
+  new THREE.BoxGeometry(9.5, 1.35, 3.6),
+  new THREE.MeshStandardMaterial({ color: 0x2b1b10, roughness: 0.6 })
+);
+altarTable.position.y = 0.68;
+altarGroup.add(altarTable);
+
+const buddhaGoldMat = new THREE.MeshStandardMaterial({
   color: 0xfbbf24,
-  metalness: 0.75,
-  roughness: 0.22,
+  metalness: 0.68,
+  roughness: 0.26,
   emissive: 0x78350f,
-  emissiveIntensity: 0.25
-});
-const lotusBase = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.2, 0.6, 20), new THREE.MeshStandardMaterial({ color: 0xf472b6, roughness: 0.4 }));
-buddhaGroup.add(lotusBase);
-
-const buddhaBody = new THREE.Mesh(new THREE.ConeGeometry(1.15, 2.2, 16), goldMat);
-buddhaBody.position.y = 1.3;
-buddhaGroup.add(buddhaBody);
-
-const buddhaHead = new THREE.Mesh(new THREE.SphereGeometry(0.58, 24, 24), goldMat);
-buddhaHead.position.y = 2.65;
-buddhaGroup.add(buddhaHead);
-
-const buddhaBun = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), goldMat);
-buddhaBun.position.y = 3.25;
-buddhaGroup.add(buddhaBun);
-
-// Rotating Golden Halo (Hào Quang)
-const haloGeo = new THREE.RingGeometry(1.3, 1.75, 32);
-const haloMat = new THREE.MeshBasicMaterial({ color: 0xfde047, side: THREE.DoubleSide, transparent: true, opacity: 0.75 });
-const haloMesh = new THREE.Mesh(haloGeo, haloMat);
-haloMesh.position.set(0, 2.5, -0.5);
-buddhaGroup.add(haloMesh);
-
-// Incense Burner (Lư Hương 3D) & Glowing Incense Sticks
-const burnerGroup = new THREE.Group();
-burnerGroup.position.set(0, 1.1, -1.2);
-zenGroup.add(burnerGroup);
-
-const burnerBowl = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.65, 0.5, 0.7, 20),
-  new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.6, roughness: 0.3 })
-);
-burnerGroup.add(burnerBowl);
-
-const incenseSticks = [];
-[-0.15, 0, 0.15].forEach(ix => {
-  const stick = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.025, 0.025, 0.9, 8),
-    new THREE.MeshBasicMaterial({ color: 0xef4444 })
-  );
-  stick.position.set(ix, 0.65, 0);
-  const tip = new THREE.Mesh(
-    new THREE.SphereGeometry(0.055, 8, 8),
-    new THREE.MeshBasicMaterial({ color: 0xffaa00 })
-  );
-  tip.position.y = 0.46;
-  stick.add(tip);
-  burnerGroup.add(stick);
-  incenseSticks.push(stick);
+  emissiveIntensity: 0.22
 });
 
-// 3D Wooden Fish (Mõ Gỗ 3D) & Mallet (Dùi Gõ Mõ)
-const moGroup = new THREE.Group();
-moGroup.position.set(2.3, 1.15, 0.6);
-zenGroup.add(moGroup);
-
-const moCushion = new THREE.Mesh(
-  new THREE.BoxGeometry(1.3, 0.25, 1.3),
-  new THREE.MeshStandardMaterial({ color: 0xb91c1c, roughness: 0.7 })
+// Lotus Throne Petals
+const lotusPedestal = new THREE.Mesh(
+  new THREE.CylinderGeometry(2.35, 2.0, 0.65, 24),
+  buddhaGoldMat
 );
-moGroup.add(moCushion);
+lotusPedestal.position.y = 1.65;
+altarGroup.add(lotusPedestal);
 
-const moBody = new THREE.Mesh(
-  new THREE.SphereGeometry(0.62, 24, 20),
-  new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.35, metalness: 0.1 })
-);
-moBody.scale.set(1.2, 0.85, 1.0);
-moBody.position.y = 0.55;
-moGroup.add(moBody);
-
-const malletPivot = new THREE.Group();
-malletPivot.position.set(0.6, 0.9, 0.4);
-moGroup.add(malletPivot);
-const malletStick = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.05, 0.05, 1.1, 10),
-  new THREE.MeshStandardMaterial({ color: 0x78350f })
-);
-malletStick.rotation.z = Math.PI / 3;
-malletPivot.add(malletStick);
-
-// 3D Giant Bronze Temple Bell (Đại Hồng Chuông)
-const bellGroup = new THREE.Group();
-bellGroup.position.set(-3.1, 2.8, -0.2);
-zenGroup.add(bellGroup);
-
-const bellMesh = new THREE.Mesh(
-  new THREE.ConeGeometry(0.95, 2.1, 24, 1, true),
-  new THREE.MeshStandardMaterial({ color: 0xb45309, metalness: 0.8, roughness: 0.25, side: THREE.DoubleSide })
-);
-bellGroup.add(bellMesh);
-
-// Player 3D Character on Prayer Mat (Chiếu Lạy)
-const playerGroup = new THREE.Group();
-playerGroup.position.set(0, 0.1, 3.2);
-zenGroup.add(playerGroup);
-
-const matMesh = new THREE.Mesh(
-  new THREE.BoxGeometry(1.8, 0.08, 2.4),
-  new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.8 })
-);
-playerGroup.add(matMesh);
-
-const avatarPivot = new THREE.Group();
-avatarPivot.position.set(0, 0.1, 0.4);
-playerGroup.add(avatarPivot);
-
-const avTorso = new THREE.Mesh(
-  new THREE.CylinderGeometry(0.35, 0.45, 1.25, 16),
-  new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.5 })
-);
-avTorso.position.y = 0.7;
-avatarPivot.add(avTorso);
-
-const avHead = new THREE.Mesh(
-  new THREE.SphereGeometry(0.36, 20, 20),
-  new THREE.MeshStandardMaterial({ color: 0xfde68a, roughness: 0.4 })
-);
-avHead.position.y = 1.55;
-avatarPivot.add(avHead);
-
-// Hands clasped in prayer (Chắp Tay)
-const avHands = new THREE.Mesh(
-  new THREE.SphereGeometry(0.16, 12, 12),
-  new THREE.MeshStandardMaterial({ color: 0xfde68a })
-);
-avHands.position.set(0, 0.95, -0.42);
-avatarPivot.add(avHands);
-
-// =========================================================
-// ZONE 2: AM XẢ NGHIỆP (At X = 22, Z = 0)
-// =========================================================
-const rageGroup = new THREE.Group();
-rageGroup.position.set(0, 0.2, -2.2);
-rageGroup.visible = false;
-scene.add(rageGroup);
-
-// Arena Pedestal & Fire Pillars
-const arenaBase = new THREE.Mesh(
-  new THREE.CylinderGeometry(4.2, 4.8, 0.7, 28),
-  new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.4, emissive: 0x450a0a, emissiveIntensity: 0.5 })
-);
-arenaBase.position.y = 0.35;
-rageGroup.add(arenaBase);
-
-[-3.4, 3.4].forEach(px => {
-  const fp = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.32, 0.38, 4.8, 16),
-    new THREE.MeshStandardMaterial({ color: 0x7f1d1d, emissive: 0x450a0a })
-  );
-  fp.position.set(px, 2.4, -1.2);
-  const orb = new THREE.Mesh(
-    new THREE.SphereGeometry(0.48, 16, 16),
-    new THREE.MeshBasicMaterial({ color: 0xf97316 })
-  );
-  orb.position.y = 2.6;
-  fp.add(orb);
-  rageGroup.add(fp);
-});
-
-// Target Boss 3D Group (Wobbles & Takes Hits)
-const bossPivot = new THREE.Group();
-bossPivot.position.set(0, 0.25, 0);
-bossPivot.scale.set(0.75, 0.75, 0.75);
-rageGroup.add(bossPivot);
-
-const bossBodyMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3, emissive: 0x7f1d1d, emissiveIntensity: 0.4 });
-const bossBody = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.15, 2.4, 20), bossBodyMat);
-bossBody.position.y = 1.2;
-bossPivot.add(bossBody);
-
-const bossHeadMat = new THREE.MeshStandardMaterial({ color: 0xfde68a, roughness: 0.25, emissive: 0x78350f, emissiveIntensity: 0.25 });
-const bossHead = new THREE.Mesh(new THREE.SphereGeometry(0.88, 24, 24), bossHeadMat);
-bossHead.position.y = 2.95;
-bossPivot.add(bossHead);
-
-// Funny angry eyes on Boss
-const eyeGeo = new THREE.SphereGeometry(0.13, 12, 12);
-const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
-leftEye.position.set(-0.26, 2.95, 0.68);
-const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
-rightEye.position.set(0.26, 2.95, 0.68);
-bossPivot.add(leftEye, rightEye);
-
-// Hat/Truck Sign on Boss
-const bossHat = new THREE.Mesh(
-  new THREE.ConeGeometry(0.9, 0.9, 16),
-  new THREE.MeshStandardMaterial({ color: 0xfacc15 })
-);
-bossHat.position.y = 3.75;
-bossPivot.add(bossHat);
-
-// =========================================================
-// PARTICLES (Smoke, Lotus Lanterns, Projectiles)
-// =========================================================
-const smokeParticles = [];
-for (let i = 0; i < 25; i++) {
-  const sp = new THREE.Mesh(
-    new THREE.SphereGeometry(0.09 + Math.random() * 0.08, 8, 8),
-    new THREE.MeshBasicMaterial({ color: 0xe2e8f0, transparent: true, opacity: 0.35 })
-  );
-  sp.position.set(
-    (Math.random() - 0.5) * 0.3,
-    1.8 + Math.random() * 2.5,
-    -1.2 + (Math.random() - 0.5) * 0.3
-  );
-  scene.add(sp);
-  smokeParticles.push(sp);
+for (let p = 0; p < 18; p++) {
+  const ang = (p / 18) * Math.PI * 2;
+  const petal = new THREE.Mesh(new THREE.SphereGeometry(0.42, 10, 10), buddhaGoldMat);
+  petal.scale.set(1.0, 0.65, 0.5);
+  petal.position.set(Math.cos(ang) * 2.15, 1.7, Math.sin(ang) * 2.15);
+  petal.rotation.y = -ang;
+  altarGroup.add(petal);
 }
 
-// Active 3D Projectiles (for Chửi Khách / Chửi Xe)
-const projectiles = [];
+// Crossed Legs (Kiết Già)
+const legsMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.85, 2.1, 0.75, 24), buddhaGoldMat);
+legsMesh.scale.set(1.15, 1, 0.75);
+legsMesh.position.set(0, 2.25, 0.15);
+altarGroup.add(legsMesh);
 
-function launchProjectileAtBoss(weaponType = 'lightning') {
-  const colorMap = {
-    lightning: 0xfde047,
-    hammer: 0x94a3b8,
-    fireball: 0xf97316,
-    sandal: 0x38bdf8
-  };
-  const geo = weaponType === 'hammer'
-    ? new THREE.BoxGeometry(0.9, 0.6, 0.6)
-    : new THREE.SphereGeometry(0.45, 12, 12);
-  const mat = new THREE.MeshBasicMaterial({ color: colorMap[weaponType] || 0xef4444 });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set((Math.random() - 0.5) * 6, 6 + Math.random() * 3, 8);
-  scene.add(mesh);
-  projectiles.push({ mesh, progress: 0 });
+// Sculpted Torso & Shoulders
+const torsoMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.45, 2.35, 24), buddhaGoldMat);
+torsoMesh.scale.set(1.15, 1, 0.75);
+torsoMesh.position.set(0, 3.65, 0);
+altarGroup.add(torsoMesh);
+
+// Rounded Shoulders & Arms
+[-1.15, 1.15].forEach((sx, idx) => {
+  const sh = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 16), buddhaGoldMat);
+  sh.position.set(sx, 4.45, 0);
+  altarGroup.add(sh);
+
+  const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.28, 1.45, 14), buddhaGoldMat);
+  arm.position.set(sx * 0.95, 3.65, 0.35);
+  arm.rotation.z = idx === 0 ? -0.25 : 0.25;
+  arm.rotation.x = 0.45;
+  altarGroup.add(arm);
+});
+
+// Right Hand Raised in Mudra, Left Hand in Lap
+const rightHand = new THREE.Mesh(new THREE.SphereGeometry(0.3, 14, 14), buddhaGoldMat);
+rightHand.scale.set(0.8, 1.3, 0.5);
+rightHand.position.set(-0.85, 3.85, 0.95);
+altarGroup.add(rightHand);
+
+const leftHand = new THREE.Mesh(new THREE.SphereGeometry(0.32, 14, 14), buddhaGoldMat);
+leftHand.scale.set(1.2, 0.6, 0.8);
+leftHand.position.set(0.35, 2.75, 0.85);
+altarGroup.add(leftHand);
+
+// Buddha Head, Ears, Hair Curls & Ushnisha
+const headMesh = new THREE.Mesh(new THREE.SphereGeometry(0.88, 28, 28), buddhaGoldMat);
+headMesh.scale.set(0.95, 1.08, 0.95);
+headMesh.position.set(0, 5.55, 0.08);
+altarGroup.add(headMesh);
+
+const hairCap = new THREE.Mesh(
+  new THREE.SphereGeometry(0.91, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.55),
+  new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.7 })
+);
+hairCap.position.set(0, 5.62, 0.04);
+altarGroup.add(hairCap);
+
+const ushnisha = new THREE.Mesh(
+  new THREE.SphereGeometry(0.38, 16, 16),
+  new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.7 })
+);
+ushnisha.position.set(0, 6.58, 0.04);
+altarGroup.add(ushnisha);
+
+// Long Ears of Wisdom
+[-0.86, 0.86].forEach(ex => {
+  const ear = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.12, 0.85, 10), buddhaGoldMat);
+  ear.position.set(ex, 5.42, 0.05);
+  altarGroup.add(ear);
+});
+
+// Forehead Urna Jewel & Serene Facial Features
+const urna = new THREE.Mesh(new THREE.SphereGeometry(0.06, 10, 10), new THREE.MeshBasicMaterial({ color: 0xfef08a }));
+urna.position.set(0, 5.82, 0.90);
+altarGroup.add(urna);
+
+const darkBronzeMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.5 });
+[-0.28, 0.28].forEach(ex => {
+  // Peaceful half-closed eyes
+  const eyeLine = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.035, 0.06), darkBronzeMat);
+  eyeLine.position.set(ex, 5.56, 0.88);
+  altarGroup.add(eyeLine);
+  // Arched eyebrows
+  const brow = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.04, 0.06), darkBronzeMat);
+  brow.position.set(ex, 5.69, 0.87);
+  brow.rotation.z = ex < 0 ? 0.12 : -0.12;
+  altarGroup.add(brow);
+});
+// Nose & serene smile
+const noseBridge = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.08, 0.28, 10), buddhaGoldMat);
+noseBridge.position.set(0, 5.45, 0.92);
+altarGroup.add(noseBridge);
+const smileMouth = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.04, 0.06), darkBronzeMat);
+smileMouth.position.set(0, 5.22, 0.88);
+altarGroup.add(smileMouth);
+
+// Front Offering Table: Candles, White Lotus Vases & Incense Burner with 3 Sticks
+const offerTable = new THREE.Mesh(
+  new THREE.BoxGeometry(5.2, 0.95, 1.5),
+  new THREE.MeshStandardMaterial({ color: 0x1f140d, roughness: 0.5 })
+);
+offerTable.position.set(0, 0.48, 2.2);
+altarGroup.add(offerTable);
+
+// 2 White Candles on Brass Stands + Celadon Vases (Exact match to frame_07.jpg!)
+[-2.1, 2.1].forEach(cx => {
+  const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.28, 0.65, 14), buddhaGoldMat);
+  stand.position.set(cx, 1.28, 2.1);
+  altarGroup.add(stand);
+
+  const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.75, 14), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  candle.position.set(cx, 1.95, 2.1);
+  altarGroup.add(candle);
+
+  const flame = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffaa00 }));
+  flame.scale.set(0.7, 1.6, 0.7);
+  flame.position.set(cx, 2.42, 2.1);
+  altarGroup.add(flame);
+
+  const vase = new THREE.Mesh(
+    new THREE.SphereGeometry(0.28, 14, 14),
+    new THREE.MeshStandardMaterial({ color: 0x86efac, roughness: 0.3 })
+  );
+  vase.scale.set(1, 1.35, 1);
+  vase.position.set(cx * 0.78, 1.28, 2.2);
+  altarGroup.add(vase);
+});
+
+// Center Bronze Incense Bowl & 3 Upright Incense Sticks
+const incenseBowl = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.42, 0.28, 0.38, 18),
+  new THREE.MeshStandardMaterial({ color: 0xa16207, metalness: 0.5, roughness: 0.4 })
+);
+incenseBowl.position.set(0, 1.15, 2.25);
+altarGroup.add(incenseBowl);
+
+[-0.08, 0, 0.08].forEach(ix => {
+  const st = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.75, 8), new THREE.MeshBasicMaterial({ color: 0x292524 }));
+  st.position.set(ix, 1.62, 2.25);
+  const glow = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), new THREE.MeshBasicMaterial({ color: 0xf97316 }));
+  glow.position.y = 0.38;
+  st.add(glow);
+  altarGroup.add(st);
+});
+
+// =========================================================
+// 48 GREY MEDITATION CUSHIONS (BỒ ĐOÀN) IN ROWS ACROSS THE FLOOR
+// =========================================================
+const cushions = [];
+const cushionGeo = new THREE.BoxGeometry(1.35, 0.14, 1.35);
+const cushionMat = new THREE.MeshStandardMaterial({ color: 0x57534e, roughness: 0.85 });
+
+for (let row = 0; row < 7; row++) {
+  for (let col = -3; col <= 3; col++) {
+    const cx = col * 2.35;
+    const cz = -6.2 + row * 2.35;
+    const cMesh = new THREE.Mesh(cushionGeo, cushionMat);
+    cMesh.position.set(cx, 0.07, cz);
+    cMesh.receiveShadow = true;
+    scene.add(cMesh);
+    cushions.push({ x: cx, z: cz, mesh: cMesh, row, col });
+  }
 }
 
 /* =========================================================
-   5. INTERACTION LOGIC (GÕ MÕ, LẠY, KHẤN, CHỬI, GIẢI NGHIỆP)
+   4. CHIBI MONK / DEVOTEE CHARACTER BUILDER (Exact match to Sansa Chibi: Round Peach Head + Grey Tunic + Yellow Kasaya Sash)
    ========================================================= */
-let moAnimTimer = 0;
-let bowAnimState = 0; // 0 idle, 1 bowing down, 2 holding, 3 rising
-let bowProgress = 0;
-let bossWobble = 0;
-let bellSwing = 0;
+const headMat = new THREE.MeshStandardMaterial({ color: 0xd98a5f, roughness: 0.55 });
+const robeMat = new THREE.MeshStandardMaterial({ color: 0x9ca3af, roughness: 0.7 });
+const sashMat = new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.5 });
+const shoeMat = new THREE.MeshStandardMaterial({ color: 0xe5e7eb, roughness: 0.6 });
 
-const MERIT_QUOTES = [
-  "+1 Công Đức ✨",
-  "+1 Đơn Chốt Nhôm MG 💰",
-  "+1 Khách Chuyển Khoản Full 🔥",
-  "Tâm Bất Biến Giữa Dòng Đời Vạn Biến 🌸",
-  "Khách Hỏi Là Chốt — Không Mặc Cả 🙏",
-  "Tấm Ốp Xuất Kho Nguyên Đai Nguyên Kiện 🚛"
+function createChibiDevotee(isPlayer = false) {
+  const root = new THREE.Group();
+  const bodyPivot = new THREE.Group();
+  root.add(bodyPivot);
+
+  // Cute Chibi Legs & White Shoes
+  [-0.17, 0.17].forEach(lx => {
+    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.12, 0.45, 12), robeMat);
+    leg.position.set(lx, 0.25, 0);
+    bodyPivot.add(leg);
+
+    const shoe = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10), shoeMat);
+    shoe.scale.set(1, 0.65, 1.35);
+    shoe.position.set(lx, 0.07, -0.05);
+    bodyPivot.add(shoe);
+  });
+
+  // Grey Monastic Tunic Torso
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.40, 0.88, 16), robeMat);
+  torso.position.y = 0.82;
+  bodyPivot.add(torso);
+
+  // Yellow Kasaya Sash draped across back & chest (Iconic Sansa Yellow Robe!)
+  const sashBack = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.82, 0.08), sashMat);
+  sashBack.position.set(0.04, 0.82, 0.34);
+  sashBack.rotation.z = -0.12;
+  bodyPivot.add(sashBack);
+
+  const sashFront = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.80, 0.08), sashMat);
+  sashFront.position.set(0.04, 0.82, -0.34);
+  sashFront.rotation.z = 0.12;
+  bodyPivot.add(sashFront);
+
+  // Arms (Clasped in prayer or at sides)
+  const leftArm = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.10, 0.58, 12), robeMat);
+  leftArm.position.set(-0.36, 0.85, -0.15);
+  leftArm.rotation.x = 0.65;
+  leftArm.rotation.z = -0.35;
+  bodyPivot.add(leftArm);
+
+  const rightArm = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.10, 0.58, 12), robeMat);
+  rightArm.position.set(0.36, 0.85, -0.15);
+  rightArm.rotation.x = 0.65;
+  rightArm.rotation.z = 0.35;
+  bodyPivot.add(rightArm);
+
+  // Clasped Hands in front
+  const hands = new THREE.Mesh(new THREE.SphereGeometry(0.13, 10, 10), headMat);
+  hands.position.set(0, 0.86, -0.44);
+  bodyPivot.add(hands);
+
+  // Big Cute Round Chibi Head
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.52, 24, 24), headMat);
+  head.scale.set(1.04, 0.98, 1.02);
+  head.position.y = 1.66;
+  bodyPivot.add(head);
+
+  // Cute Little Ears
+  [-0.51, 0.51].forEach(ex => {
+    const ear = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 10), headMat);
+    ear.position.set(ex, 1.64, 0);
+    bodyPivot.add(ear);
+  });
+
+  if (isPlayer) {
+    // Subtle Golden Ring under player feet so player knows which chibi is theirs
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(0.48, 0.58, 24),
+      new THREE.MeshBasicMaterial({ color: 0xfde047, side: THREE.DoubleSide, transparent: true, opacity: 0.75 })
+    );
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = 0.02;
+    root.add(ring);
+  }
+
+  return { root, bodyPivot, leftArm, rightArm, hands, head };
+}
+
+// Create Player Chibi Character (Standing on center cushion row 4, col 0 facing Buddha at -Z)
+const player = createChibiDevotee(true);
+player.root.position.set(0, 0.14, 3.2);
+scene.add(player.root);
+
+// Create 32 Fellow Online Chibi Devotees across the Hall Cushions (Just like frame_02 & frame_07!)
+const npcs = [];
+const NPC_NAMES = [
+  "Sale Minh Anh", "Sale Kiều Trang", "Sale Huế", "Sale Bích Thủy",
+  "Sale Ánh Nguyệt", "Thế Anh", "Anh Phú", "Anh Đức Đoàn",
+  "Phật tử Diệu Tâm", "Phật tử An Nhiên", "Phật tử Tịnh Giác", "Phật tử Minh Đức"
 ];
 
-function tapMo() {
-  state.merit += 1;
-  saveState();
-  playWoodblockSound();
-  moAnimTimer = 1.0;
-  moBody.scale.set(1.38, 0.68, 1.18);
-  const phrase = MERIT_QUOTES[Math.floor(Math.random() * MERIT_QUOTES.length)];
-  spawnFloatingText(phrase, '#fde047');
+cushions.forEach((c, idx) => {
+  // Leave player's starting cushion (col 0, row 4 => z = 3.2) and a few cushions free for walking
+  if (c.col === 0 && c.row >= 4) return;
+  if (idx % 5 === 2) return; // Leave ~25% cushions empty so player can walk and pick any cushion
+
+  const npc = createChibiDevotee(false);
+  npc.root.position.set(c.x, 0.14, c.z);
+  // Slight random scale & phase so crowd looks organic and alive
+  const sc = 0.92 + (idx % 4) * 0.03;
+  npc.root.scale.set(sc, sc, sc);
+  scene.add(npc.root);
+
+  // Modes: 0 = bowing cycle, 1 = seated meditation, 2 = standing chap tay
+  const mode = idx % 3;
+  npcs.push({
+    ...npc,
+    mode,
+    phase: idx * 0.85,
+    name: NPC_NAMES[idx % NPC_NAMES.length]
+  });
+});
+
+/* =========================================================
+   5. AM XẢ NGHIỆP (3D BOSS TARGET FOR CHỬI KHÁCH & CHỬI VẬN CHUYỂN)
+   ========================================================= */
+const bossPivot = new THREE.Group();
+bossPivot.position.set(0, 0.5, -5.5);
+rageArenaGroup.add(bossPivot);
+
+const bossPedestal = new THREE.Mesh(
+  new THREE.CylinderGeometry(2.6, 3.0, 0.6, 24),
+  new THREE.MeshStandardMaterial({ color: 0x7f1d1d, roughness: 0.5 })
+);
+bossPivot.add(bossPedestal);
+
+const bossBodyMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.35, emissive: 0x450a0a });
+const bossBodyMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.15, 2.4, 20), bossBodyMat);
+bossBodyMesh.position.y = 1.4;
+bossPivot.add(bossBodyMesh);
+
+const bossHeadMesh = new THREE.Mesh(
+  new THREE.SphereGeometry(0.92, 24, 24),
+  new THREE.MeshStandardMaterial({ color: 0xfde68a, roughness: 0.3 })
+);
+bossHeadMesh.position.y = 3.15;
+bossPivot.add(bossHeadMesh);
+
+const bossConeHat = new THREE.Mesh(
+  new THREE.ConeGeometry(1.05, 0.95, 16),
+  new THREE.MeshStandardMaterial({ color: 0xfacc15 })
+);
+bossConeHat.position.y = 4.05;
+bossPivot.add(bossConeHat);
+
+let bossWobble = 0;
+const projectiles = [];
+
+/* =========================================================
+   6. PLAYER MOVEMENT, CAMERA ORBIT & SANSA ACTIONS
+   ========================================================= */
+let camYaw = 0; // Looking straight at -Z (Buddha)
+let camPitch = 0.30;
+let camDist = 4.6;
+camera.position.set(0, 0.14 + 1.7 + Math.sin(0.30) * 4.6, 3.2 + Math.cos(0) * 4.6);
+let joyVec = { x: 0, y: 0 };
+
+// Touch/Mouse Orbit on Canvas
+let draggingCanvas = false;
+let lastPtr = { x: 0, y: 0 };
+renderer.domElement.addEventListener('pointerdown', (e) => {
+  draggingCanvas = true;
+  lastPtr = { x: e.clientX, y: e.clientY };
+});
+window.addEventListener('pointermove', (e) => {
+  if (!draggingCanvas) return;
+  const dx = e.clientX - lastPtr.x;
+  const dy = e.clientY - lastPtr.y;
+  lastPtr = { x: e.clientX, y: e.clientY };
+  camYaw -= dx * 0.006;
+  camPitch = Math.max(0.06, Math.min(0.85, camPitch + dy * 0.005));
+});
+window.addEventListener('pointerup', () => { draggingCanvas = false; });
+
+// Virtual Joystick Events
+const joyZone = document.getElementById('joystick-zone');
+const joyKnob = document.getElementById('joystick-knob');
+let joyActive = false;
+
+function handleJoyMove(clientX, clientY) {
+  const rect = joyZone.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  let dx = clientX - cx;
+  let dy = clientY - cy;
+  const maxR = 32;
+  const dist = Math.hypot(dx, dy);
+  if (dist > maxR) {
+    dx = (dx / dist) * maxR;
+    dy = (dy / dist) * maxR;
+  }
+  joyKnob.style.transform = `translate(${dx}px, ${dy}px)`;
+  joyVec.x = dx / maxR;
+  joyVec.y = dy / maxR;
 }
 
-function toggleAutoMo() {
-  state.autoMo = !state.autoMo;
-  renderPanel();
+joyZone.addEventListener('pointerdown', (e) => {
+  e.stopPropagation();
+  joyActive = true;
+  handleJoyMove(e.clientX, e.clientY);
+});
+window.addEventListener('pointermove', (e) => {
+  if (!joyActive) return;
+  handleJoyMove(e.clientX, e.clientY);
+});
+window.addEventListener('pointerup', () => {
+  if (!joyActive) return;
+  joyActive = false;
+  joyKnob.style.transform = 'translate(0px, 0px)';
+  joyVec.x = 0;
+  joyVec.y = 0;
+});
 
+// Keyboard WASD / Arrow Keys
+const keys = {};
+window.addEventListener('keydown', (e) => { keys[e.code] = true; });
+window.addEventListener('keyup', (e) => { keys[e.code] = false; });
+
+let isWideView = false;
+function toggleWideView() {
+  isWideView = !isWideView;
+  if (isWideView) {
+    camYaw = -0.32;
+    camPitch = 0.38;
+    camDist = 9.8;
+    showFeedToast('🎥 Góc nhìn Toàn Cảnh Chánh Điện (98 Phật tử đồng tu)');
+  } else {
+    camYaw = 0;
+    camPitch = 0.30;
+    camDist = 4.6;
+    showFeedToast('🧘 Góc nhìn Cận Cảnh sau lưng nhân vật');
+  }
+}
+function resetCameraBehindPlayer() {
+  isWideView = false;
+  camYaw = 0;
+  camPitch = 0.30;
+  camDist = 4.6;
+  player.root.rotation.y = 0;
+  showFeedToast('Đã căn góc nhìn thẳng lên Tượng Phật Chánh Điện 🙏');
 }
 
-function triggerBow() {
-  if (bowAnimState !== 0) return;
-  bowAnimState = 1;
-  bowProgress = 0;
+function walkToNearestCushion() {
+  let best = cushions[0];
+  let bestD = 999;
+  cushions.forEach(c => {
+    const d = Math.hypot(c.x - player.root.position.x, c.z - player.root.position.z);
+    if (d < bestD) { bestD = d; best = c; }
+  });
+  player.root.position.set(best.x, 0.14, best.z);
+  player.root.rotation.y = 0;
+  camYaw = 0;
+  showFeedToast(`${state.avatarName} đã bước lên tấm đệm (bồ đoàn) thành tâm lễ Phật 🙏`);
+}
+
+// =========================================================
+// SANSA BOTTOM DOCK ACTIONS: CHẮP TAY | QUỲ LẠY | GÕ MÕ | KHẤN | XẢ NGHIỆP
+// =========================================================
+function setActiveDock(id) {
+  ['act-chaptay', 'act-quylay', 'act-mo', 'act-khan', 'act-xanghiep'].forEach(aid => {
+    const el = document.getElementById(aid);
+    if (!el) return;
+    const isRage = aid === 'act-xanghiep';
+    el.className = 'dock-action' + (isRage ? ' rage-highlight' : '') + (aid === id ? ' active' : '');
+  });
+}
+
+function doChapTay() {
+  state.chapTay = !state.chapTay;
+  setActiveDock('act-chaptay');
+  document.getElementById('label-chaptay').textContent = state.chapTay ? 'Đang chắp tay' : 'Chắp tay';
+  state.merit += 5;
+  updateHUD();
+  playBellSound(false);
+  showFeedToast(`${state.avatarName} vừa chắp tay chào đại chúng trong Chánh Điện 🙏`);
+  spawnFloat('+5 Công Đức (Chắp Tay) 🙏', '#fde68a');
+}
+
+function doQuyLay() {
+  setActiveDock('act-quylay');
+  if (state.bowState !== 0) return;
+  state.bowState = 1;
+  state.bowTimer = 0;
   state.bows += 1;
   state.merit += 10;
-  saveState();
+  updateHUD();
   playBellSound(false);
-  spawnFloatingText(`🙇 Lạy thứ ${state.bows}/108 (+10 Công Đức)`, '#38bdf8', 50, 48);
-  if (state.bows % 108 === 0) {
-    playBellSound(true);
-    showToast(
-      '🌸 VIÊN MÃN 108 LẠY ĐẠI CÁT!',
-      `Chúc mừng <b>${state.avatarName}</b> đã thành tâm lễ đủ <b>108 lạy</b>!<br><br>✨ Phước lộc viên mãn, tháng này doanh số bùng nổ gấp đôi, khách sỉ lẻ tự tìm đến chốt đơn ầm ầm!`
-    );
-  }
+  showFeedToast(`${state.avatarName} đang thành tâm lễ lạy thứ ${state.bows}/108 🙇`);
+  spawnFloat(`🙇 Lạy thứ ${state.bows}/108 (+10 Phước)`, '#fde68a');
 }
 
 function toggleAutoBow() {
   state.autoBow = !state.autoBow;
-  if (state.autoBow && bowAnimState === 0) triggerBow();
-  renderPanel();
-
+  const btn = document.getElementById('btn-auto-bow');
+  btn.className = 'glass-pill chant-btn' + (state.autoBow ? ' active' : '');
+  btn.textContent = state.autoBow ? '⏸️ Đang Tự Lạy 108' : '🙏 Tự Lạy 108 Lạy';
+  if (state.autoBow && state.bowState === 0) doQuyLay();
 }
 
-function submitPrayer(presetText = null) {
-  const inputEl = document.getElementById('custom-prayer-input');
-  const text = presetText || (inputEl && inputEl.value.trim()) || "Cầu cho Kho Tấm Ốp Trường Yến hôm nay nổ đơn rực rỡ, khách chốt nhanh gọn, xe đi an toàn đúng giờ!";
-  state.merit += 50;
-  saveState();
-  playBellSound(true);
-  triggerScreenFlash('rgba(251, 191, 36, 0.35)', false);
-  spawnFloatingText('🐉 SỚ KHẤN ĐÃ BAY LÊN TRỜI (+50 Công Đức)', '#fde047', 50, 35);
-  speakVietnamese("Nam mô chứng giám lời khấn của " + state.avatarName + ". " + text, 1.0, 1.1);
-  showToast(
-    '🙏 ĐÃ DÂNG HƯƠNG & SỚ KHẤN LÊN CHÁNH ĐIỆN',
-    `<b>Người khấn:</b> ${state.avatarName}<br><br>📜 <i>"${text}"</i><br><br>✨ <b>Chứng giám:</b> Hương đã cháy đỏ, sớ vàng đã hóa rồng bay lên trời! (+50 Công Đức)`
-  );
-}
-
-const FORTUNES = [
-  { title: "QUẺ SỐ 01 — ĐẠI CÁT ĐẠI LỢI 🌟", body: "Hôm nay lộc về từ hướng Hải Phòng & Hà Nội! Khách hỏi Tấm ốp nhôm 130 và Lam sóng là chốt liền tay, chuyển khoản cọc 100% không cần giục!" },
-  { title: "QUẺ SỐ 08 — THƯỢNG THƯỢNG QUẺ 💰", body: "Vía khách sộp đang tới! Đơn hàng trên 20 triệu sắp nổ trên CRM, nhà xe hôm nay ngoan ngoãn đến sớm trước 30 phút!" },
-  { title: "QUẺ SỐ 18 — PHƯỚC LỘC SONG TOÀN 🌸", body: "Mọi vận xui khách hỏi dạo đã tan biến! Chiều nay có khách cũ quay lại lấy thêm đơn lớn gấp đôi đơn trước!" },
-  { title: "QUẺ SỐ 68 — LỘC PHÁT TRƯỜNG YẾN 🔥", body: "Thần Tài gõ cửa! Data đổ về nét căng, tỷ lệ chuyển đổi tăng vọt, cả đội Sale vượt KPI rực rỡ!" }
+const MO_PHRASES = [
+  "Cốc! +1 Công Đức ✨",
+  "Cốc! +1 Đơn Chốt Nhôm MG 💰",
+  "Cốc! Tâm Bất Biến Giữa Dòng Đời Vạn Biến 🌸",
+  "Cốc! Khách Chuyển Khoản Full 100% 🔥",
+  "Cốc! Nhà Xe Đến Đúng Giờ 🚚"
 ];
+
+function doGoMo() {
+  setActiveDock('act-mo');
+  state.merit += 2;
+  updateHUD();
+  playMoSound();
+  const txt = MO_PHRASES[Math.floor(Math.random() * MO_PHRASES.length)];
+  spawnFloat(txt, '#fef08a');
+}
 
 function shakeFortune() {
   state.merit += 20;
-  saveState();
-  playWoodblockSound();
-  setTimeout(() => playBellSound(false), 200);
-  const f = FORTUNES[Math.floor(Math.random() * FORTUNES.length)];
-  showToast('🎋 ' + f.title, f.body);
+  updateHUD();
+  playMoSound();
+  setTimeout(() => playBellSound(true), 180);
+  const fortunes = [
+    "🎋 Quẻ Thượng Thượng: Hôm nay khách Hải Phòng & Hà Nội hỏi Tấm ốp nhôm 130 là chốt liền tay!",
+    "🎋 Quẻ Đại Cát: Vía khách sộp đang tới! Đơn trên 20 triệu sắp nổ trên CRM!",
+    "🎋 Quẻ Lộc Phát: Cả 6 Chiến Binh Sale Trường Yến hôm nay vượt KPI rực rỡ!"
+  ];
+  const f = fortunes[Math.floor(Math.random() * fortunes.length)];
+  showFeedToast(f);
+  spawnFloat('🎋 Xin Quẻ Đại Cát (+20 Phước)', '#fde047');
 }
 
-// =========================================================
-// RAGE MODE: CHỬI KHÁCH & CHỬI VẬN CHUYỂN
-// =========================================================
-const KHACH_QUOTES_IDLE = [
-  '"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến bà nội đã nhé!"',
-  '"Sao bên em báo 65k/m mà trên mạng anh thấy người ta rao 15k?!"',
-  '"Đo cắt hộ anh lẻ từng milimet nhé, nhưng sang năm anh mới xây!"',
-  '"Gửi anh 20 video công trình thực tế đi rồi anh xem xét!"'
-];
-const KHACH_QUOTES_HIT = [
-  '"Á á em xin lỗi! Để em chuyển khoản cọc 100% ngay bây giờ ạ!"',
-  '"Dạ em chốt luôn 200m² không mặc cả 1 đồng nào nữa ạ!"',
-  '"Chừa rồi ạ! Từ nay hỏi mã nào là em chốt tiền tươi mã đấy!"',
-  '"Tha cho em! Em vừa bấm chuyển khoản full đơn 30 triệu rồi ạ!"'
-];
+function changeAvatarName(name) {
+  state.avatarName = name;
+  showFeedToast(`${name} vừa chắp tay bước vào Chánh Điện 🙏`);
+}
 
-const XE_QUOTES_IDLE = [
-  '"Anh đang đến đầu ngõ kho em rồi đây! (Định vị vẫn đang ở Bắc Ninh)"',
-  '"Xe anh vừa thủng săm, hẹn em chiều mai anh qua bốc hàng nhé!"',
-  '"Xước có 1 góc tấm ốp thôi mà em bắt đền căng thế!"',
-  '"Cho anh xin thêm 300k tiền cà phê bến bãi nhé!"'
-];
-const XE_QUOTES_HIT = [
-  '"Ối dồi ôi em đạp ga chạy tốc độ bàn thờ vào kho bốc hàng ngay đây ạ!"',
-  '"Dạ em bọc chăn bông 5 lớp nâng như nâng trứng, xước 1 vết em đền gấp 10!"',
-  '"Em có mặt trước cửa kho đúng 5 phút nữa, sai 1 giây em không lấy tiền cước!"',
-  '"Em xin chừa giờ cao su rồi ạ! Giao tận chân công trình chuẩn đét luôn!"'
-];
-
-function setBossType(type) {
-  state.bossType = type;
-  state.bossHp = 100;
-  updateBossHud();
-  if (type === 'khach') {
-    bossBodyMat.color.setHex(0xef4444);
-    bossHat.material.color.setHex(0xfacc15);
-  } else {
-    bossBodyMat.color.setHex(0x2563eb);
-    bossHat.material.color.setHex(0xf97316);
+function changeRoom(room) {
+  state.room = room;
+  const bossBanner = document.getElementById('boss-banner');
+  if (room === 'hall') {
+    hallWallGroup.visible = true;
+    altarGroup.visible = true;
+    mandalaMesh.visible = true;
+    rageArenaGroup.visible = false;
+    bossBanner.style.display = 'none';
+    scene.background.setHex(0x1b130d);
+    scene.fog.color.setHex(0x1b130d);
+    floorMat.color.setHex(0xffffff);
+    document.getElementById('online-count').textContent = '98';
+    showFeedToast(`${state.avatarName} đã vào Thanh Liên Đường 01 (Chánh Điện Gỗ) 🙏`);
+  } else if (room === 'courtyard') {
+    hallWallGroup.visible = false;
+    altarGroup.visible = true;
+    mandalaMesh.visible = false;
+    rageArenaGroup.visible = false;
+    bossBanner.style.display = 'none';
+    scene.background.setHex(0x0c1910);
+    scene.fog.color.setHex(0x0c1910);
+    floorMat.color.setHex(0x3f4f3a);
+    document.getElementById('online-count').textContent = '71';
+    showFeedToast(`${state.avatarName} đã ra Sân Chùa Ngàn Đệm Ngoài Trời 🌲`);
+  } else if (room === 'rage') {
+    hallWallGroup.visible = false;
+    altarGroup.visible = false;
+    mandalaMesh.visible = false;
+    rageArenaGroup.visible = true;
+    bossBanner.style.display = 'flex';
+    scene.background.setHex(0x2a080c);
+    scene.fog.color.setHex(0x2a080c);
+    floorMat.color.setHex(0x7f1d1d);
+    document.getElementById('online-count').textContent = '68';
+    showFeedToast(`🔥 Đã vào Am Xả Nghiệp Sau Chùa — Chửi Khách & Chửi Vận Chuyển!`);
   }
 }
 
-function updateBossHud(hitQuote = null) {
-  const nameEl = document.getElementById('boss-name');
-  const hpTextEl = document.getElementById('boss-hp-text');
-  const hpBarEl = document.getElementById('boss-hp-bar');
-  const quoteEl = document.getElementById('boss-quote');
+/* =========================================================
+   7. DRAWER MODAL: KHẤN ĐƠN & XẢ NGHIỆP (CHỬI KHÁCH / CHỬI XE / GIẢI NGHIỆP)
+   ========================================================= */
+function openDrawer(mode) {
+  const modal = document.getElementById('drawer-modal');
+  const title = document.getElementById('drawer-title');
+  const body = document.getElementById('drawer-body');
+  modal.classList.add('open');
 
-  if (state.bossType === 'khach') {
-    nameEl.textContent = '👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT';
-    quoteEl.textContent = hitQuote || KHACH_QUOTES_IDLE[Math.floor(Math.random() * KHACH_QUOTES_IDLE.length)];
+  if (mode === 'khan') {
+    setActiveDock('act-khan');
+    title.textContent = '🕯️ DÂNG HƯƠNG & SỚ KHẤN LÊN ĐỨC PHẬT - TỔ NGHỀ';
+    body.innerHTML = `
+      <div class="preset-grid">
+        <button class="preset-btn gold-btn" onclick="sendPrayer('Con cầu xin hôm nay khách hỏi là chốt, chuyển khoản cọc 100% không mặc cả 1 đồng!')">💰 Khấn Khách Chốt Đơn CK 100%</button>
+        <button class="preset-btn gold-btn" onclick="sendPrayer('Cầu cho đơn cắt Nhôm MG và Lam Sóng xuất kho chuẩn kích thước, không cong vênh!')">🛡️ Khấn Đơn Nhôm MG Chuẩn Đét</button>
+        <button class="preset-btn gold-btn" onclick="sendPrayer('Cầu cho toàn bộ nhà xe vận chuyển hôm nay vào kho bốc hàng đúng giờ!')">🚚 Khấn Vận Chuyển Đi Đúng Giờ</button>
+        <button class="preset-btn gold-btn" onclick="sendPrayer('Cầu cho cả 6 Chiến Binh Sale Trường Yến nổ đơn rực rỡ vượt KPI!')">🔥 Khấn Đội Sale Nổ Đơn Vượt KPI</button>
+      </div>
+      <div class="drawer-input-row">
+        <input id="prayer-inp" type="text" placeholder="Nhập lời khấn riêng của anh..." onkeydown="if(event.key==='Enter') sendPrayer()" />
+        <button class="drawer-send-btn" onclick="sendPrayer()">🙏 Dâng Sớ</button>
+      </div>
+    `;
   } else {
-    nameEl.textContent = '🚚 BIA: NHÀ XE HẸN GIỜ CAO SU';
-    quoteEl.textContent = hitQuote || XE_QUOTES_IDLE[Math.floor(Math.random() * XE_QUOTES_IDLE.length)];
+    setActiveDock('act-xanghiep');
+    changeRoom('rage');
+    document.getElementById('room-select').value = 'rage';
+    title.textContent = '🤬 AM XẢ NGHIỆP — CHỬI KHÁCH & CHỬI VẬN CHUYỂN ĐỂ XẢ';
+    body.innerHTML = `
+      <div class="preset-grid">
+        <button class="preset-btn rage-btn" onclick="curseAttack('khach', 'Hỏi 100 mã từ sáng tới đêm xong bảo về hỏi vợ à?! Chốt mau!')">👻 Chửi Khách: "Hỏi 100 mã xong về hỏi vợ à?!"</button>
+        <button class="preset-btn rage-btn" onclick="curseAttack('khach', 'Giá xuất xưởng kịch sàn rồi còn đòi bớt từng nghìn lẻ à?!')">👻 Chửi Khách: "Giá xưởng còn đòi bớt từng nghìn?!"</button>
+        <button class="preset-btn rage-btn" onclick="curseAttack('xe', 'Hẹn 2h chiều bốc hàng mà 8h tối vẫn bảo đang ở đầu ngõ à?!')">🚚 Chửi Xe: "Hẹn 2h chiều mà 8h tối chưa tới?!"</button>
+        <button class="preset-btn rage-btn" onclick="curseAttack('xe', 'Tấm ốp dài 3m bọc kỹ thế mà quăng móp góc thế hả?!')">🚚 Chửi Xe: "Hàng bọc kỹ mà quăng móp góc à?!"</button>
+        <button class="preset-btn gold-btn" onclick="burnPhongLong()">🔥 Đốt Phong Long Xả Vía Khách Hãm</button>
+        <button class="preset-btn gold-btn" onclick="ringGreatBell()">🔔 Kéo Chuông Giải Nghiệp (Về Chánh Điện)</button>
+      </div>
+      <div class="drawer-input-row">
+        <input id="curse-inp" type="text" placeholder="Gõ câu chửi khách / nhà xe vào đây để ném sét..." onkeydown="if(event.key==='Enter') curseAttack('khach')" />
+        <button class="drawer-send-btn" style="background:#dc2626;border-color:#fca5a5;" onclick="curseAttack('khach')">⚡ Phang</button>
+      </div>
+    `;
   }
-  hpTextEl.textContent = `Độ Lì Đòn: ${state.bossHp}%`;
-  hpBarEl.style.width = `${state.bossHp}%`;
 }
 
-function fireCurseAttack(curseText, weapon = 'lightning') {
-  if (state.zone !== 'rage') switchZone('rage');
-  state.rageReleased += 1;
-  saveState();
+function closeDrawer() {
+  document.getElementById('drawer-modal').classList.remove('open');
+}
 
-  launchProjectileAtBoss(weapon);
-  playSmashSound(weapon);
-  triggerScreenFlash('rgba(239, 68, 68, 0.5)', true);
+function sendPrayer(preset = null) {
+  const inp = document.getElementById('prayer-inp');
+  const txt = preset || (inp && inp.value.trim()) || "Cầu cho Kho Tấm Ốp Trường Yến nổ đơn rực rỡ!";
+  if (inp) inp.value = '';
+  state.merit += 50;
+  updateHUD();
+  playBellSound(true);
+  speakVN(txt);
+  showFeedToast(`🕯️ ${state.avatarName} vừa dâng hương khấn: "${txt}"`);
+  spawnFloat('🐉 SỚ KHẤN ĐÃ CHỨNG GIÁM (+50 Phước)', '#fde047', 50, 35);
+  closeDrawer();
+  doQuyLay();
+}
 
-  bossWobble = 1.6;
-  const dmg = 18 + Math.floor(Math.random() * 14);
+function curseAttack(targetType = 'khach', preset = null) {
+  const inp = document.getElementById('curse-inp');
+  const txt = preset || (inp && inp.value.trim()) || "Làm ăn cho chuẩn chỉ vào nhé!";
+  if (inp) inp.value = '';
+
+  state.bossType = targetType;
+  const dmg = 22 + Math.floor(Math.random() * 15);
   state.bossHp = Math.max(0, state.bossHp - dmg);
+  bossWobble = 1.6;
 
-  spawnFloatingText(`💥 ${curseText}`, '#fca5a5', 50, 32);
-  spawnFloatingText(`-${dmg}% Độ Lì Đòn!`, '#fde047', 52, 44);
-  speakVietnamese(curseText, 1.15, 1.25);
+  // Launch 3D lightning fireball from player to Boss
+  const proj = new THREE.Mesh(
+    new THREE.SphereGeometry(0.38, 12, 12),
+    new THREE.MeshBasicMaterial({ color: 0xfde047 })
+  );
+  proj.position.copy(player.root.position).add(new THREE.Vector3(0, 1.5, 0));
+  scene.add(proj);
+  projectiles.push({ mesh: proj, t: 0 });
 
-  const hitPool = state.bossType === 'khach' ? KHACH_QUOTES_HIT : XE_QUOTES_HIT;
-  const reaction = hitPool[Math.floor(Math.random() * hitPool.length)];
-  updateBossHud(reaction);
+  playThunderSound();
+  speakVN(txt);
+
+  document.getElementById('boss-title').textContent = targetType === 'khach'
+    ? '👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT'
+    : '🚚 BIA: NHÀ XE HẸN GIỜ CAO SU';
+  document.getElementById('boss-hp-label').textContent = `Độ Lì: ${state.bossHp}%`;
+  document.getElementById('boss-hp-fill').style.width = `${state.bossHp}%`;
+  document.getElementById('boss-speech').textContent = targetType === 'khach'
+    ? '"Á á em chừa rồi! Để em chuyển khoản cọc 100% chốt đơn ngay bây giờ ạ!"'
+    : '"Ối dồi ôi em đạp ga chạy tốc độ bàn thờ vào kho bốc hàng ngay đây ạ!"';
+
+  spawnFloat(`⚡ ${txt} (-${dmg}%)`, '#fca5a5', 50, 35);
+  showFeedToast(`💥 ${state.avatarName} vừa phang sấm sét xả nghiệp cực mạnh!`);
 
   if (state.bossHp === 0) {
-    setTimeout(() => {
-      playBellSound(true);
-      state.merit += 100;
-      state.bossHp = 100;
-      saveState();
-      updateBossHud();
-      showToast(
-        state.bossType === 'khach' ? '🎉 ĐÃ ĐỘ XONG KHÁCH CỦ CHUỐI!' : '🎉 ĐÃ ĐỘ XONG NHÀ XE CAO SU!',
-        state.bossType === 'khach'
-          ? 'Khách đã tỉnh ngộ, xin lỗi rối rít và <b>chuyển khoản Full 100% không mặc cả</b>!<br><br>💰 Thưởng xả nghiệp: <b>+100 Công Đức</b>!'
-          : 'Nhà xe đã sợ xanh mặt, chạy tốc độ ánh sáng vào bốc hàng đúng giờ và bọc xốp 10 lớp!<br><br>💰 Thưởng xả nghiệp: <b>+100 Công Đức</b>!'
-      );
-    }, 350);
+    state.bossHp = 100;
+    state.merit += 100;
+    updateHUD();
+    playBellSound(true);
+    spawnFloat('🎉 ĐÃ ĐỘ XONG! +100 CÔNG ĐỨC!', '#fde047', 50, 30);
   }
 }
 
-function submitCustomCurse() {
-  const inp = document.getElementById('custom-curse-input');
-  const txt = (inp && inp.value.trim()) || (state.bossType === 'khach' ? "Hỏi lắm thế chốt đơn mau lên!" : "Hẹn giờ dây thun à chạy nhanh lên!");
-  if (inp) inp.value = '';
-  fireCurseAttack(txt, 'lightning');
-}
-
-// Voice Shout / Mic Curse
-function startVoiceCurse() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    fireCurseAttack("Bực mình quá rồi đấy nhé! Chốt đơn mau!", "lightning");
-    return;
-  }
-  try {
-    const rec = new SR();
-    rec.lang = 'vi-VN';
-    spawnFloatingText('🎙️ Hãy hét/mắng thẳng vào Mic...', '#38bdf8', 50, 40);
-    rec.onresult = (e) => {
-      const spoken = e.results[0][0].transcript;
-      fireCurseAttack(spoken, 'lightning');
-    };
-    rec.onerror = () => {
-      fireCurseAttack("Xả sạch cơn tức! Làm ăn cho chuẩn vào!", "hammer");
-    };
-    rec.start();
-  } catch (err) {
-    fireCurseAttack("Xả sạch cơn tức! Làm ăn cho chuẩn vào!", "hammer");
-  }
-}
-
-// Burn Phong Long & Ring Great Bell of Purification
 function burnPhongLong() {
-  const inp = document.getElementById('phong-long-input');
-  const target = (inp && inp.value.trim()) || "Vía khách hỏi dạo & vía nhà xe trễ giờ";
-  state.rageReleased += 3;
   state.merit += 68;
-  saveState();
-  playSmashSound('fireball');
-  triggerScreenFlash('rgba(249, 115, 22, 0.55)', true);
-  spawnFloatingText(`🔥 ĐÃ ĐỐT SẠCH VÍA: ${target}!`, '#fb923c', 50, 36);
-  showToast(
-    '🔥 ĐÃ ĐỐT PHONG LONG — XẢ XUI THÀNH CÔNG!',
-    `Tờ giấy phong long ghi <b>"${target}"</b> đã cháy thành tro bụi!<br><br>✨ Ba hồn bảy vía khách hãm, vía trễ xe đi khuất mắt, nhường chỗ cho khách sộp tiền tươi bước vào Kho Tấm Ốp Trường Yến! (+68 Công Đức)`
-  );
+  updateHUD();
+  playThunderSound();
+  spawnFloat('🔥 ĐÃ ĐỐT PHONG LONG XẢ SẠCH VÍA HÃM (+68 Phước)', '#fb923c', 50, 35);
+  showFeedToast('🔥 Ba hồn bảy vía khách hỏi dạo & xe trễ giờ đã cháy thành tro!');
 }
 
-function ringPurificationBell() {
-  bellSwing = 1.5;
+function ringGreatBell() {
   playBellSound(true);
-  triggerScreenFlash('rgba(253, 224, 71, 0.45)', false);
-  const converted = Math.max(50, state.rageReleased * 25);
-  state.merit += converted;
-  saveState();
-  spawnFloatingText(`🔔 BOOOOONG! TỊNH HÓA +${converted} CÔNG ĐỨC!`, '#fde047', 50, 35);
-  showToast(
-    '🔔 ĐẠI HỒNG CHUÔNG GIẢI NGHIỆP',
-    `Tiếng chuông chùa Trường Yến ngân vang khắp núi rừng!<br><br>🌸 Toàn bộ lời chửi xả stress vừa nãy đã được <b>Chư Phật & Tổ Nghề miễn trừ khẩu nghiệp 100%</b> và chuyển hóa thành <b>+${converted} Công Đức</b>!<br>✨ Tâm đã tịnh — Tiền chuẩn bị về ngập tài khoản!`
-  );
+  state.merit += 108;
+  updateHUD();
+  closeDrawer();
+  changeRoom('hall');
+  document.getElementById('room-select').value = 'hall';
+  spawnFloat('🔔 BOOOONG! MIỄN TRỪ KHẨU NGHIỆP 100% (+108 Phước)', '#fde047', 50, 35);
+  showFeedToast('🔔 Tiếng chuông chùa ngân vang! Mọi cơn giận đã hóa thành Phước Lộc!');
 }
+
+// Periodic Ambient Fellow Devotee Toast (Just like Sansa!)
+const AMBIENT_FEEDS = [
+  "Sale Minh Anh vừa chắp tay chào đại chúng 🙏",
+  "Sale Kiều Trang vừa thành tâm lễ đủ 108 lạy (+100 Phước)",
+  "Sale Huế vừa thắp hương cầu nổ đơn Tấm Ốp Than Tre 🕯️",
+  "Sale Bích Thủy vừa gõ mõ tích phước cầu đơn sỉ ✨",
+  "Sale Ánh Nguyệt vừa xin được Quẻ Thượng Thượng Đại Cát 🎋",
+  "Thế Anh vừa cầu cho xe tải giao hàng Hải Phòng đúng giờ 🚚"
+];
+setInterval(() => {
+  if (state.room === 'hall' && Math.random() < 0.55) {
+    const msg = AMBIENT_FEEDS[Math.floor(Math.random() * AMBIENT_FEEDS.length)];
+    showFeedToast(msg);
+  }
+}, 6500);
 
 /* =========================================================
-   6. ZONE & TAB UI SWITCHING
+   8. 60 FPS ANIMATION LOOP (Player Walk + Prostration + 32 NPC Crowd Bowing)
    ========================================================= */
-let targetCamPos = new THREE.Vector3(0, 6.2, 14.5);
-let targetLookAt = new THREE.Vector3(0, 2.5, 0);
-let currentLookAt = new THREE.Vector3(0, 2.5, 0);
-
-function switchZone(zone) {
-  state.zone = zone;
-  const zenBtn = document.getElementById('btn-zone-zen');
-  const rageBtn = document.getElementById('btn-zone-rage');
-  const bossHud = document.getElementById('boss-hud');
-  const sub = document.getElementById('zone-subtitle');
-
-  if (zone === 'zen') {
-    zenBtn.className = 'zone-btn active-zen';
-    rageBtn.className = 'zone-btn';
-    bossHud.style.display = 'none';
-    sub.textContent = 'Chánh Điện Tĩnh Tâm • Tích Phước Chốt Đơn';
-    scene.background.setHex(0x0f172a);
-    scene.fog.color.setHex(0x1e293b);
-    rageGlow.intensity = 0;
-    zenGroup.visible = true;
-    rageGroup.visible = false;
-    targetCamPos.set(0, 5.8, 13.8);
-    targetLookAt.set(0, 2.3, -1);
-  } else {
-    zenGroup.visible = false;
-    rageGroup.visible = true;
-    zenBtn.className = 'zone-btn';
-    rageBtn.className = 'zone-btn active-rage';
-    bossHud.style.display = 'flex';
-    sub.textContent = 'Am Xả Nghiệp Sau Chùa • Độ Khách & Độ Vận Chuyển';
-    scene.background.setHex(0x2a080c);
-    scene.fog.color.setHex(0x3b0a11);
-    rageGlow.intensity = 2.6;
-    targetCamPos.set(0, 4.8, 13.5);
-    targetLookAt.set(0, 2.8, -1.5);
-    updateBossHud();
-  }
-}
-
-function selectTab(tab) {
-  state.tab = tab;
-  ['mo', 'lay', 'khan', 'khach', 'xe', 'giai'].forEach(t => {
-    const btn = document.getElementById('tab-' + t);
-    if (t === tab) {
-      btn.className = (t === 'khach' || t === 'xe') ? 'tab-btn active-rage-tab' : 'tab-btn active';
-    } else {
-      btn.className = 'tab-btn';
-    }
-  });
-
-  if (tab === 'khach') {
-    setBossType('khach');
-    switchZone('rage');
-  } else if (tab === 'xe') {
-    setBossType('xe');
-    switchZone('rage');
-  } else if (tab === 'mo' || tab === 'lay' || tab === 'khan') {
-    switchZone('zen');
-  }
-  renderPanel();
-
-}
-
-function renderPanel() {
-  const box = document.getElementById('panel-content');
-  if (state.tab === 'mo') {
-    box.innerHTML = `
-      <div class="panel-header">
-        <span>🪵 GÕ MÕ TÍCH PHƯỚC — TĨNH TÂM MÙA CHỐT ĐƠN</span>
-        <span>Chạm vào Mõ 3D hoặc bấm nút</span>
-      </div>
-      <div class="btn-grid">
-        <button class="act-btn gold full-col" onclick="tapMo()">🪵 GÕ MÕ "CỐC! CỐC!" (+1 Công Đức & Lộc Chốt Đơn)</button>
-        <button class="act-btn ${state.autoMo ? 'jade' : ''}" onclick="toggleAutoMo()">
-          ${state.autoMo ? '⏸️ Đang Tự Gõ Mõ (Bấm Để Dừng)' : '🔄 Bật Auto Gõ Mõ Tĩnh Tâm'}
-        </button>
-        <button class="act-btn" onclick="shakeFortune()">🎋 Lắc Ống Xăm Xin Quẻ Hôm Nay</button>
-      </div>
-    `;
-  } else if (state.tab === 'lay') {
-    const avatars = ['Sếp Thành', 'Sale Minh Anh', 'Sale Kiều Trang', 'Sale Huế', 'Sale Bích Thủy', 'Sale Ánh Nguyệt', 'Thế Anh'];
-    box.innerHTML = `
-      <div class="panel-header">
-        <span>🙇 THÀNH TÂM QUỲ LẠY 108 LẠY TRƯỚC CHÁNH ĐIỆN</span>
-        <span>Đã lạy: ${state.bows}/108</span>
-      </div>
-      <div class="btn-grid">
-        <button class="act-btn gold" onclick="triggerBow()">🙇 Quỳ Lạy 1 Lạy (+10 Phước)</button>
-        <button class="act-btn ${state.autoBow ? 'jade' : ''}" onclick="toggleAutoBow()">
-          ${state.autoBow ? '⏸️ Dừng Auto Lạy 108' : '🙏 Tự Động Lạy Đủ 108 Lạy'}
-        </button>
-      </div>
-      <div class="input-row">
-        <select onchange="state.avatarName=this.value; spawnFloatingText('Đã chọn: '+this.value, '#38bdf8');">
-          ${avatars.map(a => `<option value="${a}" ${state.avatarName === a ? 'selected' : ''}>Người lễ: ${a}</option>`).join('')}
-        </select>
-      </div>
-    `;
-  } else if (state.tab === 'khan') {
-    box.innerHTML = `
-      <div class="panel-header">
-        <span>🙏 DÂNG HƯƠNG & SỚ KHẤN THẦN TÀI - TỔ NGHỀ TẤM ỐP</span>
-        <span>+50 Công Đức / Sớ</span>
-      </div>
-      <div class="btn-grid">
-        <button class="act-btn gold" onclick="submitPrayer('Con lạy Thần Tài Thổ Địa độ cho hôm nay khách hỏi là chốt, chuyển khoản cọc 100% không mặc cả 1 đồng!')">💰 Khấn Khách Chốt Đơn Chuyển Khoản 100%</button>
-        <button class="act-btn gold" onclick="submitPrayer('Cầu Tổ Nghề Tấm Ốp độ cho đơn cắt Nhôm MG và Lam Sóng xuất kho chuẩn kích thước, không cong vênh!')">🛡️ Khấn Đơn Nhôm MG & Tấm Ốp Chuẩn Đét</button>
-        <button class="act-btn" onclick="submitPrayer('Cầu cho toàn bộ xe ghép, xe tải hôm nay vào kho bốc hàng đúng giờ, giao hàng an toàn tuyệt đối!')">🚚 Khấn Vận Chuyển Đi Đúng Giờ</button>
-        <button class="act-btn" onclick="submitPrayer('Cầu cho 6 Chiến Binh Sale Trường Yến nổ đơn rực rỡ, vượt KPI tháng này gấp đôi!')">🔥 Khấn Cả Đội Sale Nổ Đơn Vượt KPI</button>
-      </div>
-      <div class="input-row">
-        <input id="custom-prayer-input" type="text" placeholder="Nhập lời khấn riêng của anh (VD: Khấn đơn 100 triệu)..." />
-        <button class="act-btn jade" onclick="submitPrayer()">🙏 Dâng Sớ</button>
-      </div>
-    `;
-  } else if (state.tab === 'khach') {
-    box.innerHTML = `
-      <div class="panel-header">
-        <span>🤬 CHỬI KHÁCH CỦ CHUỐI ĐỂ XẢ (BIA ĐỠ ĐẠN 3D)</span>
-        <span>Đập tan stress!</span>
-      </div>
-      <div class="btn-grid">
-        <button class="act-btn fire" onclick="fireCurseAttack('Hỏi 100 mã từ sáng đến tối xong bảo về hỏi ý kiến vợ à?! Chốt mau!', 'lightning')">⚡ "Hỏi 100 mã xong bảo về hỏi vợ à?!"</button>
-        <button class="act-btn fire" onclick="fireCurseAttack('Giá tận gốc nhà máy kịch sàn rồi còn đòi bớt từng nghìn lẻ à?!', 'hammer')">🔨 "Giá nhà máy rồi còn đòi bớt từng nghìn?!"</button>
-        <button class="act-btn fire" onclick="fireCurseAttack('Bắt tính bảng quyết toán 22 mục xong bảo sang năm mới xây à?!', 'fireball')">🔥 "Bắt tính 22 mục xong năm sau mới làm?!"</button>
-        <button class="act-btn fire" onclick="fireCurseAttack('Hàng tấm ốp nguyên sinh chuẩn loại 1 mà đòi so giá với hàng chợ phế liệu à?!', 'sandal')">🩴 "Hàng loại 1 mà đòi giá phế liệu à?!"</button>
-      </div>
-      <div class="input-row">
-        <input id="custom-curse-input" type="text" placeholder="Nhập câu chửi khách xả tức vào đây..." onkeydown="if(event.key==='Enter') submitCustomCurse()" />
-        <button class="act-btn fire" onclick="submitCustomCurse()">💥 Phang</button>
-        <button class="act-btn gold" onclick="startVoiceCurse()">🎙️ Hét Mic</button>
-      </div>
-    `;
-  } else if (state.tab === 'xe') {
-    box.innerHTML = `
-      <div class="panel-header">
-        <span>🚚 CHỬI VẬN CHUYỂN / NHÀ XE CAO SU ĐỂ XẢ</span>
-        <span>Trị bệnh trễ giờ!</span>
-      </div>
-      <div class="btn-grid">
-        <button class="act-btn fire" onclick="fireCurseAttack('Hẹn 2 giờ chiều bốc hàng mà 8 giờ tối vẫn bảo đang ở đầu ngõ à?!', 'lightning')">⚡ "Hẹn 2h chiều mà 8h tối vẫn ở đầu ngõ?!"</button>
-        <button class="act-btn fire" onclick="fireCurseAttack('Tấm ốp dài 3 mét bọc kỹ thế mà quăng quật móp cả góc thế hả?!', 'hammer')">🔨 "Hàng bọc kỹ thế mà quăng móp góc à?!"</button>
-        <button class="act-btn fire" onclick="fireCurseAttack('Gọi 50 cuộc thuê bao lúc khách giục ầm lên thì bảo đang ăn phở à?!', 'fireball')">🔥 "Gọi 50 cuộc không nghe máy hả?!"</button>
-        <button class="act-btn fire" onclick="fireCurseAttack('Báo cước 300k lúc lên hàng xong ra bến đòi thu thêm 200k là sao?!', 'sandal')">🩴 "Báo cước 1 đằng thu tiền 1 nẻo à?!"</button>
-      </div>
-      <div class="input-row">
-        <input id="custom-curse-input" type="text" placeholder="Nhập câu chửi nhà xe / vận chuyển..." onkeydown="if(event.key==='Enter') submitCustomCurse()" />
-        <button class="act-btn fire" onclick="submitCustomCurse()">💥 Phang</button>
-        <button class="act-btn gold" onclick="startVoiceCurse()">🎙️ Hét Mic</button>
-      </div>
-    `;
-  } else if (state.tab === 'giai') {
-    box.innerHTML = `
-      <div class="panel-header">
-        <span>🔔 ĐỐT PHONG LONG & ĐẠI HỒNG CHUÔNG GIẢI NGHIỆP</span>
-        <span>Chuyển Giận Thành Tiền</span>
-      </div>
-      <div class="btn-grid">
-        <button class="act-btn gold full-col" onclick="ringPurificationBell()">🔔 KÉO ĐẠI HỒNG CHUÔNG — MIỄN TRỪ KHẨU NGHIỆP 100% & NHẬN LỘC</button>
-      </div>
-      <div class="input-row">
-        <input id="phong-long-input" type="text" placeholder="Nhập tên vía khách hãm / xe trễ để đốt phong long..." />
-        <button class="act-btn fire" onclick="burnPhongLong()">🔥 Đốt Vía</button>
-      </div>
-    `;
-  }
-}
-renderPanel();
-
-
-// Raycaster for direct 3D clicks on Mõ, Chuông, Buddha, or Boss
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-renderer.domElement.addEventListener('pointerdown', (e) => {
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-  raycaster.setFromCamera(mouse, camera);
-  if (state.zone === 'zen') {
-    const hitsMo = raycaster.intersectObjects(moGroup.children, true);
-    if (hitsMo.length > 0) { tapMo(); return; }
-    const hitsBell = raycaster.intersectObjects(bellGroup.children, true);
-    if (hitsBell.length > 0) { ringPurificationBell(); return; }
-    const hitsPlayer = raycaster.intersectObjects(playerGroup.children, true);
-    if (hitsPlayer.length > 0) { triggerBow(); return; }
-    // Default tap in Zen mode when on Mo tab taps the Mo
-    if (state.tab === 'mo') tapMo();
-  } else {
-    const hitsBoss = raycaster.intersectObjects(bossPivot.children, true);
-    if (hitsBoss.length > 0) {
-      fireCurseAttack(state.bossType === 'khach' ? 'Này thì hỏi lắm không chốt này!' : 'Này thì hẹn giờ cao su này!', 'lightning');
-    }
-  }
-});
-
-/* =========================================================
-   7. ANIMATION LOOP (60 FPS)
-   ========================================================= */
-let lastAutoMo = 0;
 const clock = new THREE.Clock();
 
 function animate() {
@@ -1448,97 +1691,130 @@ function animate() {
   const dt = Math.min(clock.getDelta(), 0.1);
   const elapsed = clock.getElapsedTime();
 
-  // Smooth Camera Transition
-  camera.position.lerp(targetCamPos, dt * 4.5);
-  currentLookAt.lerp(targetLookAt, dt * 4.5);
-  camera.lookAt(currentLookAt);
+  // 1. Player Walking Movement (Joystick or WASD)
+  let moveX = joyVec.x;
+  let moveZ = joyVec.y;
+  if (keys['KeyW'] || keys['ArrowUp']) moveZ = -1;
+  if (keys['KeyS'] || keys['ArrowDown']) moveZ = 1;
+  if (keys['KeyA'] || keys['ArrowLeft']) moveX = -1;
+  if (keys['KeyD'] || keys['ArrowRight']) moveX = 1;
 
-  // Rotate Buddha Halo
-  haloMesh.rotation.z = elapsed * 0.6;
-  buddhaGroup.position.y = 1.2 + Math.sin(elapsed * 1.8) * 0.06;
+  if ((Math.abs(moveX) > 0.05 || Math.abs(moveZ) > 0.05) && state.bowState === 0) {
+    const speed = 3.8 * dt;
+    const forward = new THREE.Vector3(-Math.sin(camYaw), 0, -Math.cos(camYaw));
+    const right = new THREE.Vector3(Math.cos(camYaw), 0, -Math.sin(camYaw));
+    player.root.position.addScaledVector(forward, -moveZ * speed);
+    player.root.position.addScaledVector(right, moveX * speed);
 
-  // Smoke rising from Incense Burner
-  smokeParticles.forEach((sp, i) => {
-    sp.position.y += dt * (0.55 + (i % 3) * 0.15);
-    sp.position.x = Math.sin(elapsed * 1.5 + i) * 0.22;
-    if (sp.position.y > 4.8) sp.position.y = 1.75;
-  });
+    // Clamp inside hall bounds
+    player.root.position.x = Math.max(-9.5, Math.min(9.5, player.root.position.x));
+    player.root.position.z = Math.max(-7.5, Math.min(11.5, player.root.position.z));
 
-  // Auto-Mo timer
-  if (state.autoMo && elapsed - lastAutoMo > 0.75) {
-    lastAutoMo = elapsed;
-    tapMo();
-  }
-
-  // Mo bounce recovery
-  if (moAnimTimer > 0) {
-    moAnimTimer = Math.max(0, moAnimTimer - dt * 6);
-    malletPivot.rotation.z = -Math.sin(moAnimTimer * Math.PI) * 0.55;
+    // Rotate character in movement direction & waddle walk animation
+    const targetRot = Math.atan2(-moveX, moveZ) + camYaw;
+    player.root.rotation.y = targetRot;
+    player.bodyPivot.position.y = Math.abs(Math.sin(elapsed * 12)) * 0.08;
+    player.bodyPivot.rotation.z = Math.sin(elapsed * 12) * 0.06;
   } else {
-    malletPivot.rotation.z = 0;
+    player.bodyPivot.position.y = 0;
+    player.bodyPivot.rotation.z = 0;
   }
-  moBody.scale.lerp(new THREE.Vector3(1.2, 0.85, 1.0), dt * 10);
 
-  // Bowing (Quỳ Lạy) Animation
-  if (bowAnimState === 1) {
-    bowProgress += dt * 2.4;
-    avatarPivot.rotation.x = -Math.min(bowProgress, 1) * 1.25;
-    avatarPivot.position.y = 0.1 - Math.min(bowProgress, 1) * 0.25;
-    if (bowProgress >= 1) { bowAnimState = 2; bowProgress = 0; }
-  } else if (bowAnimState === 2) {
-    bowProgress += dt * 3.0;
-    if (bowProgress >= 1) { bowAnimState = 3; bowProgress = 0; }
-  } else if (bowAnimState === 3) {
-    bowProgress += dt * 2.4;
-    avatarPivot.rotation.x = -(1 - Math.min(bowProgress, 1)) * 1.25;
-    avatarPivot.position.y = 0.1 - (1 - Math.min(bowProgress, 1)) * 0.25;
-    if (bowProgress >= 1) {
-      bowAnimState = 0;
-      avatarPivot.rotation.x = 0;
-      avatarPivot.position.y = 0.1;
-      if (state.autoBow) setTimeout(triggerBow, 250);
+  // 2. Player Full Prostration Animation (절하기 — Kneel & Bow onto Cushion)
+  if (state.bowState === 1) {
+    state.bowTimer += dt * 2.2;
+    const p = Math.min(1, state.bowTimer);
+    player.root.rotation.y = 0; // Face Buddha
+    player.bodyPivot.rotation.x = -p * 1.38;
+    player.bodyPivot.position.y = -p * 0.35;
+    player.bodyPivot.position.z = -p * 0.35;
+    if (p >= 1) { state.bowState = 2; state.bowTimer = 0; }
+  } else if (state.bowState === 2) {
+    state.bowTimer += dt * 2.4;
+    if (state.bowTimer >= 1) { state.bowState = 3; state.bowTimer = 0; }
+  } else if (state.bowState === 3) {
+    state.bowTimer += dt * 2.2;
+    const p = 1 - Math.min(1, state.bowTimer);
+    player.bodyPivot.rotation.x = -p * 1.38;
+    player.bodyPivot.position.y = -p * 0.35;
+    player.bodyPivot.position.z = -p * 0.35;
+    if (state.bowTimer >= 1) {
+      state.bowState = 0;
+      player.bodyPivot.rotation.x = 0;
+      player.bodyPivot.position.set(0, 0, 0);
+      if (state.autoBow) setTimeout(doQuyLay, 280);
     }
   }
 
-  // Bell Swing
-  if (bellSwing > 0) {
-    bellSwing = Math.max(0, bellSwing - dt * 0.8);
-    bellGroup.rotation.z = Math.sin(elapsed * 8) * bellSwing * 0.25;
-  } else {
-    bellGroup.rotation.z = 0;
-  }
+  // 3. Animate the Crowd of 32 Fellow Chibi Devotees (Bowing, Meditating, Clasping Hands)
+  npcs.forEach(npc => {
+    npc.root.visible = (state.room !== 'rage');
+    if (!npc.root.visible) return;
+    if (npc.mode === 0) {
+      // Periodic bowing cycle on their cushion
+      const cyc = (elapsed * 0.9 + npc.phase) % 5.0;
+      let b = 0;
+      if (cyc < 1.2) b = cyc / 1.2;
+      else if (cyc < 2.2) b = 1.0;
+      else if (cyc < 3.4) b = 1.0 - (cyc - 2.2) / 1.2;
+      npc.bodyPivot.rotation.x = -b * 1.32;
+      npc.bodyPivot.position.y = -b * 0.32;
+      npc.bodyPivot.position.z = -b * 0.30;
+    } else if (npc.mode === 1) {
+      // Seated meditation on cushion
+      npc.bodyPivot.position.y = -0.25 + Math.sin(elapsed * 2 + npc.phase) * 0.015;
+      npc.bodyPivot.rotation.x = -0.06;
+    } else {
+      // Standing with clasped hands bowing head gently
+      npc.bodyPivot.rotation.x = -0.08 - Math.sin(elapsed * 1.5 + npc.phase) * 0.06;
+    }
+  });
 
-  // Boss Wobble when cursed/hit
+  // 4. Boss Wobble & Projectiles in Am Xả Nghiệp
   if (bossWobble > 0) {
     bossWobble = Math.max(0, bossWobble - dt * 2.8);
-    bossPivot.rotation.z = Math.sin(elapsed * 28) * bossWobble * 0.35;
-    bossPivot.rotation.x = Math.cos(elapsed * 22) * bossWobble * 0.25;
+    bossPivot.rotation.z = Math.sin(elapsed * 28) * bossWobble * 0.32;
   } else {
-    bossPivot.rotation.z = Math.sin(elapsed * 2) * 0.04;
-    bossPivot.rotation.x = 0;
+    bossPivot.rotation.z = 0;
   }
 
-  // Projectiles flying into Boss
   for (let i = projectiles.length - 1; i >= 0; i--) {
-    const p = projectiles[i];
-    p.progress += dt * 5.5;
-    p.mesh.position.lerp(new THREE.Vector3(0, 2.8, -2.2), p.progress);
-    p.mesh.rotation.x += 0.2;
-    p.mesh.rotation.y += 0.2;
-    if (p.progress >= 1) {
-      scene.remove(p.mesh);
+    const pr = projectiles[i];
+    pr.t += dt * 4.5;
+    pr.mesh.position.lerp(new THREE.Vector3(0, 2.5, -5.5), pr.t);
+    if (pr.t >= 1) {
+      scene.remove(pr.mesh);
       projectiles.splice(i, 1);
     }
   }
 
+  // 5. Third-Person Follow Camera behind Player (Exact Sansa Perspective!)
+  const camTarget = new THREE.Vector3(
+    player.root.position.x,
+    player.root.position.y + 1.85,
+    player.root.position.z - 1.5
+  );
+  const desiredCamPos = new THREE.Vector3(
+    player.root.position.x + Math.sin(camYaw) * camDist,
+    player.root.position.y + 1.7 + Math.sin(camPitch) * camDist,
+    player.root.position.z + Math.cos(camYaw) * camDist
+  );
+  camera.position.lerp(desiredCamPos, 0.18);
+  camera.lookAt(camTarget);
+
   renderer.render(scene, camera);
 }
 animate();
-if (window.location.search.includes("tab=khach")) {
-  selectTab("khach");
-  camera.position.copy(targetCamPos);
-  currentLookAt.copy(targetLookAt);
-  camera.lookAt(currentLookAt);
+
+// Support URL query params for instant preview screenshots
+if (window.location.search.includes('view=wide')) {
+  toggleWideView();
+  camera.position.set(player.root.position.x + Math.sin(camYaw) * camDist, player.root.position.y + 1.7 + Math.sin(camPitch) * camDist, player.root.position.z + Math.cos(camYaw) * camDist);
+  renderer.render(scene, camera);
+}
+if (window.location.search.includes('room=courtyard')) changeRoom('courtyard');
+if (window.location.search.includes('room=rage')) {
+  openDrawer('rage');
   renderer.render(scene, camera);
 }
 
