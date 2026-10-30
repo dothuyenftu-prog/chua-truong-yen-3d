@@ -163,48 +163,147 @@
     }
 
     /* =====================================================================
-       3. LARGER, SEMI-TRANSPARENT, MINIMALIST 4-WAY JOYSTICK (Right Side)
+       3. SMOOTH 360-DEGREE ANALOG VIRTUAL JOYSTICK (Right Side)
        ===================================================================== */
-    .joy-pad {
+    #joystick360 {
       position: fixed;
-      right: 12px;
-      bottom: 118px;
-      z-index: 30;
-      width: 114px; height: 114px;
+      right: 14px;
+      bottom: 122px;
+      z-index: 32;
+      width: 116px;
+      height: 116px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(28, 16, 6, 0.24) 0%, rgba(12, 7, 3, 0.34) 100%);
-      border: 1.5px solid rgba(255, 222, 145, 0.30);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.32);
+      background: radial-gradient(circle, rgba(40, 22, 8, 0.22) 0%, rgba(14, 7, 3, 0.38) 100%);
+      border: 1.8px solid rgba(255, 220, 130, 0.38);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.38), inset 0 0 14px rgba(255, 210, 100, 0.12);
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      padding: 6px;
-    }
-    .joy-dir {
-      border: none;
-      background: transparent;
-      color: rgba(255, 236, 179, 0.78);
-      font-size: 18px;
-      font-weight: 900;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      border-radius: 50%;
+      touch-action: none;
       user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
     }
-    .joy-dir:hover, .joy-dir:active {
-      background: rgba(255, 208, 96, 0.26);
-      color: #fff;
-    }
-    .joy-center {
-      background: rgba(255, 215, 115, 0.14);
-      border: 1px solid rgba(255, 222, 145, 0.28);
+    #joystick360:active { cursor: grabbing; }
+    .joy360-ring {
+      position: absolute;
+      inset: 10px;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      margin: auto;
+      border: 1px dashed rgba(255, 222, 145, 0.25);
       pointer-events: none;
+    }
+    .joy360-dir-hint {
+      position: absolute;
+      font-size: 9px;
+      font-weight: 800;
+      color: rgba(255, 232, 175, 0.48);
+      pointer-events: none;
+    }
+    #joyKnob360 {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255, 230, 150, 0.85), rgba(196, 125, 24, 0.78));
+      border: 2px solid rgba(255, 245, 200, 0.9);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.55), 0 0 12px rgba(255, 205, 80, 0.45);
+      pointer-events: none;
+      transform: translate(0px, 0px);
+      transition: transform 0.04s linear;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      color: #2b1202;
+    }
+
+    /* =====================================================================
+       3B. CENTER-SCREEN INTERACTIVE STAGE POPUP (Bấm vào gì hiện cái đó lên giữa màn hình!)
+       ===================================================================== */
+    #centerStageOverlay {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%) scale(0.92);
+      z-index: 52;
+      width: min(390px, 92vw);
+      background: radial-gradient(circle at 50% 35%, rgba(72, 28, 8, 0.96) 0%, rgba(22, 9, 3, 0.98) 100%);
+      border: 2.5px solid #ffd56b;
+      border-radius: 22px;
+      padding: 14px 16px 16px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.88), 0 0 35px rgba(255, 195, 65, 0.35);
+      color: #fff4d6;
+      text-align: center;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    #centerStageOverlay.open {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -52%) scale(1);
+    }
+    .cs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 213, 107, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .cs-title {
+      font-size: 14.5px;
+      font-weight: 900;
+      color: #ffd740;
+      letter-spacing: 0.3px;
+    }
+    .cs-target-wrap {
+      position: relative;
+      width: 210px;
+      height: 175px;
+      margin: 6px auto 10px;
+      border-radius: 20px;
+      background: radial-gradient(circle, rgba(255, 200, 75, 0.24) 0%, rgba(45, 18, 5, 0.5) 75%);
+      border: 2px solid rgba(255, 215, 100, 0.65);
+      display: flex;
+       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: inset 0 0 24px rgba(255, 190, 50, 0.28), 0 8px 22px rgba(0,0,0,0.65);
+      transition: transform 0.09s ease, box-shadow 0.12s ease;
+    }
+    .cs-target-wrap:active, .cs-target-wrap.struck {
+      transform: scale(0.92);
+      box-shadow: 0 0 38px rgba(255, 215, 64, 0.95), inset 0 0 30px rgba(255, 215, 64, 0.55);
+      border-color: #fff59d;
+    }
+    .cs-target-wrap img {
+      width: 148px;
+      height: 122px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.75));
+      transition: transform 0.1s ease;
+      pointer-events: none;
+    }
+    .cs-target-wrap.struck img {
+      transform: scale(1.16) rotate(-5deg);
+      filter: drop-shadow(0 0 22px rgba(255, 225, 100, 1));
+    }
+    .cs-mallet {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      font-size: 36px;
+      transform-origin: bottom right;
+      transition: transform 0.09s ease;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.8));
+    }
+    .cs-target-wrap.struck .cs-mallet {
+      transform: rotate(-38deg) translate(-12px, 10px) scale(1.15);
     }
 
     /* On-Screen Quick Offering Bar (Dâng lễ trực tiếp lên bàn thờ) */
@@ -314,10 +413,8 @@
       .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; }
       .dock-icon { font-size: 16px; }
       .dock-label { font-size: 9.6px; }
-      .joy-pad { bottom: 142px; right: 10px; left: auto; width: 104px; height: 104px; }
-      .chuong-mo-panel { bottom: 142px; left: 8px; right: auto; padding: 5px 6px; gap: 5px; }
-      .cm-img-btn { width: 50px; height: 40px; }
-      .cm-auto-pill { font-size: 8.8px; padding: 2px 5px; }
+      #joystick360 { bottom: 142px; right: 10px; width: 104px; height: 104px; }
+      .chuong-mo-panel { display: none !important; }
       .quick-offering-bar { bottom: 106px; padding: 3px 6px; }
       .qo-btn { font-size: 9.6px; padding: 2.5px 6px; }
     }
@@ -631,7 +728,7 @@
   <!-- 1. TOP BAR: ROLE + 3 BAN THỜ + CHỌN 6 NHẠC NỀN TIKTOK + BẢNG CÔNG ĐỨC -->
   <div class="top-bar">
     <div class="top-group">
-      <select id="charSelect" class="top-select" title="Chọn nhân vật">
+      <select id="charSelect" class="top-select" title="Đăng nhập nhân vật trong công ty">
         <option value="Sếp Thành">🧘‍♂️ Sếp Thành</option>
         <option value="Sale Minh Anh">🪷 Minh Anh</option>
         <option value="Sale Kiều Trang">🪷 Kiều Trang</option>
@@ -639,13 +736,14 @@
         <option value="Sale Bích Thủy">🪷 Bích Thủy</option>
         <option value="Sale Ánh Nguyệt">🪷 Ánh Nguyệt</option>
         <option value="Thế Anh">🙏 Thế Anh</option>
-        <option value="Anh Đức Đoàn (KH)">🙏 A. Đức Đoàn</option>
-        <option value="Anh Phú (CT Trần Hoàn)">🙏 A. Phú</option>
+        <option value="Anh Đức Đoàn (KH)">🙏 KH A. Đức Đoàn</option>
+        <option value="Anh Phú (CT Trần Hoàn)">🙏 KH A. Phú</option>
       </select>
+      <button id="btnOnlineMode" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#81c784;" onclick="toggleOnlinePresenceMode()" title="Khi bật chế độ Online, những ai trong công ty đang đăng nhập sẽ nhìn thấy nhân vật của nhau trong Chánh Điện">🟢 Online (<span id="onlineCountLabel">1</span>)</button>
       <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
       <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
       <button id="tabDucOng" class="chip-btn" onclick="switchZone('ducong')">🔔 Đức Ông</button>
-      <button id="tabFurnace" class="chip-btn" style="background:linear-gradient(135deg,#d84315,#8e1b05);color:#fff;border-color:#ffcc80;" onclick="openGoldFurnaceRoom()">🔥 Phòng Hóa Vàng</button>
+      <button id="tabFurnace" class="chip-btn" style="background:linear-gradient(135deg,#d84315,#8e1b05);color:#fff;border-color:#ffcc80;" onclick="openGoldFurnaceRoom()">🔥 Phòng Hóa Vàng Mã</button>
     </div>
 
     <div class="top-group">
@@ -665,7 +763,7 @@
     </div>
   </div>
 
-  <div id="toastBanner">🙏 Chạm vào Chuông/Mõ bên phải hoặc các nút bên dưới để hành lễ!</div>
+  <div id="toastBanner">🙏 Bấm vào Mõ, Chuông, Thắp Hương hoặc Bàn Lễ để hiện lên giữa màn hình thao tác!</div>
 
   <!-- Active Prayer Banner with Unmistakable Red ✕ ĐÓNG Button -->
   <div id="activeScrollBanner">
@@ -692,43 +790,81 @@
     <div class="tlt-row"><span>⑤ Sale Ánh Nguyệt</span><b style="color:#ffe28a;">310</b></div>
   </div>
 
-  <!-- 2. INTERACTIVE CHUÔNG ĐỒNG & MÕ GỖ TU TẬP ONLINE (Right Side, like ZSg7dUrut) -->
-  <div class="chuong-mo-panel">
+  <!-- Hidden legacy Chuông/Mõ IDs kept for compatibility; actual interaction happens in #centerStageOverlay -->
+  <div class="chuong-mo-panel" style="display:none;">
     <div class="cm-unit">
-      <div id="btnVisualBell" class="cm-img-btn" onclick="strikeVisualBell()" title="Chạm vào Chuông Đồng để thỉnh chuông">
+      <div id="btnVisualBell" class="cm-img-btn" onclick="strikeVisualBell()">
         <img src="assets/chuong_dong.png" alt="Chuông đồng" />
       </div>
       <button id="btnAutoBell" class="cm-auto-pill" onclick="cycleAutoBell()">▶ Tự động | Tắt</button>
     </div>
     <div class="cm-unit">
-      <div id="btnVisualMo" class="cm-img-btn" onclick="strikeVisualMo()" title="Chạm vào Mõ Gỗ để gõ mõ">
+      <div id="btnVisualMo" class="cm-img-btn" onclick="strikeVisualMo()">
         <img src="assets/mo_go.png" alt="Mõ gỗ" />
       </div>
       <button id="btnAutoMo" class="cm-auto-pill" onclick="cycleAutoMo()">▶ Tự động | Tắt</button>
     </div>
   </div>
 
-  <!-- 3. LARGER, SEMI-TRANSPARENT, MINIMALIST 4-WAY MOVEMENT PAD (Right Side) -->
-  <div class="joy-pad">
-    <span></span>
-    <button class="joy-dir" title="Tiến lên Ban Thờ" onmousedown="startHoldMove(0, -1)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(0, -1)" ontouchend="stopHoldMove()">▲</button>
-    <span></span>
-    <button class="joy-dir" title="Đi sang trái" onmousedown="startHoldMove(-1, 0)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(-1, 0)" ontouchend="stopHoldMove()">◀</button>
-    <span class="joy-center"></span>
-    <button class="joy-dir" title="Đi sang phải" onmousedown="startHoldMove(1, 0)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(1, 0)" ontouchend="stopHoldMove()">▶</button>
-    <span></span>
-    <button class="joy-dir" title="Lùi ra xa" onmousedown="startHoldMove(0, 1)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(0, 1)" ontouchend="stopHoldMove()">▼</button>
-    <span></span>
+  <!-- 2. SÂN KHẤU TƯƠNG TÁC GIỮA MÀN HÌNH (Bấm vào cái gì, cái đó hiện lên giữa màn hình để click thao tác!) -->
+  <div id="centerStageOverlay">
+    <div class="cs-header">
+      <span id="csStageTitle" class="cs-title">🪵 GÕ MÕ TỊNH TÂM TÍCH PHƯỚC</span>
+      <button class="btn-modal-x" onclick="closeCenterStage()">✕ Đóng</button>
+    </div>
+
+    <div id="csInteractiveBody">
+      <div id="csClickTarget" class="cs-target-wrap" onclick="triggerCenterStageHit()">
+        <img id="csTargetImg" src="assets/mo_go.png" alt="Pháp khí tương tác" />
+        <div id="csTargetEmoji" style="font-size:82px; display:none; line-height:1;">🕯️</div>
+        <div id="csMalletIcon" class="cs-mallet">🥢</div>
+      </div>
+
+      <div id="csTapInstruction" style="font-size:12.5px; font-weight:800; color:#ffd740; margin-bottom:6px;">
+        👆 Chạm / Click trực tiếp vào Mõ Gỗ ở giữa màn hình để gõ!
+      </div>
+      <div id="csHitStats" style="font-size:11.5px; color:#ffe7b3; margin-bottom:10px;">
+        Đã gõ: <b id="csHitCounter" style="color:#ffd740;">0</b> lần · Phước tích lũy: <b id="csMeritEarned" style="color:#80d8ff;">+0 💎</b>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
+        <button id="csAutoBtn" class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px;" onclick="toggleCenterStageAuto()">▶ Tự động gõ: Tắt</button>
+        <button class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px; background:rgba(68,28,8,0.92); color:#ffe596; border-color:#ffd54f;" onclick="switchCenterStageMode()">🔄 Đổi Chuông / Mõ / Hương</button>
+      </div>
+    </div>
+
+    <!-- Chế độ xem chi tiết Bàn Lễ Cúng Dường (Rõ Lễ Gì & Lễ Của Ai!) -->
+    <div id="csOfferingInspector" style="display:none; text-align:left;">
+      <div style="font-size:11.5px; color:#ffe596; margin-bottom:7px; text-align:center;">
+        📋 Danh sách đầy đủ <b>Lễ Vật Cúng Dường</b> & <b>Tên Tín Chủ Dâng Lễ</b> trên bàn thờ hiện tại:
+      </div>
+      <div id="csOfferingListBox" style="max-height:210px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; margin-bottom:10px;"></div>
+      <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
+        <button class="qo-btn" onclick="redeemOfferingItem('vang_ma_le10', '🧧', 'Lễ Tiền Vàng Mã Đinh Đỏ', 25, 'assets/vangma_le10.jpg'); renderCenterOfferingInspector();">➕ Dâng Tiền Vàng Mã</button>
+        <button class="qo-btn" onclick="redeemOfferingItem('ruou_ngua', '🍶', 'Nậm Rượu Lễ & Ngựa Mã', 35, 'assets/vangma_mamdaydu.jpg'); renderCenterOfferingInspector();">➕ Dâng Rượu & Ngựa</button>
+        <button class="qo-btn" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phú Quý', 30); renderCenterOfferingInspector();">➕ Dâng Mâm Ngũ Quả</button>
+      </div>
+    </div>
   </div>
 
-  <!-- 3B. ON-SCREEN DIRECT OFFERING BAR (Nhân vật dâng lễ đặt thẳng lên Bàn Cúng Dường) -->
+  <!-- 3. NÚT DI CHUYỂN 360 ĐỘ MƯỢT MÀ (360-Degree Smooth Analog Virtual Thumbstick on Right Side) -->
+  <div id="joystick360" title="Kéo núm xoay 360 độ để di chuyển nhân vật theo mọi hướng">
+    <div class="joy360-ring"></div>
+    <span class="joy360-dir-hint" style="top:3px; left:50%; transform:translateX(-50%);">360°</span>
+    <span class="joy360-dir-hint" style="bottom:3px; left:50%; transform:translateX(-50%);">▼</span>
+    <span class="joy360-dir-hint" style="left:4px; top:50%; transform:translateY(-50%);">◀</span>
+    <span class="joy360-dir-hint" style="right:4px; top:50%; transform:translateY(-50%);">▶</span>
+    <div id="joyKnob360">✥</div>
+  </div>
+
+  <!-- 3B. ON-SCREEN DIRECT OFFERING BAR (Dâng lễ chuẩn Việt Nam đặt thẳng lên Bàn Cúng Dường) -->
   <div class="quick-offering-bar">
-    <span style="font-size:10px; font-weight:800; color:#ffd740; padding-left:2px;">🎁 Dâng Lễ Lên Bàn:</span>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ffd54f,#ffb300);color:#2b1002;border-color:#fff;" onclick="openCenterStage('table_inspect')">🔍 Xem Bàn Lễ (Lễ Gì · Của Ai)</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('vang_ma_le10', '🧧', 'Lễ Tiền Vàng Mã Đinh Đỏ', 25, 'assets/vangma_le10.jpg')">🧧 Tiền Vàng Mã</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('ruou_ngua', '🍶', 'Rượu Lễ & Ngựa Đỏ', 35, 'assets/vangma_mamdaydu.jpg')">🍶🐎 Rượu & Ngựa</button>
     <button class="qo-btn" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Hồng', 20)">🪷 Hoa Sen</button>
     <button class="qo-btn" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phú Quý', 30)">🍎 Ngũ Quả</button>
-    <button class="qo-btn" onclick="redeemOfferingItem('gold_ingot', '🪙', 'Mâm Tiền Vàng Kim Ngân', 30)">🪙 Tiền Vàng</button>
-    <button class="qo-btn" onclick="redeemOfferingItem('tea_oan', '🍵', 'Trà Sen & Oản Ngọc', 40)">🍵 Trà Oản</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Đốt Tiền Vàng</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Đốt Vàng Mã (+Phước)</button>
   </div>
 
   <!-- Collapsible Chat Input Drawer -->
@@ -738,24 +874,24 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (100% Visible on Mobile & Desktop) -->
+  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Bấm vào Mõ / Chuông / Hương sẽ hiện lên GIỮA MÀN HÌNH để thao tác!) -->
   <div class="bottom-dock-wrap">
     <div class="bottom-dock">
-      <button class="dock-item" onclick="performRitual('incense')">
+      <button class="dock-item active-ritual" onclick="openCenterStage('mo')">
+        <span class="dock-icon">🪵</span>
+        <span class="dock-label">Gõ Mõ (Giữa MH)</span>
+      </button>
+      <button class="dock-item active-ritual" onclick="openCenterStage('bell')">
+        <span class="dock-icon">🔔</span>
+        <span class="dock-label">Thỉnh Chuông</span>
+      </button>
+      <button class="dock-item" onclick="openCenterStage('incense')">
         <span class="dock-icon">🕯️</span>
         <span class="dock-label">Thắp Hương</span>
-      </button>
-      <button class="dock-item" onclick="performRitual('pray')">
-        <span class="dock-icon">🙏</span>
-        <span class="dock-label">Chắp Tay Khấn</span>
       </button>
       <button class="dock-item" onclick="performRitual('bow')">
         <span class="dock-icon">🙇</span>
         <span class="dock-label">Quỳ Lạy Phật</span>
-      </button>
-      <button class="dock-item" onclick="greetNearestDevotee()">
-        <span class="dock-icon">🙌</span>
-        <span class="dock-label">Chào · Chúc Nhau</span>
       </button>
       <button id="dockChantBtn" class="dock-item active-ritual" onclick="toggleRealChanting()">
         <span class="dock-icon">📿</span>
@@ -767,7 +903,7 @@
       </button>
       <button class="dock-item active-ritual" onclick="openMeritShopModal()">
         <span class="dock-icon">🎁</span>
-        <span class="dock-label">Đổi Lễ · Công Đức</span>
+        <span class="dock-label">Đổi Lễ · Vàng Mã</span>
       </button>
       <button class="dock-item" onclick="toggleChatDrawer()">
         <span class="dock-icon">💬</span>
@@ -877,37 +1013,59 @@
         <button class="btn-redeem" style="width:auto; white-space:nowrap; background:linear-gradient(135deg,#d9381e,#a81c07);" onclick="recordTempleContribution()">🏆 Ghi Nhận (+150 💎)</button>
       </div>
       <div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:8px;">
-        <span class="cm-auto-pill" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="burnGoldPaperRitual()">🔥🪙 Hóa Tiền Vàng Ngay (+40 💎)</span>
-        <span class="cm-auto-pill" onclick="quickEarnMerit('🪵 Gõ mõ tịnh tâm', 15); strikeVisualMo();">⚡ Gõ Mõ (+15 💎)</span>
-        <span class="cm-auto-pill" onclick="quickEarnMerit('🔔 Thỉnh Đại Hồng Chuông', 25); strikeVisualBell();">⚡ Thỉnh Chuông (+25 💎)</span>
-        <span class="cm-auto-pill" onclick="quickEarnMerit('🕯️ Dâng 3 nén tâm hương', 50); performRitual('incense');">⚡ Dâng Hương (+50 💎)</span>
+        <span class="cm-auto-pill" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥🧧 Vào Phòng Đốt Vàng Mã Việt Nam (+50~120 💎)</span>
+        <span class="cm-auto-pill" onclick="closeMeritShopModal(); openCenterStage('mo');">⚡ Gõ Mõ Giữa MH (+10 💎)</span>
+        <span class="cm-auto-pill" onclick="closeMeritShopModal(); openCenterStage('bell');">⚡ Thỉnh Chuông (+15 💎)</span>
+        <span class="cm-auto-pill" onclick="closeMeritShopModal(); openCenterStage('incense');">⚡ Dâng Hương (+30 💎)</span>
       </div>
 
-      <!-- Phần 2: Cửa Hàng Lễ Vật & Mua Tiền Vàng / Hóa Tiền Vàng -->
+      <!-- Phần 2: Cửa Hàng Lễ Vật & Vàng Mã Việt Nam (Đổi Phước Lấy Lễ Dâng Chùa & Hóa Vàng) -->
       <div style="font-size:11.2px; color:#f7cf73; font-weight:800; margin-bottom:4px;">
-        2️⃣ Cửa Hàng Lễ Vật & Mua Tiền Vàng (Đổi Phước Lấy Lễ Dâng Chùa):
+        2️⃣ Cửa Hàng Vàng Mã Việt Nam & Lễ Vật Cúng Dường (Rõ Lễ Gì · Của Ai):
       </div>
       <div class="shop-grid">
         <div class="shop-card" style="border-color:#ffab40; background:rgba(55,22,5,0.92);">
           <div class="shop-item-head">
-            <span class="shop-icon">🪙</span>
+            <img src="assets/vangma_dinh.jpg" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1px solid #ffd54f;" alt="Tiền Vàng Lá Đinh Đỏ" />
             <div>
-              <div class="shop-name">Mua Tiền Vàng Kim Ngân</div>
-              <div class="shop-desc">Đĩnh vàng dâng Thần Tài & Gia Tiên</div>
+              <div class="shop-name">Tiền Vàng Lá & Đinh Đỏ</div>
+              <div class="shop-desc">Đinh vàng lá loại 1 chuẩn Việt Nam</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('gold_ingot', '🪙', 'Mâm Tiền Vàng Kim Nguyên Bảo', 60)">🪙 Mua Dâng Lễ (60 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 40, 'assets/vangma_dinh.jpg')">🧧 Mua Dâng Bàn Lễ (40 💎)</button>
         </div>
 
         <div class="shop-card" style="border-color:#ff7043; background:rgba(62,18,6,0.92);">
           <div class="shop-item-head">
-            <span class="shop-icon">🔥</span>
+            <img src="assets/vangma_le10.jpg" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1px solid #ffd54f;" alt="Lễ Gấp Vàng Mã 10" />
             <div>
-              <div class="shop-name">Đại Kim Ngân & Hóa Vàng</div>
-              <div class="shop-desc">Mua tiền vàng & Hóa tại Lư Đồng</div>
+              <div class="shop-name">Lễ Gấp Vàng Mã 10 Lễ</div>
+              <div class="shop-desc">Xấp tiền vàng mã 10 lễ + Đốt tăng +65💎</div>
             </div>
           </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#e65100,#b71c1c);" onclick="redeemAndBurnGold('🔥🪙 Đại Kim Ngân Tiền Vàng', 90)">🔥 Mua & Hóa Vàng (90 💎)</button>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#e65100,#b71c1c);" onclick="redeemOfferingItem('vang_le10', '💴', 'Lễ Gấp Vàng Mã 10 Lễ', 45, 'assets/vangma_le10.jpg')">💴 Dâng Bàn Lễ (45 💎)</button>
+        </div>
+
+        <div class="shop-card" style="border-color:#ffd54f; background:rgba(55,22,5,0.92);">
+          <div class="shop-item-head">
+            <img src="assets/vangma_tiendola.jpg" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1px solid #ffd54f;" alt="Tiền Địa Phủ & Đĩnh Vàng" />
+            <div>
+              <div class="shop-name">Tiền Vàng Mã 500k & Đô</div>
+              <div class="shop-desc">Túi tiền vàng mã đầy đủ + thỏi vàng</div>
+            </div>
+          </div>
+          <button class="btn-redeem" onclick="redeemOfferingItem('vang_tiendola', '💵', 'Túi Tiền Vàng Mã 500k', 50, 'assets/vangma_tiendola.jpg')">💵 Mua Dâng Lễ (50 💎)</button>
+        </div>
+
+        <div class="shop-card" style="border-color:#ff8a65; background:rgba(62,18,6,0.92);">
+          <div class="shop-item-head">
+            <img src="assets/vangma_mamdaydu.jpg" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1px solid #ffd54f;" alt="Ngựa Mã & Rượu Lễ" />
+            <div>
+              <div class="shop-name">Ngựa Mã · Rượu · Tiền Vàng</div>
+              <div class="shop-desc">Bộ lễ Ngựa Đỏ Quan Lớn & Rượu Nếp</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#d84315,#9a1b06);" onclick="redeemOfferingItem('ngua_ruou', '🐎', 'Ngựa Đỏ & Nậm Rượu Lễ', 60, 'assets/vangma_mamdaydu.jpg')">🐎🍶 Dâng Ngựa & Rượu (60 💎)</button>
         </div>
 
         <div class="shop-card">
@@ -934,35 +1092,13 @@
 
         <div class="shop-card">
           <div class="shop-item-head">
-            <span class="shop-icon">🕯️</span>
-            <div>
-              <div class="shop-name">Cặp Đèn Hoa Đăng</div>
-              <div class="shop-desc">Soi sáng vận khí, khai thông</div>
-            </div>
-          </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('lantern_pair', '🕯️', 'Cặp Đèn Hoa Đăng Lưu Ly', 100)">🎁 Đổi Lễ Dâng (100 💎)</button>
-        </div>
-
-        <div class="shop-card">
-          <div class="shop-item-head">
             <span class="shop-icon">🍵</span>
             <div>
-              <div class="shop-name">Trà Sen & Oản Ngọc</div>
+              <div class="shop-name">Trà Sen · Rượu · Oản Ngọc</div>
               <div class="shop-desc">Quý nhân phù trợ, khách quý</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('tea_oan', '🍵', 'Bộ Trà Sen & Oản Ngọc', 120)">🎁 Đổi Lễ Dâng (120 💎)</button>
-        </div>
-
-        <div class="shop-card">
-          <div class="shop-item-head">
-            <span class="shop-icon">🍍</span>
-            <div>
-              <div class="shop-name">Mâm Vàng Thần Tài</div>
-              <div class="shop-desc">Độ lộc buôn may, chốt đơn lớn</div>
-            </div>
-          </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('gold_wealth', '🍍', 'Mâm Vàng Tài Lộc Thần Tài', 180)">🎁 Đổi Lễ Dâng (180 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('tea_oan', '🍵', 'Trà Sen & Oản Ngọc', 90)">🎁 Đổi Lễ Dâng (90 💎)</button>
         </div>
 
         <div class="shop-card">
@@ -973,7 +1109,7 @@
               <div class="shop-desc">Hồng ân Tam Bảo độ toàn đội</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('grand_offering', '👑', 'Đại Lễ Cúng Dường Tam Bảo', 300)">🎁 Đổi Lễ Dâng (300 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('grand_offering', '👑', 'Đại Lễ Cúng Dường Tam Bảo', 200)">🎁 Đổi Lễ Dâng (200 💎)</button>
         </div>
       </div>
 
@@ -983,9 +1119,9 @@
       </div>
       <div class="merit-log-box" id="meritHistoryList">
         <div class="merit-log-item">🏆 <b>Sếp Thành</b>: Công đức giọt dầu xây dựng Chùa Trường Yến (+200 💎)</div>
-        <div class="merit-log-item">🔥🪙 <b>Sếp Thành</b>: Đã mua & Hóa Tiền Vàng Đại Kim Ngân tại Lư Đồng</div>
-        <div class="merit-log-item">🎁 <b>Sếp Thành</b>: Đã dâng <b>🍎 Mâm Ngũ Quả Phú Quý</b> lên Ban Tam Bảo</div>
-        <div class="merit-log-item">🙏 <b>Sale Minh Anh</b>: Dâng hương & cầu lộc khách hàng Hải Phòng (+50 💎)</div>
+        <div class="merit-log-item">🔥🧧 <b>Sếp Thành</b>: Đốt Lễ Gấp Vàng Mã 10 Lễ & Ngựa Đỏ Quan Lớn (+120 💎 Phước)</div>
+        <div class="merit-log-item">🎁 <b>Sếp Thành</b>: Đã dâng <b>🧧 Đinh Tiền Vàng Lá Đỏ</b> lên Ban Tam Bảo</div>
+        <div class="merit-log-item">🙏 <b>KH Anh Đức Đoàn</b>: Dâng hương & cầu lộc công trình Hải Phòng (+50 💎)</div>
       </div>
 
       <div class="sk-actions">
@@ -994,26 +1130,28 @@
     </div>
   </div>
 
-  <!-- 7. PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA KIM NGÂN - VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA ĐỐT) -->
+  <!-- 7. PHÒNG ĐỐT TIỀN VÀNG MÃ VIỆT NAM (ĐÀI HÓA KIM NGÂN - VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA ĐỐT TĂNG PHƯỚC!) -->
   <div id="goldFurnaceRoom">
     <canvas id="furnaceCanvas"></canvas>
 
     <div class="furnace-hud-top">
       <div>
-        <div style="font-size:14px; font-weight:900; color:#ffd740; text-shadow:0 2px 6px #000;">🔥 PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA KIM NGÂN)</div>
-        <div style="font-size:11px; color:#ffe082;">Đã đốt: <b id="furnaceBurnCounter" style="color:#ffab40;">5</b> Xấp Tiền Vàng · Phước nhận: <b id="furnaceMeritEarned" style="color:#ffd740;">+200 💎</b></div>
+        <div style="font-size:14px; font-weight:900; color:#ffd740; text-shadow:0 2px 6px #000;">🔥 PHÒNG ĐỐT VÀNG MÃ VIỆT NAM (ĐỐT TĂNG PHƯỚC ĐỨC 💎)</div>
+        <div style="font-size:11.5px; color:#ffe082;">Đã hóa: <b id="furnaceBurnCounter" style="color:#ffab40;">5</b> Lễ Vàng Mã · Tổng Phước Nhận: <b id="furnaceMeritEarned" style="color:#ffd740;">+250 💎 Phước Đức</b></div>
       </div>
       <button class="btn-modal-x" style="padding:6px 12px; font-size:12.5px;" onclick="closeGoldFurnaceRoom()">✕ Rời Phòng Hóa Vàng</button>
     </div>
 
     <div class="furnace-hud-bottom">
-      <div style="font-size:11.5px; font-weight:800; color:#ffd54f; text-shadow:0 2px 6px #000; background:rgba(35,12,3,0.85); padding:4px 12px; border-radius:999px; border:1px solid rgba(255,213,79,0.5);">
-        👆 Vuốt từ xấp tiền vàng bên dưới lên cửa Lò Lửa để ném đốt!
+      <div style="font-size:11.5px; font-weight:800; color:#ffd54f; text-shadow:0 2px 6px #000; background:rgba(35,12,3,0.92); padding:5px 14px; border-radius:999px; border:1.5px solid rgba(255,213,79,0.7);">
+        👆 Vuốt từ Mâm Vàng Mã Việt Nam bên dưới lên cửa Lò Lửa để ném đốt (+50 ➔ +120 💎 Phước mỗi lần đốt!)
       </div>
-      <div class="gold-type-bar">
-        <button class="gold-type-btn active" onclick="selectGoldThrowType('🪙', 'Thỏi Vàng Kim Nguyên Bảo', this)">🪙 Thỏi Vàng Kim Ngân</button>
-        <button class="gold-type-btn" onclick="selectGoldThrowType('🧧', 'Xấp Tiền Vàng Mã Phú Quý', this)">🧧 Xấp Tiền Vàng Mã</button>
-        <button class="gold-type-btn" onclick="selectGoldThrowType('👑', 'Đại Đĩnh Vàng Thần Tài', this)">👑 Đại Đĩnh Vàng</button>
+      <div class="gold-type-bar" style="flex-wrap:wrap; justify-content:center;">
+        <button class="gold-type-btn active" onclick="selectGoldThrowType('🧧', 'Đinh Tiền Vàng Lá Đỏ VN', 50, 'vangDinh', this)">🧧 Tiền Vàng Lá Đinh Đỏ (+50💎)</button>
+        <button class="gold-type-btn" onclick="selectGoldThrowType('💴', 'Lễ Gấp Vàng Mã 10 Lễ', 65, 'vangLe10', this)">💴 Lễ Gấp Vàng Mã 10 (+65💎)</button>
+        <button class="gold-type-btn" onclick="selectGoldThrowType('💵', 'Tiền Địa Phủ 500k & Đô', 80, 'vangTienDola', this)">💵 Tiền Vàng Mã 500k (+80💎)</button>
+        <button class="gold-type-btn" onclick="selectGoldThrowType('🐎', 'Ngựa Đỏ Quan Lớn & Đồ Mã', 120, 'vangMamDayDu', this)">🐎 Ngựa Mã Quan Lớn (+120💎)</button>
+        <button class="gold-type-btn" onclick="selectGoldThrowType('🍶', 'Nậm Rượu Lễ & Trầu Cau Vàng', 60, 'vangDinh', this)">🍶 Rượu Lễ & Vàng Lá (+60💎)</button>
       </div>
     </div>
   </div>
@@ -1428,7 +1566,7 @@
     }
 
     // =========================================================================
-    // 2. LOAD PHOTOREALISTIC ASSETS (3 WINGS + 4 ÁO LAM DEVOTEE SPRITES)
+    // 2. LOAD PHOTOREALISTIC ASSETS (3 WINGS + 4 ÁO LAM + 4 VÀNG MÃ VIỆT NAM)
     // =========================================================================
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
@@ -1440,7 +1578,11 @@
       walkF: new Image(),
       walkM: new Image(),
       kneel: new Image(),
-      bow: new Image()
+      bow: new Image(),
+      vangDinh: new Image(),
+      vangLe10: new Image(),
+      vangTienDola: new Image(),
+      vangMamDayDu: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
@@ -1449,6 +1591,10 @@
     images.walkM.src = 'assets/walk_male.png';
     images.kneel.src = 'assets/kneel.png';
     images.bow.src = 'assets/bow.png';
+    images.vangDinh.src = 'assets/vangma_dinh.jpg';
+    images.vangLe10.src = 'assets/vangma_le10.jpg';
+    images.vangTienDola.src = 'assets/vangma_tiendola.jpg';
+    images.vangMamDayDu.src = 'assets/vangma_mamdaydu.jpg';
 
     const urlParams = new URLSearchParams(window.location.search);
     let currentZone = urlParams.get('zone') || 'tambao';
@@ -1533,66 +1679,251 @@
       clearTimeout(window._toastTimer);
       window._toastTimer = setTimeout(() => { el.style.opacity = '0'; }, 3200);
     }
-    showToast('🙏 Chạm Chuông/Mõ bên phải hoặc nút bên dưới để hành lễ!');
+    showToast('🙏 Bấm vào Mõ, Chuông, Hương hoặc Bàn Lễ để hiện lên giữa màn hình thao tác!');
 
     // =========================================================================
-    // 3. POPULATE PHOTOREALISTIC DEVOTEES IN ÁO LAM
+    // 2B. CENTER-SCREEN INTERACTIVE STAGE (Bấm vào cái gì, cái đó hiện lên giữa màn hình!)
     // =========================================================================
-    const crowdDevotees = [];
-    const crowdSampleChats = [
-      "Mô Phật 🙏",
-      "A Di Đà Phật 🪷",
-      "Xin Ông Thần Tài Vị Tiền độ lộc chốt đơn!",
-      "Con quỳ dưới tòa sen đài, tâm đầu thành kính 🙏",
-      "Cầu gia đạo bình an, sức khỏe dồi dào 🪷"
-    ];
+    let centerStageMode = 'mo'; // 'mo' | 'bell' | 'incense' | 'table_inspect'
+    let csHitCount = 0;
+    let csMeritSession = 0;
+    let csAutoTimer = null;
+    let csAutoIntervalSec = 0;
 
-    for (let row = 0; row < 10; row++) {
-      const v = 0.565 + row * 0.038;
-      const colsPerSide = 8;
-      for (let side of [-1, 1]) {
-        for (let c = 0; c < colsPerSide; c++) {
-          const innerEdge = 0.345 - (v - 0.56) * 0.055;
-          const outerEdge = 0.06;
-          const tCol = c / (colsPerSide - 1);
-          const distFromCenter = (0.5 - innerEdge) + tCol * (innerEdge - outerEdge);
-          const u = 0.5 + side * distFromCenter;
-          crowdDevotees.push({
-            wing: 0, u, v,
-            phase: (row * 0.4 + c * 0.3) % (Math.PI * 2),
-            bowTimer: 0
-          });
+    function openCenterStage(mode) {
+      unlockAndStartAudio();
+      centerStageMode = mode || 'mo';
+      const overlay = document.getElementById('centerStageOverlay');
+      const titleEl = document.getElementById('csStageTitle');
+      const imgEl = document.getElementById('csTargetImg');
+      const emojiEl = document.getElementById('csTargetEmoji');
+      const malletEl = document.getElementById('csMalletIcon');
+      const instrEl = document.getElementById('csTapInstruction');
+      const interBody = document.getElementById('csInteractiveBody');
+      const tableBody = document.getElementById('csOfferingInspector');
+
+      if (mode === 'table_inspect') {
+        titleEl.textContent = '📋 CHI TIẾT BÀN LỄ CÚNG DƯỜNG (LỄ GÌ · CỦA AI)';
+        interBody.style.display = 'none';
+        tableBody.style.display = 'block';
+        renderCenterOfferingInspector();
+        overlay.classList.add('open');
+        return;
+      }
+
+      interBody.style.display = 'block';
+      tableBody.style.display = 'none';
+
+      if (mode === 'mo') {
+        titleEl.textContent = '🪵 GÕ MÕ GỖ TỊNH TÂM (GIỮA MÀN HÌNH)';
+        imgEl.style.display = 'block';
+        imgEl.src = 'assets/mo_go.png';
+        emojiEl.style.display = 'none';
+        malletEl.style.display = 'block';
+        malletEl.textContent = '🥢';
+        instrEl.textContent = '👆 Click / Chạm trực tiếp vào Mõ Gỗ ở giữa màn hình để gõ (+10 💎 Phước/lần)';
+      } else if (mode === 'bell') {
+        titleEl.textContent = '🔔 THỈNH ĐẠI HỒNG CHUÔNG (GIỮA MÀN HÌNH)';
+        imgEl.style.display = 'block';
+        imgEl.src = 'assets/chuong_dong.png';
+        emojiEl.style.display = 'none';
+        malletEl.style.display = 'block';
+        malletEl.textContent = '🪵';
+        instrEl.textContent = '👆 Click / Chạm trực tiếp vào Chuông Đồng ở giữa màn hình để thỉnh (+15 💎 Phước/lần)';
+      } else if (mode === 'incense') {
+        titleEl.textContent = '🕯️ DÂNG 3 NÉN TÂM HƯƠNG (GIỮA MÀN HÌNH)';
+        imgEl.style.display = 'none';
+        emojiEl.style.display = 'block';
+        emojiEl.textContent = '🕯️🙏🕯️';
+        malletEl.style.display = 'none';
+        instrEl.textContent = '👆 Click trực tiếp vào 3 Nén Tâm Hương ở giữa màn hình để thắp hương & vái lạy (+30 💎)';
+      }
+      overlay.classList.add('open');
+      triggerCenterStageHit();
+    }
+
+    function closeCenterStage() {
+      document.getElementById('centerStageOverlay').classList.remove('open');
+      if (csAutoTimer) {
+        clearInterval(csAutoTimer);
+        csAutoTimer = null;
+        csAutoIntervalSec = 0;
+        const btn = document.getElementById('csAutoBtn');
+        if (btn) {
+          btn.classList.remove('running');
+          btn.textContent = '▶ Tự động gõ: Tắt';
         }
       }
     }
 
-    for (let wing of [-1, 1]) {
+    function switchCenterStageMode() {
+      const order = ['mo', 'bell', 'incense'];
+      const next = order[(order.indexOf(centerStageMode) + 1) % order.length];
+      openCenterStage(next);
+    }
+
+    function triggerCenterStageHit() {
+      unlockAndStartAudio();
+      const wrap = document.getElementById('csClickTarget');
+      if (wrap) {
+        wrap.classList.remove('struck');
+        void wrap.offsetWidth;
+        wrap.classList.add('struck');
+        setTimeout(() => wrap.classList.remove('struck'), 160);
+      }
+
+      csHitCount++;
+      let earned = 10;
+      let hitMsg = '🪵 Cốc! Tịnh Tâm +10 💎 Phước';
+
+      if (centerStageMode === 'mo') {
+        playMoSound();
+        earned = 10;
+        hitMsg = '🪵 Cốc! Gõ Mõ +10 💎 Phước Đức';
+        player.state = 'kneel';
+      } else if (centerStageMode === 'bell') {
+        playBellSound();
+        earned = 15;
+        hitMsg = '🔔 Boong... Đại Hồng Chuông +15 💎 Phước Đức';
+        player.state = 'bow';
+        player.bowTimer = 60;
+      } else if (centerStageMode === 'incense') {
+        performRitual('incense');
+        earned = 30;
+        hitMsg = '🕯️ Dâng 3 Nén Tâm Hương +30 💎 Phước Đức';
+      }
+
+      csMeritSession += earned;
+      addMerit(earned);
+      document.getElementById('csHitCounter').textContent = csHitCount;
+      document.getElementById('csMeritEarned').textContent = `+${csMeritSession} 💎`;
+
+      floatingHits.push({
+        x: window.innerWidth * 0.5,
+        y: window.innerHeight * 0.36,
+        text: hitMsg,
+        color: '#ffd740',
+        life: 1.15
+      });
+    }
+
+    function toggleCenterStageAuto() {
+      const cycle = [0, 1, 2, 3];
+      csAutoIntervalSec = cycle[(cycle.indexOf(csAutoIntervalSec) + 1) % cycle.length];
+      if (csAutoTimer) { clearInterval(csAutoTimer); csAutoTimer = null; }
+      const btn = document.getElementById('csAutoBtn');
+      if (csAutoIntervalSec > 0) {
+        triggerCenterStageHit();
+        csAutoTimer = setInterval(triggerCenterStageHit, csAutoIntervalSec * 1000);
+        btn.classList.add('running');
+        btn.textContent = `⏸ Tự động: ${csAutoIntervalSec} giây/lần`;
+      } else {
+        btn.classList.remove('running');
+        btn.textContent = '▶ Tự động gõ: Tắt';
+      }
+    }
+
+    function renderCenterOfferingInspector() {
+      const box = document.getElementById('csOfferingListBox');
+      if (!box) return;
+      const wingKey = String(player.wing);
+      const list = altarOfferings[wingKey] || [];
+      const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
+      box.innerHTML = list.map((item, idx) => `
+        <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(48,20,5,0.92); border:1.5px solid #ffd54f; border-radius:10px; padding:6px 10px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            ${item.imgSrc ? `<img src="${item.imgSrc}" style="width:34px;height:34px;border-radius:6px;object-fit:cover;border:1px solid #ffe082;" />` : `<span style="font-size:24px;">${item.icon}</span>`}
+            <div>
+              <div style="font-size:12px; font-weight:900; color:#ffd740;">Lễ #${idx + 1}: ${item.fullName || item.label}</div>
+              <div style="font-size:11px; color:#80d8ff; font-weight:700;">👤 Của tín chủ: <b style="color:#fff;">${item.giver}</b> (${zoneName})</div>
+            </div>
+          </div>
+          <span style="font-size:10.5px; color:#a5d6a7; font-weight:800;">✓ Đang bày trên bàn</span>
+        </div>
+      `).join('');
+    }
+
+    // =========================================================================
+    // 3. CHÁNH ĐIỆN 20 CHỖ NGỒI BỒ ĐOÀN ĐỂ TRỐNG + 1-2 KHÁCH VÃN LAI + CHẾ ĐỘ ONLINE CÔNG TY
+    // =========================================================================
+    const crowdDevotees = []; // Không để 160 người ngồi chật kín nữa! Để trống 20 chỗ ngồi bồ đoàn thanh tịnh!
+    const cushions20 = [];
+    // 20 chỗ ngồi bồ đoàn (10 bên trái + 10 bên phải thảm đỏ: mỗi bên 5 hàng x 2 cột = 20 chỗ ngồi)
+    for (let wing of [-1, 0, 1]) {
       for (let row = 0; row < 5; row++) {
-        const v = 0.60 + row * 0.055;
+        const v = 0.60 + row * 0.056;
         for (let side of [-1, 1]) {
-          for (let c = 0; c < 4; c++) {
-            const u = 0.5 + side * (0.21 + c * 0.065);
-            crowdDevotees.push({
-              wing, u, v,
-              phase: (row + c) * 0.7,
-              bowTimer: 0
+          for (let col = 0; col < 2; col++) {
+            const u = 0.5 + side * (0.20 + col * 0.12);
+            cushions20.push({
+              wing,
+              row,
+              col,
+              side,
+              u,
+              v,
+              seatNumber: (side === -1 ? 0 : 10) + row * 2 + col + 1
             });
           }
         }
       }
     }
 
-    const vipCharacters = [
-      { id: 'minhanh', name: 'Sale Minh Anh', avatar: '👩🏻', gender: 'F', wing: 0, u: 0.39, v: 0.505, state: 'kneel', chat: 'Cầu đơn Nhôm 130 Hải Phòng chốt cọc! 🙏', chatTimer: 260 },
-      { id: 'kieutrang', name: 'Sale Kiều Trang', avatar: '👩🏻', gender: 'F', wing: 0, u: 0.61, v: 0.505, state: 'kneel', chat: '', chatTimer: 0 },
-      { id: 'hue', name: 'Sale Huế', avatar: '👩🏻', gender: 'F', wing: 0, u: 0.31, v: 0.545, state: 'kneel', chat: '', chatTimer: 0 },
-      { id: 'bichthuy', name: 'Sale Bích Thủy', avatar: '👩🏻', gender: 'F', wing: 0, u: 0.69, v: 0.545, state: 'kneel', chat: '', chatTimer: 0 },
-      { id: 'anhnguyet', name: 'Sale Ánh Nguyệt', avatar: '👩🏻', gender: 'F', wing: 0, u: 0.23, v: 0.548, state: 'kneel', chat: '', chatTimer: 0 },
-      { id: 'ducdoan', name: 'Anh Đức Đoàn (KH)', avatar: '👨🏻', gender: 'M', wing: 0, u: 0.54, v: 0.66, state: 'walk', chat: '', chatTimer: 0 },
-      { id: 'anhphu', name: 'Anh Phú (CT Trần Hoàn)', avatar: '👨🏻', gender: 'M', wing: 0, u: 0.45, v: 0.76, state: 'walk', chat: '', chatTimer: 0 },
-      { id: 'theanh', name: 'Thế Anh', avatar: '👦🏻', gender: 'M', wing: 1, u: 0.41, v: 0.535, state: 'kneel', chat: 'Xin Ông Thần Tài Vị Tiền độ lộc kho Trường Yến!', chatTimer: 320 },
-      { id: 'hoangdat', name: 'Hoàng Đạt', avatar: '🙏', gender: 'M', wing: -1, u: 0.48, v: 0.56, state: 'kneel', chat: 'Tiếng chuông chùa thanh tịnh quá 🔔', chatTimer: 300 }
+    const crowdSampleChats = [
+      "Mô Phật 🙏 Chùa Trường Yến thanh tịnh quá!",
+      "A Di Đà Phật 🪷 Xin cầu bình an & tài lộc!",
+      "Xin Ông Thần Tài Vị Tiền độ lộc công trình thuận lợi!",
+      "Con quỳ dưới tòa sen đài, tâm đầu thành kính 🙏"
     ];
+
+    // Lâu lâu chỉ có 1-2 nhân vật là Khách Vãn Lai hoặc Khách Hàng đi vào lễ rồi đi ra
+    const visitorPool = [
+      { id: 'v_ducdoan', name: 'KH Anh Đức Đoàn (Hải Phòng)', avatar: '👨🏻', gender: 'M', chat: 'Cầu công trình Tấm Ốp Nano Hải Phòng đại cát! 🙏' },
+      { id: 'v_anhphu', name: 'KH Anh Phú (CT Trần Hoàn)', avatar: '👨🏻', gender: 'M', chat: 'Thành tâm dâng lễ tại Chùa Trường Yến 🪷' },
+      { id: 'v_khach1', name: 'Khách Vãn Lai Thập Phương', avatar: '🙏', gender: 'F', chat: 'Nam Mô A Di Đà Phật, cảnh chùa trang nghiêm quá!' },
+      { id: 'v_khach2', name: 'Khách Hàng Đến Lễ Chùa', avatar: '🧑🏻', gender: 'M', chat: 'Xin cầu gia đạo bình an, buôn may bán đắt 🙏' }
+    ];
+
+    // Chỉ có 1-2 khách vãn lai / khách hàng trong điện
+    const visitingGuests = [
+      {
+        id: 'guest_1',
+        name: 'KH Anh Đức Đoàn (Hải Phòng)',
+        avatar: '👨🏻',
+        gender: 'M',
+        wing: 0,
+        u: 0.30,
+        v: 0.656,
+        targetU: 0.30,
+        targetV: 0.656,
+        state: 'kneel',
+        bowTimer: 0,
+        chat: 'Khách hàng Hải Phòng xin lễ cầu tài lộc 🙏',
+        chatTimer: 260,
+        phaseTimer: 420
+      },
+      {
+        id: 'guest_2',
+        name: 'Khách Vãn Lai',
+        avatar: '🙏',
+        gender: 'F',
+        wing: 0,
+        u: 0.70,
+        v: 0.88,
+        targetU: 0.70,
+        targetV: 0.712,
+        state: 'walk',
+        bowTimer: 0,
+        chat: 'Mô Phật 🙏 Khách vãn lai xin vào lễ Phật',
+        chatTimer: 220,
+        phaseTimer: 560
+      }
+    ];
+
+    // Chế độ Online: Người trong công ty chỉ hiện lên khi thực sự đang đăng nhập Online!
+    let isOnlinePresenceMode = true;
+    const onlineCompanyPeers = {}; // Map clientId -> { name, avatar, gender, wing, u, v, state, bowTimer, chat, chatTimer, lastSeen }
+    const vipCharacters = visitingGuests; // Để tương thích khi click chào hỏi
 
     const player = {
       name: 'Sếp Thành',
@@ -1601,9 +1932,9 @@
       wing: (currentZone === 'ducong') ? -1 : (currentZone === 'thantai' ? 1 : 0),
       targetWing: (currentZone === 'ducong') ? -1 : (currentZone === 'thantai' ? 1 : 0),
       u: 0.50,
-      v: 0.60,
+      v: 0.64,
       targetU: 0.50,
-      targetV: 0.60,
+      targetV: 0.64,
       state: 'walk',
       bowTimer: 0,
       chat: 'Nam Mô A Di Đà Phật 🙏',
@@ -1614,8 +1945,25 @@
     document.getElementById('charSelect').addEventListener('change', (e) => {
       player.name = e.target.value;
       player.gender = (player.name.includes('Sếp') || player.name.includes('Anh')) ? 'M' : 'F';
-      showToast(`🧘 Đang nhập vai: ${player.name}`);
+      player.avatar = player.name.includes('Sếp') ? '🧘‍♂️' : (player.gender === 'F' ? '🪷' : '🙏');
+      showToast(`🟢 Đã đăng nhập Online nhân vật: ${player.name}`);
+      broadcastMyPresence();
     });
+
+    function toggleOnlinePresenceMode() {
+      isOnlinePresenceMode = !isOnlinePresenceMode;
+      const btn = document.getElementById('btnOnlineMode');
+      if (isOnlinePresenceMode) {
+        btn.style.background = 'linear-gradient(135deg,#1b5e20,#2e7d32)';
+        btn.innerHTML = `🟢 Online (<span id="onlineCountLabel">${1 + Object.keys(onlineCompanyPeers).length}</span>)`;
+        showToast('🟢 Đã BẬT Chế độ Online: Người trong công ty đăng nhập vào sẽ nhìn thấy nhân vật của nhau!');
+        broadcastMyPresence();
+      } else {
+        btn.style.background = 'rgba(60, 60, 60, 0.85)';
+        btn.innerHTML = `⚪ Offline (Mình Tôi)`;
+        showToast('⚪ Đã chuyển sang chế độ Offline (Chỉ hiển thị mình bạn và 1-2 khách vãn lai)');
+      }
+    }
 
     // =========================================================================
     // 4. ATMOSPHERIC EFFECTS: LOTUS PETALS, INCENSE SMOKE, BURNING INCENSE
@@ -1648,11 +1996,63 @@
     let incenseCeremony = { active: true, timer: 120, maxTimer: 120, wing: 0 };
 
     // =========================================================================
-    // 5. NAVIGATION, CLICK-TO-WALK, 4-WAY HOLD MOVEMENT & RITUALS
+    // 5. NAVIGATION, 360-DEGREE ANALOG VIRTUAL JOYSTICK & RITUALS
     // =========================================================================
     let holdDir = { dx: 0, dy: 0 };
     function startHoldMove(dx, dy) { holdDir = { dx, dy }; }
     function stopHoldMove() { holdDir = { dx: 0, dy: 0 }; }
+
+    // Setup 360-Degree Smooth Analog Virtual Thumbstick (#joystick360)
+    (function initJoystick360() {
+      const pad = document.getElementById('joystick360');
+      const knob = document.getElementById('joyKnob360');
+      if (!pad || !knob) return;
+      let joyActive = false;
+      const maxRadius = 36;
+
+      function updateJoyVector(clientX, clientY) {
+        const rect = pad.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const rawDx = clientX - cx;
+        const rawDy = clientY - cy;
+        const dist = Math.hypot(rawDx, rawDy);
+        const angle = Math.atan2(rawDy, rawDx);
+        const clampedDist = Math.min(maxRadius, dist);
+        const kx = Math.cos(angle) * clampedDist;
+        const ky = Math.sin(angle) * clampedDist;
+        knob.style.transform = `translate(${kx.toFixed(1)}px, ${ky.toFixed(1)}px)`;
+        const mag = clampedDist / maxRadius;
+        if (mag > 0.08) {
+          holdDir.dx = Math.cos(angle) * mag;
+          holdDir.dy = Math.sin(angle) * mag;
+        } else {
+          holdDir.dx = 0;
+          holdDir.dy = 0;
+        }
+      }
+
+      function resetJoy() {
+        joyActive = false;
+        knob.style.transform = 'translate(0px, 0px)';
+        holdDir.dx = 0;
+        holdDir.dy = 0;
+      }
+
+      pad.addEventListener('pointerdown', (e) => {
+        e.stopPropagation();
+        joyActive = true;
+        pad.setPointerCapture(e.pointerId);
+        updateJoyVector(e.clientX, e.clientY);
+      });
+      pad.addEventListener('pointermove', (e) => {
+        if (!joyActive) return;
+        e.stopPropagation();
+        updateJoyVector(e.clientX, e.clientY);
+      });
+      pad.addEventListener('pointerup', resetJoy);
+      pad.addEventListener('pointercancel', resetJoy);
+    })();
 
     window.addEventListener('keydown', (e) => {
       if (document.activeElement.tagName === 'INPUT') {
@@ -1662,6 +2062,7 @@
       if (e.key === 'Escape') {
         closeSoKhanModal();
         stopAndClosePrayerBanner();
+        closeCenterStage();
       }
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') holdDir.dx = -1;
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') holdDir.dx = 1;
@@ -1706,7 +2107,24 @@
     });
 
     function handleCanvasTap(clientX, clientY) {
-      for (const npc of vipCharacters) {
+      // Check if user tapped on the Offering Table (Bàn Lễ Cúng Dường) -> Open Center Offering Inspector!
+      if (lastHallLayout) {
+        const { wingW, wingH, centerScreenX, topScreenY } = lastHallLayout;
+        const wx = centerScreenX + (player.wing - camWingX) * wingW - wingW / 2;
+        const censerX = wx + wingW * 0.50;
+        const censerY = topScreenY + wingH * ((player.wing === 0) ? 0.392 : 0.415);
+        const tableY = censerY + 28 * (wingH / 960);
+        const tableW = Math.min(440, wingW * 0.62);
+        const tableH = 56 * (wingH / 960);
+        if (clientX >= censerX - tableW / 2 && clientX <= censerX + tableW / 2 &&
+            clientY >= tableY - 18 && clientY <= tableY + tableH + 16) {
+          openCenterStage('table_inspect');
+          return;
+        }
+      }
+
+      const activeChars = [...visitingGuests, ...Object.values(onlineCompanyPeers)];
+      for (const npc of activeChars) {
         if (npc._screenX !== undefined && npc._screenY !== undefined) {
           const dist = Math.hypot(clientX - npc._screenX, clientY - (npc._screenY - 35));
           if (dist < 44) {
@@ -1719,10 +2137,10 @@
       if (lastHallLayout) {
         const { wingW, wingH, centerScreenX, topScreenY } = lastHallLayout;
         const relY = (clientY - topScreenY) / wingH;
-        if (relY >= 0.47 && relY <= 0.95) {
+        if (relY >= 0.55 && relY <= 0.94) {
           const worldX = (clientX - centerScreenX) / wingW + camWingX;
           const tappedWing = Math.max(-1, Math.min(1, Math.round(worldX)));
-          const localU = Math.max(0.18, Math.min(0.82, worldX - tappedWing + 0.5));
+          const localU = Math.max(0.14, Math.min(0.86, worldX - tappedWing + 0.5));
           player.targetWing = tappedWing;
           targetWingX = tappedWing;
           player.targetU = localU;
@@ -1745,8 +2163,8 @@
     function greetSpecificNpc(target) {
       player.targetWing = target.wing;
       targetWingX = target.wing;
-      player.targetU = Math.min(0.72, target.u + 0.045);
-      player.targetV = target.v + 0.015;
+      player.targetU = Math.min(0.76, target.u + 0.05);
+      player.targetV = Math.max(0.56, target.v + 0.015);
       player.state = 'bow';
       player.bowTimer = 115;
       const pair = greetingsPool[Math.floor(Math.random() * greetingsPool.length)](target.name);
@@ -1763,16 +2181,17 @@
     }
 
     function greetNearestDevotee() {
-      const sameWingNpcs = vipCharacters.filter(n => n.wing === player.wing);
-      const target = sameWingNpcs[Math.floor(Math.random() * sameWingNpcs.length)] || vipCharacters[0];
-      greetSpecificNpc(target);
+      const allTargets = [...Object.values(onlineCompanyPeers), ...visitingGuests];
+      const sameWingNpcs = allTargets.filter(n => n.wing === player.wing);
+      const target = sameWingNpcs[Math.floor(Math.random() * sameWingNpcs.length)] || allTargets[0];
+      if (target) greetSpecificNpc(target);
     }
 
     function performRitual(type) {
       unlockAndStartAudio();
       if (type === 'incense') {
         player.targetU = 0.50;
-        player.targetV = 0.51;
+        player.targetV = 0.57;
         player.state = 'bow';
         player.bowTimer = 130;
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
@@ -1781,8 +2200,8 @@
         player.chat = `Con xin dâng 3 nén tâm hương lên ${zoneName} 🕯️🙏`;
         player.chatTimer = 260;
         playBellSound();
-        showToast(`🕯️ Đã thắp 3 nén tâm hương lên ${zoneName}!`);
-        addMerit(15);
+        showToast(`🕯️ Đã thắp 3 nén tâm hương lên ${zoneName}! (+30 💎 Phước)`);
+        addMerit(30);
       } else if (type === 'pray') {
         player.state = 'walk';
         const prayers = [
@@ -1802,12 +2221,9 @@
           ? 'Cúi lạy Thần Tài Vị Tiền độ lộc chốt đơn! 💰🙏'
           : 'Con xin chí thành đảnh lễ dưới tòa sen vàng! 🙏';
         player.chatTimer = 260;
-        crowdDevotees.forEach(d => {
-          if (d.wing === player.wing && Math.random() < 0.45) d.bowTimer = 90 + Math.random() * 50;
-        });
         playMoSound();
         setTimeout(playMoSound, 420);
-        showToast('🙇 Đang quỳ lạy chí thành trước ban thờ (+50 Lộc)');
+        showToast('🙇 Đang quỳ lạy chí thành trước ban thờ (+50 💎 Phước)');
         addMerit(50);
       } else if (type === 'lotus') {
         for (let i = 0; i < 30; i++) {
@@ -1838,26 +2254,29 @@
         addMerit(30);
       }
       publishMqtt({ type: 'ritual', name: player.name, ritual: type, chat: player.chat, wing: player.wing });
+      broadcastMyPresence();
     }
 
     // =========================================================================
-    // 5B. HỆ THỐNG GHI NHẬN TÍCH PHƯỚC CÔNG ĐỨC & CỬA HÀNG LỄ VẬT DÂNG CHÙA
+    // 5B. HỆ THỐNG GHI NHẬN TÍCH PHƯỚC CÔNG ĐỨC & BÀN LỄ CÚNG DƯỜNG (RÕ LỄ GÌ · CỦA AI!)
     // =========================================================================
     let totalMeritAccumulated = 1288;
     const altarOfferings = {
       '-1': [
-        { icon: '🍵', label: 'Trà Sen', giver: 'Sếp Thành' },
-        { icon: '🪙', label: 'Tiền Vàng', giver: 'Sếp Thành' }
+        { icon: '🧧', label: 'Đinh Tiền Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ VN', giver: 'Sếp Thành', imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' },
+        { icon: '🍶', label: 'Rượu Lễ & Ngựa Đỏ', fullName: 'Nậm Rượu Lễ & Ngựa Mã', giver: 'Sếp Thành', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🍵', label: 'Trà Sen & Oản Ngọc', fullName: 'Bộ Trà Sen & Oản Ngọc', giver: 'KH Anh Phú' }
       ],
       '0':  [
-        { icon: '🪷', label: 'Hoa Sen', giver: 'Sếp Thành' },
-        { icon: '🍎', label: 'Ngũ Quả', giver: 'Sale Minh Anh' },
-        { icon: '🪙', label: 'Tiền Vàng', giver: 'Sếp Thành' },
-        { icon: '🍵', label: 'Trà Oản', giver: 'Sale Kiều Trang' }
+        { icon: '🧧', label: 'Lễ Vàng Mã 10 Lễ', fullName: 'Lễ Gấp Vàng Mã 10 Lễ Đỏ', giver: 'Sếp Thành', imgKey: 'vangLe10', imgSrc: 'assets/vangma_le10.jpg' },
+        { icon: '🍶', label: 'Rượu Lễ & Ngựa Mã', fullName: 'Ngựa Đỏ & Nậm Rượu Lễ', giver: 'Sếp Thành', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🍎', label: 'Mâm Ngũ Quả Phú Quý', fullName: 'Mâm Ngũ Quả Phú Quý', giver: 'KH Anh Đức Đoàn' },
+        { icon: '🪷', label: 'Mâm Hoa Sen Hồng', fullName: 'Mâm Hoa Sen Hồng Tươi', giver: 'Sale Minh Anh' }
       ],
       '1':  [
-        { icon: '🍍', label: 'Mâm Vàng', giver: 'Sếp Thành' },
-        { icon: '🪙', label: 'Kim Ngân', giver: 'Sếp Thành' }
+        { icon: '💵', label: 'Tiền Vàng Mã 500k', fullName: 'Túi Tiền Vàng Mã 500k & Đô', giver: 'Sếp Thành', imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' },
+        { icon: '🐎', label: 'Ngựa Đỏ & Rượu Lễ', fullName: 'Ngựa Đỏ Quan Lớn & Rượu', giver: 'Sếp Thành', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🍍', label: 'Mâm Vàng Thần Tài', fullName: 'Mâm Vàng Tài Lộc Thần Tài', giver: 'KH Anh Đức Đoàn' }
       ]
     };
     let offeringCeremony = null;
@@ -1919,30 +2338,43 @@
       showToast(`✨ Đã tích phước: ${actionLabel} (+${pts} 💎 Phước)`);
     }
 
-    function redeemOfferingItem(itemId, icon, itemName, cost) {
+    function redeemOfferingItem(itemId, icon, itemName, cost, imgSrc) {
       unlockAndStartAudio();
       if (player.merit < cost) {
-        showToast(`⚠️ Cần ${cost} 💎 Phước (Hiện có ${player.merit} 💎). Hãy bấm Ghi Nhận Công Đức hoặc Gõ Mõ/Thắp Hương để tích thêm phước!`);
+        showToast(`⚠️ Cần ${cost} 💎 Phước (Hiện có ${player.merit} 💎). Hãy Gõ Mõ, Đốt Vàng Mã hoặc Ghi Nhận Công Đức để tích thêm phước!`);
         return;
       }
       addMerit(-cost);
       const wingKey = String(player.wing);
       if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
-      altarOfferings[wingKey].push({ icon, label: itemName.replace('Mâm ', '').replace('Bộ ', '').replace('Cặp ', ''), giver: player.name });
-      if (altarOfferings[wingKey].length > 5) altarOfferings[wingKey].shift();
+      let imgKey = null;
+      if (imgSrc && imgSrc.includes('vangma_dinh')) imgKey = 'vangDinh';
+      else if (imgSrc && imgSrc.includes('vangma_le10')) imgKey = 'vangLe10';
+      else if (imgSrc && imgSrc.includes('vangma_tiendola')) imgKey = 'vangTienDola';
+      else if (imgSrc && imgSrc.includes('vangma_mamdaydu')) imgKey = 'vangMamDayDu';
+
+      altarOfferings[wingKey].push({
+        icon,
+        label: itemName.slice(0, 18),
+        fullName: itemName,
+        giver: player.name,
+        imgKey,
+        imgSrc
+      });
+      if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
 
       const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
-      appendMeritLog(`🎁 <b>${player.name}</b> đã đổi <b>${icon} ${itemName}</b> (${cost} 💎) dâng lên <b>${zoneName}</b>!`);
+      appendMeritLog(`🎁 <b>${player.name}</b> đã dâng lễ <b>${icon} ${itemName}</b> lên <b>${zoneName}</b>!`);
 
       closeMeritShopModal();
       playBellSound();
       setTimeout(playMoSound, 350);
 
       player.targetU = 0.50;
-      player.targetV = 0.51;
+      player.targetV = 0.57; // Đứng ở hàng chiếu lễ phía dưới, KHÔNG che mất Bàn Lễ Cúng Dường!
       player.state = 'bow';
       player.bowTimer = 160;
-      player.chat = `Con thành tâm dâng ${icon} ${itemName} lên ${zoneName}! 🙏`;
+      player.chat = `Con (${player.name}) thành tâm dâng ${icon} ${itemName} lên ${zoneName}! 🙏`;
       player.chatTimer = 360;
 
       offeringCeremony = {
@@ -1951,10 +2383,11 @@
         maxTimer: 140,
         wing: player.wing,
         icon,
-        name: itemName
+        name: itemName,
+        giver: player.name
       };
 
-      for (let i = 0; i < 24; i++) {
+      for (let i = 0; i < 20; i++) {
         lotusPetals.push({
           x: Math.random(),
           y: -0.05 - Math.random() * 0.2,
@@ -1966,9 +2399,9 @@
         });
       }
 
-      showToast(`🎁 Đã đổi & dâng ${icon} ${itemName} lên ${zoneName}!`);
+      showToast(`🎁 Đã bày "${itemName}" (Của: ${player.name}) lên Bàn Lễ ${zoneName}!`);
       speakVietnameseText(`Nam Mô A Di Đà Phật. Chứng minh công đức tín chủ ${player.name} thành tâm dâng ${itemName} lên ${zoneName}, nguyện cầu hồng ân Tam Bảo gia hộ vạn sự cát tường như ý.`);
-      publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
+      publishMqtt({ type: 'offering', name: player.name, icon, itemName, wing: player.wing, imgKey, imgSrc });
     }
 
     let burnCountTotal = 5;
@@ -1991,9 +2424,9 @@
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
 
-      addMerit(40);
-      const label = customTitle || '🔥🪙 Kim Ngân Tiền Vàng Phú Quý';
-      appendMeritLog(`🔥🪙 <b>${player.name}</b>: Đã hóa <b>${label}</b> tại Lư Đồng Hóa Vàng (+40 💎)`);
+      addMerit(65);
+      const label = customTitle || '🔥🧧 Lễ Gấp Vàng Mã 10 Lễ & Đinh Vàng Lá';
+      appendMeritLog(`🔥🧧 <b>${player.name}</b>: Đã đốt <b>${label}</b> (+65 💎 Phước Đức)`);
 
       goldBurnCeremony = {
         active: true,
@@ -2003,16 +2436,16 @@
       };
 
       player.targetU = 0.62;
-      player.targetV = 0.54;
+      player.targetV = 0.58;
       player.state = 'bow';
       player.bowTimer = 180;
-      player.chat = `🔥🪙 Con xin thành tâm hóa ${label}, cầu tài lộc hanh thông, chốt đơn rực rỡ!`;
+      player.chat = `🔥🧧 Con xin thành tâm hóa ${label}, tăng +65 💎 Phước Đức, cầu tài lộc hanh thông!`;
       player.chatTimer = 360;
 
       playBellSound();
       setTimeout(playMoSound, 400);
-      showToast(`🔥🪙 Đang hóa tiền vàng tại Lư Đồng! (+40 💎 Phước Đức)`);
-      speakVietnameseText(`Nam Mô A Di Đà Phật. Tín chủ ${player.name} thành tâm hóa kim ngân tiền vàng, nguyện cầu Thần Tài Thổ Địa chứng giám, ban lộc phát tài, buôn may bán đắt, vạn sự hanh thông.`);
+      showToast(`🔥🧧 Đã hóa Vàng Mã Việt Nam! Tăng +65 💎 Phước Đức!`);
+      speakVietnameseText(`Nam Mô A Di Đà Phật. Tín chủ ${player.name} thành tâm hóa vàng mã lễ vật, nguyện cầu Thần Tài Thổ Địa chứng giám, ban lộc phát tài, vạn sự hanh thông.`);
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
 
@@ -2027,38 +2460,126 @@
       playMoSound();
       addMerit(5);
       publishMqtt({ type: 'chat', name: player.name, text: txt, wing: player.wing });
+      broadcastMyPresence();
     }
 
     // =========================================================================
-    // 6. REAL-TIME MULTIPLAYER SYNC (MQTT OVER WEBSOCKETS)
+    // 6. REAL-TIME ONLINE COMPANY PRESENCE SYNC (MQTT + BROADCASTCHANNEL)
     // =========================================================================
     let mqttClient = null;
-    const clientId = 'ty_v9_' + Math.random().toString(16).slice(2, 9);
+    const clientId = 'ty_v14_' + Math.random().toString(16).slice(2, 9);
+    const localPresenceChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('chua_ty_v14_online') : null;
+
+    function handleIncomingPresence(data) {
+      if (!data || data.sender === clientId || !isOnlinePresenceMode) return;
+      if (data.type === 'presence' || data.type === 'chat' || data.type === 'ritual') {
+        const existing = onlineCompanyPeers[data.sender] || {
+          id: data.sender,
+          name: data.name || 'Thành Viên Công Ty',
+          avatar: data.avatar || '🪷',
+          gender: data.gender || 'F',
+          wing: data.wing || 0,
+          u: data.u || 0.42,
+          v: data.v || 0.62,
+          state: data.state || 'walk',
+          bowTimer: 0,
+          chat: '',
+          chatTimer: 0,
+          lastSeen: Date.now()
+        };
+        existing.name = data.name || existing.name;
+        existing.avatar = data.avatar || existing.avatar;
+        existing.gender = data.gender || existing.gender;
+        if (typeof data.wing === 'number') existing.wing = data.wing;
+        if (typeof data.u === 'number') existing.u = data.u;
+        if (typeof data.v === 'number') existing.v = data.v;
+        if (data.state) existing.state = data.state;
+        if (data.text || data.chat) {
+          existing.chat = data.text || data.chat;
+          existing.chatTimer = 280;
+        }
+        if (data.ritual === 'bow') {
+          existing.state = 'bow';
+          existing.bowTimer = 120;
+        }
+        existing.lastSeen = Date.now();
+        onlineCompanyPeers[data.sender] = existing;
+        updateOnlineCountBadge();
+      } else if (data.type === 'offering') {
+        const wingKey = String(data.wing || 0);
+        if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
+        altarOfferings[wingKey].push({
+          icon: data.icon || '🧧',
+          label: (data.itemName || 'Lễ Vật').slice(0, 18),
+          fullName: data.itemName || 'Lễ Vật',
+          giver: data.name || 'Đồng Nghiệp',
+          imgKey: data.imgKey,
+          imgSrc: data.imgSrc
+        });
+        if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
+      }
+    }
+
+    function updateOnlineCountBadge() {
+      const now = Date.now();
+      for (const k of Object.keys(onlineCompanyPeers)) {
+        if (now - onlineCompanyPeers[k].lastSeen > 15000) {
+          delete onlineCompanyPeers[k];
+        }
+      }
+      const el = document.getElementById('onlineCountLabel');
+      if (el) el.textContent = String(1 + Object.keys(onlineCompanyPeers).length);
+    }
+
+    function broadcastMyPresence() {
+      if (!isOnlinePresenceMode) return;
+      const payload = {
+        type: 'presence',
+        sender: clientId,
+        name: player.name,
+        avatar: player.avatar,
+        gender: player.gender,
+        wing: player.wing,
+        u: player.u,
+        v: player.v,
+        state: player.state,
+        chat: player.chatTimer > 0 ? player.chat : ''
+      };
+      publishMqtt(payload);
+      if (localPresenceChannel) {
+        try { localPresenceChannel.postMessage(payload); } catch (e) {}
+      }
+    }
+
+    if (localPresenceChannel) {
+      localPresenceChannel.onmessage = (ev) => handleIncomingPresence(ev.data);
+    }
+
     try {
       mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
       mqttClient.on('connect', () => {
-        mqttClient.subscribe('truongyen/chua3d/v4');
+        mqttClient.subscribe('truongyen/chua3d/v14_online');
+        broadcastMyPresence();
       });
       mqttClient.on('message', (topic, payload) => {
         try {
-          const data = JSON.parse(payload.toString());
-          if (data.sender === clientId) return;
-          const npc = vipCharacters.find(c => c.name === data.name) || vipCharacters[0];
-          if (data.text || data.chat) {
-            npc.chat = data.text || data.chat;
-            npc.chatTimer = 280;
-          }
-          if (data.ritual === 'bow') {
-            npc.state = 'bow';
-            npc.bowTimer = 120;
-          }
+          handleIncomingPresence(JSON.parse(payload.toString()));
         } catch (err) {}
       });
     } catch (e) {}
 
+    setInterval(() => {
+      broadcastMyPresence();
+      updateOnlineCountBadge();
+    }, 3500);
+
     function publishMqtt(obj) {
+      const msg = { ...obj, sender: clientId };
       if (mqttClient && mqttClient.connected) {
-        mqttClient.publish('truongyen/chua3d/v4', JSON.stringify({ ...obj, sender: clientId }));
+        mqttClient.publish('truongyen/chua3d/v14_online', JSON.stringify(msg));
+      }
+      if (localPresenceChannel) {
+        try { localPresenceChannel.postMessage(msg); } catch (e) {}
       }
     }
 
@@ -2154,8 +2675,8 @@
       const H = window.innerHeight;
 
       if (holdDir.dx !== 0 || holdDir.dy !== 0) {
-        player.targetU += holdDir.dx * 0.0055;
-        player.targetV = Math.max(0.48, Math.min(0.92, player.targetV + holdDir.dy * 0.005));
+        player.targetU += holdDir.dx * 0.0058;
+        player.targetV = Math.max(0.56, Math.min(0.93, player.targetV + holdDir.dy * 0.0052));
         if (player.targetU < 0.08 && player.targetWing > -1) {
           player.targetWing--;
           player.wing = player.targetWing;
@@ -2184,13 +2705,13 @@
       if (Math.hypot(du, dv) > 0.002) {
         player.u += du * 0.08;
         player.v += dv * 0.08;
-      } else if (player.state === 'walk' && player.v < 0.54) {
+      } else if (player.state === 'walk' && player.v < 0.62) {
         player.state = 'kneel';
       }
 
       if (player.bowTimer > 0) {
         player.bowTimer--;
-        if (player.bowTimer === 0) player.state = (player.v < 0.56) ? 'kneel' : 'walk';
+        if (player.bowTimer === 0) player.state = (player.v < 0.62) ? 'kneel' : 'walk';
       }
       if (player.chatTimer > 0) player.chatTimer--;
 
@@ -2242,9 +2763,9 @@
         ctx.fillStyle = glowGrad;
         ctx.fillRect(wx, topScreenY, wingW, wingH * 0.65);
 
-        // Visible burning incense sticks inside bronze censer
+        // 1. Visible burning incense sticks inside bronze censer
         const censerX = wx + wingW * 0.50;
-        const censerY = topScreenY + wingH * ((wd.idx === 0) ? 0.392 : 0.415);
+        const censerY = topScreenY + wingH * ((wd.idx === 0) ? 0.388 : 0.408);
         const stickCount = Math.min(21, burningIncenseCount[String(wd.idx)] || 9);
         ctx.save();
         for (let s = 0; s < stickCount; s++) {
@@ -2269,23 +2790,56 @@
         }
         ctx.restore();
 
-        // Render Carved Wooden Offering Table (BÀN ĐỂ ĐỒ CÚNG DƯỜNG) in front of every Altar!
+        // 2. Render 20 Empty Red-and-Gold Meditation Cushions (20 CHỖ NGỒI BỒ ĐOÀN ĐỂ TRỐNG THANH TỊNH)
+        ctx.save();
+        for (const c of cushions20) {
+          if (c.wing !== wd.idx) continue;
+          const cxPos = wx + c.u * wingW;
+          const cyPos = topScreenY + c.v * wingH;
+          const cScale = (0.55 + (c.v - 0.58) * 0.95) * (wingH / 960);
+          const rx = 25 * cScale;
+          const ry = 9.5 * cScale;
+
+          // Golden outer rim of Bồ Đoàn cushion
+          ctx.fillStyle = 'rgba(138, 24, 14, 0.88)';
+          ctx.strokeStyle = 'rgba(255, 213, 90, 0.85)';
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.ellipse(cxPos, cyPos, rx, ry, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          // Inner lotus brocade pattern
+          ctx.fillStyle = 'rgba(195, 42, 22, 0.92)';
+          ctx.beginPath();
+          ctx.ellipse(cxPos, cyPos - 1.5, rx * 0.72, ry * 0.68, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.font = `bold ${Math.max(7.5, 9 * cScale)}px sans-serif`;
+          ctx.fillStyle = 'rgba(255, 232, 165, 0.78)';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`🪷 #${c.seatNumber}`, cxPos, cyPos - 1);
+        }
+        ctx.restore();
+
+        // 3. Render UNOBSTRUCTED, CRYSTAL-CLEAR OFFERING TABLE (BÀN LỄ CÚNG DƯỜNG: RÕ LỄ GÌ & LỄ CỦA AI!)
         const wingOfferings = altarOfferings[String(wd.idx)] || [];
         ctx.save();
-        const tableY = censerY + 34 * (wingH / 960);
-        const tableW = Math.min(280, wingW * 0.44);
-        const tableH = 34 * (wingH / 960);
+        const tableY = censerY + 26 * (wingH / 960);
+        const tableW = Math.min(460, Math.max(310, wingW * 0.64));
+        const tableH = 54 * (wingH / 960);
         const tableX = censerX - tableW / 2;
 
-        // Carved Red & Gold Lacquered Wooden Table Top & Apron (Bàn Cúng Dường Sơn Son Thếp Vàng)
+        // Carved Red & Gold Lacquered Wooden Table Top & Apron
         const tblGrad = ctx.createLinearGradient(tableX, tableY, tableX, tableY + tableH);
-        tblGrad.addColorStop(0, 'rgba(92, 24, 8, 0.95)');
-        tblGrad.addColorStop(1, 'rgba(42, 10, 3, 0.96)');
+        tblGrad.addColorStop(0, 'rgba(102, 26, 8, 0.96)');
+        tblGrad.addColorStop(1, 'rgba(44, 10, 3, 0.98)');
         ctx.fillStyle = tblGrad;
         ctx.strokeStyle = '#ffd56b';
-        ctx.lineWidth = 1.8;
+        ctx.lineWidth = 2.0;
         ctx.beginPath();
-        ctx.roundRect(tableX, tableY, tableW, tableH, 8);
+        ctx.roundRect(tableX, tableY, tableW, tableH, 10);
         ctx.fill();
         ctx.stroke();
 
@@ -2293,41 +2847,59 @@
         ctx.fillStyle = '#5c1906';
         ctx.strokeStyle = '#d49b38';
         ctx.lineWidth = 1.2;
-        ctx.fillRect(tableX + 10, tableY + tableH, 8, 14);
-        ctx.strokeRect(tableX + 10, tableY + tableH, 8, 14);
-        ctx.fillRect(tableX + tableW - 18, tableY + tableH, 8, 14);
-        ctx.strokeRect(tableX + tableW - 18, tableY + tableH, 8, 14);
+        ctx.fillRect(tableX + 12, tableY + tableH, 9, 14);
+        ctx.strokeRect(tableX + 12, tableY + tableH, 9, 14);
+        ctx.fillRect(tableX + tableW - 21, tableY + tableH, 9, 14);
+        ctx.strokeRect(tableX + tableW - 21, tableY + tableH, 9, 14);
 
         // Golden inscription on the front apron of the Offering Table
-        ctx.font = 'bold 8.5px sans-serif';
+        ctx.font = 'bold 9.5px sans-serif';
         ctx.fillStyle = '#ffd740';
         ctx.textAlign = 'center';
-        ctx.fillText('══ BÀN ĐỂ ĐỒ CÚNG DƯỜNG ══', censerX, tableY + tableH - 5);
+        ctx.fillText('══ BÀN LỄ CÚNG DƯỜNG (CHẠM ĐỂ XEM CHI TIẾT LỄ GÌ · CỦA AI) ══', censerX, tableY + tableH - 5);
 
-        // Render each sacred offering sitting on top of the Bàn Cúng Dường
+        // Render each sacred offering sitting on top of the Bàn Lễ with 2 Clear Lines: [Lễ Gì] + [Của Ai]
         if (wingOfferings.length > 0) {
-          const spacing = Math.min(62, (tableW - 24) / Math.max(1, wingOfferings.length));
-          wingOfferings.forEach((off, idx) => {
-            const ox = censerX + (idx - (wingOfferings.length - 1) / 2) * spacing;
-            const oy = tableY + 4;
-            // Golden pedestal plate sitting on the wooden table
-            ctx.fillStyle = 'rgba(56, 26, 6, 0.94)';
-            ctx.strokeStyle = '#ffe082';
+          const count = Math.min(4, wingOfferings.length);
+          const cardW = Math.min(108, (tableW - 16) / count - 4);
+          const cardH = 34;
+          const totalCardsW = count * cardW + (count - 1) * 5;
+          const startCardX = censerX - totalCardsW / 2;
+
+          wingOfferings.slice(-4).forEach((off, idx) => {
+            const cxCard = startCardX + idx * (cardW + 5);
+            const cyCard = tableY + 4;
+
+            ctx.fillStyle = 'rgba(32, 12, 3, 0.96)';
+            ctx.strokeStyle = '#ffd54f';
             ctx.lineWidth = 1.4;
             ctx.beginPath();
-            ctx.roundRect(ox - 27, oy - 13, 54, 24, 8);
+            ctx.roundRect(cxCard, cyCard, cardW, cardH, 7);
             ctx.fill();
             ctx.stroke();
 
-            ctx.font = '15px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(off.icon, ox - 14, oy - 1);
+            // Draw real Vietnamese Vàng Mã thumbnail if available, otherwise icon
+            const tex = off.imgKey ? images[off.imgKey] : null;
+            if (tex && tex.complete && tex.naturalWidth > 0) {
+              ctx.drawImage(tex, cxCard + 3, cyCard + 3, 26, 28);
+            } else {
+              ctx.font = '17px sans-serif';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(off.icon || '🧧', cxCard + 15, cyCard + 17);
+            }
 
-            ctx.font = 'bold 8.5px sans-serif';
-            ctx.fillStyle = '#fff3c4';
+            // Line 1: Tên Lễ Vật (Lễ gì)
+            ctx.font = 'bold 8.8px sans-serif';
+            ctx.fillStyle = '#ffd740';
             ctx.textAlign = 'left';
-            ctx.fillText(off.label.slice(0, 7), ox - 4, oy - 0.5);
+            ctx.textBaseline = 'middle';
+            ctx.fillText((off.label || 'Lễ Vật').slice(0, 13), cxCard + 31, cyCard + 11);
+
+            // Line 2: Tên Người Dâng (Của ai)
+            ctx.font = 'bold 8.2px sans-serif';
+            ctx.fillStyle = '#80d8ff';
+            ctx.fillText(`👤 ${String(off.giver || 'Sếp Thành').slice(0, 12)}`, cxCard + 31, cyCard + 24);
           });
         }
         ctx.restore();
@@ -2350,26 +2922,57 @@
         ctx.fill();
       }
 
+      // Animate 1-2 Visiting Guests / Customers walking in, kneeling on one of the 20 cushions, and walking out
       const renderables = [];
-      for (const cd of crowdDevotees) {
-        if (cd.bowTimer > 0) cd.bowTimer--;
-        renderables.push({ type: 'crowd', data: cd, v: cd.v });
+      for (const g of visitingGuests) {
+        g.phaseTimer--;
+        const gdu = g.targetU - g.u;
+        const gdv = g.targetV - g.v;
+        if (Math.hypot(gdu, gdv) > 0.003) {
+          g.u += gdu * 0.035;
+          g.v += gdv * 0.035;
+          g.state = 'walk';
+        } else {
+          if (g.v > 0.89) {
+            // Re-enter after a while as another occasional guest/customer
+            const pick = visitorPool[Math.floor(Math.random() * visitorPool.length)];
+            const seat = cushions20.filter(c => c.wing === 0)[Math.floor(Math.random() * 20)];
+            g.name = pick.name;
+            g.avatar = pick.avatar;
+            g.gender = pick.gender;
+            g.chat = pick.chat;
+            g.chatTimer = 260;
+            g.u = seat ? seat.u : 0.30;
+            g.v = 0.91;
+            g.targetU = seat ? seat.u : 0.30;
+            g.targetV = seat ? seat.v : 0.66;
+            g.phaseTimer = 480 + Math.floor(Math.random() * 240);
+          } else {
+            g.state = (g.bowTimer > 0) ? 'bow' : 'kneel';
+          }
+        }
+        if (g.phaseTimer <= 0) {
+          // Walk back out to entrance
+          g.targetV = 0.92;
+          g.state = 'walk';
+          g.phaseTimer = 300;
+        }
+        if (g.bowTimer > 0) g.bowTimer--;
+        else if (g.state === 'kneel' && Math.random() < 0.004) g.bowTimer = 95;
+        if (g.chatTimer > 0) g.chatTimer--;
+        renderables.push({ type: 'visitor', data: g, v: g.v });
       }
-      for (const npc of vipCharacters) {
-        if (npc.bowTimer > 0) {
-          npc.bowTimer--;
-          if (npc.bowTimer === 0) npc.state = (npc.v < 0.56) ? 'kneel' : 'walk';
+
+      // Render Online Company Peers (Chỉ hiện người trong công ty khi họ thực sự đăng nhập Online!)
+      if (isOnlinePresenceMode) {
+        for (const peerId of Object.keys(onlineCompanyPeers)) {
+          const peer = onlineCompanyPeers[peerId];
+          if (peer.bowTimer > 0) peer.bowTimer--;
+          if (peer.chatTimer > 0) peer.chatTimer--;
+          renderables.push({ type: 'online_peer', data: peer, v: peer.v });
         }
-        if (npc.state === 'walk') {
-          npc.v += Math.sin(frameCount * 0.015 + npc.u * 10) * 0.00018;
-        }
-        if (npc.chatTimer > 0) npc.chatTimer--;
-        else if (Math.random() < 0.0012) {
-          npc.chat = crowdSampleChats[Math.floor(Math.random() * crowdSampleChats.length)];
-          npc.chatTimer = 180;
-        }
-        renderables.push({ type: 'vip', data: npc, v: npc.v });
       }
+
       renderables.push({ type: 'player', data: player, v: player.v });
       renderables.sort((a, b) => a.v - b.v);
 
@@ -2382,50 +2985,41 @@
         const sy = topScreenY + d.v * wingH;
         const scale = Math.max(0.34, 0.35 + (d.v - 0.46) * 1.12) * (wingH / 960);
 
-        if (item.type === 'crowd') {
-          const spr = (d.bowTimer > 0) ? images.bow : images.kneel;
-          if (spr.complete && spr.naturalWidth > 0) {
-            const sw = spr.naturalWidth * scale * 0.45;
-            const sh = spr.naturalHeight * scale * 0.45;
-            const sway = Math.sin(frameCount * 0.035 + d.phase) * 1.1;
-            ctx.drawImage(spr, sx - sw / 2 + sway, sy - sh, sw, sh);
-          }
-        } else {
-          const isPlayer = (item.type === 'player');
-          d._screenX = sx;
-          d._screenY = sy;
+        const isPlayer = (item.type === 'player');
+        d._screenX = sx;
+        d._screenY = sy;
 
-          if (isPlayer && cameraPovMode === 'first') {
-            continue; // In 1st-person POV, we render First-Person Hands at bottom instead of back sprite
-          }
+        if (isPlayer && cameraPovMode === 'first') {
+          continue; // In 1st-person POV, we render First-Person Hands at bottom instead of back sprite
+        }
 
-          let spr = images.walkF;
-          if (d.state === 'bow' || d.bowTimer > 0) spr = images.bow;
-          else if (d.state === 'kneel') spr = images.kneel;
-          else spr = (d.gender === 'M') ? images.walkM : images.walkF;
+        let spr = images.walkF;
+        if (d.state === 'bow' || d.bowTimer > 0) spr = images.bow;
+        else if (d.state === 'kneel') spr = images.kneel;
+        else spr = (d.gender === 'M') ? images.walkM : images.walkF;
 
-          if (isPlayer) {
-            ctx.save();
-            ctx.strokeStyle = 'rgba(255, 215, 90, 0.85)';
-            ctx.lineWidth = 2.0;
-            ctx.beginPath();
-            ctx.ellipse(sx, sy - 4, 24 * scale, 9 * scale, 0, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.restore();
-          }
+        if (isPlayer || item.type === 'online_peer') {
+          ctx.save();
+          ctx.strokeStyle = isPlayer ? 'rgba(255, 215, 90, 0.85)' : 'rgba(105, 240, 174, 0.85)';
+          ctx.lineWidth = 2.0;
+          ctx.beginPath();
+          ctx.ellipse(sx, sy - 4, 24 * scale, 9 * scale, 0, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
 
-          if (spr.complete && spr.naturalWidth > 0) {
-            const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
-            const sw = spr.naturalWidth * scale * mult;
-            const sh = spr.naturalHeight * scale * mult;
-            const bob = (d.state === 'walk') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
-            ctx.drawImage(spr, sx - sw / 2, sy - sh - bob, sw, sh);
+        if (spr.complete && spr.naturalWidth > 0) {
+          const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
+          const sw = spr.naturalWidth * scale * mult;
+          const sh = spr.naturalHeight * scale * mult;
+          const bob = (d.state === 'walk') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
+          ctx.drawImage(spr, sx - sw / 2, sy - sh - bob, sw, sh);
 
-            const headY = sy - sh - bob - 8;
-            drawRoundedBadge(sx, headY, d.avatar || '🙏', d.name, isPlayer);
-            if (d.chat && d.chatTimer > 0) {
-              drawDarkChatBubble(sx, headY - 14, d.chat);
-            }
+          const headY = sy - sh - bob - 8;
+          const badgeLabel = (item.type === 'online_peer') ? `🟢 ${d.name}` : d.name;
+          drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
+          if (d.chat && d.chatTimer > 0) {
+            drawDarkChatBubble(sx, headY - 14, d.chat);
           }
         }
       }
@@ -2506,7 +3100,7 @@
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
       }
 
-      // Character Carrying & Placing Offering onto the Bàn Để Đồ Cúng Dường
+      // Character Carrying & Placing Offering onto the Bàn Lễ Cúng Dường (Rõ Lễ Gì & Của Ai)
       if (offeringCeremony && offeringCeremony.active && offeringCeremony.timer > 0) {
         offeringCeremony.timer--;
         const prog = 1.0 - (offeringCeremony.timer / offeringCeremony.maxTimer);
@@ -2532,26 +3126,26 @@
         ctx.arc(0, 0, 48, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = 'rgba(68, 24, 6, 0.95)';
+        ctx.fillStyle = 'rgba(68, 24, 6, 0.96)';
         ctx.strokeStyle = '#ffe082';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(-84, -22, 168, 44, 14);
+        ctx.roundRect(-96, -24, 192, 48, 14);
         ctx.fill();
         ctx.stroke();
 
         ctx.font = '24px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(offeringCeremony.icon, -58, 0);
+        ctx.fillText(offeringCeremony.icon, -68, 0);
 
         ctx.font = 'bold 10.5px sans-serif';
-        ctx.fillStyle = '#fff5d6';
+        ctx.fillStyle = '#80d8ff';
         ctx.textAlign = 'left';
-        ctx.fillText(`${player.name} DÂNG LÊN BÀN:`, -36, -7);
+        ctx.fillText(`👤 CỦA: ${offeringCeremony.giver || player.name}`, -46, -8);
         ctx.font = 'bold 11.5px sans-serif';
         ctx.fillStyle = '#ffd54f';
-        ctx.fillText(offeringCeremony.name, -36, 9);
+        ctx.fillText(`🎁 LỄ: ${offeringCeremony.name}`, -46, 9);
         ctx.restore();
 
         if (offeringCeremony.timer === 0) offeringCeremony.active = false;
@@ -2567,7 +3161,6 @@
         ctx.save();
         ctx.translate(furnX, furnY);
 
-        // Fire glow halo
         const fGlow = ctx.createRadialGradient(0, -18, 5, 0, -18, 68);
         fGlow.addColorStop(0, `rgba(255, 160, 20, ${0.75 + 0.2 * Math.sin(frameCount * 0.2)})`);
         fGlow.addColorStop(0.5, 'rgba(255, 70, 0, 0.35)');
@@ -2577,7 +3170,6 @@
         ctx.arc(0, -18, 68, 0, Math.PI * 2);
         ctx.fill();
 
-        // Roaring flames & floating gold ingots
         for (let f = 0; f < 7; f++) {
           const fx = (f - 3) * 7 + Math.sin(frameCount * 0.22 + f) * 4;
           const fh = 22 + Math.abs(Math.sin(frameCount * 0.18 + f * 1.3)) * 24;
@@ -2587,7 +3179,6 @@
           ctx.fill();
         }
 
-        // Bronze Furnace Body (Lư Hóa Vàng)
         ctx.fillStyle = '#4e2608';
         ctx.strokeStyle = '#ffd54f';
         ctx.lineWidth = 2;
@@ -2599,11 +3190,11 @@
         ctx.font = '16px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('🔥🪙🔥', 0, 8);
+        ctx.fillText('🔥🧧🔥', 0, 8);
 
         ctx.font = 'bold 10px sans-serif';
         ctx.fillStyle = '#ffe082';
-        ctx.fillText('LƯ HÓA TIỀN VÀNG', 0, 36);
+        ctx.fillText('LƯ HÓA VÀNG MÃ (+65💎)', 0, 36);
         ctx.restore();
 
         if (goldBurnCeremony.timer === 0) goldBurnCeremony.active = false;
@@ -2618,7 +3209,6 @@
           : Math.sin(frameCount * 0.05) * 5;
         const handCenterY = H - 132 + handBounce;
 
-        // Subtle golden aura around clasped hands
         const hGrad = ctx.createRadialGradient(handCenterX, handCenterY - 10, 8, handCenterX, handCenterY - 10, 90);
         hGrad.addColorStop(0, 'rgba(255, 215, 90, 0.38)');
         hGrad.addColorStop(1, 'rgba(255, 215, 90, 0)');
@@ -2627,7 +3217,6 @@
         ctx.arc(handCenterX, handCenterY - 10, 90, 0, Math.PI * 2);
         ctx.fill();
 
-        // Left & Right Áo Lam Sleeves in First-Person View
         ctx.fillStyle = '#5c6f84';
         ctx.strokeStyle = '#ffd56b';
         ctx.lineWidth = 1.8;
@@ -2649,13 +3238,11 @@
         ctx.fill();
         ctx.stroke();
 
-        // Clasped hands icon + 3 burning incense sticks in 1st-person view
         ctx.font = '46px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('🙏', handCenterX, handCenterY - 12);
 
-        // POV status badge
         ctx.fillStyle = 'rgba(28, 12, 4, 0.88)';
         ctx.strokeStyle = '#ffd56b';
         ctx.lineWidth = 1.2;
@@ -2680,10 +3267,10 @@
         }
         ctx.save();
         ctx.globalAlpha = Math.min(1, fh.life * 1.4);
-        ctx.font = 'bold 12px sans-serif';
+        ctx.font = 'bold 13px sans-serif';
         ctx.fillStyle = fh.color;
         ctx.textAlign = 'center';
-        ctx.fillText(fh.text, fh.x - 20, fh.y);
+        ctx.fillText(fh.text, fh.x, fh.y);
         ctx.restore();
       }
 
@@ -2691,14 +3278,16 @@
     }
 
     // =========================================================================
-    // 8. PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA KIM NGÂN - VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA)
+    // 8. PHÒNG ĐỐT VÀNG MÃ VIỆT NAM (ĐÀI HÓA KIM NGÂN - VUỐT LÊN ĐỂ NÉM ĐỐT TĂNG PHƯỚC!)
     // =========================================================================
     const fCanvas = document.getElementById('furnaceCanvas');
     const fCtx = fCanvas.getContext('2d');
     let furnaceOpen = false;
-    let selectedGoldIcon = '🪙';
-    let selectedGoldName = 'Thỏi Vàng Kim Nguyên Bảo';
-    let furnaceMeritSession = 200;
+    let selectedGoldIcon = '🧧';
+    let selectedGoldName = 'Đinh Tiền Vàng Lá Đỏ VN';
+    let selectedGoldMerit = 50;
+    let selectedGoldImgKey = 'vangDinh';
+    let furnaceMeritSession = 250;
     let furnaceFlareTimer = 0;
     const flyingGoldThrows = [];
     const furnaceEmbers = [];
@@ -2726,6 +3315,7 @@
     function openGoldFurnaceRoom() {
       unlockAndStartAudio();
       closeMeritShopModal();
+      closeCenterStage();
       furnaceOpen = true;
       document.getElementById('goldFurnaceRoom').classList.add('open');
       resizeFurnaceCanvas();
@@ -2737,9 +3327,11 @@
       document.getElementById('goldFurnaceRoom').classList.remove('open');
     }
 
-    function selectGoldThrowType(icon, name, btnEl) {
+    function selectGoldThrowType(icon, name, meritPts, imgKey, btnEl) {
       selectedGoldIcon = icon;
       selectedGoldName = name;
+      selectedGoldMerit = meritPts || 50;
+      selectedGoldImgKey = imgKey || 'vangDinh';
       document.querySelectorAll('.gold-type-btn').forEach(b => b.classList.remove('active'));
       if (btnEl) btnEl.classList.add('active');
     }
@@ -2756,7 +3348,9 @@
         prog: 0,
         rot: 0,
         icon: selectedGoldIcon,
-        name: selectedGoldName
+        name: selectedGoldName,
+        merit: selectedGoldMerit,
+        imgKey: selectedGoldImgKey
       });
       playMoSound();
     }
@@ -2814,8 +3408,8 @@
         fCtx.clearRect(0, 0, W, H);
 
         const cx = W * 0.5;
-        const furnaceY = H * 0.37;
-        const fW = Math.min(320, W * 0.82);
+        const furnaceY = H * 0.36;
+        const fW = Math.min(330, W * 0.84);
         const fH = Math.min(250, H * 0.34);
 
         if (furnaceFlareTimer > 0) furnaceFlareTimer--;
@@ -2831,9 +3425,8 @@
         fCtx.arc(cx, furnaceY, fW * 0.85 * flareBoost, 0, Math.PI * 2);
         fCtx.fill();
 
-        // 2. Ancient Brick & Gold Pagoda Furnace Structure (Đài Hóa Kim Ngân)
+        // 2. Ancient Brick & Gold Pagoda Furnace Structure (Đài Hóa Vàng Mã Việt Nam)
         fCtx.save();
-        // Curved temple roof over furnace
         fCtx.fillStyle = '#4a1806';
         fCtx.strokeStyle = '#ffd54f';
         fCtx.lineWidth = 2.5;
@@ -2851,14 +3444,14 @@
         fCtx.strokeStyle = '#ffd740';
         fCtx.lineWidth = 1.8;
         fCtx.beginPath();
-        fCtx.roundRect(cx - 105, furnaceY - fH * 0.56, 210, 26, 8);
+        fCtx.roundRect(cx - 125, furnaceY - fH * 0.56, 250, 26, 8);
         fCtx.fill();
         fCtx.stroke();
-        fCtx.font = 'bold 12px sans-serif';
+        fCtx.font = 'bold 11.5px sans-serif';
         fCtx.fillStyle = '#ffd740';
         fCtx.textAlign = 'center';
         fCtx.textBaseline = 'middle';
-        fCtx.fillText('🔥 ĐÀI HÓA KIM NGÂN 🔥', cx, furnaceY - fH * 0.56 + 13);
+        fCtx.fillText('🔥 ĐÀI HÓA VÀNG MÃ VIỆT NAM 🔥', cx, furnaceY - fH * 0.56 + 13);
 
         // Furnace brick body
         const bodyGrad = fCtx.createLinearGradient(cx - fW * 0.46, furnaceY - fH * 0.36, cx + fW * 0.46, furnaceY + fH * 0.48);
@@ -2900,9 +3493,8 @@
           fCtx.fill();
         }
 
-        // Burning gold ingots glowing inside the coals
-        fCtx.font = '24px sans-serif';
-        fCtx.fillText('🪙🔥🪙🔥🪙', cx, furnaceY + mouthH * 0.36);
+        fCtx.font = '22px sans-serif';
+        fCtx.fillText('🧧🔥💴🔥🐎', cx, furnaceY + mouthH * 0.36);
         fCtx.restore();
 
         // 3. Rising Golden Sparks & Embers
@@ -2919,89 +3511,108 @@
           fCtx.fill();
         }
 
-        // 4. Animated Swipe-Up Guide Arrows (Từ xấp tiền vàng lên cửa Lò Lửa)
-        const guideY = H * 0.60 - ((frameCount * 1.6) % 48);
+        // 4. Animated Swipe-Up Guide Arrows
+        const guideY = H * 0.58 - ((frameCount * 1.6) % 44);
         fCtx.save();
-        fCtx.globalAlpha = 0.72;
+        fCtx.globalAlpha = 0.82;
         fCtx.font = 'bold 13px sans-serif';
         fCtx.fillStyle = '#ffe082';
         fCtx.textAlign = 'center';
-        fCtx.fillText('⬆️ VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA ⬆️', cx, guideY);
+        fCtx.fillText(`⬆️ VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA (+${selectedGoldMerit} 💎 PHƯỚC) ⬆️`, cx, guideY);
         fCtx.restore();
 
-        // 5. Flying Thrown Gold Ingots / Joss Paper Bundles
+        // 5. Flying Thrown Vietnamese Vàng Mã Bundles (With Real Cropped Vàng Mã Photo!)
         for (let i = flyingGoldThrows.length - 1; i >= 0; i--) {
           const g = flyingGoldThrows[i];
           g.prog += 0.045;
-          g.rot += 0.22;
+          g.rot += 0.16;
           const t = g.prog;
           const gx = g.x + (g.targetX - g.x) * t;
           const gy = g.y + (g.targetY - g.y) * t - Math.sin(t * Math.PI) * 95;
-          const gScale = 1.35 - t * 0.55;
+          const gScale = 1.25 - t * 0.48;
 
           fCtx.save();
           fCtx.translate(gx, gy);
           fCtx.rotate(g.rot);
           fCtx.scale(gScale, gScale);
-          fCtx.font = '44px sans-serif';
+          const gTex = images[g.imgKey || 'vangDinh'];
+          if (gTex && gTex.complete && gTex.naturalWidth > 0) {
+            fCtx.strokeStyle = '#ffd54f';
+            fCtx.lineWidth = 2.5;
+            fCtx.drawImage(gTex, -34, -34, 68, 68);
+            fCtx.strokeRect(-34, -34, 68, 68);
+          }
+          fCtx.font = '32px sans-serif';
           fCtx.textAlign = 'center';
           fCtx.textBaseline = 'middle';
-          fCtx.fillText(g.icon, 0, 0);
+          fCtx.fillText(g.icon, 24, -24);
           fCtx.restore();
 
           if (g.prog >= 1.0) {
             flyingGoldThrows.splice(i, 1);
-            furnaceFlareTimer = 28;
+            furnaceFlareTimer = 30;
             burnCountTotal++;
-            furnaceMeritSession += 35;
-            addMerit(35);
+            const pts = g.merit || 50;
+            furnaceMeritSession += pts;
+            addMerit(pts);
             document.getElementById('furnaceBurnCounter').textContent = burnCountTotal;
-            document.getElementById('furnaceMeritEarned').textContent = `+${furnaceMeritSession} 💎`;
+            document.getElementById('furnaceMeritEarned').textContent = `+${furnaceMeritSession} 💎 Phước Đức`;
             const bcEl = document.getElementById('shopBurnCount');
             if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
             playBellSound();
             floatingHits.push({
               x: cx,
-              y: furnaceY - 25,
-              text: `🔥 Đã hóa ${g.name}! +35 💎 Phước Lộc!`,
+              y: furnaceY - 28,
+              text: `🔥 ĐÃ ĐỐT ${g.name.toUpperCase()} ➔ TĂNG +${pts} 💎 PHƯỚC ĐỨC!`,
               color: '#ffd740',
-              life: 1.2
+              life: 1.35
             });
-            appendMeritLog(`🔥🪙 <b>${player.name}</b> đã ném đốt <b>${g.icon} ${g.name}</b> vào Lò Lửa Hóa Vàng (+35 💎)`);
+            appendMeritLog(`🔥🧧 <b>${player.name}</b> đã ném đốt <b>${g.icon} ${g.name}</b> vào Lò Lửa (+${pts} 💎 Phước Đức)`);
             if (burnCountTotal % 3 === 0) {
-              speakVietnameseText(`Tín chủ ${player.name} thành tâm hóa ${g.name} vào lò lửa, nguyện cầu Thần Tài Thổ Địa chứng giám, lộc về đầy kho, chốt đơn rực rỡ!`);
+              speakVietnameseText(`Tín chủ ${player.name} thành tâm hóa ${g.name} vào lò lửa, tăng ${pts} điểm phước đức, nguyện cầu Thần Tài Thổ Địa chứng giám, lộc về đầy kho!`);
             }
           }
         }
 
-        // 6. First-Person Hands Holding the Gold Stack at Bottom (Follows Finger While Swiping!)
+        // 6. First-Person Hands Holding Authentic Vietnamese Vàng Mã Tray at Bottom
         let handX = cx;
-        let handY = H * 0.77;
+        let handY = H * 0.74;
         if (swipeDrag.active) {
           handX = cx + (swipeDrag.curX - swipeDrag.startX) * 0.45;
-          handY = Math.max(H * 0.48, H * 0.77 + (swipeDrag.curY - swipeDrag.startY) * 0.65);
+          handY = Math.max(H * 0.48, H * 0.74 + (swipeDrag.curY - swipeDrag.startY) * 0.65);
         } else {
           handY += Math.sin(frameCount * 0.06) * 5;
         }
 
         fCtx.save();
-        // Golden tray + stack of gold in user's hands
-        fCtx.fillStyle = 'rgba(78, 30, 6, 0.95)';
+        fCtx.fillStyle = 'rgba(72, 24, 6, 0.96)';
         fCtx.strokeStyle = '#ffd54f';
         fCtx.lineWidth = 2.5;
         fCtx.beginPath();
-        fCtx.roundRect(handX - 92, handY - 36, 184, 72, 18);
+        fCtx.roundRect(handX - 135, handY - 46, 270, 92, 18);
         fCtx.fill();
         fCtx.stroke();
 
-        fCtx.font = '38px sans-serif';
-        fCtx.textAlign = 'center';
-        fCtx.textBaseline = 'middle';
-        fCtx.fillText(`${selectedGoldIcon}${selectedGoldIcon}${selectedGoldIcon}`, handX, handY - 6);
+        const curTex = images[selectedGoldImgKey || 'vangDinh'];
+        if (curTex && curTex.complete && curTex.naturalWidth > 0) {
+          fCtx.drawImage(curTex, handX - 122, handY - 36, 72, 72);
+          fCtx.strokeStyle = '#ffe082';
+          fCtx.lineWidth = 1.5;
+          fCtx.strokeRect(handX - 122, handY - 36, 72, 72);
+        }
 
-        fCtx.font = 'bold 11px sans-serif';
+        fCtx.font = 'bold 12px sans-serif';
+        fCtx.fillStyle = '#ffd740';
+        fCtx.textAlign = 'left';
+        fCtx.fillText(`${selectedGoldIcon} ${selectedGoldName}`, handX - 40, handY - 14);
+
+        fCtx.font = 'bold 11.5px sans-serif';
+        fCtx.fillStyle = '#80d8ff';
+        fCtx.fillText(`💎 Đốt nhận ngay: +${selectedGoldMerit} Phước Đức`, handX - 40, handY + 5);
+
+        fCtx.font = 'bold 10.5px sans-serif';
         fCtx.fillStyle = '#ffe596';
-        fCtx.fillText(`🙌 Cầm: ${selectedGoldName} (Vuốt lên để ném)`, handX, handY + 23);
+        fCtx.fillText(`👆 Vuốt lên để ném vào Lò Lửa!`, handX - 40, handY + 24);
         fCtx.restore();
 
         // Floating hit feedback inside furnace room
@@ -3009,7 +3620,7 @@
           const fh = floatingHits[i];
           fCtx.save();
           fCtx.globalAlpha = Math.min(1, fh.life);
-          fCtx.font = 'bold 13.5px sans-serif';
+          fCtx.font = 'bold 14px sans-serif';
           fCtx.fillStyle = fh.color;
           fCtx.textAlign = 'center';
           fCtx.fillText(fh.text, fh.x, fh.y);
@@ -3027,26 +3638,31 @@
           if (flyingGoldThrows.length === 0) {
             flyingGoldThrows.push({
               x: window.innerWidth * 0.5,
-              y: window.innerHeight * 0.76,
+              y: window.innerHeight * 0.74,
               targetX: window.innerWidth * 0.5,
-              targetY: window.innerHeight * 0.37,
+              targetY: window.innerHeight * 0.36,
               prog: 0.45,
-              rot: 0.35,
-              icon: '🪙',
-              name: 'Thỏi Vàng Kim Nguyên Bảo'
+              rot: 0.25,
+              icon: '💴',
+              name: 'Lễ Gấp Vàng Mã 10 Lễ',
+              merit: 65,
+              imgKey: 'vangLe10'
             });
           }
         }, 120);
       }, 40);
     }
 
+    if (location.search.includes('mo=1')) setTimeout(() => openCenterStage('mo'), 80);
+    if (location.search.includes('bell=1')) setTimeout(() => openCenterStage('bell'), 80);
+    if (location.search.includes('table=1')) setTimeout(() => openCenterStage('table_inspect'), 80);
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
     if (location.search.includes('khan=1')) setTimeout(openSoKhanModal, 100);
     if (location.search.includes('burn=1')) {
       goldBurnCeremony = { active: true, timer: 240, maxTimer: 240, wing: player.wing };
     }
     if (location.search.includes('offer=1')) {
-      offeringCeremony = { active: true, timer: 95, maxTimer: 140, wing: player.wing, icon: '🍎', name: 'Mâm Ngũ Quả Phú Quý' };
+      offeringCeremony = { active: true, timer: 95, maxTimer: 140, wing: player.wing, icon: '🧧', name: 'Lễ Gấp Vàng Mã 10 Lễ', giver: 'Sếp Thành' };
     }
     requestAnimationFrame(render);
   </script>
