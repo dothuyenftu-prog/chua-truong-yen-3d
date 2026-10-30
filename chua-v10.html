@@ -96,24 +96,24 @@
     }
 
     /* =====================================================================
-       2. INTERACTIVE CHUÔNG ĐỒNG & MÕ GỖ WIDGET (Like TikTok ZSg7dUrut)
+       2. INTERACTIVE CHUÔNG ĐỒNG & MÕ GỖ WIDGET (Left Side)
        ===================================================================== */
     .chuong-mo-panel {
       position: fixed;
-      right: 10px;
-      bottom: 84px;
+      left: 10px;
+      bottom: 118px;
       z-index: 30;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-      background: rgba(18, 11, 5, 0.78);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1.5px solid rgba(232, 188, 98, 0.55);
-      border-radius: 18px;
-      padding: 8px 9px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+      gap: 7px;
+      background: rgba(18, 11, 5, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(232, 188, 98, 0.42);
+      border-radius: 16px;
+      padding: 6px 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.55);
     }
     .cm-unit {
       display: flex;
@@ -122,8 +122,8 @@
       gap: 3px;
     }
     .cm-img-btn {
-      width: 66px;
-      height: 54px;
+      width: 60px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -143,12 +143,12 @@
       filter: drop-shadow(0 0 14px rgba(255, 215, 90, 0.95));
     }
     .cm-auto-pill {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.90);
       color: #2b1806;
       border: 1px solid #d4a853;
       border-radius: 999px;
-      padding: 2px 8px;
-      font-size: 10px;
+      padding: 2px 7px;
+      font-size: 9.5px;
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
@@ -163,57 +163,86 @@
     }
 
     /* =====================================================================
-       3. COMPACT ROUND 4-WAY MOVEMENT JOYSTICK (Bottom-Left)
+       3. LARGER, SEMI-TRANSPARENT, MINIMALIST 4-WAY JOYSTICK (Right Side)
        ===================================================================== */
     .joy-pad {
       position: fixed;
-      left: 10px;
-      bottom: 84px;
+      right: 12px;
+      bottom: 118px;
       z-index: 30;
-      width: 94px; height: 94px;
+      width: 114px; height: 114px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(38, 23, 10, 0.80) 0%, rgba(16, 9, 4, 0.90) 100%);
-      border: 1.5px solid rgba(232, 188, 98, 0.55);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.65);
-      backdrop-filter: blur(6px);
+      background: radial-gradient(circle, rgba(28, 16, 6, 0.24) 0%, rgba(12, 7, 3, 0.34) 100%);
+      border: 1.5px solid rgba(255, 222, 145, 0.30);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.32);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      padding: 5px;
+      padding: 6px;
     }
     .joy-dir {
       border: none;
       background: transparent;
-      color: #ffe396;
-      font-size: 14px;
+      color: rgba(255, 236, 179, 0.78);
+      font-size: 18px;
       font-weight: 900;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: 50%;
+      user-select: none;
     }
     .joy-dir:hover, .joy-dir:active {
-      background: rgba(255, 198, 76, 0.28);
+      background: rgba(255, 208, 96, 0.26);
       color: #fff;
     }
     .joy-center {
-      background: rgba(218, 160, 52, 0.28);
-      border: 1px solid rgba(255, 214, 112, 0.5);
+      background: rgba(255, 215, 115, 0.14);
+      border: 1px solid rgba(255, 222, 145, 0.28);
       border-radius: 50%;
-      font-size: 13px;
-    }
-    .joy-caption {
-      position: fixed;
-      left: 14px;
-      bottom: 182px;
-      z-index: 30;
-      font-size: 10px;
-      font-weight: 700;
-      color: #f5d78e;
-      background: rgba(16, 9, 4, 0.78);
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(226, 182, 92, 0.35);
+      width: 24px;
+      height: 24px;
+      margin: auto;
       pointer-events: none;
+    }
+
+    /* On-Screen Quick Offering Bar (Dâng lễ trực tiếp lên bàn thờ) */
+    .quick-offering-bar {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 84px;
+      z-index: 31;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(24, 12, 4, 0.84);
+      border: 1px solid rgba(238, 190, 92, 0.55);
+      border-radius: 999px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      max-width: 96vw;
+      overflow-x: auto;
+      scrollbar-width: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.65);
+    }
+    .quick-offering-bar::-webkit-scrollbar { display: none; }
+    .qo-btn {
+      background: rgba(255, 204, 88, 0.16);
+      border: 1px solid rgba(245, 198, 98, 0.45);
+      color: #ffefc4;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .qo-btn:hover, .qo-btn:active {
+      background: linear-gradient(135deg, #d88918, #9c5605);
+      color: #fff;
+      border-color: #ffe596;
     }
 
     /* =====================================================================
@@ -285,11 +314,12 @@
       .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; }
       .dock-icon { font-size: 16px; }
       .dock-label { font-size: 9.6px; }
-      .joy-pad { bottom: 114px; left: 8px; width: 82px; height: 82px; }
-      .joy-caption { bottom: 200px; left: 12px; }
-      .chuong-mo-panel { bottom: 114px; right: 8px; padding: 6px 7px; gap: 6px; }
-      .cm-img-btn { width: 54px; height: 44px; }
-      .cm-auto-pill { font-size: 9.2px; padding: 2px 6px; }
+      .joy-pad { bottom: 142px; right: 10px; left: auto; width: 104px; height: 104px; }
+      .chuong-mo-panel { bottom: 142px; left: 8px; right: auto; padding: 5px 6px; gap: 5px; }
+      .cm-img-btn { width: 50px; height: 40px; }
+      .cm-auto-pill { font-size: 8.8px; padding: 2px 5px; }
+      .quick-offering-bar { bottom: 106px; padding: 3px 6px; }
+      .qo-btn { font-size: 9.6px; padding: 2.5px 6px; }
     }
 
     /* =====================================================================
@@ -557,15 +587,15 @@
 
     <div class="top-group">
       <select id="bgMusicSelect" class="top-select" onchange="changeBgMusicTrack(this.value)" title="Chọn nhạc nền chùa & thần chú">
-        <option value="audio/do_ta_khong_do_nang.mp3">🎵 1. Độ Ta Không Độ Nàng (Nhạc Thiền Chùa)</option>
-        <option value="audio/lien_hoa.mp3">🎵 2. Liên Hoa · Diệu Pháp Liên Hoa</option>
-        <option value="audio/tk1_om_mani.mp3">🎵 3. Om Mani Padme Hum (Nan Giải)</option>
-        <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 4. Dưới Tòa Sen Đài · Chú Dược Sư</option>
-        <option value="audio/tk2_chua.mp3">🎵 5. Nhạc Thiền Tịnh Tâm An Vui</option>
-        <option value="audio/tk3_chua.mp3">🎵 6. Vũ Khúc Thiên Đình (Tây Du)</option>
-        <option value="audio/chu_dai_bi.mp3">🎵 7. Chú Đại Bi & Dưới Tòa Sen Đài</option>
+        <option value="audio/chu_dai_bi.mp3">🎵 1. Chú Đại Bi · Dưới Tòa Sen Đài</option>
+        <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 2. Chú Dược Sư (Tiếng Phạn)</option>
+        <option value="audio/tk1_om_mani.mp3">🎵 3. Thần Chú Om Mani Padme Hum</option>
+        <option value="audio/do_ta_khong_do_nang.mp3">🎵 4. Độ Ta Không Độ Nàng (Thiền)</option>
+        <option value="audio/lien_hoa.mp3">🎵 5. Liên Hoa · Diệu Pháp Liên Hoa</option>
+        <option value="audio/tk2_chua.mp3">🎵 6. Nhạc Thiền Giải Trừ Ác Niệm</option>
+        <option value="audio/tk3_chua.mp3">🎵 7. Vũ Khúc Thiên Đình (Tây Du)</option>
         <option value="audio/nhac_nen_chua.mp3">🎵 8. Đàn Tranh & Chuông Xoay Chùa</option>
-        <option value="off">🔇 Tắt Nhạc Nền</option>
+        <option value="off">🔇 Tắt Nhạc Nền & Chú</option>
       </select>
       <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
       <button class="chip-btn active" onclick="openMeritShopModal()">🏆 Vinh Danh · 🎁 Đổi Lễ (<span id="meritScore">888</span> 💎)</button>
@@ -615,18 +645,27 @@
     </div>
   </div>
 
-  <!-- 3. ROUND 4-WAY MOVEMENT JOYSTICK (Bottom-Left) -->
-  <div class="joy-caption">🕹️ Di chuyển</div>
+  <!-- 3. LARGER, SEMI-TRANSPARENT, MINIMALIST 4-WAY MOVEMENT PAD (Right Side) -->
   <div class="joy-pad">
-    <button class="joy-dir" title="Sang Ban Đức Ông (Trái)" onclick="switchZone('ducong')">↖</button>
+    <span></span>
     <button class="joy-dir" title="Tiến lên Ban Thờ" onmousedown="startHoldMove(0, -1)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(0, -1)" ontouchend="stopHoldMove()">▲</button>
-    <button class="joy-dir" title="Sang Ban Thần Tài (Phải)" onclick="switchZone('thantai')">↗</button>
+    <span></span>
     <button class="joy-dir" title="Đi sang trái" onmousedown="startHoldMove(-1, 0)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(-1, 0)" ontouchend="stopHoldMove()">◀</button>
-    <button class="joy-dir joy-center" title="Chào nhau & chúc nhau" onclick="greetNearestDevotee()">🙌</button>
+    <span class="joy-center"></span>
     <button class="joy-dir" title="Đi sang phải" onmousedown="startHoldMove(1, 0)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(1, 0)" ontouchend="stopHoldMove()">▶</button>
-    <button class="joy-dir" title="Gõ mõ" onclick="strikeVisualMo()">🪵</button>
+    <span></span>
     <button class="joy-dir" title="Lùi ra xa" onmousedown="startHoldMove(0, 1)" onmouseup="stopHoldMove()" ontouchstart="startHoldMove(0, 1)" ontouchend="stopHoldMove()">▼</button>
-    <button class="joy-dir" title="Thỉnh chuông" onclick="strikeVisualBell()">🔔</button>
+    <span></span>
+  </div>
+
+  <!-- 3B. ON-SCREEN DIRECT OFFERING BAR (Nhân vật dâng lễ đặt thẳng lên Bàn Cúng Dường) -->
+  <div class="quick-offering-bar">
+    <span style="font-size:10px; font-weight:800; color:#ffd740; padding-left:2px;">🎁 Dâng Lễ Lên Bàn:</span>
+    <button class="qo-btn" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Hồng', 20)">🪷 Hoa Sen</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phú Quý', 30)">🍎 Ngũ Quả</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('gold_ingot', '🪙', 'Mâm Tiền Vàng Kim Ngân', 30)">🪙 Tiền Vàng</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('tea_oan', '🍵', 'Trà Sen & Oản Ngọc', 40)">🍵 Trà Oản</button>
+    <button class="qo-btn" onclick="burnGoldPaperRitual()">🔥 Hóa Vàng</button>
   </div>
 
   <!-- Collapsible Chat Input Drawer -->
@@ -674,30 +713,28 @@
     </div>
   </div>
 
-  <!-- 5. MODAL KHO BÀI KHẤN (CHÚ ĐẠI BI, SÁM HỐI, BIẾT ƠN, GIẢM STRESS, SỨC KHỎE, DƯỚI TÒA SEN ĐÀI & SỚ KHÁCH HÀNG) -->
+  <!-- 5. MODAL BÀI KHẤN CẦU NGUYỆN (KHẤN BÌNH AN, KHÁCH HÀNG CHỐT ĐƠN, SỨC KHỎE, TÀI LỘC & TỰ NHẮN) -->
   <div class="modal-backdrop" id="soKhanModal" onclick="if(event.target===this) closeSoKhanModal()">
     <div class="so-khan-box">
       <div class="sk-top-row">
-        <span class="sk-title">📜 Chọn Bài Khấn · Kinh Chú & Sớ Khách Hàng</span>
+        <span class="sk-title">📜 Chọn Bài Khấn Cầu Nguyện & Tự Nhắn Lời Cầu</span>
         <button class="btn-modal-x" onclick="closeSoKhanModal()">✕ Đóng</button>
       </div>
 
       <div style="font-size:11.5px; color:#f7cf73; font-weight:700; margin-bottom:5px;">
-        1️⃣ Chọn Chủ Đề Bài Khấn / Kinh Chú (Bấm để chọn):
+        1️⃣ Chọn Bài Khấn Cầu Nguyện (Nghe Chú ở mục Nhạc Nền phía trên):
       </div>
       <div class="prayer-topic-grid" id="topicGrid">
-        <button class="topic-btn selected" onclick="selectPrayerTopic('khach_hang', this)">👤 1. Sớ Khấn Độ Lộc Khách Hàng (Đọc Tên + Địa Chỉ + SĐT)</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('duoi_toa_sen', this)">🪷 2. Dưới Tòa Sen Đài (Tâm Đầu Thành Kính Lễ Phật)</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('chu_dai_bi', this)">📿 3. Trì Tụng Chú Đại Bi (Tiêu Trừ Tai Chướng)</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('tru_ac_niem', this)">🔥 4. Giải Trừ Ác Niệm & Hóa Giải Oán Kết</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('sam_hoi', this)">🙇 5. Văn Khấn Sám Hối & Thanh Lọc Nghiệp Chướng</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('biet_on', this)">🙏 6. Lời Khấn Biết Ơn Cha Mẹ, Tổ Tiên & Quý Nhân</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('giam_stress', this)">🌿 7. Thiền Giảm Stress, Chữa Lành & An Lạc Tâm</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('suc_khoe', this)">💚 8. Cầu Sức Khỏe, Bình An Gia Đạo (Kinh Dược Sư)</button>
+        <button class="topic-btn selected" onclick="selectPrayerTopic('khach_hang', this)">💰 1. Khấn Cầu Khách Hàng · Chốt Đơn Lớn (Đọc Tên + SĐT)</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('binh_an', this)">🕊️ 2. Khấn Cầu Bình An Gia Đạo & Tai Qua Nạn Khỏi</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('suc_khoe', this)">💚 3. Khấn Cầu Sức Khỏe Dồi Dào & Trường Thọ</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('tai_loc', this)">📈 4. Khấn Cầu Tài Lộc, Công Danh & Buôn May Bán Đắt</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('giam_stress', this)">🌿 5. Khấn Cầu Tâm Hồn Thanh Tịnh, Xả Stress & An Vui</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('tu_nhan', this)">✍️ 6. Tự Nhắn Lời Cầu Nguyện Riêng (Nhập ở ô dưới)</button>
       </div>
 
       <div style="font-size:11.5px; color:#f7cf73; font-weight:700; margin-bottom:5px;">
-        2️⃣ Thông Tin Tín Chủ / Khách Hàng (Để đọc trực tiếp trong bài khấn):
+        2️⃣ Thông Tin Tín Chủ / Khách Hàng & Lời Cầu Nguyện Tự Nhắn:
       </div>
       <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:7px;">
         <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Đức Đoàn', 'Hải Phòng', '0988668888', 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi')">⚡ A. Đức Đoàn (Hải Phòng)</span>
@@ -1095,16 +1132,20 @@
       if (btnEl) btnEl.classList.add('selected');
       const wishInput = document.getElementById('skInputWish');
       const presetWishes = {
-        khach_hang: 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an, tài lộc hanh thông',
-        duoi_toa_sen: 'Con quỳ dưới tòa sen đài, tâm đầu thành kính hướng về Đức Phật, cầu tâm hồn thanh tịnh an vui',
-        chu_dai_bi: 'Trì tụng Chú Đại Bi tiêu trừ tai chướng, tăng trưởng phước huệ, tai qua nạn khỏi',
-        tru_ac_niem: 'Giải trừ mọi ác niệm, tà khí, phiền não sân si, hóa giải oán kết, tâm sáng như gương',
-        sam_hoi: 'Thành tâm sám hối mọi lỗi lầm nghiệp chướng từ vô thủy, nguyện làm lành lánh dữ, tích đức hành thiện',
-        biet_on: 'Thành tâm tri ân công đức sinh thành của Cha Mẹ, Tổ Tiên, cảm tạ Quý Nhân và Khách Hàng đã đồng hành',
-        giam_stress: 'Buông bỏ mọi căng thẳng áp lực, thở vào tâm tĩnh lặng, thở ra miệng mỉm cười, chữa lành nội tâm',
-        suc_khoe: 'Cầu Đức Phật Dược Sư Lưu Ly Quang Vương gia hộ bách bệnh tiêu trừ, thân khỏe tâm an, trường thọ'
+        khach_hang: 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, công trình hoàn thiện mỹ mãn, tài lộc hanh thông',
+        binh_an: 'Cầu gia đạo bốn mùa bình an, tai qua nạn khỏi, trên thuận dưới hòa, phúc lộc vẹn toàn',
+        suc_khoe: 'Cầu cha mẹ và toàn thể gia đình thân khỏe tâm an, bách bệnh tiêu trừ, sống lâu trăm tuổi',
+        tai_loc: 'Cầu công việc kinh doanh thuận buồm xuôi gió, buôn may bán đắt, quý nhân phù trợ, lộc về đầy kho',
+        giam_stress: 'Cầu tâm hồn luôn thanh tịnh an vui, buông bỏ mọi muộn phiền áp lực, ngủ ngon giấc mỗi ngày',
+        tu_nhan: ''
       };
-      if (presetWishes[topicKey]) wishInput.value = presetWishes[topicKey];
+      if (topicKey === 'tu_nhan') {
+        wishInput.value = '';
+        wishInput.placeholder = 'Nhập điều bạn muốn cầu nguyện để đọc trực tiếp...';
+        wishInput.focus();
+      } else if (presetWishes[topicKey]) {
+        wishInput.value = presetWishes[topicKey];
+      }
     }
 
     function openSoKhanModal() {
@@ -1177,66 +1218,52 @@
 
     function buildTopicPrayerChunks(topic, name, addr, phoneSpoken, wish) {
       const who = `tín chủ ${name}, ngụ tại ${addr}` + (phoneSpoken ? `, số điện thoại ${phoneSpoken}` : '');
-      if (topic === 'duoi_toa_sen') {
+      if (topic === 'binh_an') {
         return [
-          `Con quỳ dưới tòa sen đài, tâm đầu thành kính hướng về đây.`,
-          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Hôm nay ${who}, một lòng thành kính dâng nén tâm hương dưới tòa sen vàng.`,
-          `Nguyện cầu ánh đạo vàng soi sáng cho ${name}: ${wish}.`,
-          `Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'chu_dai_bi') {
-        return [
-          `Nam mô Đại Bi Hội Thượng Phật Bồ Tát! Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni.`,
-          `Hôm nay ${who} chí thành trì tụng Chú Đại Bi. Án ma ni bát di hồng!`,
-          `Nguyện tiêu tam chướng trừ phiền não, gia hộ cho ${name} tại ${addr}: ${wish}.`,
-          `Nam mô Đại Bi Quan Thế Âm Bồ Tát!`
-        ];
-      } else if (topic === 'tru_ac_niem') {
-        return [
-          `Nam mô Thanh Tịnh Đại Hải Chúng Bồ Tát!`,
-          `Hôm nay dưới ánh từ quang của Mười Phương Chư Phật, ${who} xin nguyện giải trừ mọi ác niệm, tà khí, sân hận và phiền não.`,
-          `Nguyện cho tâm trí ${name} luôn sáng suốt, hóa giải mọi oán kết, đón nhận bình an và năng lượng thiện lành.`,
-          `Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'sam_hoi') {
-        return [
-          `Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát!`,
-          `Xưa kia con tạo bao ác nghiệp, đều bởi vô thủy tham sân si. Hôm nay ${who} quỳ trước đài sen, chí thành sám hối mọi lỗi lầm.`,
-          `Nguyện từ nay làm lành lánh dữ, tâm hồn thanh tịnh, phước báu sinh sôi: ${wish}.`,
-          `Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'biet_on') {
-        return [
-          `Nam mô Đại Hiếu Mục Kiền Liên Bồ Tát!`,
-          `Hôm nay ${who} xin dâng nén tâm hương, thành tâm biết ơn công đức sinh thành dưỡng dục của Cha Mẹ, Tổ Tiên.`,
-          `Xin tri ân các bậc Quý Nhân, Đối Tác và Khách Hàng đã luôn yêu thương đồng hành. Nguyện cầu: ${wish}.`,
-          `Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'giam_stress') {
-        return [
-          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Thở vào tâm tĩnh lặng, thở ra miệng mỉm cười.`,
-          `Hôm nay tại chốn thiền môn thanh tịnh, ${who} xin buông xuống mọi căng thẳng, mệt mỏi và áp lực bộn bề.`,
-          `Nguyện cho thân tâm ${name} nhẹ nhàng như mây trắng, an nhiên tự tại, ngủ ngon giấc, tràn đầy năng lượng tích cực.`,
-          `Nam mô A Di Đà Phật!`
+          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Quan Thế Âm Bồ Tát!`,
+          `Hôm nay tại Chùa Trường Yến, ${who} một lòng thành kính dâng nén tâm hương cầu nguyện bình an.`,
+          `Cúi xin Chư Phật mười phương từ bi gia hộ cho ${name} cùng toàn thể gia quyến: ${wish}.`,
+          `Bốn mùa không chút tai ương, tám tiết có điềm khánh hỷ. Nam mô A Di Đà Phật!`
         ];
       } else if (topic === 'suc_khoe') {
         return [
           `Nam mô Dược Sư Lưu Ly Quang Vương Phật!`,
-          `Hôm nay ${who} thành tâm đảnh lễ Đức Phật Dược Sư. Tayata Om Bekandze Bekandze Maha Bekandze Radza Samudgate Soha.`,
-          `Nguyện cầu ánh sáng lưu ly gia hộ cho ${name} và toàn thể gia quyến tại ${addr} thân không tật bệnh, tâm không phiền não, bách bệnh tiêu trừ, vạn sự bình an!`,
-          `Nam mô Dược Sư Lưu Ly Quang Vương Phật!`
+          `Hôm nay ${who} thành tâm đảnh lễ cầu xin sức khỏe và trường thọ.`,
+          `Nguyện cầu ánh sáng Phật pháp che chở cho ${name} cùng cha mẹ và gia đình tại ${addr}: ${wish}.`,
+          `Thân không tật bệnh, tâm luôn an lạc, phước thọ miên trường! Nam mô A Di Đà Phật!`
+        ];
+      } else if (topic === 'tai_loc') {
+        return [
+          `Nam mô A Di Đà Phật! Kính lạy Ban Thờ Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần.`,
+          `Hôm nay ${who} thành tâm dâng lễ cầu xin tài lộc và công danh sự nghiệp.`,
+          `Cúi xin Tôn Thần chứng giám lòng thành, độ trì cho ${name}: ${wish}.`,
+          `Khai thông vận khí, khách quý tìm đến, lộc tài vượng phát! Nam mô A Di Đà Phật!`
+        ];
+      } else if (topic === 'giam_stress') {
+        return [
+          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật!`,
+          `Hôm nay tại chốn thiền môn thanh tịnh, ${who} xin thành tâm khấn nguyện buông bỏ mọi căng thẳng và áp lực bộn bề.`,
+          `Cầu xin Đức Phật từ bi soi sáng cho ${name}: ${wish}.`,
+          `Tâm bình thế giới bình, vạn sự an nhiên tự tại! Nam mô A Di Đà Phật!`
+        ];
+      } else if (topic === 'tu_nhan') {
+        return [
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật, Chư Đại Bồ Tát và Chư Vị Tôn Thần.`,
+          `Hôm nay ${who} quỳ trước chánh điện, thành tâm dâng lời cầu nguyện riêng từ đáy lòng:`,
+          `${wish}.`,
+          `Cúi xin Chư Phật chứng minh công đức và gia hộ cho tâm nguyện của ${name} sớm được viên mãn như ý! Nam mô A Di Đà Phật!`
         ];
       }
-      // Default: Sớ Khấn Độ Lộc Khách Hàng
+      // Default: Khấn Cầu Khách Hàng Chốt Đơn Lớn
       const altarTitle = (currentZone === 'thantai')
         ? 'Ban Thờ Thần Tài Vị Tiền, Ngũ Phương Ngũ Thổ Long Thần, Tiền Hậu Địa Chủ Tài Thần'
         : 'Đại Hùng Bảo Điện, Mười Phương Chư Phật, Đức Phật Thích Ca Mâu Ni';
       return [
         `Nam mô A Di Đà Phật! Kính lạy ${altarTitle}.`,
-        `Hôm nay tại Chùa Trường Yến, đại diện Kho Tấm Ốp Trường Yến xin thành tâm thắp hương cầu nguyện cho tín chủ khách hàng: ${name}.`,
+        `Hôm nay tại Chùa Trường Yến, đại diện Kho Tấm Ốp Trường Yến xin thành tâm thắp hương khấn cầu cho tín chủ khách hàng: ${name}.`,
         `Ngụ tại địa chỉ: ${addr}.` + (phoneSpoken ? ` Số điện thoại: ${phoneSpoken}.` : ''),
-        `Nguyện cầu ơn trên độ trì cho tín chủ ${name} tại ${addr}: ${wish}.`,
-        `Tâm thành tất ứng, vạn sự đại cát đại lợi! Nam mô A Di Đà Phật!`
+        `Nguyện cầu ơn trên độ trì cho khách hàng ${name} tại ${addr}: ${wish}.`,
+        `Tâm thành tất ứng, chốt đơn suôn sẻ, vạn sự đại cát đại lợi! Nam mô A Di Đà Phật!`
       ];
     }
 
@@ -1720,12 +1747,20 @@
     // =========================================================================
     let totalMeritAccumulated = 1288;
     const altarOfferings = {
-      '-1': [{ icon: '🍵', label: 'Trà Sen', giver: 'Sếp Thành' }],
-      '0':  [
-        { icon: '🪷', label: 'Hoa Sen Hồng', giver: 'Sếp Thành' },
-        { icon: '🍎', label: 'Mâm Ngũ Quả', giver: 'Sale Minh Anh' }
+      '-1': [
+        { icon: '🍵', label: 'Trà Sen', giver: 'Sếp Thành' },
+        { icon: '🪙', label: 'Tiền Vàng', giver: 'Sếp Thành' }
       ],
-      '1':  [{ icon: '🍍', label: 'Mâm Vàng Tài Lộc', giver: 'Sếp Thành' }]
+      '0':  [
+        { icon: '🪷', label: 'Hoa Sen', giver: 'Sếp Thành' },
+        { icon: '🍎', label: 'Ngũ Quả', giver: 'Sale Minh Anh' },
+        { icon: '🪙', label: 'Tiền Vàng', giver: 'Sếp Thành' },
+        { icon: '🍵', label: 'Trà Oản', giver: 'Sale Kiều Trang' }
+      ],
+      '1':  [
+        { icon: '🍍', label: 'Mâm Vàng', giver: 'Sếp Thành' },
+        { icon: '🪙', label: 'Kim Ngân', giver: 'Sếp Thành' }
+      ]
     };
     let offeringCeremony = null;
 
@@ -2136,36 +2171,68 @@
         }
         ctx.restore();
 
-        // Render sacred offerings placed on the altar table (Mâm Lễ Vật Dâng Chùa)
+        // Render Carved Wooden Offering Table (BÀN ĐỂ ĐỒ CÚNG DƯỜNG) in front of every Altar!
         const wingOfferings = altarOfferings[String(wd.idx)] || [];
+        ctx.save();
+        const tableY = censerY + 34 * (wingH / 960);
+        const tableW = Math.min(280, wingW * 0.44);
+        const tableH = 34 * (wingH / 960);
+        const tableX = censerX - tableW / 2;
+
+        // Carved Red & Gold Lacquered Wooden Table Top & Apron (Bàn Cúng Dường Sơn Son Thếp Vàng)
+        const tblGrad = ctx.createLinearGradient(tableX, tableY, tableX, tableY + tableH);
+        tblGrad.addColorStop(0, 'rgba(92, 24, 8, 0.95)');
+        tblGrad.addColorStop(1, 'rgba(42, 10, 3, 0.96)');
+        ctx.fillStyle = tblGrad;
+        ctx.strokeStyle = '#ffd56b';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.roundRect(tableX, tableY, tableW, tableH, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        // Table legs
+        ctx.fillStyle = '#5c1906';
+        ctx.strokeStyle = '#d49b38';
+        ctx.lineWidth = 1.2;
+        ctx.fillRect(tableX + 10, tableY + tableH, 8, 14);
+        ctx.strokeRect(tableX + 10, tableY + tableH, 8, 14);
+        ctx.fillRect(tableX + tableW - 18, tableY + tableH, 8, 14);
+        ctx.strokeRect(tableX + tableW - 18, tableY + tableH, 8, 14);
+
+        // Golden inscription on the front apron of the Offering Table
+        ctx.font = 'bold 8.5px sans-serif';
+        ctx.fillStyle = '#ffd740';
+        ctx.textAlign = 'center';
+        ctx.fillText('══ BÀN ĐỂ ĐỒ CÚNG DƯỜNG ══', censerX, tableY + tableH - 5);
+
+        // Render each sacred offering sitting on top of the Bàn Cúng Dường
         if (wingOfferings.length > 0) {
-          ctx.save();
-          const trayY = censerY + 22 * (wingH / 960);
-          const spacing = Math.min(68, (wingW * 0.36) / Math.max(1, wingOfferings.length));
+          const spacing = Math.min(62, (tableW - 24) / Math.max(1, wingOfferings.length));
           wingOfferings.forEach((off, idx) => {
             const ox = censerX + (idx - (wingOfferings.length - 1) / 2) * spacing;
-            const oy = trayY + (idx % 2) * 4;
-            // Golden pedestal plate
-            ctx.fillStyle = 'rgba(48, 22, 5, 0.88)';
-            ctx.strokeStyle = '#ffd56b';
-            ctx.lineWidth = 1.3;
+            const oy = tableY + 4;
+            // Golden pedestal plate sitting on the wooden table
+            ctx.fillStyle = 'rgba(56, 26, 6, 0.94)';
+            ctx.strokeStyle = '#ffe082';
+            ctx.lineWidth = 1.4;
             ctx.beginPath();
-            ctx.roundRect(ox - 26, oy - 12, 52, 24, 9);
+            ctx.roundRect(ox - 27, oy - 13, 54, 24, 8);
             ctx.fill();
             ctx.stroke();
 
-            ctx.font = '14px sans-serif';
+            ctx.font = '15px sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(off.icon, ox - 13, oy);
+            ctx.fillText(off.icon, ox - 14, oy - 1);
 
             ctx.font = 'bold 8.5px sans-serif';
-            ctx.fillStyle = '#ffe8a3';
+            ctx.fillStyle = '#fff3c4';
             ctx.textAlign = 'left';
-            ctx.fillText(off.label.slice(0, 7), ox - 3, oy + 0.5);
+            ctx.fillText(off.label.slice(0, 7), ox - 4, oy - 0.5);
           });
-          ctx.restore();
         }
+        ctx.restore();
       }
 
       for (const sp of smokeParticles) {
@@ -2341,50 +2408,52 @@
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
       }
 
-      // Flying Offering Tray Ceremony (When user redeems an offering in the shop)
+      // Character Carrying & Placing Offering onto the Bàn Để Đồ Cúng Dường
       if (offeringCeremony && offeringCeremony.active && offeringCeremony.timer > 0) {
         offeringCeremony.timer--;
         const prog = 1.0 - (offeringCeremony.timer / offeringCeremony.maxTimer);
         const wx = centerScreenX + (offeringCeremony.wing - camWingX) * wingW - wingW / 2;
         const targetX = wx + wingW * 0.50;
-        const targetY = topScreenY + wingH * 0.415;
+        const targetY = topScreenY + wingH * ((offeringCeremony.wing === 0) ? 0.425 : 0.448);
 
+        const startX = player._screenX || (W * 0.5);
+        const startY = (player._screenY || (H * 0.64)) - 56;
         const ease = prog * prog * (3 - 2 * prog);
-        const curX = W * 0.5 + (targetX - W * 0.5) * ease;
-        const curY = H * 0.68 + (targetY - H * 0.68) * ease - Math.sin(prog * Math.PI) * 45;
-        const sc = 1.15 - ease * 0.35;
+        const curX = startX + (targetX - startX) * ease;
+        const curY = startY + (targetY - startY) * ease - Math.sin(prog * Math.PI) * 32;
+        const sc = 1.12 - ease * 0.28;
 
         ctx.save();
         ctx.translate(curX, curY);
         ctx.scale(sc, sc);
         const halo = ctx.createRadialGradient(0, 0, 4, 0, 0, 48);
-        halo.addColorStop(0, 'rgba(255, 225, 110, 0.9)');
+        halo.addColorStop(0, 'rgba(255, 225, 110, 0.92)');
         halo.addColorStop(1, 'rgba(255, 180, 30, 0)');
         ctx.fillStyle = halo;
         ctx.beginPath();
         ctx.arc(0, 0, 48, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = 'rgba(62, 24, 6, 0.94)';
+        ctx.fillStyle = 'rgba(68, 24, 6, 0.95)';
         ctx.strokeStyle = '#ffe082';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(-78, -22, 156, 44, 14);
+        ctx.roundRect(-84, -22, 168, 44, 14);
         ctx.fill();
         ctx.stroke();
 
         ctx.font = '24px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(offeringCeremony.icon, -52, 0);
+        ctx.fillText(offeringCeremony.icon, -58, 0);
 
-        ctx.font = 'bold 11.5px sans-serif';
+        ctx.font = 'bold 10.5px sans-serif';
         ctx.fillStyle = '#fff5d6';
         ctx.textAlign = 'left';
-        ctx.fillText('DÂNG LỄ TAM BẢO:', -32, -7);
-        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText(`${player.name} DÂNG LÊN BÀN:`, -36, -7);
+        ctx.font = 'bold 11.5px sans-serif';
         ctx.fillStyle = '#ffd54f';
-        ctx.fillText(offeringCeremony.name, -32, 9);
+        ctx.fillText(offeringCeremony.name, -36, 9);
         ctx.restore();
 
         if (offeringCeremony.timer === 0) offeringCeremony.active = false;
@@ -2527,6 +2596,9 @@
     if (location.search.includes('khan=1')) setTimeout(openSoKhanModal, 100);
     if (location.search.includes('burn=1')) {
       goldBurnCeremony = { active: true, timer: 240, maxTimer: 240, wing: player.wing };
+    }
+    if (location.search.includes('offer=1')) {
+      offeringCeremony = { active: true, timer: 95, maxTimer: 140, wing: player.wing, icon: '🍎', name: 'Mâm Ngũ Quả Phú Quý' };
     }
     requestAnimationFrame(render);
   </script>
