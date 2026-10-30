@@ -560,6 +560,68 @@
       border-bottom: 1px dashed rgba(234, 182, 81, 0.2);
       padding-bottom: 3px;
     }
+
+    /* PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA VÀNG - VUỐT ĐỂ NÉM VÀO LÒ LỬA) */
+    #goldFurnaceRoom {
+      position: fixed;
+      inset: 0;
+      z-index: 98;
+      background: radial-gradient(circle at 50% 38%, #3e1404 0%, #160602 70%, #090200 100%);
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      user-select: none;
+      touch-action: none;
+    }
+    #goldFurnaceRoom.open { display: flex; }
+    #furnaceCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .furnace-hud-top {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: linear-gradient(180deg, rgba(20, 6, 2, 0.92), rgba(20, 6, 2, 0));
+    }
+    .furnace-hud-bottom {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px 16px;
+      background: linear-gradient(0deg, rgba(18, 6, 2, 0.95) 0%, rgba(18, 6, 2, 0) 100%);
+      pointer-events: none;
+    }
+    .gold-type-bar {
+      display: flex;
+      gap: 6px;
+      pointer-events: auto;
+    }
+    .gold-type-btn {
+      background: rgba(55, 22, 5, 0.9);
+      border: 1.5px solid rgba(255, 200, 80, 0.55);
+      color: #ffe596;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .gold-type-btn.active {
+      background: linear-gradient(135deg, #ff8f00, #c62828);
+      color: #fff;
+      border-color: #fff59d;
+      box-shadow: 0 0 12px rgba(255, 160, 0, 0.7);
+    }
   </style>
 </head>
 <body>
@@ -583,6 +645,7 @@
       <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
       <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
       <button id="tabDucOng" class="chip-btn" onclick="switchZone('ducong')">🔔 Đức Ông</button>
+      <button id="tabFurnace" class="chip-btn" style="background:linear-gradient(135deg,#d84315,#8e1b05);color:#fff;border-color:#ffcc80;" onclick="openGoldFurnaceRoom()">🔥 Phòng Hóa Vàng</button>
     </div>
 
     <div class="top-group">
@@ -665,7 +728,7 @@
     <button class="qo-btn" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phú Quý', 30)">🍎 Ngũ Quả</button>
     <button class="qo-btn" onclick="redeemOfferingItem('gold_ingot', '🪙', 'Mâm Tiền Vàng Kim Ngân', 30)">🪙 Tiền Vàng</button>
     <button class="qo-btn" onclick="redeemOfferingItem('tea_oan', '🍵', 'Trà Sen & Oản Ngọc', 40)">🍵 Trà Oản</button>
-    <button class="qo-btn" onclick="burnGoldPaperRitual()">🔥 Hóa Vàng</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Đốt Tiền Vàng</button>
   </div>
 
   <!-- Collapsible Chat Input Drawer -->
@@ -927,6 +990,30 @@
 
       <div class="sk-actions">
         <button class="btn-sk-close" style="width:100%;" onclick="closeMeritShopModal()">✕ Đóng Bảng Vinh Danh & Cửa Hàng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA KIM NGÂN - VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA ĐỐT) -->
+  <div id="goldFurnaceRoom">
+    <canvas id="furnaceCanvas"></canvas>
+
+    <div class="furnace-hud-top">
+      <div>
+        <div style="font-size:14px; font-weight:900; color:#ffd740; text-shadow:0 2px 6px #000;">🔥 PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA KIM NGÂN)</div>
+        <div style="font-size:11px; color:#ffe082;">Đã đốt: <b id="furnaceBurnCounter" style="color:#ffab40;">5</b> Xấp Tiền Vàng · Phước nhận: <b id="furnaceMeritEarned" style="color:#ffd740;">+200 💎</b></div>
+      </div>
+      <button class="btn-modal-x" style="padding:6px 12px; font-size:12.5px;" onclick="closeGoldFurnaceRoom()">✕ Rời Phòng Hóa Vàng</button>
+    </div>
+
+    <div class="furnace-hud-bottom">
+      <div style="font-size:11.5px; font-weight:800; color:#ffd54f; text-shadow:0 2px 6px #000; background:rgba(35,12,3,0.85); padding:4px 12px; border-radius:999px; border:1px solid rgba(255,213,79,0.5);">
+        👆 Vuốt từ xấp tiền vàng bên dưới lên cửa Lò Lửa để ném đốt!
+      </div>
+      <div class="gold-type-bar">
+        <button class="gold-type-btn active" onclick="selectGoldThrowType('🪙', 'Thỏi Vàng Kim Nguyên Bảo', this)">🪙 Thỏi Vàng Kim Ngân</button>
+        <button class="gold-type-btn" onclick="selectGoldThrowType('🧧', 'Xấp Tiền Vàng Mã Phú Quý', this)">🧧 Xấp Tiền Vàng Mã</button>
+        <button class="gold-type-btn" onclick="selectGoldThrowType('👑', 'Đại Đĩnh Vàng Thần Tài', this)">👑 Đại Đĩnh Vàng</button>
       </div>
     </div>
   </div>
@@ -2590,6 +2677,352 @@
       }
 
       requestAnimationFrame(render);
+    }
+
+    // =========================================================================
+    // 8. PHÒNG ĐỐT TIỀN VÀNG (ĐÀI HÓA KIM NGÂN - VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA)
+    // =========================================================================
+    const fCanvas = document.getElementById('furnaceCanvas');
+    const fCtx = fCanvas.getContext('2d');
+    let furnaceOpen = false;
+    let selectedGoldIcon = '🪙';
+    let selectedGoldName = 'Thỏi Vàng Kim Nguyên Bảo';
+    let furnaceMeritSession = 200;
+    let furnaceFlareTimer = 0;
+    const flyingGoldThrows = [];
+    const furnaceEmbers = [];
+    for (let i = 0; i < 45; i++) {
+      furnaceEmbers.push({
+        x: 0.35 + Math.random() * 0.30,
+        y: 0.25 + Math.random() * 0.45,
+        vy: 0.002 + Math.random() * 0.004,
+        vx: (Math.random() - 0.5) * 0.002,
+        r: 1.5 + Math.random() * 3.0,
+        alpha: 0.4 + Math.random() * 0.6
+      });
+    }
+
+    let swipeDrag = { active: false, startX: 0, startY: 0, curX: 0, curY: 0 };
+
+    function resizeFurnaceCanvas() {
+      fCanvas.width = window.innerWidth * window.devicePixelRatio;
+      fCanvas.height = window.innerHeight * window.devicePixelRatio;
+      fCtx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+    }
+    window.addEventListener('resize', resizeFurnaceCanvas);
+    resizeFurnaceCanvas();
+
+    function openGoldFurnaceRoom() {
+      unlockAndStartAudio();
+      closeMeritShopModal();
+      furnaceOpen = true;
+      document.getElementById('goldFurnaceRoom').classList.add('open');
+      resizeFurnaceCanvas();
+      playBellSound();
+    }
+
+    function closeGoldFurnaceRoom() {
+      furnaceOpen = false;
+      document.getElementById('goldFurnaceRoom').classList.remove('open');
+    }
+
+    function selectGoldThrowType(icon, name, btnEl) {
+      selectedGoldIcon = icon;
+      selectedGoldName = name;
+      document.querySelectorAll('.gold-type-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function launchGoldIntoFurnace(vxOffset = 0) {
+      unlockAndStartAudio();
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      flyingGoldThrows.push({
+        x: W * 0.5,
+        y: H * 0.76,
+        targetX: W * 0.5 + vxOffset * 0.25,
+        targetY: H * 0.37,
+        prog: 0,
+        rot: 0,
+        icon: selectedGoldIcon,
+        name: selectedGoldName
+      });
+      playMoSound();
+    }
+
+    fCanvas.addEventListener('pointerdown', (e) => {
+      if (!furnaceOpen) return;
+      swipeDrag.active = true;
+      swipeDrag.startX = e.clientX;
+      swipeDrag.startY = e.clientY;
+      swipeDrag.curX = e.clientX;
+      swipeDrag.curY = e.clientY;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!swipeDrag.active) return;
+      swipeDrag.curX = e.clientX;
+      swipeDrag.curY = e.clientY;
+    });
+    window.addEventListener('pointerup', (e) => {
+      if (!swipeDrag.active) return;
+      swipeDrag.active = false;
+      const dy = swipeDrag.startY - e.clientY;
+      const dx = e.clientX - swipeDrag.startX;
+      if (dy > 24 || e.clientY < window.innerHeight * 0.78) {
+        launchGoldIntoFurnace(dx);
+      }
+    });
+
+    fCanvas.addEventListener('touchstart', (e) => {
+      if (!furnaceOpen || !e.touches[0]) return;
+      swipeDrag.active = true;
+      swipeDrag.startX = e.touches[0].clientX;
+      swipeDrag.startY = e.touches[0].clientY;
+      swipeDrag.curX = e.touches[0].clientX;
+      swipeDrag.curY = e.touches[0].clientY;
+    }, { passive: true });
+    fCanvas.addEventListener('touchmove', (e) => {
+      if (!swipeDrag.active || !e.touches[0]) return;
+      swipeDrag.curX = e.touches[0].clientX;
+      swipeDrag.curY = e.touches[0].clientY;
+    }, { passive: true });
+    fCanvas.addEventListener('touchend', (e) => {
+      if (!swipeDrag.active) return;
+      swipeDrag.active = false;
+      const dy = swipeDrag.startY - swipeDrag.curY;
+      const dx = swipeDrag.curX - swipeDrag.startX;
+      if (dy > 18) {
+        launchGoldIntoFurnace(dx);
+      }
+    });
+
+    function renderFurnaceRoom() {
+      if (furnaceOpen) {
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        fCtx.clearRect(0, 0, W, H);
+
+        const cx = W * 0.5;
+        const furnaceY = H * 0.37;
+        const fW = Math.min(320, W * 0.82);
+        const fH = Math.min(250, H * 0.34);
+
+        if (furnaceFlareTimer > 0) furnaceFlareTimer--;
+        const flareBoost = (furnaceFlareTimer > 0) ? 1.45 : 1.0;
+
+        // 1. Radiant Fire Aura behind Furnace
+        const bgGlow = fCtx.createRadialGradient(cx, furnaceY, 15, cx, furnaceY, fW * 0.85 * flareBoost);
+        bgGlow.addColorStop(0, `rgba(255, 165, 20, ${0.65 + 0.15 * Math.sin(frameCount * 0.15)})`);
+        bgGlow.addColorStop(0.5, 'rgba(215, 55, 5, 0.32)');
+        bgGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        fCtx.fillStyle = bgGlow;
+        fCtx.beginPath();
+        fCtx.arc(cx, furnaceY, fW * 0.85 * flareBoost, 0, Math.PI * 2);
+        fCtx.fill();
+
+        // 2. Ancient Brick & Gold Pagoda Furnace Structure (Đài Hóa Kim Ngân)
+        fCtx.save();
+        // Curved temple roof over furnace
+        fCtx.fillStyle = '#4a1806';
+        fCtx.strokeStyle = '#ffd54f';
+        fCtx.lineWidth = 2.5;
+        fCtx.beginPath();
+        fCtx.moveTo(cx - fW * 0.62, furnaceY - fH * 0.46);
+        fCtx.quadraticCurveTo(cx, furnaceY - fH * 0.72, cx + fW * 0.62, furnaceY - fH * 0.46);
+        fCtx.lineTo(cx + fW * 0.50, furnaceY - fH * 0.36);
+        fCtx.lineTo(cx - fW * 0.50, furnaceY - fH * 0.36);
+        fCtx.closePath();
+        fCtx.fill();
+        fCtx.stroke();
+
+        // Furnace plaque
+        fCtx.fillStyle = '#2b0d03';
+        fCtx.strokeStyle = '#ffd740';
+        fCtx.lineWidth = 1.8;
+        fCtx.beginPath();
+        fCtx.roundRect(cx - 105, furnaceY - fH * 0.56, 210, 26, 8);
+        fCtx.fill();
+        fCtx.stroke();
+        fCtx.font = 'bold 12px sans-serif';
+        fCtx.fillStyle = '#ffd740';
+        fCtx.textAlign = 'center';
+        fCtx.textBaseline = 'middle';
+        fCtx.fillText('🔥 ĐÀI HÓA KIM NGÂN 🔥', cx, furnaceY - fH * 0.56 + 13);
+
+        // Furnace brick body
+        const bodyGrad = fCtx.createLinearGradient(cx - fW * 0.46, furnaceY - fH * 0.36, cx + fW * 0.46, furnaceY + fH * 0.48);
+        bodyGrad.addColorStop(0, '#5e2109');
+        bodyGrad.addColorStop(0.5, '#3b1204');
+        bodyGrad.addColorStop(1, '#240a02');
+        fCtx.fillStyle = bodyGrad;
+        fCtx.strokeStyle = '#e6a83a';
+        fCtx.lineWidth = 2.5;
+        fCtx.beginPath();
+        fCtx.roundRect(cx - fW * 0.46, furnaceY - fH * 0.36, fW * 0.92, fH * 0.82, 14);
+        fCtx.fill();
+        fCtx.stroke();
+
+        // Arched Fiery Furnace Mouth (Cửa Lò Lửa)
+        const mouthW = fW * 0.62;
+        const mouthH = fH * 0.58;
+        fCtx.fillStyle = '#140400';
+        fCtx.strokeStyle = '#ffb300';
+        fCtx.lineWidth = 3;
+        fCtx.beginPath();
+        fCtx.roundRect(cx - mouthW / 2, furnaceY - mouthH * 0.42, mouthW, mouthH, [mouthW * 0.45, mouthW * 0.45, 10, 10]);
+        fCtx.fill();
+        fCtx.stroke();
+
+        // Roaring volumetric flames inside the Furnace Mouth
+        for (let i = 0; i < 11; i++) {
+          const frac = (i / 10) - 0.5;
+          const fx = cx + frac * (mouthW * 0.76) + Math.sin(frameCount * 0.22 + i) * 5;
+          const baseH = (mouthH * 0.42 + Math.abs(Math.sin(frameCount * 0.19 + i * 1.4)) * mouthH * 0.45) * flareBoost;
+          const fy = furnaceY + mouthH * 0.50;
+          const flGrad = fCtx.createLinearGradient(fx, fy, fx, fy - baseH);
+          flGrad.addColorStop(0, '#ff3d00');
+          flGrad.addColorStop(0.55, '#ff9100');
+          flGrad.addColorStop(1, '#ffee58');
+          fCtx.fillStyle = flGrad;
+          fCtx.beginPath();
+          fCtx.ellipse(fx, fy - baseH * 0.42, 13 * flareBoost, baseH * 0.55, 0, 0, Math.PI * 2);
+          fCtx.fill();
+        }
+
+        // Burning gold ingots glowing inside the coals
+        fCtx.font = '24px sans-serif';
+        fCtx.fillText('🪙🔥🪙🔥🪙', cx, furnaceY + mouthH * 0.36);
+        fCtx.restore();
+
+        // 3. Rising Golden Sparks & Embers
+        for (const em of furnaceEmbers) {
+          em.y -= em.vy * flareBoost;
+          em.x += em.vx + Math.sin(frameCount * 0.05 + em.y * 10) * 0.001;
+          if (em.y < 0.08) {
+            em.y = 0.44;
+            em.x = 0.38 + Math.random() * 0.24;
+          }
+          fCtx.fillStyle = `rgba(255, 215, 64, ${em.alpha})`;
+          fCtx.beginPath();
+          fCtx.arc(em.x * W, em.y * H, em.r, 0, Math.PI * 2);
+          fCtx.fill();
+        }
+
+        // 4. Animated Swipe-Up Guide Arrows (Từ xấp tiền vàng lên cửa Lò Lửa)
+        const guideY = H * 0.60 - ((frameCount * 1.6) % 48);
+        fCtx.save();
+        fCtx.globalAlpha = 0.72;
+        fCtx.font = 'bold 13px sans-serif';
+        fCtx.fillStyle = '#ffe082';
+        fCtx.textAlign = 'center';
+        fCtx.fillText('⬆️ VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA ⬆️', cx, guideY);
+        fCtx.restore();
+
+        // 5. Flying Thrown Gold Ingots / Joss Paper Bundles
+        for (let i = flyingGoldThrows.length - 1; i >= 0; i--) {
+          const g = flyingGoldThrows[i];
+          g.prog += 0.045;
+          g.rot += 0.22;
+          const t = g.prog;
+          const gx = g.x + (g.targetX - g.x) * t;
+          const gy = g.y + (g.targetY - g.y) * t - Math.sin(t * Math.PI) * 95;
+          const gScale = 1.35 - t * 0.55;
+
+          fCtx.save();
+          fCtx.translate(gx, gy);
+          fCtx.rotate(g.rot);
+          fCtx.scale(gScale, gScale);
+          fCtx.font = '44px sans-serif';
+          fCtx.textAlign = 'center';
+          fCtx.textBaseline = 'middle';
+          fCtx.fillText(g.icon, 0, 0);
+          fCtx.restore();
+
+          if (g.prog >= 1.0) {
+            flyingGoldThrows.splice(i, 1);
+            furnaceFlareTimer = 28;
+            burnCountTotal++;
+            furnaceMeritSession += 35;
+            addMerit(35);
+            document.getElementById('furnaceBurnCounter').textContent = burnCountTotal;
+            document.getElementById('furnaceMeritEarned').textContent = `+${furnaceMeritSession} 💎`;
+            const bcEl = document.getElementById('shopBurnCount');
+            if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
+            playBellSound();
+            floatingHits.push({
+              x: cx,
+              y: furnaceY - 25,
+              text: `🔥 Đã hóa ${g.name}! +35 💎 Phước Lộc!`,
+              color: '#ffd740',
+              life: 1.2
+            });
+            appendMeritLog(`🔥🪙 <b>${player.name}</b> đã ném đốt <b>${g.icon} ${g.name}</b> vào Lò Lửa Hóa Vàng (+35 💎)`);
+            if (burnCountTotal % 3 === 0) {
+              speakVietnameseText(`Tín chủ ${player.name} thành tâm hóa ${g.name} vào lò lửa, nguyện cầu Thần Tài Thổ Địa chứng giám, lộc về đầy kho, chốt đơn rực rỡ!`);
+            }
+          }
+        }
+
+        // 6. First-Person Hands Holding the Gold Stack at Bottom (Follows Finger While Swiping!)
+        let handX = cx;
+        let handY = H * 0.77;
+        if (swipeDrag.active) {
+          handX = cx + (swipeDrag.curX - swipeDrag.startX) * 0.45;
+          handY = Math.max(H * 0.48, H * 0.77 + (swipeDrag.curY - swipeDrag.startY) * 0.65);
+        } else {
+          handY += Math.sin(frameCount * 0.06) * 5;
+        }
+
+        fCtx.save();
+        // Golden tray + stack of gold in user's hands
+        fCtx.fillStyle = 'rgba(78, 30, 6, 0.95)';
+        fCtx.strokeStyle = '#ffd54f';
+        fCtx.lineWidth = 2.5;
+        fCtx.beginPath();
+        fCtx.roundRect(handX - 92, handY - 36, 184, 72, 18);
+        fCtx.fill();
+        fCtx.stroke();
+
+        fCtx.font = '38px sans-serif';
+        fCtx.textAlign = 'center';
+        fCtx.textBaseline = 'middle';
+        fCtx.fillText(`${selectedGoldIcon}${selectedGoldIcon}${selectedGoldIcon}`, handX, handY - 6);
+
+        fCtx.font = 'bold 11px sans-serif';
+        fCtx.fillStyle = '#ffe596';
+        fCtx.fillText(`🙌 Cầm: ${selectedGoldName} (Vuốt lên để ném)`, handX, handY + 23);
+        fCtx.restore();
+
+        // Floating hit feedback inside furnace room
+        for (let i = floatingHits.length - 1; i >= 0; i--) {
+          const fh = floatingHits[i];
+          fCtx.save();
+          fCtx.globalAlpha = Math.min(1, fh.life);
+          fCtx.font = 'bold 13.5px sans-serif';
+          fCtx.fillStyle = fh.color;
+          fCtx.textAlign = 'center';
+          fCtx.fillText(fh.text, fh.x, fh.y);
+          fCtx.restore();
+        }
+      }
+      requestAnimationFrame(renderFurnaceRoom);
+    }
+    requestAnimationFrame(renderFurnaceRoom);
+
+    if (location.search.includes('furnace=1')) {
+      setTimeout(() => {
+        openGoldFurnaceRoom();
+        flyingGoldThrows.push({
+          x: window.innerWidth * 0.5,
+          y: window.innerHeight * 0.76,
+          targetX: window.innerWidth * 0.5,
+          targetY: window.innerHeight * 0.37,
+          prog: 0.52,
+          rot: 0.4,
+          icon: '🪙',
+          name: 'Thỏi Vàng Kim Nguyên Bảo'
+        });
+      }, 80);
     }
 
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
