@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Chùa Trường Yến 3D — Tịnh Độ Hay Độ Khách</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&display=swap');
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0f172a;
+    color: #fff;
+  }
+  #canvas-container {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+  }
+  /* Floating text container */
+  #floating-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 15;
+    overflow: hidden;
+  }
+  .float-text {
+    position: absolute;
+    font-weight: 800;
+    font-size: 18px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+    pointer-events: none;
+    animation: floatUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    white-space: nowrap;
+  }
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translate(-50%, 10px) scale(0.7); }
+    18% { opacity: 1; transform: translate(-50%, -15px) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -110px) scale(0.95); }
+  }
+  /* Screen flash & shake */
+  .screen-shake {
+    animation: shakeAnim 0.35s ease-in-out;
+  }
+  @keyframes shakeAnim {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-10px, 6px); }
+    40% { transform: translate(10px, -8px); }
+    60% { transform: translate(-8px, -4px); }
+    80% { transform: translate(8px, 6px); }
+  }
+  #flash-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 14;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Top HUD */
+  #top-hud {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+  .hud-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .brand-pill {
+    pointer-events: auto;
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.88), rgba(36, 59, 85, 0.88));
+    border: 1.5px solid rgba(251, 191, 36, 0.65);
+    border-radius: 16px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    backdrop-filter: blur(10px);
+  }
+  .brand-title {
+    font-size: 14px;
+    font-weight: 900;
+    color: #fde68a;
+    letter-spacing: 0.3px;
+  }
+  .brand-sub {
+    font-size: 11px;
+    color: #cbd5e1;
+  }
+  .stats-bar {
+    pointer-events: auto;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    padding: 6px 11px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .stat-chip span.val {
+    color: #fbbf24;
+    font-size: 13.5px;
+    font-weight: 900;
+  }
+  .stat-chip.rage span.val {
+    color: #f87171;
+  }
+  .stat-chip.bow span.val {
+    color: #38bdf8;
+  }
+
+  /* Zone Switcher Banner */
+  .zone-switch-bar {
+    pointer-events: auto;
+    display: flex;
+    gap: 8px;
+    align-self: center;
+    background: rgba(15, 23, 42, 0.82);
+    padding: 5px;
+    border-radius: 999px;
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    backdrop-filter: blur(10px);
+  }
+  .zone-btn {
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .zone-btn.active-zen {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+  }
+  .zone-btn.active-rage {
+    background: linear-gradient(135deg, #ef4444, #991b1b);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
+  }
+
+  /* Boss Speech & HP Overlay (for Rage Mode) */
+  #boss-hud {
+    position: fixed;
+    top: 112px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 18;
+    width: min(92vw, 440px);
+    background: rgba(24, 10, 14, 0.88);
+    border: 2px solid #ef4444;
+    border-radius: 16px;
+    padding: 10px 14px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+    backdrop-filter: blur(8px);
+  }
+  .boss-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fca5a5;
+  }
+  .hp-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: #3f1d24;
+    border-radius: 99px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .hp-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ef4444, #f97316);
+    transition: width 0.2s ease;
+  }
+  .boss-quote {
+    font-size: 12.5px;
+    font-style: italic;
+    color: #fef08a;
+    background: rgba(0,0,0,0.45);
+    padding: 6px 10px;
+    border-radius: 10px;
+    border-left: 3px solid #f59e0b;
+  }
+
+  /* Prayer / Fortune Modal Banner */
+  #center-toast {
+    position: fixed;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 30;
+    width: min(90vw, 420px);
+    background: linear-gradient(145deg, rgba(30, 20, 10, 0.96), rgba(60, 35, 12, 0.96));
+    border: 2px solid #fbbf24;
+    border-radius: 20px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 30px rgba(251, 191, 36, 0.35);
+    display: none;
+    opacity: 0;
+    transition: all 0.25s ease;
+  }
+  #center-toast.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #center-toast h3 {
+    color: #fde68a;
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+  #center-toast p {
+    color: #fff;
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  #center-toast button {
+    background: linear-gradient(135deg, #f59e0b, #b45309);
+    border: none;
+    color: #fff;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 99px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Bottom Control Dock */
+  #bottom-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    background: linear-gradient(to top, rgba(10, 15, 29, 0.96) 75%, rgba(10, 15, 29, 0.0));
+    padding: 18px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .action-panel {
+    width: min(96vw, 600px);
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: 18px;
+    padding: 11px 12px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -4px 25px rgba(0,0,0,0.45);
+    max-height: 36vh;
+    overflow-y: auto;
+  }
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #fde68a;
+  }
+  .btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+  }
+  .act-btn {
+    border: 1px solid rgba(255,255,255,0.16);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+    color: #f8fafc;
+    padding: 9px 10px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: left;
+    transition: transform 0.1s, background 0.2s, border-color 0.2s;
+  }
+  .act-btn:active {
+    transform: scale(0.95);
+  }
+  .act-btn.gold {
+    background: linear-gradient(135deg, #d97706, #92400e);
+    border-color: #fbbf24;
+    color: #fff;
+    font-weight: 800;
+  }
+  .act-btn.fire {
+    background: linear-gradient(135deg, #dc2626, #7f1d1d);
+    border-color: #f87171;
+    color: #fff;
+    font-weight: 800;
+  }
+  .act-btn.jade {
+    background: linear-gradient(135deg, #059669, #065f46);
+    border-color: #34d399;
+    color: #fff;
+    font-weight: 800;
+  }
+  .act-btn.full-col {
+    grid-column: span 2;
+    justify-content: center;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 7px;
+  }
+  .input-row input, .input-row select {
+    flex: 1;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    padding: 8px 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+  }
+  .input-row input:focus {
+    border-color: #fbbf24;
+  }
+
+  /* Bottom Navigation Tabs */
+  .nav-tabs {
+    width: min(96vw, 600px);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    background: rgba(15, 23, 42, 0.95);
+    padding: 5px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .tab-btn {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    padding: 7px 2px;
+    border-radius: 11px;
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.2s;
+  }
+  .tab-btn span.ico {
+    font-size: 17px;
+  }
+  .tab-btn.active {
+    background: rgba(251, 191, 36, 0.18);
+    color: #fde68a;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+  }
+  .tab-btn.active-rage-tab {
+    background: rgba(239, 68, 68, 0.22);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+  }
+</style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+<div id="flash-overlay"></div>
+<div id="floating-layer"></div>
+
+<!-- Top HUD -->
+<div id="top-hud">
+  <div class="hud-row">
+    <div class="brand-pill">
+      <div style="font-size: 24px;">🏯</div>
+      <div>
+        <div class="brand-title">CHÙA TRƯỜNG YẾN 3D</div>
+        <div class="brand-sub" id="zone-subtitle">Chánh Điện Tĩnh Tâm • Tích Phước Chốt Đơn</div>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-chip">✨ Công Đức: <span class="val" id="stat-merit">888</span></div>
+      <div class="stat-chip bow">🙇 Số Lạy: <span class="val" id="stat-bows">0</span>/108</div>
+      <div class="stat-chip rage">🔥 Đã Xả: <span class="val" id="stat-rage">0</span> Cơn Tức</div>
+    </div>
+  </div>
+
+  <div class="zone-switch-bar">
+    <button class="zone-btn active-zen" id="btn-zone-zen" onclick="switchZone('zen')">🌸 Chánh Điện Tĩnh Tâm</button>
+    <button class="zone-btn" id="btn-zone-rage" onclick="switchZone('rage')">🔥 Am Xả Nghiệp (Chửi Khách / Xe)</button>
+  </div>
+</div>
+
+<!-- Boss HUD for Rage Mode -->
+<div id="boss-hud">
+  <div class="boss-header">
+    <span id="boss-name">👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT</span>
+    <span id="boss-hp-text">Độ Lì Đòn: 100%</span>
+  </div>
+  <div class="hp-bar-bg">
+    <div class="hp-bar-fill" id="boss-hp-bar"></div>
+  </div>
+  <div class="boss-quote" id="boss-quote">"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến bà nội đã nhé!"</div>
+</div>
+
+<!-- Center Modal Toast -->
+<div id="center-toast">
+  <h3 id="toast-title">✨ QUẺ ĐẠI CÁT TRƯỜNG YẾN</h3>
+  <p id="toast-body">Nội dung quẻ...</p>
+  <button onclick="closeToast()">🙏 Nam Mô Công Đức Vô Lượng</button>
+</div>
+
+<!-- Bottom Interactive Dock -->
+<div id="bottom-dock">
+  <div class="action-panel" id="panel-content">
+    <!-- Dynamically populated by active tab -->
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" id="tab-mo" onclick="selectTab('mo')">
+      <span class="ico">🪵</span><span>Gõ Mõ</span>
+    </button>
+    <button class="tab-btn" id="tab-lay" onclick="selectTab('lay')">
+      <span class="ico">🙇</span><span>Lạy Phật</span>
+    </button>
+    <button class="tab-btn" id="tab-khan" onclick="selectTab('khan')">
+      <span class="ico">🙏</span><span>Khấn Đơn</span>
+    </button>
+    <button class="tab-btn" id="tab-khach" onclick="selectTab('khach')">
+      <span class="ico">🤬</span><span>Chửi Khách</span>
+    </button>
+    <button class="tab-btn" id="tab-xe" onclick="selectTab('xe')">
+      <span class="ico">🚚</span><span>Chửi Xe</span>
+    </button>
+    <button class="tab-btn" id="tab-giai" onclick="selectTab('giai')">
+      <span class="ico">🔔</span><span>Giải Nghiệp</span>
+    </button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   1. STATE & STORAGE
+   ========================================================= */
+const state = {
+  merit: parseInt(localStorage.getItem('ty_merit') || '888', 10),
+  bows: parseInt(localStorage.getItem('ty_bows') || '0', 10),
+  rageReleased: parseInt(localStorage.getItem('ty_rage') || '0', 10),
+  zone: 'zen', // 'zen' | 'rage'
+  tab: 'mo',
+  autoMo: false,
+  autoBow: false,
+  zenMusic: false,
+  avatarName: 'Sếp Thành',
+  bossType: 'khach', // 'khach' | 'xe'
+  bossHp: 100,
+  bossMaxHp: 100,
+  weapon: 'lightning' // 'lightning' | 'hammer' | 'fireball' | 'sandal'
+};
+
+function saveState() {
+  localStorage.setItem('ty_merit', state.merit);
+  localStorage.setItem('ty_bows', state.bows);
+  localStorage.setItem('ty_rage', state.rageReleased);
+  document.getElementById('stat-merit').textContent = state.merit.toLocaleString('vi-VN');
+  document.getElementById('stat-bows').textContent = state.bows;
+  document.getElementById('stat-rage').textContent = state.rageReleased.toLocaleString('vi-VN');
+}
+saveState();
+
+/* =========================================================
+   2. WEB AUDIO SYNTHESIZER (Mõ, Chuông, Sấm Sét, Nổ, Nhạc Thiền)
+   ========================================================= */
+let audioCtx = null;
+function getAudio() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AC();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+// Tiếng Mõ Gỗ ("Cốc!")
+function playWoodblockSound() {
+  try {
+    const ctx = getAudio();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(780, now);
+    osc.frequency.exponentialRampToValueAtTime(340, now + 0.09);
+    gain.gain.setValueAtTime(0.9, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  } catch (e) {}
+}
+
+// Tiếng Đại Hồng Chuông ("BOOOOONG!")
+function playBellSound(deep = true) {
+  try {
+    const ctx = getAudio();
+    const now = ctx.currentTime;
+    const freqs = deep ? [196, 392, 587.3, 880] : [523.25, 1046.5, 1568];
+    freqs.forEach((f, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f, now);
+      const dur = deep ? 4.2 : 1.8;
+      gain.gain.setValueAtTime(0.35 / (idx + 1), now);
+      gain.gain.exponentialRampToValueAtTime(0.0008, now + dur);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + dur);
+    });
+  } catch (e) {}
+}
+
+// Tiếng Sấm Sét / Đập Búa Nổ (Xả Nghiệp)
+function playSmashSound(type = 'lightning') {
+  try {
+    const ctx = getAudio();
+    const now = ctx.currentTime;
+    // White noise burst + sub bass drop
+    const bufferSize = ctx.sampleRate * 0.45;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.12));
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(type === 'lightning' ? 2800 : 1200, now);
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.95, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.44);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    noise.start(now);
+
+    // Punchy bass impact
+    const osc = ctx.createOscillator();
+    const bGain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(160, now);
+    osc.frequency.exponentialRampToValueAtTime(32, now + 0.35);
+    bGain.gain.setValueAtTime(0.8, now);
+    bGain.gain.exponentialRampToValueAtTime(0.01, now + 0.36);
+    osc.connect(bGain);
+    bGain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.37);
+  } catch (e) {}
+}
+
+// Giọng đọc AI (Web Speech Synthesis) khi Chửi hoặc Khấn
+function speakVietnamese(text, pitch = 1.0, rate = 1.15) {
+  try {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'vi-VN';
+    u.pitch = pitch;
+    u.rate = rate;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* =========================================================
+   3. FLOATING TEXT & SCREEN EFFECTS
+   ========================================================= */
+function spawnFloatingText(text, color = '#fde047', xPct = null, yPct = null) {
+  const layer = document.getElementById('floating-layer');
+  const el = document.createElement('div');
+  el.className = 'float-text';
+  el.textContent = text;
+  el.style.color = color;
+  const x = xPct !== null ? xPct : (32 + Math.random() * 36);
+  const y = yPct !== null ? yPct : (38 + Math.random() * 18);
+  el.style.left = x + '%';
+  el.style.top = y + '%';
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), 1800);
+}
+
+function triggerScreenFlash(color = 'rgba(239, 68, 68, 0.45)', shake = true) {
+  const fl = document.getElementById('flash-overlay');
+  fl.style.background = color;
+  fl.style.opacity = '1';
+  setTimeout(() => { fl.style.opacity = '0'; }, 180);
+  if (shake) {
+    document.body.classList.remove('screen-shake');
+    void document.body.offsetWidth;
+    document.body.classList.add('screen-shake');
+  }
+}
+
+function showToast(title, body) {
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-body').innerHTML = body;
+  document.getElementById('center-toast').classList.add('show');
+}
+function closeToast() {
+  document.getElementById('center-toast').classList.remove('show');
+}
+
+/* =========================================================
+   4. THREE.JS 3D WORLD (CHÁNH ĐIỆN + AM XẢ NGHIỆP)
+   ========================================================= */
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0f172a);
+scene.fog = new THREE.FogExp2(0x1e293b, 0.018);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(0, 6.2, 14.5);
+camera.lookAt(0, 2.5, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+container.appendChild(renderer.domElement);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xfffbeb, 0.65);
+scene.add(ambientLight);
+
+const sunLight = new THREE.DirectionalLight(0xfde68a, 1.15);
+sunLight.position.set(12, 24, 16);
+sunLight.castShadow = true;
+scene.add(sunLight);
+
+const altarGlow = new THREE.PointLight(0xf59e0b, 1.8, 18);
+altarGlow.position.set(0, 4.5, -2);
+scene.add(altarGlow);
+
+const rageGlow = new THREE.PointLight(0xef4444, 0, 25);
+rageGlow.position.set(22, 5, 0);
+scene.add(rageGlow);
+
+// Ground Courtyard
+const groundGeo = new THREE.CylinderGeometry(45, 45, 1, 48);
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.85 });
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.position.y = -0.5;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Zen Courtyard Stone Tiles
+for (let i = -3; i <= 3; i++) {
+  const tile = new THREE.Mesh(
+    new THREE.BoxGeometry(2.2, 0.08, 1.4),
+    new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.7 })
+  );
+  tile.position.set(0, 0.04, i * 1.8 + 2);
+  scene.add(tile);
+}
+
+// =========================================================
+// ZONE 1: CHÁNH ĐIỆN TĨNH TÂM (At X = 0, Z = -3)
+// =========================================================
+const zenGroup = new THREE.Group();
+scene.add(zenGroup);
+
+// Temple Pagoda Roof & Pillars
+const basePlatform = new THREE.Mesh(
+  new THREE.BoxGeometry(12, 0.8, 7),
+  new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.6 })
+);
+basePlatform.position.set(0, 0.4, -3.5);
+zenGroup.add(basePlatform);
+
+const pillarGeo = new THREE.CylinderGeometry(0.28, 0.32, 5.5, 16);
+const pillarMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.4 });
+[-4.8, -2.2, 2.2, 4.8].forEach(px => {
+  const p = new THREE.Mesh(pillarGeo, pillarMat);
+  p.position.set(px, 3.2, -1.2);
+  zenGroup.add(p);
+});
+
+const roofGeo = new THREE.ConeGeometry(9.2, 2.8, 4);
+const roofMat = new THREE.MeshStandardMaterial({ color: 0xb45309, roughness: 0.5, metalness: 0.2 });
+const roof = new THREE.Mesh(roofGeo, roofMat);
+roof.position.set(0, 7.1, -3.5);
+roof.rotation.y = Math.PI / 4;
+zenGroup.add(roof);
+
+// 3D Golden Buddha on Lotus Pedestal
+const buddhaGroup = new THREE.Group();
+buddhaGroup.position.set(0, 1.2, -3.8);
+zenGroup.add(buddhaGroup);
+
+const goldMat = new THREE.MeshStandardMaterial({
+  color: 0xfbbf24,
+  metalness: 0.75,
+  roughness: 0.22,
+  emissive: 0x78350f,
+  emissiveIntensity: 0.25
+});
+const lotusBase = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.2, 0.6, 20), new THREE.MeshStandardMaterial({ color: 0xf472b6, roughness: 0.4 }));
+buddhaGroup.add(lotusBase);
+
+const buddhaBody = new THREE.Mesh(new THREE.ConeGeometry(1.15, 2.2, 16), goldMat);
+buddhaBody.position.y = 1.3;
+buddhaGroup.add(buddhaBody);
+
+const buddhaHead = new THREE.Mesh(new THREE.SphereGeometry(0.58, 24, 24), goldMat);
+buddhaHead.position.y = 2.65;
+buddhaGroup.add(buddhaHead);
+
+const buddhaBun = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), goldMat);
+buddhaBun.position.y = 3.25;
+buddhaGroup.add(buddhaBun);
+
+// Rotating Golden Halo (Hào Quang)
+const haloGeo = new THREE.RingGeometry(1.3, 1.75, 32);
+const haloMat = new THREE.MeshBasicMaterial({ color: 0xfde047, side: THREE.DoubleSide, transparent: true, opacity: 0.75 });
+const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+haloMesh.position.set(0, 2.5, -0.5);
+buddhaGroup.add(haloMesh);
+
+// Incense Burner (Lư Hương 3D) & Glowing Incense Sticks
+const burnerGroup = new THREE.Group();
+burnerGroup.position.set(0, 1.1, -1.2);
+zenGroup.add(burnerGroup);
+
+const burnerBowl = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.65, 0.5, 0.7, 20),
+  new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.6, roughness: 0.3 })
+);
+burnerGroup.add(burnerBowl);
+
+const incenseSticks = [];
+[-0.15, 0, 0.15].forEach(ix => {
+  const stick = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.025, 0.025, 0.9, 8),
+    new THREE.MeshBasicMaterial({ color: 0xef4444 })
+  );
+  stick.position.set(ix, 0.65, 0);
+  const tip = new THREE.Mesh(
+    new THREE.SphereGeometry(0.055, 8, 8),
+    new THREE.MeshBasicMaterial({ color: 0xffaa00 })
+  );
+  tip.position.y = 0.46;
+  stick.add(tip);
+  burnerGroup.add(stick);
+  incenseSticks.push(stick);
+});
+
+// 3D Wooden Fish (Mõ Gỗ 3D) & Mallet (Dùi Gõ Mõ)
+const moGroup = new THREE.Group();
+moGroup.position.set(2.3, 1.15, 0.6);
+zenGroup.add(moGroup);
+
+const moCushion = new THREE.Mesh(
+  new THREE.BoxGeometry(1.3, 0.25, 1.3),
+  new THREE.MeshStandardMaterial({ color: 0xb91c1c, roughness: 0.7 })
+);
+moGroup.add(moCushion);
+
+const moBody = new THREE.Mesh(
+  new THREE.SphereGeometry(0.62, 24, 20),
+  new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.35, metalness: 0.1 })
+);
+moBody.scale.set(1.2, 0.85, 1.0);
+moBody.position.y = 0.55;
+moGroup.add(moBody);
+
+const malletPivot = new THREE.Group();
+malletPivot.position.set(0.6, 0.9, 0.4);
+moGroup.add(malletPivot);
+const malletStick = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.05, 0.05, 1.1, 10),
+  new THREE.MeshStandardMaterial({ color: 0x78350f })
+);
+malletStick.rotation.z = Math.PI / 3;
+malletPivot.add(malletStick);
+
+// 3D Giant Bronze Temple Bell (Đại Hồng Chuông)
+const bellGroup = new THREE.Group();
+bellGroup.position.set(-3.1, 2.8, -0.2);
+zenGroup.add(bellGroup);
+
+const bellMesh = new THREE.Mesh(
+  new THREE.ConeGeometry(0.95, 2.1, 24, 1, true),
+  new THREE.MeshStandardMaterial({ color: 0xb45309, metalness: 0.8, roughness: 0.25, side: THREE.DoubleSide })
+);
+bellGroup.add(bellMesh);
+
+// Player 3D Character on Prayer Mat (Chiếu Lạy)
+const playerGroup = new THREE.Group();
+playerGroup.position.set(0, 0.1, 3.2);
+zenGroup.add(playerGroup);
+
+const matMesh = new THREE.Mesh(
+  new THREE.BoxGeometry(1.8, 0.08, 2.4),
+  new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.8 })
+);
+playerGroup.add(matMesh);
+
+const avatarPivot = new THREE.Group();
+avatarPivot.position.set(0, 0.1, 0.4);
+playerGroup.add(avatarPivot);
+
+const avTorso = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.35, 0.45, 1.25, 16),
+  new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.5 })
+);
+avTorso.position.y = 0.7;
+avatarPivot.add(avTorso);
+
+const avHead = new THREE.Mesh(
+  new THREE.SphereGeometry(0.36, 20, 20),
+  new THREE.MeshStandardMaterial({ color: 0xfde68a, roughness: 0.4 })
+);
+avHead.position.y = 1.55;
+avatarPivot.add(avHead);
+
+// Hands clasped in prayer (Chắp Tay)
+const avHands = new THREE.Mesh(
+  new THREE.SphereGeometry(0.16, 12, 12),
+  new THREE.MeshStandardMaterial({ color: 0xfde68a })
+);
+avHands.position.set(0, 0.95, -0.42);
+avatarPivot.add(avHands);
+
+// =========================================================
+// ZONE 2: AM XẢ NGHIỆP (At X = 22, Z = 0)
+// =========================================================
+const rageGroup = new THREE.Group();
+rageGroup.position.set(22, 0, 0);
+scene.add(rageGroup);
+
+// Arena Pedestal
+const arenaBase = new THREE.Mesh(
+  new THREE.CylinderGeometry(4.2, 4.8, 0.7, 28),
+  new THREE.MeshStandardMaterial({ color: 0x450a0a, roughness: 0.7 })
+);
+arenaBase.position.y = 0.35;
+rageGroup.add(arenaBase);
+
+// Target Boss 3D Group (Wobbles & Takes Hits)
+const bossPivot = new THREE.Group();
+bossPivot.position.set(0, 0.7, 0);
+rageGroup.add(bossPivot);
+
+const bossBodyMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4 });
+const bossBody = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.0, 2.3, 20), bossBodyMat);
+bossBody.position.y = 1.15;
+bossPivot.add(bossBody);
+
+const bossHeadMat = new THREE.MeshStandardMaterial({ color: 0xfca5a5, roughness: 0.3 });
+const bossHead = new THREE.Mesh(new THREE.SphereGeometry(0.78, 24, 24), bossHeadMat);
+bossHead.position.y = 2.85;
+bossPivot.add(bossHead);
+
+// Funny angry eyes on Boss
+const eyeGeo = new THREE.SphereGeometry(0.13, 12, 12);
+const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+leftEye.position.set(-0.26, 2.95, 0.68);
+const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+rightEye.position.set(0.26, 2.95, 0.68);
+bossPivot.add(leftEye, rightEye);
+
+// Hat/Truck Sign on Boss
+const bossHat = new THREE.Mesh(
+  new THREE.ConeGeometry(0.9, 0.9, 16),
+  new THREE.MeshStandardMaterial({ color: 0xfacc15 })
+);
+bossHat.position.y = 3.75;
+bossPivot.add(bossHat);
+
+// =========================================================
+// PARTICLES (Smoke, Lotus Lanterns, Projectiles)
+// =========================================================
+const smokeParticles = [];
+for (let i = 0; i < 25; i++) {
+  const sp = new THREE.Mesh(
+    new THREE.SphereGeometry(0.09 + Math.random() * 0.08, 8, 8),
+    new THREE.MeshBasicMaterial({ color: 0xe2e8f0, transparent: true, opacity: 0.35 })
+  );
+  sp.position.set(
+    (Math.random() - 0.5) * 0.3,
+    1.8 + Math.random() * 2.5,
+    -1.2 + (Math.random() - 0.5) * 0.3
+  );
+  scene.add(sp);
+  smokeParticles.push(sp);
+}
+
+// Active 3D Projectiles (for Chửi Khách / Chửi Xe)
+const projectiles = [];
+
+function launchProjectileAtBoss(weaponType = 'lightning') {
+  const colorMap = {
+    lightning: 0xfde047,
+    hammer: 0x94a3b8,
+    fireball: 0xf97316,
+    sandal: 0x38bdf8
+  };
+  const geo = weaponType === 'hammer'
+    ? new THREE.BoxGeometry(0.9, 0.6, 0.6)
+    : new THREE.SphereGeometry(0.45, 12, 12);
+  const mat = new THREE.MeshBasicMaterial({ color: colorMap[weaponType] || 0xef4444 });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(22 + (Math.random() - 0.5) * 6, 6 + Math.random() * 3, 9);
+  scene.add(mesh);
+  projectiles.push({ mesh, progress: 0 });
+}
+
+/* =========================================================
+   5. INTERACTION LOGIC (GÕ MÕ, LẠY, KHẤN, CHỬI, GIẢI NGHIỆP)
+   ========================================================= */
+let moAnimTimer = 0;
+let bowAnimState = 0; // 0 idle, 1 bowing down, 2 holding, 3 rising
+let bowProgress = 0;
+let bossWobble = 0;
+let bellSwing = 0;
+
+const MERIT_QUOTES = [
+  "+1 Công Đức ✨",
+  "+1 Đơn Chốt Nhôm MG 💰",
+  "+1 Khách Chuyển Khoản Full 🔥",
+  "Tâm Bất Biến Giữa Dòng Đời Vạn Biến 🌸",
+  "Khách Hỏi Là Chốt — Không Mặc Cả 🙏",
+  "Tấm Ốp Xuất Kho Nguyên Đai Nguyên Kiện 🚛"
+];
+
+function tapMo() {
+  state.merit += 1;
+  saveState();
+  playWoodblockSound();
+  moAnimTimer = 1.0;
+  moBody.scale.set(1.38, 0.68, 1.18);
+  const phrase = MERIT_QUOTES[Math.floor(Math.random() * MERIT_QUOTES.length)];
+  spawnFloatingText(phrase, '#fde047');
+}
+
+function toggleAutoMo() {
+  state.autoMo = !state.autoMo;
+  renderPanel();
+}
+
+function triggerBow() {
+  if (bowAnimState !== 0) return;
+  bowAnimState = 1;
+  bowProgress = 0;
+  state.bows += 1;
+  state.merit += 10;
+  saveState();
+  playBellSound(false);
+  spawnFloatingText(`🙇 Lạy thứ ${state.bows}/108 (+10 Công Đức)`, '#38bdf8', 50, 48);
+  if (state.bows % 108 === 0) {
+    playBellSound(true);
+    showToast(
+      '🌸 VIÊN MÃN 108 LẠY ĐẠI CÁT!',
+      `Chúc mừng <b>${state.avatarName}</b> đã thành tâm lễ đủ <b>108 lạy</b>!<br><br>✨ Phước lộc viên mãn, tháng này doanh số bùng nổ gấp đôi, khách sỉ lẻ tự tìm đến chốt đơn ầm ầm!`
+    );
+  }
+}
+
+function toggleAutoBow() {
+  state.autoBow = !state.autoBow;
+  if (state.autoBow && bowAnimState === 0) triggerBow();
+  renderPanel();
+}
+
+function submitPrayer(presetText = null) {
+  const inputEl = document.getElementById('custom-prayer-input');
+  const text = presetText || (inputEl && inputEl.value.trim()) || "Cầu cho Kho Tấm Ốp Trường Yến hôm nay nổ đơn rực rỡ, khách chốt nhanh gọn, xe đi an toàn đúng giờ!";
+  state.merit += 50;
+  saveState();
+  playBellSound(true);
+  triggerScreenFlash('rgba(251, 191, 36, 0.35)', false);
+  spawnFloatingText('🐉 SỚ KHẤN ĐÃ BAY LÊN TRỜI (+50 Công Đức)', '#fde047', 50, 35);
+  speakVietnamese("Nam mô chứng giám lời khấn của " + state.avatarName + ". " + text, 1.0, 1.1);
+  showToast(
+    '🙏 ĐÃ DÂNG HƯƠNG & SỚ KHẤN LÊN CHÁNH ĐIỆN',
+    `<b>Người khấn:</b> ${state.avatarName}<br><br>📜 <i>"${text}"</i><br><br>✨ <b>Chứng giám:</b> Hương đã cháy đỏ, sớ vàng đã hóa rồng bay lên trời! (+50 Công Đức)`
+  );
+}
+
+const FORTUNES = [
+  { title: "QUẺ SỐ 01 — ĐẠI CÁT ĐẠI LỢI 🌟", body: "Hôm nay lộc về từ hướng Hải Phòng & Hà Nội! Khách hỏi Tấm ốp nhôm 130 và Lam sóng là chốt liền tay, chuyển khoản cọc 100% không cần giục!" },
+  { title: "QUẺ SỐ 08 — THƯỢNG THƯỢNG QUẺ 💰", body: "Vía khách sộp đang tới! Đơn hàng trên 20 triệu sắp nổ trên CRM, nhà xe hôm nay ngoan ngoãn đến sớm trước 30 phút!" },
+  { title: "QUẺ SỐ 18 — PHƯỚC LỘC SONG TOÀN 🌸", body: "Mọi vận xui khách hỏi dạo đã tan biến! Chiều nay có khách cũ quay lại lấy thêm đơn lớn gấp đôi đơn trước!" },
+  { title: "QUẺ SỐ 68 — LỘC PHÁT TRƯỜNG YẾN 🔥", body: "Thần Tài gõ cửa! Data đổ về nét căng, tỷ lệ chuyển đổi tăng vọt, cả đội Sale vượt KPI rực rỡ!" }
+];
+
+function shakeFortune() {
+  state.merit += 20;
+  saveState();
+  playWoodblockSound();
+  setTimeout(() => playBellSound(false), 200);
+  const f = FORTUNES[Math.floor(Math.random() * FORTUNES.length)];
+  showToast('🎋 ' + f.title, f.body);
+}
+
+// =========================================================
+// RAGE MODE: CHỬI KHÁCH & CHỬI VẬN CHUYỂN
+// =========================================================
+const KHACH_QUOTES_IDLE = [
+  '"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến bà nội đã nhé!"',
+  '"Sao bên em báo 65k/m mà trên mạng anh thấy người ta rao 15k?!"',
+  '"Đo cắt hộ anh lẻ từng milimet nhé, nhưng sang năm anh mới xây!"',
+  '"Gửi anh 20 video công trình thực tế đi rồi anh xem xét!"'
+];
+const KHACH_QUOTES_HIT = [
+  '"Á á em xin lỗi! Để em chuyển khoản cọc 100% ngay bây giờ ạ!"',
+  '"Dạ em chốt luôn 200m² không mặc cả 1 đồng nào nữa ạ!"',
+  '"Chừa rồi ạ! Từ nay hỏi mã nào là em chốt tiền tươi mã đấy!"',
+  '"Tha cho em! Em vừa bấm chuyển khoản full đơn 30 triệu rồi ạ!"'
+];
+
+const XE_QUOTES_IDLE = [
+  '"Anh đang đến đầu ngõ kho em rồi đây! (Định vị vẫn đang ở Bắc Ninh)"',
+  '"Xe anh vừa thủng săm, hẹn em chiều mai anh qua bốc hàng nhé!"',
+  '"Xước có 1 góc tấm ốp thôi mà em bắt đền căng thế!"',
+  '"Cho anh xin thêm 300k tiền cà phê bến bãi nhé!"'
+];
+const XE_QUOTES_HIT = [
+  '"Ối dồi ôi em đạp ga chạy tốc độ bàn thờ vào kho bốc hàng ngay đây ạ!"',
+  '"Dạ em bọc chăn bông 5 lớp nâng như nâng trứng, xước 1 vết em đền gấp 10!"',
+  '"Em có mặt trước cửa kho đúng 5 phút nữa, sai 1 giây em không lấy tiền cước!"',
+  '"Em xin chừa giờ cao su rồi ạ! Giao tận chân công trình chuẩn đét luôn!"'
+];
+
+function setBossType(type) {
+  state.bossType = type;
+  state.bossHp = 100;
+  updateBossHud();
+  if (type === 'khach') {
+    bossBodyMat.color.setHex(0xef4444);
+    bossHat.material.color.setHex(0xfacc15);
+  } else {
+    bossBodyMat.color.setHex(0x2563eb);
+    bossHat.material.color.setHex(0xf97316);
+  }
+}
+
+function updateBossHud(hitQuote = null) {
+  const nameEl = document.getElementById('boss-name');
+  const hpTextEl = document.getElementById('boss-hp-text');
+  const hpBarEl = document.getElementById('boss-hp-bar');
+  const quoteEl = document.getElementById('boss-quote');
+
+  if (state.bossType === 'khach') {
+    nameEl.textContent = '👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT';
+    quoteEl.textContent = hitQuote || KHACH_QUOTES_IDLE[Math.floor(Math.random() * KHACH_QUOTES_IDLE.length)];
+  } else {
+    nameEl.textContent = '🚚 BIA: NHÀ XE HẸN GIỜ CAO SU';
+    quoteEl.textContent = hitQuote || XE_QUOTES_IDLE[Math.floor(Math.random() * XE_QUOTES_IDLE.length)];
+  }
+  hpTextEl.textContent = `Độ Lì Đòn: ${state.bossHp}%`;
+  hpBarEl.style.width = `${state.bossHp}%`;
+}
+
+function fireCurseAttack(curseText, weapon = 'lightning') {
+  if (state.zone !== 'rage') switchZone('rage');
+  state.rageReleased += 1;
+  saveState();
+
+  launchProjectileAtBoss(weapon);
+  playSmashSound(weapon);
+  triggerScreenFlash('rgba(239, 68, 68, 0.5)', true);
+
+  bossWobble = 1.6;
+  const dmg = 18 + Math.floor(Math.random() * 14);
+  state.bossHp = Math.max(0, state.bossHp - dmg);
+
+  spawnFloatingText(`💥 ${curseText}`, '#fca5a5', 50, 32);
+  spawnFloatingText(`-${dmg}% Độ Lì Đòn!`, '#fde047', 52, 44);
+  speakVietnamese(curseText, 1.15, 1.25);
+
+  const hitPool = state.bossType === 'khach' ? KHACH_QUOTES_HIT : XE_QUOTES_HIT;
+  const reaction = hitPool[Math.floor(Math.random() * hitPool.length)];
+  updateBossHud(reaction);
+
+  if (state.bossHp === 0) {
+    setTimeout(() => {
+      playBellSound(true);
+      state.merit += 100;
+      state.bossHp = 100;
+      saveState();
+      updateBossHud();
+      showToast(
+        state.bossType === 'khach' ? '🎉 ĐÃ ĐỘ XONG KHÁCH CỦ CHUỐI!' : '🎉 ĐÃ ĐỘ XONG NHÀ XE CAO SU!',
+        state.bossType === 'khach'
+          ? 'Khách đã tỉnh ngộ, xin lỗi rối rít và <b>chuyển khoản Full 100% không mặc cả</b>!<br><br>💰 Thưởng xả nghiệp: <b>+100 Công Đức</b>!'
+          : 'Nhà xe đã sợ xanh mặt, chạy tốc độ ánh sáng vào bốc hàng đúng giờ và bọc xốp 10 lớp!<br><br>💰 Thưởng xả nghiệp: <b>+100 Công Đức</b>!'
+      );
+    }, 350);
+  }
+}
+
+function submitCustomCurse() {
+  const inp = document.getElementById('custom-curse-input');
+  const txt = (inp && inp.value.trim()) || (state.bossType === 'khach' ? "Hỏi lắm thế chốt đơn mau lên!" : "Hẹn giờ dây thun à chạy nhanh lên!");
+  if (inp) inp.value = '';
+  fireCurseAttack(txt, 'lightning');
+}
+
+// Voice Shout / Mic Curse
+function startVoiceCurse() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    fireCurseAttack("Bực mình quá rồi đấy nhé! Chốt đơn mau!", "lightning");
+    return;
+  }
+  try {
+    const rec = new SR();
+    rec.lang = 'vi-VN';
+    spawnFloatingText('🎙️ Hãy hét/mắng thẳng vào Mic...', '#38bdf8', 50, 40);
+    rec.onresult = (e) => {
+      const spoken = e.results[0][0].transcript;
+      fireCurseAttack(spoken, 'lightning');
+    };
+    rec.onerror = () => {
+      fireCurseAttack("Xả sạch cơn tức! Làm ăn cho chuẩn vào!", "hammer");
+    };
+    rec.start();
+  } catch (err) {
+    fireCurseAttack("Xả sạch cơn tức! Làm ăn cho chuẩn vào!", "hammer");
+  }
+}
+
+// Burn Phong Long & Ring Great Bell of Purification
+function burnPhongLong() {
+  const inp = document.getElementById('phong-long-input');
+  const target = (inp && inp.value.trim()) || "Vía khách hỏi dạo & vía nhà xe trễ giờ";
+  state.rageReleased += 3;
+  state.merit += 68;
+  saveState();
+  playSmashSound('fireball');
+  triggerScreenFlash('rgba(249, 115, 22, 0.55)', true);
+  spawnFloatingText(`🔥 ĐÃ ĐỐT SẠCH VÍA: ${target}!`, '#fb923c', 50, 36);
+  showToast(
+    '🔥 ĐÃ ĐỐT PHONG LONG — XẢ XUI THÀNH CÔNG!',
+    `Tờ giấy phong long ghi <b>"${target}"</b> đã cháy thành tro bụi!<br><br>✨ Ba hồn bảy vía khách hãm, vía trễ xe đi khuất mắt, nhường chỗ cho khách sộp tiền tươi bước vào Kho Tấm Ốp Trường Yến! (+68 Công Đức)`
+  );
+}
+
+function ringPurificationBell() {
+  bellSwing = 1.5;
+  playBellSound(true);
+  triggerScreenFlash('rgba(253, 224, 71, 0.45)', false);
+  const converted = Math.max(50, state.rageReleased * 25);
+  state.merit += converted;
+  saveState();
+  spawnFloatingText(`🔔 BOOOOONG! TỊNH HÓA +${converted} CÔNG ĐỨC!`, '#fde047', 50, 35);
+  showToast(
+    '🔔 ĐẠI HỒNG CHUÔNG GIẢI NGHIỆP',
+    `Tiếng chuông chùa Trường Yến ngân vang khắp núi rừng!<br><br>🌸 Toàn bộ lời chửi xả stress vừa nãy đã được <b>Chư Phật & Tổ Nghề miễn trừ khẩu nghiệp 100%</b> và chuyển hóa thành <b>+${converted} Công Đức</b>!<br>✨ Tâm đã tịnh — Tiền chuẩn bị về ngập tài khoản!`
+  );
+}
+
+/* =========================================================
+   6. ZONE & TAB UI SWITCHING
+   ========================================================= */
+let targetCamPos = new THREE.Vector3(0, 6.2, 14.5);
+let targetLookAt = new THREE.Vector3(0, 2.5, 0);
+let currentLookAt = new THREE.Vector3(0, 2.5, 0);
+
+function switchZone(zone) {
+  state.zone = zone;
+  const zenBtn = document.getElementById('btn-zone-zen');
+  const rageBtn = document.getElementById('btn-zone-rage');
+  const bossHud = document.getElementById('boss-hud');
+  const sub = document.getElementById('zone-subtitle');
+
+  if (zone === 'zen') {
+    zenBtn.className = 'zone-btn active-zen';
+    rageBtn.className = 'zone-btn';
+    bossHud.style.display = 'none';
+    sub.textContent = 'Chánh Điện Tĩnh Tâm • Tích Phước Chốt Đơn';
+    scene.background.setHex(0x0f172a);
+    scene.fog.color.setHex(0x1e293b);
+    rageGlow.intensity = 0;
+    targetCamPos.set(0, 5.8, 13.8);
+    targetLookAt.set(0, 2.3, -1);
+  } else {
+    zenBtn.className = 'zone-btn';
+    rageBtn.className = 'zone-btn active-rage';
+    bossHud.style.display = 'flex';
+    sub.textContent = 'Am Xả Nghiệp Sau Chùa • Độ Khách & Độ Vận Chuyển';
+    scene.background.setHex(0x2a080c);
+    scene.fog.color.setHex(0x3b0a11);
+    rageGlow.intensity = 2.6;
+    targetCamPos.set(22, 4.8, 11.5);
+    targetLookAt.set(22, 2.3, 0);
+    updateBossHud();
+  }
+}
+
+function selectTab(tab) {
+  state.tab = tab;
+  ['mo', 'lay', 'khan', 'khach', 'xe', 'giai'].forEach(t => {
+    const btn = document.getElementById('tab-' + t);
+    if (t === tab) {
+      btn.className = (t === 'khach' || t === 'xe') ? 'tab-btn active-rage-tab' : 'tab-btn active';
+    } else {
+      btn.className = 'tab-btn';
+    }
+  });
+
+  if (tab === 'khach') {
+    setBossType('khach');
+    switchZone('rage');
+  } else if (tab === 'xe') {
+    setBossType('xe');
+    switchZone('rage');
+  } else if (tab === 'mo' || tab === 'lay' || tab === 'khan') {
+    switchZone('zen');
+  }
+  renderPanel();
+}
+
+function renderPanel() {
+  const box = document.getElementById('panel-content');
+  if (state.tab === 'mo') {
+    box.innerHTML = `
+      <div class="panel-header">
+        <span>🪵 GÕ MÕ TÍCH PHƯỚC — TĨNH TÂM MÙA CHỐT ĐƠN</span>
+        <span>Chạm vào Mõ 3D hoặc bấm nút</span>
+      </div>
+      <div class="btn-grid">
+        <button class="act-btn gold full-col" onclick="tapMo()">🪵 GÕ MÕ "CỐC! CỐC!" (+1 Công Đức & Lộc Chốt Đơn)</button>
+        <button class="act-btn ${state.autoMo ? 'jade' : ''}" onclick="toggleAutoMo()">
+          ${state.autoMo ? '⏸️ Đang Tự Gõ Mõ (Bấm Để Dừng)' : '🔄 Bật Auto Gõ Mõ Tĩnh Tâm'}
+        </button>
+        <button class="act-btn" onclick="shakeFortune()">🎋 Lắc Ống Xăm Xin Quẻ Hôm Nay</button>
+      </div>
+    `;
+  } else if (state.tab === 'lay') {
+    const avatars = ['Sếp Thành', 'Sale Minh Anh', 'Sale Kiều Trang', 'Sale Huế', 'Sale Bích Thủy', 'Sale Ánh Nguyệt', 'Thế Anh'];
+    box.innerHTML = `
+      <div class="panel-header">
+        <span>🙇 THÀNH TÂM QUỲ LẠY 108 LẠY TRƯỚC CHÁNH ĐIỆN</span>
+        <span>Đã lạy: ${state.bows}/108</span>
+      </div>
+      <div class="btn-grid">
+        <button class="act-btn gold" onclick="triggerBow()">🙇 Quỳ Lạy 1 Lạy (+10 Phước)</button>
+        <button class="act-btn ${state.autoBow ? 'jade' : ''}" onclick="toggleAutoBow()">
+          ${state.autoBow ? '⏸️ Dừng Auto Lạy 108' : '🙏 Tự Động Lạy Đủ 108 Lạy'}
+        </button>
+      </div>
+      <div class="input-row">
+        <select onchange="state.avatarName=this.value; spawnFloatingText('Đã chọn: '+this.value, '#38bdf8');">
+          ${avatars.map(a => `<option value="${a}" ${state.avatarName === a ? 'selected' : ''}>Người lễ: ${a}</option>`).join('')}
+        </select>
+      </div>
+    `;
+  } else if (state.tab === 'khan') {
+    box.innerHTML = `
+      <div class="panel-header">
+        <span>🙏 DÂNG HƯƠNG & SỚ KHẤN THẦN TÀI - TỔ NGHỀ TẤM ỐP</span>
+        <span>+50 Công Đức / Sớ</span>
+      </div>
+      <div class="btn-grid">
+        <button class="act-btn gold" onclick="submitPrayer('Con lạy Thần Tài Thổ Địa độ cho hôm nay khách hỏi là chốt, chuyển khoản cọc 100% không mặc cả 1 đồng!')">💰 Khấn Khách Chốt Đơn Chuyển Khoản 100%</button>
+        <button class="act-btn gold" onclick="submitPrayer('Cầu Tổ Nghề Tấm Ốp độ cho đơn cắt Nhôm MG và Lam Sóng xuất kho chuẩn kích thước, không cong vênh!')">🛡️ Khấn Đơn Nhôm MG & Tấm Ốp Chuẩn Đét</button>
+        <button class="act-btn" onclick="submitPrayer('Cầu cho toàn bộ xe ghép, xe tải hôm nay vào kho bốc hàng đúng giờ, giao hàng an toàn tuyệt đối!')">🚚 Khấn Vận Chuyển Đi Đúng Giờ</button>
+        <button class="act-btn" onclick="submitPrayer('Cầu cho 6 Chiến Binh Sale Trường Yến nổ đơn rực rỡ, vượt KPI tháng này gấp đôi!')">🔥 Khấn Cả Đội Sale Nổ Đơn Vượt KPI</button>
+      </div>
+      <div class="input-row">
+        <input id="custom-prayer-input" type="text" placeholder="Nhập lời khấn riêng của anh (VD: Khấn đơn 100 triệu)..." />
+        <button class="act-btn jade" onclick="submitPrayer()">🙏 Dâng Sớ</button>
+      </div>
+    `;
+  } else if (state.tab === 'khach') {
+    box.innerHTML = `
+      <div class="panel-header">
+        <span>🤬 CHỬI KHÁCH CỦ CHUỐI ĐỂ XẢ (BIA ĐỠ ĐẠN 3D)</span>
+        <span>Đập tan stress!</span>
+      </div>
+      <div class="btn-grid">
+        <button class="act-btn fire" onclick="fireCurseAttack('Hỏi 100 mã từ sáng đến tối xong bảo về hỏi ý kiến vợ à?! Chốt mau!', 'lightning')">⚡ "Hỏi 100 mã xong bảo về hỏi vợ à?!"</button>
+        <button class="act-btn fire" onclick="fireCurseAttack('Giá tận gốc nhà máy kịch sàn rồi còn đòi bớt từng nghìn lẻ à?!', 'hammer')">🔨 "Giá nhà máy rồi còn đòi bớt từng nghìn?!"</button>
+        <button class="act-btn fire" onclick="fireCurseAttack('Bắt tính bảng quyết toán 22 mục xong bảo sang năm mới xây à?!', 'fireball')">🔥 "Bắt tính 22 mục xong năm sau mới làm?!"</button>
+        <button class="act-btn fire" onclick="fireCurseAttack('Hàng tấm ốp nguyên sinh chuẩn loại 1 mà đòi so giá với hàng chợ phế liệu à?!', 'sandal')">🩴 "Hàng loại 1 mà đòi giá phế liệu à?!"</button>
+      </div>
+      <div class="input-row">
+        <input id="custom-curse-input" type="text" placeholder="Nhập câu chửi khách xả tức vào đây..." onkeydown="if(event.key==='Enter') submitCustomCurse()" />
+        <button class="act-btn fire" onclick="submitCustomCurse()">💥 Phang</button>
+        <button class="act-btn gold" onclick="startVoiceCurse()">🎙️ Hét Mic</button>
+      </div>
+    `;
+  } else if (state.tab === 'xe') {
+    box.innerHTML = `
+      <div class="panel-header">
+        <span>🚚 CHỬI VẬN CHUYỂN / NHÀ XE CAO SU ĐỂ XẢ</span>
+        <span>Trị bệnh trễ giờ!</span>
+      </div>
+      <div class="btn-grid">
+        <button class="act-btn fire" onclick="fireCurseAttack('Hẹn 2 giờ chiều bốc hàng mà 8 giờ tối vẫn bảo đang ở đầu ngõ à?!', 'lightning')">⚡ "Hẹn 2h chiều mà 8h tối vẫn ở đầu ngõ?!"</button>
+        <button class="act-btn fire" onclick="fireCurseAttack('Tấm ốp dài 3 mét bọc kỹ thế mà quăng quật móp cả góc thế hả?!', 'hammer')">🔨 "Hàng bọc kỹ thế mà quăng móp góc à?!"</button>
+        <button class="act-btn fire" onclick="fireCurseAttack('Gọi 50 cuộc thuê bao lúc khách giục ầm lên thì bảo đang ăn phở à?!', 'fireball')">🔥 "Gọi 50 cuộc không nghe máy hả?!"</button>
+        <button class="act-btn fire" onclick="fireCurseAttack('Báo cước 300k lúc lên hàng xong ra bến đòi thu thêm 200k là sao?!', 'sandal')">🩴 "Báo cước 1 đằng thu tiền 1 nẻo à?!"</button>
+      </div>
+      <div class="input-row">
+        <input id="custom-curse-input" type="text" placeholder="Nhập câu chửi nhà xe / vận chuyển..." onkeydown="if(event.key==='Enter') submitCustomCurse()" />
+        <button class="act-btn fire" onclick="submitCustomCurse()">💥 Phang</button>
+        <button class="act-btn gold" onclick="startVoiceCurse()">🎙️ Hét Mic</button>
+      </div>
+    `;
+  } else if (state.tab === 'giai') {
+    box.innerHTML = `
+      <div class="panel-header">
+        <span>🔔 ĐỐT PHONG LONG & ĐẠI HỒNG CHUÔNG GIẢI NGHIỆP</span>
+        <span>Chuyển Giận Thành Tiền</span>
+      </div>
+      <div class="btn-grid">
+        <button class="act-btn gold full-col" onclick="ringPurificationBell()">🔔 KÉO ĐẠI HỒNG CHUÔNG — MIỄN TRỪ KHẨU NGHIỆP 100% & NHẬN LỘC</button>
+      </div>
+      <div class="input-row">
+        <input id="phong-long-input" type="text" placeholder="Nhập tên vía khách hãm / xe trễ để đốt phong long..." />
+        <button class="act-btn fire" onclick="burnPhongLong()">🔥 Đốt Vía</button>
+      </div>
+    `;
+  }
+}
+renderPanel();
+
+// Raycaster for direct 3D clicks on Mõ, Chuông, Buddha, or Boss
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+renderer.domElement.addEventListener('pointerdown', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  if (state.zone === 'zen') {
+    const hitsMo = raycaster.intersectObjects(moGroup.children, true);
+    if (hitsMo.length > 0) { tapMo(); return; }
+    const hitsBell = raycaster.intersectObjects(bellGroup.children, true);
+    if (hitsBell.length > 0) { ringPurificationBell(); return; }
+    const hitsPlayer = raycaster.intersectObjects(playerGroup.children, true);
+    if (hitsPlayer.length > 0) { triggerBow(); return; }
+    // Default tap in Zen mode when on Mo tab taps the Mo
+    if (state.tab === 'mo') tapMo();
+  } else {
+    const hitsBoss = raycaster.intersectObjects(bossPivot.children, true);
+    if (hitsBoss.length > 0) {
+      fireCurseAttack(state.bossType === 'khach' ? 'Này thì hỏi lắm không chốt này!' : 'Này thì hẹn giờ cao su này!', 'lightning');
+    }
+  }
+});
+
+/* =========================================================
+   7. ANIMATION LOOP (60 FPS)
+   ========================================================= */
+let lastAutoMo = 0;
+const clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.1);
+  const elapsed = clock.getElapsedTime();
+
+  // Smooth Camera Transition
+  camera.position.lerp(targetCamPos, dt * 4.5);
+  currentLookAt.lerp(targetLookAt, dt * 4.5);
+  camera.lookAt(currentLookAt);
+
+  // Rotate Buddha Halo
+  haloMesh.rotation.z = elapsed * 0.6;
+  buddhaGroup.position.y = 1.2 + Math.sin(elapsed * 1.8) * 0.06;
+
+  // Smoke rising from Incense Burner
+  smokeParticles.forEach((sp, i) => {
+    sp.position.y += dt * (0.55 + (i % 3) * 0.15);
+    sp.position.x = Math.sin(elapsed * 1.5 + i) * 0.22;
+    if (sp.position.y > 4.8) sp.position.y = 1.75;
+  });
+
+  // Auto-Mo timer
+  if (state.autoMo && elapsed - lastAutoMo > 0.75) {
+    lastAutoMo = elapsed;
+    tapMo();
+  }
+
+  // Mo bounce recovery
+  if (moAnimTimer > 0) {
+    moAnimTimer = Math.max(0, moAnimTimer - dt * 6);
+    malletPivot.rotation.z = -Math.sin(moAnimTimer * Math.PI) * 0.55;
+  } else {
+    malletPivot.rotation.z = 0;
+  }
+  moBody.scale.lerp(new THREE.Vector3(1.2, 0.85, 1.0), dt * 10);
+
+  // Bowing (Quỳ Lạy) Animation
+  if (bowAnimState === 1) {
+    bowProgress += dt * 2.4;
+    avatarPivot.rotation.x = -Math.min(bowProgress, 1) * 1.25;
+    avatarPivot.position.y = 0.1 - Math.min(bowProgress, 1) * 0.25;
+    if (bowProgress >= 1) { bowAnimState = 2; bowProgress = 0; }
+  } else if (bowAnimState === 2) {
+    bowProgress += dt * 3.0;
+    if (bowProgress >= 1) { bowAnimState = 3; bowProgress = 0; }
+  } else if (bowAnimState === 3) {
+    bowProgress += dt * 2.4;
+    avatarPivot.rotation.x = -(1 - Math.min(bowProgress, 1)) * 1.25;
+    avatarPivot.position.y = 0.1 - (1 - Math.min(bowProgress, 1)) * 0.25;
+    if (bowProgress >= 1) {
+      bowAnimState = 0;
+      avatarPivot.rotation.x = 0;
+      avatarPivot.position.y = 0.1;
+      if (state.autoBow) setTimeout(triggerBow, 250);
+    }
+  }
+
+  // Bell Swing
+  if (bellSwing > 0) {
+    bellSwing = Math.max(0, bellSwing - dt * 0.8);
+    bellGroup.rotation.z = Math.sin(elapsed * 8) * bellSwing * 0.25;
+  } else {
+    bellGroup.rotation.z = 0;
+  }
+
+  // Boss Wobble when cursed/hit
+  if (bossWobble > 0) {
+    bossWobble = Math.max(0, bossWobble - dt * 2.8);
+    bossPivot.rotation.z = Math.sin(elapsed * 28) * bossWobble * 0.35;
+    bossPivot.rotation.x = Math.cos(elapsed * 22) * bossWobble * 0.25;
+  } else {
+    bossPivot.rotation.z = Math.sin(elapsed * 2) * 0.04;
+    bossPivot.rotation.x = 0;
+  }
+
+  // Projectiles flying into Boss
+  for (let i = projectiles.length - 1; i >= 0; i--) {
+    const p = projectiles[i];
+    p.progress += dt * 5.5;
+    p.mesh.position.lerp(new THREE.Vector3(22, 2.5, 0), p.progress);
+    p.mesh.rotation.x += 0.2;
+    p.mesh.rotation.y += 0.2;
+    if (p.progress >= 1) {
+      scene.remove(p.mesh);
+      projectiles.splice(i, 1);
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
