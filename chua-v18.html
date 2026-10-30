@@ -760,7 +760,7 @@
         <option value="off">🔇 Tắt Nhạc Nền</option>
       </select>
       <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
-      <button class="chip-btn active" onclick="openMeritShopModal()">🏆 Vinh Danh · 🎁 Thỉnh Lễ (<span id="meritScore">35</span> 💎)</button>
+      <button class="chip-btn active" onclick="openMeritShopModal()">🏛️ Công Đức (<span id="congDucCountHud">5</span>) · 💎 Phước (<span id="meritScore">35</span>)</button>
     </div>
   </div>
 
@@ -784,14 +784,14 @@
   <!-- Collapsible TẤM LÒNG THÀNH Leaderboard Popover -->
   <div id="tltPopover">
     <div class="tlt-header">
-      <span>🏆 TẤM LÒNG THÀNH</span>
+      <span>🏛️ BẢNG CÔNG ĐỨC XÂY CHÙA (NHÓM ZALO CTY)</span>
       <button class="btn-close-banner" style="padding:2px 7px;font-size:10.5px;" onclick="toggleTltPopover()">✕ Đóng</button>
     </div>
-    <div class="tlt-row"><span>① Sếp Thành</span><b id="scoreTop1" style="color:#ffe28a;">888</b></div>
-    <div class="tlt-row"><span>② Sale Minh Anh</span><b style="color:#ffe28a;">520</b></div>
-    <div class="tlt-row"><span>③ Sale Kiều Trang</span><b style="color:#ffe28a;">415</b></div>
-    <div class="tlt-row"><span>④ Sale Bích Thủy</span><b style="color:#ffe28a;">360</b></div>
-    <div class="tlt-row"><span>⑤ Sale Ánh Nguyệt</span><b style="color:#ffe28a;">310</b></div>
+    <div class="tlt-row"><span>① Sếp Thành (5 lần Zalo)</span><b id="scoreTop1" style="color:#ffe28a;">5.065 💎</b></div>
+    <div class="tlt-row"><span>② Minh Anh (3 lần Zalo)</span><b style="color:#ffe28a;">3.120 💎</b></div>
+    <div class="tlt-row"><span>③ Kiều Trang (2 lần Zalo)</span><b style="color:#ffe28a;">2.085 💎</b></div>
+    <div class="tlt-row"><span>④ Bích Thủy (1 lần Zalo)</span><b style="color:#ffe28a;">1.095 💎</b></div>
+    <div class="tlt-row"><span>⑤ Sale Huế (1 lần Zalo)</span><b style="color:#ffe28a;">1.080 💎</b></div>
   </div>
 
   <!-- Hidden legacy Chuông/Mõ IDs kept for compatibility; actual interaction happens in #centerStageOverlay -->
@@ -813,7 +813,7 @@
   <!-- 2. SÂN KHẤU TƯƠNG TÁC GIỮA MÀN HÌNH (Bấm vào cái gì, cái đó hiện lên giữa màn hình để click thao tác!) -->
   <div id="centerStageOverlay">
     <div class="cs-header">
-      <span id="csStageTitle" class="cs-title">🪵 GÕ MÕ TỊNH TÂM TÍCH PHƯỚC</span>
+      <span id="csStageTitle" class="cs-title">🪵 GÕ MÕ TỊNH TÂM (XÁC SUẤT 10% TÍCH PHƯỚC)</span>
       <button class="btn-modal-x" onclick="closeCenterStage()">✕ Đóng</button>
     </div>
 
@@ -824,11 +824,14 @@
         <div id="csMalletIcon" class="cs-mallet">🥢</div>
       </div>
 
-      <div id="csTapInstruction" style="font-size:12.5px; font-weight:800; color:#ffd740; margin-bottom:6px;">
-        👆 Chạm / Click trực tiếp vào Mõ Gỗ ở giữa màn hình để gõ!
+      <div id="csTapInstruction" style="font-size:12px; font-weight:800; color:#ffd740; margin-bottom:4px;">
+        👆 Chạm vào Mõ Gỗ để gõ (Quy chuẩn Tích Phước khó: Xác suất 10% mỗi nhịp nhận +1 💎)
+      </div>
+      <div id="csLastRollBanner" style="font-size:11.2px; font-weight:800; color:#ffe082; background:rgba(25,10,3,0.88); border:1px solid rgba(255,213,79,0.5); border-radius:8px; padding:4px 10px; margin-bottom:6px;">
+        🪷 Hãy thành tâm gõ Mõ — Kiên trì tu tập (Xác suất 10% kết tụ +1 💎 Phước Đức)
       </div>
       <div id="csHitStats" style="font-size:11.5px; color:#ffe7b3; margin-bottom:10px;">
-        Đã gõ: <b id="csHitCounter" style="color:#ffd740;">0</b> lần · Phước tích lũy: <b id="csMeritEarned" style="color:#80d8ff;">+0 💎</b>
+        Đã gõ: <b id="csHitCounter" style="color:#ffd740;">0</b> nhịp · Trúng Phước: <b id="csLuckyCounter" style="color:#a5d6a7;">0</b> lần (<b id="csMeritEarned" style="color:#80d8ff;">+0 💎</b>)
       </div>
 
       <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
@@ -1099,65 +1102,84 @@
     </div>
   </div>
 
-  <!-- 6. MODAL BẢNG VINH DANH CÔNG ĐỨC, QUY CHUẨN TÍCH PHƯỚC & CỬA HÀNG THỈNH LỄ VẬT THẬT -->
+  <!-- 6. MODAL BẢNG VÀNG CÔNG ĐỨC XÂY CHÙA (NHÓM ZALO CTY), QUY CHUẨN TÍCH PHƯỚC XÁC SUẤT & CỬA HÀNG THỈNH LỄ -->
   <div class="modal-backdrop" id="meritShopModal" onclick="if(event.target===this) closeMeritShopModal()">
     <div class="so-khan-box">
       <div class="sk-top-row">
-        <span class="sk-title">🏆 Bảng Vinh Danh · 📏 Quy Chuẩn Phước Đức & 🎁 Cửa Hàng Lễ</span>
+        <span class="sk-title">🏛️ Bảng Công Đức Xây Chùa (Zalo Cty) · 📏 Tích Phước Xác Suất & 🎁 Cửa Hàng Lễ</span>
         <button class="btn-modal-x" onclick="closeMeritShopModal()">✕ Đóng</button>
       </div>
 
-      <!-- HAI BẢNG VÀNG SONG SONG: BẢNG VINH DANH CÔNG ĐỨC & BẢNG QUY CHUẨN PHƯỚC ĐỨC -->
-      <div style="display:grid; grid-template-columns: 1.12fr 0.88fr; gap:7px; margin-bottom:8px;">
-        <div style="background:linear-gradient(180deg,rgba(78,36,6,0.95),rgba(34,14,3,0.95)); border:1.5px solid #ffd56b; border-radius:11px; padding:7px 9px;">
-          <div style="font-size:11px; font-weight:900; color:#ffd740; border-bottom:1px solid rgba(255,213,107,0.35); padding-bottom:3px; margin-bottom:4px;">
-            🏆 BẢNG VINH DANH CÔNG ĐỨC
+      <!-- HAI BẢNG VÀNG SONG SONG: 1. BẢNG CÔNG ĐỨC XÂY DỰNG CHÙA (NHÓM ZALO CTY) & 2. VÍ PHƯỚC ĐỨC -->
+      <div style="display:grid; grid-template-columns: 1.18fr 0.82fr; gap:7px; margin-bottom:7px;">
+        <div style="background:linear-gradient(180deg,rgba(78,36,6,0.96),rgba(34,14,3,0.96)); border:1.5px solid #ffd56b; border-radius:11px; padding:7px 9px;">
+          <div style="font-size:10.6px; font-weight:900; color:#ffd740; border-bottom:1px solid rgba(255,213,107,0.35); padding-bottom:3px; margin-bottom:4px; display:flex; justify-content:space-between;">
+            <span>🏛️ BẢNG CÔNG ĐỨC XÂY CHÙA (ZALO CTY)</span>
+            <span id="templeBuildProgressBadge" style="color:#a5d6a7; font-size:9.5px;">Quỹ Chùa: 12🏛️</span>
           </div>
-          <div style="font-size:10.5px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>🥇 1. Sếp Thành</span><b id="scoreTop1" style="color:#ffd740;">168</b></div>
-          <div style="font-size:10.5px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>🥈 2. Phật Tử Minh Anh</span><b style="color:#ffe596;">135</b></div>
-          <div style="font-size:10.5px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>🥉 3. Phật Tử Kiều Trang</span><b style="color:#ffe596;">110</b></div>
-          <div style="font-size:10.5px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>④ 4. Phật Tử Bích Thủy</span><b style="color:#dec596;">95</b></div>
-          <div style="font-size:10.5px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>⑤ 5. Phật Tử Sale Huế</span><b style="color:#dec596;">80</b></div>
+          <div id="zaloCongDucLeaderboard">
+            <div style="font-size:10.2px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>🥇 1. Sếp Thành <i style="color:#80d8ff;">(5 lần Zalo)</i></span><b id="scoreTop1" style="color:#ffd740;">+5.000 💎</b></div>
+            <div style="font-size:10.2px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>🥈 2. Phật Tử Minh Anh <i style="color:#80d8ff;">(3 lần Zalo)</i></span><b style="color:#ffe596;">+3.000 💎</b></div>
+            <div style="font-size:10.2px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>🥉 3. Phật Tử Kiều Trang <i style="color:#80d8ff;">(2 lần Zalo)</i></span><b style="color:#ffe596;">+2.000 💎</b></div>
+            <div style="font-size:10.2px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>④ 4. Phật Tử Bích Thủy <i style="color:#80d8ff;">(1 lần Zalo)</i></span><b style="color:#dec596;">+1.000 💎</b></div>
+            <div style="font-size:10.2px; display:flex; justify-content:space-between; padding:1.5px 0;"><span>⑤ 5. Phật Tử Sale Huế <i style="color:#80d8ff;">(1 lần Zalo)</i></span><b style="color:#dec596;">+1.000 💎</b></div>
+          </div>
         </div>
 
-        <div style="background:linear-gradient(180deg,rgba(68,28,8,0.95),rgba(28,11,3,0.95)); border:1.5px solid #ffd56b; border-radius:11px; padding:7px 9px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div style="background:linear-gradient(180deg,rgba(68,28,8,0.96),rgba(28,11,3,0.96)); border:1.5px solid #ffd56b; border-radius:11px; padding:7px 9px; display:flex; flex-direction:column; justify-content:space-between;">
           <div>
-            <div style="font-size:10.8px; font-weight:900; color:#80d8ff; border-bottom:1px solid rgba(128,216,255,0.3); padding-bottom:3px; margin-bottom:4px;">
-              💎 PHƯỚC ĐỨC & CẤP BẬC
+            <div style="font-size:10.5px; font-weight:900; color:#80d8ff; border-bottom:1px solid rgba(128,216,255,0.3); padding-bottom:3px; margin-bottom:4px;">
+              💎 PHƯỚC ĐỨC & CÔNG ĐỨC
             </div>
-            <div style="font-size:10px; color:#ffe6a3;">Phước Khả Dụng Hiện Có:</div>
-            <div style="font-size:15.5px; font-weight:900; color:#ffd740;"><span id="shopMeritBalance">35</span> 💎</div>
+            <div style="font-size:9.8px; color:#ffe6a3;">Phước Khả Dụng Hiện Có:</div>
+            <div style="font-size:15px; font-weight:900; color:#ffd740;"><span id="shopMeritBalance">35</span> 💎</div>
           </div>
-          <div style="font-size:9.8px; color:#ffefc8; line-height:1.35;">
-            • Tổng Tích Lũy: <b id="shopTotalMerit" style="color:#ffd740;">65</b> 💎<br/>
-            • Cấp bậc: <b id="shopRankTitle" style="color:#80d8ff;">Bậc 1 · Sơ Tâm</b><br/>
+          <div style="font-size:9.6px; color:#ffefc8; line-height:1.35;">
+            • Công Đức Zalo Cty: <b id="shopCongDucCount" style="color:#ffab40;">5 lần (🏛️)</b><br/>
+            • Tổng Phước Tích Lũy: <b id="shopTotalMerit" style="color:#ffd740;">5.065</b> 💎<br/>
+            • Cấp bậc: <b id="shopRankTitle" style="color:#80d8ff;">Đại Thí Chủ Xây Chùa</b><br/>
             • Túi Vàng Mã: <b id="shopGoldBagCount" style="color:#ffab40;">2 Lễ</b> · Đã Hóa: <b id="shopBurnCount" style="color:#a5d6a7;">2 Lễ</b>
           </div>
         </div>
       </div>
 
-      <!-- BẢNG QUY CHUẨN TÍCH PHƯỚC & CẤP BẬC THỈNH LỄ (KHÔNG DỄ KIẾM DỄ MUA) -->
-      <div style="background:rgba(24,10,3,0.92); border:1px solid rgba(255,213,79,0.5); border-radius:9px; padding:6px 9px; margin-bottom:8px; font-size:10px; color:#ffe596; line-height:1.4;">
-        📏 <b>Quy Chuẩn Tu Tập Tích Phước & Thỉnh Lễ Vật (Chuẩn Tâm Thành):</b><br/>
-        • <b>Tích Phước:</b> Gõ Mõ <b>+1💎</b> · Thỉnh Chuông <b>+2💎</b> (hồi 3s) · Thắp Hương <b>+5💎</b> (hồi 20s) · Viết Sớ & Nghe Khấn <b>+15💎</b> · Nghe Trụ Trì <b>+15💎</b> · Giọt Dầu <b>+20💎</b> (1 lần/phút).<br/>
-        • <b>Quy Chuẩn Hóa Vàng:</b> Phải dùng 💎 Phước thỉnh Vàng Mã vào <b>Túi Vàng Mã</b> trước rồi mới đem vào Lò Hóa Vàng đốt được (+12💎 hồi hướng/lễ).
+      <!-- BẢNG QUY CHUẨN KÉP: 1. CÔNG ĐỨC XÂY CHÙA (NHÓM ZALO CTY +1.000💎) vs 2. TÍCH ĐỨC · TÍCH PHƯỚC XÁC SUẤT KHÓ -->
+      <div style="background:rgba(24,10,3,0.94); border:1px solid rgba(255,213,79,0.55); border-radius:9px; padding:6px 9px; margin-bottom:7px; font-size:9.9px; color:#ffe596; line-height:1.42;">
+        🏛️ <b>1. QUY CHUẨN CÔNG ĐỨC XÂY DỰNG CHÙA (Đồng Bộ Nhóm Zalo Ghi Nhận Công Ty):</b><br/>
+        • Mỗi lần thành viên được <b>Ghi Nhận trên Nhóm Zalo Công Ty</b> → Được <b>Vinh Danh Bảng Công Đức Xây Chùa (+1 🏛️)</b> và thưởng ngay <b style="color:#ffd740;">+1.000 💎 Phước Đức</b>!<br/>
+        🪵 <b>2. QUY CHUẨN TÍCH ĐỨC · TÍCH PHƯỚC CÁ NHÂN (Khó Khăn Hơn — Tính Theo Xác Suất):</b><br/>
+        • <b>Gõ Mõ:</b> Xác suất <b style="color:#80d8ff;">10%</b> mới được <b>+1💎</b> · <b>Thỉnh Chuông:</b> Xác suất <b style="color:#80d8ff;">20%</b> được <b>+2💎</b> · <b>Thắp Hương:</b> Xác suất <b style="color:#80d8ff;">25%</b> được <b>+3💎</b> · <b>Lễ Lạy:</b> Xác suất <b style="color:#80d8ff;">15%</b> được <b>+1💎</b> · <b>Viết Sớ/Xin Xăm:</b> Xác suất <b style="color:#80d8ff;">30%</b> được <b>+5💎</b>.
       </div>
 
-      <!-- Phần 1: Ghi nhận công đức giọt dầu -->
-      <div style="display:flex; gap:5px; margin-bottom:6px;">
-        <input id="meritNoteInput" type="text" value="Cúng dường giọt dầu & cầu bình an tài lộc cho đại gia đình Trường Yến" placeholder="Nhập tâm nguyện công đức..." style="flex:1; background:rgba(14,7,3,0.9); border:1px solid rgba(234,182,81,0.55); border-radius:8px; padding:5px 8px; color:#fff; font-size:10.8px; outline:none;" />
-        <button class="btn-redeem" style="width:auto; white-space:nowrap; background:linear-gradient(135deg,#d9381e,#a81c07);" onclick="recordTempleContribution()">🏆 Công Đức (+20 💎)</button>
-      </div>
-      <div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:8px;">
-        <span class="cm-auto-pill" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥🧧 Vào Phòng Hóa Vàng (Đốt lễ trong Túi Vàng Mã)</span>
-        <span class="cm-auto-pill" onclick="closeMeritShopModal(); openCenterStage('mo');">🪵 Gõ Mõ (+1 💎)</span>
-        <span class="cm-auto-pill" onclick="closeMeritShopModal(); openCenterStage('bell');">🔔 Thỉnh Chuông (+2 💎)</span>
-        <span class="cm-auto-pill" onclick="closeMeritShopModal(); openCenterStage('incense');">🕯️ Dâng Hương (+5 💎)</span>
+      <!-- Phần 1: ĐỒNG BỘ GHI NHẬN TỪ NHÓM ZALO CÔNG TY (+1.000 💎 PHƯỚC ĐỨC XÂY CHÙA) -->
+      <div style="background:linear-gradient(180deg,rgba(58,20,6,0.95),rgba(28,9,3,0.95)); border:1.5px solid #ffab40; border-radius:10px; padding:6px 8px; margin-bottom:8px;">
+        <div style="font-size:10.5px; font-weight:900; color:#ffd740; margin-bottom:4px;">
+          📲 1️⃣ GHI NHẬN CÔNG ĐỨC TỪ NHÓM ZALO CÔNG TY (+1 🏛️ Xây Chùa & +1.000 💎 Phước Đức):
+        </div>
+        <div style="display:flex; gap:5px; margin-bottom:5px; flex-wrap:wrap;">
+          <select id="zaloRecMemberSelect" style="background:rgba(14,7,3,0.95); border:1px solid #ffd54f; border-radius:7px; padding:4px 7px; color:#ffd740; font-size:10.5px; font-weight:800; outline:none;">
+            <option value="Sếp Thành">🧘‍♂️ Sếp Thành</option>
+            <option value="Phật Tử Minh Anh">🪷 Phật Tử Minh Anh</option>
+            <option value="Phật Tử Kiều Trang">🪷 Phật Tử Kiều Trang</option>
+            <option value="Phật Tử Sale Huế">🪷 Phật Tử Sale Huế</option>
+            <option value="Phật Tử Bích Thủy">🪷 Phật Tử Bích Thủy</option>
+            <option value="Phật Tử Ánh Nguyệt">🪷 Phật Tử Ánh Nguyệt</option>
+            <option value="Thế Anh">🙏 Thế Anh</option>
+          </select>
+          <input id="meritNoteInput" type="text" value="Được ghi nhận trên Nhóm Zalo Công Ty: Hỗ trợ đồng đội & chốt đơn xuất sắc, đóng góp Công Đức xây dựng Chùa Trường Yến" placeholder="Nhập nội dung ghi nhận trên Nhóm Zalo Cty..." style="flex:1; min-width:170px; background:rgba(14,7,3,0.9); border:1px solid rgba(234,182,81,0.55); border-radius:7px; padding:4px 8px; color:#fff; font-size:10.5px; outline:none;" />
+          <button class="btn-redeem" style="width:auto; white-space:nowrap; background:linear-gradient(135deg,#e65100,#b71c1c); border-color:#ffd740;" onclick="recordTempleContribution()">🏛️ Ghi Nhận Zalo (+1.000 💎)</button>
+        </div>
+        <div style="display:flex; gap:4px; flex-wrap:wrap;">
+          <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillZaloRecognitionPreset('Phật Tử Minh Anh', 'Ghi nhận trên Nhóm Zalo Cty: Chốt đơn Tấm Ốp Nano vượt KPI tuần & hỗ trợ khách tận tâm')">⚡ Zalo: Minh Anh vượt KPI (+1.000💎)</span>
+          <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillZaloRecognitionPreset('Phật Tử Kiều Trang', 'Ghi nhận trên Nhóm Zalo Cty: Hỗ trợ điều phối xuất kho gấp cho công trình Hải Phòng')">⚡ Zalo: Kiều Trang hỗ trợ kho (+1.000💎)</span>
+          <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px; background:rgba(48,20,5,0.95); color:#ffe082; border:1px solid #ffd54f;" onclick="closeMeritShopModal(); openCenterStage('mo');">🪵 Tự Tích Phước: Gõ Mõ (Xác suất 10% +1💎)</span>
+          <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px; background:linear-gradient(135deg,#e65100,#b71c1c); color:#fff; border:1px solid #ffd54f;" onclick="openGoldFurnaceRoom()">🔥🧧 Phòng Hóa Vàng</span>
+        </div>
       </div>
 
       <!-- Phần 2: Cửa Hàng 8 Mâm Lễ Vật & Vàng Mã Ảnh Chụp Thật Theo 4 Bậc Quy Chuẩn -->
       <div style="font-size:11px; color:#f7cf73; font-weight:800; margin-bottom:5px;">
-        2️⃣ Cửa Hàng Lễ Vật & Vàng Mã Chân Thật Theo 4 Bậc Công Đức:
+        2️⃣ Cửa Hàng Lễ Vật & Vàng Mã Chân Thật (Dùng Phước Tích Lũy Hoặc Phước Công Đức Zalo):
       </div>
       <div class="shop-grid">
         <!-- Bậc 1 -->
@@ -1169,7 +1191,7 @@
               <div class="shop-desc">Bậc 1 · Dâng Bàn Lễ & +2 Lễ vào Túi Hóa Vàng</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 30, 'assets/vangma_dinh.jpg', 0, 2)">🧧 Thỉnh Lễ Bậc 1 (30 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 20, 'assets/vangma_dinh.jpg', 0, 2)">🧧 Thỉnh Lễ Bậc 1 (20 💎)</button>
         </div>
 
         <div class="shop-card" style="border-color:#f48fb1; background:rgba(55,22,5,0.94);">
@@ -1177,10 +1199,10 @@
             <img src="assets/le_hoasen.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Hoa Sen Hồng Bách Diệp" />
             <div>
               <div class="shop-name">Mâm Hoa Sen Bách Diệp</div>
-              <div class="shop-desc">Bậc 1 (Tổng >= 50💎) · Sen hồng tươi trên lá sen</div>
+              <div class="shop-desc">Bậc 1 · Sen hồng tươi dâng Phật</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Bách Diệp', 45, 'assets/le_hoasen.jpg', 50, 0)">🪷 Thỉnh Lễ Bậc 1 (45 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Bách Diệp', 35, 'assets/le_hoasen.jpg', 0, 0)">🪷 Thỉnh Lễ Bậc 1 (35 💎)</button>
         </div>
 
         <!-- Bậc 2 -->
@@ -1189,10 +1211,10 @@
             <img src="assets/vangma_le10.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Tháp Vàng Mã Sen Đỏ 10 Lễ" />
             <div>
               <div class="shop-name">Tháp Vàng Mã Sen Đỏ</div>
-              <div class="shop-desc">Bậc 2 (Tổng >= 80💎) · +3 Lễ vào Túi Hóa Vàng</div>
+              <div class="shop-desc">Bậc 2 · +3 Lễ vào Túi Hóa Vàng</div>
             </div>
           </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#e65100,#b71c1c);" onclick="redeemOfferingItem('vang_le10', '💴', 'Tháp Vàng Mã Sen Đỏ', 70, 'assets/vangma_le10.jpg', 80, 3)">💴 Thỉnh Lễ Bậc 2 (70 💎)</button>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#e65100,#b71c1c);" onclick="redeemOfferingItem('vang_le10', '💴', 'Tháp Vàng Mã Sen Đỏ', 80, 'assets/vangma_le10.jpg', 0, 3)">💴 Thỉnh Lễ Bậc 2 (80 💎)</button>
         </div>
 
         <div class="shop-card" style="border-color:#ffd54f; background:rgba(55,22,5,0.94);">
@@ -1200,10 +1222,10 @@
             <img src="assets/vangma_tiendola.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Tiền Vàng Mã 500k & Đĩnh Vàng" />
             <div>
               <div class="shop-name">Mâm Tiền Vàng 500k & Đô</div>
-              <div class="shop-desc">Bậc 2 (Tổng >= 120💎) · +4 Lễ vào Túi Hóa Vàng</div>
+              <div class="shop-desc">Bậc 2 · +4 Lễ vào Túi Hóa Vàng</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('vang_tiendola', '💵', 'Mâm Tiền Vàng Mã 500k', 110, 'assets/vangma_tiendola.jpg', 120, 4)">💵 Thỉnh Lễ Bậc 2 (110 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('vang_tiendola', '💵', 'Mâm Tiền Vàng Mã 500k', 150, 'assets/vangma_tiendola.jpg', 0, 4)">💵 Thỉnh Lễ Bậc 2 (150 💎)</button>
         </div>
 
         <!-- Bậc 3 -->
@@ -1212,10 +1234,10 @@
             <img src="assets/le_nguqua.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Ngũ Quả Phật Thủ Chuối Bưởi" />
             <div>
               <div class="shop-name">Mâm Ngũ Quả Phật Thủ</div>
-              <div class="shop-desc">Bậc 3 (Tổng >= 180💎) · Chuối xanh, bưởi, phật thủ</div>
+              <div class="shop-desc">Bậc 3 · Chuối xanh, bưởi, phật thủ</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phật Thủ', 160, 'assets/le_nguqua.jpg', 180, 0)">🍎 Thỉnh Lễ Bậc 3 (160 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phật Thủ', 300, 'assets/le_nguqua.jpg', 0, 1)">🍎 Thỉnh Lễ Bậc 3 (300 💎)</button>
         </div>
 
         <div class="shop-card" style="border-color:#ffd54f; background:rgba(48,20,5,0.94);">
@@ -1223,49 +1245,49 @@
             <img src="assets/le_traoan.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Oản Ngọc & Trà Sen Bát Tràng" />
             <div>
               <div class="shop-name">Oản Ngọc · Trà Bát Tràng</div>
-              <div class="shop-desc">Bậc 3 (Tổng >= 240💎) · Oản tháp vàng, ấm trà, trầu cau</div>
+              <div class="shop-desc">Bậc 3 · Oản tháp vàng, ấm trà, trầu cau</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('tea_oan', '🍵', 'Mâm Oản Ngọc & Trà Sen', 220, 'assets/le_traoan.jpg', 240, 1)">🍵 Thỉnh Lễ Bậc 3 (220 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('tea_oan', '🍵', 'Mâm Oản Ngọc & Trà Sen', 500, 'assets/le_traoan.jpg', 0, 2)">🍵 Thỉnh Lễ Bậc 3 (500 💎)</button>
         </div>
 
-        <!-- Bậc 4 -->
+        <!-- Bậc 4 (Dành cho Công Đức Ghi Nhận Nhóm Zalo Cty +1.000💎) -->
         <div class="shop-card" style="border-color:#ff8a65; background:rgba(62,18,6,0.94);">
           <div class="shop-item-head">
             <img src="assets/vangma_mamdaydu.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Gà Luộc Ngậm Hoa Hồng & Xôi Gấc" />
             <div>
               <div class="shop-name">Gà Luộc Ngậm Hoa · Xôi Gấc</div>
-              <div class="shop-desc">Bậc 4 (Tổng >= 320💎) · Gà cánh tiên, xôi gấc, trầu, rượu</div>
+              <div class="shop-desc">Bậc 4 Công Đức · Gà cánh tiên, xôi gấc, +4 Lễ Vàng</div>
             </div>
           </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#d84315,#9a1b06);" onclick="redeemOfferingItem('mam_ga_xoi', '🐓', 'Mâm Gà Ngậm Hoa & Xôi Gấc', 320, 'assets/vangma_mamdaydu.jpg', 320, 3)">🐓 Thỉnh Lễ Bậc 4 (320 💎)</button>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#d84315,#9a1b06);" onclick="redeemOfferingItem('mam_ga_xoi', '🐓', 'Mâm Gà Ngậm Hoa & Xôi Gấc', 800, 'assets/vangma_mamdaydu.jpg', 0, 4)">🐓 Thỉnh Lễ Bậc 4 (800 💎)</button>
         </div>
 
         <div class="shop-card" style="border-color:#ffd740; background:rgba(68,24,4,0.96);">
           <div class="shop-item-head">
             <img src="assets/le_daile.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd740;" alt="Đại Lễ Cúng Dường Tam Bảo Hoàng Kim" />
             <div>
-              <div class="shop-name">Đại Lễ Cúng Dường Tam Bảo</div>
-              <div class="shop-desc">Bậc 4 Đại Thí Chủ (Tổng >= 500💎) · Tháp Oản Hoàng Kim</div>
+              <div class="shop-name">Đại Lễ Kiến Tạo Chùa</div>
+              <div class="shop-desc">Bậc 4 Công Đức Zalo (1.000💎) · Tháp Oản & +8 Lễ Vàng</div>
             </div>
           </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#f57f17,#b71c1c);" onclick="redeemOfferingItem('grand_offering', '👑', 'Đại Lễ Cúng Dường Tam Bảo', 500, 'assets/le_daile.jpg', 500, 6)">👑 Đại Lễ Bậc 4 (500 💎)</button>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#f57f17,#b71c1c);" onclick="redeemOfferingItem('grand_offering', '👑', 'Đại Lễ Kiến Tạo Chùa Trường Yến', 1000, 'assets/le_daile.jpg', 0, 8)">👑 Đại Lễ Công Đức (1.000 💎)</button>
         </div>
       </div>
 
-      <!-- Phần 3: Sổ Vàng Ghi Nhận Tích Phước & Lễ Đã Dâng -->
+      <!-- Phần 3: Sổ Vàng Ghi Nhận Công Đức Nhóm Zalo & Lịch Sử Tích Phước -->
       <div style="font-size:11.2px; color:#f7cf73; font-weight:800; margin-bottom:4px;">
-        3️⃣ Sổ Vàng Ghi Nhận Công Đức & Lễ Vật Đang Bày Trên Ban Thờ:
+        3️⃣ Sổ Vàng Công Đức Xây Chùa (Từ Nhóm Zalo Cty) & Nhật Ký Tích Phước:
       </div>
       <div class="merit-log-box" id="meritHistoryList">
-        <div class="merit-log-item">🏆 <b>Sếp Thành</b>: Công đức giọt dầu xây dựng Chùa Trường Yến (+20 💎)</div>
-        <div class="merit-log-item">🎁 <b>Phật Tử Minh Anh</b>: Đã thỉnh & dâng <b>🪷 Mâm Hoa Sen Bách Diệp</b> lên Ban Tam Bảo</div>
+        <div class="merit-log-item">🏛️📲 <b>[Nhóm Zalo Cty] Sếp Thành</b> được ghi nhận Công Đức Xây Dựng Chùa Trường Yến (<b>+1 🏛️ Công Đức · +1.000 💎 Phước Đức</b>)</div>
+        <div class="merit-log-item">🏛️📲 <b>[Nhóm Zalo Cty] Phật Tử Minh Anh</b>: Ghi nhận hỗ trợ khách hàng & chốt đơn xuất sắc (<b>+1 🏛️ Công Đức · +1.000 💎 Phước Đức</b>)</div>
+        <div class="merit-log-item">✨🪵 <b>Sếp Thành</b>: Gõ Mõ Tịnh Tâm trúng xác suất 10% kết tụ (+1 💎 Phước Đức)</div>
         <div class="merit-log-item">🎁 <b>Sếp Thành</b>: Đã thỉnh & dâng <b>🧧 Đinh Tiền Vàng Lá Đỏ</b> lên Ban Tam Bảo</div>
-        <div class="merit-log-item">🙏 <b>KH Anh Đức Đoàn</b>: Dâng hương & cầu lộc công trình Hải Phòng (+5 💎)</div>
       </div>
 
       <div class="sk-actions">
-        <button class="btn-sk-close" style="width:100%;" onclick="closeMeritShopModal()">✕ Đóng Bảng Vinh Danh & Cửa Hàng</button>
+        <button class="btn-sk-close" style="width:100%;" onclick="closeMeritShopModal()">✕ Đóng Bảng Công Đức & Cửa Hàng</button>
       </div>
     </div>
   </div>
@@ -1424,14 +1446,15 @@
       btn.classList.add('struck');
       setTimeout(() => btn.classList.remove('struck'), 200);
       const rect = btn.getBoundingClientRect();
+      const hit = Math.random() < 0.20;
       floatingHits.push({
         x: rect.left + rect.width / 2,
         y: rect.top,
-        text: '🔔 Boong... +2 Phước',
-        color: '#ffd54f',
+        text: hit ? '✨🔔 Trúng 20%! +2 💎 Phước' : '🔔 Boong... (Xác suất 20%)',
+        color: hit ? '#69f0ae' : '#ffd54f',
         life: 1.0
       });
-      addMerit(2);
+      if (hit) addMerit(2);
     }
 
     function strikeVisualMo() {
@@ -1443,14 +1466,15 @@
       btn.classList.add('struck');
       setTimeout(() => btn.classList.remove('struck'), 160);
       const rect = btn.getBoundingClientRect();
+      const hit = Math.random() < 0.10;
       floatingHits.push({
         x: rect.left + rect.width / 2,
         y: rect.top,
-        text: '🪵 Cốc... +1 Tâm Thành',
-        color: '#ffe082',
+        text: hit ? '✨🪵 Trúng 10%! +1 💎 Phước' : '🪵 Cốc... (Xác suất 10%)',
+        color: hit ? '#69f0ae' : '#ffe082',
         life: 1.0
       });
-      addMerit(1);
+      if (hit) addMerit(1);
     }
 
     function cycleAutoBell() {
@@ -1691,11 +1715,9 @@
       document.getElementById('asPhone').textContent = phone || 'Tâm thành';
       closeSoKhanModal();
 
-      // Quy chuẩn tích phước: +15 💎 khi viết Sớ & đọc bài khấn (chống spam liên tục trong 15s)
-      const now = Date.now();
-      if (now - lastSoKhanMeritTime > 15000) {
-        lastSoKhanMeritTime = now;
-        addMerit(15, `Viết Sớ Điệp Vàng & Đọc Bài Khấn cầu cho ${name}`);
+      // Quy chuẩn tích phước khó: Xác suất 30% nhận +5 💎 khi viết Sớ & đọc bài khấn
+      if (Math.random() < 0.30) {
+        addMerit(5, `Viết Sớ Điệp Vàng & Đọc Bài Khấn cầu cho ${name} (Trúng xác suất 30%)`);
       }
       const wingKey = String(player.wing);
       if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
@@ -1934,10 +1956,8 @@
         ];
       }
 
-      const now = Date.now();
-      if (now - lastKarmaMeritTime > 12000) {
-        lastKarmaMeritTime = now;
-        addMerit(5, `Xả Khẩu Nghiệp đối với ${targetName} để nhẹ lòng`);
+      if (Math.random() < 0.25) {
+        addMerit(3, `Xả Khẩu Nghiệp đối với ${targetName} (Trúng xác suất 25%)`);
       }
       showToast(`🌶️🔊 Đang phát 1 giọng đọc mắng thẳng tên: ${targetName}!`);
       playMultiChunksSequential(chunks, 'karmaVoiceLiveText', `🌶️🔊 <b>Đang đọc Voice mắng thẳng ${targetName}:</b>`, localKarmaScoldMp3);
@@ -1958,14 +1978,14 @@
 
       const liveBox = document.getElementById('karmaVoiceLiveText');
       if (liveBox) {
-        liveBox.innerHTML = `💥🪵 <b>ĐÃ ĐẬP MÕ XẢ SẠCH CỤC TỨC VỚI "${targetName.toUpperCase()}":</b><br/>Bao nhiêu bực bội vì chuyện <i>"${wrongDoing}"</i> đã tan thành mây khói! (+5 💎 Phước Tâm An)`;
+        liveBox.innerHTML = `💥🪵 <b>ĐÃ ĐẬP MÕ XẢ SẠCH CỤC TỨC VỚI "${targetName.toUpperCase()}":</b><br/>Bao nhiêu bực bội vì chuyện <i>"${wrongDoing}"</i> đã tan thành mây khói! (Xác suất tích phước 25%)`;
       }
-      const now = Date.now();
-      if (now - lastKarmaMeritTime > 10000) {
-        lastKarmaMeritTime = now;
-        addMerit(5, `Đập Mõ xả sạch cục tức chuyện của ${targetName}`);
+      if (Math.random() < 0.25) {
+        addMerit(3, `Đập Mõ xả sạch cục tức chuyện của ${targetName} (Trúng xác suất 25%)`);
+        showToast(`✨💥 Đã xả sạch cục tức với ${targetName} — Trúng 25% (+3 💎 Phước)!`);
+      } else {
+        showToast(`💥🪵 Đã xả sạch cục tức với ${targetName}! (Xác suất tích phước 25%)`);
       }
-      showToast(`💥🪵 Đã xả sạch cục tức với ${targetName}! (+5 💎)`);
     }
 
     function triggerAbbotDharmaVoice() {
@@ -1988,12 +2008,10 @@
         abbotBox.innerHTML = `🧘‍♂️🪷 <b>Sư Thầy Trụ Trì Đang Giảng Giải Cho Bạn:</b><br/><i style="color:#a5d6a7;">"${abbotChunks.join(' ')}"</i>`;
       }
 
-      const now = Date.now();
-      if (now - lastAbbotMeritTime > 20000) {
-        lastAbbotMeritTime = now;
-        addMerit(15, `Nghe Sư Thầy Trụ Trì giảng giải hóa giải cơn giận (+15 💎 Tâm An)`);
+      if (Math.random() < 0.30) {
+        addMerit(5, `Nghe Sư Thầy Trụ Trì giảng giải hóa giải cơn giận (Trúng xác suất 30%)`);
       }
-      showToast('🧘‍♂️🔊 Đang phát lời Sư Thầy Trụ Trì giảng giải hạ hỏa · Tâm An (+15 💎)!');
+      showToast('🧘‍♂️🔊 Đang phát lời Sư Thầy Trụ Trì giảng giải hạ hỏa · Tâm An!');
       playMultiChunksSequential(abbotChunks, 'abbotAdviceBox', `🧘‍♂️🔊 <b>Lời Sư Thầy Trụ Trì Giảng Giải Tâm An:</b>`, localAbbotDharmaMp3);
     }
 
@@ -2076,12 +2094,11 @@
           document.getElementById('fcStickRank').textContent = currentFortuneStick.rank;
           document.getElementById('fcPoem').innerHTML = `"${currentFortuneStick.poem}"`;
           document.getElementById('fcMeaning').innerHTML = currentFortuneStick.meaning;
-          if (statusEl) statusEl.textContent = `✨ ĐÃ RÚT ĐƯỢC: ${currentFortuneStick.num} (+5 💎)`;
+          const hitFortune = Math.random() < 0.30;
+          if (statusEl) statusEl.textContent = hitFortune ? `✨ ĐÃ RÚT: ${currentFortuneStick.num} (Trúng 30% +5 💎)` : `🎋 ĐÃ RÚT: ${currentFortuneStick.num} (Xác suất 30%)`;
           playBellSound();
-          const now = Date.now();
-          if (now - lastFortuneMeritTime > 12000) {
-            lastFortuneMeritTime = now;
-            addMerit(5, `Rút thẻ xăm: ${currentFortuneStick.num}`);
+          if (hitFortune) {
+            addMerit(5, `Rút thẻ xăm: ${currentFortuneStick.num} (Trúng xác suất 30%)`);
           }
           player.chat = `🎋 Con vừa rút được ${currentFortuneStick.num} (${currentFortuneStick.rank})! 🙏`;
           player.chatTimer = 320;
@@ -2228,6 +2245,7 @@
     // =========================================================================
     let centerStageMode = 'mo'; // 'mo' | 'bell' | 'incense' | 'table_inspect'
     let csHitCount = 0;
+    let csLuckyCount = 0;
     let csMeritSession = 0;
     let csAutoTimer = null;
     let csAutoIntervalSec = 0;
@@ -2257,28 +2275,28 @@
       tableBody.style.display = 'none';
 
       if (mode === 'mo') {
-        titleEl.textContent = '🪵 GÕ MÕ GỖ TỊNH TÂM (GIỮA MÀN HÌNH)';
+        titleEl.textContent = '🪵 GÕ MÕ TỊNH TÂM (XÁC SUẤT 10% TÍCH PHƯỚC)';
         imgEl.style.display = 'block';
         imgEl.src = 'assets/mo_go.png';
         emojiEl.style.display = 'none';
         malletEl.style.display = 'block';
         malletEl.textContent = '🥢';
-        instrEl.textContent = '👆 Click / Chạm trực tiếp vào Mõ Gỗ ở giữa màn hình để gõ (+1 💎 Phước/lần)';
+        instrEl.textContent = '👆 Chạm vào Mõ Gỗ để gõ (Quy chuẩn Tích Phước khó: Xác suất 10% mỗi nhịp mới được +1 💎)';
       } else if (mode === 'bell') {
-        titleEl.textContent = '🔔 THỈNH ĐẠI HỒNG CHUÔNG (GIỮA MÀN HÌNH)';
+        titleEl.textContent = '🔔 THỈNH ĐẠI HỒNG CHUÔNG (XÁC SUẤT 20% TÍCH PHƯỚC)';
         imgEl.style.display = 'block';
         imgEl.src = 'assets/chuong_dong.png';
         emojiEl.style.display = 'none';
         malletEl.style.display = 'block';
         malletEl.textContent = '🪵';
-        instrEl.textContent = '👆 Click / Chạm trực tiếp vào Chuông Đồng để thỉnh (+2 💎 Phước · hồi 3s)';
+        instrEl.textContent = '👆 Chạm vào Chuông Đồng để thỉnh (Quy chuẩn Tích Phước: Xác suất 20% được +2 💎)';
       } else if (mode === 'incense') {
-        titleEl.textContent = '🕯️ DÂNG 3 NÉN TÂM HƯƠNG (GIỮA MÀN HÌNH)';
+        titleEl.textContent = '🕯️ DÂNG 3 NÉN TÂM HƯƠNG (XÁC SUẤT 25% TÍCH PHƯỚC)';
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
         emojiEl.textContent = '🕯️🙏🕯️';
         malletEl.style.display = 'none';
-        instrEl.textContent = '👆 Click trực tiếp vào 3 Nén Tâm Hương để thắp hương & vái lạy (+5 💎 · hồi 20s)';
+        instrEl.textContent = '👆 Chạm vào 3 Nén Tâm Hương để dâng hương (Xác suất 25% kết tụ +3 💎 Phước)';
       }
       overlay.classList.add('open');
       triggerCenterStageHit();
@@ -2320,25 +2338,62 @@
       csHitCount++;
       const now = Date.now();
       let earned = 0;
-      let hitMsg = '🪵 Cốc! Tịnh Tâm +1 💎 Phước';
+      let hitMsg = '';
+      let hitColor = '#ffd740';
+      const rollBanner = document.getElementById('csLastRollBanner');
 
       if (centerStageMode === 'mo') {
         playMoSound();
-        earned = 1;
-        hitMsg = '🪵 Cốc! Gõ Mõ +1 💎 Phước Đức';
         player.state = 'kneel';
-      } else if (centerStageMode === 'bell') {
-        playBellSound();
-        if (now - lastBellMeritAt >= 2800) {
-          lastBellMeritAt = now;
-          earned = 2;
-          hitMsg = '🔔 Boong... Đại Hồng Chuông +2 💎 Phước Đức';
+        // QUY CHUẨN TÍCH PHƯỚC KHÓ: GÕ MÕ XÁC SUẤT ĐÚNG 10% MỚI ĐƯỢC TÍNH PHƯỚC (+1 💎)!
+        const roll = Math.random();
+        if (roll < 0.10) {
+          earned = 1;
+          csLuckyCount++;
+          hitMsg = '✨🪵 CỐC! Trúng 10% Tâm Thành → +1 💎 Phước Đức!';
+          hitColor = '#69f0ae';
+          if (rollBanner) {
+            rollBanner.style.color = '#69f0ae';
+            rollBanner.style.borderColor = '#69f0ae';
+            rollBanner.innerHTML = '✨🪵 <b>TRÚNG XÁC SUẤT 10%!</b> Tâm thành cảm ứng — Kết tụ <b>+1 💎 Phước Đức</b>!';
+          }
+          appendMeritLog(`✨🪵 <b>${player.name}</b>: Gõ Mõ Tịnh Tâm trúng xác suất 10% (+1 💎 Phước Đức)`);
         } else {
           earned = 0;
-          hitMsg = '🔔 Boong... Âm vang thanh tịnh (Chờ 3s tích phước)';
+          hitMsg = '🪵 Cốc! Tịnh tâm tu tập (Xác suất 10% tích phước)';
+          hitColor = '#ffe082';
+          if (rollBanner) {
+            rollBanner.style.color = '#ffe082';
+            rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
+            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Chưa kết tụ Phước — Xác suất 10%/nhịp, hãy kiên trì!)</i>`;
+          }
         }
+      } else if (centerStageMode === 'bell') {
+        playBellSound();
         player.state = 'bow';
         player.bowTimer = 60;
+        // Thỉnh Đại Hồng Chuông: Xác suất 20% mới được +2 💎 Phước Đức
+        if (Math.random() < 0.20) {
+          earned = 2;
+          csLuckyCount++;
+          hitMsg = '✨🔔 BOONG! Trúng 20% Chuông Ngân → +2 💎 Phước Đức!';
+          hitColor = '#69f0ae';
+          if (rollBanner) {
+            rollBanner.style.color = '#69f0ae';
+            rollBanner.style.borderColor = '#69f0ae';
+            rollBanner.innerHTML = '✨🔔 <b>TRÚNG XÁC SUẤT 20%!</b> Tiếng chuông cảm ứng — Kết tụ <b>+2 💎 Phước Đức</b>!';
+          }
+          appendMeritLog(`✨🔔 <b>${player.name}</b>: Thỉnh Đại Hồng Chuông trúng xác suất 20% (+2 💎 Phước Đức)`);
+        } else {
+          earned = 0;
+          hitMsg = '🔔 Boong... Khơi dậy chánh niệm (Xác suất 20% tích phước)';
+          hitColor = '#ffe082';
+          if (rollBanner) {
+            rollBanner.style.color = '#ffe082';
+            rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
+            rollBanner.innerHTML = `🔔 <i>Boong... Chuông ngân thanh tịnh (Chưa kết tụ Phước — Xác suất 20%/tiếng chuông)</i>`;
+          }
+        }
       } else if (centerStageMode === 'incense') {
         performRitual('incense');
         return;
@@ -2349,13 +2404,15 @@
         addMerit(earned);
       }
       document.getElementById('csHitCounter').textContent = csHitCount;
+      const luckyEl = document.getElementById('csLuckyCounter');
+      if (luckyEl) luckyEl.textContent = csLuckyCount;
       document.getElementById('csMeritEarned').textContent = `+${csMeritSession} 💎`;
 
       floatingHits.push({
         x: window.innerWidth * 0.5,
         y: window.innerHeight * 0.36,
         text: hitMsg,
-        color: '#ffd740',
+        color: hitColor,
         life: 1.15
       });
     }
@@ -2804,7 +2861,10 @@
       const now = Date.now();
       if (now - lastGreetMeritTime > 8000) {
         lastGreetMeritTime = now;
-        addMerit(2);
+        if (Math.random() < 0.15) {
+          addMerit(1, `Vái chào đạo hữu ${target.name} (Trúng xác suất 15%)`);
+          showToast(`✨🙌 Tâm thành giao hảo (Trúng 15%) → +1 💎 Phước Đức!`);
+        }
       }
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
@@ -2831,16 +2891,29 @@
         player.chatTimer = 260;
         playBellSound();
         if (!silentMerit) {
-          if (now - lastIncenseMeritAt >= 20000) {
+          const rollBanner = document.getElementById('csLastRollBanner');
+          if (Math.random() < 0.25) {
             lastIncenseMeritAt = now;
-            addMerit(5, `Dâng 3 nén tâm hương lên ${zoneName}`);
-            csMeritSession += 5;
+            addMerit(3, `Dâng 3 nén tâm hương lên ${zoneName} (Trúng xác suất 25%)`);
+            csLuckyCount++;
+            csMeritSession += 3;
+            const luckyEl = document.getElementById('csLuckyCounter');
+            if (luckyEl) luckyEl.textContent = csLuckyCount;
             const mEl = document.getElementById('csMeritEarned');
             if (mEl) mEl.textContent = `+${csMeritSession} 💎`;
-            showToast(`🕯️ Đã thắp 3 nén tâm hương lên ${zoneName}! (+5 💎 Phước)`);
+            if (rollBanner) {
+              rollBanner.style.color = '#69f0ae';
+              rollBanner.style.borderColor = '#69f0ae';
+              rollBanner.innerHTML = `✨🕯️ <b>TRÚNG XÁC SUẤT 25%!</b> Hương trầm thấu thiên đình — Kết tụ <b>+3 💎 Phước Đức</b>!`;
+            }
+            showToast(`✨🕯️ Hương trầm cảm ứng (Trúng 25%) → +3 💎 Phước Đức!`);
           } else {
-            const waitSec = Math.ceil((20000 - (now - lastIncenseMeritAt)) / 1000);
-            showToast(`🕯️ Đã thành tâm vái hương (Chờ ${waitSec}s để tích tiếp +5 💎 Phước)`);
+            if (rollBanner) {
+              rollBanner.style.color = '#ffe082';
+              rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
+              rollBanner.innerHTML = `🕯️ <i>Đã thắp 3 nén tâm hương thành kính (Chưa kết tụ Phước — Xác suất 25%/lần)</i>`;
+            }
+            showToast(`🕯️ Đã thành tâm dâng hương lên ${zoneName} (Xác suất tích phước 25% — Hãy kiên trì!)`);
           }
         }
       } else if (type === 'pray') {
@@ -2853,8 +2926,12 @@
         player.chat = prayers[Math.floor(Math.random() * prayers.length)];
         player.chatTimer = 280;
         playMoSound();
-        showToast('🙏 Đã chắp tay dâng lời khấn nguyện (+2 💎)');
-        addMerit(2);
+        if (Math.random() < 0.15) {
+          addMerit(1, 'Chắp tay dâng lời khấn nguyện (Trúng xác suất 15%)');
+          showToast('✨🙏 Lời khấn cảm ứng (Trúng 15%) → +1 💎 Phước Đức!');
+        } else {
+          showToast('🙏 Đã chắp tay dâng lời khấn nguyện (Xác suất tích phước 15%)');
+        }
       } else if (type === 'bow') {
         player.state = 'bow';
         player.bowTimer = 150;
@@ -2864,19 +2941,48 @@
         player.chatTimer = 260;
         playMoSound();
         setTimeout(playMoSound, 420);
-        showToast('🙇 Đang quỳ lạy chí thành trước ban thờ (+3 💎 Phước)');
-        addMerit(3);
+        if (Math.random() < 0.15) {
+          addMerit(1, 'Quỳ lạy chí thành trước ban thờ (Trúng xác suất 15%)');
+          showToast('✨🙇 Lễ lạy chí thành cảm ứng (Trúng 15%) → +1 💎 Phước Đức!');
+        } else {
+          showToast('🙇 Đang quỳ lạy chí thành trước ban thờ (Xác suất tích phước 15%)');
+        }
       }
       publishMqtt({ type: 'ritual', name: player.name, ritual: type, chat: player.chat, wing: player.wing });
       broadcastMyPresence();
     }
 
     // =========================================================================
-    // 5B. HỆ THỐNG QUY CHUẨN TÍCH PHƯỚC 4 CẤP BẬC & 8 MÂM LỄ VẬT ẢNH CHỤP THẬT NGOÀI ĐỜI!
+    // 5B. HỆ THỐNG KÉP: 1. CÔNG ĐỨC XÂY CHÙA (NHÓM ZALO CTY +1.000💎/LẦN) & 2. TÍCH PHƯỚC XÁC SUẤT KHÓ KHĂN
     // =========================================================================
-    let totalMeritAccumulated = 65;
+    let myZaloCongDucCount = 5; // Số lần ghi nhận Công Đức Xây Chùa từ Nhóm Zalo Công Ty
+    let totalTempleBuildCongDuc = 12; // Tổng quỹ Công Đức Xây Chùa của toàn công ty
+    let totalMeritAccumulated = 5065; // 5 lần Công Đức Zalo (5.000💎) + 65💎 tự tích lũy
     let goldInventoryCount = 2; // Số lễ Vàng Mã trong Túi Vàng Mã (Phải thỉnh ở Cửa Hàng Lễ mới có để đốt!)
     let lastDonationTime = 0;
+
+    const zaloCongDucBoard = [
+      { name: 'Sếp Thành', count: 5, meritBonus: 5000 },
+      { name: 'Phật Tử Minh Anh', count: 3, meritBonus: 3000 },
+      { name: 'Phật Tử Kiều Trang', count: 2, meritBonus: 2000 },
+      { name: 'Phật Tử Bích Thủy', count: 1, meritBonus: 1000 },
+      { name: 'Phật Tử Sale Huế', count: 1, meritBonus: 1000 }
+    ];
+
+    function renderZaloCongDucLeaderboard() {
+      const box = document.getElementById('zaloCongDucLeaderboard');
+      if (!box) return;
+      const sorted = [...zaloCongDucBoard].sort((a, b) => b.count - a.count);
+      const medals = ['🥇 1.', '🥈 2.', '🥉 3.', '④ 4.', '⑤ 5.', '⑥ 6.', '⑦ 7.'];
+      box.innerHTML = sorted.slice(0, 5).map((item, idx) => `
+        <div style="font-size:10.2px; display:flex; justify-content:space-between; padding:1.5px 0;">
+          <span>${medals[idx] || '•'} ${item.name} <i style="color:#80d8ff;">(${item.count} lần Zalo)</i></span>
+          <b style="color:${idx === 0 ? '#ffd740' : '#ffe596'};">+${item.meritBonus.toLocaleString('vi-VN')} 💎</b>
+        </div>
+      `).join('');
+      const badge = document.getElementById('templeBuildProgressBadge');
+      if (badge) badge.textContent = `Quỹ Chùa: ${totalTempleBuildCongDuc}🏛️`;
+    }
 
     const altarOfferings = {
       '-1': [
@@ -2901,19 +3007,21 @@
     let offeringCeremony = null;
 
     function computeSpiritualRank(totalPts) {
-      if (totalPts >= 500) return 'Bậc 4 · Đại Thí Chủ';
-      if (totalPts >= 180) return 'Bậc 3 · Tín Tâm Hộ Pháp';
-      if (totalPts >= 80)  return 'Bậc 2 · Thành Tâm';
-      return 'Bậc 1 · Sơ Tâm';
+      if (myZaloCongDucCount >= 3 || totalPts >= 3000) return 'Đại Thí Chủ Xây Chùa';
+      if (myZaloCongDucCount >= 1 || totalPts >= 1000) return 'Kiến Tạo Sư Chùa';
+      if (totalPts >= 180) return 'Tín Tâm Hộ Pháp';
+      return 'Phật Tử Thành Tâm';
     }
 
     function syncMeritAndBagHud() {
       const mEl = document.getElementById('meritScore');
-      if (mEl) mEl.textContent = player.merit;
-      const topEl = document.getElementById('scoreTop1');
-      if (topEl) topEl.textContent = totalMeritAccumulated;
+      if (mEl) mEl.textContent = player.merit.toLocaleString('vi-VN');
+      const cdHudEl = document.getElementById('congDucCountHud');
+      if (cdHudEl) cdHudEl.textContent = myZaloCongDucCount;
+      const cdShopEl = document.getElementById('shopCongDucCount');
+      if (cdShopEl) cdShopEl.textContent = `${myZaloCongDucCount} lần (🏛️)`;
       const balEl = document.getElementById('shopMeritBalance');
-      if (balEl) balEl.textContent = player.merit;
+      if (balEl) balEl.textContent = player.merit.toLocaleString('vi-VN');
       const totEl = document.getElementById('shopTotalMerit');
       if (totEl) totEl.textContent = totalMeritAccumulated.toLocaleString('vi-VN');
       const rnkEl = document.getElementById('shopRankTitle');
@@ -2922,6 +3030,7 @@
       if (bagShopEl) bagShopEl.textContent = `${goldInventoryCount} Lễ`;
       const bagFurnEl = document.getElementById('furnaceBagRemain');
       if (bagFurnEl) bagFurnEl.textContent = String(goldInventoryCount);
+      renderZaloCongDucLeaderboard();
     }
 
     function addMerit(amount, reasonText) {
@@ -2929,7 +3038,7 @@
       if (amount > 0) totalMeritAccumulated += amount;
       syncMeritAndBagHud();
       if (reasonText) {
-        appendMeritLog(`🙏 <b>${player.name}</b>: ${reasonText} (${amount >= 0 ? '+' : ''}${amount} 💎)`);
+        appendMeritLog(`🙏 <b>${player.name}</b>: ${reasonText} (${amount >= 0 ? '+' : ''}${amount.toLocaleString('vi-VN')} 💎)`);
       }
     }
 
@@ -2951,25 +3060,45 @@
       document.getElementById('meritShopModal').classList.remove('open');
     }
 
+    function fillZaloRecognitionPreset(memberName, noteText) {
+      const sel = document.getElementById('zaloRecMemberSelect');
+      if (sel) sel.value = memberName;
+      const inp = document.getElementById('meritNoteInput');
+      if (inp) inp.value = noteText;
+      recordTempleContribution();
+    }
+
+    // GHI NHẬN CÔNG ĐỨC XÂY DỰNG CHÙA TỪ NHÓM ZALO CÔNG TY (+1 🏛️ CÔNG ĐỨC & +1.000 💎 PHƯỚC ĐỨC!)
     function recordTempleContribution() {
       unlockAndStartAudio();
-      const now = Date.now();
-      if (now - lastDonationTime < 60000) {
-        const waitSec = Math.ceil((60000 - (now - lastDonationTime)) / 1000);
-        showToast(`⏳ Quy chuẩn Công Đức Giọt Dầu: Mỗi phút 1 lần (Vui lòng chờ ${waitSec} giây hoặc Gõ Mõ · Tụng Kinh · Viết Sớ để tích phước!)`);
-        return;
-      }
-      lastDonationTime = now;
+      const sel = document.getElementById('zaloRecMemberSelect');
+      const honoredMember = (sel && sel.value) ? sel.value : player.name;
       const inp = document.getElementById('meritNoteInput');
-      const note = (inp && inp.value.trim()) ? inp.value.trim() : 'Cúng dường giọt dầu công đức xây chùa';
-      addMerit(20);
-      appendMeritLog(`🏆 <b>${player.name}</b> ghi nhận công đức: "${note}" (+20 💎 Phước)`);
+      const note = (inp && inp.value.trim()) ? inp.value.trim() : 'Ghi nhận đóng góp xuất sắc trên Nhóm Zalo Công Ty, góp phần xây dựng Chùa Trường Yến';
+
+      myZaloCongDucCount += 1;
+      totalTempleBuildCongDuc += 1;
+      let existing = zaloCongDucBoard.find(item => item.name === honoredMember);
+      if (!existing) {
+        existing = { name: honoredMember, count: 0, meritBonus: 0 };
+        zaloCongDucBoard.push(existing);
+      }
+      existing.count += 1;
+      existing.meritBonus += 1000;
+
+      // Cộng ngay +1.000 💎 Phước Đức theo đúng quy chuẩn Công Đức Nhóm Zalo Công Ty!
+      addMerit(1000);
+      appendMeritLog(`🏛️📲 <b>[Nhóm Zalo Cty] ${honoredMember}</b> được vinh danh Bảng Công Đức Xây Chùa: <i>"${note}"</i> (<b>+1 🏛️ Công Đức · +1.000 💎 Phước Đức</b>)`);
       playBellSound();
+      setTimeout(playMoSound, 300);
+
       player.state = 'bow';
-      player.bowTimer = 130;
-      player.chat = `🏆 Công đức Chùa: ${note} (+20 💎 Phước)`;
-      player.chatTimer = 320;
-      showToast(`🏆 Đã ghi nhận công đức vào Sổ Vàng! Cộng +20 💎 Phước Đức!`);
+      player.bowTimer = 150;
+      player.chat = `🏛️📲 Vinh danh Nhóm Zalo Cty: ${honoredMember} (${note}) → +1 Công Đức Xây Chùa & +1.000 💎 Phước Đức!`;
+      player.chatTimer = 380;
+
+      showToast(`🏛️🎉 Đã vinh danh ${honoredMember} lên Bảng Công Đức Xây Chùa (Nhóm Zalo Cty) & cộng +1.000 💎 Phước Đức!`);
+      speakVietnameseText(`Nam Mô A Di Đà Phật! Bảng Vàng Công Đức Xây Dựng Chùa Trường Yến xin vinh danh ${honoredMember} vừa được ghi nhận trên Nhóm Zalo Công Ty với thành tích: ${note}. Xin ban tặng một nghìn Phước Đức!`);
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
 
