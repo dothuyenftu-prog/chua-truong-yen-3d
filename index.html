@@ -179,12 +179,9 @@
 
   /* Boss Speech & HP Overlay (for Rage Mode) */
   #boss-hud {
-    position: fixed;
-    top: 112px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 18;
-    width: min(92vw, 440px);
+    pointer-events: auto;
+    align-self: center;
+    width: min(94vw, 440px);
     background: rgba(24, 10, 14, 0.88);
     border: 2px solid #ef4444;
     border-radius: 16px;
@@ -445,18 +442,18 @@
     <button class="zone-btn active-zen" id="btn-zone-zen" onclick="switchZone('zen')">🌸 Chánh Điện Tĩnh Tâm</button>
     <button class="zone-btn" id="btn-zone-rage" onclick="switchZone('rage')">🔥 Am Xả Nghiệp (Chửi Khách / Xe)</button>
   </div>
-</div>
 
-<!-- Boss HUD for Rage Mode -->
-<div id="boss-hud">
-  <div class="boss-header">
-    <span id="boss-name">👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT</span>
-    <span id="boss-hp-text">Độ Lì Đòn: 100%</span>
+  <!-- Boss HUD for Rage Mode -->
+  <div id="boss-hud">
+    <div class="boss-header">
+      <span id="boss-name">👻 BIA: KHÁCH HỎI 100 MÃ KHÔNG CHỐT</span>
+      <span id="boss-hp-text">Độ Lì Đòn: 100%</span>
+    </div>
+    <div class="hp-bar-bg">
+      <div class="hp-bar-fill" id="boss-hp-bar"></div>
+    </div>
+    <div class="boss-quote" id="boss-quote">"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến bà nội đã nhé!"</div>
   </div>
-  <div class="hp-bar-bg">
-    <div class="hp-bar-fill" id="boss-hp-bar"></div>
-  </div>
-  <div class="boss-quote" id="boss-quote">"Cho anh xin báo giá 50 mã nữa rồi anh... về hỏi ý kiến bà nội đã nhé!"</div>
 </div>
 
 <!-- Center Modal Toast -->
@@ -703,8 +700,8 @@ const altarGlow = new THREE.PointLight(0xf59e0b, 1.8, 18);
 altarGlow.position.set(0, 4.5, -2);
 scene.add(altarGlow);
 
-const rageGlow = new THREE.PointLight(0xef4444, 0, 25);
-rageGlow.position.set(22, 5, 0);
+const rageGlow = new THREE.PointLight(0xffedd5, 2.5, 45);
+rageGlow.position.set(22, 7, 6);
 scene.add(rageGlow);
 
 // Ground Courtyard
@@ -900,27 +897,42 @@ const rageGroup = new THREE.Group();
 rageGroup.position.set(22, 0, 0);
 scene.add(rageGroup);
 
-// Arena Pedestal
+// Arena Pedestal & Fire Pillars
 const arenaBase = new THREE.Mesh(
   new THREE.CylinderGeometry(4.2, 4.8, 0.7, 28),
-  new THREE.MeshStandardMaterial({ color: 0x450a0a, roughness: 0.7 })
+  new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.4, emissive: 0x450a0a, emissiveIntensity: 0.5 })
 );
 arenaBase.position.y = 0.35;
 rageGroup.add(arenaBase);
+
+[-3.4, 3.4].forEach(px => {
+  const fp = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.32, 0.38, 4.8, 16),
+    new THREE.MeshStandardMaterial({ color: 0x7f1d1d, emissive: 0x450a0a })
+  );
+  fp.position.set(px, 2.4, -1.2);
+  const orb = new THREE.Mesh(
+    new THREE.SphereGeometry(0.48, 16, 16),
+    new THREE.MeshBasicMaterial({ color: 0xf97316 })
+  );
+  orb.position.y = 2.6;
+  fp.add(orb);
+  rageGroup.add(fp);
+});
 
 // Target Boss 3D Group (Wobbles & Takes Hits)
 const bossPivot = new THREE.Group();
 bossPivot.position.set(0, 0.7, 0);
 rageGroup.add(bossPivot);
 
-const bossBodyMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4 });
-const bossBody = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.0, 2.3, 20), bossBodyMat);
-bossBody.position.y = 1.15;
+const bossBodyMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3, emissive: 0x7f1d1d, emissiveIntensity: 0.4 });
+const bossBody = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.15, 2.4, 20), bossBodyMat);
+bossBody.position.y = 1.2;
 bossPivot.add(bossBody);
 
-const bossHeadMat = new THREE.MeshStandardMaterial({ color: 0xfca5a5, roughness: 0.3 });
-const bossHead = new THREE.Mesh(new THREE.SphereGeometry(0.78, 24, 24), bossHeadMat);
-bossHead.position.y = 2.85;
+const bossHeadMat = new THREE.MeshStandardMaterial({ color: 0xfde68a, roughness: 0.25, emissive: 0x78350f, emissiveIntensity: 0.25 });
+const bossHead = new THREE.Mesh(new THREE.SphereGeometry(0.88, 24, 24), bossHeadMat);
+bossHead.position.y = 2.95;
 bossPivot.add(bossHead);
 
 // Funny angry eyes on Boss
