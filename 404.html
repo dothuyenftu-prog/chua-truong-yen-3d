@@ -728,7 +728,7 @@
   <!-- 1. TOP BAR: ROLE + 3 BAN THỜ + CHỌN 6 NHẠC NỀN TIKTOK + BẢNG CÔNG ĐỨC -->
   <div class="top-bar">
     <div class="top-group">
-      <select id="charSelect" class="top-select" title="Đăng nhập nhân vật trong công ty">
+      <select id="charSelect" class="top-select" title="Đăng nhập hoặc đổi tên nhân vật">
         <option value="Sếp Thành">🧘‍♂️ Sếp Thành</option>
         <option value="Sale Minh Anh">🪷 Minh Anh</option>
         <option value="Sale Kiều Trang">🪷 Kiều Trang</option>
@@ -738,7 +738,9 @@
         <option value="Thế Anh">🙏 Thế Anh</option>
         <option value="Anh Đức Đoàn (KH)">🙏 KH A. Đức Đoàn</option>
         <option value="Anh Phú (CT Trần Hoàn)">🙏 KH A. Phú</option>
+        <option value="__custom__">✏️ Tự Đặt / Đổi Tên Nhân Vật...</option>
       </select>
+      <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đổi tên nhân vật hiển thị trên đầu">✏️ Đổi Tên</button>
       <button id="btnOnlineMode" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#81c784;" onclick="toggleOnlinePresenceMode()" title="Khi bật chế độ Online, những ai trong công ty đang đăng nhập sẽ nhìn thấy nhân vật của nhau trong Chánh Điện">🟢 Online (<span id="onlineCountLabel">1</span>)</button>
       <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
       <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
@@ -835,8 +837,8 @@
       </div>
 
       <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-        <button id="csAutoBtn" class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px;" onclick="toggleCenterStageAuto()">▶ Tự động gõ: Tắt</button>
-        <button class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px; background:rgba(68,28,8,0.92); color:#ffe596; border-color:#ffd54f;" onclick="switchCenterStageMode()">🔄 Đổi Chuông / Mõ / Hương</button>
+        <button id="csAutoBtn" class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px;" onclick="toggleCenterStageAuto()">▶ Tự động: Tắt</button>
+        <button class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px; background:rgba(68,28,8,0.92); color:#ffe596; border-color:#ffd54f;" onclick="switchCenterStageMode()">🔄 Đổi Mõ / Chuông / Hương / Lạy / Vái</button>
       </div>
     </div>
 
@@ -847,9 +849,46 @@
       </div>
       <div id="csOfferingListBox" style="max-height:210px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; margin-bottom:10px;"></div>
       <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
-        <button class="qo-btn" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 30, 'assets/vangma_dinh.jpg', 0, 2); renderCenterOfferingInspector();">➕ Thỉnh Đinh Vàng (30💎)</button>
-        <button class="qo-btn" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Bách Diệp', 45, 'assets/le_hoasen.jpg', 50, 0); renderCenterOfferingInspector();">➕ Thỉnh Hoa Sen (45💎)</button>
+        <button class="qo-btn" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 20, 'assets/vangma_dinh.jpg', 0, 2); renderCenterOfferingInspector();">➕ Thỉnh Đinh Vàng (20💎)</button>
+        <button class="qo-btn" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Bách Diệp', 35, 'assets/le_hoasen.jpg', 0, 0); renderCenterOfferingInspector();">➕ Thỉnh Hoa Sen (35💎)</button>
         <button class="qo-btn" onclick="closeCenterStage(); openMeritShopModal();">🎁 Mở Cửa Hàng 8 Mâm Lễ Vật</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2B. MODAL ĐỔI TÊN NHÂN VẬT & CHỌN TRANG PHỤC ÁO LAM -->
+  <div class="modal-backdrop" id="renameCharModal" onclick="if(event.target===this) closeRenameCharModal()">
+    <div class="so-khan-box" style="max-width:410px;">
+      <div class="sk-top-row">
+        <span class="sk-title">✏️👤 ĐỔI TÊN NHÂN VẬT & TRANG PHỤC ÁO LAM</span>
+        <button class="btn-modal-x" onclick="closeRenameCharModal()">✕ Đóng</button>
+      </div>
+      <div style="font-size:11.2px; color:#ffe596; margin-bottom:8px; line-height:1.4;">
+        Nhập tên bạn muốn hiển thị trên đầu nhân vật trong Chánh Điện, trên Sớ Điệp Vàng và trên Bảng Công Đức:
+      </div>
+      <div class="sk-field">
+        <label>👤 Tên Nhân Vật Mới:</label>
+        <input id="customCharNameInput" type="text" value="Sếp Thành" maxlength="32" placeholder="Nhập tên nhân vật của bạn..." style="font-size:13px; font-weight:800; padding:8px 10px;" />
+      </div>
+      <div class="sk-field">
+        <label>👘 Chọn Hình Dáng Nhân Vật Áo Lam:</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:4px;">
+          <button id="btnGenderF" class="topic-btn" style="text-align:center; padding:8px;" onclick="selectCharGender('F')">👩🏻🪷 Phật Tử Nữ (Áo Lam)</button>
+          <button id="btnGenderM" class="topic-btn selected" style="text-align:center; padding:8px;" onclick="selectCharGender('M')">👨🏻🧘‍♂️ Cư Sĩ Nam (Áo Lam)</button>
+        </div>
+      </div>
+      <div style="font-size:10.5px; color:#f7cf73; font-weight:800; margin:6px 0 4px;">⚡ Hoặc chọn nhanh tên thành viên:</div>
+      <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
+        <span class="cm-auto-pill" onclick="quickSetCharName('Sếp Thành', 'M')">🧘‍♂️ Sếp Thành</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Sale Minh Anh', 'F')">🪷 Minh Anh</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Sale Kiều Trang', 'F')">🪷 Kiều Trang</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Sale Huế', 'F')">🪷 Sale Huế</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Sale Bích Thủy', 'F')">🪷 Bích Thủy</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Sale Ánh Nguyệt', 'F')">🪷 Ánh Nguyệt</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Thế Anh', 'M')">🙏 Thế Anh</span>
+      </div>
+      <div class="sk-actions">
+        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName()">✅ Lưu Tên Nhân Vật Mới</button>
       </div>
     </div>
   </div>
@@ -864,13 +903,15 @@
     <div id="joyKnob360">✥</div>
   </div>
 
-  <!-- 3B. ON-SCREEN DIRECT OFFERING BAR (Dâng lễ, Viết Sớ Vàng, Rút Thẻ Xăm, Phòng Xả Nghiệp, Đốt Vàng Mã) -->
+  <!-- 3B. ON-SCREEN DIRECT OFFERING & BOW/PRAY BAR (Quỳ Lạy, Vái Khấn, Xem Bàn Lễ, Viết Sớ, Xin Xăm, Phòng Xả Nghiệp, Đốt Vàng Mã) -->
   <div class="quick-offering-bar">
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openCenterStage('bow')">🙇 Quỳ Lạy (15% +1💎)</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="openCenterStage('pray')">🙏 Vái Khấn (15% +1💎)</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#ffd54f,#ffb300);color:#2b1002;border-color:#fff;" onclick="openCenterStage('table_inspect')">🔍 Xem Bàn Lễ</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜✍️ Viết Sớ · Đọc Khấn</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Rút Thẻ · Xin Xăm</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">😤🧘‍♂️ Phòng Xả Nghiệp (Khẩu Nghiệp & Trụ Trì)</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Đốt Vàng Mã</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜✍️ Viết Sớ Số KPI</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🤬🧘‍♂️ Xả Nghiệp</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Đốt Vàng Mã</button>
   </div>
 
   <!-- Collapsible Chat Input Drawer -->
@@ -2471,6 +2512,20 @@
         emojiEl.textContent = '🕯️🙏🕯️';
         malletEl.style.display = 'none';
         instrEl.textContent = '👆 Chạm vào 3 Nén Tâm Hương để dâng hương (Xác suất 25% kết tụ +3 💎 Phước)';
+      } else if (mode === 'bow') {
+        titleEl.textContent = '🙇 QUỲ LẠY TAM BẢO (XÁC SUẤT 15% TÍCH PHƯỚC)';
+        imgEl.style.display = 'none';
+        emojiEl.style.display = 'block';
+        emojiEl.textContent = '🙇‍♂️🪷🙇‍♀️';
+        malletEl.style.display = 'none';
+        instrEl.textContent = '👆 Chạm liên tục để Nhân Vật Quỳ Lạy Tam Bảo (Xác suất 15% mỗi lạy kết tụ +1 💎 Phước Đức)';
+      } else if (mode === 'pray') {
+        titleEl.textContent = '🙏 CHẮP TAY VÁI KHẤN (XÁC SUẤT 15% TÍCH PHƯỚC)';
+        imgEl.style.display = 'none';
+        emojiEl.style.display = 'block';
+        emojiEl.textContent = '🙏✨🪷';
+        malletEl.style.display = 'none';
+        instrEl.textContent = '👆 Chạm liên tục để Nhân Vật Chắp Tay Vái Khấn (Xác suất 15% mỗi vái kết tụ +1 💎 Phước Đức)';
       }
       overlay.classList.add('open');
       triggerCenterStageHit();
@@ -2491,7 +2546,7 @@
     }
 
     function switchCenterStageMode() {
-      const order = ['mo', 'bell', 'incense'];
+      const order = ['mo', 'bell', 'bow', 'pray', 'incense'];
       const next = order[(order.indexOf(centerStageMode) + 1) % order.length];
       openCenterStage(next);
     }
@@ -2571,6 +2626,64 @@
       } else if (centerStageMode === 'incense') {
         performRitual('incense');
         return;
+      } else if (centerStageMode === 'bow') {
+        playMoSound();
+        player.state = 'bow';
+        player.bowTimer = 95;
+        player.chat = `🙇 ${player.name} chí thành đảnh lễ Tam Bảo!`;
+        player.chatTimer = 150;
+        broadcastMyPresence();
+        // Hành động Quỳ Lạy: Xác suất 15% được +1 💎 Phước Đức
+        if (Math.random() < 0.15) {
+          earned = 1;
+          csLuckyCount++;
+          hitMsg = '✨🙇 ĐẢNH LỄ CẢM ỨNG (15%) → +1 💎 Phước Đức!';
+          hitColor = '#69f0ae';
+          if (rollBanner) {
+            rollBanner.style.color = '#69f0ae';
+            rollBanner.style.borderColor = '#69f0ae';
+            rollBanner.innerHTML = `✨🙇 <b>TRÚNG XÁC SUẤT 15%!</b> <b>${player.name}</b> quỳ lạy chí thành — Kết tụ <b>+1 💎 Phước Đức</b>!`;
+          }
+          appendMeritLog(`✨🙇 <b>${player.name}</b>: Quỳ Lạy Tam Bảo trúng xác suất 15% (+1 💎 Phước Đức)`);
+        } else {
+          earned = 0;
+          hitMsg = '🙇 Chí thành quỳ lạy... (Xác suất 15% tích phước)';
+          hitColor = '#ffe082';
+          if (rollBanner) {
+            rollBanner.style.color = '#ffe082';
+            rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
+            rollBanner.innerHTML = `🙇 <i>${player.name} đang cúi đầu đảnh lễ Tam Bảo... (Xác suất 15%/lạy nhận +1 💎 Phước Đức)</i>`;
+          }
+        }
+      } else if (centerStageMode === 'pray') {
+        playBellSound();
+        player.state = 'bow';
+        player.bowTimer = 85;
+        player.chat = `🙏 ${player.name} chắp tay vái khấn nguyện cầu bình an, đạt KPI!`;
+        player.chatTimer = 150;
+        broadcastMyPresence();
+        // Hành động Vái Khấn: Xác suất 15% được +1 💎 Phước Đức
+        if (Math.random() < 0.15) {
+          earned = 1;
+          csLuckyCount++;
+          hitMsg = '✨🙏 VÁI KHẤN CẢM ỨNG (15%) → +1 💎 Phước Đức!';
+          hitColor = '#69f0ae';
+          if (rollBanner) {
+            rollBanner.style.color = '#69f0ae';
+            rollBanner.style.borderColor = '#69f0ae';
+            rollBanner.innerHTML = `✨🙏 <b>TRÚNG XÁC SUẤT 15%!</b> <b>${player.name}</b> chắp tay vái khấn — Kết tụ <b>+1 💎 Phước Đức</b>!`;
+          }
+          appendMeritLog(`✨🙏 <b>${player.name}</b>: Chắp Tay Vái Khấn trúng xác suất 15% (+1 💎 Phước Đức)`);
+        } else {
+          earned = 0;
+          hitMsg = '🙏 Thành tâm chắp tay vái khấn... (Xác suất 15% tích phước)';
+          hitColor = '#ffe082';
+          if (rollBanner) {
+            rollBanner.style.color = '#ffe082';
+            rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
+            rollBanner.innerHTML = `🙏 <i>${player.name} đang chắp tay vái khấn trước điện Phật... (Xác suất 15%/vái nhận +1 💎 Phước Đức)</i>`;
+          }
+        }
       }
 
       if (earned > 0) {
@@ -2783,12 +2896,138 @@
     };
 
     document.getElementById('charSelect').addEventListener('change', (e) => {
+      if (e.target.value === '__custom__') {
+        openRenameCharModal();
+        return;
+      }
       player.name = e.target.value;
       player.gender = (player.name.includes('Sếp') || player.name.includes('Anh')) ? 'M' : 'F';
       player.avatar = player.name.includes('Sếp') ? '🧘‍♂️' : (player.gender === 'F' ? '🪷' : '🙏');
+      try {
+        localStorage.setItem('ty_custom_char_name', player.name);
+        localStorage.setItem('ty_custom_char_gender', player.gender);
+      } catch (err) {}
+      const skName = document.getElementById('skInputName');
+      if (skName) { skName.value = player.name; updatePetitionPreview(); }
       showToast(`🟢 Đã đăng nhập Online nhân vật: ${player.name}`);
       broadcastMyPresence();
     });
+
+    // =========================================================================
+    // ĐỔI TÊN NHÂN VẬT TỰ DO (CUSTOM CHARACTER RENAME MODAL)
+    // =========================================================================
+    let selectedCustomGender = 'F';
+
+    function openRenameCharModal() {
+      const modal = document.getElementById('renameCharModal');
+      const input = document.getElementById('customCharNameInput');
+      if (input) input.value = player.name || '';
+      selectCharGender(player.gender || 'F');
+      if (modal) modal.classList.add('open');
+      setTimeout(() => { if (input) input.focus(); }, 60);
+    }
+
+    function closeRenameCharModal() {
+      const modal = document.getElementById('renameCharModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function selectCharGender(g) {
+      selectedCustomGender = (g === 'M') ? 'M' : 'F';
+      const btnF = document.getElementById('genderBtnF');
+      const btnM = document.getElementById('genderBtnM');
+      if (btnF && btnM) {
+        if (selectedCustomGender === 'F') {
+          btnF.style.background = 'linear-gradient(135deg,#ffd54f,#ffb300)';
+          btnF.style.color = '#1a0a00';
+          btnF.style.borderColor = '#fff';
+          btnM.style.background = 'rgba(255,255,255,0.08)';
+          btnM.style.color = '#ffe082';
+          btnM.style.borderColor = 'rgba(255,213,79,0.4)';
+        } else {
+          btnM.style.background = 'linear-gradient(135deg,#ffd54f,#ffb300)';
+          btnM.style.color = '#1a0a00';
+          btnM.style.borderColor = '#fff';
+          btnF.style.background = 'rgba(255,255,255,0.08)';
+          btnF.style.color = '#ffe082';
+          btnF.style.borderColor = 'rgba(255,213,79,0.4)';
+        }
+      }
+    }
+
+    function quickSetCharName(name, g) {
+      const input = document.getElementById('customCharNameInput');
+      if (input) input.value = name;
+      selectCharGender(g || 'F');
+    }
+
+    function saveCustomCharName() {
+      const input = document.getElementById('customCharNameInput');
+      const raw = input ? input.value.trim() : '';
+      if (!raw) {
+        showToast('⚠️ Vui lòng nhập tên nhân vật của bạn!');
+        return;
+      }
+      player.name = raw;
+      player.gender = selectedCustomGender;
+      player.avatar = (selectedCustomGender === 'M') ? '🧘‍♂️' : '🪷';
+
+      // Cập nhật dropdown #charSelect để hiển thị tên mới
+      const sel = document.getElementById('charSelect');
+      if (sel) {
+        let found = false;
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].value === raw) {
+            sel.selectedIndex = i;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          let customOpt = document.getElementById('customUserCharOption');
+          if (!customOpt) {
+            customOpt = document.createElement('option');
+            customOpt.id = 'customUserCharOption';
+            sel.insertBefore(customOpt, sel.firstChild);
+          }
+          customOpt.value = raw;
+          customOpt.textContent = `👤 ${raw} (Nhân vật của bạn)`;
+          sel.value = raw;
+        }
+      }
+
+      // Đồng bộ sang Sớ Khấn Vàng
+      const skName = document.getElementById('skInputName');
+      if (skName) {
+        skName.value = raw;
+        if (typeof updatePetitionPreview === 'function') updatePetitionPreview();
+      }
+
+      try {
+        localStorage.setItem('ty_custom_char_name', raw);
+        localStorage.setItem('ty_custom_char_gender', selectedCustomGender);
+      } catch (err) {}
+
+      player.chat = `🙏 ${player.name} xin kính chào đại chúng Chùa Trường Yến!`;
+      player.chatTimer = 220;
+      closeRenameCharModal();
+      showToast(`✅ Đã đổi tên nhân vật thành: "${player.name}"!`);
+      broadcastMyPresence();
+    }
+
+    // Khôi phục tên nhân vật đã lưu từ localStorage (nếu có)
+    (function restoreSavedCharName() {
+      try {
+        const savedName = localStorage.getItem('ty_custom_char_name');
+        const savedGender = localStorage.getItem('ty_custom_char_gender');
+        if (savedName && savedName.trim()) {
+          selectedCustomGender = (savedGender === 'M') ? 'M' : 'F';
+          const input = document.getElementById('customCharNameInput');
+          if (input) input.value = savedName.trim();
+          saveCustomCharName();
+        }
+      } catch (err) {}
+    })();
 
     function toggleOnlinePresenceMode() {
       isOnlinePresenceMode = !isOnlinePresenceMode;
@@ -2897,12 +3136,14 @@
     window.addEventListener('keydown', (e) => {
       if (document.activeElement.tagName === 'INPUT') {
         if (e.key === 'Enter' && document.activeElement.id === 'chatInput') sendUserChat();
+        if (e.key === 'Enter' && document.activeElement.id === 'customCharNameInput') saveCustomCharName();
         return;
       }
       if (e.key === 'Escape') {
         closeSoKhanModal();
         stopAndClosePrayerBanner();
         closeCenterStage();
+        closeRenameCharModal();
       }
       if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') holdDir.dx = -1;
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') holdDir.dx = 1;
@@ -4812,6 +5053,9 @@
 
     if (location.search.includes('mo=1')) setTimeout(() => openCenterStage('mo'), 80);
     if (location.search.includes('bell=1')) setTimeout(() => openCenterStage('bell'), 80);
+    if (location.search.includes('bow=1')) setTimeout(() => openCenterStage('bow'), 80);
+    if (location.search.includes('pray=1')) setTimeout(() => openCenterStage('pray'), 80);
+    if (location.search.includes('rename=1')) setTimeout(() => openRenameCharModal(), 80);
     if (location.search.includes('table=1')) setTimeout(() => openCenterStage('table_inspect'), 80);
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
     if (location.search.includes('khan=1')) setTimeout(openSoKhanModal, 100);
