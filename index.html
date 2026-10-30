@@ -346,8 +346,11 @@
         <option value="Anh Đức Đoàn (KH)">🙏 Anh Đức Đoàn (KH)</option>
         <option value="Anh Phú (CT Trần Hoàn)">🙏 Anh Phú (CT Trần Hoàn)</option>
       </select>
-      <button id="btnToggleChant" class="pill-glass" onclick="toggleRealChanting()">
-        📿 Bật Tụng Kinh & Gõ Mõ Thật
+      <button id="btnToggleMusic" class="pill-glass active" onclick="toggleBgMusic()">
+        🎵 Nhạc Nền Chùa: BẬT
+      </button>
+      <button id="btnToggleChant" class="pill-glass active" onclick="toggleRealChanting()">
+        📿 Tụng Kinh & Gõ Mõ: BẬT
       </button>
     </div>
 
@@ -456,15 +459,44 @@
 
   <script>
     // =========================================================================
-    // 1. REAL MP3 AUDIO ENGINE (MÕ GỖ THẬT, ĐẠI HỒNG CHUÔNG, TỤNG KINH TAM BẢO & THẦN TÀI)
+    // 1. REAL MP3 AUDIO ENGINE (NHẠC NỀN CHÙA, MÕ GỖ THẬT, ĐẠI HỒNG CHUÔNG, TỤNG KINH)
     // =========================================================================
     const sfxMo = new Audio('audio/mo_that.mp3');
     const sfxBell = new Audio('audio/chuong_chua.mp3');
+    const bgTempleMusic = new Audio('audio/nhac_nen_chua.mp3');
     const bgChantTamBao = new Audio('audio/tung_kinh_tam_bao.mp3');
     const bgChantThanTai = new Audio('audio/khan_than_tai.mp3');
+    bgTempleMusic.loop = true;
     bgChantTamBao.loop = true;
     bgChantThanTai.loop = true;
-    let isChanting = false;
+    let isMusicPlaying = true;
+    let isChanting = true;
+    let audioUnlocked = false;
+
+    function unlockAndStartAudio() {
+      if (audioUnlocked) return;
+      audioUnlocked = true;
+      if (isMusicPlaying) {
+        bgTempleMusic.volume = 0.65;
+        bgTempleMusic.play().catch(() => {});
+      }
+      if (isChanting) {
+        const activeChant = (currentZone === 'thantai') ? bgChantThanTai : bgChantTamBao;
+        activeChant.volume = 0.85;
+        activeChant.play().catch(() => {});
+      }
+      playBellSound();
+    }
+    window.addEventListener('pointerdown', unlockAndStartAudio, { once: true });
+    window.addEventListener('touchstart', unlockAndStartAudio, { once: true });
+    window.addEventListener('keydown', unlockAndStartAudio, { once: true });
+    // Also try immediate autoplay in case browser allows it
+    setTimeout(() => {
+      bgTempleMusic.volume = 0.65;
+      bgTempleMusic.play().then(() => { audioUnlocked = true; }).catch(() => {});
+      bgChantTamBao.volume = 0.85;
+      bgChantTamBao.play().catch(() => {});
+    }, 300);
 
     function playMoSound() {
       try {
@@ -480,6 +512,20 @@
         clone.play().catch(() => {});
       } catch (e) {}
     }
+    function toggleBgMusic(forceState) {
+      isMusicPlaying = (typeof forceState === 'boolean') ? forceState : !isMusicPlaying;
+      const btn = document.getElementById('btnToggleMusic');
+      if (isMusicPlaying) {
+        bgTempleMusic.volume = 0.65;
+        bgTempleMusic.play().catch(() => {});
+        btn.classList.add('active');
+        btn.innerHTML = '🎵 Nhạc Nền Chùa: BẬT';
+      } else {
+        bgTempleMusic.pause();
+        btn.classList.remove('active');
+        btn.innerHTML = '🔇 Nhạc Nền Chùa: TẮT';
+      }
+    }
     function toggleRealChanting(forceState) {
       isChanting = (typeof forceState === 'boolean') ? forceState : !isChanting;
       const btn = document.getElementById('btnToggleChant');
@@ -491,11 +537,11 @@
         activeAudio.play().catch(() => {});
         btn.classList.add('active');
         btn.innerHTML = (currentZone === 'thantai')
-          ? '🔊 Đang Khấn Thần Tài Vị Tiền (Tắt)'
-          : '🔊 Đang Tụng Kinh & Gõ Mõ Thật (Tắt)';
+          ? '🔊 Khấn Thần Tài: BẬT'
+          : '📿 Tụng Kinh & Gõ Mõ: BẬT';
       } else {
         btn.classList.remove('active');
-        btn.innerHTML = '📿 Bật Tụng Kinh & Gõ Mõ Thật';
+        btn.innerHTML = '📿 Tụng Kinh & Gõ Mõ: TẮT';
       }
     }
 
@@ -718,15 +764,19 @@
     }
 
     const smokeParticles = [];
-    for (let i = 0; i < 55; i++) {
+    for (let i = 0; i < 65; i++) {
       smokeParticles.push({
         wing: (i % 3) - 1,
         life: Math.random(),
         offsetX: (Math.random() - 0.5) * 0.02,
         speed: 0.003 + Math.random() * 0.003,
-        size: 12 + Math.random() * 26
+        size: 14 + Math.random() * 28
       });
     }
+
+    // Track burning incense count in each wing's bronze censer & active ceremony animation
+    const burningIncenseCount = { '-1': 9, '0': 27, '1': 18 };
+    let incenseCeremony = { active: true, timer: 135, maxTimer: 135, wing: 0 };
 
     // =========================================================================
     // 5. NAVIGATION, CLICK-TO-WALK, 4-WAY HOLD MOVEMENT & RITUALS
@@ -851,25 +901,29 @@
     }
 
     function performRitual(type) {
+      unlockAndStartAudio();
       if (type === 'incense') {
         player.targetU = 0.50;
         player.targetV = 0.51;
         player.state = 'bow';
-        player.bowTimer = 130;
+        player.bowTimer = 140;
+        burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
+        incenseCeremony = { active: true, timer: 140, maxTimer: 140, wing: player.wing };
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
-        player.chat = `Con xin thành tâm dâng nén tâm hương lên ${zoneName} 🕯️🙏`;
-        player.chatTimer = 380;
-        for (let i = 0; i < 18; i++) {
+        player.chat = `Con xin thành tâm thắp 3 nén tâm hương lên ${zoneName} 🕯️🙏`;
+        player.chatTimer = 420;
+        for (let i = 0; i < 24; i++) {
           smokeParticles.push({
             wing: player.wing,
-            life: Math.random() * 0.3,
-            offsetX: (Math.random() - 0.5) * 0.03,
+            life: Math.random() * 0.25,
+            offsetX: (Math.random() - 0.5) * 0.035,
             speed: 0.004 + Math.random() * 0.004,
-            size: 18 + Math.random() * 28
+            size: 20 + Math.random() * 30
           });
         }
         playBellSound();
-        addMerit(10, `${player.name} · Dâng hương ×1 tại ${zoneName}`);
+        showToast(`🕯️ Đã thắp 3 nén tâm hương lên ${zoneName} (Tổng: ${burningIncenseCount[String(player.wing)]} nén hương đang cháy)`);
+        addMerit(10, `${player.name} · Thắp 3 nén hương tại ${zoneName}`);
       } else if (type === 'bow') {
         player.state = 'bow';
         player.bowTimer = 150;
@@ -1168,6 +1222,39 @@
         glowGrad.addColorStop(1, 'rgba(255, 210, 110, 0)');
         ctx.fillStyle = glowGrad;
         ctx.fillRect(wx, topScreenY, wingW, wingH * 0.65);
+
+        // Draw visible burning incense sticks inside the bronze censer (Đỉnh đồng / Bát hương)
+        const censerX = wx + wingW * 0.50;
+        const censerY = topScreenY + wingH * ((wd.idx === 0) ? 0.392 : 0.415);
+        const stickCount = Math.min(21, burningIncenseCount[String(wd.idx)] || 9);
+        ctx.save();
+        for (let s = 0; s < stickCount; s++) {
+          const frac = (s / (stickCount - 1 || 1)) - 0.5; // -0.5 to +0.5
+          const angle = frac * 0.42;
+          const stickLen = (26 + (s % 3) * 5) * (wingH / 960);
+          const bx = censerX + frac * 22 * (wingW / 1200);
+          const by = censerY;
+          const tx = bx + Math.sin(angle) * stickLen;
+          const ty = by - Math.cos(angle) * stickLen;
+          // Crimson bamboo stick + beige incense body
+          ctx.strokeStyle = '#b82828';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+          // Glowing red-orange ember tip at top of each incense stick
+          const emberPulse = 0.75 + 0.25 * Math.sin(frameCount * 0.12 + s * 1.7);
+          ctx.fillStyle = `rgba(255, 95, 20, ${emberPulse})`;
+          ctx.beginPath();
+          ctx.arc(tx, ty, 2.4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#fff5b8';
+          ctx.beginPath();
+          ctx.arc(tx, ty, 1.1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
       }
 
       // Rising incense smoke from each wing's bronze censer
@@ -1303,6 +1390,78 @@
         ctx.ellipse(0, 0, p.size, p.size * 0.58, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
+      }
+
+      // Draw active 3-Incense-Stick Offering Ceremony (Xá 3 xá dâng 3 nén tâm hương vào Bát Hương)
+      if (incenseCeremony && incenseCeremony.active && incenseCeremony.timer > 0) {
+        incenseCeremony.timer--;
+        const prog = 1.0 - (incenseCeremony.timer / incenseCeremony.maxTimer); // 0 -> 1
+        const wx = centerScreenX + (incenseCeremony.wing - camWingX) * wingW - wingW / 2;
+        const targetX = wx + wingW * 0.50;
+        const targetY = topScreenY + wingH * ((incenseCeremony.wing === 0) ? 0.392 : 0.415);
+
+        let curX = W * 0.5;
+        let curY = H * 0.66;
+        let scale = 1.0;
+        if (prog < 0.65) {
+          // Bowing 3 times (Xá 3 xá)
+          const bowCycle = Math.sin((prog / 0.65) * Math.PI * 3);
+          curY = H * 0.66 - Math.abs(bowCycle) * 36;
+          scale = 1.05;
+        } else {
+          // Gliding smoothly into the bronze censer on the altar
+          const flyT = (prog - 0.65) / 0.35;
+          const ease = flyT * flyT * (3 - 2 * flyT);
+          curX = W * 0.5 + (targetX - W * 0.5) * ease;
+          curY = H * 0.66 + (targetY - H * 0.66) * ease;
+          scale = 1.05 * (1.0 - ease * 0.65);
+        }
+
+        ctx.save();
+        ctx.translate(curX, curY);
+        ctx.scale(scale, scale);
+        // Golden halo behind the 3 incense sticks
+        const hg = ctx.createRadialGradient(0, -45, 4, 0, -45, 65);
+        hg.addColorStop(0, 'rgba(255, 200, 80, 0.45)');
+        hg.addColorStop(1, 'rgba(255, 200, 80, 0)');
+        ctx.fillStyle = hg;
+        ctx.beginPath();
+        ctx.arc(0, -45, 65, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw 3 burning incense sticks (-1, 0, +1)
+        for (const offset of [-1, 0, 1]) {
+          const ang = offset * 0.11;
+          ctx.save();
+          ctx.rotate(ang);
+          // Red bamboo handle
+          ctx.strokeStyle = '#c91c1c';
+          ctx.lineWidth = 3.5;
+          ctx.beginPath();
+          ctx.moveTo(0, 22);
+          ctx.lineTo(0, -15);
+          ctx.stroke();
+          // Sandalwood incense body
+          ctx.strokeStyle = '#d8b374';
+          ctx.lineWidth = 4.2;
+          ctx.beginPath();
+          ctx.moveTo(0, -15);
+          ctx.lineTo(0, -95);
+          ctx.stroke();
+          // Glowing red-orange burning ember tip
+          ctx.fillStyle = '#ff3b00';
+          ctx.beginPath();
+          ctx.arc(0, -97, 5.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#fff3a1';
+          ctx.beginPath();
+          ctx.arc(0, -97, 2.6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        ctx.restore();
+
+        if (incenseCeremony.timer === 0) incenseCeremony.active = false;
       }
 
       requestAnimationFrame(render);
