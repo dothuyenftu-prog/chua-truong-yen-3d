@@ -922,68 +922,95 @@
   <div class="modal-backdrop" id="soKhanModal" onclick="if(event.target===this) closeSoKhanModal()">
     <div class="so-khan-box">
       <div class="sk-top-row">
-        <span class="sk-title">📜✍️ VIẾT SỚ ĐIỆP VÀNG & 🔊 ĐỌC BÀI KHẤN THÀNH TIẾNG</span>
+        <span class="sk-title">📜✍️ VIẾT SỚ ĐIỆP VÀNG · 🎯 KHẤN CHẠY SỐ & MỤC TIÊU KPI (🔊 ĐỌC THÀNH TIẾNG)</span>
         <button class="btn-modal-x" onclick="closeSoKhanModal()">✕ Đóng</button>
       </div>
 
       <!-- TỜ SỚ ĐIỆP VÀNG CHỮ ĐỎ ĐÓNG ẤN TRIỆN NHÀ CHÙA (LIVE PREVIEW) -->
-      <div id="goldenPetitionScroll" style="background:linear-gradient(180deg,#fff3c4 0%,#ffd54f 50%,#ffca28 100%); color:#7f0000; border:3px double #b71c1c; border-radius:12px; padding:10px 12px; margin-bottom:9px; position:relative; box-shadow:0 6px 20px rgba(0,0,0,0.65);">
-        <div style="text-align:center; font-weight:900; font-size:13px; color:#b71c1c; letter-spacing:0.5px; border-bottom:1.5px solid rgba(183,28,28,0.35); padding-bottom:4px; margin-bottom:6px;">
-          🪷 ĐẠI HÙNG BẢO ĐIỆN — PHỤNG THỈNH SỚ ĐIỆP CẦU AN · TÀI LỘC 🪷
+      <div id="goldenPetitionScroll" style="background:linear-gradient(180deg,#fff3c4 0%,#ffd54f 50%,#ffca28 100%); color:#7f0000; border:3px double #b71c1c; border-radius:12px; padding:9px 11px; margin-bottom:8px; position:relative; box-shadow:0 6px 20px rgba(0,0,0,0.65);">
+        <div style="text-align:center; font-weight:900; font-size:12.5px; color:#b71c1c; letter-spacing:0.4px; border-bottom:1.5px solid rgba(183,28,28,0.35); padding-bottom:3px; margin-bottom:5px;">
+          🪷 ĐẠI HÙNG BẢO ĐIỆN — SỚ ĐIỆP CẦU ĐẠT SỐ · MỤC TIÊU KPI & TÀI LỘC 🪷
         </div>
-        <div style="font-size:11.5px; line-height:1.45; color:#4a0d00; font-weight:700;">
-          • <b>Tín chủ dâng sớ:</b> <span id="soPreviewName" style="color:#b71c1c;font-weight:900;">Anh Đức Đoàn</span> — <b>Ngụ tại:</b> <span id="soPreviewAddr" style="color:#b71c1c;">Hải Phòng</span> (<span id="soPreviewPhone">0988668888</span>)<br/>
-          • <b>Lời khấn trên Sớ:</b> <span id="soPreviewWish" style="color:#880e4f;font-style:italic;">"Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an"</span>
+        <div style="font-size:11.2px; line-height:1.42; color:#4a0d00; font-weight:700; padding-right:54px;">
+          • <b>Tín chủ dâng sớ:</b> <span id="soPreviewName" style="color:#b71c1c;font-weight:900;">Sale Minh Anh</span> — <b>Tại:</b> <span id="soPreviewAddr" style="color:#b71c1c;">Kho Trường Yến</span> (<span id="soPreviewPhone">0988668888</span>)<br/>
+          • <b>🎯 Số & Mục tiêu KPI:</b> Con còn thiếu <b id="soPreviewMissing" style="color:#d50000;text-decoration:underline;">120 triệu</b> · Quý này con đặt <b id="soPreviewGoal" style="color:#b71c1c;text-decoration:underline;">1 tỷ 500 triệu</b><br/>
+          • <b>Lời khấn trên Sớ:</b> <span id="soPreviewWish" style="color:#880e4f;font-style:italic;">"Con còn thiếu 120 triệu để đạt KPI tháng, quý này con đặt mục tiêu 1 tỷ 500 triệu, cúi xin độ trì chốt đơn về đích!"</span>
         </div>
         <!-- Ấn triện đỏ nhà chùa -->
-        <div style="position:absolute; right:10px; bottom:8px; border:2px solid rgba(211,47,47,0.85); color:#d32f2f; font-size:9px; font-weight:900; padding:2px 5px; border-radius:4px; transform:rotate(-8deg); background:rgba(255,235,238,0.75); pointer-events:none;">
-          印 TAM BẢO<br/>CHỨNG MINH
+        <div style="position:absolute; right:8px; bottom:8px; border:2px solid rgba(211,47,47,0.85); color:#d32f2f; font-size:8.8px; font-weight:900; padding:2px 5px; border-radius:4px; transform:rotate(-8deg); background:rgba(255,235,238,0.82); pointer-events:none; text-align:center;">
+          印 TAM BẢO<br/>ĐỘ ĐẠT SỐ
         </div>
       </div>
 
-      <div style="font-size:11.2px; color:#f7cf73; font-weight:800; margin-bottom:5px;">
-        1️⃣ Chọn Chủ Đề Sớ & Bài Khấn (Có Giọng Đọc Thật Đọc Thành Tiếng 🔊):
+      <div style="font-size:11px; color:#f7cf73; font-weight:800; margin-bottom:4px;">
+        1️⃣ Chọn Bài Khấn Chạy Số · Mục Tiêu KPI Hoặc Cầu An Tài Lộc (Đọc Thành Tiếng 🔊):
       </div>
       <div class="prayer-topic-grid" id="topicGrid">
-        <button class="topic-btn selected" onclick="selectPrayerTopic('khach_hang', this)">💰 1. Sớ Cầu Khách Hàng · Chốt Đơn Lớn (Đọc Tên + SĐT)</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('tai_loc', this)">📈 2. Sớ Cầu Tài Lộc · Kim Ngân Sung Túc · Lộc Về Đầy Kho</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('binh_an', this)">🕊️ 3. Sớ Cầu Bình An Gia Đạo & Tai Qua Nạn Khỏi</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('suc_khoe', this)">💚 4. Sớ Cầu Sức Khỏe Dồi Dào & Trường Thọ</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('giam_stress', this)">🌿 5. Sớ Cầu Tâm Hồn Thanh Tịnh & An Lạc</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('tu_nhan', this)">✍️ 6. Tự Viết Lời Sớ Cầu Nguyện Riêng (Nhập ở ô dưới)</button>
+        <button class="topic-btn selected" onclick="selectPrayerTopic('thieu_so', this)">🎯 1. Khấn Chạy Số: "Con còn thiếu ... triệu để về đích KPI" (Đọc rõ số thiếu)</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('muc_tieu_quy', this)">🚀 2. Khấn Mục Tiêu Quý/Tháng: "Quý này con đặt ... tỷ/triệu"</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('ve_dich_kep', this)">🔥 3. Khấn Bứt Phá Kép: "Quý đặt ... · Hiện con còn thiếu ... triệu"</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('khach_hang', this)">💰 4. Sớ Cầu Khách Hàng · Chốt Đơn Lớn (Đọc Tên KH + SĐT)</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('tai_loc', this)">📈 5. Sớ Cầu Tài Lộc · Thu Hồi Công Nợ Đúng Hạn · Lộc Đầy Kho</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('binh_an', this)">🕊️ 6. Sớ Cầu Bình An Gia Đạo, Sức Khỏe & Tâm An</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('tu_nhan', this)">✍️ 7. Tự Viết Lời Sớ & Con Số Cầu Nguyện Riêng</button>
       </div>
 
-      <div style="font-size:11.2px; color:#f7cf73; font-weight:800; margin-bottom:5px;">
-        2️⃣ Điền Nhanh Hoặc Tự Viết Tên Tín Chủ Lên Tờ Sớ Vàng:
-      </div>
-      <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:7px;">
-        <span class="cm-auto-pill" onclick="fillCustomerPreset('Sếp Thành & Kho Trường Yến', 'Hà Nội - Hải Phòng', '0988888888', 'Doanh số bùng nổ, đơn về tới tấp, lộc về đầy kho')">⚡ Sếp Thành (Trường Yến)</span>
-        <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Đức Đoàn', 'Hải Phòng', '0988668888', 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi')">⚡ KH A. Đức Đoàn (HP)</span>
-        <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Phú', 'Số 1 Trần Hoàn', '0912345678', 'Công trình Số 1 Trần Hoàn hoàn thiện mỹ mãn')">⚡ KH A. Phú (Trần Hoàn)</span>
+      <!-- KHUNG NHẬP SỐ TIỀN CÒN THIẾU ("CON CÒN THIẾU ... TRIỆU") & MỤC TIÊU QUÝ ("QUÝ NÀY CON ĐẶT ...") -->
+      <div id="kpiGoalInputBox" style="background:linear-gradient(180deg,rgba(68,20,6,0.95),rgba(32,9,3,0.95)); border:1.5px solid #ffd54f; border-radius:10px; padding:7px 9px; margin-bottom:7px;">
+        <div style="font-size:10.6px; font-weight:900; color:#ffd740; margin-bottom:5px;">
+          🎯 2️⃣ NHẬP CON SỐ CÒN THIẾU & MỤC TIÊU QUÝ / THÁNG (Đọc vang rõ từng con số!):
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:5px;">
+          <div class="sk-field" style="margin-bottom:0;">
+            <label style="color:#ffab40;">💸 Con còn thiếu bao nhiêu triệu?</label>
+            <input id="skInputMissingAmt" type="text" value="120 triệu" oninput="syncKpiNumbersToWish()" placeholder="VD: 120 triệu, 85 triệu..." />
+          </div>
+          <div class="sk-field" style="margin-bottom:0;">
+            <label style="color:#80d8ff;">🚀 Quý / Tháng này con đặt mục tiêu:</label>
+            <input id="skInputQuarterGoal" type="text" value="1 tỷ 500 triệu" oninput="syncKpiNumbersToWish()" placeholder="VD: 1 tỷ 500 triệu..." />
+          </div>
+        </div>
+        <div style="display:flex; gap:4px; flex-wrap:wrap;">
+          <span class="cm-auto-pill" style="font-size:9.6px; padding:2px 6px;" onclick="setQuickKpiGoal('50 triệu', '500 triệu tháng này')">⚡ Thiếu 50tr · Đặt 500tr</span>
+          <span class="cm-auto-pill" style="font-size:9.6px; padding:2px 6px;" onclick="setQuickKpiGoal('120 triệu', '1 tỷ 500 triệu quý này')">⚡ Thiếu 120tr · Quý đặt 1.5 tỷ</span>
+          <span class="cm-auto-pill" style="font-size:9.6px; padding:2px 6px;" onclick="setQuickKpiGoal('250 triệu', '2 tỷ quý này')">⚡ Thiếu 250tr · Quý đặt 2 tỷ</span>
+          <span class="cm-auto-pill" style="font-size:9.6px; padding:2px 6px;" onclick="setQuickKpiGoal('500 triệu', '5 tỷ quý này')">⚡ Thiếu 500tr · Quý đặt 5 tỷ</span>
+        </div>
       </div>
 
-      <div class="sk-field">
-        <label>👤 Họ và Tên Tín Chủ / Khách Hàng Ghi Lên Sớ:</label>
-        <input id="skInputName" type="text" value="Anh Đức Đoàn" oninput="updateLiveSoPreview()" placeholder="Nhập tên khách hàng hoặc tín chủ..." />
+      <div style="font-size:10.8px; color:#f7cf73; font-weight:800; margin-bottom:4px;">
+        3️⃣ Chọn Nhanh Nhân Sự Chạy Số Hoặc Khách Hàng:
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:7px;">
+      <div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:6px;">
+        <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillKpiPreset('Sale Minh Anh', 'Kho Trường Yến', '0988668888', '120 triệu', '1 tỷ 500 triệu')">⚡ Sale Minh Anh (Thiếu 120tr)</span>
+        <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillKpiPreset('Sale Kiều Trang', 'Kho Trường Yến', '0988686868', '85 triệu', '1 tỷ 200 triệu')">⚡ Sale Kiều Trang (Thiếu 85tr)</span>
+        <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillKpiPreset('Sale Huế', 'Kho Trường Yến', '0988999999', '60 triệu', '900 triệu')">⚡ Sale Huế (Thiếu 60tr)</span>
+        <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillKpiPreset('Sếp Thành & Kho Trường Yến', 'Hà Nội - Hải Phòng', '0988888888', '1 tỷ 800 triệu', '15 tỷ quý này')">⚡ Sếp Thành (Mục tiêu Tổng Kho)</span>
+        <span class="cm-auto-pill" style="font-size:9.8px; padding:3px 7px;" onclick="fillCustomerPreset('Anh Đức Đoàn', 'Hải Phòng', '0988668888', 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi')">⚡ KH A. Đức Đoàn</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.1fr 0.9fr 0.9fr; gap:6px;">
         <div class="sk-field">
-          <label>📍 Địa Chỉ / Công Trình:</label>
-          <input id="skInputAddr" type="text" value="Hải Phòng" oninput="updateLiveSoPreview()" placeholder="Nhập địa chỉ..." />
+          <label>👤 Họ Tên Tín Chủ / Sale:</label>
+          <input id="skInputName" type="text" value="Sale Minh Anh" oninput="updateLiveSoPreview()" placeholder="Nhập tên..." />
         </div>
         <div class="sk-field">
-          <label>📞 Số Điện Thoại (Đọc thành tiếng):</label>
+          <label>📍 Đơn Vị / Địa Chỉ:</label>
+          <input id="skInputAddr" type="text" value="Kho Trường Yến" oninput="updateLiveSoPreview()" placeholder="Nhập địa chỉ..." />
+        </div>
+        <div class="sk-field">
+          <label>📞 SĐT (Đọc tiếng):</label>
           <input id="skInputPhone" type="text" value="0988668888" oninput="updateLiveSoPreview()" placeholder="Nhập SĐT..." />
         </div>
       </div>
       <div class="sk-field">
-        <label>🪷 Lời Cầu Nguyện Viết Lên Tờ Sớ Vàng:</label>
-        <input id="skInputWish" type="text" value="Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an" oninput="updateLiveSoPreview()" placeholder="Nhập lời cầu nguyện..." />
+        <label>🪷 Lời Khấn Đầy Đủ Ghi Lên Tờ Sớ Vàng (Tự động ghép số thiếu & mục tiêu quý):</label>
+        <input id="skInputWish" type="text" value="Con còn thiếu 120 triệu nữa là đạt KPI tháng, quý này con đặt mục tiêu 1 tỷ 500 triệu, cúi xin độ trì chốt đơn về đích!" oninput="updateLiveSoPreview()" placeholder="Nhập lời cầu nguyện..." />
       </div>
 
       <div class="sk-actions" style="flex-wrap:wrap;">
-        <button class="btn-sk-submit" style="flex:1.4; background:linear-gradient(135deg,#d84315,#b71c1c);" onclick="submitAndReadSoKhan()">🕯️🔊 Đọc Thành Tiếng Bài Khấn & Dâng Sớ (+15 💎)</button>
-        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#f57f17,#e65100);" onclick="submitAndBurnSoKhan()">🔥 Hóa Sớ Vàng (+12 💎)</button>
+        <button class="btn-sk-submit" style="flex:1.4; background:linear-gradient(135deg,#d84315,#b71c1c);" onclick="submitAndReadSoKhan()">🕯️🔊 Đọc Thành Tiếng Bài Khấn Số & Dâng Sớ</button>
+        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#f57f17,#e65100);" onclick="submitAndBurnSoKhan()">🔥 Hóa Sớ Vàng Cầu Đạt Số</button>
       </div>
     </div>
   </div>
@@ -1546,14 +1573,16 @@
     }
 
     // =========================================================================
-    // 1B. 8 SPIRITUAL PRAYER TOPICS + CUSTOMER SỚ KHẤN (DUY NHẤT 1 GIỌNG ĐỌC CHUẨN · TẠM DỪNG NHẠC NỀN!)
+    // 1B. SPIRITUAL PRAYER TOPICS + BÀI KHẤN CHẠY SỐ & MỤC TIÊU KPI ("CON CÒN THIẾU ... TRIỆU · QUÝ NÀY CON ĐẶT ...")
     // =========================================================================
-    let selectedTopic = 'khach_hang';
+    let selectedTopic = 'thieu_so';
     let currentCustomer = {
-      name: 'Anh Đức Đoàn',
-      addr: 'Hải Phòng',
+      name: 'Sale Minh Anh',
+      addr: 'Kho Trường Yến',
       phone: '0988668888',
-      wish: 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an'
+      missingAmt: '120 triệu',
+      quarterGoal: '1 tỷ 500 triệu',
+      wish: 'Con còn thiếu 120 triệu nữa là đạt KPI tháng, quý này con đặt mục tiêu 1 tỷ 500 triệu, cúi xin độ trì chốt đơn về đích!'
     };
     let moRhythmInterval = null;
 
@@ -1593,17 +1622,64 @@
 
     function updateLiveSoPreview() {
       const name = document.getElementById('skInputName')?.value || 'Quý Tín Chủ';
-      const addr = document.getElementById('skInputAddr')?.value || 'Việt Nam';
+      const addr = document.getElementById('skInputAddr')?.value || 'Kho Trường Yến';
       const phone = document.getElementById('skInputPhone')?.value || 'Tâm thành';
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
       const wish = document.getElementById('skInputWish')?.value || 'Vạn sự cát tường như ý';
       const pName = document.getElementById('soPreviewName');
       const pAddr = document.getElementById('soPreviewAddr');
       const pPhone = document.getElementById('soPreviewPhone');
+      const pMissing = document.getElementById('soPreviewMissing');
+      const pGoal = document.getElementById('soPreviewGoal');
       const pWish = document.getElementById('soPreviewWish');
       if (pName) pName.textContent = name;
       if (pAddr) pAddr.textContent = addr;
       if (pPhone) pPhone.textContent = phone;
+      if (pMissing) pMissing.textContent = missingAmt;
+      if (pGoal) pGoal.textContent = quarterGoal;
       if (pWish) pWish.textContent = `"${wish}"`;
+    }
+
+    function syncKpiNumbersToWish() {
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
+      const wishInput = document.getElementById('skInputWish');
+      if (wishInput) {
+        if (selectedTopic === 'thieu_so') {
+          wishInput.value = `Hiện tại con còn thiếu ${missingAmt} nữa là hoàn thành chỉ tiêu tháng, quý này con đặt mục tiêu ${quarterGoal}, cúi xin độ trì chốt đơn về đích!`;
+        } else if (selectedTopic === 'muc_tieu_quy') {
+          wishInput.value = `Quý này con đặt mục tiêu ${quarterGoal}, hiện con chỉ còn thiếu ${missingAmt} để bứt phá dẫn đầu, cúi xin khai thông tài lộc!`;
+        } else if (selectedTopic === 've_dich_kep') {
+          wishInput.value = `Quý này con đặt ${quarterGoal} và hiện còn thiếu ${missingAmt}, cầu xin khách chốt đơn lớn và thu hồi công nợ suôn sẻ để đạt số!`;
+        }
+      }
+      updateLiveSoPreview();
+    }
+
+    function setQuickKpiGoal(missingStr, goalStr) {
+      const mEl = document.getElementById('skInputMissingAmt');
+      const gEl = document.getElementById('skInputQuarterGoal');
+      if (mEl) mEl.value = missingStr;
+      if (gEl) gEl.value = goalStr;
+      if (!['thieu_so', 'muc_tieu_quy', 've_dich_kep'].includes(selectedTopic)) {
+        selectedTopic = 'thieu_so';
+      }
+      syncKpiNumbersToWish();
+    }
+
+    function fillKpiPreset(name, addr, phone, missingStr, goalStr) {
+      document.getElementById('skInputName').value = name;
+      document.getElementById('skInputAddr').value = addr;
+      document.getElementById('skInputPhone').value = phone;
+      const mEl = document.getElementById('skInputMissingAmt');
+      const gEl = document.getElementById('skInputQuarterGoal');
+      if (mEl) mEl.value = missingStr;
+      if (gEl) gEl.value = goalStr;
+      if (!['thieu_so', 'muc_tieu_quy', 've_dich_kep'].includes(selectedTopic)) {
+        selectedTopic = 'thieu_so';
+      }
+      syncKpiNumbersToWish();
     }
 
     function selectPrayerTopic(topicKey, btnEl) {
@@ -1611,17 +1687,22 @@
       document.querySelectorAll('#topicGrid .topic-btn').forEach(b => b.classList.remove('selected'));
       if (btnEl) btnEl.classList.add('selected');
       const wishInput = document.getElementById('skInputWish');
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
       const presetWishes = {
+        thieu_so: `Hiện tại con còn thiếu ${missingAmt} nữa là hoàn thành chỉ tiêu tháng, quý này con đặt mục tiêu ${quarterGoal}, cúi xin độ trì chốt đơn về đích!`,
+        muc_tieu_quy: `Quý này con đặt mục tiêu ${quarterGoal}, hiện con chỉ còn thiếu ${missingAmt} để bứt phá dẫn đầu, cúi xin khai thông tài lộc!`,
+        ve_dich_kep: `Quý này con đặt ${quarterGoal} và hiện còn thiếu ${missingAmt}, cầu xin khách chốt đơn lớn và thu hồi công nợ suôn sẻ để đạt số!`,
         khach_hang: 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, công trình hoàn thiện mỹ mãn, tài lộc hanh thông',
         binh_an: 'Cầu gia đạo bốn mùa bình an, tai qua nạn khỏi, trên thuận dưới hòa, phúc lộc vẹn toàn',
         suc_khoe: 'Cầu cha mẹ và toàn thể gia đình thân khỏe tâm an, bách bệnh tiêu trừ, sống lâu trăm tuổi',
-        tai_loc: 'Cầu công việc kinh doanh thuận buồm xuôi gió, buôn may bán đắt, quý nhân phù trợ, lộc về đầy kho',
-        giam_stress: 'Cầu tâm hồn luôn thanh tịnh an vui, buông bỏ mọi muộn phiền áp lực, ngủ ngon giấc mỗi ngày',
+        tai_loc: 'Cầu công việc kinh doanh thuận buồm xuôi gió, thu hồi công nợ đúng hạn, lộc về đầy kho',
+        giam_stress: 'Cầu tâm hồn luôn thanh tịnh an vui, buông bỏ mọi muộn phiền áp lực doanh số, ngủ ngon giấc mỗi ngày',
         tu_nhan: ''
       };
       if (topicKey === 'tu_nhan') {
         wishInput.value = '';
-        wishInput.placeholder = 'Nhập điều bạn muốn cầu nguyện để đọc trực tiếp...';
+        wishInput.placeholder = 'Nhập điều bạn muốn cầu nguyện hoặc số mục tiêu riêng để đọc trực tiếp...';
         wishInput.focus();
       } else if (presetWishes[topicKey]) {
         wishInput.value = presetWishes[topicKey];
@@ -1705,13 +1786,15 @@
     let lastSoKhanMeritTime = 0;
     function submitAndReadSoKhan() {
       const name = document.getElementById('skInputName').value.trim() || 'Quý Tín Chủ';
-      const addr = document.getElementById('skInputAddr').value.trim() || 'Việt Nam';
+      const addr = document.getElementById('skInputAddr').value.trim() || 'Kho Trường Yến';
       const phone = document.getElementById('skInputPhone').value.trim() || '';
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value.trim() || '120 triệu';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value.trim() || '1 tỷ 500 triệu';
       const wish = document.getElementById('skInputWish').value.trim() || 'Vạn sự cát tường như ý';
 
-      currentCustomer = { name, addr, phone, wish };
+      currentCustomer = { name, addr, phone, missingAmt, quarterGoal, wish };
       document.getElementById('asName').textContent = name;
-      document.getElementById('asAddr').textContent = addr;
+      document.getElementById('asAddr').textContent = `${addr} (Thiếu: ${missingAmt} · Mục tiêu: ${quarterGoal})`;
       document.getElementById('asPhone').textContent = phone || 'Tâm thành';
       closeSoKhanModal();
 
@@ -1723,8 +1806,8 @@
       if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
       altarOfferings[wingKey].push({
         icon: '📜',
-        label: `Sớ Điệp Vàng`,
-        fullName: `Sớ Điệp Vàng Cầu An Tài Lộc (${name})`,
+        label: `Sớ Chạy Số`,
+        fullName: `Sớ Cầu Đạt Số (${name}: Thiếu ${missingAmt} · Đặt ${quarterGoal})`,
         giver: name,
         imgKey: 'vangDinh',
         imgSrc: 'assets/vangma_dinh.jpg'
@@ -1736,22 +1819,47 @@
         type: 'sokhan',
         name: player.name,
         customer: currentCustomer,
-        text: `Đang đọc bài khấn & dâng Sớ Vàng cho: ${name} (${addr})`,
+        text: `Đang đọc Sớ Chạy Số cho ${name}: Còn thiếu ${missingAmt} · Mục tiêu ${quarterGoal}`,
         wing: player.wing
       });
     }
 
     function submitAndBurnSoKhan() {
       const name = document.getElementById('skInputName').value.trim() || 'Quý Tín Chủ';
-      const addr = document.getElementById('skInputAddr').value.trim() || 'Việt Nam';
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value.trim() || '120 triệu';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value.trim() || '1 tỷ 500 triệu';
       closeSoKhanModal();
-      burnGoldPaperRitual(`📜 Sớ Điệp Vàng Cầu Lộc (${name} - ${addr})`);
+      burnGoldPaperRitual(`📜 Sớ Cầu Đạt Số (${name}: Thiếu ${missingAmt} · Đặt ${quarterGoal})`);
       readCurrentCustomerPrayer();
     }
 
     function buildTopicPrayerChunks(topic, name, addr, phoneSpoken, wish) {
-      const who = `tín chủ ${name}, ngụ tại ${addr}` + (phoneSpoken ? `, số điện thoại ${phoneSpoken}` : '');
-      if (topic === 'binh_an') {
+      const missingAmt = currentCustomer.missingAmt || document.getElementById('skInputMissingAmt')?.value || '120 triệu';
+      const quarterGoal = currentCustomer.quarterGoal || document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
+      const who = `tín chủ ${name}, tại ${addr}` + (phoneSpoken ? `, số điện thoại ${phoneSpoken}` : '');
+
+      if (topic === 'thieu_so') {
+        return [
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Ban Thờ Thần Tài Vị Tiền, Đức Ông Chùa Trường Yến!`,
+          `Hôm nay ${who} thành tâm quỳ dâng sớ vàng, khẩn cầu hoàn thành mục tiêu doanh số. Hiện tại con còn thiếu ${missingAmt} nữa là hoàn thành trọn vẹn chỉ tiêu tháng này, và quý này con đặt mục tiêu đạt ${quarterGoal}.`,
+          `Cúi xin Chư Phật và Thần Tài Vị Tiền khai thông tài vận, dẫn lối khách sỉ khách lẻ, đại lý và chủ thầu tìm đến chốt đơn liên tiếp, giúp con bù đủ ${missingAmt} còn thiếu ngay trong kỳ này!`,
+          `Nguyện cho đơn hàng xuất kho ùn ùn, về đích rực rỡ! Nam mô A Di Đà Phật!`
+        ];
+      } else if (topic === 'muc_tieu_quy') {
+        return [
+          `Nam mô A Di Đà Phật! Kính lạy Đại Hùng Bảo Điện và Ban Thờ Thần Tài Vị Tiền Chùa Trường Yến!`,
+          `Bước vào kỳ kinh doanh mới, ${who} xin thành tâm phát nguyện mục tiêu lớn: Quý này con đặt mục tiêu doanh số ${quarterGoal}, hiện tại con chỉ còn thiếu ${missingAmt} để bứt phá dẫn đầu.`,
+          `Cúi xin hồng ân Tam Bảo và Tôn Thần chứng giám lòng thành, gia hộ cho ${name} gặp toàn khách hàng thiện chí, báo giá đâu trúng đó, hợp đồng ký kết suôn sẻ!`,
+          `Quyết tâm cán mốc và vượt xa mục tiêu ${quarterGoal} đã đề ra! Nam mô A Di Đà Phật!`
+        ];
+      } else if (topic === 've_dich_kep') {
+        return [
+          `Nam mô A Di Đà Phật! Kính lạy Chư Phật Mười Phương và Chư Vị Thần Tài Thổ Địa!`,
+          `Hôm nay ${who} thành kính dâng sớ cầu lộc bứt phá doanh số: Quý này con đặt mục tiêu ${quarterGoal}, và hiện nay con còn thiếu ${missingAmt}.`,
+          `Cúi xin ơn trên xoay chuyển vận khí, giúp con vừa chốt trọn số tiền ${missingAmt} còn thiếu, vừa thu hồi công nợ đúng hạn, hoàn thành xuất sắc mục tiêu ${quarterGoal}!`,
+          `Tâm thành tất ứng, lộc về đầy kho Trường Yến! Nam mô A Di Đà Phật!`
+        ];
+      } else if (topic === 'binh_an') {
         return [
           `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Quan Thế Âm Bồ Tát!`,
           `Hôm nay tại Chùa Trường Yến, ${who} một lòng thành kính dâng sớ điệp và nén tâm hương cầu nguyện bình an.`,
@@ -1768,21 +1876,21 @@
       } else if (topic === 'tai_loc') {
         return [
           `Nam mô A Di Đà Phật! Kính lạy Ban Thờ Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần.`,
-          `Hôm nay ${who} thành tâm dâng sớ vàng cầu xin tài lộc và công danh sự nghiệp.`,
+          `Hôm nay ${who} thành tâm dâng sớ vàng cầu xin tài lộc, thu hồi công nợ và hoàn thành mục tiêu ${quarterGoal}.`,
           `Cúi xin Tôn Thần chứng giám lòng thành, độ trì cho ${name}: ${wish}.`,
           `Khai thông vận khí, khách quý tìm đến, lộc tài vượng phát! Nam mô A Di Đà Phật!`
         ];
       } else if (topic === 'giam_stress') {
         return [
           `Nam mô Bổn Sư Thích Ca Mâu Ni Phật!`,
-          `Hôm nay tại chốn thiền môn thanh tịnh, ${who} xin thành tâm khấn nguyện buông bỏ mọi căng thẳng và áp lực bộn bề.`,
+          `Hôm nay tại chốn thiền môn thanh tịnh, ${who} xin thành tâm khấn nguyện buông bỏ mọi căng thẳng và áp lực doanh số.`,
           `Cầu xin Đức Phật từ bi soi sáng cho ${name}: ${wish}.`,
-          `Tâm bình thế giới bình, vạn sự an nhiên tự tại! Nam mô A Di Đà Phật!`
+          `Tâm bình thế giới bình, tinh thần minh mẫn để bứt phá mục tiêu ${quarterGoal}! Nam mô A Di Đà Phật!`
         ];
       } else if (topic === 'tu_nhan') {
         return [
           `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật, Chư Đại Bồ Tát và Chư Vị Tôn Thần.`,
-          `Hôm nay ${who} quỳ trước chánh điện, thành tâm dâng sớ cầu nguyện từ đáy lòng:`,
+          `Hôm nay ${who} quỳ trước chánh điện, thành tâm dâng sớ cầu nguyện từ đáy lòng: Con còn thiếu ${missingAmt}, quý này con đặt ${quarterGoal}.`,
           `${wish}.`,
           `Cúi xin Chư Phật chứng minh công đức và gia hộ cho tâm nguyện của ${name} sớm được viên mãn như ý! Nam mô A Di Đà Phật!`
         ];
@@ -1816,7 +1924,7 @@
       moRhythmInterval = setInterval(playMoSound, 1150);
 
       let mp3File = 'audio/khan_chotdon.mp3';
-      if (selectedTopic === 'tai_loc') mp3File = 'audio/khan_tailoc.mp3';
+      if (selectedTopic === 'tai_loc' || selectedTopic === 'thieu_so' || selectedTopic === 'muc_tieu_quy' || selectedTopic === 've_dich_kep') mp3File = 'audio/khan_tailoc.mp3';
       else if (selectedTopic === 'binh_an' || selectedTopic === 'suc_khoe' || selectedTopic === 'giam_stress') mp3File = 'audio/khan_binhan.mp3';
       localPrayerMp3.src = mp3File;
 
