@@ -1170,12 +1170,30 @@
         </div>
 
         <div class="sk-field" style="margin-bottom:5px;">
-          <label style="color:#ffab91;">👤 Tên kẻ làm sai / gây ức chế (Để Voice lôi thẳng tên ra Mắng hoặc Chửi):</label>
-          <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" placeholder="Nhập tên kẻ làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
+          <label style="color:#ffab91;">👤 Tên kẻ làm sai / gây ức chế (Để Đấm Đập Hình Nhân & Lôi Tên Ra Mắng/Chửi):</label>
+          <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" oninput="resetPunchBagTarget()" placeholder="Nhập tên kẻ làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
         </div>
         <div class="sk-field" style="margin-bottom:7px;">
           <label style="color:#ffab91;">💢 Tội lỗi kẻ đó gây ra:</label>
           <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng tráo trở, sống thiếu chữ tín làm người khác điên tiết" placeholder="Nhập việc kẻ đó làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
+        </div>
+
+        <!-- KHU VỰC MỚI: SÂN ĐẤM ĐẬP HÌNH NHÂN TRÚT GIẬN TƯƠNG TÁC TRỰC TIẾP! -->
+        <div style="background:linear-gradient(180deg,rgba(42,6,6,0.98),rgba(20,3,3,0.98)); border:1.5px solid #ff9100; border-radius:10px; padding:7px 8px; margin-bottom:7px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span style="font-size:10.6px; font-weight:900; color:#ffd740;">🥊💥 SÂN ĐẤM ĐẬP HÌNH NHÂN TRÚT GIẬN (Chạm Để Đấm Đập Tới Bến!)</span>
+            <span id="punchComboBadge" style="font-size:9.8px; font-weight:900; background:#ff3d00; color:#fff; padding:1.5px 7px; border-radius:999px;">COMBO x0 · HP: 100%</span>
+          </div>
+          <canvas id="karmaPunchCanvas" width="440" height="138" onclick="hitKarmaCharacterCanvas(event)" style="width:100%; height:132px; border-radius:8px; border:1px solid rgba(255,145,0,0.55); cursor:crosshair; display:block; margin-bottom:5px; background:#160404;"></canvas>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:4px; margin-bottom:4px;">
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); font-size:9.6px; padding:5px 3px; border:1px solid #ffd54f;" onclick="selectAndHitWeapon('punch')">🥊 Đấm Móc</button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ad1457,#6a1b9a); font-size:9.6px; padding:5px 3px; border:1px solid #ff80ab;" onclick="selectAndHitWeapon('slipper')">🩴 Vả Dép Lệch Mặt</button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#4e342e,#271815); font-size:9.6px; padding:5px 3px; border:1px solid #ffcc80;" onclick="selectAndHitWeapon('club')">🪵 Phang Gậy Tạ</button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#1565c0,#0d47a1); font-size:9.6px; padding:5px 3px; border:1px solid #80d8ff;" onclick="selectAndHitWeapon('lightning')">⚡ Sét Nghiệp Quật</button>
+          </div>
+          <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff6d00,#d50000); font-size:10.3px; padding:5px 8px; border:1px solid #fff59d;" onclick="triggerAutoBeatdownCombo()">
+            💥🥊 LIÊN HOÀN ĐẤM ĐẬP TỚI TẤP 15 PHÁT + BẮT XIN LỖI (Trừ -8 💎 Phước)
+          </button>
         </div>
 
         <!-- NHÓM 1: MẮNG & CÀ KHỊA (Câu bình thường, đá xéo, mỉa mai sâu cay) -->
@@ -2101,8 +2119,319 @@
       const wrongInp = document.getElementById('karmaWrongDoing');
       if (nameInp) nameInp.value = targetName;
       if (wrongInp) wrongInp.value = wrongDoing;
+      resetPunchBagTarget();
       playMoSound();
     }
+
+    // =========================================================================
+    // 1D-B. SÂN ĐẤM ĐẬP HÌNH NHÂN TRÚT GIẬN TƯƠNG TÁC (#karmaPunchCanvas)
+    // =========================================================================
+    let punchBagState = {
+      hp: 100,
+      combo: 0,
+      weapon: 'punch', // 'punch' | 'slipper' | 'club' | 'lightning'
+      shakeX: 0,
+      shakeY: 0,
+      tilt: 0,
+      flashTimer: 0,
+      cryText: '🤪 "Đố ai làm gì được tôi đấy!" (Bấm vào để đấm đập!)',
+      bruises: 0,
+      fxList: []
+    };
+
+    const punchBeggingLines = [
+      '😵‍💫 "Á á tha cho em! Em chừa thói hứa lèo bom hàng rồi!"',
+      '🤕 "Ối giời ơi lệch hàm em rồi! Mai em chuyển khoản trả nợ đủ 100%!"',
+      '😭 "Đừng vả nữa sưng vù hai má em rồi, em xin lỗi đại ca!"',
+      '🩹 "Ui da gãy răng cửa rồi! Từ nay em không dám sống lươn lẹo nữa!"',
+      '⚡ "Á á sét đánh cháy đen đầu em rồi, em biết lỗi rồi tha mạng!"',
+      '🧎‍♂️ "Em quỳ xuống xin chừa thói ăn cháo đá bát, đừng đập nữa hu hu!"'
+    ];
+
+    function resetPunchBagTarget() {
+      punchBagState.hp = 100;
+      punchBagState.combo = 0;
+      punchBagState.bruises = 0;
+      punchBagState.cryText = '🤪 "Thách ai đấm tôi đấy!" (Chạm liên tục để đấm đập!)';
+      updatePunchComboBadge();
+    }
+
+    function updatePunchComboBadge() {
+      const el = document.getElementById('punchComboBadge');
+      if (el) {
+        el.textContent = `COMBO x${punchBagState.combo} · HP: ${punchBagState.hp}%`;
+      }
+    }
+
+    function playHeavyPunchSfx(weaponType) {
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!fireAudioCtx) fireAudioCtx = new AC();
+        if (fireAudioCtx.state === 'suspended') fireAudioCtx.resume();
+        const now = fireAudioCtx.currentTime;
+
+        const osc = fireAudioCtx.createOscillator();
+        const gain = fireAudioCtx.createGain();
+        if (weaponType === 'lightning') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(340, now);
+          osc.frequency.exponentialRampToValueAtTime(45, now + 0.18);
+        } else if (weaponType === 'slipper') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(90, now + 0.11);
+        } else {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(190, now);
+          osc.frequency.exponentialRampToValueAtTime(32, now + 0.14);
+        }
+        gain.gain.setValueAtTime(0.75, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
+        osc.connect(gain);
+        gain.connect(fireAudioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.17);
+      } catch (e) {}
+    }
+
+    function selectAndHitWeapon(wType) {
+      punchBagState.weapon = wType;
+      executeKarmaHit(220 + (Math.random() - 0.5) * 40, 68 + (Math.random() - 0.5) * 30);
+    }
+
+    function hitKarmaCharacterCanvas(ev) {
+      const c = document.getElementById('karmaPunchCanvas');
+      if (!c) return;
+      const rect = c.getBoundingClientRect();
+      const x = ((ev.clientX - rect.left) / rect.width) * c.width;
+      const y = ((ev.clientY - rect.top) / rect.height) * c.height;
+      executeKarmaHit(x, y);
+    }
+
+    function executeKarmaHit(hitX, hitY, deductMerit = true) {
+      unlockAndStartAudio();
+      const wType = punchBagState.weapon;
+      playHeavyPunchSfx(wType);
+
+      punchBagState.combo++;
+      punchBagState.bruises = Math.min(12, punchBagState.bruises + 1);
+      const dmg = wType === 'lightning' ? 14 : (wType === 'club' ? 11 : 8);
+      punchBagState.hp = Math.max(0, punchBagState.hp - dmg);
+      if (punchBagState.hp === 0 && punchBagState.combo > 14) {
+        setTimeout(() => { punchBagState.hp = 100; updatePunchComboBadge(); }, 1200);
+      }
+
+      punchBagState.shakeX = (Math.random() > 0.5 ? 1 : -1) * (12 + Math.random() * 10);
+      punchBagState.shakeY = -6 + Math.random() * 12;
+      punchBagState.tilt = (Math.random() - 0.5) * 0.75;
+      punchBagState.flashTimer = 6;
+      punchBagState.cryText = punchBeggingLines[punchBagState.combo % punchBeggingLines.length];
+
+      const icons = {
+        punch: '🥊💥 BỐP!',
+        slipper: '🩴💥 CHÁT!',
+        club: '🪵💥 RẦM!',
+        lightning: '⚡💥 ĐÙNG!'
+      };
+      punchBagState.fxList.push({
+        x: hitX,
+        y: hitY,
+        label: icons[wType] || '🥊💥 BỐP!',
+        life: 1.0
+      });
+      if (punchBagState.fxList.length > 8) punchBagState.fxList.shift();
+
+      if (deductMerit && punchBagState.combo % 3 === 1) {
+        karmaVentCount++;
+        karmaLostMeritTotal += 2;
+        addMerit(-2);
+        const cntEl = document.getElementById('karmaVentCounter');
+        if (cntEl) cntEl.textContent = karmaVentCount;
+        const lostEl = document.getElementById('karmaLostMeritCounter');
+        if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
+      }
+      updatePunchComboBadge();
+    }
+
+    function triggerAutoBeatdownCombo() {
+      unlockAndStartAudio();
+      const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'Kẻ Làm Sai';
+      karmaVentCount++;
+      karmaLostMeritTotal += 8;
+      addMerit(-8);
+      const cntEl = document.getElementById('karmaVentCounter');
+      if (cntEl) cntEl.textContent = karmaVentCount;
+      const lostEl = document.getElementById('karmaLostMeritCounter');
+      if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
+      appendMeritLog(`🥊💥 <b>[Xả Nghiệp Đấm Đập] ${player.name}</b>: Tung liên hoàn 15 đòn đấm đập tơi tả <b>${targetName}</b> (<b style="color:#ff5252;">-8 💎 Phước</b>)`);
+
+      const weapons = ['punch', 'slipper', 'club', 'lightning'];
+      let step = 0;
+      const timer = setInterval(() => {
+        step++;
+        punchBagState.weapon = weapons[step % weapons.length];
+        executeKarmaHit(220 + (Math.random() - 0.5) * 65, 65 + (Math.random() - 0.5) * 35, false);
+        if (step >= 15) {
+          clearInterval(timer);
+          punchBagState.hp = 0;
+          punchBagState.cryText = `🧎‍♂️🤕 "${targetName} xin quỳ lạy nhận lỗi, sưng vù mặt mũi rồi tha mạng!"`;
+          updatePunchComboBadge();
+        }
+      }, 95);
+      showToast(`🥊💥 Đang tung Liên Hoàn 15 Đòn Đấm · Vả Dép · Phang Gậy · Sét Đánh vào ${targetName}! (-8 💎 Phước)`);
+    }
+
+    (function startKarmaPunchRenderer() {
+      const c = document.getElementById('karmaPunchCanvas');
+      if (!c) return;
+      const pctx = c.getContext('2d');
+      let tick = 0;
+
+      function renderLoop() {
+        tick++;
+        const modal = document.getElementById('karmaReleaseModal');
+        if (modal && modal.classList.contains('open')) {
+          const W = c.width;
+          const H = c.height;
+          pctx.clearRect(0, 0, W, H);
+
+          // Nền võ đài xả nghiệp rực lửa
+          const bg = pctx.createRadialGradient(W * 0.5, H * 0.58, 10, W * 0.5, H * 0.58, W * 0.55);
+          bg.addColorStop(0, punchBagState.flashTimer > 0 ? 'rgba(255, 60, 0, 0.55)' : 'rgba(95, 14, 8, 0.85)');
+          bg.addColorStop(1, '#120303');
+          pctx.fillStyle = bg;
+          pctx.fillRect(0, 0, W, H);
+
+          if (punchBagState.flashTimer > 0) punchBagState.flashTimer--;
+          punchBagState.shakeX *= 0.76;
+          punchBagState.shakeY *= 0.76;
+          punchBagState.tilt *= 0.78;
+
+          const targetName = (document.getElementById('karmaTargetName')?.value || 'Kẻ Hứa Lèo').trim();
+
+          // Thanh máu (HP Bar) của Hình Nhân
+          const barW = 160;
+          const barX = W - barW - 10;
+          const barY = 8;
+          pctx.fillStyle = 'rgba(0,0,0,0.75)';
+          pctx.strokeStyle = '#ffd54f';
+          pctx.lineWidth = 1.2;
+          pctx.fillRect(barX, barY, barW, 11);
+          pctx.strokeRect(barX, barY, barW, 11);
+          pctx.fillStyle = punchBagState.hp > 40 ? '#ff9100' : '#ff1744';
+          pctx.fillRect(barX + 1, barY + 1, Math.max(0, (barW - 2) * (punchBagState.hp / 100)), 9);
+
+          // Vẽ Hình Nhân Bị Đấm Đập ở giữa
+          const cx = W * 0.5 + punchBagState.shakeX;
+          const cy = H * 0.68 + punchBagState.shakeY;
+
+          pctx.save();
+          pctx.translate(cx, cy);
+          const koAngle = punchBagState.hp <= 0 ? -Math.PI * 0.38 : punchBagState.tilt;
+          pctx.rotate(koAngle);
+
+          // Bóng dưới chân
+          pctx.fillStyle = 'rgba(0,0,0,0.55)';
+          pctx.beginPath();
+          pctx.ellipse(0, 28, 34, 8, 0, 0, Math.PI * 2);
+          pctx.fill();
+
+          // Thân hình nhân (Áo xám rách te tua khi bị đập)
+          pctx.fillStyle = punchBagState.bruises > 5 ? '#4a1414' : '#37474f';
+          pctx.strokeStyle = '#ffab91';
+          pctx.lineWidth = 2;
+          pctx.beginPath();
+          pctx.roundRect(-20, -14, 40, 40, 10);
+          pctx.fill();
+          pctx.stroke();
+
+          // Hai tay giơ lên đỡ đòn
+          pctx.strokeStyle = '#ffccbc';
+          pctx.lineWidth = 5;
+          pctx.beginPath();
+          pctx.moveTo(-20, -4);
+          pctx.lineTo(-34, -18 + Math.sin(tick * 0.25) * 4);
+          pctx.moveTo(20, -4);
+          pctx.lineTo(34, -18 - Math.sin(tick * 0.25) * 4);
+          pctx.stroke();
+
+          // Đầu Hình Nhân + Biểu cảm sưng vù / băng cá nhân / sao quay quanh đầu
+          pctx.fillStyle = punchBagState.bruises > 3 ? '#ff8a80' : '#ffe0b2';
+          pctx.strokeStyle = '#ff5252';
+          pctx.lineWidth = 2;
+          pctx.beginPath();
+          pctx.arc(0, -32, 19, 0, Math.PI * 2);
+          pctx.fill();
+          pctx.stroke();
+
+          let faceEmoji = '😏';
+          if (punchBagState.hp <= 0) faceEmoji = '😵';
+          else if (punchBagState.bruises >= 6) faceEmoji = '🤕';
+          else if (punchBagState.bruises >= 2) faceEmoji = '😵‍💫';
+          pctx.font = '24px sans-serif';
+          pctx.textAlign = 'center';
+          pctx.textBaseline = 'middle';
+          pctx.fillText(faceEmoji, 0, -31);
+
+          // Sao choáng váng & băng cá nhân khi bị đấm
+          if (punchBagState.bruises > 0) {
+            pctx.font = '13px sans-serif';
+            const starAng = tick * 0.14;
+            pctx.fillText('💫', Math.cos(starAng) * 24, -50 + Math.sin(starAng) * 5);
+            if (punchBagState.bruises >= 3) pctx.fillText('🩹', 14, -42);
+            if (punchBagState.bruises >= 7) pctx.fillText('🦷', -18, -22);
+          }
+
+          // Bảng tên Hình Nhân gắn trước ngực
+          pctx.fillStyle = 'rgba(183, 28, 28, 0.95)';
+          pctx.strokeStyle = '#ffd740';
+          pctx.lineWidth = 1.2;
+          pctx.beginPath();
+          pctx.roundRect(-56, 4, 112, 17, 6);
+          pctx.fill();
+          pctx.stroke();
+          pctx.font = 'bold 9.5px sans-serif';
+          pctx.fillStyle = '#fff';
+          pctx.fillText(`🎯 ${targetName.slice(0, 18)}`, 0, 13);
+
+          pctx.restore();
+
+          // Bong bóng lời van xin của Hình Nhân ở góc trên
+          pctx.font = 'bold 10.5px sans-serif';
+          pctx.fillStyle = '#fff59d';
+          pctx.textAlign = 'left';
+          pctx.fillText(punchBagState.cryText.slice(0, 56), 10, 16);
+
+          // Hiệu ứng đòn đánh (🥊💥 BỐP! / 🩴 CHÁT! / ⚡ ĐÙNG!)
+          for (let i = punchBagState.fxList.length - 1; i >= 0; i--) {
+            const fx = punchBagState.fxList[i];
+            fx.life -= 0.045;
+            fx.y -= 0.9;
+            if (fx.life <= 0) {
+              punchBagState.fxList.splice(i, 1);
+              continue;
+            }
+            pctx.save();
+            pctx.globalAlpha = Math.min(1, fx.life * 1.4);
+            pctx.font = 'bold 15px sans-serif';
+            pctx.fillStyle = '#ffd740';
+            pctx.shadowColor = '#d50000';
+            pctx.shadowBlur = 6;
+            pctx.textAlign = 'center';
+            pctx.fillText(fx.label, fx.x, fx.y);
+            pctx.restore();
+          }
+
+          pctx.font = 'bold 9.8px sans-serif';
+          pctx.fillStyle = '#ffccbc';
+          pctx.textAlign = 'center';
+          pctx.fillText('👆 Chạm liên tục vào Hình Nhân để Đấm · Vả Dép · Phang Gậy · Giật Sét trút giận!', W * 0.5, H - 6);
+        }
+        requestAnimationFrame(renderLoop);
+      }
+      requestAnimationFrame(renderLoop);
+    })();
 
     function playMultiChunksSequential(chunks, liveBoxId, prefixHtml, fallbackAudioEl, voiceStyle = 'normal') {
       stopAllVoices(true); // Dừng mọi voice khác và tạm dừng nhạc nền thiền!
@@ -5653,7 +5982,13 @@
         openFortuneStickModal();
       }, 100);
     }
-    if (location.search.includes('karma=1')) setTimeout(openKarmaReleaseModal, 100);
+    if (location.search.includes('karma=1')) {
+      setTimeout(() => {
+        openKarmaReleaseModal();
+        triggerKarmaHit(140, 60);
+        setTimeout(() => triggerKarmaHit(210, 72), 80);
+      }, 100);
+    }
     if (location.search.includes('burn=1')) {
       goldBurnCeremony = { active: true, timer: 240, maxTimer: 240, wing: player.wing };
     }
