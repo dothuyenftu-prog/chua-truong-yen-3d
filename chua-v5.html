@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Chùa Trường Yến Online — Đại Hùng Bảo Điện & Ban Thần Tài Vị Tiền (Bản Chân Thực V4)</title>
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>Chùa Trường Yến Online — Đại Hùng Bảo Điện & Ban Thần Tài Vị Tiền (V6 Sớ Khấn Khách Hàng)</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
@@ -325,6 +327,160 @@
       .move-label { bottom: 308px; left: 8px; font-size: 10px; }
       #toastBanner { bottom: 185px; font-size: 11px; }
     }
+
+    /* SỚ KHẤN KHÁCH HÀNG MODAL & LIVE SCROLL */
+    .btn-so-khan-highlight {
+      background: linear-gradient(135deg, #d9381e, #9e1b08) !important;
+      border: 1.5px solid #ffe082 !important;
+      color: #fff8e1 !important;
+      font-weight: 800 !important;
+      box-shadow: 0 0 18px rgba(255, 180, 40, 0.75) !important;
+      animation: pulseGold 1.4s infinite alternate;
+    }
+    @keyframes pulseGold {
+      from { transform: scale(1); box-shadow: 0 0 12px rgba(255, 190, 50, 0.55); }
+      to { transform: scale(1.04); box-shadow: 0 0 22px rgba(255, 215, 80, 0.95); }
+    }
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(8, 4, 1, 0.76);
+      backdrop-filter: blur(6px);
+      z-index: 90;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .so-khan-box {
+      width: 100%; max-width: 480px;
+      background: linear-gradient(180deg, #3a1909 0%, #1f0c04 100%);
+      border: 2px solid #eab651;
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.85), inset 0 0 24px rgba(255, 196, 72, 0.15);
+      color: #ffefc8;
+      position: relative;
+    }
+    .sk-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffd875;
+      text-align: center;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sk-sub {
+      font-size: 12px;
+      color: #e6cba0;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .sk-field { margin-bottom: 10px; }
+    .sk-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #f7cf73;
+      margin-bottom: 4px;
+    }
+    .sk-field input, .sk-field textarea {
+      width: 100%;
+      background: rgba(14, 7, 3, 0.88);
+      border: 1px solid rgba(234, 182, 81, 0.55);
+      border-radius: 10px;
+      padding: 9px 12px;
+      color: #fff7e2;
+      font-size: 13.5px;
+      font-weight: 600;
+      outline: none;
+    }
+    .sk-field input:focus, .sk-field textarea:focus {
+      border-color: #ffe28a;
+      box-shadow: 0 0 10px rgba(255, 205, 86, 0.4);
+    }
+    .sk-presets {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .sk-chip {
+      background: rgba(255, 204, 92, 0.14);
+      border: 1px solid rgba(234, 182, 81, 0.45);
+      color: #ffe299;
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .sk-chip:hover { background: rgba(255, 204, 92, 0.28); }
+    .sk-actions {
+      display: flex; gap: 8px; margin-top: 12px;
+    }
+    .btn-sk-submit {
+      flex: 1;
+      background: linear-gradient(135deg, #d9381e, #a81c07);
+      border: 1.5px solid #ffe082;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(217, 56, 30, 0.55);
+    }
+    .btn-sk-close {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #f0dec0;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    /* Live Floating Golden Sớ Khấn Scroll on Screen */
+    #activeScrollBox {
+      position: fixed;
+      top: 96px;
+      right: 14px;
+      z-index: 35;
+      width: 305px;
+      max-width: 88vw;
+      background: linear-gradient(180deg, rgba(64, 22, 8, 0.92) 0%, rgba(32, 11, 4, 0.95) 100%);
+      border: 1.5px solid #f0be59;
+      border-radius: 14px;
+      padding: 11px 13px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.75);
+      color: #fff3d1;
+      display: block;
+    }
+    .as-header {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; font-weight: 800; color: #ffd978;
+      border-bottom: 1px solid rgba(240, 190, 89, 0.35);
+      padding-bottom: 5px; margin-bottom: 6px;
+    }
+    .as-customer {
+      font-size: 12.5px; line-height: 1.45; margin-bottom: 6px;
+      background: rgba(0,0,0,0.28); padding: 6px 8px; border-radius: 8px;
+      border-left: 3px solid #ffca58;
+    }
+    .as-prayer-text {
+      font-size: 11.8px; line-height: 1.5; color: #f7e2b8;
+      font-style: italic;
+      max-height: 115px; overflow-y: auto;
+    }
+    .as-btn-row {
+      display: flex; gap: 6px; margin-top: 8px;
+    }
+    .as-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #c97e18, #8c5206);
+      border: 1px solid #ffd875;
+      color: #fff; font-size: 11.5px; font-weight: 700;
+      padding: 5px 8px; border-radius: 8px; cursor: pointer; text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -351,6 +507,9 @@
       </button>
       <button id="btnToggleChant" class="pill-glass active" onclick="toggleRealChanting()">
         📿 Tụng Kinh & Gõ Mõ: BẬT
+      </button>
+      <button class="pill-glass btn-so-khan-highlight" onclick="openSoKhanModal()">
+        📜 Nhập Tên Khách · Đọc Bài Khấn (Tên + Địa Chỉ + SĐT)
       </button>
     </div>
 
@@ -457,6 +616,64 @@
     </div>
   </div>
 
+  <!-- Live Golden Sớ Khấn Scroll on Screen -->
+  <div id="activeScrollBox">
+    <div class="as-header">
+      <span>📜 SỚ KHẤN TÍN CHỦ KHÁCH HÀNG</span>
+      <span id="asStatusBadge" style="color:#81c784; font-size:11px;">● Sẵn sàng đọc</span>
+    </div>
+    <div class="as-customer" id="asCustomerInfo">
+      👤 <b>Tín chủ:</b> <span id="asName">Anh Đức Đoàn</span><br/>
+      📍 <b>Địa chỉ:</b> <span id="asAddr">Hải Phòng</span><br/>
+      📞 <b>SĐT:</b> <span id="asPhone">0988.668.888</span>
+    </div>
+    <div class="as-prayer-text" id="asPrayerPreview">
+      "Nam mô A Di Đà Phật! Hôm nay tại Chùa Trường Yến, xin thành tâm dâng hương cầu nguyện cho tín chủ Anh Đức Đoàn, ngụ tại Hải Phòng, số điện thoại 0988.668.888, chốt đơn Tấm Ốp Nano & Nhôm 130 hanh thông đại cát đại lợi!"
+    </div>
+    <div class="as-btn-row">
+      <button class="as-btn" onclick="openSoKhanModal()">✍️ Nhập Tên Khách Khác</button>
+      <button class="as-btn" style="background:linear-gradient(135deg,#d9381e,#9e1b08);" onclick="readCurrentCustomerPrayer()">🔊 Đọc Bài Khấn Ngay</button>
+    </div>
+  </div>
+
+  <!-- Modal Nhập Tên Khách Hàng, Địa Chỉ, SĐT Cho Bài Khấn -->
+  <div class="modal-backdrop" id="soKhanModal">
+    <div class="so-khan-box">
+      <div class="sk-title">📜 Lập Sớ Khấn Tín Chủ Khách Hàng</div>
+      <div class="sk-sub">Nhập Tên khách hàng, Địa chỉ & SĐT để Thầy đọc trực tiếp trong bài văn khấn kèm tiếng gõ mõ & chuông chùa</div>
+
+      <div class="sk-presets">
+        <span class="sk-chip" onclick="fillCustomerPreset('Anh Đức Đoàn', 'Hải Phòng', '0988668888', 'Đơn Nhôm 130 & Tấm Ốp Trường Yến chốt cọc đại cát')">⚡ Mẫu: Anh Đức Đoàn (Hải Phòng)</span>
+        <span class="sk-chip" onclick="fillCustomerPreset('Anh Phú', 'Công trình Số 1 Trần Hoàn', '0912345678', 'Công trình Số 1 Trần Hoàn hoàn thiện mỹ mãn, tài lộc viên mãn')">⚡ Mẫu: Anh Phú (Số 1 Trần Hoàn)</span>
+        <span class="sk-chip" onclick="fillCustomerPreset('Chị Nguyễn Thị Lan', 'Quận Long Biên, Hà Nội', '0979888999', 'Đại lý Tấm Ốp Nano & Lam Sóng Trường Yến buôn may bán đắt')">⚡ Mẫu: Chị Lan (Hà Nội)</span>
+      </div>
+
+      <div class="sk-field">
+        <label>👤 Họ và Tên Khách Hàng (Tín Chủ):</label>
+        <input id="skInputName" type="text" value="Anh Đức Đoàn" placeholder="VD: Anh Đức Đoàn, Chị Hương, Anh Tuấn..." />
+      </div>
+      <div class="sk-field">
+        <label>📍 Địa Chỉ Khách Hàng / Công Trình:</label>
+        <input id="skInputAddr" type="text" value="Hải Phòng" placeholder="VD: Thủy Nguyên, Hải Phòng / Số 1 Trần Hoàn..." />
+      </div>
+      <div class="sk-field">
+        <label>📞 Số Điện Thoại Khách Hàng (Thầy sẽ đọc rõ từng số):</label>
+        <input id="skInputPhone" type="text" value="0988668888" placeholder="VD: 0988668888..." />
+      </div>
+      <div class="sk-field">
+        <label>🪷 Lời Cầu Nguyện / Đơn Hàng Cần Độ Lộc:</label>
+        <input id="skInputWish" type="text" value="Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an, tài lộc hanh thông" placeholder="Nhập mong ước cầu lộc..." />
+      </div>
+
+      <div class="sk-actions">
+        <button class="btn-sk-close" onclick="closeSoKhanModal()">Đóng</button>
+        <button class="btn-sk-submit" onclick="submitAndReadSoKhan()">🕯️🔊 Thắp Hương & Đọc Bài Khấn Ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="ttsVoicePlayer" referrerpolicy="no-referrer"></audio>
+
   <script>
     // =========================================================================
     // 1. REAL MP3 AUDIO ENGINE (NHẠC NỀN CHÙA, MÕ GỖ THẬT, ĐẠI HỒNG CHUÔNG, TỤNG KINH)
@@ -543,6 +760,172 @@
         btn.classList.remove('active');
         btn.innerHTML = '📿 Tụng Kinh & Gõ Mõ: TẮT';
       }
+    }
+
+    // =========================================================================
+    // 1B. DYNAMIC CUSTOMER PRAYER ENGINE (ĐỌC TÊN KHÁCH HÀNG, ĐỊA CHỈ, SĐT TRỰC TIẾP)
+    // =========================================================================
+    let currentCustomer = {
+      name: 'Anh Đức Đoàn',
+      addr: 'Hải Phòng',
+      phone: '0988668888',
+      wish: 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an, tài lộc hanh thông'
+    };
+    let moRhythmInterval = null;
+
+    function openSoKhanModal() {
+      document.getElementById('soKhanModal').classList.add('open');
+    }
+    function closeSoKhanModal() {
+      document.getElementById('soKhanModal').classList.remove('open');
+    }
+    function fillCustomerPreset(name, addr, phone, wish) {
+      document.getElementById('skInputName').value = name;
+      document.getElementById('skInputAddr').value = addr;
+      document.getElementById('skInputPhone').value = phone;
+      document.getElementById('skInputWish').value = wish;
+    }
+
+    function phoneToVietnameseWords(phoneStr) {
+      const digitMap = {
+        '0': 'không', '1': 'một', '2': 'hai', '3': 'ba', '4': 'bốn',
+        '5': 'năm', '6': 'sáu', '7': 'bảy', '8': 'tám', '9': 'chín'
+      };
+      const digits = (phoneStr || '').replace(/[^0-9]/g, '');
+      if (!digits) return 'không có';
+      return digits.split('').map(d => digitMap[d] || d).join(' ');
+    }
+
+    function submitAndReadSoKhan() {
+      const name = document.getElementById('skInputName').value.trim() || 'Quý Khách Hàng';
+      const addr = document.getElementById('skInputAddr').value.trim() || 'Việt Nam';
+      const phone = document.getElementById('skInputPhone').value.trim() || '';
+      const wish = document.getElementById('skInputWish').value.trim() || 'Chốt đơn thuận lợi, vạn sự hanh thông';
+
+      currentCustomer = { name, addr, phone, wish };
+      document.getElementById('asName').textContent = name;
+      document.getElementById('asAddr').textContent = addr;
+      document.getElementById('asPhone').textContent = phone || 'Đang cập nhật';
+      closeSoKhanModal();
+
+      // Also update or spawn the customer VIP character right in front of the altar
+      const khNpc = vipCharacters.find(c => c.id === 'ducdoan');
+      if (khNpc) {
+        khNpc.name = `${name} (${addr})`;
+        khNpc.wing = player.wing;
+        khNpc.u = 0.50;
+        khNpc.v = 0.535;
+        khNpc.state = 'bow';
+        khNpc.bowTimer = 380;
+        khNpc.chat = `Tín chủ ${name} (${addr} · ${phone}) thành tâm dâng hương cầu lộc! 🙏`;
+        khNpc.chatTimer = 600;
+      }
+
+      readCurrentCustomerPrayer();
+      publishMqtt({
+        type: 'sokhan',
+        name: player.name,
+        customer: currentCustomer,
+        text: `Đang đọc Sớ Khấn cho KH: ${name} (${addr} - ${phone})`,
+        wing: player.wing
+      });
+    }
+
+    function readCurrentCustomerPrayer() {
+      unlockAndStartAudio();
+      // Pause pre-recorded chanting while reading the personalized customer prayer
+      bgChantTamBao.pause();
+      bgChantThanTai.pause();
+      if (isMusicPlaying) {
+        bgTempleMusic.volume = 0.35;
+        bgTempleMusic.play().catch(() => {});
+      }
+
+      // Trigger 3-Incense-Stick Ceremony & Bell
+      performRitual('incense');
+
+      const { name, addr, phone, wish } = currentCustomer;
+      const phoneSpoken = phoneToVietnameseWords(phone);
+      const altarTitle = (currentZone === 'thantai')
+        ? 'Ban Thờ Thần Tài Vị Tiền, Ngũ Phương Ngũ Thổ Long Thần, Tiền Hậu Địa Chủ Tài Thần'
+        : 'Đại Hùng Bảo Điện, Mười Phương Chư Phật, Đức Phật Thích Ca Mâu Ni, Quan Thế Âm Bồ Tát';
+
+      const fullDisplayPrayer =
+        `Nam mô A Di Đà Phật! Kính lạy ${altarTitle}. ` +
+        `Hôm nay tại Chùa Trường Yến, đại diện Kho Tấm Ốp Trường Yến xin thành tâm dâng 3 nén tâm hương, ` +
+        `khấn cầu cho tín chủ khách hàng tên là: ${name}, ngụ tại địa chỉ: ${addr}` +
+        (phone ? `, số điện thoại: ${phone}` : '') +
+        `. Nguyện cầu Chư Phật và Chư Vị Thần Tài gia hộ cho tín chủ ${name} tại ${addr}: ${wish}. Nam mô A Di Đà Phật!`;
+
+      document.getElementById('asPrayerPreview').textContent = `"${fullDisplayPrayer}"`;
+      const statusBadge = document.getElementById('asStatusBadge');
+      statusBadge.style.color = '#ffd54f';
+      statusBadge.textContent = '🔊 Đang đọc bài khấn...';
+
+      // Split into short chunks (< 170 chars) for Google Vietnamese TTS stream
+      const ttsChunks = [
+        `Nam mô A Di Đà Phật! Kính lạy ${altarTitle}.`,
+        `Hôm nay tại Chùa Trường Yến, Kho Tấm Ốp Trường Yến xin thành tâm thắp hương cầu nguyện cho tín chủ khách hàng tên là: ${name}.`,
+        `Ngụ tại địa chỉ: ${addr}.` + (phone ? ` Số điện thoại: ${phoneSpoken}.` : ''),
+        `Nguyện cầu ơn trên gia hộ cho tín chủ ${name} tại ${addr}: ${wish}.`,
+        `Tâm thành tất ứng, vạn sự đại cát đại lợi! Nam mô A Di Đà Phật!`
+      ];
+
+      // Start steady wooden fish (Gõ Mõ Thật) rhythm during chanting
+      if (moRhythmInterval) clearInterval(moRhythmInterval);
+      moRhythmInterval = setInterval(() => {
+        playMoSound();
+      }, 740);
+
+      const ttsEl = document.getElementById('ttsVoicePlayer');
+      let chunkIdx = 0;
+
+      function finishCustomerChant() {
+        if (moRhythmInterval) {
+          clearInterval(moRhythmInterval);
+          moRhythmInterval = null;
+        }
+        playBellSound();
+        statusBadge.style.color = '#81c784';
+        statusBadge.textContent = '✅ Đã đọc xong Sớ Khấn';
+        if (isMusicPlaying) bgTempleMusic.volume = 0.65;
+        if (isChanting) toggleRealChanting(true);
+      }
+
+      function playNextChunk() {
+        if (chunkIdx >= ttsChunks.length) {
+          finishCustomerChant();
+          return;
+        }
+        const textChunk = ttsChunks[chunkIdx++];
+        player.chat = textChunk;
+        player.chatTimer = 260;
+        const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=' + encodeURIComponent(textChunk);
+        ttsEl.src = url;
+        ttsEl.playbackRate = 0.92;
+        ttsEl.onended = () => {
+          setTimeout(playNextChunk, 220);
+        };
+        ttsEl.onerror = () => {
+          // Fallback to Web Speech API if network blocks translate_tts
+          if ('speechSynthesis' in window) {
+            const ut = new SpeechSynthesisUtterance(textChunk);
+            ut.lang = 'vi-VN';
+            ut.rate = 0.88;
+            ut.pitch = 0.85;
+            ut.onend = () => setTimeout(playNextChunk, 200);
+            ut.onerror = () => setTimeout(playNextChunk, 200);
+            window.speechSynthesis.speak(ut);
+          } else {
+            setTimeout(playNextChunk, 2500);
+          }
+        };
+        ttsEl.play().catch(() => {
+          ttsEl.onerror();
+        });
+      }
+
+      playNextChunk();
     }
 
     // =========================================================================
