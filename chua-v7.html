@@ -1059,71 +1059,74 @@
     </div>
   </div>
 
-  <!-- 5D. MODAL PHÒNG XẢ NGHIỆP: KHẨU NGHIỆP (VOICE MẮNG CHỬI NGƯỜI LÀM SAI) & NGHE TRỤ TRÌ GIẢNG GIẢI TÂM AN -->
+  <!-- 5D. MODAL PHÒNG XẢ NGHIỆP: KHẨU NGHIỆP (VOICE MẮNG CHỬI CỰC GẮT · TRỪ PHƯỚC ĐỨC) & NGHE TRỤ TRÌ GIỌNG NAM TRẦM PHẬT PHÁP -->
   <div class="modal-backdrop" id="karmaReleaseModal" onclick="if(event.target===this) closeKarmaReleaseModal()">
-    <div class="so-khan-box" style="max-width:480px; border:2px solid #ff7043; box-shadow:0 16px 48px rgba(0,0,0,0.92), 0 0 28px rgba(255,87,34,0.35);">
+    <div class="so-khan-box" style="max-width:490px; border:2px solid #ff7043; box-shadow:0 16px 48px rgba(0,0,0,0.92), 0 0 28px rgba(255,87,34,0.35);">
       <div class="sk-top-row" style="border-bottom:1px solid rgba(255,138,101,0.35); padding-bottom:6px;">
-        <span class="sk-title" style="color:#ffab40; font-size:13.5px;">😤🧘‍♂️ Phòng Xả Nghiệp · Khẩu Nghiệp & Trụ Trì Giảng Giải</span>
+        <span class="sk-title" style="color:#ffab40; font-size:13px;">🤬🔥 Phòng Khẩu Nghiệp (Chửi Cực Gắt · Mất Phước) & 🧘‍♂️ Giọng Nam Trầm Trụ Trì</span>
         <button class="btn-modal-x" onclick="closeKarmaReleaseModal()">✕ Đóng</button>
       </div>
 
-      <!-- PHẦN 1: PHÒNG KHẨU NGHIỆP (NHẬP TÊN AI + VẤN ĐỀ LÀM SAI -> VOICE MẮNG CHỬI XẢ CỤC TỨC) -->
-      <div style="background:linear-gradient(180deg,rgba(78,16,8,0.95),rgba(38,8,4,0.96)); border:1.5px solid #ff7043; border-radius:12px; padding:9px 11px; margin-bottom:9px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-          <span style="font-size:11.8px; font-weight:900; color:#ff8a65;">🔥 1. PHÒNG KHẨU NGHIỆP (VOICE MẮNG NGƯỜI LÀM SAI)</span>
-          <span style="font-size:10px; background:rgba(216,67,21,0.45); color:#ffccbc; padding:2px 7px; border-radius:999px; border:1px solid #ff8a65;">Đã xả: <b id="karmaVentCounter">0</b> lần</span>
+      <!-- PHẦN 1: PHÒNG KHẨU NGHIỆP (CHỬI CÀNG NHIỀU, CÀNG DÀI, CÀNG HĂNG SAY ĐỂ TRÚT GIẬN — BÙ LẠI BỊ TRỪ PHƯỚC ĐỨC!) -->
+      <div style="background:linear-gradient(180deg,rgba(88,12,6,0.96),rgba(38,6,3,0.98)); border:1.5px solid #ff5252; border-radius:12px; padding:9px 11px; margin-bottom:9px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:11.5px; font-weight:900; color:#ff8a80;">🤬🔥 1. PHÒNG CHỬI TRÚT GIẬN (CÀNG DÀI CÀNG ĐÃ · BỊ TRỪ 💎 PHƯỚC)</span>
+          <span style="font-size:9.8px; background:rgba(213,0,0,0.55); color:#ffcdd2; padding:2px 7px; border-radius:999px; border:1px solid #ff5252;">Đã chửi: <b id="karmaVentCounter">0</b> lần · Mất: <b id="karmaLostMeritCounter" style="color:#ffeb3b;">0 💎</b></span>
+        </div>
+        <div style="font-size:9.8px; color:#ffab91; margin-bottom:5px; line-height:1.35;">
+          ⚠️ <b>Luật Nhân Quả Khẩu Nghiệp:</b> Nghe Voice Chửi càng mạnh, càng dài, càng hăng say để trút sạch cơn giận thì sẽ <b>bị trừ 💎 Phước Đức</b> tương ứng!
         </div>
 
-        <div style="font-size:10px; color:#ffccbc; margin-bottom:5px;">
-          ⚡ Chọn nhanh mẫu kẻ gây ức chế hoặc tự nhập tên & tội lỗi bên dưới:
-        </div>
         <div class="preset-bar" style="margin-bottom:6px;">
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'đặt hàng xong tắt máy trốn biệt, hẹn lần hẹn lữa làm mất thời gian công sức')">📦 Kẻ Hứa Lèo Bom Hàng</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Đối Thủ Chơi Xấu', 'bán hàng giả kém chất lượng phá giá thị trường, đặt điều nói xấu sau lưng')">🐍 Đối Thủ Chơi Xấu</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Con Nợ Chây Ì', 'vay tiền mua hàng lúc khó khăn mà đến hạn đòi mãi cứ khất lần không chịu trả')">💸 Con Nợ Chây Ì</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Tiểu Nhân Sân Si', 'hay soi mói đâm bị thóc chọc bị gạo, thấy người khác thành công thì ganh ghét')">😤 Tiểu Nhân Sân Si</span>
+          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'đặt hàng xong tắt máy trốn biệt, hẹn lần hẹn lữa lật lọng vô trách nhiệm')">📦 Kẻ Hứa Lèo Bom Hàng</span>
+          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Đối Thủ Chơi Bẩn', 'bán hàng giả kém chất lượng phá giá, lén lút đâm sau lưng nói xấu tiểu nhân')">🐍 Đối Thủ Chơi Bẩn</span>
+          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Con Nợ Chây Ì Quỵt Tiền', 'lúc khó khăn van xin lấy hàng, đến hạn thanh toán thì trốn chui trốn lủi không trả')">💸 Con Nợ Quỵt Tiền</span>
+          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ ĂnCháoĐáBát Vô Ơn', 'được giúp đỡ tận tình nhưng quay lưng phản bội, đâm bị thóc chọc bị gạo')">😤 Kẻ Vô Ơn Phản Bội</span>
         </div>
 
-        <div class="sk-field" style="margin-bottom:6px;">
-          <label style="color:#ffab91;">👤 Tên người làm sai / gây ức chế cho bạn:</label>
-          <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" placeholder="Nhập tên người làm sai (VD: Hùng, Trang, Đối thủ X...)" style="border-color:rgba(255,112,67,0.65); background:rgba(22,6,3,0.92);" />
+        <div class="sk-field" style="margin-bottom:5px;">
+          <label style="color:#ffab91;">👤 Tên kẻ làm sai / gây ức chế (Chửi thẳng tên liên hoàn):</label>
+          <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" placeholder="Nhập tên kẻ làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
         </div>
         <div class="sk-field" style="margin-bottom:7px;">
-          <label style="color:#ffab91;">💢 Vấn đề người đó đã làm sai với bạn:</label>
-          <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng, sống thiếu chữ tín làm người khác bức xúc" placeholder="Nhập việc người đó làm sai..." style="border-color:rgba(255,112,67,0.65); background:rgba(22,6,3,0.92);" />
+          <label style="color:#ffab91;">💢 Tội lỗi kẻ đó gây ra (Để Voice lôi ra mắng chửi tới bến):</label>
+          <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng tráo trở, sống thiếu chữ tín làm người khác điên tiết" placeholder="Nhập việc kẻ đó làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
-          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#d84315,#870000); font-size:11.2px; padding:8px 6px;" onclick="triggerKarmaScoldVoice('direct')">
-            🌶️🔊 Voice Mắng Thẳng Mặt
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#d50000,#7f0000); font-size:10.8px; padding:7px 5px; border:1px solid #ff8a80;" onclick="triggerKarmaScoldVoice('direct')">
+            🌶️🔊 Mắng Thẳng Mặt Cực Gắt<br/><span style="font-size:9.5px; color:#ffeb3b;">(6 đoạn gắt · Trừ -10 💎 Phước)</span>
           </button>
-          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ad1457,#4a0033); font-size:11.2px; padding:8px 6px;" onclick="triggerKarmaScoldVoice('karma')">
-            ⚡🔊 Voice Chửi Nghiệp Quật
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#aa00ff,#4a0072); font-size:10.8px; padding:7px 5px; border:1px solid #ea80fc;" onclick="triggerKarmaScoldVoice('karma')">
+            ⚡🔊 Chửi Nghiệp Quật Liên Hoàn<br/><span style="font-size:9.5px; color:#ffeb3b;">(8 đoạn dài · Trừ -20 💎 Phước)</span>
           </button>
         </div>
-        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#e65100,#bf360c); font-size:11.2px; padding:7px;" onclick="smashKarmaTarget()">
-          💥🪵 Đập Mõ Trừ Tà · Xả Sạch Cục Tức (+5 💎 Phước)
+        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff3d00,#b71c1c); font-size:11.2px; padding:8px; border:1.5px solid #ffd740; margin-bottom:5px;" onclick="triggerKarmaScoldVoice('rage_max')">
+          🌋🤬 ĐẠI NỘ CHỬI TỚI BẾN (12 Đoạn Dài Hăng Say Trút Sạch Giận · Trừ -35 💎 Phước)
+        </button>
+        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#5d4037,#3e2723); font-size:10.5px; padding:6px;" onclick="smashKarmaTarget()">
+          💥🪵 Đập Mõ Trút Giận Liên Thanh (Trừ -5 💎 Phước Khẩu Nghiệp)
         </button>
 
-        <div id="karmaVoiceLiveText" style="margin-top:7px; background:rgba(18,5,2,0.92); border:1px dashed rgba(255,138,101,0.55); border-radius:8px; padding:6px 8px; font-size:11px; color:#ffe0b2; line-height:1.4;">
-          🔊 <b>Lời Voice Khẩu Nghiệp:</b> Bấm nút trên để phát giọng đọc mắng thẳng tên người làm sai & vấn đề họ gây ra, giúp bạn xả sạch cục tức trong lòng!
+        <div id="karmaVoiceLiveText" style="margin-top:7px; background:rgba(18,4,2,0.95); border:1px dashed rgba(255,82,82,0.65); border-radius:8px; padding:6px 8px; font-size:10.8px; color:#ffe0b2; line-height:1.42;">
+          🤬🔊 <b>Lời Voice Chửi Trút Giận:</b> Bấm chọn 1 trong 3 cấp độ chửi bên trên để nghe Voice mắng chửi liên hoàn, hăng say, lột trần bộ mặt kẻ làm sai để trút sạch cục tức (Chấp nhận trừ 💎 Phước Đức)!
         </div>
       </div>
 
-      <!-- PHẦN 2: NGHE SƯ THẦY TRỤ TRÌ GIẢNG GIẢI ĐỂ BỚT TỨC GIẬN · TÂM AN HƠN -->
+      <!-- PHẦN 2: NGHE SƯ THẦY TRỤ TRÌ (GIỌNG NAM TRẦM ẤM GIỐNG VIDEO PHẬT PHÁP) GIẢNG GIẢI HẠ HỎA · TÂM AN -->
       <div style="background:linear-gradient(180deg,rgba(20,56,36,0.96),rgba(10,30,18,0.98)); border:1.5px solid #81c784; border-radius:12px; padding:9px 11px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-          <span style="font-size:11.8px; font-weight:900; color:#a5d6a7;">🧘‍♂️🪷 2. NGHE TRỤ TRÌ GIẢNG GIẢI BỚT TỨC GIẬN · TÂM AN</span>
-          <span style="font-size:10px; background:rgba(46,125,50,0.55); color:#e8f5e9; padding:2px 7px; border-radius:999px; border:1px solid #81c784;">+15 💎 Tâm An</span>
+          <span style="font-size:11.5px; font-weight:900; color:#a5d6a7;">🧘‍♂️🪷 2. SƯ THẦY TRỤ TRÌ (GIỌNG NAM TRẦM PHẬT PHÁP) KHAI THỊ</span>
+          <span style="font-size:9.8px; background:rgba(46,125,50,0.55); color:#e8f5e9; padding:2px 7px; border-radius:999px; border:1px solid #81c784;">Giọng Nam Trầm Ấm</span>
         </div>
 
-        <div id="abbotAdviceBox" style="background:rgba(8,24,14,0.92); border:1px solid rgba(129,199,132,0.45); border-radius:9px; padding:7px 9px; font-size:11.2px; color:#e8f5e9; line-height:1.45; margin-bottom:7px;">
-          🙏 <b>Lời Sư Thầy Trụ Trì Chùa Trường Yến:</b><br/>
-          <i>"A Di Đà Phật! Ai làm sai người đó tự mang nghiệp. Con tức giận chỉ tự đốt cháy tâm bình an và tài lộc của chính mình. Hãy buông xả để tâm thanh tịnh, lộc lớn khắc tự tìm về!"</i>
+        <div id="abbotAdviceBox" style="background:rgba(8,24,14,0.92); border:1px solid rgba(129,199,132,0.45); border-radius:9px; padding:7px 9px; font-size:11px; color:#e8f5e9; line-height:1.45; margin-bottom:7px;">
+          🙏 <b>Giọng Nam Trầm Sư Thầy Trụ Trì Chùa Trường Yến:</b><br/>
+          <i>"Nam mô A Di Đà Phật! Bạch tín chủ, ai sống giả dối bội tín thì luật nhân quả tự khắc vận hành. Con hãy hít một hơi thật sâu, buông xả cơn sân hận để tâm an trí sáng, hòa khí sinh đại tài!"</i>
         </div>
 
-        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7; font-size:11.8px; padding:9px;" onclick="triggerAbbotDharmaVoice()">
-          🧘‍♂️🔊 Nghe Voice Trụ Trì Giảng Giải Hạ Hỏa · Tâm An Hơn (+15 💎)
+        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7; font-size:11.5px; padding:9px;" onclick="triggerAbbotDharmaVoice()">
+          🧘‍♂️🔊 Nghe Giọng Nam Trầm Trụ Trì Khai Thị Hạ Hỏa (Chuẩn Video Phật Pháp)
         </button>
       </div>
     </div>
@@ -1967,9 +1970,10 @@
     }
 
     // =========================================================================
-    // 1D. PHÒNG XẢ NGHIỆP: KHẨU NGHIỆP (VOICE MẮNG NGƯỜI LÀM SAI) & NGHE TRỤ TRÌ GIẢNG GIẢI TÂM AN
+    // 1D. PHÒNG XẢ NGHIỆP: KHẨU NGHIỆP (VOICE CHỬI MẠNH MẼ, DÀI, HĂNG SAY · TRỪ PHƯỚC) & TRỤ TRÌ GIỌNG NAM TRẦM PHẬT PHÁP
     // =========================================================================
     let karmaVentCount = 0;
+    let karmaLostMeritTotal = 0;
     let lastKarmaMeritTime = 0;
     let lastAbbotMeritTime = 0;
 
@@ -1992,7 +1996,7 @@
       playMoSound();
     }
 
-    function playMultiChunksSequential(chunks, liveBoxId, prefixHtml, fallbackAudioEl) {
+    function playMultiChunksSequential(chunks, liveBoxId, prefixHtml, fallbackAudioEl, voiceStyle = 'normal') {
       stopAllVoices(true); // Dừng mọi voice khác và tạm dừng nhạc nền thiền!
       const ttsEl = document.getElementById('ttsVoicePlayer');
       const liveBox = document.getElementById(liveBoxId);
@@ -2006,14 +2010,30 @@
         }
         const part = chunks[idx++];
         if (liveBox) {
-          liveBox.innerHTML = `${prefixHtml} <br/><span style="color:#fff;font-weight:800;">"${part}"</span>`;
+          liveBox.innerHTML = `${prefixHtml} <span style="color:#ffeb3b;font-size:10px;">(Đoạn ${idx}/${chunks.length})</span><br/><span style="color:#fff;font-weight:800;">"${part}"</span>`;
         }
         player.chat = part;
         player.chatTimer = 260;
+        if (voiceStyle === 'scold_fierce') {
+          playMoSound();
+          setTimeout(playMoSound, 110);
+        }
         const url = 'https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=' + encodeURIComponent(part.slice(0, 195));
         ttsEl.src = url;
         ttsEl.volume = 1.0;
-        ttsEl.onended = () => setTimeout(nextChunk, 160);
+        if (voiceStyle === 'scold_fierce') {
+          ttsEl.preservesPitch = true;
+          ttsEl.playbackRate = 1.24; // Đọc nhanh, đanh thép, dồn dập, hăng say!
+        } else if (voiceStyle === 'deep_male_abbot') {
+          ttsEl.preservesPitch = false;
+          ttsEl.mozPreservesPitch = false;
+          ttsEl.webkitPreservesPitch = false;
+          ttsEl.playbackRate = 0.76; // Hạ trầm sâu xuống giọng Nam Trầm ấm uy nghiêm!
+        } else {
+          ttsEl.preservesPitch = true;
+          ttsEl.playbackRate = 1.0;
+        }
+        ttsEl.onended = () => setTimeout(nextChunk, voiceStyle === 'scold_fierce' ? 75 : 180);
         ttsEl.onerror = () => {
           if (fallbackAudioEl) {
             fallbackAudioEl.currentTime = 0;
@@ -2040,35 +2060,67 @@
       unlockAndStartAudio();
 
       const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'kẻ làm sai';
-      const wrongDoing = (document.getElementById('karmaWrongDoing')?.value || '').trim() || 'sống thiếu đạo đức và làm tổn thương người khác';
+      const wrongDoing = (document.getElementById('karmaWrongDoing')?.value || '').trim() || 'sống lươn lẹo, tráo trở và làm tổn thương người tử tế';
+
+      let meritPenalty = 10;
+      if (mode === 'karma') meritPenalty = 20;
+      if (mode === 'rage_max') meritPenalty = 35;
 
       karmaVentCount++;
+      karmaLostMeritTotal += meritPenalty;
       const cntEl = document.getElementById('karmaVentCounter');
       if (cntEl) cntEl.textContent = karmaVentCount;
+      const lostEl = document.getElementById('karmaLostMeritCounter');
+      if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
+
+      // TRỪ PHƯỚC ĐỨC KHI NGHE VOICE CHỬI TRÚT GIẬN (Đúng quy chuẩn Sếp Thành: Nghe voice chửi thì mất phước!)
+      addMerit(-meritPenalty);
+      appendMeritLog(`🤬🔥 <b>[Khẩu Nghiệp] ${player.name}</b>: Nghe Voice Chửi trút giận vào <b>${targetName}</b> (<b style="color:#ff5252;">-${meritPenalty} 💎 Phước Đức</b>)`);
 
       playMoSound();
-      setTimeout(playMoSound, 180);
+      setTimeout(playMoSound, 120);
+      setTimeout(playMoSound, 240);
 
       let chunks = [];
       if (mode === 'direct') {
         chunks = [
-          `Này ${targetName} kia! Hãy mở to mắt và lắng tai mà nghe cho rõ đây!`,
-          `Tại sao lại sống lỗi, ${wrongDoing} như vậy hả ${targetName}?`,
-          `Ở đời làm người phải có chữ tín và lương tâm! Làm sai với người tử tế thì sớm muộn cũng tự rước họa vào thân, tỉnh ngộ và sửa đổi ngay đi nghe chưa ${targetName}!`
+          `Này ${targetName} kia! Mở to hai con mắt và vểnh tai lên mà nghe cho thủng đây! Đừng tưởng sống lỗi rồi trốn chui trốn lủi mà yên thân được đâu!`,
+          `Tại sao trên đời lại có kiểu người mặt dày mày dạn, ${wrongDoing} trắng trợn không biết ngượng mồm như ${targetName} hả?`,
+          `Người ta đối xử tử tế, đàng hoàng hết lòng với ${targetName}, mà ${targetName} lại lấy oán báo ơn, lật mặt nhanh hơn lật bánh tráng như thế à?`,
+          `Làm ăn mà không có chữ tín, sống mà lươn lẹo khôn lỏi như ${targetName} thì sớm muộn cũng chẳng còn một ai thèm nhìn mặt đâu!`,
+          `Đừng tưởng qua mặt được người hiền lành là khôn! Hôm nay ta nói thẳng vào mặt ${targetName} cho bõ tức, cho nhẹ hết cả người!`,
+          `Khôn hồn thì biết điều mà sửa đổi ngay đi nghe chưa ${targetName}! Cút hết mọi xui xẻo và bực bội về phía ${targetName} đi!`
+        ];
+      } else if (mode === 'karma') {
+        chunks = [
+          `Hỡi ${targetName}! Ngẩng đầu lên mà nhìn trời cao đất dày kìa! Luật nhân quả báo ứng nhãn tiền không chừa một kẻ sống bẩn nào đâu!`,
+          `Hôm nay ${targetName} dám làm ra chuyện: ${wrongDoing}, tưởng thế là cao tay ấn, nhưng thực chất là đang tự tay đập đổ toàn bộ phúc lộc của chính mình!`,
+          `Gieo nhân nào thì gặt quả nấy! ${targetName} làm khổ người ngay thẳng một phần, thì nghiệp quật trả lại cho ${targetName} gấp mười, gấp trăm lần!`,
+          `Những đồng tiền, những lợi lộc mà ${targetName} dùng thủ đoạn tráo trở để chiếm đoạt, sớm muộn cũng đội nón ra đi không còn một xu!`,
+          `Từng lời hứa lèo, từng trò tiểu nhân đâm sau lưng của ${targetName} đều đã ghi rõ rành rành trong sổ nhân quả rồi!`,
+          `Hôm nay ta xả sạch sẽ mọi uất ức trong lồng ngực ra ngoài, trả toàn bộ nghiệp chướng đen đủi về cho ${targetName} tự hưởng hết!`,
+          `Kẻ sống lỗi như ${targetName} nhất định sẽ bị quả báo dạy cho một bài học nhớ đời không bao giờ quên!`,
+          `Từ giây phút này tâm ta sảng khoái nhẹ tênh, còn bao nhiêu vận hạn xin trả hết về đúng tên ${targetName}!`
         ];
       } else {
         chunks = [
-          `Hỡi ${targetName}! Trời cao có mắt, luật nhân quả không chừa một ai đâu!`,
-          `Hôm nay ${targetName} gây ra chuyện: ${wrongDoing}, tưởng thế là hay nhưng thực ra đang tự đánh mất hết phước báu của chính mình!`,
-          `Cục tức này hôm nay ta xả hết ra ngoài, trả toàn bộ nghiệp xấu về cho ${targetName} tự gánh! Từ giây phút này tâm ta nhẹ nhõm, tiền tài lộc lá của ta lại nhân gấp mười!`
+          `Này ${targetName}! Hôm nay ta phải mắng cho một trận tơi bời khói lửa, lột sạch bộ mặt giả nhân giả nghĩa của ${targetName} ra cho thiên hạ cùng biết!`,
+          `Đã sống trên đời mang tiếng con người, sao ${targetName} lại hành xử kiểu tiểu nhân bỉ ổi: ${wrongDoing} như vậy hả?`,
+          `Lúc cần thì nói lời đường mật ngọt xớt, lúc xong việc thì trở mặt lươn lẹo, trốn tránh trách nhiệm không biết liêm sỉ là gì!`,
+          `${targetName} tưởng thiên hạ ai cũng dễ bị lừa mãi sao? Một lần bất tín thì vạn lần bất tin, cái tên ${targetName} từ nay mất sạch uy tín!`,
+          `Bao nhiêu sự tử tế, bao nhiêu sự nhẫn nhịn của người khác đã bị ${targetName} chà đạp không thương tiếc!`,
+          `Sống cái kiểu khôn vặt, chỉ biết vơ vét phần hơn và đẩy phần thiệt cho người khác như ${targetName} thì làm sao mà khá lên nổi!`,
+          `Trời đất chứng giám! Mọi sự ức chế, điên tiết mà ${targetName} gây ra vì chuyện ${wrongDoing}, hôm nay ta trút sạch một trăm phần trăm ra khỏi người!`,
+          `Ta mắng cho ${targetName} tỉnh cái đầu ra! Mắng cho tan hết cục máu đông uất ức trong lòng ta!`,
+          `Ăn ở thất đức, bội tín bất nghĩa như ${targetName} thì đi đến đâu cũng bị người đời tẩy chay, làm việc gì cũng tự rước lấy thất bại!`,
+          `Bao nhiêu khẩu nghiệp, bao nhiêu vận xui của chuyện ${wrongDoing}, ta đóng gói trả ngược về cho ${targetName} gánh đủ không thiếu một phân!`,
+          `Đáng đời kẻ sống lỗi ${targetName}! Từ nay đừng bao giờ vác mặt đến làm phiền cuộc đời của người tử tế nữa!`,
+          `Xả hết rồi! Sướng cái miệng, nhẹ cái đầu, tan sạch cục tức! Chào thân ái và không bao giờ hẹn gặp lại kẻ tiểu nhân ${targetName}!`
         ];
       }
 
-      if (Math.random() < 0.25) {
-        addMerit(3, `Xả Khẩu Nghiệp đối với ${targetName} (Trúng xác suất 25%)`);
-      }
-      showToast(`🌶️🔊 Đang phát 1 giọng đọc mắng thẳng tên: ${targetName}!`);
-      playMultiChunksSequential(chunks, 'karmaVoiceLiveText', `🌶️🔊 <b>Đang đọc Voice mắng thẳng ${targetName}:</b>`, localKarmaScoldMp3);
+      showToast(`🤬🔥 Đang phát Voice Chửi cực gắt (${chunks.length} đoạn liên hoàn) vào ${targetName}! (Đã trừ -${meritPenalty} 💎 Phước Đức)`);
+      playMultiChunksSequential(chunks, 'karmaVoiceLiveText', `🤬🔥 <b>Đang Chửi Trút Giận Cực Gắt Vào ${targetName} (-${meritPenalty} 💎 Phước):</b>`, localKarmaScoldMp3, 'scold_fierce');
     }
 
     function smashKarmaTarget() {
@@ -2076,51 +2128,65 @@
       const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'Kẻ Làm Sai';
       const wrongDoing = (document.getElementById('karmaWrongDoing')?.value || '').trim() || 'làm chuyện sai trái';
       karmaVentCount++;
+      karmaLostMeritTotal += 5;
       const cntEl = document.getElementById('karmaVentCounter');
       if (cntEl) cntEl.textContent = karmaVentCount;
+      const lostEl = document.getElementById('karmaLostMeritCounter');
+      if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
 
-      for (let i = 0; i < 4; i++) {
-        setTimeout(playMoSound, i * 110);
+      addMerit(-5);
+      appendMeritLog(`💥🪵 <b>[Khẩu Nghiệp] ${player.name}</b>: Đập Mõ trút giận lên <b>${targetName}</b> (<b style="color:#ff5252;">-5 💎 Phước Đức</b>)`);
+
+      for (let i = 0; i < 6; i++) {
+        setTimeout(playMoSound, i * 95);
       }
-      setTimeout(playBellSound, 450);
+      setTimeout(playBellSound, 600);
 
       const liveBox = document.getElementById('karmaVoiceLiveText');
       if (liveBox) {
-        liveBox.innerHTML = `💥🪵 <b>ĐÃ ĐẬP MÕ XẢ SẠCH CỤC TỨC VỚI "${targetName.toUpperCase()}":</b><br/>Bao nhiêu bực bội vì chuyện <i>"${wrongDoing}"</i> đã tan thành mây khói! (Xác suất tích phước 25%)`;
+        liveBox.innerHTML = `💥🪵 <b>ĐÃ ĐẬP MÕ LIÊN THANH TRÚT GIẬN LÊN "${targetName.toUpperCase()}" (-5 💎 Phước):</b><br/>Bao nhiêu bực bội vì chuyện <i>"${wrongDoing}"</i> đã bị đập tan thành mây khói!`;
       }
-      if (Math.random() < 0.25) {
-        addMerit(3, `Đập Mõ xả sạch cục tức chuyện của ${targetName} (Trúng xác suất 25%)`);
-        showToast(`✨💥 Đã xả sạch cục tức với ${targetName} — Trúng 25% (+3 💎 Phước)!`);
-      } else {
-        showToast(`💥🪵 Đã xả sạch cục tức với ${targetName}! (Xác suất tích phước 25%)`);
-      }
+      showToast(`💥🪵 Đã đập Mõ xả sạch cục tức với ${targetName}! (Trừ -5 💎 Phước Khẩu Nghiệp)`);
     }
 
+    // VOICE TRỤ TRÌ: GIỌNG NAM TRẦM ẤM UY NGHIÊM CHUẨN VIDEO PHẬT PHÁP (vi-VN-NamMinhNeural -16Hz + Bass Boost & Temple Reverb!)
     function triggerAbbotDharmaVoice() {
       unlockAndStartAudio();
+      stopAllVoices(true); // Dừng mọi voice khác và tạm dừng nhạc nền thiền!
 
       const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'người kia';
       const wrongDoing = (document.getElementById('karmaWrongDoing')?.value || '').trim() || 'làm điều sai trái';
 
       playBellSound();
 
-      const abbotChunks = [
-        `Nam mô A Di Đà Phật! Bạch tín chủ, Sư Thầy Trụ Trì Chùa Trường Yến xin gửi đôi lời khuyên giải để con hạ hỏa và tìm lại sự bình an trong tâm hồn.`,
-        `Con đang phiền lòng vì ${targetName} đã ${wrongDoing}. Nhưng Đức Phật dạy rằng: Tức giận vì lỗi lầm của kẻ khác cũng giống như tự cầm than hồng trên tay để ném vào họ, người bị bỏng trước tiên chính là bản thân con.`,
-        `Ai sống sai trái, thiếu chữ tín thì luật nhân quả tự khắc vận hành, họ đã tự đánh mất phước đức của chính mình. Còn con là người làm ăn chân chính, hãy hít một hơi thật sâu và buông xả cơn giận này xuống.`,
-        `Khi tâm con bình, trí con sáng, hòa khí sinh tài, thì quý nhân và đại lộc sẽ ùn ùn kéo đến với con! Nguyện cầu Chư Phật gia hộ cho con luôn an nhiên, tự tại và vạn sự hanh thông! Nam mô A Di Đà Phật!`
-      ];
-
       const abbotBox = document.getElementById('abbotAdviceBox');
       if (abbotBox) {
-        abbotBox.innerHTML = `🧘‍♂️🪷 <b>Sư Thầy Trụ Trì Đang Giảng Giải Cho Bạn:</b><br/><i style="color:#a5d6a7;">"${abbotChunks.join(' ')}"</i>`;
+        abbotBox.innerHTML = `🧘‍♂️🔊 <b>[Giọng Nam Trầm Phật Pháp] Sư Thầy Trụ Trì Đang Khai Thị Hạ Hỏa:</b><br/><i style="color:#a5d6a7;">"Nam mô Bổn Sư Thích Ca Mâu Ni Phật... Bạch tín chủ, ai sống giả dối bội tín (${targetName}: ${wrongDoing}) thì luật nhân quả của trời đất tự khắc vận hành, họ đang tự đốt sạch phước báu của chính mình. Con nổi giận vì lỗi lầm của kẻ khác cũng giống như tự cầm cục than hồng trên tay để ném vào họ. Hãy hít sâu, thở nhẹ và buông bỏ oán giận. Khi tâm tĩnh lặng, hòa khí sinh tài, đại lộc khắc tự tìm về!"</i>`;
       }
 
       if (Math.random() < 0.30) {
-        addMerit(5, `Nghe Sư Thầy Trụ Trì giảng giải hóa giải cơn giận (Trúng xác suất 30%)`);
+        addMerit(5, `Nghe Giọng Nam Trầm Sư Thầy Trụ Trì giảng giải sám hối & hạ hỏa (Trúng 30%)`);
       }
-      showToast('🧘‍♂️🔊 Đang phát lời Sư Thầy Trụ Trì giảng giải hạ hỏa · Tâm An!');
-      playMultiChunksSequential(abbotChunks, 'abbotAdviceBox', `🧘‍♂️🔊 <b>Lời Sư Thầy Trụ Trì Giảng Giải Tâm An:</b>`, localAbbotDharmaMp3);
+
+      showToast('🧘‍♂️🔊 Đang phát Giọng Nam Trầm Sư Thầy Trụ Trì giảng giải Phật Pháp hạ hỏa!');
+
+      // Phát trực tiếp bản thu Giọng Nam Trầm Phật Pháp chuẩn (vi-VN-NamMinhNeural -16Hz, vang chùa trầm ấm!)
+      localAbbotDharmaMp3.src = 'audio/tru_tri_giang_giai.mp3?v=22';
+      localAbbotDharmaMp3.currentTime = 0;
+      localAbbotDharmaMp3.volume = 1.0;
+      localAbbotDharmaMp3.onended = () => {
+        playBellSound();
+        isVoiceSpeaking = false;
+        resumeZenMusicIfIdle();
+      };
+      localAbbotDharmaMp3.play().catch(() => {
+        // Dự phòng đọc giọng hạ trầm sâu (playbackRate 0.76, preservesPitch = false)
+        const abbotChunks = [
+          `Nam mô A Di Đà Phật! Bạch tín chủ, Sư Thầy Trụ Trì Chùa Trường Yến xin gửi lời khai thị để con hạ hỏa và tìm lại sự bình an.`,
+          `Con đang phiền lòng vì ${targetName} đã ${wrongDoing}. Nhưng ai sống sai trái thì luật nhân quả tự khắc vận hành. Con hãy buông xả cơn giận để tâm an trí sáng, đại lộc tự tìm về!`
+        ];
+        playMultiChunksSequential(abbotChunks, 'abbotAdviceBox', `🧘‍♂️🔊 <b>Giọng Nam Trầm Sư Thầy Trụ Trì:</b>`, null, 'deep_male_abbot');
+      });
     }
 
     // =========================================================================
