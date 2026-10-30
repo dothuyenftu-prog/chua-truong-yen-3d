@@ -3117,14 +3117,16 @@
       return visitorDiversePrayers[Math.floor(Math.random() * visitorDiversePrayers.length)];
     }
 
-    // Giảm tần suất & số lượng khách vãng lai (chỉ 2 người, có thời gian nghỉ ngoài cổng chùa trước khi vào lại)
+    // Cả 3 Gian (Ban Tam Bảo wing=0, Ban Thần Tài wing=1, Ban Đức Ông wing=-1) đều có 1–2 khách vãng lai (tần suất vừa phải, mỗi gian 2 người luân phiên ra vào)
     const visitingGuests = [
+      // Gian Giữa (wing = 0: Ban Tam Bảo)
       {
-        id: 'guest_f1',
+        id: 'guest_tb1',
+        homeWing: 0,
+        wing: 0,
         name: 'Chị Thu Trang (Khách Vãng Lai)',
         avatar: '👩🏻',
         gender: 'F',
-        wing: 0,
         u: 0.28,
         v: 0.731,
         targetU: 0.28,
@@ -3137,20 +3139,95 @@
         waitOutsideTimer: 0
       },
       {
-        id: 'guest_f2',
-        name: 'Cô Mai Lan (Hải Phòng)',
+        id: 'guest_tb2',
+        homeWing: 0,
+        wing: 0,
+        name: 'Phật Tử Diệu Liên',
         avatar: '🪷',
         gender: 'F',
-        wing: 0,
         u: 0.72,
         v: 0.783,
         targetU: 0.72,
         targetV: 0.783,
         state: 'kneel',
         bowTimer: 0,
-        chat: '😤🙇 Lạy Đức Ông! Đứa nào hứa chuyển khoản trả nợ rồi lặn mất tăm, xin cho tối ngủ mơ thấy chủ nợ!',
+        chat: '📿 Nam Mô A Di Đà Phật... Tâm bất biến giữa dòng đời vạn biến... 🪷',
         chatTimer: 300,
         phaseTimer: 680,
+        waitOutsideTimer: 0
+      },
+      // Gian Phải (wing = 1: Ban Thần Tài Vị Tiền)
+      {
+        id: 'guest_tt1',
+        homeWing: 1,
+        wing: 1,
+        name: 'Cô Mai Lan (Hải Phòng)',
+        avatar: '👩🏻',
+        gender: 'F',
+        u: 0.28,
+        v: 0.731,
+        targetU: 0.28,
+        targetV: 0.731,
+        state: 'bow',
+        bowTimer: 115,
+        chat: '🙏 Lạy Thần Tài! Khách hỏi giá 3 ngày rồi chưa cọc, xin tác ý cho khách ting ting đặt cọc ngay chiều nay!',
+        chatTimer: 340,
+        phaseTimer: 560,
+        waitOutsideTimer: 0
+      },
+      {
+        id: 'guest_tt2',
+        homeWing: 1,
+        wing: 1,
+        name: 'Anh Đức Đoàn (Khách Vãng Lai)',
+        avatar: '👨🏻',
+        gender: 'M',
+        u: 0.72,
+        v: 0.783,
+        targetU: 0.72,
+        targetV: 0.783,
+        state: 'kneel',
+        bowTimer: 0,
+        chat: '💰🙏 Xin Ông Thần Tài cho con trúng hợp đồng ốp full biệt phủ để cuối năm đổi xe mới!',
+        chatTimer: 310,
+        phaseTimer: 640,
+        waitOutsideTimer: 0
+      },
+      // Gian Trái (wing = -1: Ban Đức Ông & Đại Hồng Chuông)
+      {
+        id: 'guest_do1',
+        homeWing: -1,
+        wing: -1,
+        name: 'Chị Ngọc Anh (Quảng Ninh)',
+        avatar: '🪷',
+        gender: 'F',
+        u: 0.28,
+        v: 0.731,
+        targetU: 0.28,
+        targetV: 0.731,
+        state: 'bow',
+        bowTimer: 125,
+        chat: '😤🙇 Lạy Đức Ông! Đứa nào hứa chuyển khoản trả nợ rồi lặn mất tăm, xin cho tối ngủ mơ thấy chủ nợ đòi rát tai!',
+        chatTimer: 340,
+        phaseTimer: 540,
+        waitOutsideTimer: 0
+      },
+      {
+        id: 'guest_do2',
+        homeWing: -1,
+        wing: -1,
+        name: 'Bác Hòa (Khách Thập Phương)',
+        avatar: '🪷',
+        gender: 'F',
+        u: 0.72,
+        v: 0.783,
+        targetU: 0.72,
+        targetV: 0.783,
+        state: 'kneel',
+        bowTimer: 0,
+        chat: '⚡🙏 Tiểu nhân ăn cháo đá bát, nói xấu sau lưng con, xin Đức Ông quật cho hắt xì hơi 3 ngày chừa thói sân si!',
+        chatTimer: 320,
+        phaseTimer: 660,
         waitOutsideTimer: 0
       }
     ];
@@ -4665,11 +4742,10 @@
           g.state = 'walk';
         } else {
           if (g.v > 0.89) {
-            // Đã đi ra khỏi cổng chùa -> Nghỉ một lúc lâu (420-900 frames) rồi mới có khách vãng lai mới bước vào!
-            g.waitOutsideTimer = 420 + Math.floor(Math.random() * 480);
+            // Đã đi ra khỏi cổng chùa -> Nghỉ một lúc (260-520 frames) rồi khách vãng lai mới bước vào đúng gian đó!
+            g.waitOutsideTimer = 260 + Math.floor(Math.random() * 260);
             const pick = visitorPool[Math.floor(Math.random() * visitorPool.length)];
-            const wings = [-1, 0, 0, 1];
-            const chosenWing = wings[Math.floor(Math.random() * wings.length)];
+            const chosenWing = (typeof g.homeWing === 'number') ? g.homeWing : 0;
             const wingSeats = cushions20.filter(c => c.wing === chosenWing);
             const seat = wingSeats[Math.floor(Math.random() * wingSeats.length)];
             g.wing = chosenWing;
