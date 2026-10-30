@@ -2837,93 +2837,71 @@
       { id: 'v_nu1', name: 'Phật Tử Diệu Liên', avatar: '🪷', gender: 'F', chat: 'Nam Mô A Di Đà Phật, nguyện cầu gia đạo bình an 🪷' },
       { id: 'v_nu2', name: 'Chị Thu Trang (Hà Nội)', avatar: '👩🏻', gender: 'F', chat: 'Thành tâm dâng hương hoa lễ Phật tại Chùa Trường Yến 🙏' },
       { id: 'v_nu3', name: 'Cô Mai Lan (Hải Phòng)', avatar: '👩🏻', gender: 'F', chat: 'Cầu xin Đức Phật gia hộ sức khỏe và tài lộc viên mãn 🪷' },
-      { id: 'v_nu4', name: 'Chị Ngọc Anh (Quảng Ninh)', avatar: '🪷', gender: 'F', chat: 'Cảnh chùa thanh tịnh trang nghiêm quá, tâm an vạn sự lành 🙏' },
-      { id: 'v_nu5', name: 'Phật Tử Minh Anh (Trường Yến)', avatar: '🪷', gender: 'F', chat: 'Nguyện cầu tháng này đơn hàng Tấm Ốp Trường Yến về tới tấp! ✨' },
-      { id: 'v_nu6', name: 'Phật Tử Kiều Trang', avatar: '👩🏻', gender: 'F', chat: 'Xin dâng Mâm Hoa Sen Bách Diệp lên Ban Tam Bảo 🪷' },
-      { id: 'v_ducdoan', name: 'KH Anh Đức Đoàn (Hải Phòng)', avatar: '👨🏻', gender: 'M', chat: 'Cầu công trình Tấm Ốp Nano Hải Phòng đại cát! 🙏' }
+      { id: 'v_nu4', name: 'Chị Ngọc Anh (Quảng Ninh)', avatar: '🪷', gender: 'F' },
+      { id: 'v_nu5', name: 'Bác Hòa (Khách Thập Phương)', avatar: '🪷', gender: 'F' },
+      { id: 'v_ducdoan', name: 'Anh Đức Đoàn (Khách Vãng Lai)', avatar: '👨🏻', gender: 'M' }
     ];
 
-    // Trong Chánh Điện luôn có 4 Phật Tử Nữ (Áo Lam) + 1 Khách Nam (Tỷ lệ Nữ áp đảo 4 Nữ : 1 Nam!)
+    // KHO LỜI KHẤN ĐA DẠNG CỦA KHÁCH VÃNG LAI (XIN XỎ HÀI HƯỚC · NGUYỀN RỦA TIỂU NHÂN/CON NỢ · NIỆM KINH · CẦU KPI)
+    const visitorDiversePrayers = [
+      // 1. Xin xỏ hài hước & KPI
+      "🙇 Phật ơi cứu con! Tháng này con còn thiếu 40 triệu KPI nữa thôi, xin độ khách chốt đơn liền tay!",
+      "🙏 Lạy Thần Tài! Khách hỏi giá 3 ngày rồi chưa cọc, xin tác ý cho khách ting ting đặt cọc ngay chiều nay!",
+      "🙇 Xin Bồ Tát độ cho con ăn bao nhiêu cũng không mập, tiền vào như nước mà dáng vẫn thon!",
+      "🙏 Con xin hứa quý này đạt mục tiêu doanh số, con dâng Mâm Gà Ngậm Hoa Hồng to nhất Chùa Trường Yến!",
+      "🙇 Lạy Phật độ cho chồng con bớt cằn nhằn, lương thưởng tự giác nộp đủ 100% không lập quỹ đen!",
+      "🙏 Xin Ông Thần Tài cho con trúng hợp đồng ốp full biệt phủ để cuối năm đổi xe mới!",
+      // 2. Nguyền rủa / Xả nghiệp kẻ bom hàng, quỵt nợ, tiểu nhân
+      "😤🙇 Lạy Đức Ông! Đứa nào hứa chuyển khoản trả nợ rồi lặn mất tăm, xin cho tối ngủ mơ thấy chủ nợ đòi rát tai!",
+      "⚡🙏 Tiểu nhân ăn cháo đá bát, nói xấu sau lưng con, xin cho nó hắt xì hơi liên tục 3 ngày chừa thói sân si!",
+      "😤🙇 Kẻ nào cướp khách, phá giá bẩn, xin Tổ Nghiệp quật cho tỉnh ngộ, làm ăn phải có đức mới bền!",
+      "⚡🙏 Mấy người hẹn giao hàng rồi thuê bao không liên lạc được, xin cho sớm biết ăn năn trả đủ công nợ!",
+      // 3. Niệm kinh / Trì chú thanh tịnh
+      "📿 Nam Mô A Di Đà Phật... Tâm bất biến giữa dòng đời vạn biến... 🪷",
+      "📿 Án Ma Ni Bát Mê Hồng... Nguyện tiêu tam chướng trừ phiền não, nguyện đắc trí huệ chơn minh liễu 🙏",
+      "📿 Nam Mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát, cứu khổ cứu nạn, gia đạo bình an 🪷",
+      "📿 Nam Mô Bổn Sư Thích Ca Mâu Ni Phật... Buông xả sân si, hòa khí sinh đại tài 🙏"
+    ];
+
+    function pickRandomVisitorPrayer() {
+      return visitorDiversePrayers[Math.floor(Math.random() * visitorDiversePrayers.length)];
+    }
+
+    // Giảm tần suất & số lượng khách vãng lai (chỉ 2 người, có thời gian nghỉ ngoài cổng chùa trước khi vào lại)
     const visitingGuests = [
       {
         id: 'guest_f1',
-        name: 'Phật Tử Diệu Liên',
-        avatar: '🪷',
-        gender: 'F',
-        wing: 0,
-        u: 0.125,
-        v: 0.731,
-        targetU: 0.125,
-        targetV: 0.731,
-        state: 'kneel',
-        bowTimer: 0,
-        chat: 'Nam Mô A Di Đà Phật 🪷 Cầu bình an gia đình',
-        chatTimer: 260,
-        phaseTimer: 620
-      },
-      {
-        id: 'guest_f2',
-        name: 'Chị Thu Trang (Hà Nội)',
+        name: 'Chị Thu Trang (Khách Vãng Lai)',
         avatar: '👩🏻',
-        gender: 'F',
-        wing: 0,
-        u: 0.72,
-        v: 0.731,
-        targetU: 0.72,
-        targetV: 0.731,
-        state: 'walk',
-        bowTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        phaseTimer: 540
-      },
-      {
-        id: 'guest_f3',
-        name: 'Cô Mai Lan (Hải Phòng)',
-        avatar: '👩🏻',
-        gender: 'F',
-        wing: 0,
-        u: 0.875,
-        v: 0.783,
-        targetU: 0.875,
-        targetV: 0.783,
-        state: 'kneel',
-        bowTimer: 0,
-        chat: 'Mô Phật 🙏 Xin vào lễ Phật cầu an',
-        chatTimer: 220,
-        phaseTimer: 580
-      },
-      {
-        id: 'guest_f4',
-        name: 'Chị Ngọc Anh (Quảng Ninh)',
-        avatar: '🪷',
         gender: 'F',
         wing: 0,
         u: 0.28,
-        v: 0.783,
+        v: 0.731,
         targetU: 0.28,
-        targetV: 0.783,
-        state: 'walk',
-        bowTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        phaseTimer: 500
+        targetV: 0.731,
+        state: 'bow',
+        bowTimer: 120,
+        chat: '🙇 Phật ơi cứu con! Tháng này con còn thiếu 40 triệu KPI nữa thôi, xin độ khách chốt đơn liền tay!',
+        chatTimer: 320,
+        phaseTimer: 520,
+        waitOutsideTimer: 0
       },
       {
-        id: 'guest_m1',
-        name: 'KH Đức Đoàn (Hải Phòng)',
-        avatar: '👨🏻',
-        gender: 'M',
+        id: 'guest_f2',
+        name: 'Cô Mai Lan (Hải Phòng)',
+        avatar: '🪷',
+        gender: 'F',
         wing: 0,
-        u: 0.125,
-        v: 0.835,
-        targetU: 0.125,
-        targetV: 0.835,
+        u: 0.72,
+        v: 0.783,
+        targetU: 0.72,
+        targetV: 0.783,
         state: 'kneel',
         bowTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        phaseTimer: 460
+        chat: '😤🙇 Lạy Đức Ông! Đứa nào hứa chuyển khoản trả nợ rồi lặn mất tăm, xin cho tối ngủ mơ thấy chủ nợ!',
+        chatTimer: 300,
+        phaseTimer: 680,
+        waitOutsideTimer: 0
       }
     ];
 
@@ -4285,43 +4263,58 @@
         ctx.fill();
       }
 
-      // Animate 1-2 Visiting Guests / Customers walking in, kneeling on one of the 20 cushions, and walking out
+      // Animate 1-2 Occasional Visiting Guests walking in less frequently, bowing/praying with diverse funny/cursing/chanting lines
       const renderables = [];
       for (const g of visitingGuests) {
+        if (g.waitOutsideTimer > 0) {
+          g.waitOutsideTimer--;
+          continue; // Đang ở ngoài cổng chùa (giảm tần suất xuất hiện để Chánh Điện thanh tịnh, thoáng đãng)
+        }
         g.phaseTimer--;
         const gdu = g.targetU - g.u;
         const gdv = g.targetV - g.v;
         if (Math.hypot(gdu, gdv) > 0.003) {
-          g.u += gdu * 0.035;
-          g.v += gdv * 0.035;
+          g.u += gdu * 0.028;
+          g.v += gdv * 0.028;
           g.state = 'walk';
         } else {
           if (g.v > 0.89) {
-            // Re-enter after a while as another occasional guest/customer
+            // Đã đi ra khỏi cổng chùa -> Nghỉ một lúc lâu (420-900 frames) rồi mới có khách vãng lai mới bước vào!
+            g.waitOutsideTimer = 420 + Math.floor(Math.random() * 480);
             const pick = visitorPool[Math.floor(Math.random() * visitorPool.length)];
-            const seat = cushions20.filter(c => c.wing === 0)[Math.floor(Math.random() * 20)];
+            const wings = [-1, 0, 0, 1];
+            const chosenWing = wings[Math.floor(Math.random() * wings.length)];
+            const wingSeats = cushions20.filter(c => c.wing === chosenWing);
+            const seat = wingSeats[Math.floor(Math.random() * wingSeats.length)];
+            g.wing = chosenWing;
             g.name = pick.name;
             g.avatar = pick.avatar;
             g.gender = pick.gender;
-            g.chat = pick.chat;
-            g.chatTimer = 260;
-            g.u = seat ? seat.u : 0.30;
+            g.chat = pickRandomVisitorPrayer();
+            g.chatTimer = 320;
+            g.u = seat ? seat.u : 0.28;
             g.v = 0.91;
-            g.targetU = seat ? seat.u : 0.30;
-            g.targetV = seat ? seat.v : 0.66;
-            g.phaseTimer = 480 + Math.floor(Math.random() * 240);
+            g.targetU = seat ? seat.u : 0.28;
+            g.targetV = seat ? seat.v : 0.73;
+            g.phaseTimer = 560 + Math.floor(Math.random() * 340);
+            continue;
           } else {
             g.state = (g.bowTimer > 0) ? 'bow' : 'kneel';
           }
         }
         if (g.phaseTimer <= 0) {
-          // Walk back out to entrance
+          // Đi bộ ra cổng chùa
           g.targetV = 0.92;
           g.state = 'walk';
-          g.phaseTimer = 300;
+          g.phaseTimer = 320;
         }
-        if (g.bowTimer > 0) g.bowTimer--;
-        else if (g.state === 'kneel' && Math.random() < 0.004) g.bowTimer = 95;
+        if (g.bowTimer > 0) {
+          g.bowTimer--;
+        } else if (g.state === 'kneel' && Math.random() < 0.006) {
+          g.bowTimer = 110;
+          g.chat = pickRandomVisitorPrayer();
+          g.chatTimer = 290;
+        }
         if (g.chatTimer > 0) g.chatTimer--;
         renderables.push({ type: 'visitor', data: g, v: g.v });
       }
