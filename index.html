@@ -1058,46 +1058,88 @@
     </div>
   </div>
 
-  <!-- 5B. MODAL RÚT THẺ XĂM CẦU LỘC GIỮA MÀN HÌNH (LẮC ỐNG XĂM TRE -> VĂNG THẺ VÀNG -> ĐỌC LỜI GIẢI THÀNH TIẾNG!) -->
+  <!-- 5B. MODAL RÚT THẺ XĂM CỔ TRUYỀN & LUẬN GIẢI CHI TIẾT THEO NGÀNH NGHỀ (MẤT PHƯỚC KHI MUA/RÚT THẺ · ĐỦ QUẺ TỐT & QUẺ XẤU THỰC TẾ!) -->
   <div class="modal-backdrop" id="fortuneStickModal" onclick="if(event.target===this) closeFortuneStickModal()">
-    <div class="so-khan-box" style="max-width:440px; text-align:center;">
+    <div class="so-khan-box" style="max-width:540px; text-align:left;">
       <div class="sk-top-row">
-        <span class="sk-title">🎋 LẮC ỐNG XĂM & RÚT THẺ CẦU LỘC CHÙA TRƯỜNG YẾN</span>
+        <span class="sk-title">🎋 QUAN ÂM LINH XĂM CỔ TRUYỀN & LUẬN GIẢI NGÀNH NGHỀ THỰC TẾ</span>
         <button class="btn-modal-x" onclick="closeFortuneStickModal()">✕ Đóng</button>
       </div>
 
-      <div style="font-size:11.5px; color:#ffe596; margin-bottom:8px;">
-        👆 Chạm trực tiếp vào <b>Ống Xăm Tre Sơn Son Thếp Vàng</b> ở giữa màn hình để lắc ống xăm & rút thẻ cầu lộc (Có 1 giọng đọc chuẩn giải quẻ thành tiếng 🔊):
+      <!-- Thanh hiển thị Phước hiện có & Chi phí Mua/Thỉnh Thẻ Xăm (-5 💎 Phước/thẻ) -->
+      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(38,14,4,0.95); border:1px solid #ffd54f; border-radius:9px; padding:6px 10px; margin-bottom:7px; font-size:10.8px;">
+        <span>💎 Phước Khả Dụng: <b id="fortuneMeritBalance" style="color:#ffd740; font-size:12.5px;">35</b> 💎</span>
+        <span style="color:#ffab40; font-weight:800;">🎫 Thỉnh 1 Thẻ Xăm: <b style="color:#ff5252;">-5 💎 Phước</b> (Có cả Quẻ Tốt & Quẻ Xấu như thật!)</span>
       </div>
 
-      <!-- Ống Xăm Tre Tương Tác Giữa Màn Hình -->
-      <div id="bambooCylinderWrap" onclick="shakeAndDrawFortuneStick()" style="cursor:pointer; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 24px; border-radius:20px; background:radial-gradient(circle, rgba(255,193,7,0.28) 0%, rgba(45,16,4,0.85) 72%); border:2px solid #ffd54f; box-shadow:0 8px 25px rgba(0,0,0,0.7); margin-bottom:10px; transition:transform 0.15s;">
-        <div id="bambooCylinderGraphic" style="font-size:68px; line-height:1.05; filter:drop-shadow(0 6px 14px rgba(255,200,50,0.65));">🎋🏺</div>
-        <div id="fortuneShakeStatus" style="font-size:12px; font-weight:900; color:#ffd740; margin-top:6px;">
-          👉 BẤM ĐỂ LẮC ỐNG XĂM & RÚT THẺ (+5 💎 PHƯỚC)
+      <!-- Chọn Ngành Nghề / Vai Trò Thực Tế để Luận Giải Quẻ Sát Nghiệp Vụ -->
+      <div class="sk-field" style="margin-bottom:7px;">
+        <label style="font-size:10.8px; color:#ffd740;">🏢 Chọn Ngành Nghề / Công Việc Của Bạn Để Luận Giải Quẻ Sát Thực Tế Nhất:</label>
+        <select id="fortuneCareerSelect" onchange="updateFortuneCardDisplay()" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 9px; color:#fff8e1; font-size:11.2px; font-weight:800; outline:none;">
+          <option value="tongkho" selected>🏢 1. Tổng Kho & Phân Phối Vật Liệu Nội Thất (Tấm Ốp Nano, Lam Sóng, Nhôm, Sàn)</option>
+          <option value="sale">💼 2. Kinh Doanh / Sale Chốt Đơn · Chạy KPI Doanh Số & Mở Đại Lý</option>
+          <option value="thau">👷 3. Chủ Thầu Thi Công · Kiến Trúc Sư · Đội Thợ Công Trình Nội Thất</option>
+          <option value="congno">💰 4. Tài Chính · Thu Hồi Công Nợ · Đầu Tư & Quản Trị Dòng Tiền</option>
+          <option value="buonban">🏪 5. Cửa Hàng Đại Lý · Buôn Bán Thương Mại & Khởi Nghiệp</option>
+        </select>
+      </div>
+
+      <!-- Khu vực Ống Xăm Tre Sơn Son Thếp Vàng & Nút Mua/Thỉnh Thẻ -->
+      <div style="display:grid; grid-template-columns: 0.95fr 1.05fr; gap:8px; align-items:center; margin-bottom:8px;">
+        <div id="bambooCylinderWrap" onclick="shakeAndDrawFortuneStick(false)" style="cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 10px; border-radius:14px; background:radial-gradient(circle, rgba(255,193,7,0.28) 0%, rgba(45,16,4,0.92) 74%); border:2px solid #ffd54f; box-shadow:0 6px 18px rgba(0,0,0,0.7); text-align:center; transition:transform 0.15s;">
+          <div id="bambooCylinderGraphic" style="font-size:48px; line-height:1.05; filter:drop-shadow(0 4px 10px rgba(255,200,50,0.65));">🎋🏺</div>
+          <div id="fortuneShakeStatus" style="font-size:10.8px; font-weight:900; color:#ffd740; margin-top:4px;">
+            👆 Chạm Ống Xăm Để Rút Thẻ (-5 💎)
+          </div>
+          <div style="font-size:9.5px; color:#ffe082; margin-top:2px;">
+            (Ngẫu nhiên: Thượng Cát · Trung Bình · Hạ Hung)
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <button class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:11px; background:linear-gradient(135deg,#d84315,#9a1b06); border:1px solid #ffd54f;" onclick="shakeAndDrawFortuneStick(false)">
+            🎋 Thỉnh & Rút 1 Thẻ Xăm Ngẫu Nhiên (-5 💎 Phước)
+          </button>
+          <button class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:10.8px; background:linear-gradient(135deg,#f57f17,#b71c1c); border:1px solid #fff;" onclick="shakeAndDrawFortuneStick(true)">
+            🌟 Thỉnh Thẻ Đại Cát Cầu May Đổi Vận (-15 💎 Phước)
+          </button>
+          <button class="btn-sk-submit" style="width:100%; padding:6px 8px; font-size:10.6px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentFortuneStick()">
+            🔊 Nghe Đọc Luận Giải Chi Tiết Quẻ Này
+          </button>
         </div>
       </div>
 
-      <!-- Thẻ Xăm Đỏ Vàng Hiện Ra Sau Khi Rút -->
-      <div id="drawnFortuneCard" style="background:linear-gradient(180deg,#8e0000 0%,#4a0000 100%); border:2.5px solid #ffd740; border-radius:14px; padding:12px 14px; text-align:left; box-shadow:0 8px 24px rgba(0,0,0,0.8);">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,215,64,0.4); padding-bottom:5px; margin-bottom:7px;">
-          <span id="fcStickNumber" style="font-size:13.5px; font-weight:900; color:#ffd740;">🎋 THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT</span>
-          <span id="fcStickRank" style="background:#ffd740; color:#5d0000; font-size:10px; font-weight:900; padding:2px 7px; border-radius:999px;">ĐẠI PHÁT TÀI LỘC</span>
+      <!-- TỜ THẺ XĂM CỔ TRUYỀN CHI TIẾT (ĐIỂN TÍCH · QUẺ DỊCH · THƠ XĂM · THÁNH Ý 6 MỤC · LUẬN GIẢI NGÀNH NGHỀ · HÓA GIẢI) -->
+      <div id="drawnFortuneCard" style="background:linear-gradient(180deg,#5d0e06 0%,#2b0602 100%); border:2px solid #ffd740; border-radius:12px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,0.85);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,215,64,0.45); padding-bottom:5px; margin-bottom:6px; gap:6px; flex-wrap:wrap;">
+          <span id="fcStickNumber" style="font-size:12.8px; font-weight:900; color:#ffd740;">🎋 THẺ SỐ 68 — THƯỢNG THƯỢNG CÁT</span>
+          <span id="fcStickRank" style="background:#ffd740; color:#4a0000; font-size:9.8px; font-weight:900; padding:2px 8px; border-radius:999px;">ĐẠI PHÁT TÀI LỘC</span>
         </div>
-        <div id="fcPoem" style="font-size:12px; color:#fff8e1; font-style:italic; text-align:center; line-height:1.5; background:rgba(0,0,0,0.28); padding:7px 10px; border-radius:8px; border:1px dashed rgba(255,215,64,0.45); margin-bottom:8px;">
+
+        <!-- Điển tích & Quẻ Dịch Ngũ Hành -->
+        <div id="fcLegendAndHexagram" style="font-size:10.6px; color:#80d8ff; font-weight:800; margin-bottom:6px; line-height:1.38;">
+          📜 <b>Điển Tích:</b> Lưu Bị Tam Cố Thảo Lư (Gặp Quý Nhân Phù Trợ) · ☯️ <b>Quẻ Dịch:</b> Hỏa Thiên Đại Hữu (Hành Hỏa - Đại Cát)
+        </div>
+
+        <!-- Thơ Xăm Cổ Truyền -->
+        <div id="fcPoem" style="font-size:11.2px; color:#fff8e1; font-style:italic; text-align:center; line-height:1.45; background:rgba(0,0,0,0.34); padding:6px 9px; border-radius:8px; border:1px dashed rgba(255,215,64,0.45); margin-bottom:7px;">
           "Rồng vàng gặp hội mây xanh,<br/>
           Thần Tài mở cửa phúc lành ban trao.<br/>
           Công trình đơn lớn dồi dào,<br/>
           Gia môn hưng thịnh bước vào vinh hoa."
         </div>
-        <div id="fcMeaning" style="font-size:11.5px; color:#ffe596; line-height:1.45;">
-          🌟 <b>Lời Giải Quẻ:</b> Tháng này vận khí đại cát đại lợi, quý nhân phù trợ bốn phương. Kinh doanh buôn bán chốt đơn liên tiếp, cầu tài đắc tài, cầu bình an đắc bình an!
-        </div>
-      </div>
 
-      <div class="sk-actions" style="margin-top:10px;">
-        <button class="btn-sk-submit" style="flex:1;" onclick="shakeAndDrawFortuneStick()">🎋 Lắc Rút Thẻ Khác</button>
-        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="speakCurrentFortuneStick()">🔊 Nghe Đọc Giải Quẻ</button>
+        <!-- Bảng Thánh Ý 6 Phương Diện Thực Tế -->
+        <div id="fcSixAspects" style="display:grid; grid-template-columns:1fr 1fr; gap:4px 8px; background:rgba(16,5,2,0.85); border:1px solid rgba(255,213,79,0.35); border-radius:8px; padding:6px 8px; font-size:10.3px; color:#ffe0b2; margin-bottom:7px; line-height:1.38;">
+        </div>
+
+        <!-- Luận Giải Chi Tiết Sát Thực Tế Ngành Nghề -->
+        <div id="fcMeaning" style="font-size:10.9px; color:#ffe596; line-height:1.45; margin-bottom:6px;">
+        </div>
+
+        <!-- Lời Khuyên Hành Động & Cách Hóa Giải / Đón Lộc -->
+        <div id="fcRemedyBox" style="background:rgba(28,48,18,0.85); border:1px solid #81c784; border-radius:8px; padding:6px 8px; font-size:10.4px; color:#e8f5e9; line-height:1.4;">
+        </div>
       </div>
     </div>
   </div>
@@ -2238,51 +2280,221 @@
     }
 
     // =========================================================================
-    // 1C. HỆ THỐNG LẮC ỐNG XĂM TRE & RÚT THẺ CẦU LỘC (CHỈ 1 GIỌNG ĐỌC DUY NHẤT · TẠM DỪNG NHẠC NỀN!)
+    // 1C. HỆ THỐNG QUAN ÂM LINH XĂM CỔ TRUYỀN & LUẬN GIẢI NGÀNH NGHỀ THỰC TẾ
+    // (MUA/THỈNH THẺ TỐN PHƯỚC ĐỨC · ĐỦ QUẺ TỐT & QUẺ XẤU · ĐIỂN TÍCH · QUẺ DỊCH · THÁNH Ý 6 MỤC)
     // =========================================================================
     const fortuneSticksPool = [
       {
         num: 'THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT',
         rank: 'ĐẠI PHÁT TÀI LỘC',
+        tier: 'good',
+        legend: 'Lưu Bị Tam Cố Thảo Lư (Ba lần đến lều tranh rước Gia Cát Lượng)',
+        hexagram: 'Hỏa Thiên Đại Hữu (Hành Hỏa — Mặt trời chiếu sáng giữa trời cao)',
         poem: 'Rồng vàng gặp hội mây xanh,<br/>Thần Tài mở cửa phúc lành ban trao.<br/>Công trình đơn lớn dồi dào,<br/>Gia môn hưng thịnh bước vào vinh hoa.',
-        meaning: '🌟 <b>Lời Giải Quẻ:</b> Tháng này vận khí đại cát đại lợi, quý nhân phù trợ bốn phương. Kinh doanh buôn bán chốt đơn liên tiếp, cầu tài đắc tài, cầu lộc đắc lộc!',
-        spoken: 'Chúc mừng tín chủ rút được Thẻ số sáu mươi tám, Quẻ Thượng Thượng Cát, Đại Phát Tài Lộc! Rồng vàng gặp hội mây xanh, Thần Tài mở cửa phúc lành ban trao. Tháng này kinh doanh chốt đơn liên tiếp, lộc về đầy kho!'
+        aspects: [
+          '💰 <b>Tài Lộc:</b> Đại vượng, lộc về bất ngờ',
+          '🎯 <b>KPI / Mưu Sự:</b> Đạt và vượt mục tiêu sớm',
+          '📑 <b>Hợp Đồng:</b> Ký kết thuận lợi, đơn lớn',
+          '💳 <b>Công Nợ:</b> Thu hồi nhanh, khách sòng phẳng',
+          '🤝 <b>Quý Nhân:</b> Khách sỉ / Chủ thầu lớn tìm đến',
+          '🚚 <b>Xuất Kho:</b> Thượng lộ bình an, hàng đi thông suốt'
+        ],
+        careerAdvice: {
+          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu (Tấm Ốp · Lam Sóng · Nhôm):</b> Thời vận đại cát! Các đại lý tuyến tỉnh và đội thợ thi công chủ động nhập sỉ số lượng lớn. Những mã hàng chủ lực (Tấm Ốp Nano, Nhôm 130, Lam Sóng) xoay vòng vốn cực nhanh, xuất kho liên tục từ sáng tới tối.',
+          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Đây là quẻ "Chốt Đơn Bùng Nổ"! Khách hàng đang nét và thiện chí cao, chỉ cần gửi báo giá kèm hình ảnh thực tế công trình là khách xuống tiền đặt cọc ngay. Phần KPI còn thiếu sẽ được lấp đầy nhờ 1–2 đơn sỉ lớn trong tuần này.',
+          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Chủ nhà cực kỳ ưng ý tay nghề và tiến độ. Nghiệm thu công trình suôn sẻ, được thanh toán dứt điểm 100% không bị giữ lại tiền bảo hành vô lý, chủ nhà còn giới thiệu thêm 2–3 công trình mới.',
+          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Dòng tiền dương dồi dào. Những khoản công nợ tồn đọng từ tháng trước nếu nhắc khéo trong 3 ngày tới sẽ thu hồi được trên 85%.',
+          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Lộc khách vãng lai và khách quen đều vượng. Có thể mạnh dạn nhập thêm mẫu mới trưng bày vì nhu cầu hoàn thiện nhà cửa đang tăng mạnh.'
+        },
+        remedy: '🌟 <b>Lời Khuyên Đón Lộc:</b> Khi vận đang lên, hãy giữ chữ Tín hàng đầu, kiểm kỹ chất lượng từng kiện hàng trước khi xuất kho và trích một phần lợi nhuận làm việc thiện, dâng hương cảm tạ để phúc lộc bền lâu.'
       },
       {
-        num: 'THẺ SỐ 88 — QUẺ ĐẠI CÁT ĐẠI LỢI',
-        rank: 'CHỐT ĐƠN BÙNG NỔ',
+        num: 'THẺ SỐ 24 — QUẺ HẠ TRUNG (CẢNH BÁO TIỂU HUNG)',
+        rank: 'CẨN TRỌNG CÔNG NỢ & TIỂU NHÂN',
+        tier: 'bad',
+        legend: 'Quan Vũ Mất Kinh Châu Vì Chủ Quan (Đắc thắng mà lơ là phòng bị)',
+        hexagram: 'Thiên Thủy Tụng (Hành Kim Thủy — Đề phòng bất đồng, tranh chấp lời nói)',
+        poem: 'Mây mù che khuất ánh trăng trong,<br/>Ngoài mặt cười vui dạ chẳng đồng.<br/>Bán chịu giao hàng coi kẻo lỡ,<br/>Giữ chặt tiền cọc mới yên lòng.',
+        aspects: [
+          '💰 <b>Tài Lộc:</b> Dễ hao hụt nếu cho nợ tràn lan',
+          '🎯 <b>KPI / Mưu Sự:</b> Bị trì hoãn, cần nỗ lực gấp đôi',
+          '📑 <b>Hợp Đồng:</b> Phải ghi rõ điều khoản thanh toán',
+          '💳 <b>Công Nợ:</b> Cảnh báo khách khất lần, dây dưa',
+          '⚠️ <b>Tiểu Nhân:</b> Có kẻ phá giá ngầm hoặc nói xấu',
+          '🚚 <b>Xuất Kho:</b> Kiểm đếm kỹ số lượng & chụp ảnh biên bản'
+        ],
+        careerAdvice: {
+          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu (Cảnh Báo Thực Tế):</b> Quẻ nhắc nhở Tổng Kho tuyệt đối KHÔNG vì nể nang hay chạy doanh số ảo mà xuất hàng công nợ lớn cho khách mới chưa rõ uy tín! Trước khi xe lăn bánh khỏi kho, bắt buộc phải nhận đủ tiền cọc hoặc thanh toán 100%.',
+          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Đề phòng gặp khách "hỏi dạo khảo giá" hoặc hứa hẹn lấy số lượng lớn để ép giảm giá sâu rồi lặn mất. Đừng bỏ thời gian đeo bám 1 khách dây dưa, hãy tập trung gọi lại tệp đại lý ruột có tỷ lệ chốt thật.',
+          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Khi nhận công trình phải ký hợp đồng ứng tiền theo từng giai đoạn (tập kết vật tư ứng 50%, lắp đặt xong ứng 40%). Tránh tự bỏ tiền túi ứng trước 100% vật tư cho chủ nhà mới quen.',
+          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Tạm dừng mọi khoản cho vay hoặc giãn nợ mới. Cần rà soát ngay danh sách công nợ quá hạn trên 15 ngày để thu hồi quyết liệt trước khi khách lấy lý do kẹt vốn.',
+          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Cẩn trọng với đối thủ cạnh tranh không lành mạnh (báo giá hàng mỏng kém chất lượng để dìm giá hàng chuẩn). Hãy tư vấn rõ độ dày, cốt nhựa nguyên sinh để khách hiểu giá trị thật.'
+        },
+        remedy: '🛡️ <b>Phương Pháp Hóa Giải (Chuyển Hung Thành Cát):</b> Thực tế: Áp dụng kỷ luật thép "Tiền trao cháo múc - Có cọc mới xuất hàng", chụp xác nhận đơn hàng rõ ràng. Tâm linh: Hãy ra Chánh Điện dâng 3 nén tâm hương hoặc vào Phòng Hóa Vàng đốt lễ giải trừ tiểu nhân, giữ tâm bình tĩnh không nóng giận.'
+      },
+      {
+        num: 'THẺ SỐ 88 — QUẺ THƯỢNG CÁT',
+        rank: 'CHỐT ĐƠN BÙNG NỔ · QUÝ NHÂN ĐỘ',
+        tier: 'good',
+        legend: 'Khương Tử Nha Câu Cá Sông Vị (Kiên tâm chờ thời, gặp Chu Văn Vương)',
+        hexagram: 'Phong Hỏa Gia Nhân (Hành Mộc Hỏa — Trong ấm ngoài êm, khách hàng gắn bó)',
         poem: 'Lộc xuân nở rộ cành vàng,<br/>Khách gần khách xa rộn ràng tìm sang.<br/>Kho đầy hàng xuất thênh thang,<br/>Kim ngân mãn trạch giàu sang vững bền.',
-        meaning: '🌟 <b>Lời Giải Quẻ:</b> Quẻ đại vượng về kinh doanh thương mại! Khách hàng tin yêu giới thiệu nhau tìm đến, doanh số vượt chỉ tiêu gấp bội, tiền tài vào như nước.',
-        spoken: 'Chúc mừng tín chủ rút được Thẻ số tám mươi tám, Quẻ Đại Cát Đại Lợi, Chốt Đơn Bùng Nổ! Lộc xuân nở rộ cành vàng, khách gần khách xa rộn ràng tìm sang, doanh số vượt chỉ tiêu rực rỡ!'
+        aspects: [
+          '💰 <b>Tài Lộc:</b> Thuận buồm xuôi gió, lợi nhuận tốt',
+          '🎯 <b>KPI / Mưu Sự:</b> Chốt liên tiếp các đơn hàng vừa & lớn',
+          '📑 <b>Hợp Đồng:</b> Khách cũ quay lại đặt hàng',
+          '💳 <b>Công Nợ:</b> Dòng tiền luân chuyển đều đặn',
+          '🤝 <b>Quý Nhân:</b> Đồng nghiệp & Sếp hỗ trợ hết mình',
+          '🚚 <b>Xuất Kho:</b> Xe ghép chuyến thuận lợi, tiết kiệm cước'
+        ],
+        careerAdvice: {
+          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu:</b> Sự phối hợp giữa bộ phận Sale, Kế Toán và Kho Vận đang rất ăn ý. Các đơn hàng đi tỉnh ghép xe cực kỳ thuận lợi, giảm chi phí vận chuyển, khách nhận hàng khen tấm ốp sắc nét, đóng gói cẩn thận.',
+          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Lộc nằm ở chính tệp "Khách Hàng Cũ & Đại Lý Đã Từng Lấy Hàng"! Hôm nay hãy chủ động nhắn tin hỏi thăm và gửi mẫu mã mới cho 10 khách cũ, xác suất nổ 3–4 đơn hàng ngay trong ngày là rất cao.',
+          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Công trình thi công tấm ốp, lam sóng lên hình cực đẹp. Hãy quay video thực tế lúc hoàn thiện để đăng lên Zalo/TikTok, sẽ thu hút ngay chủ nhà mới đặt lịch khảo sát.',
+          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Tài chính ổn định, cân đối thu chi hợp lý. Thích hợp để chốt sổ công nợ tuần và thưởng nóng khích lệ tinh thần anh chị em.',
+          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Uy tín truyền miệng đang phát huy tác dụng. Khách mua rồi giới thiệu hàng xóm và người thân đến làm nội thất.'
+        },
+        remedy: '🌟 <b>Lời Khuyên Đón Lộc:</b> Chăm sóc thật kỹ khách hàng cũ, gửi lời cảm ơn sau mỗi chuyến giao hàng và gõ Mõ / dâng lời khấn nguyện để giữ vững trường năng lượng tích cực.'
       },
       {
-        num: 'THẺ SỐ 01 — QUẺ ĐỆ NHẤT KHAI VẬN',
-        rank: 'VẠN SỰ HANH THÔNG',
-        poem: 'Mặt trời bừng sáng đỉnh non,<br/>Mây mù tan biến vuông tròn ước mong.<br/>Tâm thành kính lễ một lòng,<br/>Mười phương Chư Phật hộ trì bình an.',
-        meaning: '🌟 <b>Lời Giải Quẻ:</b> Mọi việc khởi đầu đều hanh thông thuận lợi, mọi khúc mắc được tháo gỡ. Gia đạo an vui, sức khỏe dồi dào, mưu sự tất thành!',
-        spoken: 'Chúc mừng tín chủ rút được Thẻ số không một, Quẻ Đệ Nhất Khai Vận, Vạn Sự Hanh Thông! Mặt trời bừng sáng đỉnh non, mười phương Chư Phật hộ trì bình an, cầu gì được nấy!'
+        num: 'THẺ SỐ 49 — QUẺ HẠ HẠ HUNG (CẢNH BÁO ĐẠI KỴ)',
+        rank: 'ĐỀ PHÒNG HAO TÀI · BOM HÀNG · NHẦM MÃ',
+        tier: 'bad',
+        legend: 'Bá Nha Đứt Dây Đàn (Gặp người không hiểu chuyện, uổng phí công sức)',
+        hexagram: 'Thủy Sơn Kiển (Hành Thủy Thổ — Đường núi gập ghềnh, nên chậm mà chắc)',
+        poem: 'Đường xa mưa gió ngập ghềnh,<br/>Thuyền nan chở nặng chông chênh giữa dòng.<br/>Đừng tham mối lợi viển vông,<br/>Giữ kho giữ vốn kẻo không kịp lường.',
+        aspects: [
+          '💰 <b>Tài Lộc:</b> Cảnh báo hao tài vì sai sót chủ quan',
+          '🎯 <b>KPI / Mưu Sự:</b> Đang gặp nút thắt, chớ nóng vội ép số',
+          '📑 <b>Hợp Đồng:</b> Dễ phát sinh đổi trả nếu không chốt kỹ mã',
+          '💳 <b>Công Nợ:</b> Tuyệt đối không bán chịu cho khách lạ',
+          '⚠️ <b>Rủi Ro:</b> Dễ nhầm mã màu, kích thước hoặc trễ xe',
+          '🚚 <b>Xuất Kho:</b> Phải đối chiếu 2 lần trước khi bốc hàng'
+        ],
+        careerAdvice: {
+          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu (Cảnh Báo Quan Trọng):</b> Quẻ Hạ Hạ cảnh báo rủi ro thực tế trong khâu lên đơn và xuất kho: Rất dễ xảy ra nhầm mã màu vân gỗ, nhầm kích thước phào chỉ hoặc trễ giờ xe tải! Hôm nay bắt buộc phải chụp ảnh mã hàng gửi khách xác nhận "OK" bằng tin nhắn trước khi bốc lên xe.',
+          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Cẩn thận với những đơn hàng khách giục giao gấp trong đêm nhưng mập mờ chuyện chuyển khoản! Thà chậm 15 phút để kế toán kiểm tra tiền nổi trong tài khoản còn hơn bị hoàn đơn mất cước vận chuyển 2 chiều.',
+          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Đo đạc kích thước tường/trần phải thật chính xác trước khi cắt tấm ốp và khung nhôm. Tránh nghe chủ nhà đổi ý miệng mà không xác nhận lại, kẻo cắt xong lại phải đền vật tư.',
+          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Giữ chặt tiền mặt, không đầu tư mạo hiểm hay ôm hàng tồn quá khả năng thanh khoản trong tuần này.',
+          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Kiểm tra kỹ chất lượng hàng hóa khi giao nhận, làm việc gì cũng phải có giấy trắng mực đen.'
+        },
+        remedy: '🔥 <b>Phương Pháp Hóa Giải Cấp Tốc (Chuyển Hung Hóa Cát):</b> 1. Trong công việc: Kiểm tra chéo 2 lớp (Sale & Kho) mọi đơn hàng xuất đi hôm nay. 2. Tại Chùa: Hãy vào Phòng Xả Nghiệp nghe giọng Nam Trầm Sư Thầy Trụ Trì khai thị hạ hỏa, hoặc vào Phòng Hóa Vàng đốt vàng mã để giải xui và kích hoạt lại vận may!'
       },
       {
-        num: 'THẺ SỐ 39 — QUẺ THẦN TÀI ĐỘ MỆNH',
-        rank: 'KIM NGÂN MÃN ĐƯỜNG',
+        num: 'THẺ SỐ 15 — QUẺ TRUNG BÌNH (TRUNG CÁT THỦ THƯỜNG)',
+        rank: 'KIÊN TRÌ BỀN BỈ · TÍCH TIỂU THÀNH ĐẠI',
+        tier: 'neutral',
+        legend: 'Hàn Tín Chịu Luồn Trôn (Nhẫn nại vượt qua thử thách nhỏ để làm nghiệp lớn)',
+        hexagram: 'Địa Sơn Khiêm (Hành Thổ — Khiêm tốn cầu thị, lấy nhu thắng cương)',
+        poem: 'Cây thông đứng vững giữa sương mờ,<br/>Đợi nắng xuân sang lộc bất ngờ.<br/>Chớ thấy đường xa mà nản chí,<br/>Bền lòng chăm khách ắt nên cơ.',
+        aspects: [
+          '💰 <b>Tài Lộc:</b> Đều đặn, tích tiểu thành đại',
+          '🎯 <b>KPI / Mưu Sự:</b> Đầu tháng chậm, cuối tháng bứt phá',
+          '📑 <b>Hợp Đồng:</b> Cần kiên nhẫn tư vấn 2–3 lần mới chốt',
+          '💳 <b>Công Nợ:</b> Thu hồi từng phần chắc chắn',
+          '🤝 <b>Quý Nhân:</b> Tự lực cánh sinh kết hợp đồng đội',
+          '🚚 <b>Xuất Kho:</b> An toàn, bình ổn'
+        ],
+        careerAdvice: {
+          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu:</b> Giai đoạn này thị trường đi vào nhịp sàng lọc, những đơn nhỏ và vừa tuy lợi nhuận mỗi đơn không đột biến nhưng cộng dồn lại sẽ giữ vững doanh số nền tảng cho toàn kho.',
+          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Đừng chê đơn nhỏ! Chính sự nhiệt tình khi tư vấn cho khách mua vài chục mét tấm ốp hôm nay sẽ khiến khách cảm kích và đặt toàn bộ vật tư cho công trình lớn vào tuần tới.',
+          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Làm kỹ từng đường keo, góc phào chỉ. Sự tỉ mỉ lúc này chính là khoản đầu tư thương hiệu tốt nhất.',
+          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Với khách đang kẹt vốn thật sự, có thể chia nhỏ lộ trình thanh toán theo từng tuần để thu hồi dần thay vì ép gắt khiến khách buông xuôi.',
+          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Giữ thái độ niềm nở, kiên nhẫn giải đáp thắc mắc của khách hàng, lộc sẽ đến vào nửa cuối tuần.'
+        },
+        remedy: '🪷 <b>Lời Khuyên Hành Động:</b> Kiên trì chăm sóc từng khách hàng nhỏ, viết Sớ Khấn KPI để củng cố mục tiêu và giữ tâm thái điềm tĩnh, chắc chắn sẽ cán đích!'
+      },
+      {
+        num: 'THẺ SỐ 39 — QUẺ THƯỢNG THƯỢNG CÁT',
+        rank: 'THẦN TÀI ĐỘ MỆNH · KIM NGÂN MÃN ĐƯỜNG',
+        tier: 'good',
+        legend: 'Phạm Lãi Buôn Bán Thành Đào Chu Công (Kinh thương đại tài, phú quý tột bậc)',
+        hexagram: 'Thuần Càn (Hành Kim — Sức mạnh sáng tạo, dẫn đầu thị trường)',
         poem: 'Thần Tài gõ cửa ban mai,<br/>Vàng ròng ngọc quý trải dài trước sân.<br/>Làm ăn chữ tín mười phân,<br/>Phúc dày đức trọng muôn phần hiển vinh.',
-        meaning: '🌟 <b>Lời Giải Quẻ:</b> Đức Ông và Thần Tài Vị Tiền chứng giám lòng thành, ban lộc bất ngờ, ký kết hợp đồng lớn suôn sẻ, tài chính dư dả sung túc!',
-        spoken: 'Chúc mừng tín chủ rút được Thẻ số ba mươi chín, Quẻ Thần Tài Độ Mệnh, Kim Ngân Mãn Đường! Thần Tài gõ cửa ban mai, ký kết hợp đồng lớn suôn sẻ, tài chính sung túc!'
-      },
-      {
-        num: 'THẺ SỐ 99 — QUẺ PHÚC THỌ VIÊN MÃN',
-        rank: 'GIA ĐẠO AN KHANG',
-        poem: 'Sen hồng tỏa ngát hương thanh,<br/>Bình an hai chữ phúc lành bền lâu.<br/>Trên hòa dưới thuận trước sau,<br/>Trăm năm hạnh phúc giàu sang vững vàng.',
-        meaning: '🌟 <b>Lời Giải Quẻ:</b> Gia đình êm ấm thuận hòa, cha mẹ mạnh khỏe trường thọ, con cái hiếu thảo thành đạt, tâm hồn thanh tịnh an nhiên!',
-        spoken: 'Chúc mừng tín chủ rút được Thẻ số chín mươi chín, Quẻ Phúc Thọ Viên Mãn, Gia Đạo An Khang! Sen hồng tỏa ngát hương thanh, gia đình thuận hòa, bách niên trường thọ!'
+        aspects: [
+          '💰 <b>Tài Lộc:</b> Tiền vào như nước, đại lợi kinh doanh',
+          '🎯 <b>KPI / Mưu Sự:</b> Vượt chỉ tiêu quý rực rỡ',
+          '📑 <b>Hợp Đồng:</b> Mở mới hàng loạt đại lý & nhà thầu',
+          '💳 <b>Công Nợ:</b> Khách thanh toán tiền mặt ngay khi nhận hàng',
+          '🤝 <b>Quý Nhân:</b> Ban Thần Tài Vị Tiền gia hộ',
+          '🚚 <b>Xuất Kho:</b> Hàng đi tấp nập khắp các tỉnh thành'
+        ],
+        careerAdvice: {
+          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu:</b> Quẻ đại cát của bậc thương gia! Thương hiệu Kho Tấm Ốp Trường Yến ngày càng vang xa nhờ hàng sẵn kho lớn, giá tốt và giao hàng thần tốc. Quý này tổng kho sẽ lập kỷ lục mới về sản lượng xuất kho.',
+          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Vận may tài lộc đang ở đỉnh cao! Hãy mạnh dạn chào các dòng sản phẩm cao cấp, biên lợi nhuận tốt và đề xuất các gói combo trọn bộ vật tư để nhân đôi giá trị đơn hàng.',
+          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Nhận liên tiếp các dự án biệt thự, văn phòng, showroom lớn. Đội thợ làm việc hết công suất, thu nhập tăng vọt.',
+          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Tài chính vững mạnh, dòng tiền về tài khoản liên tục, tin nhắn báo có "ting ting" suốt ngày.',
+          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Thời điểm vàng để đẩy mạnh quảng bá hình ảnh, đăng video xuất kho thực tế lên mạng xã hội để hút khách bốn phương.'
+        },
+        remedy: '🌟 <b>Lời Khuyên Đón Lộc:</b> Sang ngay Gian Phải (Ban Thần Tài Vị Tiền) dâng lễ hoặc hóa vàng để nhân đôi, nhân ba (X2 · X3) vận khí tài lộc đang vượng!'
       }
     ];
+
     let currentFortuneStick = fortuneSticksPool[0];
     let isDrawingStick = false;
-    let lastFortuneMeritTime = 0;
+
+    function updateFortuneCardDisplay() {
+      const fBal = document.getElementById('fortuneMeritBalance');
+      if (fBal) fBal.textContent = player.merit.toLocaleString('vi-VN');
+
+      const cardEl = document.getElementById('drawnFortuneCard');
+      const numEl = document.getElementById('fcStickNumber');
+      const rankEl = document.getElementById('fcStickRank');
+      const legEl = document.getElementById('fcLegendAndHexagram');
+      const poemEl = document.getElementById('fcPoem');
+      const aspEl = document.getElementById('fcSixAspects');
+      const meanEl = document.getElementById('fcMeaning');
+      const remEl = document.getElementById('fcRemedyBox');
+      const careerSel = document.getElementById('fortuneCareerSelect');
+      const careerKey = (careerSel && careerSel.value) ? careerSel.value : 'tongkho';
+
+      const st = currentFortuneStick;
+      if (numEl) numEl.textContent = `🎋 ${st.num}`;
+      if (rankEl) {
+        rankEl.textContent = st.rank;
+        if (st.tier === 'bad') {
+          rankEl.style.background = '#ff5252';
+          rankEl.style.color = '#fff';
+        } else if (st.tier === 'neutral') {
+          rankEl.style.background = '#ffd54f';
+          rankEl.style.color = '#3e1e04';
+        } else {
+          rankEl.style.background = '#69f0ae';
+          rankEl.style.color = '#003314';
+        }
+      }
+      if (cardEl) {
+        if (st.tier === 'bad') {
+          cardEl.style.background = 'linear-gradient(180deg,#3e0a14 0%,#1a0307 100%)';
+          cardEl.style.borderColor = '#ff5252';
+        } else if (st.tier === 'neutral') {
+          cardEl.style.background = 'linear-gradient(180deg,#4a2c06 0%,#211202 100%)';
+          cardEl.style.borderColor = '#ffd54f';
+        } else {
+          cardEl.style.background = 'linear-gradient(180deg,#5d0e06 0%,#2b0602 100%)';
+          cardEl.style.borderColor = '#ffd740';
+        }
+      }
+      if (legEl) {
+        legEl.innerHTML = `📜 <b>Điển Tích:</b> ${st.legend}<br/>☯️ <b>Quẻ Dịch:</b> ${st.hexagram}`;
+      }
+      if (poemEl) poemEl.innerHTML = `"${st.poem}"`;
+      if (aspEl && st.aspects) {
+        aspEl.innerHTML = st.aspects.map(a => `<div>${a}</div>`).join('');
+      }
+      if (meanEl && st.careerAdvice) {
+        meanEl.innerHTML = st.careerAdvice[careerKey] || st.careerAdvice.tongkho;
+      }
+      if (remEl) {
+        remEl.innerHTML = st.remedy;
+        remEl.style.borderColor = (st.tier === 'bad') ? '#ff8a80' : '#81c784';
+        remEl.style.background = (st.tier === 'bad') ? 'rgba(68,14,14,0.9)' : 'rgba(20,48,22,0.88)';
+      }
+    }
 
     function openFortuneStickModal() {
       unlockAndStartAudio();
+      updateFortuneCardDisplay();
       document.getElementById('fortuneStickModal').classList.add('open');
       playMoSound();
     }
@@ -2291,14 +2503,25 @@
       stopAllVoices(false);
     }
 
-    function shakeAndDrawFortuneStick() {
+    function shakeAndDrawFortuneStick(forceGood = false) {
       unlockAndStartAudio();
       if (isDrawingStick) return;
+
+      const cost = forceGood ? 15 : 5;
+      if (player.merit < cost) {
+        showToast(`⚠️ Không đủ Phước Đức để thỉnh thẻ xăm! Cần ${cost} 💎 Phước (Hiện có ${player.merit} 💎). Hãy Gõ Mõ, Lạy Phật hoặc Dâng Hương tích phước trước!`);
+        return;
+      }
+
+      // Trừ Phước Đức khi mua/thỉnh thẻ xăm đúng quy chuẩn!
+      addMerit(-cost, forceGood ? 'Thỉnh Thẻ Xăm Đại Cát Cầu May Đổi Vận (-15 💎)' : 'Mua/Thỉnh 1 Thẻ Xăm Quan Âm Cổ Truyền (-5 💎)');
+      updateFortuneCardDisplay();
+
       isDrawingStick = true;
-      stopAllVoices(true); // Dừng ngay mọi giọng đọc cũ trước khi lắc ống xăm!
+      stopAllVoices(true);
       const wrap = document.getElementById('bambooCylinderWrap');
       const statusEl = document.getElementById('fortuneShakeStatus');
-      if (statusEl) statusEl.textContent = '🎋 Đang lắc ống xăm... Cốc! Cốc! Cốc!';
+      if (statusEl) statusEl.textContent = `🎋 Đã dâng -${cost} 💎 Phước · Đang lắc ống xăm...`;
 
       let shakes = 0;
       const shakeTimer = setInterval(() => {
@@ -2311,29 +2534,44 @@
           clearInterval(shakeTimer);
           isDrawingStick = false;
           if (wrap) wrap.style.transform = 'rotate(0deg) scale(1)';
-          currentFortuneStick = fortuneSticksPool[Math.floor(Math.random() * fortuneSticksPool.length)];
-          document.getElementById('fcStickNumber').textContent = `🎋 ${currentFortuneStick.num}`;
-          document.getElementById('fcStickRank').textContent = currentFortuneStick.rank;
-          document.getElementById('fcPoem').innerHTML = `"${currentFortuneStick.poem}"`;
-          document.getElementById('fcMeaning').innerHTML = currentFortuneStick.meaning;
-          const hitFortune = Math.random() < 0.30;
-          if (statusEl) statusEl.textContent = hitFortune ? `✨ ĐÃ RÚT: ${currentFortuneStick.num} (Trúng 30% +5 💎)` : `🎋 ĐÃ RÚT: ${currentFortuneStick.num} (Xác suất 30%)`;
-          playBellSound();
-          if (hitFortune) {
-            addMerit(5, `Rút thẻ xăm: ${currentFortuneStick.num} (Trúng xác suất 30%)`);
+
+          let pool = fortuneSticksPool;
+          if (forceGood) {
+            pool = fortuneSticksPool.filter(s => s.tier === 'good');
           }
-          player.chat = `🎋 Con vừa rút được ${currentFortuneStick.num} (${currentFortuneStick.rank})! 🙏`;
+          currentFortuneStick = pool[Math.floor(Math.random() * pool.length)];
+          updateFortuneCardDisplay();
+
+          const tierBadge = currentFortuneStick.tier === 'bad'
+            ? '⚠️ QUẺ CẢNH BÁO (Cần cẩn trọng & hóa giải)'
+            : (currentFortuneStick.tier === 'neutral' ? '🟡 QUẺ TRUNG BÌNH (Kiên trì bền bỉ)' : '🌟 QUẺ ĐẠI CÁT (Vận khí hanh thông)');
+          if (statusEl) statusEl.textContent = `🎋 Đã rút: ${currentFortuneStick.num} (-${cost} 💎)`;
+          playBellSound();
+          showToast(`🎋 Đã thỉnh ${currentFortuneStick.num} (-${cost} 💎 Phước): ${tierBadge}`);
+
+          player.chat = `🎋 Con vừa thỉnh ${currentFortuneStick.num} (${currentFortuneStick.rank})! 🙏`;
           player.chatTimer = 320;
           speakCurrentFortuneStick();
         }
       }, 135);
     }
 
-    // CHỈ PHÁT DUY NHẤT 1 GIỌNG ĐỌC GIẢI QUẺ (Không bật chồng localFortuneMp3 lên ttsEl nữa!)
     function speakCurrentFortuneStick() {
       unlockAndStartAudio();
-      localFortuneMp3.src = 'audio/que_xam_daicat.mp3';
-      speakVietnameseText(currentFortuneStick.spoken, localFortuneMp3);
+      const careerSel = document.getElementById('fortuneCareerSelect');
+      const careerKey = (careerSel && careerSel.value) ? careerSel.value : 'tongkho';
+      const st = currentFortuneStick;
+      const rawCareer = (st.careerAdvice[careerKey] || st.careerAdvice.tongkho).replace(/<[^>]+>/g, '');
+      const rawRemedy = (st.remedy || '').replace(/<[^>]+>/g, '');
+      const rawPoem = (st.poem || '').replace(/<br\s*\/?>/gi, ', ');
+
+      const chunks = [
+        `Nam Mô A Di Đà Phật. Tín chủ vừa thỉnh được ${st.num}, phẩm cấp ${st.rank}. Điển tích cổ truyền: ${st.legend}. Quẻ Dịch: ${st.hexagram}.`,
+        `Thơ xăm có câu: ${rawPoem}.`,
+        `${rawCareer}`,
+        `${rawRemedy}`
+      ];
+      playMultiChunksSequential(chunks, 'fcMeaning', `🔊 <b>Đang Đọc Luận Giải Ngành Nghề:</b>`, null, 'normal');
     }
 
     // =========================================================================
@@ -5284,6 +5522,12 @@
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
     if (location.search.includes('khan=1')) setTimeout(openSoKhanModal, 100);
     if (location.search.includes('xam=1')) setTimeout(openFortuneStickModal, 100);
+    if (location.search.includes('xam_bad=1')) {
+      setTimeout(() => {
+        currentFortuneStick = fortuneSticksPool[1];
+        openFortuneStickModal();
+      }, 100);
+    }
     if (location.search.includes('karma=1')) setTimeout(openKarmaReleaseModal, 100);
     if (location.search.includes('burn=1')) {
       goldBurnCeremony = { active: true, timer: 240, maxTimer: 240, wing: player.wing };
