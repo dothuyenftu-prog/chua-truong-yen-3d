@@ -750,9 +750,9 @@
     </div>
 
     <div class="top-group">
-      <select id="bgMusicSelect" class="top-select" onchange="changeBgMusicTrack(this.value)" title="Mặc định: Nhạc Thiền Tịnh Tâm nhẹ nhàng (Ai có nhu cầu đổi nhạc thì chọn tại đây)">
-        <option value="audio/nhac_nen_chua.mp3" selected>🪷 1. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng (Mặc Định)</option>
-        <option value="audio/tk2_chua.mp3">🌿 2. Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não</option>
+      <select id="bgMusicSelect" class="top-select" onchange="changeBgMusicTrack(this.value)" title="Mặc định: Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não (Ai có nhu cầu đổi nhạc thì chọn tại đây)">
+        <option value="audio/tk2_chua.mp3" selected>🌿 1. Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não (Mặc Định)</option>
+        <option value="audio/nhac_nen_chua.mp3">🪷 2. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
         <option value="audio/lien_hoa.mp3">🎵 3. Liên Hoa · Diệu Pháp Liên Hoa (Thiền)</option>
         <option value="audio/do_ta_khong_do_nang.mp3">🎵 4. Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
         <option value="audio/chu_dai_bi.mp3">📿 5. Chú Đại Bi · Dưới Tòa Sen Đài</option>
@@ -1413,7 +1413,7 @@
     // =========================================================================
     const sfxMo = new Audio('audio/mo_that.mp3');
     const sfxBell = new Audio('audio/chuong_chua.mp3');
-    const bgMusicPlayer = new Audio('audio/nhac_nen_chua.mp3');
+    const bgMusicPlayer = new Audio('audio/tk2_chua.mp3');
     const bgChantTamBao = new Audio('audio/chu_dai_bi.mp3');
     const bgChantThanTai = new Audio('audio/khan_than_tai.mp3');
     bgMusicPlayer.loop = true;
