@@ -763,6 +763,7 @@
       </select>
       <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
       <button class="chip-btn active" onclick="openMeritShopModal()">🏛️ Công Đức (<span id="congDucCountHud">5</span>) · 💎 Phước (<span id="meritScore">35</span>)</button>
+      <button id="meritBuffBadge" class="chip-btn active" style="background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;border-color:#ffd740;" onclick="openGoldFurnaceRoom()" title="Đốt Vàng Mã hoặc Dâng Lễ để tăng Gấp Đôi (X2) hoặc Gấp 3 (X3) xác suất nhận Phước Đức!">🔥 Lộc Lễ/Vàng: Xác Suất X2·X3</button>
     </div>
   </div>
 
@@ -1219,7 +1220,9 @@
         🏛️ <b>1. QUY CHUẨN CÔNG ĐỨC XÂY DỰNG CHÙA (Đồng Bộ Nhóm Zalo Ghi Nhận Công Ty):</b><br/>
         • Mỗi lần thành viên được <b>Ghi Nhận trên Nhóm Zalo Công Ty</b> → Được <b>Vinh Danh Bảng Công Đức Xây Chùa (+1 🏛️)</b> và thưởng ngay <b style="color:#ffd740;">+1.000 💎 Phước Đức</b>!<br/>
         🪵 <b>2. QUY CHUẨN TÍCH ĐỨC · TÍCH PHƯỚC CÁ NHÂN (Khó Khăn Hơn — Tính Theo Xác Suất):</b><br/>
-        • <b>Gõ Mõ:</b> Xác suất <b style="color:#80d8ff;">10%</b> mới được <b>+1💎</b> · <b>Thỉnh Chuông:</b> Xác suất <b style="color:#80d8ff;">20%</b> được <b>+2💎</b> · <b>Thắp Hương:</b> Xác suất <b style="color:#80d8ff;">25%</b> được <b>+3💎</b> · <b>Lễ Lạy:</b> Xác suất <b style="color:#80d8ff;">15%</b> được <b>+1💎</b> · <b>Viết Sớ/Xin Xăm:</b> Xác suất <b style="color:#80d8ff;">30%</b> được <b>+5💎</b>.
+        • <b>Gõ Mõ:</b> Xác suất <b style="color:#80d8ff;">10%</b> mới được <b>+1💎</b> · <b>Thỉnh Chuông:</b> Xác suất <b style="color:#80d8ff;">20%</b> được <b>+2💎</b> · <b>Thắp Hương:</b> Xác suất <b style="color:#80d8ff;">25%</b> được <b>+3💎</b> · <b>Lễ Lạy/Vái:</b> Xác suất <b style="color:#80d8ff;">15%</b> được <b>+1💎</b> · <b>Viết Sớ/Xin Xăm:</b> Xác suất <b style="color:#80d8ff;">30%</b> được <b>+5💎</b>.<br/>
+        🔥🎁 <b>3. ĐỐT VÀNG MÃ HOẶC DÂNG LỄ → TĂNG GẤP ĐÔI (X2) HOẶC GẤP BA (X3) XÁC SUẤT NHẬN PHƯỚC ĐỨC:</b><br/>
+        • Khi <b>Đốt Vàng Mã</b> tại Đài Hóa Vàng hoặc <b>Dâng Lễ</b> lên bàn thờ: Xác suất nhận Phước Đức sẽ <b style="color:#69f0ae;">TĂNG GẤP ĐÔI (X2) hoặc GẤP BA (X3)</b> (VD: Gõ Mõ tăng lên <b>20%–30%</b>, Lạy/Vái tăng lên <b>30%–45%</b>, Chuông lên <b>40%–60%</b>) và nổ thưởng Phước Hồi Hướng <b style="color:#ffd740;">X2 / X3</b>! Trạng thái hiện tại: <b id="shopBuffRateStatus" style="color:#69f0ae;">Đang sẵn sàng kích hoạt X2 / X3</b>.
       </div>
 
       <!-- Phần 1: ĐỒNG BỘ GHI NHẬN TỪ NHÓM ZALO CÔNG TY (+1.000 💎 PHƯỚC ĐỨC XÂY CHÙA) -->
@@ -1369,9 +1372,12 @@
 
     <div class="furnace-hud-top">
       <div>
-        <div style="font-size:13.5px; font-weight:900; color:#ffd740; text-shadow:0 2px 6px #000;">🔥 ĐÀI HÓA VÀNG MÃ VIỆT NAM (QUY CHUẨN TÂM LINH)</div>
+        <div style="font-size:13.5px; font-weight:900; color:#ffd740; text-shadow:0 2px 6px #000;">🔥 ĐÀI HÓA VÀNG MÃ VIỆT NAM (NỔ XÁC SUẤT PHƯỚC X2 · X3!)</div>
         <div style="font-size:11.2px; color:#ffe082;">
           Túi Vàng Mã: <b id="furnaceBagRemain" style="color:#80d8ff;">2</b> lễ · Đã hóa: <b id="furnaceBurnCounter" style="color:#ffab40;">2</b> lễ · Phước Hồi Hướng: <b id="furnaceMeritEarned" style="color:#ffd740;">+24 💎</b>
+        </div>
+        <div id="furnaceBuffStatus" style="font-size:10.6px; color:#69f0ae; font-weight:800; margin-top:2px;">
+          ✨ Đốt Vàng Mã hoặc Dâng Lễ: Xác suất nhận Phước Đức tăng GẤP ĐÔI (X2) hoặc GẤP BA (X3)!
         </div>
       </div>
       <div style="display:flex; gap:5px;">
@@ -2458,12 +2464,45 @@
     // =========================================================================
     // 2B. CENTER-SCREEN INTERACTIVE STAGE (Bấm vào cái gì, cái đó hiện lên giữa màn hình!)
     // =========================================================================
-    let centerStageMode = 'mo'; // 'mo' | 'bell' | 'incense' | 'table_inspect'
+    let centerStageMode = 'mo'; // 'mo' | 'bell' | 'incense' | 'bow' | 'pray' | 'table_inspect'
     let csHitCount = 0;
     let csLuckyCount = 0;
     let csMeritSession = 0;
     let csAutoTimer = null;
     let csAutoIntervalSec = 0;
+
+    // HỆ SỐ TĂNG XÁC SUẤT NHẬN PHƯỚC ĐỨC KHI ĐỐT VÀNG MÃ HOẶC DÂNG LỄ (1 = X1 mặc định, 2 = Gấp Đôi X2, 3 = Gấp Ba X3!)
+    let meritRateMultiplier = 1;
+    let meritBuffSourceLabel = '';
+
+    function activateMeritRateBuff(mult, sourceText) {
+      if (mult > meritRateMultiplier) {
+        meritRateMultiplier = mult;
+      } else if (meritRateMultiplier < 2) {
+        meritRateMultiplier = mult;
+      }
+      meritBuffSourceLabel = sourceText || 'Đốt Vàng Mã / Dâng Lễ';
+      const badge = document.getElementById('meritBuffBadge');
+      if (badge) {
+        if (meritRateMultiplier >= 3) {
+          badge.style.background = 'linear-gradient(135deg,#ffd600,#ff3d00)';
+          badge.style.color = '#1a0500';
+          badge.innerHTML = `🔥👑 ĐANG BUFF X3 XÁC SUẤT PHƯỚC!`;
+        } else if (meritRateMultiplier === 2) {
+          badge.style.background = 'linear-gradient(135deg,#00e676,#1b5e20)';
+          badge.style.color = '#fff';
+          badge.innerHTML = `🔥✨ ĐANG BUFF X2 XÁC SUẤT PHƯỚC!`;
+        }
+      }
+      const shopStatus = document.getElementById('shopBuffRateStatus');
+      if (shopStatus) {
+        shopStatus.innerHTML = `🔥 ĐANG KÍCH HOẠT BUFF X${meritRateMultiplier} (Tăng Gấp ${meritRateMultiplier} Xác Suất & Phước Đức từ ${meritBuffSourceLabel}!)`;
+      }
+      const furnStatus = document.getElementById('furnaceBuffStatus');
+      if (furnStatus) {
+        furnStatus.innerHTML = `🔥🌟 ĐANG KÍCH HOẠT HỒNG ÂN X${meritRateMultiplier}: Xác suất nhận Phước Đức tăng GẤP ${meritRateMultiplier} LẦN (${meritBuffSourceLabel})!`;
+      }
+    }
 
     function openCenterStage(mode) {
       unlockAndStartAudio();
@@ -2489,43 +2528,49 @@
       interBody.style.display = 'block';
       tableBody.style.display = 'none';
 
+      const buffTag = meritRateMultiplier > 1 ? ` · 🔥 BUFF X${meritRateMultiplier}` : '';
       if (mode === 'mo') {
-        titleEl.textContent = '🪵 GÕ MÕ TỊNH TÂM (XÁC SUẤT 10% TÍCH PHƯỚC)';
+        const pct = 10 * meritRateMultiplier;
+        titleEl.textContent = `🪵 GÕ MÕ TỊNH TÂM (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'block';
         imgEl.src = 'assets/mo_go.png';
         emojiEl.style.display = 'none';
         malletEl.style.display = 'block';
         malletEl.textContent = '🥢';
-        instrEl.textContent = '👆 Chạm vào Mõ Gỗ để gõ (Quy chuẩn Tích Phước khó: Xác suất 10% mỗi nhịp mới được +1 💎)';
+        instrEl.textContent = `👆 Chạm vào Mõ Gỗ để gõ (Xác suất hiện tại: ${pct}% mỗi nhịp được +${1 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       } else if (mode === 'bell') {
-        titleEl.textContent = '🔔 THỈNH ĐẠI HỒNG CHUÔNG (XÁC SUẤT 20% TÍCH PHƯỚC)';
+        const pct = 20 * meritRateMultiplier;
+        titleEl.textContent = `🔔 THỈNH ĐẠI HỒNG CHUÔNG (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'block';
         imgEl.src = 'assets/chuong_dong.png';
         emojiEl.style.display = 'none';
         malletEl.style.display = 'block';
         malletEl.textContent = '🪵';
-        instrEl.textContent = '👆 Chạm vào Chuông Đồng để thỉnh (Quy chuẩn Tích Phước: Xác suất 20% được +2 💎)';
+        instrEl.textContent = `👆 Chạm vào Chuông Đồng để thỉnh (Xác suất hiện tại: ${pct}% được +${2 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       } else if (mode === 'incense') {
-        titleEl.textContent = '🕯️ DÂNG 3 NÉN TÂM HƯƠNG (XÁC SUẤT 25% TÍCH PHƯỚC)';
+        const pct = 25 * meritRateMultiplier;
+        titleEl.textContent = `🕯️ DÂNG 3 NÉN TÂM HƯƠNG (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
         emojiEl.textContent = '🕯️🙏🕯️';
         malletEl.style.display = 'none';
-        instrEl.textContent = '👆 Chạm vào 3 Nén Tâm Hương để dâng hương (Xác suất 25% kết tụ +3 💎 Phước)';
+        instrEl.textContent = `👆 Chạm vào 3 Nén Tâm Hương để dâng hương (Xác suất hiện tại: ${pct}% kết tụ +${3 * meritRateMultiplier} 💎 Phước${buffTag})`;
       } else if (mode === 'bow') {
-        titleEl.textContent = '🙇 QUỲ LẠY TAM BẢO (XÁC SUẤT 15% TÍCH PHƯỚC)';
+        const pct = 15 * meritRateMultiplier;
+        titleEl.textContent = `🙇 QUỲ LẠY TAM BẢO (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
         emojiEl.textContent = '🙇‍♂️🪷🙇‍♀️';
         malletEl.style.display = 'none';
-        instrEl.textContent = '👆 Chạm liên tục để Nhân Vật Quỳ Lạy Tam Bảo (Xác suất 15% mỗi lạy kết tụ +1 💎 Phước Đức)';
+        instrEl.textContent = `👆 Chạm liên tục để Nhân Vật Quỳ Lạy Tam Bảo (Xác suất: ${pct}% mỗi lạy kết tụ +${1 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       } else if (mode === 'pray') {
-        titleEl.textContent = '🙏 CHẮP TAY VÁI KHẤN (XÁC SUẤT 15% TÍCH PHƯỚC)';
+        const pct = 15 * meritRateMultiplier;
+        titleEl.textContent = `🙏 CHẮP TAY VÁI KHẤN (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
         emojiEl.textContent = '🙏✨🪷';
         malletEl.style.display = 'none';
-        instrEl.textContent = '👆 Chạm liên tục để Nhân Vật Chắp Tay Vái Khấn (Xác suất 15% mỗi vái kết tụ +1 💎 Phước Đức)';
+        instrEl.textContent = `👆 Chạm liên tục để Nhân Vật Chắp Tay Vái Khấn (Xác suất: ${pct}% mỗi vái kết tụ +${1 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       }
       overlay.classList.add('open');
       triggerCenterStageHit();
@@ -2571,56 +2616,61 @@
       let hitColor = '#ffd740';
       const rollBanner = document.getElementById('csLastRollBanner');
 
+      const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
       if (centerStageMode === 'mo') {
         playMoSound();
         player.state = 'kneel';
-        // QUY CHUẨN TÍCH PHƯỚC KHÓ: GÕ MÕ XÁC SUẤT ĐÚNG 10% MỚI ĐƯỢC TÍNH PHƯỚC (+1 💎)!
+        const chance = 0.10 * meritRateMultiplier;
+        const pctLabel = Math.round(chance * 100);
+        const pts = 1 * meritRateMultiplier;
         const roll = Math.random();
-        if (roll < 0.10) {
-          earned = 1;
+        if (roll < chance) {
+          earned = pts;
           csLuckyCount++;
-          hitMsg = '✨🪵 CỐC! Trúng 10% Tâm Thành → +1 💎 Phước Đức!';
+          hitMsg = `✨🪵 CỐC! Trúng ${pctLabel}%${buffSuffix} → +${pts} 💎 Phước Đức!`;
           hitColor = '#69f0ae';
           if (rollBanner) {
             rollBanner.style.color = '#69f0ae';
             rollBanner.style.borderColor = '#69f0ae';
-            rollBanner.innerHTML = '✨🪵 <b>TRÚNG XÁC SUẤT 10%!</b> Tâm thành cảm ứng — Kết tụ <b>+1 💎 Phước Đức</b>!';
+            rollBanner.innerHTML = `✨🪵 <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> Tâm thành cảm ứng — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
           }
-          appendMeritLog(`✨🪵 <b>${player.name}</b>: Gõ Mõ Tịnh Tâm trúng xác suất 10% (+1 💎 Phước Đức)`);
+          appendMeritLog(`✨🪵 <b>${player.name}</b>: Gõ Mõ Tịnh Tâm trúng xác suất ${pctLabel}%${buffSuffix} (+${pts} 💎 Phước Đức)`);
         } else {
           earned = 0;
-          hitMsg = '🪵 Cốc! Tịnh tâm tu tập (Xác suất 10% tích phước)';
+          hitMsg = `🪵 Cốc! Tịnh tâm tu tập (Xác suất ${pctLabel}%${buffSuffix})`;
           hitColor = '#ffe082';
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Chưa kết tụ Phước — Xác suất 10%/nhịp, hãy kiên trì!)</i>`;
+            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Xác suất ${pctLabel}%/nhịp${buffSuffix} — Đốt Vàng Mã hoặc Dâng Lễ để tăng X2·X3 xác suất!)</i>`;
           }
         }
       } else if (centerStageMode === 'bell') {
         playBellSound();
         player.state = 'bow';
         player.bowTimer = 60;
-        // Thỉnh Đại Hồng Chuông: Xác suất 20% mới được +2 💎 Phước Đức
-        if (Math.random() < 0.20) {
-          earned = 2;
+        const chance = 0.20 * meritRateMultiplier;
+        const pctLabel = Math.round(chance * 100);
+        const pts = 2 * meritRateMultiplier;
+        if (Math.random() < chance) {
+          earned = pts;
           csLuckyCount++;
-          hitMsg = '✨🔔 BOONG! Trúng 20% Chuông Ngân → +2 💎 Phước Đức!';
+          hitMsg = `✨🔔 BOONG! Trúng ${pctLabel}%${buffSuffix} → +${pts} 💎 Phước Đức!`;
           hitColor = '#69f0ae';
           if (rollBanner) {
             rollBanner.style.color = '#69f0ae';
             rollBanner.style.borderColor = '#69f0ae';
-            rollBanner.innerHTML = '✨🔔 <b>TRÚNG XÁC SUẤT 20%!</b> Tiếng chuông cảm ứng — Kết tụ <b>+2 💎 Phước Đức</b>!';
+            rollBanner.innerHTML = `✨🔔 <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> Tiếng chuông cảm ứng — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
           }
-          appendMeritLog(`✨🔔 <b>${player.name}</b>: Thỉnh Đại Hồng Chuông trúng xác suất 20% (+2 💎 Phước Đức)`);
+          appendMeritLog(`✨🔔 <b>${player.name}</b>: Thỉnh Đại Hồng Chuông trúng xác suất ${pctLabel}%${buffSuffix} (+${pts} 💎 Phước Đức)`);
         } else {
           earned = 0;
-          hitMsg = '🔔 Boong... Khơi dậy chánh niệm (Xác suất 20% tích phước)';
+          hitMsg = `🔔 Boong... Khơi dậy chánh niệm (Xác suất ${pctLabel}%${buffSuffix})`;
           hitColor = '#ffe082';
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🔔 <i>Boong... Chuông ngân thanh tịnh (Chưa kết tụ Phước — Xác suất 20%/tiếng chuông)</i>`;
+            rollBanner.innerHTML = `🔔 <i>Boong... Chuông ngân thanh tịnh (Xác suất ${pctLabel}%/tiếng chuông${buffSuffix})</i>`;
           }
         }
       } else if (centerStageMode === 'incense') {
@@ -2633,26 +2683,28 @@
         player.chat = `🙇 ${player.name} chí thành đảnh lễ Tam Bảo!`;
         player.chatTimer = 150;
         broadcastMyPresence();
-        // Hành động Quỳ Lạy: Xác suất 15% được +1 💎 Phước Đức
-        if (Math.random() < 0.15) {
-          earned = 1;
+        const chance = 0.15 * meritRateMultiplier;
+        const pctLabel = Math.round(chance * 100);
+        const pts = 1 * meritRateMultiplier;
+        if (Math.random() < chance) {
+          earned = pts;
           csLuckyCount++;
-          hitMsg = '✨🙇 ĐẢNH LỄ CẢM ỨNG (15%) → +1 💎 Phước Đức!';
+          hitMsg = `✨🙇 ĐẢNH LỄ CẢM ỨNG (${pctLabel}%${buffSuffix}) → +${pts} 💎 Phước Đức!`;
           hitColor = '#69f0ae';
           if (rollBanner) {
             rollBanner.style.color = '#69f0ae';
             rollBanner.style.borderColor = '#69f0ae';
-            rollBanner.innerHTML = `✨🙇 <b>TRÚNG XÁC SUẤT 15%!</b> <b>${player.name}</b> quỳ lạy chí thành — Kết tụ <b>+1 💎 Phước Đức</b>!`;
+            rollBanner.innerHTML = `✨🙇 <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> <b>${player.name}</b> quỳ lạy chí thành — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
           }
-          appendMeritLog(`✨🙇 <b>${player.name}</b>: Quỳ Lạy Tam Bảo trúng xác suất 15% (+1 💎 Phước Đức)`);
+          appendMeritLog(`✨🙇 <b>${player.name}</b>: Quỳ Lạy Tam Bảo trúng xác suất ${pctLabel}%${buffSuffix} (+${pts} 💎 Phước Đức)`);
         } else {
           earned = 0;
-          hitMsg = '🙇 Chí thành quỳ lạy... (Xác suất 15% tích phước)';
+          hitMsg = `🙇 Chí thành quỳ lạy... (Xác suất ${pctLabel}%${buffSuffix})`;
           hitColor = '#ffe082';
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🙇 <i>${player.name} đang cúi đầu đảnh lễ Tam Bảo... (Xác suất 15%/lạy nhận +1 💎 Phước Đức)</i>`;
+            rollBanner.innerHTML = `🙇 <i>${player.name} đang cúi đầu đảnh lễ Tam Bảo... (Xác suất ${pctLabel}%/lạy nhận +${pts} 💎 Phước Đức${buffSuffix})</i>`;
           }
         }
       } else if (centerStageMode === 'pray') {
@@ -2662,26 +2714,28 @@
         player.chat = `🙏 ${player.name} chắp tay vái khấn nguyện cầu bình an, đạt KPI!`;
         player.chatTimer = 150;
         broadcastMyPresence();
-        // Hành động Vái Khấn: Xác suất 15% được +1 💎 Phước Đức
-        if (Math.random() < 0.15) {
-          earned = 1;
+        const chance = 0.15 * meritRateMultiplier;
+        const pctLabel = Math.round(chance * 100);
+        const pts = 1 * meritRateMultiplier;
+        if (Math.random() < chance) {
+          earned = pts;
           csLuckyCount++;
-          hitMsg = '✨🙏 VÁI KHẤN CẢM ỨNG (15%) → +1 💎 Phước Đức!';
+          hitMsg = `✨🙏 VÁI KHẤN CẢM ỨNG (${pctLabel}%${buffSuffix}) → +${pts} 💎 Phước Đức!`;
           hitColor = '#69f0ae';
           if (rollBanner) {
             rollBanner.style.color = '#69f0ae';
             rollBanner.style.borderColor = '#69f0ae';
-            rollBanner.innerHTML = `✨🙏 <b>TRÚNG XÁC SUẤT 15%!</b> <b>${player.name}</b> chắp tay vái khấn — Kết tụ <b>+1 💎 Phước Đức</b>!`;
+            rollBanner.innerHTML = `✨🙏 <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> <b>${player.name}</b> chắp tay vái khấn — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
           }
-          appendMeritLog(`✨🙏 <b>${player.name}</b>: Chắp Tay Vái Khấn trúng xác suất 15% (+1 💎 Phước Đức)`);
+          appendMeritLog(`✨🙏 <b>${player.name}</b>: Chắp Tay Vái Khấn trúng xác suất ${pctLabel}%${buffSuffix} (+${pts} 💎 Phước Đức)`);
         } else {
           earned = 0;
-          hitMsg = '🙏 Thành tâm chắp tay vái khấn... (Xác suất 15% tích phước)';
+          hitMsg = `🙏 Thành tâm chắp tay vái khấn... (Xác suất ${pctLabel}%${buffSuffix})`;
           hitColor = '#ffe082';
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🙏 <i>${player.name} đang chắp tay vái khấn trước điện Phật... (Xác suất 15%/vái nhận +1 💎 Phước Đức)</i>`;
+            rollBanner.innerHTML = `🙏 <i>${player.name} đang chắp tay vái khấn trước điện Phật... (Xác suất ${pctLabel}%/vái nhận +${pts} 💎 Phước Đức${buffSuffix})</i>`;
           }
         }
       }
@@ -3602,8 +3656,16 @@
         });
       }
 
-      showToast(`🎁 Đã thỉnh "${itemName}" bày lên Bàn Lễ ${zoneName}${bonusTxt}!`);
-      speakVietnameseText(`Nam Mô A Di Đà Phật. Chứng minh công đức tín chủ ${player.name} thành tâm dâng ${itemName} lên ${zoneName}, nguyện cầu hồng ân Tam Bảo gia hộ vạn sự cát tường như ý.`);
+      // CƠ CHẾ MỚI: KHI DÂNG LỄ LÊN BÀN THỜ → XÁC SUẤT TĂNG GẤP ĐÔI (X2) HOẶC GẤP BA (X3) PHƯỚC ĐỨC!
+      const rollOfferMult = Math.random();
+      const offerMult = (rollOfferMult < 0.35 || cost >= 300) ? 3 : 2;
+      const bonusReturnMerit = Math.round(cost * 0.25) * offerMult;
+      addMerit(bonusReturnMerit);
+      activateMeritRateBuff(offerMult, `Dâng Lễ ${itemName}`);
+      appendMeritLog(`🌟🎁 <b>${player.name}</b> dâng lễ cảm ứng <b>HỒNG ÂN X${offerMult}</b>: Tăng <b>GẤP ${offerMult} LẦN (X${offerMult})</b> xác suất tích phước & nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
+
+      showToast(`🎁🌟 Đã dâng "${itemName}" lên ${zoneName}! Nổ Lộc Hồi Hướng +${bonusReturnMerit} 💎 & KÍCH HOẠT BUFF X${offerMult} XÁC SUẤT NHẬN PHƯỚC!`);
+      speakVietnameseText(`Nam Mô A Di Đà Phật. Chứng minh công đức tín chủ ${player.name} thành tâm dâng ${itemName} lên ${zoneName}, hồng ân Tam Bảo ban lộc tăng gấp ${offerMult} lần xác suất nhận Phước Đức!`);
       publishMqtt({ type: 'offering', name: player.name, icon, itemName, wing: player.wing, imgKey, imgSrc });
     }
 
@@ -3628,9 +3690,13 @@
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
 
-      addMerit(12);
+      // Xác suất nổ Gấp Đôi (X2) hoặc Gấp Ba (X3) Phước Đức khi Đốt Vàng Mã
+      const mult = (Math.random() < 0.38) ? 3 : 2;
+      const pts = 12 * mult;
+      addMerit(pts);
       const label = customTitle || '🔥🧧 Lễ Vàng Mã Truyền Thống';
-      appendMeritLog(`🔥🧧 <b>${player.name}</b>: Đã hóa <b>${label}</b> (+12 💎 Phước Hồi Hướng)`);
+      activateMeritRateBuff(mult, `Đốt Vàng Mã (${label})`);
+      appendMeritLog(`🔥🧧 <b>${player.name}</b>: Hóa <b>${label}</b> nổ Lộc <b>X${mult} (Gấp ${mult})</b> → <b>+${pts} 💎 Phước Hồi Hướng</b> & Buff X${mult} Xác Suất Phước!`);
 
       goldBurnCeremony = {
         active: true,
@@ -3643,12 +3709,12 @@
       player.targetV = 0.58;
       player.state = 'bow';
       player.bowTimer = 180;
-      player.chat = `🔥🧧 Con xin thành tâm hóa ${label}, hồi hướng +12 💎 Phước Đức!`;
+      player.chat = `🔥🧧 Con xin thành tâm hóa ${label}, nổ Lộc X${mult} nhận +${pts} 💎 Phước Đức!`;
       player.chatTimer = 360;
 
       playBellSound();
       setTimeout(playMoSound, 400);
-      showToast(`🔥🧧 Đã hóa ${label}! Hồi hướng +12 💎 Phước Đức!`);
+      showToast(`🔥🌟 Đã hóa ${label}! Nổ Lộc GẤP ${mult} LẦN (X${mult}) → +${pts} 💎 Phước Đức & Tăng X${mult} Xác Suất Tích Phước!`);
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
 
@@ -4713,7 +4779,19 @@
       if (!g) return;
       furnaceFlareTimer = 34;
       burnCountTotal++;
-      const pts = g.merit || 12;
+      const basePts = g.merit || 12;
+      // QUAY XÁC SUẤT NỔ PHƯỚC ĐỨC GẤP ĐÔI (X2) HOẶC GẤP BA (X3) KHI ĐỐT VÀNG MÃ!
+      const rollMult = Math.random();
+      let burnMult = 1;
+      if (rollMult < 0.28) {
+        burnMult = 3; // 28% cơ hội nổ ĐẠI CÁT X3 (Gấp 3)
+      } else if (rollMult < 0.78) {
+        burnMult = 2; // 50% cơ hội nổ SONG HỶ X2 (Gấp Đôi)
+      }
+      if (burnMult > 1) {
+        activateMeritRateBuff(burnMult, `Đốt Vàng Mã (${g.name})`);
+      }
+      const pts = basePts * burnMult;
       furnaceMeritSession += pts;
       addMerit(pts);
       document.getElementById('furnaceBurnCounter').textContent = burnCountTotal;
@@ -4730,16 +4808,17 @@
         em.alpha = 1.0;
       }
       if (floatingHits.length > 5) floatingHits.shift();
+      const multBanner = burnMult === 3
+        ? `👑 ĐẠI CÁT X3 (GẤP BA): +${pts} 💎 (${g.name})!`
+        : (burnMult === 2 ? `✨ SONG HỶ X2 (GẤP ĐÔI): +${pts} 💎 (${g.name})!` : `🔥 +${pts} 💎 (${g.name})`);
       floatingHits.push({
         x: window.innerWidth * 0.5 + (Math.random() - 0.5) * 36,
         y: window.innerHeight * 0.42,
-        text: `🔥 +${pts} 💎 (${g.name})`,
-        color: '#ffd740',
-        life: 1.05
+        text: multBanner,
+        color: burnMult === 3 ? '#69f0ae' : (burnMult === 2 ? '#ffd740' : '#ffe082'),
+        life: 1.25
       });
-      if (burnCountTotal % 2 === 0) {
-        appendMeritLog(`🔥🧧 <b>${player.name}</b> đã hóa <b>${g.icon} ${g.name}</b> (+${pts} 💎 Phước Hồi Hướng)`);
-      }
+      appendMeritLog(`🔥🧧 <b>${player.name}</b> hóa <b>${g.icon} ${g.name}</b> ${burnMult > 1 ? `nổ Lộc <b>X${burnMult} (Gấp ${burnMult})</b> ` : ''}(<b>+${pts} 💎 Phước Đức</b>)`);
     }
 
     function rapidBurstBurnGold() {
@@ -5051,6 +5130,9 @@
       }, 40);
     }
 
+    if (location.search.includes('buff3=1')) {
+      setTimeout(() => activateMeritRateBuff(3, 'Đốt Vàng Mã & Dâng Lễ Đại Cát'), 40);
+    }
     if (location.search.includes('mo=1')) setTimeout(() => openCenterStage('mo'), 80);
     if (location.search.includes('bell=1')) setTimeout(() => openCenterStage('bell'), 80);
     if (location.search.includes('bow=1')) setTimeout(() => openCenterStage('bow'), 80);
