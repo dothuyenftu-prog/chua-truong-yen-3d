@@ -233,9 +233,25 @@
       color: #ffefc8;
     }
 
-    /* =====================================================================
-       4. COLLAPSIBLE POPOVERS (Chat Drawer, Tấm Lòng Thành, Sớ Khấn Modal)
-       ===================================================================== */
+    @media (max-width: 680px) {
+      .top-bar { flex-wrap: wrap; gap: 4px; top: 6px; left: 6px; right: 6px; }
+      .chip-btn { padding: 4px 7px; font-size: 10.5px; }
+      select.role-picker { padding: 4px 6px; font-size: 10.5px; max-width: 105px; }
+      .bottom-dock {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        gap: 4px;
+        padding: 5px;
+      }
+      .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; }
+      .dock-icon { font-size: 16px; }
+      .dock-label { font-size: 9.8px; }
+      .joy-pad { bottom: 112px; left: 8px; width: 82px; height: 82px; }
+      .joy-caption { bottom: 198px; left: 12px; }
+      .quick-right-stack { bottom: 114px; right: 8px; }
+      #chatDrawer { bottom: 114px; }
+    }
     #chatDrawer {
       position: fixed;
       left: 50%;
@@ -497,13 +513,9 @@
         <span class="dock-icon">📜</span>
         <span class="dock-label">Sớ Khấn Khách</span>
       </button>
-      <button class="dock-item" onclick="performRitual('lotus')">
+      <button class="dock-item" onclick="performRitual('lotus'); setTimeout(() => performRitual('fortune'), 600);">
         <span class="dock-icon">🪷</span>
-        <span class="dock-label">Dâng Hoa Sen</span>
-      </button>
-      <button class="dock-item" onclick="performRitual('fortune')">
-        <span class="dock-icon">🎋</span>
-        <span class="dock-label">Xin Quẻ Lộc</span>
+        <span class="dock-label">Hoa Sen · Quẻ</span>
       </button>
     </div>
   </div>
