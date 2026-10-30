@@ -765,11 +765,14 @@
 
   <div id="toastBanner">🙏 Bấm vào Mõ, Chuông, Thắp Hương hoặc Bàn Lễ để hiện lên giữa màn hình thao tác!</div>
 
-  <!-- Active Prayer Banner with Unmistakable Red ✕ ĐÓNG Button -->
+  <!-- Active Prayer Banner with Unmistakable Red ✕ ĐÓNG Button + Replay Voice Button -->
   <div id="activeScrollBanner">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-      <span id="asBannerTitle" style="font-size:12px; font-weight:800; color:#ffd875;">📜 ĐANG ĐỌC BÀI KHẤN</span>
-      <button class="btn-close-banner" onclick="stopAndClosePrayerBanner()">✕ Đóng Bài Khấn</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:6px;">
+      <span id="asBannerTitle" style="font-size:12px; font-weight:900; color:#ffd875;">📜🔊 ĐANG ĐỌC BÀI KHẤN & SỚ THÀNH TIẾNG</span>
+      <div style="display:flex; gap:5px;">
+        <button class="cm-auto-pill" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;padding:3px 8px;font-size:10.5px;" onclick="replayCurrentPrayerAudio()">🔊 Đọc Lại</button>
+        <button class="btn-close-banner" onclick="stopAndClosePrayerBanner()">✕ Đóng</button>
+      </div>
     </div>
     <div id="asCustomerLine" style="font-size:11.5px; color:#ffe7b3; margin-bottom:4px;">
       👤 <b id="asName">Anh Đức Đoàn</b> · 📍 <span id="asAddr">Hải Phòng</span> · 📞 <span id="asPhone">0988668888</span>
@@ -857,14 +860,14 @@
     <div id="joyKnob360">✥</div>
   </div>
 
-  <!-- 3B. ON-SCREEN DIRECT OFFERING BAR (Dâng lễ chuẩn Việt Nam đặt thẳng lên Bàn Cúng Dường) -->
+  <!-- 3B. ON-SCREEN DIRECT OFFERING BAR (Dâng lễ, Viết Sớ Vàng, Rút Thẻ Xăm, Đốt Vàng Mã) -->
   <div class="quick-offering-bar">
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ffd54f,#ffb300);color:#2b1002;border-color:#fff;" onclick="openCenterStage('table_inspect')">🔍 Xem Bàn Lễ (Lễ Gì · Của Ai)</button>
-    <button class="qo-btn" onclick="redeemOfferingItem('vang_ma_le10', '🧧', 'Lễ Tiền Vàng Mã Đinh Đỏ', 25, 'assets/vangma_le10.jpg')">🧧 Tiền Vàng Mã</button>
-    <button class="qo-btn" onclick="redeemOfferingItem('ruou_ngua', '🍶', 'Rượu Lễ & Ngựa Đỏ', 35, 'assets/vangma_mamdaydu.jpg')">🍶🐎 Rượu & Ngựa</button>
-    <button class="qo-btn" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Hồng', 20)">🪷 Hoa Sen</button>
-    <button class="qo-btn" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phú Quý', 30)">🍎 Ngũ Quả</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Đốt Vàng Mã (+Phước)</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ffd54f,#ffb300);color:#2b1002;border-color:#fff;" onclick="openCenterStage('table_inspect')">🔍 Xem Bàn Lễ</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜✍️ Viết Sớ · Đọc Khấn</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Rút Thẻ · Xin Xăm</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('vang_ma_le10', '🧧', 'Lễ Tiền Vàng Mã Đinh Đỏ', 25, 'assets/vangma_le10.jpg')">🧧 Dâng Vàng Mã</button>
+    <button class="qo-btn" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả & Hoa Sen', 30, 'assets/vangma_mamdaydu.jpg')">🪷 Mâm Ngũ Quả</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Đốt Vàng Mã</button>
   </div>
 
   <!-- Collapsible Chat Input Drawer -->
@@ -874,12 +877,12 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Bấm vào Mõ / Chuông / Hương sẽ hiện lên GIỮA MÀN HÌNH để thao tác!) -->
+  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương · Viết Sớ Đọc Khấn · Rút Thẻ Xăm · Đốt Vàng Mã) -->
   <div class="bottom-dock-wrap">
     <div class="bottom-dock">
       <button class="dock-item active-ritual" onclick="openCenterStage('mo')">
         <span class="dock-icon">🪵</span>
-        <span class="dock-label">Gõ Mõ (Giữa MH)</span>
+        <span class="dock-label">Gõ Mõ (Thật)</span>
       </button>
       <button class="dock-item active-ritual" onclick="openCenterStage('bell')">
         <span class="dock-icon">🔔</span>
@@ -889,17 +892,17 @@
         <span class="dock-icon">🕯️</span>
         <span class="dock-label">Thắp Hương</span>
       </button>
-      <button class="dock-item" onclick="performRitual('bow')">
-        <span class="dock-icon">🙇</span>
-        <span class="dock-label">Quỳ Lạy Phật</span>
+      <button class="dock-item highlight-red" onclick="openSoKhanModal()">
+        <span class="dock-icon">📜</span>
+        <span class="dock-label">Viết Sớ · Đọc Khấn</span>
+      </button>
+      <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(142,24,68,0.95),rgba(74,12,36,0.96));border-color:#ffd54f;" onclick="openFortuneStickModal()">
+        <span class="dock-icon">🎋</span>
+        <span class="dock-label">Rút Thẻ · Xin Xăm</span>
       </button>
       <button id="dockChantBtn" class="dock-item active-ritual" onclick="toggleRealChanting()">
         <span class="dock-icon">📿</span>
         <span class="dock-label" id="dockChantLabel">Tụng Kinh: BẬT</span>
-      </button>
-      <button class="dock-item highlight-red" onclick="openSoKhanModal()">
-        <span class="dock-icon">📜</span>
-        <span class="dock-label">Bài Khấn · Sớ KH</span>
       </button>
       <button class="dock-item active-ritual" onclick="openMeritShopModal()">
         <span class="dock-icon">🎁</span>
@@ -912,57 +915,116 @@
     </div>
   </div>
 
-  <!-- 5. MODAL BÀI KHẤN CẦU NGUYỆN (KHẤN BÌNH AN, KHÁCH HÀNG CHỐT ĐƠN, SỨC KHỎE, TÀI LỘC & TỰ NHẮN) -->
+  <!-- 5. MODAL VIẾT SỚ ĐIỆP VÀNG DÂNG LỄ & ĐỌC BÀI KHẤN THÀNH TIẾNG (Tờ Sớ Vàng Chữ Đỏ Đóng Ấn Triện Nhà Chùa!) -->
   <div class="modal-backdrop" id="soKhanModal" onclick="if(event.target===this) closeSoKhanModal()">
     <div class="so-khan-box">
       <div class="sk-top-row">
-        <span class="sk-title">📜 Chọn Bài Khấn Cầu Nguyện & Tự Nhắn Lời Cầu</span>
+        <span class="sk-title">📜✍️ VIẾT SỚ ĐIỆP VÀNG & 🔊 ĐỌC BÀI KHẤN THÀNH TIẾNG</span>
         <button class="btn-modal-x" onclick="closeSoKhanModal()">✕ Đóng</button>
       </div>
 
-      <div style="font-size:11.5px; color:#f7cf73; font-weight:700; margin-bottom:5px;">
-        1️⃣ Chọn Bài Khấn Cầu Nguyện (Nghe Chú ở mục Nhạc Nền phía trên):
-      </div>
-      <div class="prayer-topic-grid" id="topicGrid">
-        <button class="topic-btn selected" onclick="selectPrayerTopic('khach_hang', this)">💰 1. Khấn Cầu Khách Hàng · Chốt Đơn Lớn (Đọc Tên + SĐT)</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('binh_an', this)">🕊️ 2. Khấn Cầu Bình An Gia Đạo & Tai Qua Nạn Khỏi</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('suc_khoe', this)">💚 3. Khấn Cầu Sức Khỏe Dồi Dào & Trường Thọ</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('tai_loc', this)">📈 4. Khấn Cầu Tài Lộc, Công Danh & Buôn May Bán Đắt</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('giam_stress', this)">🌿 5. Khấn Cầu Tâm Hồn Thanh Tịnh, Xả Stress & An Vui</button>
-        <button class="topic-btn" onclick="selectPrayerTopic('tu_nhan', this)">✍️ 6. Tự Nhắn Lời Cầu Nguyện Riêng (Nhập ở ô dưới)</button>
+      <!-- TỜ SỚ ĐIỆP VÀNG CHỮ ĐỎ ĐÓNG ẤN TRIỆN NHÀ CHÙA (LIVE PREVIEW) -->
+      <div id="goldenPetitionScroll" style="background:linear-gradient(180deg,#fff3c4 0%,#ffd54f 50%,#ffca28 100%); color:#7f0000; border:3px double #b71c1c; border-radius:12px; padding:10px 12px; margin-bottom:9px; position:relative; box-shadow:0 6px 20px rgba(0,0,0,0.65);">
+        <div style="text-align:center; font-weight:900; font-size:13px; color:#b71c1c; letter-spacing:0.5px; border-bottom:1.5px solid rgba(183,28,28,0.35); padding-bottom:4px; margin-bottom:6px;">
+          🪷 ĐẠI HÙNG BẢO ĐIỆN — PHỤNG THỈNH SỚ ĐIỆP CẦU AN · TÀI LỘC 🪷
+        </div>
+        <div style="font-size:11.5px; line-height:1.45; color:#4a0d00; font-weight:700;">
+          • <b>Tín chủ dâng sớ:</b> <span id="soPreviewName" style="color:#b71c1c;font-weight:900;">Anh Đức Đoàn</span> — <b>Ngụ tại:</b> <span id="soPreviewAddr" style="color:#b71c1c;">Hải Phòng</span> (<span id="soPreviewPhone">0988668888</span>)<br/>
+          • <b>Lời khấn trên Sớ:</b> <span id="soPreviewWish" style="color:#880e4f;font-style:italic;">"Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an"</span>
+        </div>
+        <!-- Ấn triện đỏ nhà chùa -->
+        <div style="position:absolute; right:10px; bottom:8px; border:2px solid rgba(211,47,47,0.85); color:#d32f2f; font-size:9px; font-weight:900; padding:2px 5px; border-radius:4px; transform:rotate(-8deg); background:rgba(255,235,238,0.75); pointer-events:none;">
+          印 TAM BẢO<br/>CHỨNG MINH
+        </div>
       </div>
 
-      <div style="font-size:11.5px; color:#f7cf73; font-weight:700; margin-bottom:5px;">
-        2️⃣ Thông Tin Tín Chủ / Khách Hàng & Lời Cầu Nguyện Tự Nhắn:
+      <div style="font-size:11.2px; color:#f7cf73; font-weight:800; margin-bottom:5px;">
+        1️⃣ Chọn Chủ Đề Sớ & Bài Khấn (Có Giọng Đọc Thật Đọc Thành Tiếng 🔊):
+      </div>
+      <div class="prayer-topic-grid" id="topicGrid">
+        <button class="topic-btn selected" onclick="selectPrayerTopic('khach_hang', this)">💰 1. Sớ Cầu Khách Hàng · Chốt Đơn Lớn (Đọc Tên + SĐT)</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('tai_loc', this)">📈 2. Sớ Cầu Tài Lộc · Kim Ngân Sung Túc · Lộc Về Đầy Kho</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('binh_an', this)">🕊️ 3. Sớ Cầu Bình An Gia Đạo & Tai Qua Nạn Khỏi</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('suc_khoe', this)">💚 4. Sớ Cầu Sức Khỏe Dồi Dào & Trường Thọ</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('giam_stress', this)">🌿 5. Sớ Cầu Tâm Hồn Thanh Tịnh & An Lạc</button>
+        <button class="topic-btn" onclick="selectPrayerTopic('tu_nhan', this)">✍️ 6. Tự Viết Lời Sớ Cầu Nguyện Riêng (Nhập ở ô dưới)</button>
+      </div>
+
+      <div style="font-size:11.2px; color:#f7cf73; font-weight:800; margin-bottom:5px;">
+        2️⃣ Điền Nhanh Hoặc Tự Viết Tên Tín Chủ Lên Tờ Sớ Vàng:
       </div>
       <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:7px;">
-        <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Đức Đoàn', 'Hải Phòng', '0988668888', 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi')">⚡ A. Đức Đoàn (Hải Phòng)</span>
-        <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Phú', 'Số 1 Trần Hoàn', '0912345678', 'Công trình Số 1 Trần Hoàn hoàn thiện mỹ mãn')">⚡ A. Phú (Trần Hoàn)</span>
-        <span class="cm-auto-pill" onclick="fillCustomerPreset('Đại Gia Đình Trường Yến', 'Việt Nam', '', 'Thân tâm an lạc, sức khỏe dồi dào, vạn sự cát tường')">⚡ Đại Gia Đình Trường Yến</span>
+        <span class="cm-auto-pill" onclick="fillCustomerPreset('Sếp Thành & Kho Trường Yến', 'Hà Nội - Hải Phòng', '0988888888', 'Doanh số bùng nổ, đơn về tới tấp, lộc về đầy kho')">⚡ Sếp Thành (Trường Yến)</span>
+        <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Đức Đoàn', 'Hải Phòng', '0988668888', 'Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi')">⚡ KH A. Đức Đoàn (HP)</span>
+        <span class="cm-auto-pill" onclick="fillCustomerPreset('Anh Phú', 'Số 1 Trần Hoàn', '0912345678', 'Công trình Số 1 Trần Hoàn hoàn thiện mỹ mãn')">⚡ KH A. Phú (Trần Hoàn)</span>
       </div>
 
       <div class="sk-field">
-        <label>👤 Họ và Tên Tín Chủ / Khách Hàng:</label>
-        <input id="skInputName" type="text" value="Anh Đức Đoàn" placeholder="Nhập tên khách hàng hoặc tín chủ..." />
+        <label>👤 Họ và Tên Tín Chủ / Khách Hàng Ghi Lên Sớ:</label>
+        <input id="skInputName" type="text" value="Anh Đức Đoàn" oninput="updateLiveSoPreview()" placeholder="Nhập tên khách hàng hoặc tín chủ..." />
       </div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:7px;">
         <div class="sk-field">
           <label>📍 Địa Chỉ / Công Trình:</label>
-          <input id="skInputAddr" type="text" value="Hải Phòng" placeholder="Nhập địa chỉ..." />
+          <input id="skInputAddr" type="text" value="Hải Phòng" oninput="updateLiveSoPreview()" placeholder="Nhập địa chỉ..." />
         </div>
         <div class="sk-field">
-          <label>📞 Số Điện Thoại (Đọc từng số):</label>
-          <input id="skInputPhone" type="text" value="0988668888" placeholder="Nhập SĐT..." />
+          <label>📞 Số Điện Thoại (Đọc thành tiếng):</label>
+          <input id="skInputPhone" type="text" value="0988668888" oninput="updateLiveSoPreview()" placeholder="Nhập SĐT..." />
         </div>
       </div>
       <div class="sk-field">
-        <label>🪷 Tâm Nguyện Cầu Xin:</label>
-        <input id="skInputWish" type="text" value="Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an" placeholder="Nhập lời cầu nguyện..." />
+        <label>🪷 Lời Cầu Nguyện Viết Lên Tờ Sớ Vàng:</label>
+        <input id="skInputWish" type="text" value="Chốt đơn Tấm Ốp Nano và Nhôm 130 Trường Yến thuận lợi, gia đạo bình an" oninput="updateLiveSoPreview()" placeholder="Nhập lời cầu nguyện..." />
       </div>
 
-      <div class="sk-actions">
-        <button class="btn-sk-close" onclick="closeSoKhanModal()">✕ Đóng Lại</button>
-        <button class="btn-sk-submit" onclick="submitAndReadSoKhan()">🕯️🔊 Thắp Hương & Đọc Bài Khấn Ngay</button>
+      <div class="sk-actions" style="flex-wrap:wrap;">
+        <button class="btn-sk-submit" style="flex:1.4; background:linear-gradient(135deg,#d84315,#b71c1c);" onclick="submitAndReadSoKhan()">🕯️🔊 Đọc Thành Tiếng Bài Khấn & Dâng Sớ (+100 💎)</button>
+        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#f57f17,#e65100);" onclick="submitAndBurnSoKhan()">🔥 Hóa Sớ Vàng (+80 💎)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5B. MODAL RÚT THẺ XĂM CẦU LỘC GIỮA MÀN HÌNH (LẮC ỐNG XĂM TRE -> VĂNG THẺ VÀNG -> ĐỌC LỜI GIẢI THÀNH TIẾNG!) -->
+  <div class="modal-backdrop" id="fortuneStickModal" onclick="if(event.target===this) closeFortuneStickModal()">
+    <div class="so-khan-box" style="max-width:440px; text-align:center;">
+      <div class="sk-top-row">
+        <span class="sk-title">🎋 LẮC ỐNG XĂM & RÚT THẺ CẦU LỘC CHÙA TRƯỜNG YẾN</span>
+        <button class="btn-modal-x" onclick="closeFortuneStickModal()">✕ Đóng</button>
+      </div>
+
+      <div style="font-size:11.5px; color:#ffe596; margin-bottom:8px;">
+        👆 Chạm trực tiếp vào <b>Ống Xăm Tre Sơn Son Thếp Vàng</b> ở giữa màn hình để lắc ống xăm & rút thẻ cầu lộc (Có giọng đọc giải quẻ thành tiếng 🔊):
+      </div>
+
+      <!-- Ống Xăm Tre Tương Tác Giữa Màn Hình -->
+      <div id="bambooCylinderWrap" onclick="shakeAndDrawFortuneStick()" style="cursor:pointer; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 24px; border-radius:20px; background:radial-gradient(circle, rgba(255,193,7,0.28) 0%, rgba(45,16,4,0.85) 72%); border:2px solid #ffd54f; box-shadow:0 8px 25px rgba(0,0,0,0.7); margin-bottom:10px; transition:transform 0.15s;">
+        <div id="bambooCylinderGraphic" style="font-size:68px; line-height:1.05; filter:drop-shadow(0 6px 14px rgba(255,200,50,0.65));">🎋🏺</div>
+        <div id="fortuneShakeStatus" style="font-size:12px; font-weight:900; color:#ffd740; margin-top:6px;">
+          👉 BẤM ĐỂ LẮC ỐNG XĂM & RÚT THẺ (+68 💎 PHƯỚC)
+        </div>
+      </div>
+
+      <!-- Thẻ Xăm Đỏ Vàng Hiện Ra Sau Khi Rút -->
+      <div id="drawnFortuneCard" style="background:linear-gradient(180deg,#8e0000 0%,#4a0000 100%); border:2.5px solid #ffd740; border-radius:14px; padding:12px 14px; text-align:left; box-shadow:0 8px 24px rgba(0,0,0,0.8);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,215,64,0.4); padding-bottom:5px; margin-bottom:7px;">
+          <span id="fcStickNumber" style="font-size:13.5px; font-weight:900; color:#ffd740;">🎋 THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT</span>
+          <span id="fcStickRank" style="background:#ffd740; color:#5d0000; font-size:10px; font-weight:900; padding:2px 7px; border-radius:999px;">ĐẠI PHÁT TÀI LỘC</span>
+        </div>
+        <div id="fcPoem" style="font-size:12px; color:#fff8e1; font-style:italic; text-align:center; line-height:1.5; background:rgba(0,0,0,0.28); padding:7px 10px; border-radius:8px; border:1px dashed rgba(255,215,64,0.45); margin-bottom:8px;">
+          "Rồng vàng gặp hội mây xanh,<br/>
+          Thần Tài mở cửa phúc lành ban trao.<br/>
+          Công trình đơn lớn dồi dào,<br/>
+          Gia môn hưng thịnh bước vào vinh hoa."
+        </div>
+        <div id="fcMeaning" style="font-size:11.5px; color:#ffe596; line-height:1.45;">
+          🌟 <b>Lời Giải Quẻ:</b> Tháng này vận khí đại cát đại lợi, quý nhân phù trợ bốn phương. Kinh doanh buôn bán chốt đơn liên tiếp, cầu tài đắc tài, cầu bình an đắc bình an!
+        </div>
+      </div>
+
+      <div class="sk-actions" style="margin-top:10px;">
+        <button class="btn-sk-submit" style="flex:1;" onclick="shakeAndDrawFortuneStick()">🎋 Lắc Rút Thẻ Khác</button>
+        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="speakCurrentFortuneStick()">🔊 Nghe Đọc Giải Quẻ</button>
       </div>
     </div>
   </div>
@@ -1351,6 +1413,24 @@
     };
     let moRhythmInterval = null;
 
+    const localPrayerMp3 = new Audio('audio/khan_chotdon.mp3');
+    const localFortuneMp3 = new Audio('audio/que_xam_daicat.mp3');
+
+    function updateLiveSoPreview() {
+      const name = document.getElementById('skInputName')?.value || 'Quý Tín Chủ';
+      const addr = document.getElementById('skInputAddr')?.value || 'Việt Nam';
+      const phone = document.getElementById('skInputPhone')?.value || 'Tâm thành';
+      const wish = document.getElementById('skInputWish')?.value || 'Vạn sự cát tường như ý';
+      const pName = document.getElementById('soPreviewName');
+      const pAddr = document.getElementById('soPreviewAddr');
+      const pPhone = document.getElementById('soPreviewPhone');
+      const pWish = document.getElementById('soPreviewWish');
+      if (pName) pName.textContent = name;
+      if (pAddr) pAddr.textContent = addr;
+      if (pPhone) pPhone.textContent = phone;
+      if (pWish) pWish.textContent = `"${wish}"`;
+    }
+
     function selectPrayerTopic(topicKey, btnEl) {
       selectedTopic = topicKey;
       document.querySelectorAll('#topicGrid .topic-btn').forEach(b => b.classList.remove('selected'));
@@ -1371,9 +1451,11 @@
       } else if (presetWishes[topicKey]) {
         wishInput.value = presetWishes[topicKey];
       }
+      updateLiveSoPreview();
     }
 
     function openSoKhanModal() {
+      updateLiveSoPreview();
       document.getElementById('soKhanModal').classList.add('open');
     }
     function closeSoKhanModal() {
@@ -1382,6 +1464,8 @@
     function stopAndClosePrayerBanner() {
       document.getElementById('activeScrollBanner').classList.remove('open');
       if (moRhythmInterval) { clearInterval(moRhythmInterval); moRhythmInterval = null; }
+      localPrayerMp3.pause();
+      localFortuneMp3.pause();
       const ttsEl = document.getElementById('ttsVoicePlayer');
       ttsEl.pause();
       ttsEl.onended = null;
@@ -1395,6 +1479,7 @@
       document.getElementById('skInputAddr').value = addr;
       document.getElementById('skInputPhone').value = phone;
       document.getElementById('skInputWish').value = wish;
+      updateLiveSoPreview();
     }
 
     function phoneToVietnameseWords(phoneStr) {
@@ -1411,11 +1496,23 @@
       try {
         const ttsEl = document.getElementById('ttsVoicePlayer');
         if (!ttsEl) return;
-        const shortText = String(text || '').slice(0, 185);
+        const shortText = String(text || '').slice(0, 190);
         ttsEl.src = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=' + encodeURIComponent(shortText);
         ttsEl.volume = 1.0;
-        ttsEl.play().catch(() => {});
+        ttsEl.play().catch(() => {
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const ut = new SpeechSynthesisUtterance(shortText);
+            ut.lang = 'vi-VN';
+            ut.rate = 0.90;
+            window.speechSynthesis.speak(ut);
+          }
+        });
       } catch (e) {}
+    }
+
+    function replayCurrentPrayerAudio() {
+      readCurrentCustomerPrayer();
     }
 
     function submitAndReadSoKhan() {
@@ -1430,26 +1527,37 @@
       document.getElementById('asPhone').textContent = phone || 'Tâm thành';
       closeSoKhanModal();
 
-      const khNpc = vipCharacters.find(c => c.id === 'ducdoan');
-      if (khNpc) {
-        khNpc.name = `${name} (${addr})`;
-        khNpc.wing = player.wing;
-        khNpc.u = 0.50;
-        khNpc.v = 0.535;
-        khNpc.state = 'bow';
-        khNpc.bowTimer = 380;
-        khNpc.chat = `Tín chủ ${name} (${addr}) thành tâm khấn nguyện! 🙏`;
-        khNpc.chatTimer = 340;
-      }
+      // Đặt Tờ Sớ Điệp Vàng lên Bàn Lễ Cúng Dường và cộng +100 💎 Phước Đức!
+      addMerit(100, `Viết Sớ Điệp Vàng & Đọc Bài Khấn cầu cho ${name}`);
+      const wingKey = String(player.wing);
+      if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
+      altarOfferings[wingKey].push({
+        icon: '📜',
+        label: `Sớ Điệp Vàng`,
+        fullName: `Sớ Điệp Vàng Cầu An Tài Lộc (${name})`,
+        giver: name,
+        imgKey: 'vangDinh',
+        imgSrc: 'assets/vangma_dinh.jpg'
+      });
+      if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
 
       readCurrentCustomerPrayer();
       publishMqtt({
         type: 'sokhan',
         name: player.name,
         customer: currentCustomer,
-        text: `Đang đọc bài khấn cho: ${name} (${addr})`,
+        text: `Đang đọc bài khấn & dâng Sớ Vàng cho: ${name} (${addr})`,
         wing: player.wing
       });
+    }
+
+    function submitAndBurnSoKhan() {
+      const name = document.getElementById('skInputName').value.trim() || 'Quý Tín Chủ';
+      const addr = document.getElementById('skInputAddr').value.trim() || 'Việt Nam';
+      closeSoKhanModal();
+      burnGoldPaperRitual(`📜 Sớ Điệp Vàng Cầu Lộc (${name} - ${addr})`);
+      addMerit(15, `Hóa Sớ Điệp Vàng lên Thượng Giới`);
+      readCurrentCustomerPrayer();
     }
 
     function buildTopicPrayerChunks(topic, name, addr, phoneSpoken, wish) {
@@ -1457,7 +1565,7 @@
       if (topic === 'binh_an') {
         return [
           `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Quan Thế Âm Bồ Tát!`,
-          `Hôm nay tại Chùa Trường Yến, ${who} một lòng thành kính dâng nén tâm hương cầu nguyện bình an.`,
+          `Hôm nay tại Chùa Trường Yến, ${who} một lòng thành kính dâng sớ điệp và nén tâm hương cầu nguyện bình an.`,
           `Cúi xin Chư Phật mười phương từ bi gia hộ cho ${name} cùng toàn thể gia quyến: ${wish}.`,
           `Bốn mùa không chút tai ương, tám tiết có điềm khánh hỷ. Nam mô A Di Đà Phật!`
         ];
@@ -1471,7 +1579,7 @@
       } else if (topic === 'tai_loc') {
         return [
           `Nam mô A Di Đà Phật! Kính lạy Ban Thờ Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần.`,
-          `Hôm nay ${who} thành tâm dâng lễ cầu xin tài lộc và công danh sự nghiệp.`,
+          `Hôm nay ${who} thành tâm dâng sớ vàng cầu xin tài lộc và công danh sự nghiệp.`,
           `Cúi xin Tôn Thần chứng giám lòng thành, độ trì cho ${name}: ${wish}.`,
           `Khai thông vận khí, khách quý tìm đến, lộc tài vượng phát! Nam mô A Di Đà Phật!`
         ];
@@ -1485,18 +1593,17 @@
       } else if (topic === 'tu_nhan') {
         return [
           `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật, Chư Đại Bồ Tát và Chư Vị Tôn Thần.`,
-          `Hôm nay ${who} quỳ trước chánh điện, thành tâm dâng lời cầu nguyện riêng từ đáy lòng:`,
+          `Hôm nay ${who} quỳ trước chánh điện, thành tâm dâng sớ cầu nguyện từ đáy lòng:`,
           `${wish}.`,
           `Cúi xin Chư Phật chứng minh công đức và gia hộ cho tâm nguyện của ${name} sớm được viên mãn như ý! Nam mô A Di Đà Phật!`
         ];
       }
-      // Default: Khấn Cầu Khách Hàng Chốt Đơn Lớn
       const altarTitle = (currentZone === 'thantai')
         ? 'Ban Thờ Thần Tài Vị Tiền, Ngũ Phương Ngũ Thổ Long Thần, Tiền Hậu Địa Chủ Tài Thần'
         : 'Đại Hùng Bảo Điện, Mười Phương Chư Phật, Đức Phật Thích Ca Mâu Ni';
       return [
         `Nam mô A Di Đà Phật! Kính lạy ${altarTitle}.`,
-        `Hôm nay tại Chùa Trường Yến, đại diện Kho Tấm Ốp Trường Yến xin thành tâm thắp hương khấn cầu cho tín chủ khách hàng: ${name}.`,
+        `Hôm nay tại Chùa Trường Yến, đại diện Kho Tấm Ốp Trường Yến xin thành tâm dâng sớ khấn cầu cho tín chủ khách hàng: ${name}.`,
         `Ngụ tại địa chỉ: ${addr}.` + (phoneSpoken ? ` Số điện thoại: ${phoneSpoken}.` : ''),
         `Nguyện cầu ơn trên độ trì cho khách hàng ${name} tại ${addr}: ${wish}.`,
         `Tâm thành tất ứng, chốt đơn suôn sẻ, vạn sự đại cát đại lợi! Nam mô A Di Đà Phật!`
@@ -1508,7 +1615,7 @@
       bgChantTamBao.pause();
       bgChantThanTai.pause();
       if (isMusicPlaying) {
-        bgMusicPlayer.volume = 0.32;
+        bgMusicPlayer.volume = 0.25;
         bgMusicPlayer.play().catch(() => {});
       }
 
@@ -1522,7 +1629,15 @@
       const ttsChunks = buildTopicPrayerChunks(selectedTopic, name, addr, phoneSpoken, wish);
 
       if (moRhythmInterval) clearInterval(moRhythmInterval);
-      moRhythmInterval = setInterval(playMoSound, 750);
+      moRhythmInterval = setInterval(playMoSound, 820);
+
+      // 1. Phát ngay giọng đọc thật MP3 đã thu sẵn (100% kêu to rõ trên mọi điện thoại iOS/Android/Zalo!)
+      let mp3File = 'audio/khan_chotdon.mp3';
+      if (selectedTopic === 'tai_loc') mp3File = 'audio/khan_tailoc.mp3';
+      else if (selectedTopic === 'binh_an' || selectedTopic === 'suc_khoe' || selectedTopic === 'giam_stress') mp3File = 'audio/khan_binhan.mp3';
+      localPrayerMp3.src = mp3File;
+      localPrayerMp3.volume = 1.0;
+      localPrayerMp3.play().catch(() => {});
 
       const ttsEl = document.getElementById('ttsVoicePlayer');
       let chunkIdx = 0;
@@ -1545,24 +1660,117 @@
         player.chatTimer = 240;
         const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=' + encodeURIComponent(textChunk);
         ttsEl.src = url;
-        ttsEl.playbackRate = 0.92;
+        ttsEl.volume = 1.0;
+        ttsEl.playbackRate = 0.94;
         ttsEl.onended = () => setTimeout(playNextChunk, 220);
         ttsEl.onerror = () => {
           if ('speechSynthesis' in window) {
             const ut = new SpeechSynthesisUtterance(textChunk);
             ut.lang = 'vi-VN';
-            ut.rate = 0.88;
+            ut.rate = 0.90;
             ut.onend = () => setTimeout(playNextChunk, 200);
-            ut.onerror = () => setTimeout(playNextChunk, 200);
+            ut.onerror = () => setTimeout(playNextChunk, 3200);
             window.speechSynthesis.speak(ut);
           } else {
-            setTimeout(playNextChunk, 2200);
+            setTimeout(playNextChunk, 3500);
           }
         };
         ttsEl.play().catch(() => ttsEl.onerror());
       }
 
       playNextChunk();
+    }
+
+    // =========================================================================
+    // 1C. HỆ THỐNG LẮC ỐNG XĂM TRE & RÚT THẺ CẦU LỘC (ĐỌC LỜI GIẢI THÀNH TIẾNG!)
+    // =========================================================================
+    const fortuneSticksPool = [
+      {
+        num: 'THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT',
+        rank: 'ĐẠI PHÁT TÀI LỘC',
+        poem: 'Rồng vàng gặp hội mây xanh,<br/>Thần Tài mở cửa phúc lành ban trao.<br/>Công trình đơn lớn dồi dào,<br/>Gia môn hưng thịnh bước vào vinh hoa.',
+        meaning: '🌟 <b>Lời Giải Quẻ:</b> Tháng này vận khí đại cát đại lợi, quý nhân phù trợ bốn phương. Kinh doanh buôn bán chốt đơn liên tiếp, cầu tài đắc tài, cầu lộc đắc lộc!',
+        spoken: 'Chúc mừng tín chủ rút được Thẻ số sáu mươi tám, Quẻ Thượng Thượng Cát, Đại Phát Tài Lộc! Rồng vàng gặp hội mây xanh, Thần Tài mở cửa phúc lành ban trao. Tháng này kinh doanh chốt đơn liên tiếp, lộc về đầy kho!'
+      },
+      {
+        num: 'THẺ SỐ 88 — QUẺ ĐẠI CÁT ĐẠI LỢI',
+        rank: 'CHỐT ĐƠN BÙNG NỔ',
+        poem: 'Lộc xuân nở rộ cành vàng,<br/>Khách gần khách xa rộn ràng tìm sang.<br/>Kho đầy hàng xuất thênh thang,<br/>Kim ngân mãn trạch giàu sang vững bền.',
+        meaning: '🌟 <b>Lời Giải Quẻ:</b> Quẻ đại vượng về kinh doanh thương mại! Khách hàng tin yêu giới thiệu nhau tìm đến, doanh số vượt chỉ tiêu gấp bội, tiền tài vào như nước.',
+        spoken: 'Chúc mừng tín chủ rút được Thẻ số tám mươi tám, Quẻ Đại Cát Đại Lợi, Chốt Đơn Bùng Nổ! Lộc xuân nở rộ cành vàng, khách gần khách xa rộn ràng tìm sang, doanh số vượt chỉ tiêu rực rỡ!'
+      },
+      {
+        num: 'THẺ SỐ 01 — QUẺ ĐỆ NHẤT KHAI VẬN',
+        rank: 'VẠN SỰ HANH THÔNG',
+        poem: 'Mặt trời bừng sáng đỉnh non,<br/>Mây mù tan biến vuông tròn ước mong.<br/>Tâm thành kính lễ một lòng,<br/>Mười phương Chư Phật hộ trì bình an.',
+        meaning: '🌟 <b>Lời Giải Quẻ:</b> Mọi việc khởi đầu đều hanh thông thuận lợi, mọi khúc mắc được tháo gỡ. Gia đạo an vui, sức khỏe dồi dào, mưu sự tất thành!',
+        spoken: 'Chúc mừng tín chủ rút được Thẻ số không một, Quẻ Đệ Nhất Khai Vận, Vạn Sự Hanh Thông! Mặt trời bừng sáng đỉnh non, mười phương Chư Phật hộ trì bình an, cầu gì được nấy!'
+      },
+      {
+        num: 'THẺ SỐ 39 — QUẺ THẦN TÀI ĐỘ MỆNH',
+        rank: 'KIM NGÂN MÃN ĐƯỜNG',
+        poem: 'Thần Tài gõ cửa ban mai,<br/>Vàng ròng ngọc quý trải dài trước sân.<br/>Làm ăn chữ tín mười phân,<br/>Phúc dày đức trọng muôn phần hiển vinh.',
+        meaning: '🌟 <b>Lời Giải Quẻ:</b> Đức Ông và Thần Tài Vị Tiền chứng giám lòng thành, ban lộc bất ngờ, ký kết hợp đồng lớn suôn sẻ, tài chính dư dả sung túc!',
+        spoken: 'Chúc mừng tín chủ rút được Thẻ số ba mươi chín, Quẻ Thần Tài Độ Mệnh, Kim Ngân Mãn Đường! Thần Tài gõ cửa ban mai, ký kết hợp đồng lớn suôn sẻ, tài chính sung túc!'
+      },
+      {
+        num: 'THẺ SỐ 99 — QUẺ PHÚC THỌ VIÊN MÃN',
+        rank: 'GIA ĐẠO AN KHANG',
+        poem: 'Sen hồng tỏa ngát hương thanh,<br/>Bình an hai chữ phúc lành bền lâu.<br/>Trên hòa dưới thuận trước sau,<br/>Trăm năm hạnh phúc giàu sang vững vàng.',
+        meaning: '🌟 <b>Lời Giải Quẻ:</b> Gia đình êm ấm thuận hòa, cha mẹ mạnh khỏe trường thọ, con cái hiếu thảo thành đạt, tâm hồn thanh tịnh an nhiên!',
+        spoken: 'Chúc mừng tín chủ rút được Thẻ số chín mươi chín, Quẻ Phúc Thọ Viên Mã, Gia Đạo An Khang! Sen hồng tỏa ngát hương thanh, gia đình thuận hòa, bách niên trường thọ!'
+      }
+    ];
+    let currentFortuneStick = fortuneSticksPool[0];
+
+    function openFortuneStickModal() {
+      unlockAndStartAudio();
+      document.getElementById('fortuneStickModal').classList.add('open');
+      playMoSound();
+    }
+    function closeFortuneStickModal() {
+      document.getElementById('fortuneStickModal').classList.remove('open');
+      localFortuneMp3.pause();
+    }
+
+    function shakeAndDrawFortuneStick() {
+      unlockAndStartAudio();
+      const wrap = document.getElementById('bambooCylinderWrap');
+      const statusEl = document.getElementById('fortuneShakeStatus');
+      if (statusEl) statusEl.textContent = '🎋 Đang lắc ống xăm... Cốc! Cốc! Cốc!';
+
+      // Hiệu ứng lắc ống xăm 6 nhịp kèm tiếng mõ/xăm tre thật
+      let shakes = 0;
+      const shakeTimer = setInterval(() => {
+        shakes++;
+        playMoSound();
+        if (wrap) {
+          wrap.style.transform = (shakes % 2 === 0) ? 'rotate(-11deg) scale(1.06)' : 'rotate(11deg) scale(1.06)';
+        }
+        if (shakes >= 6) {
+          clearInterval(shakeTimer);
+          if (wrap) wrap.style.transform = 'rotate(0deg) scale(1)';
+          currentFortuneStick = fortuneSticksPool[Math.floor(Math.random() * fortuneSticksPool.length)];
+          document.getElementById('fcStickNumber').textContent = `🎋 ${currentFortuneStick.num}`;
+          document.getElementById('fcStickRank').textContent = currentFortuneStick.rank;
+          document.getElementById('fcPoem').innerHTML = `"${currentFortuneStick.poem}"`;
+          document.getElementById('fcMeaning').innerHTML = currentFortuneStick.meaning;
+          if (statusEl) statusEl.textContent = `✨ ĐÃ RÚT ĐƯỢC: ${currentFortuneStick.num} (+68 💎)`;
+          playBellSound();
+          addMerit(68, `Rút thẻ xăm: ${currentFortuneStick.num}`);
+          player.chat = `🎋 Con vừa rút được ${currentFortuneStick.num} (${currentFortuneStick.rank})! 🙏`;
+          player.chatTimer = 320;
+          speakCurrentFortuneStick();
+        }
+      }, 135);
+    }
+
+    function speakCurrentFortuneStick() {
+      unlockAndStartAudio();
+      localFortuneMp3.src = 'audio/que_xam_daicat.mp3';
+      localFortuneMp3.volume = 1.0;
+      localFortuneMp3.play().catch(() => {});
+      speakVietnameseText(currentFortuneStick.spoken);
     }
 
     // =========================================================================
@@ -3705,6 +3913,7 @@
     if (location.search.includes('table=1')) setTimeout(() => openCenterStage('table_inspect'), 80);
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
     if (location.search.includes('khan=1')) setTimeout(openSoKhanModal, 100);
+    if (location.search.includes('xam=1')) setTimeout(openFortuneStickModal, 100);
     if (location.search.includes('burn=1')) {
       goldBurnCeremony = { active: true, timer: 240, maxTimer: 240, wing: player.wing };
     }
