@@ -1162,11 +1162,11 @@
           ⚠️ <b>Phân Chia 2 Cấp Độ Rõ Ràng:</b> <b>[MẮNG]</b> là nói lý lẽ, đá xéo, cà khịa sâu cay (-10💎) · <b>[CHỬI]</b> là dùng từ ngữ thậm tệ, cay nghiệt, mắng nhiếc xối xả tới bến để trút sạch cơn điên tiết (-25💎 đến -40💎)!
         </div>
 
-        <div class="preset-bar" style="margin-bottom:6px;">
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'đặt hàng xong tắt máy trốn biệt, hẹn lần hẹn lữa lật lọng vô trách nhiệm')">📦 Kẻ Hứa Lèo Bom Hàng</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Đối Thủ Chơi Bẩn', 'bán hàng giả kém chất lượng phá giá, lén lút đâm sau lưng nói xấu tiểu nhân')">🐍 Đối Thủ Chơi Bẩn</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Con Nợ Chây Ì Quỵt Tiền', 'lúc khó khăn van xin lấy hàng, đến hạn thanh toán thì trốn chui trốn lủi không trả')">💸 Con Nợ Quỵt Tiền</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Ăn Cháo Đá Bát', 'được giúp đỡ tận tình nhưng quay lưng phản bội, đâm bị thóc chọc bị gạo')">😤 Kẻ Vô Ơn Phản Bội</span>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
+          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'đặt hàng xong tắt máy trốn biệt, hẹn lần hẹn lữa lật lọng vô trách nhiệm')">📦 Kẻ Hứa Lèo Bom Hàng</button>
+          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Đối Thủ Chơi Bẩn', 'bán hàng giả kém chất lượng phá giá, lén lút đâm sau lưng nói xấu tiểu nhân')">🐍 Đối Thủ Chơi Bẩn</button>
+          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Con Nợ Chây Ì Quỵt Tiền', 'lúc khó khăn van xin lấy hàng, đến hạn thanh toán thì trốn chui trốn lủi không trả')">💸 Con Nợ Quỵt Tiền</button>
+          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Ăn Cháo Đá Bát', 'được giúp đỡ tận tình nhưng quay lưng phản bội, đâm bị thóc chọc bị gạo')">😤 Kẻ Vô Ơn Phản Bội</button>
         </div>
 
         <div class="sk-field" style="margin-bottom:5px;">
@@ -5985,8 +5985,9 @@
     if (location.search.includes('karma=1')) {
       setTimeout(() => {
         openKarmaReleaseModal();
-        triggerKarmaHit(140, 60);
-        setTimeout(() => triggerKarmaHit(210, 72), 80);
+        executeKarmaHit(145, 62);
+        setTimeout(() => selectAndHitWeapon('slipper'), 70);
+        setTimeout(() => selectAndHitWeapon('lightning'), 140);
       }, 100);
     }
     if (location.search.includes('burn=1')) {
