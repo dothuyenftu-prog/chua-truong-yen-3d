@@ -2118,7 +2118,8 @@
       leHoaSen: new Image(),
       leNguQua: new Image(),
       leTraOan: new Image(),
-      leDaiLe: new Image()
+      leDaiLe: new Image(),
+      furnaceReal: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
@@ -2135,6 +2136,7 @@
     images.leNguQua.src = 'assets/le_nguqua.png';
     images.leTraOan.src = 'assets/le_traoan.png';
     images.leDaiLe.src = 'assets/le_daile.png';
+    images.furnaceReal.src = 'assets/furnace_real.jpg';
 
     const urlParams = new URLSearchParams(window.location.search);
     let currentZone = urlParams.get('zone') || 'tambao';
@@ -3902,7 +3904,7 @@
         if (offeringCeremony.timer === 0) offeringCeremony.active = false;
       }
 
-      // Lư Đồng Hóa Tiền Vàng (Bronze Furnace for Burning Gold Ingots & Joss Paper)
+      // Đài Hóa Vàng Thật Khi Hóa Sớ Vàng Trong Chánh Điện (Ảnh chụp Lò Hóa Vàng + Lửa Volumetric Additive Chân Thật)
       if (goldBurnCeremony && goldBurnCeremony.active && goldBurnCeremony.timer > 0) {
         goldBurnCeremony.timer--;
         const wx = centerScreenX + (goldBurnCeremony.wing - camWingX) * wingW - wingW / 2;
@@ -3912,40 +3914,42 @@
         ctx.save();
         ctx.translate(furnX, furnY);
 
-        const fGlow = ctx.createRadialGradient(0, -18, 5, 0, -18, 68);
-        fGlow.addColorStop(0, `rgba(255, 160, 20, ${0.75 + 0.2 * Math.sin(frameCount * 0.2)})`);
-        fGlow.addColorStop(0.5, 'rgba(255, 70, 0, 0.35)');
-        fGlow.addColorStop(1, 'rgba(255, 40, 0, 0)');
-        ctx.fillStyle = fGlow;
-        ctx.beginPath();
-        ctx.arc(0, -18, 68, 0, Math.PI * 2);
-        ctx.fill();
-
-        for (let f = 0; f < 7; f++) {
-          const fx = (f - 3) * 7 + Math.sin(frameCount * 0.22 + f) * 4;
-          const fh = 22 + Math.abs(Math.sin(frameCount * 0.18 + f * 1.3)) * 24;
-          ctx.fillStyle = (f % 2 === 0) ? '#ff6d00' : '#ffd600';
+        if (images.furnaceReal && images.furnaceReal.complete && images.furnaceReal.naturalWidth > 0) {
+          ctx.save();
           ctx.beginPath();
-          ctx.ellipse(fx, -12 - fh * 0.4, 7, fh * 0.6, 0, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.roundRect(-42, -58, 84, 96, 12);
+          ctx.clip();
+          ctx.drawImage(images.furnaceReal, 120, 260, 528, 660, -42, -58, 84, 96);
+          ctx.restore();
+          ctx.strokeStyle = '#ffd54f';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.roundRect(-42, -58, 84, 96, 12);
+          ctx.stroke();
         }
 
-        ctx.fillStyle = '#4e2608';
-        ctx.strokeStyle = '#ffd54f';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.roundRect(-34, -8, 68, 34, 10);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.font = '16px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🔥🧧🔥', 0, 8);
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        for (let f = 0; f < 9; f++) {
+          const phase = frameCount * 0.16 + f * 1.1;
+          const fx = Math.sin(phase) * 12;
+          const fy = 4 - ((frameCount * 1.4 + f * 7) % 34);
+          const rad = Math.max(4, 18 - (4 - fy) * 0.38);
+          const fg = ctx.createRadialGradient(fx, fy, 1, fx, fy, rad);
+          fg.addColorStop(0, 'rgba(255, 250, 200, 0.72)');
+          fg.addColorStop(0.45, 'rgba(255, 140, 20, 0.52)');
+          fg.addColorStop(1, 'rgba(220, 30, 0, 0)');
+          ctx.fillStyle = fg;
+          ctx.beginPath();
+          ctx.arc(fx, fy, rad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
 
         ctx.font = 'bold 10px sans-serif';
         ctx.fillStyle = '#ffe082';
-        ctx.fillText('LƯ HÓA VÀNG MÃ (+65💎)', 0, 36);
+        ctx.textAlign = 'center';
+        ctx.fillText('ĐÀI HÓA VÀNG (+12💎)', 0, 50);
         ctx.restore();
 
         if (goldBurnCeremony.timer === 0) goldBurnCeremony.active = false;
@@ -4029,7 +4033,7 @@
     }
 
     // =========================================================================
-    // 8. PHÒNG ĐỐT VÀNG MÃ VIỆT NAM (QUY CHUẨN: PHẢI THỈNH VÀNG MÃ VÀO TÚI MỚI ĐỐT ĐƯỢC!)
+    // 8. PHÒNG ĐỐT VÀNG MÃ VIỆT NAM (ẢNH CHỤP ĐÀI HÓA VÀNG THẬT + NGỌN LỬA VOLUMETRIC CHÁY THẬT 100%!)
     // =========================================================================
     const fCanvas = document.getElementById('furnaceCanvas');
     const fCtx = fCanvas.getContext('2d');
@@ -4041,22 +4045,63 @@
     let furnaceMeritSession = 24;
     let furnaceFlareTimer = 0;
     const flyingGoldThrows = [];
-    const furnaceEmbers = [];
-    for (let i = 0; i < 45; i++) {
-      furnaceEmbers.push({
-        x: 0.35 + Math.random() * 0.30,
-        y: 0.25 + Math.random() * 0.45,
-        vy: 0.002 + Math.random() * 0.004,
-        vx: (Math.random() - 0.5) * 0.002,
-        r: 1.5 + Math.random() * 3.0,
-        alpha: 0.4 + Math.random() * 0.6
-      });
+
+    // 42 hạt lửa Volumetric (Additive Blending) bập bùng bên trong vòm cửa lò gạch thật
+    const realFirePlumes = Array.from({ length: 42 }, (_, idx) => ({
+      life: (idx / 42),
+      speed: 0.018 + (idx % 7) * 0.004,
+      lane: ((idx % 11) / 10) - 0.5,
+      turbulence: idx * 1.37,
+      baseRadius: 24 + (idx % 5) * 9
+    }));
+
+    // 75 tàn lửa & tia lửa hồng rực bay lên từ cửa lò và ống khói Đài Hóa Vàng
+    const furnaceEmbers = Array.from({ length: 75 }, () => ({
+      x: 0.39 + Math.random() * 0.22,
+      y: 0.12 + Math.random() * 0.50,
+      vy: 0.0025 + Math.random() * 0.0055,
+      vx: (Math.random() - 0.5) * 0.0022,
+      r: 1.0 + Math.random() * 2.4,
+      alpha: 0.45 + Math.random() * 0.55,
+      hot: Math.random() > 0.35
+    }));
+
+    // Hiệu ứng âm thanh lửa cháy tí tách & bùng lửa chân thật bằng WebAudio
+    let fireAudioCtx = null;
+    function playRealFireWhooshSound() {
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!fireAudioCtx) fireAudioCtx = new AC();
+        if (fireAudioCtx.state === 'suspended') fireAudioCtx.resume();
+        const dur = 0.42;
+        const bufSize = Math.floor(fireAudioCtx.sampleRate * dur);
+        const buf = fireAudioCtx.createBuffer(1, bufSize, fireAudioCtx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < bufSize; i++) {
+          const env = Math.sin((i / bufSize) * Math.PI);
+          const crackle = (Math.random() > 0.985) ? (Math.random() * 2 - 1) * 1.8 : (Math.random() * 2 - 1) * 0.38;
+          data[i] = crackle * env;
+        }
+        const src = fireAudioCtx.createBufferSource();
+        src.buffer = buf;
+        const filter = fireAudioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 420;
+        filter.Q.value = 0.85;
+        const gain = fireAudioCtx.createGain();
+        gain.gain.value = 0.45;
+        src.connect(filter);
+        filter.connect(gain);
+        gain.connect(fireAudioCtx.destination);
+        src.start();
+      } catch (e) {}
     }
 
     let swipeDrag = { active: false, startX: 0, startY: 0, curX: 0, curY: 0 };
 
     function resizeFurnaceCanvas() {
-      const fDpr = Math.min(1.25, window.devicePixelRatio || 1);
+      const fDpr = Math.min(1.35, window.devicePixelRatio || 1);
       fCanvas.width = window.innerWidth * fDpr;
       fCanvas.height = window.innerHeight * fDpr;
       fCtx.setTransform(fDpr, 0, 0, fDpr, 0, 0);
@@ -4072,7 +4117,7 @@
       furnaceOpen = true;
       document.getElementById('goldFurnaceRoom').classList.add('open');
       resizeFurnaceCanvas();
-      playBellSound();
+      playRealFireWhooshSound();
     }
 
     function closeGoldFurnaceRoom() {
@@ -4106,9 +4151,9 @@
       }
       flyingGoldThrows.push({
         x: W * 0.5,
-        y: H * 0.76,
-        targetX: W * 0.5 + vxOffset * 0.25,
-        targetY: H * 0.37,
+        y: H * 0.77,
+        targetX: W * 0.5 + vxOffset * 0.16,
+        targetY: H * 0.535, // Bay thẳng vào đúng chính giữa vòm cửa lửa cháy thật của Đài Hóa Vàng!
         prog: 0,
         rot: 0,
         icon: selectedGoldIcon,
@@ -4116,13 +4161,13 @@
         merit: selectedGoldMerit,
         imgKey: selectedGoldImgKey
       });
-      playMoSound();
+      playRealFireWhooshSound();
       return true;
     }
 
     function completeGoldBurnItem(g) {
       if (!g) return;
-      furnaceFlareTimer = 25;
+      furnaceFlareTimer = 34;
       burnCountTotal++;
       const pts = g.merit || 12;
       furnaceMeritSession += pts;
@@ -4131,11 +4176,19 @@
       document.getElementById('furnaceMeritEarned').textContent = `+${furnaceMeritSession} 💎`;
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
-      playBellSound();
+      playRealFireWhooshSound();
+      // Bùng 18 tia lửa hồng rực từ cửa lò khi lễ vàng mã bắt lửa!
+      for (let s = 0; s < 18; s++) {
+        const em = furnaceEmbers[s % furnaceEmbers.length];
+        em.x = 0.43 + Math.random() * 0.14;
+        em.y = 0.52 + Math.random() * 0.06;
+        em.vy = 0.005 + Math.random() * 0.007;
+        em.alpha = 1.0;
+      }
       if (floatingHits.length > 5) floatingHits.shift();
       floatingHits.push({
-        x: window.innerWidth * 0.5 + (Math.random() - 0.5) * 40,
-        y: window.innerHeight * 0.34,
+        x: window.innerWidth * 0.5 + (Math.random() - 0.5) * 36,
+        y: window.innerHeight * 0.42,
         text: `🔥 +${pts} 💎 (${g.name})`,
         color: '#ffd740',
         life: 1.05
@@ -4214,131 +4267,139 @@
       if (furnaceOpen) {
         const W = window.innerWidth;
         const H = window.innerHeight;
-        fCtx.clearRect(0, 0, W, H);
-
-        const cx = W * 0.5;
-        const furnaceY = H * 0.36;
-        const fW = Math.min(330, W * 0.84);
-        const fH = Math.min(250, H * 0.34);
+        fCtx.fillStyle = '#070301';
+        fCtx.fillRect(0, 0, W, H);
 
         if (furnaceFlareTimer > 0) furnaceFlareTimer--;
-        const flareBoost = (furnaceFlareTimer > 0) ? 1.45 : 1.0;
+        const flareBoost = (furnaceFlareTimer > 0) ? (1.0 + (furnaceFlareTimer / 34) * 0.65) : 1.0;
 
-        // 1. Radiant Fire Aura behind Furnace
-        const bgGlow = fCtx.createRadialGradient(cx, furnaceY, 15, cx, furnaceY, fW * 0.85 * flareBoost);
-        bgGlow.addColorStop(0, `rgba(255, 165, 20, ${0.65 + 0.15 * Math.sin(frameCount * 0.15)})`);
-        bgGlow.addColorStop(0.5, 'rgba(215, 55, 5, 0.32)');
-        bgGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        fCtx.fillStyle = bgGlow;
-        fCtx.beginPath();
-        fCtx.arc(cx, furnaceY, fW * 0.85 * flareBoost, 0, Math.PI * 2);
-        fCtx.fill();
-
-        // 2. Ancient Brick & Gold Pagoda Furnace Structure (Đài Hóa Vàng Mã Việt Nam)
-        fCtx.save();
-        fCtx.fillStyle = '#4a1806';
-        fCtx.strokeStyle = '#ffd54f';
-        fCtx.lineWidth = 2.5;
-        fCtx.beginPath();
-        fCtx.moveTo(cx - fW * 0.62, furnaceY - fH * 0.46);
-        fCtx.quadraticCurveTo(cx, furnaceY - fH * 0.72, cx + fW * 0.62, furnaceY - fH * 0.46);
-        fCtx.lineTo(cx + fW * 0.50, furnaceY - fH * 0.36);
-        fCtx.lineTo(cx - fW * 0.50, furnaceY - fH * 0.36);
-        fCtx.closePath();
-        fCtx.fill();
-        fCtx.stroke();
-
-        // Furnace plaque
-        fCtx.fillStyle = '#2b0d03';
-        fCtx.strokeStyle = '#ffd740';
-        fCtx.lineWidth = 1.8;
-        fCtx.beginPath();
-        fCtx.roundRect(cx - 125, furnaceY - fH * 0.56, 250, 26, 8);
-        fCtx.fill();
-        fCtx.stroke();
-        fCtx.font = 'bold 11.5px sans-serif';
-        fCtx.fillStyle = '#ffd740';
-        fCtx.textAlign = 'center';
-        fCtx.textBaseline = 'middle';
-        fCtx.fillText('🔥 ĐÀI HÓA VÀNG MÃ VIỆT NAM 🔥', cx, furnaceY - fH * 0.56 + 13);
-
-        // Furnace brick body
-        const bodyGrad = fCtx.createLinearGradient(cx - fW * 0.46, furnaceY - fH * 0.36, cx + fW * 0.46, furnaceY + fH * 0.48);
-        bodyGrad.addColorStop(0, '#5e2109');
-        bodyGrad.addColorStop(0.5, '#3b1204');
-        bodyGrad.addColorStop(1, '#240a02');
-        fCtx.fillStyle = bodyGrad;
-        fCtx.strokeStyle = '#e6a83a';
-        fCtx.lineWidth = 2.5;
-        fCtx.beginPath();
-        fCtx.roundRect(cx - fW * 0.46, furnaceY - fH * 0.36, fW * 0.92, fH * 0.82, 14);
-        fCtx.fill();
-        fCtx.stroke();
-
-        // Arched Fiery Furnace Mouth (Cửa Lò Lửa)
-        const mouthW = fW * 0.62;
-        const mouthH = fH * 0.58;
-        fCtx.fillStyle = '#140400';
-        fCtx.strokeStyle = '#ffb300';
-        fCtx.lineWidth = 3;
-        fCtx.beginPath();
-        fCtx.roundRect(cx - mouthW / 2, furnaceY - mouthH * 0.42, mouthW, mouthH, [mouthW * 0.45, mouthW * 0.45, 10, 10]);
-        fCtx.fill();
-        fCtx.stroke();
-
-        // Roaring volumetric flames inside the Furnace Mouth
-        for (let i = 0; i < 11; i++) {
-          const frac = (i / 10) - 0.5;
-          const fx = cx + frac * (mouthW * 0.76) + Math.sin(frameCount * 0.22 + i) * 5;
-          const baseH = (mouthH * 0.42 + Math.abs(Math.sin(frameCount * 0.19 + i * 1.4)) * mouthH * 0.45) * flareBoost;
-          const fy = furnaceY + mouthH * 0.50;
-          const flGrad = fCtx.createLinearGradient(fx, fy, fx, fy - baseH);
-          flGrad.addColorStop(0, '#ff3d00');
-          flGrad.addColorStop(0.55, '#ff9100');
-          flGrad.addColorStop(1, '#ffee58');
-          fCtx.fillStyle = flGrad;
-          fCtx.beginPath();
-          fCtx.ellipse(fx, fy - baseH * 0.42, 13 * flareBoost, baseH * 0.55, 0, 0, Math.PI * 2);
-          fCtx.fill();
+        // 1. Vẽ Ảnh Chụp Thật Đài Hóa Vàng Cổ Kính Chùa Việt Nam & Ngọn Lửa Thật (assets/furnace_real.jpg)
+        let imgX = 0, imgY = 0, drawW = W, drawH = H;
+        if (images.furnaceReal && images.furnaceReal.complete && images.furnaceReal.naturalWidth > 0) {
+          const iw = images.furnaceReal.naturalWidth;
+          const ih = images.furnaceReal.naturalHeight;
+          const scale = Math.max(W / iw, H / ih);
+          drawW = iw * scale;
+          drawH = ih * scale;
+          imgX = (W - drawW) * 0.5;
+          imgY = (H - drawH) * 0.42;
+          fCtx.drawImage(images.furnaceReal, imgX, imgY, drawW, drawH);
         }
 
-        fCtx.font = '22px sans-serif';
-        fCtx.fillText('🧧🔥💴🔥🐎', cx, furnaceY + mouthH * 0.36);
+        // Tọa độ chính xác của vòm cửa lửa trong bức ảnh thật (u: 0.38..0.62, v: 0.45..0.63)
+        const mouthCx = imgX + drawW * 0.502;
+        const mouthBottomY = imgY + drawH * 0.625;
+        const mouthTopY = imgY + drawH * 0.448;
+        const mouthW = drawW * 0.235;
+        const mouthH = mouthBottomY - mouthTopY;
+        const mouthCenterY = (mouthTopY + mouthBottomY) * 0.5;
+
+        // 2. Hiệu ứng Ngọn Lửa Volumetric Cháy Thật (Additive Light Blending) bập bùng sống động bên trong vòm cửa lò!
+        fCtx.save();
+        fCtx.globalCompositeOperation = 'lighter';
+
+        // Ánh lửa phản chiếu bập bùng lên vòm gạch cổ & nền gạch sân chùa phía trước
+        const flicker = 0.22 + 0.08 * Math.sin(frameCount * 0.27) + 0.05 * Math.cos(frameCount * 0.43);
+        const archGlow = fCtx.createRadialGradient(mouthCx, mouthCenterY, 8, mouthCx, mouthCenterY, mouthW * 1.15 * flareBoost);
+        archGlow.addColorStop(0, `rgba(255, 200, 70, ${Math.min(0.85, flicker * flareBoost)})`);
+        archGlow.addColorStop(0.5, `rgba(255, 95, 10, ${0.18 * flareBoost})`);
+        archGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        fCtx.fillStyle = archGlow;
+        fCtx.beginPath();
+        fCtx.arc(mouthCx, mouthCenterY, mouthW * 1.15 * flareBoost, 0, Math.PI * 2);
+        fCtx.fill();
+
+        // Ánh lửa hắt xuống nền sân gạch phía dưới lò
+        const floorY = imgY + drawH * 0.80;
+        const floorGlow = fCtx.createRadialGradient(mouthCx, floorY, 5, mouthCx, floorY, mouthW * 1.35);
+        floorGlow.addColorStop(0, `rgba(255, 120, 20, ${(0.14 + 0.05 * Math.sin(frameCount * 0.23)) * flareBoost})`);
+        floorGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        fCtx.fillStyle = floorGlow;
+        fCtx.beginPath();
+        fCtx.ellipse(mouthCx, floorY, mouthW * 1.35, mouthH * 0.45, 0, 0, Math.PI * 2);
+        fCtx.fill();
+
+        // Giới hạn vùng vòm cửa lò để lưỡi lửa Volumetric cuồn cuộn chân thật bên trong lò gạch
+        fCtx.beginPath();
+        fCtx.roundRect(mouthCx - mouthW * 0.52, mouthTopY - mouthH * 0.14, mouthW * 1.04, mouthH * 1.14, [mouthW * 0.5, mouthW * 0.5, 8, 8]);
+        fCtx.clip();
+
+        for (const p of realFirePlumes) {
+          p.life += p.speed * (furnaceFlareTimer > 0 ? 1.45 : 1.0);
+          if (p.life >= 1.0) p.life -= 1.0;
+
+          const t = p.life; // 0 = đáy than hồng, 1 = ngọn lửa bốc cao lên vòm lò
+          const wave = Math.sin(frameCount * 0.14 + p.turbulence + t * 5.2) * (mouthW * 0.16 * (0.3 + t * 0.7));
+          const px = mouthCx + p.lane * (mouthW * 0.72 * (1 - t * 0.35)) + wave;
+          const py = mouthBottomY - t * (mouthH * 1.05 * flareBoost);
+          const rad = p.baseRadius * (1.15 - t * 0.68) * (mouthW / 110) * flareBoost;
+          const alpha = Math.sin(t * Math.PI) * (0.36 * flareBoost);
+
+          const fg = fCtx.createRadialGradient(px, py, rad * 0.08, px, py, rad);
+          if (t < 0.35) {
+            fg.addColorStop(0, `rgba(255, 255, 220, ${alpha})`);
+            fg.addColorStop(0.45, `rgba(255, 190, 50, ${alpha * 0.85})`);
+            fg.addColorStop(1, 'rgba(255, 80, 0, 0)');
+          } else if (t < 0.72) {
+            fg.addColorStop(0, `rgba(255, 215, 80, ${alpha * 0.9})`);
+            fg.addColorStop(0.5, `rgba(255, 105, 15, ${alpha * 0.75})`);
+            fg.addColorStop(1, 'rgba(200, 20, 0, 0)');
+          } else {
+            fg.addColorStop(0, `rgba(255, 130, 25, ${alpha * 0.75})`);
+            fg.addColorStop(0.5, `rgba(210, 35, 5, ${alpha * 0.5})`);
+            fg.addColorStop(1, 'rgba(120, 0, 0, 0)');
+          }
+          fCtx.fillStyle = fg;
+          fCtx.beginPath();
+          fCtx.arc(px, py, rad, 0, Math.PI * 2);
+          fCtx.fill();
+        }
         fCtx.restore();
 
-        // 3. Rising Golden Sparks & Embers
+        // 3. Tàn lửa & Tia lửa hồng rực (Sparks & Embers) bay từ miệng lò lên trời đêm
+        fCtx.save();
+        fCtx.globalCompositeOperation = 'lighter';
         for (const em of furnaceEmbers) {
           em.y -= em.vy * flareBoost;
-          em.x += em.vx + Math.sin(frameCount * 0.05 + em.y * 10) * 0.001;
-          if (em.y < 0.08) {
-            em.y = 0.44;
-            em.x = 0.38 + Math.random() * 0.24;
+          em.x += em.vx + Math.sin(frameCount * 0.07 + em.y * 14) * 0.0012;
+          if (em.y < 0.04) {
+            em.y = 0.56 + Math.random() * 0.06;
+            em.x = 0.42 + Math.random() * 0.16;
+            em.alpha = 0.5 + Math.random() * 0.5;
           }
-          fCtx.fillStyle = `rgba(255, 215, 64, ${em.alpha})`;
+          const ex = em.x * W;
+          const ey = em.y * H;
+          fCtx.fillStyle = em.hot
+            ? `rgba(255, 230, 110, ${em.alpha})`
+            : `rgba(255, 120, 25, ${em.alpha * 0.85})`;
           fCtx.beginPath();
-          fCtx.arc(em.x * W, em.y * H, em.r, 0, Math.PI * 2);
+          fCtx.arc(ex, ey, em.r, 0, Math.PI * 2);
           fCtx.fill();
         }
-
-        // 4. Animated Swipe-Up Guide Arrows
-        const guideY = H * 0.58 - ((frameCount * 1.6) % 44);
-        fCtx.save();
-        fCtx.globalAlpha = 0.82;
-        fCtx.font = 'bold 13px sans-serif';
-        fCtx.fillStyle = '#ffe082';
-        fCtx.textAlign = 'center';
-        fCtx.fillText(`⬆️ VUỐT LÊN ĐỂ NÉM VÀO LÒ LỬA (+${selectedGoldMerit} 💎 PHƯỚC) ⬆️`, cx, guideY);
         fCtx.restore();
 
-        // 5. Flying Thrown Vietnamese Vàng Mã Bundles (Siêu mượt 60FPS không lag!)
+        // 4. Dòng hướng dẫn vuốt nhẹ nhàng phía dưới cửa lò
+        const cx = W * 0.5;
+        const guideY = H * 0.66 - ((frameCount * 1.2) % 28);
+        fCtx.save();
+        fCtx.globalAlpha = 0.88;
+        fCtx.font = 'bold 12.5px sans-serif';
+        fCtx.fillStyle = '#ffe082';
+        fCtx.shadowColor = '#000';
+        fCtx.shadowBlur = 6;
+        fCtx.textAlign = 'center';
+        fCtx.fillText(`⬆️ VUỐT LÊN ĐỂ HÓA VÀNG VÀO LÒ LỬA (+${selectedGoldMerit} 💎 PHƯỚC) ⬆️`, cx, guideY);
+        fCtx.restore();
+
+        // 5. Lễ Vàng Mã bay vào trong vòm lửa và bốc cháy rực rỡ khi chạm lửa!
         for (let i = flyingGoldThrows.length - 1; i >= 0; i--) {
           const g = flyingGoldThrows[i];
-          g.prog += 0.095;
-          g.rot += 0.22;
+          g.prog += 0.082;
+          g.rot += 0.18;
           const t = Math.min(1, g.prog);
-          const gx = g.x + (g.targetX - g.x) * t;
-          const gy = g.y + (g.targetY - g.y) * t - Math.sin(t * Math.PI) * 90;
-          const gScale = 1.22 - t * 0.48;
+          const gx = g.x + (mouthCx - g.x) * t;
+          const gy = g.y + (mouthCenterY - g.y) * t - Math.sin(t * Math.PI) * 75;
+          const gScale = 1.18 - t * 0.58;
 
           fCtx.save();
           fCtx.translate(gx, gy);
@@ -4346,12 +4407,20 @@
           fCtx.scale(gScale, gScale);
           const gTex = images[g.imgKey || 'vangDinh'];
           if (gTex && gTex.complete && gTex.naturalWidth > 0) {
-            fCtx.drawImage(gTex, -34, -34, 68, 68);
+            fCtx.drawImage(gTex, -36, -36, 72, 72);
           }
-          fCtx.font = '28px sans-serif';
-          fCtx.textAlign = 'center';
-          fCtx.textBaseline = 'middle';
-          fCtx.fillText(g.icon, 22, -22);
+          // Khi lễ vàng mã bay gần tới miệng lò (t > 0.55), quầng lửa thật bao quanh bó vàng mã!
+          if (t > 0.55) {
+            fCtx.globalCompositeOperation = 'lighter';
+            const burnGlow = fCtx.createRadialGradient(0, 0, 4, 0, 0, 46);
+            burnGlow.addColorStop(0, 'rgba(255, 250, 180, 0.95)');
+            burnGlow.addColorStop(0.5, 'rgba(255, 120, 10, 0.75)');
+            burnGlow.addColorStop(1, 'rgba(255, 30, 0, 0)');
+            fCtx.fillStyle = burnGlow;
+            fCtx.beginPath();
+            fCtx.arc(0, 0, 46, 0, Math.PI * 2);
+            fCtx.fill();
+          }
           fCtx.restore();
 
           if (g.prog >= 1.0) {
@@ -4360,45 +4429,42 @@
           }
         }
 
-        // 6. First-Person Hands Holding Authentic Vietnamese Vàng Mã Tray at Bottom
+        // 6. Khay Lễ Vàng Mã Thật Ở Phía Dưới Để Người Dùng Vuốt Lên Lò Lửa
         let handX = cx;
-        let handY = H * 0.74;
+        let handY = H * 0.755;
         if (swipeDrag.active) {
           handX = cx + (swipeDrag.curX - swipeDrag.startX) * 0.45;
-          handY = Math.max(H * 0.48, H * 0.74 + (swipeDrag.curY - swipeDrag.startY) * 0.65);
+          handY = Math.max(H * 0.52, H * 0.755 + (swipeDrag.curY - swipeDrag.startY) * 0.65);
         } else {
-          handY += Math.sin(frameCount * 0.06) * 5;
+          handY += Math.sin(frameCount * 0.06) * 4;
         }
 
         fCtx.save();
-        fCtx.fillStyle = 'rgba(72, 24, 6, 0.96)';
+        fCtx.fillStyle = 'rgba(48, 16, 4, 0.92)';
         fCtx.strokeStyle = '#ffd54f';
-        fCtx.lineWidth = 2.5;
+        fCtx.lineWidth = 2.0;
         fCtx.beginPath();
-        fCtx.roundRect(handX - 135, handY - 46, 270, 92, 18);
+        fCtx.roundRect(handX - 136, handY - 42, 272, 84, 16);
         fCtx.fill();
         fCtx.stroke();
 
         const curTex = images[selectedGoldImgKey || 'vangDinh'];
         if (curTex && curTex.complete && curTex.naturalWidth > 0) {
-          fCtx.drawImage(curTex, handX - 122, handY - 36, 72, 72);
-          fCtx.strokeStyle = '#ffe082';
-          fCtx.lineWidth = 1.5;
-          fCtx.strokeRect(handX - 122, handY - 36, 72, 72);
+          fCtx.drawImage(curTex, handX - 126, handY - 36, 72, 72);
         }
 
         fCtx.font = 'bold 12px sans-serif';
         fCtx.fillStyle = '#ffd740';
         fCtx.textAlign = 'left';
-        fCtx.fillText(`${selectedGoldIcon} ${selectedGoldName}`, handX - 40, handY - 14);
+        fCtx.fillText(`${selectedGoldIcon} ${selectedGoldName}`, handX - 44, handY - 13);
 
-        fCtx.font = 'bold 11.5px sans-serif';
+        fCtx.font = 'bold 11.2px sans-serif';
         fCtx.fillStyle = '#80d8ff';
-        fCtx.fillText(`💎 Đốt nhận ngay: +${selectedGoldMerit} Phước Đức`, handX - 40, handY + 5);
+        fCtx.fillText(`💎 Túi Vàng Mã còn: ${goldInventoryCount} lễ (+${selectedGoldMerit}💎/lễ)`, handX - 44, handY + 5);
 
         fCtx.font = 'bold 10.5px sans-serif';
         fCtx.fillStyle = '#ffe596';
-        fCtx.fillText(`👆 Vuốt lên để ném vào Lò Lửa!`, handX - 40, handY + 24);
+        fCtx.fillText(`👆 Vuốt lên để ném vào Lò Lửa đang cháy!`, handX - 44, handY + 23);
         fCtx.restore();
 
         // Floating hit feedback inside furnace room
@@ -4408,6 +4474,8 @@
           fCtx.globalAlpha = Math.min(1, fh.life);
           fCtx.font = 'bold 14px sans-serif';
           fCtx.fillStyle = fh.color;
+          fCtx.shadowColor = '#000';
+          fCtx.shadowBlur = 6;
           fCtx.textAlign = 'center';
           fCtx.fillText(fh.text, fh.x, fh.y);
           fCtx.restore();
@@ -4424,10 +4492,10 @@
           if (flyingGoldThrows.length === 0) {
             flyingGoldThrows.push({
               x: window.innerWidth * 0.5,
-              y: window.innerHeight * 0.74,
+              y: window.innerHeight * 0.78,
               targetX: window.innerWidth * 0.5,
-              targetY: window.innerHeight * 0.36,
-              prog: 0.45,
+              targetY: window.innerHeight * 0.535,
+              prog: 0.58,
               rot: 0.25,
               icon: '💴',
               name: 'Lễ Gấp Vàng Mã 10 Lễ',
