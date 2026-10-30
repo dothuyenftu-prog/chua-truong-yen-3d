@@ -894,7 +894,8 @@ avatarPivot.add(avHands);
 // ZONE 2: AM XẢ NGHIỆP (At X = 22, Z = 0)
 // =========================================================
 const rageGroup = new THREE.Group();
-rageGroup.position.set(22, 0, 0);
+rageGroup.position.set(0, 0.2, -2.2);
+rageGroup.visible = false;
 scene.add(rageGroup);
 
 // Arena Pedestal & Fire Pillars
@@ -985,7 +986,7 @@ function launchProjectileAtBoss(weaponType = 'lightning') {
     : new THREE.SphereGeometry(0.45, 12, 12);
   const mat = new THREE.MeshBasicMaterial({ color: colorMap[weaponType] || 0xef4444 });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(22 + (Math.random() - 0.5) * 6, 6 + Math.random() * 3, 9);
+  mesh.position.set((Math.random() - 0.5) * 6, 6 + Math.random() * 3, 8);
   scene.add(mesh);
   projectiles.push({ mesh, progress: 0 });
 }
@@ -1026,6 +1027,7 @@ if (window.location.search.includes("tab=khach")) {
   camera.position.copy(targetCamPos);
   currentLookAt.copy(targetLookAt);
   camera.lookAt(currentLookAt);
+  renderer.render(scene, camera);
 }
 }
 
@@ -1056,6 +1058,7 @@ if (window.location.search.includes("tab=khach")) {
   camera.position.copy(targetCamPos);
   currentLookAt.copy(targetLookAt);
   camera.lookAt(currentLookAt);
+  renderer.render(scene, camera);
 }
 }
 
@@ -1270,9 +1273,13 @@ function switchZone(zone) {
     scene.background.setHex(0x0f172a);
     scene.fog.color.setHex(0x1e293b);
     rageGlow.intensity = 0;
+    zenGroup.visible = true;
+    rageGroup.visible = false;
     targetCamPos.set(0, 5.8, 13.8);
     targetLookAt.set(0, 2.3, -1);
   } else {
+    zenGroup.visible = false;
+    rageGroup.visible = true;
     zenBtn.className = 'zone-btn';
     rageBtn.className = 'zone-btn active-rage';
     bossHud.style.display = 'flex';
@@ -1280,8 +1287,8 @@ function switchZone(zone) {
     scene.background.setHex(0x2a080c);
     scene.fog.color.setHex(0x3b0a11);
     rageGlow.intensity = 2.6;
-    targetCamPos.set(22, 4.8, 11.5);
-    targetLookAt.set(22, 2.3, 0);
+    targetCamPos.set(0, 5.2, 12.5);
+    targetLookAt.set(0, 2.5, -1.5);
     updateBossHud();
   }
 }
@@ -1312,6 +1319,7 @@ if (window.location.search.includes("tab=khach")) {
   camera.position.copy(targetCamPos);
   currentLookAt.copy(targetLookAt);
   camera.lookAt(currentLookAt);
+  renderer.render(scene, camera);
 }
 }
 
@@ -1425,6 +1433,7 @@ if (window.location.search.includes("tab=khach")) {
   camera.position.copy(targetCamPos);
   currentLookAt.copy(targetLookAt);
   camera.lookAt(currentLookAt);
+  renderer.render(scene, camera);
 }
 
 // Raycaster for direct 3D clicks on Mõ, Chuông, Buddha, or Boss
@@ -1536,7 +1545,7 @@ function animate() {
   for (let i = projectiles.length - 1; i >= 0; i--) {
     const p = projectiles[i];
     p.progress += dt * 5.5;
-    p.mesh.position.lerp(new THREE.Vector3(22, 2.5, 0), p.progress);
+    p.mesh.position.lerp(new THREE.Vector3(0, 2.8, -2.2), p.progress);
     p.mesh.rotation.x += 0.2;
     p.mesh.rotation.y += 0.2;
     if (p.progress >= 1) {
