@@ -1269,6 +1269,17 @@
       return digits.split('').map(d => digitMap[d] || d).join(' ');
     }
 
+    function speakVietnameseText(text) {
+      try {
+        const ttsEl = document.getElementById('ttsVoicePlayer');
+        if (!ttsEl) return;
+        const shortText = String(text || '').slice(0, 185);
+        ttsEl.src = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=' + encodeURIComponent(shortText);
+        ttsEl.volume = 1.0;
+        ttsEl.play().catch(() => {});
+      } catch (e) {}
+    }
+
     function submitAndReadSoKhan() {
       const name = document.getElementById('skInputName').value.trim() || 'Quý Tín Chủ';
       const addr = document.getElementById('skInputAddr').value.trim() || 'Việt Nam';
@@ -3012,17 +3023,21 @@
     if (location.search.includes('furnace=1')) {
       setTimeout(() => {
         openGoldFurnaceRoom();
-        flyingGoldThrows.push({
-          x: window.innerWidth * 0.5,
-          y: window.innerHeight * 0.76,
-          targetX: window.innerWidth * 0.5,
-          targetY: window.innerHeight * 0.37,
-          prog: 0.52,
-          rot: 0.4,
-          icon: '🪙',
-          name: 'Thỏi Vàng Kim Nguyên Bảo'
-        });
-      }, 80);
+        setInterval(() => {
+          if (flyingGoldThrows.length === 0) {
+            flyingGoldThrows.push({
+              x: window.innerWidth * 0.5,
+              y: window.innerHeight * 0.76,
+              targetX: window.innerWidth * 0.5,
+              targetY: window.innerHeight * 0.37,
+              prog: 0.45,
+              rot: 0.35,
+              icon: '🪙',
+              name: 'Thỏi Vàng Kim Nguyên Bảo'
+            });
+          }
+        }, 120);
+      }, 40);
     }
 
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
