@@ -1152,49 +1152,67 @@
         <button class="btn-modal-x" onclick="closeKarmaReleaseModal()">✕ Đóng</button>
       </div>
 
-      <!-- PHẦN 1: PHÒNG KHẨU NGHIỆP (CHỬI CÀNG NHIỀU, CÀNG DÀI, CÀNG HĂNG SAY ĐỂ TRÚT GIẬN — BÙ LẠI BỊ TRỪ PHƯỚC ĐỨC!) -->
+      <!-- PHẦN 1: CHIA RÕ 2 CHẾ ĐỘ: [1A. MẮNG & CÀ KHỊA] vs [1B. CHỬI THẬM TỆ TỚI BẾN] (BỊ TRỪ PHƯỚC ĐỨC!) -->
       <div style="background:linear-gradient(180deg,rgba(88,12,6,0.96),rgba(38,6,3,0.98)); border:1.5px solid #ff5252; border-radius:12px; padding:9px 11px; margin-bottom:9px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-          <span style="font-size:11.5px; font-weight:900; color:#ff8a80;">🤬🔥 1. PHÒNG CHỬI TRÚT GIẬN (CÀNG DÀI CÀNG ĐÃ · BỊ TRỪ 💎 PHƯỚC)</span>
-          <span style="font-size:9.8px; background:rgba(213,0,0,0.55); color:#ffcdd2; padding:2px 7px; border-radius:999px; border:1px solid #ff5252;">Đã chửi: <b id="karmaVentCounter">0</b> lần · Mất: <b id="karmaLostMeritCounter" style="color:#ffeb3b;">0 💎</b></span>
+          <span style="font-size:11.5px; font-weight:900; color:#ff8a80;">🤬🔥 1. Tách Bạch Rõ: MẮNG (Cà Khịa) & CHỬI (Thậm Tệ Xối Xả)</span>
+          <span style="font-size:9.8px; background:rgba(213,0,0,0.55); color:#ffcdd2; padding:2px 7px; border-radius:999px; border:1px solid #ff5252;">Đã xả: <b id="karmaVentCounter">0</b> lần · Mất: <b id="karmaLostMeritCounter" style="color:#ffeb3b;">0 💎</b></span>
         </div>
         <div style="font-size:9.8px; color:#ffab91; margin-bottom:5px; line-height:1.35;">
-          ⚠️ <b>Luật Nhân Quả Khẩu Nghiệp:</b> Nghe Voice Chửi càng mạnh, càng dài, càng hăng say để trút sạch cơn giận thì sẽ <b>bị trừ 💎 Phước Đức</b> tương ứng!
+          ⚠️ <b>Phân Chia 2 Cấp Độ Rõ Ràng:</b> <b>[MẮNG]</b> là nói lý lẽ, đá xéo, cà khịa sâu cay (-10💎) · <b>[CHỬI]</b> là dùng từ ngữ thậm tệ, cay nghiệt, mắng nhiếc xối xả tới bến để trút sạch cơn điên tiết (-25💎 đến -40💎)!
         </div>
 
         <div class="preset-bar" style="margin-bottom:6px;">
           <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'đặt hàng xong tắt máy trốn biệt, hẹn lần hẹn lữa lật lọng vô trách nhiệm')">📦 Kẻ Hứa Lèo Bom Hàng</span>
           <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Đối Thủ Chơi Bẩn', 'bán hàng giả kém chất lượng phá giá, lén lút đâm sau lưng nói xấu tiểu nhân')">🐍 Đối Thủ Chơi Bẩn</span>
           <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Con Nợ Chây Ì Quỵt Tiền', 'lúc khó khăn van xin lấy hàng, đến hạn thanh toán thì trốn chui trốn lủi không trả')">💸 Con Nợ Quỵt Tiền</span>
-          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ ĂnCháoĐáBát Vô Ơn', 'được giúp đỡ tận tình nhưng quay lưng phản bội, đâm bị thóc chọc bị gạo')">😤 Kẻ Vô Ơn Phản Bội</span>
+          <span class="preset-chip" style="border-color:#ff8a65;color:#ffccbc;" onclick="fillKarmaPreset('Kẻ Ăn Cháo Đá Bát', 'được giúp đỡ tận tình nhưng quay lưng phản bội, đâm bị thóc chọc bị gạo')">😤 Kẻ Vô Ơn Phản Bội</span>
         </div>
 
         <div class="sk-field" style="margin-bottom:5px;">
-          <label style="color:#ffab91;">👤 Tên kẻ làm sai / gây ức chế (Chửi thẳng tên liên hoàn):</label>
+          <label style="color:#ffab91;">👤 Tên kẻ làm sai / gây ức chế (Để Voice lôi thẳng tên ra Mắng hoặc Chửi):</label>
           <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" placeholder="Nhập tên kẻ làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
         </div>
         <div class="sk-field" style="margin-bottom:7px;">
-          <label style="color:#ffab91;">💢 Tội lỗi kẻ đó gây ra (Để Voice lôi ra mắng chửi tới bến):</label>
+          <label style="color:#ffab91;">💢 Tội lỗi kẻ đó gây ra:</label>
           <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng tráo trở, sống thiếu chữ tín làm người khác điên tiết" placeholder="Nhập việc kẻ đó làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
         </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
-          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#d50000,#7f0000); font-size:10.8px; padding:7px 5px; border:1px solid #ff8a80;" onclick="triggerKarmaScoldVoice('direct')">
-            🌶️🔊 Mắng Thẳng Mặt Cực Gắt<br/><span style="font-size:9.5px; color:#ffeb3b;">(6 đoạn gắt · Trừ -10 💎 Phước)</span>
-          </button>
-          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#aa00ff,#4a0072); font-size:10.8px; padding:7px 5px; border:1px solid #ea80fc;" onclick="triggerKarmaScoldVoice('karma')">
-            ⚡🔊 Chửi Nghiệp Quật Liên Hoàn<br/><span style="font-size:9.5px; color:#ffeb3b;">(8 đoạn dài · Trừ -20 💎 Phước)</span>
+        <!-- NHÓM 1: MẮNG & CÀ KHỊA (Câu bình thường, đá xéo, mỉa mai sâu cay) -->
+        <div style="background:rgba(48,22,4,0.92); border:1px solid #ffb74d; border-radius:9px; padding:6px 8px; margin-bottom:6px;">
+          <div style="font-size:10.4px; font-weight:900; color:#ffd54f; margin-bottom:4px;">
+            😏🌶️ CẤP ĐỘ 1 — MẮNG & CÀ KHỊA (Mắng bình thường · Đá xéo · Mỉa mai thâm thúy):
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#bf360c); font-size:10.4px; padding:6px 5px; border:1px solid #ffd54f;" onclick="triggerKarmaScoldVoice('mang_khia')">
+              😏🔊 Mắng Cà Khịa · Đá Xéo<br/><span style="font-size:9.2px; color:#fff59d;">(6 câu khịa cực thâm · Trừ -10 💎)</span>
+            </button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#f57f17,#e65100); font-size:10.4px; padding:6px 5px; border:1px solid #ffe082;" onclick="triggerKarmaScoldVoice('mang_thang')">
+              🗣️🔊 Mắng Thẳng Mặt Dạy Đời<br/><span style="font-size:9.2px; color:#fff59d;">(6 câu mắng rõ lý lẽ · Trừ -12 💎)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- NHÓM 2: CHỬI THẬM TỆ TỚI BẾN (Dùng từ ngữ thậm tệ, cay độc, chửi xối xả) -->
+        <div style="background:rgba(58,4,8,0.95); border:1.5px solid #ff1744; border-radius:9px; padding:6px 8px; margin-bottom:6px;">
+          <div style="font-size:10.4px; font-weight:900; color:#ff8a80; margin-bottom:4px;">
+            🤬🌋 CẤP ĐỘ 2 — CHỬI THẬM TỆ XỐI XẢ (Dùng từ ngữ thậm tệ · Cay nghiệt · Trút sạch cơn điên):
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:5px;">
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#d50000,#7f0000); font-size:10.4px; padding:6px 5px; border:1px solid #ff8a80;" onclick="triggerKarmaScoldVoice('chui_tham_te')">
+              🤬🔊 Chửi Thậm Tệ Vô Liêm Sỉ<br/><span style="font-size:9.2px; color:#ffeb3b;">(8 đoạn chửi cay độc · Trừ -25 💎)</span>
+            </button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#aa00ff,#4a0072); font-size:10.4px; padding:6px 5px; border:1px solid #ea80fc;" onclick="triggerKarmaScoldVoice('chui_nghiep_quat')">
+              ⚡🔊 Chửi Rủa Nghiệp Quật<br/><span style="font-size:9.2px; color:#ffeb3b;">(9 đoạn rủa thẳng tay · Trừ -30 💎)</span>
+            </button>
+          </div>
+          <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff1744,#880e4f); font-size:10.9px; padding:7px; border:1.5px solid #ffd740;" onclick="triggerKarmaScoldVoice('chui_tan_oc')">
+            🌋🤬 ĐẠI NỘ CHỬI TẬN ÓC · THẬM TỆ NHẤT (12 Đoạn Chửi Xối Xả Không Kiêng Nể · Trừ -40 💎 Phước)
           </button>
         </div>
-        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff3d00,#b71c1c); font-size:11.2px; padding:8px; border:1.5px solid #ffd740; margin-bottom:5px;" onclick="triggerKarmaScoldVoice('rage_max')">
-          🌋🤬 ĐẠI NỘ CHỬI TỚI BẾN (12 Đoạn Dài Hăng Say Trút Sạch Giận · Trừ -35 💎 Phước)
-        </button>
-        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#5d4037,#3e2723); font-size:10.5px; padding:6px;" onclick="smashKarmaTarget()">
-          💥🪵 Đập Mõ Trút Giận Liên Thanh (Trừ -5 💎 Phước Khẩu Nghiệp)
-        </button>
 
-        <div id="karmaVoiceLiveText" style="margin-top:7px; background:rgba(18,4,2,0.95); border:1px dashed rgba(255,82,82,0.65); border-radius:8px; padding:6px 8px; font-size:10.8px; color:#ffe0b2; line-height:1.42;">
-          🤬🔊 <b>Lời Voice Chửi Trút Giận:</b> Bấm chọn 1 trong 3 cấp độ chửi bên trên để nghe Voice mắng chửi liên hoàn, hăng say, lột trần bộ mặt kẻ làm sai để trút sạch cục tức (Chấp nhận trừ 💎 Phước Đức)!
+        <div id="karmaVoiceLiveText" style="margin-top:6px; background:rgba(18,4,2,0.95); border:1px dashed rgba(255,82,82,0.65); border-radius:8px; padding:6px 8px; font-size:10.6px; color:#ffe0b2; line-height:1.42;">
+          🗣️🤬 <b>Lời Voice Đang Phát:</b> Chọn <b>[MẮNG & CÀ KHỊA]</b> để đá xéo mỉa mai nhẹ nhàng, hoặc chọn <b>[CHỬI THẬM TỆ]</b> để dùng từ ngữ nặng nề nhất chửi xối xả vào mặt kẻ làm sai!
         </div>
       </div>
 
@@ -2152,9 +2170,12 @@
       const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'kẻ làm sai';
       const wrongDoing = (document.getElementById('karmaWrongDoing')?.value || '').trim() || 'sống lươn lẹo, tráo trở và làm tổn thương người tử tế';
 
+      const isMildMang = (mode === 'mang_khia' || mode === 'mang_thang');
       let meritPenalty = 10;
-      if (mode === 'karma') meritPenalty = 20;
-      if (mode === 'rage_max') meritPenalty = 35;
+      if (mode === 'mang_thang') meritPenalty = 12;
+      if (mode === 'chui_tham_te') meritPenalty = 25;
+      if (mode === 'chui_nghiep_quat') meritPenalty = 30;
+      if (mode === 'chui_tan_oc') meritPenalty = 40;
 
       karmaVentCount++;
       karmaLostMeritTotal += meritPenalty;
@@ -2163,54 +2184,82 @@
       const lostEl = document.getElementById('karmaLostMeritCounter');
       if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
 
-      // TRỪ PHƯỚC ĐỨC KHI NGHE VOICE CHỬI TRÚT GIẬN (Đúng quy chuẩn Sếp Thành: Nghe voice chửi thì mất phước!)
+      // TRỪ PHƯỚC ĐỨC KHI NGHE VOICE MẮNG / CHỬI
       addMerit(-meritPenalty);
-      appendMeritLog(`🤬🔥 <b>[Khẩu Nghiệp] ${player.name}</b>: Nghe Voice Chửi trút giận vào <b>${targetName}</b> (<b style="color:#ff5252;">-${meritPenalty} 💎 Phước Đức</b>)`);
+      const actionTypeLabel = isMildMang ? 'Mắng & Cà Khịa' : 'Chửi Thậm Tệ Xối Xả';
+      appendMeritLog(`🤬🔥 <b>[Khẩu Nghiệp - ${actionTypeLabel}] ${player.name}</b>: Nhắm vào <b>${targetName}</b> (<b style="color:#ff5252;">-${meritPenalty} 💎 Phước Đức</b>)`);
 
       playMoSound();
       setTimeout(playMoSound, 120);
-      setTimeout(playMoSound, 240);
+      if (!isMildMang) setTimeout(playMoSound, 240);
 
       let chunks = [];
-      if (mode === 'direct') {
+      if (mode === 'mang_khia') {
+        // CẤP ĐỘ 1A: MẮNG BÌNH THƯỜNG, ĐÁ XÉO, CÀ KHỊA THÂM THÚY
         chunks = [
-          `Này ${targetName} kia! Mở to hai con mắt và vểnh tai lên mà nghe cho thủng đây! Đừng tưởng sống lỗi rồi trốn chui trốn lủi mà yên thân được đâu!`,
-          `Tại sao trên đời lại có kiểu người mặt dày mày dạn, ${wrongDoing} trắng trợn không biết ngượng mồm như ${targetName} hả?`,
-          `Người ta đối xử tử tế, đàng hoàng hết lòng với ${targetName}, mà ${targetName} lại lấy oán báo ơn, lật mặt nhanh hơn lật bánh tráng như thế à?`,
-          `Làm ăn mà không có chữ tín, sống mà lươn lẹo khôn lỏi như ${targetName} thì sớm muộn cũng chẳng còn một ai thèm nhìn mặt đâu!`,
-          `Đừng tưởng qua mặt được người hiền lành là khôn! Hôm nay ta nói thẳng vào mặt ${targetName} cho bõ tức, cho nhẹ hết cả người!`,
-          `Khôn hồn thì biết điều mà sửa đổi ngay đi nghe chưa ${targetName}! Cút hết mọi xui xẻo và bực bội về phía ${targetName} đi!`
+          `Ủa chào ${targetName} nhé! Người ta sống trên đời thiếu tiền thiếu bạc chứ ai lại thiếu cả chữ tín lẫn lòng tự trọng như bạn thế kia?`,
+          `Nghe danh ${targetName} chuyên gia ${wrongDoing} đã lâu, hôm nay mới được mở mang tầm mắt! Nói lời thì sang sảng như rồng leo, mà lúc làm thì đúng chuẩn mèo mửa!`,
+          `Nhìn bề ngoài của ${targetName} cũng lịch sự bóng bẩy lắm cơ mà, sao cách hành xử lại rách nát hàng chợ đến mức ấy nhỉ?`,
+          `Chắc ${targetName} tưởng sống khôn lỏi, vơ hết phần hơn về mình rồi đẩy phần thiệt cho người khác là thông minh lắm đấy? Ở quê tôi người ta gọi thế là khôn hết phần thiên hạ!`,
+          `Cảm ơn màn trình diễn ${wrongDoing} đi vào lòng đất của ${targetName} nhé! Nhờ có bạn mà tôi mới biết lòng người có khi còn rẻ hơn cả tờ giấy nháp!`,
+          `Thôi tặng cho ${targetName} một tràng pháo tay vì độ lươn lẹo thượng thừa, chúc bạn giữ vững phong độ để sớm không còn ai dám chơi cùng nhé!`
         ];
-      } else if (mode === 'karma') {
+      } else if (mode === 'mang_thang') {
+        // CẤP ĐỘ 1B: MẮNG THẲNG MẶT, CÂU TỪ BÌNH THƯỜNG NHƯNG ĐANH THÉP DẠY ĐỜI
         chunks = [
-          `Hỡi ${targetName}! Ngẩng đầu lên mà nhìn trời cao đất dày kìa! Luật nhân quả báo ứng nhãn tiền không chừa một kẻ sống bẩn nào đâu!`,
-          `Hôm nay ${targetName} dám làm ra chuyện: ${wrongDoing}, tưởng thế là cao tay ấn, nhưng thực chất là đang tự tay đập đổ toàn bộ phúc lộc của chính mình!`,
-          `Gieo nhân nào thì gặt quả nấy! ${targetName} làm khổ người ngay thẳng một phần, thì nghiệp quật trả lại cho ${targetName} gấp mười, gấp trăm lần!`,
-          `Những đồng tiền, những lợi lộc mà ${targetName} dùng thủ đoạn tráo trở để chiếm đoạt, sớm muộn cũng đội nón ra đi không còn một xu!`,
-          `Từng lời hứa lèo, từng trò tiểu nhân đâm sau lưng của ${targetName} đều đã ghi rõ rành rành trong sổ nhân quả rồi!`,
-          `Hôm nay ta xả sạch sẽ mọi uất ức trong lồng ngực ra ngoài, trả toàn bộ nghiệp chướng đen đủi về cho ${targetName} tự hưởng hết!`,
-          `Kẻ sống lỗi như ${targetName} nhất định sẽ bị quả báo dạy cho một bài học nhớ đời không bao giờ quên!`,
-          `Từ giây phút này tâm ta sảng khoái nhẹ tênh, còn bao nhiêu vận hạn xin trả hết về đúng tên ${targetName}!`
+          `Này ${targetName}, hôm nay tôi phải nói thẳng vào mặt cho bạn tỉnh ngộ ra: làm người lớn rồi thì nói được phải làm được, đừng có kiểu ${wrongDoing} như trẻ con thế!`,
+          `Người ta tin tưởng, tôn trọng và đối xử đàng hoàng với ${targetName} bao nhiêu, thì bạn lại cư xử thiếu trách nhiệm và gây thất vọng bấy nhiêu!`,
+          `Trong công việc cũng như ngoài cuộc sống, chữ Tín quý hơn vàng! Vậy mà ${targetName} chỉ vì chút lợi nhỏ trước mắt mà tự tay đánh mất uy tín của chính mình!`,
+          `Đừng bao giờ nghĩ người khác hiền lành không nói ra là người ta không biết chuyện ${targetName} đang ${wrongDoing}!`,
+          `Ai cũng có giới hạn của sự kiên nhẫn thôi ${targetName} ạ, sống mà chỉ biết nghĩ cho bản thân mình thì đi đâu cũng tự đóng cánh cửa cơ hội lại!`,
+          `Tôi mắng thẳng mấy câu chân tình này để ${targetName} tự soi gương lại mình mà sửa đổi đi, đừng để ai nhắc đến tên cũng phải lắc đầu ngao ngán!`
+        ];
+      } else if (mode === 'chui_tham_te') {
+        // CẤP ĐỘ 2A: CHỬI THẬM TỆ, DÙNG TỪ NGỮ NẶNG NỀ, LỘT MẶT NẠ ĐỒ VÔ LIÊM SỈ
+        chunks = [
+          `Vểnh to cái tai lên mà nghe đây cái đồ mặt dày vô liêm sỉ ${targetName} kia! Đừng tưởng làm trò bẩn thỉu ${wrongDoing} xong rồi câm như hến trốn chui trốn lủi mà yên thân được đâu!`,
+          `Trên đời này sao lại nặn ra được cái thứ người trơ trẽn, rẻ rách và mất dạy trong cách sống như cái mặt ${targetName} hả? Da mặt ngươi khâu bằng da trâu hay sao mà không biết nhục?`,
+          `Lúc cần nhờ vả thì khúm núm ngọt nhạt như chó con vẫy đuôi, lúc xong việc thì lật mặt phản phúc, ăn cháo đá bát nhanh hơn chớp! Đúng là đồ tiểu nhân đê tiện!`,
+          `Cái hạng người lươn lẹo, bội tín, mở mồm ra là dối trá lừa lọc như ${targetName} thì nhân cách không đáng giá một xu lẻ rỉ sét!`,
+          `Người ta tử tế với ngươi thì ngươi tưởng người ta ngu à ${targetName}? Chỉ có cái thứ đầu đất, tâm địa thối nát, sống thất đức như ngươi mới làm ra cái trò ${wrongDoing} bẩn thỉu đó!`,
+          `Nhìn lại cái bản mặt giả nhân giả nghĩa của ${targetName} đi, sống bẩn từ trong máu bẩn ra, ai dây vào ngươi cũng coi như giẫm phải đống rác rưởi hôi thối!`,
+          `Hôm nay ta chửi thẳng vào cái mặt dày của ${targetName} cho bõ cơn điên tiết! Đồ thất tín vô ơn, đồ cặn bã chỉ biết sống ký sinh trên sự tử tế của người khác!`,
+          `Cút ngay và cút vĩnh viễn khỏi tầm mắt của ta nghe chưa đồ rẻ rách ${targetName}! Mang theo toàn bộ cái thói bẩn thỉu ${wrongDoing} của ngươi xuống cống luôn đi!`
+        ];
+      } else if (mode === 'chui_nghiep_quat') {
+        // CẤP ĐỘ 2B: CHỬI RỦA NGHIỆP QUẬT CAY ĐỘC
+        chunks = [
+          `Hỡi cái tên tiểu nhân thất đức ${targetName} kia! Ngẩng cái mặt trơ tráo của ngươi lên mà nhìn trời cao đất dày sắp giáng quả báo xuống đầu ngươi kìa!`,
+          `Ngươi tưởng giở trò bỉ ổi ${wrongDoing} là ăn không nuốt trôi được của người khác à? Nuốt vào một đồng bất nghĩa thì phải nôn ra gấp mười gấp trăm lần đấy đồ vô phúc!`,
+          `Ăn ở tồi tệ, thất đức bội bạc như ${targetName} thì làm cái gì cũng lụi bại, đi đến đâu cũng bị người đời phỉ nhổ khinh bỉ không bằng con vật!`,
+          `Từng giọt mồ hôi, từng sự uất ức mà ngươi gây ra cho người lương thiện vì cái trò ${wrongDoing}, luật nhân quả sẽ quật thẳng vào mặt ${targetName} không trượt phát nào!`,
+          `Đồ lòng lang dạ sói, miệng nam mô bụng một bồ dao găm! Thứ người thối nát từ tâm can như ${targetName} sớm muộn cũng trắng tay tán gia bại sản vì chính cái nghiệp mình gieo!`,
+          `Đừng tưởng trốn nợ, trốn trách nhiệm, chơi bẩn sau lưng người khác mà tối kê cao gối ngủ yên được nhé ${targetName}! Ác giả ác báo nhãn tiền đấy!`,
+          `Bao nhiêu vận đen, bao nhiêu tai ương xui xẻo trên thế gian này xin gom hết lại đập thẳng vào đầu kẻ tiểu nhân bỉ ổi ${targetName}!`,
+          `Cho ngươi nếm đủ mùi vị bị đời vả lệch mặt, để xem cái thói lươn lẹo tráo trở của ${targetName} còn tồn tại được mấy ngày nữa!`,
+          `Ta rủa cho ${targetName} tỉnh cái bộ não tăm tối ra, trả hết nghiệp chướng về cho ngươi tự gánh lấy!`
         ];
       } else {
+        // CẤP ĐỘ 2C: ĐẠI NỘ CHỬI TẬN ÓC · THẬM TỆ NHẤT (12 ĐOẠN XỐI XẢ TỚI BẾN!)
         chunks = [
-          `Này ${targetName}! Hôm nay ta phải mắng cho một trận tơi bời khói lửa, lột sạch bộ mặt giả nhân giả nghĩa của ${targetName} ra cho thiên hạ cùng biết!`,
-          `Đã sống trên đời mang tiếng con người, sao ${targetName} lại hành xử kiểu tiểu nhân bỉ ổi: ${wrongDoing} như vậy hả?`,
-          `Lúc cần thì nói lời đường mật ngọt xớt, lúc xong việc thì trở mặt lươn lẹo, trốn tránh trách nhiệm không biết liêm sỉ là gì!`,
-          `${targetName} tưởng thiên hạ ai cũng dễ bị lừa mãi sao? Một lần bất tín thì vạn lần bất tin, cái tên ${targetName} từ nay mất sạch uy tín!`,
-          `Bao nhiêu sự tử tế, bao nhiêu sự nhẫn nhịn của người khác đã bị ${targetName} chà đạp không thương tiếc!`,
-          `Sống cái kiểu khôn vặt, chỉ biết vơ vét phần hơn và đẩy phần thiệt cho người khác như ${targetName} thì làm sao mà khá lên nổi!`,
-          `Trời đất chứng giám! Mọi sự ức chế, điên tiết mà ${targetName} gây ra vì chuyện ${wrongDoing}, hôm nay ta trút sạch một trăm phần trăm ra khỏi người!`,
-          `Ta mắng cho ${targetName} tỉnh cái đầu ra! Mắng cho tan hết cục máu đông uất ức trong lòng ta!`,
-          `Ăn ở thất đức, bội tín bất nghĩa như ${targetName} thì đi đến đâu cũng bị người đời tẩy chay, làm việc gì cũng tự rước lấy thất bại!`,
-          `Bao nhiêu khẩu nghiệp, bao nhiêu vận xui của chuyện ${wrongDoing}, ta đóng gói trả ngược về cho ${targetName} gánh đủ không thiếu một phân!`,
-          `Đáng đời kẻ sống lỗi ${targetName}! Từ nay đừng bao giờ vác mặt đến làm phiền cuộc đời của người tử tế nữa!`,
-          `Xả hết rồi! Sướng cái miệng, nhẹ cái đầu, tan sạch cục tức! Chào thân ái và không bao giờ hẹn gặp lại kẻ tiểu nhân ${targetName}!`
+          `Này cái đồ vô liêm sỉ, mặt dày hơn thớt ${targetName} kia! Hôm nay ta phải chửi cho một trận long trời lở đất, lột trần cái bản chất bẩn thỉu thối nát của ngươi ra!`,
+          `Tại sao mang tiếng con người đi bằng hai chân mà ${targetName} lại sống hèn hạ, đê tiện, giở cái trò tiểu nhân ${wrongDoing} không bằng loài cầm thú như thế hả?`,
+          `Nhìn cái cách ngươi lật lọng tráo trở kìa! Lời nói của cái đồ rẻ rách ${targetName} đúng là thứ rác rưởi không có một chút giá trị nào!`,
+          `Lúc ngửa tay xin xỏ, lúc hứa hẹn thì thề sống thề chết, đến lúc cần giữ chữ tín thì cúp đuôi chạy mất dạng như một kẻ hèn nhát đê hèn!`,
+          `Người ta nhẫn nhịn ngươi một lần, hai lần vì người ta có học thức, có tự trọng, chứ không phải để cái thứ tiểu nhân cặn bã như ${targetName} được đằng chân lân đằng đầu!`,
+          `Bộ não của ${targetName} chứa đất sét hay chứa rác mà lại nghĩ ra cái trò khôn lỏi, bẩn bựa ${wrongDoing} làm người khác sôi máu lên như vậy hả?`,
+          `Đồ ăn cháo đá bát, qua cầu rút ván, sống ích kỷ chỉ biết liếm láp lợi lộc cho riêng mình mà bất chấp liêm sỉ!`,
+          `Thứ người thất đức, bội nghĩa, mở miệng là lươn lẹo dối trá như ${targetName} thì cả cuộc đời này chẳng bao giờ ngóc đầu lên làm người tử tế được đâu!`,
+          `Hôm nay ta chửi thẳng vào tận óc ${targetName}! Chửi cho tan nát cái bộ mặt đạo đức giả của ngươi! Chửi cho xả sạch một trăm phần trăm cơn giận đang bốc hỏa trong lồng ngực!`,
+          `Bao nhiêu khẩu nghiệp, bao nhiêu sự điên tiết, bao nhiêu vận xui của chuyện ${wrongDoing}, ta tống cổ trả ngược về cho cái bản mặt ${targetName} hưởng trọn!`,
+          `Cút khuất mắt ngay lập tức đồ tiểu nhân bỉ ổi ${targetName}! Từ nay về sau cái tên thối nát của ngươi đừng bao giờ xuất hiện trước mặt người đàng hoàng nữa!`,
+          `Xả sạch sẽ rồi! Chửi xong mười hai tăng sướng cái miệng, nhẹ cái đầu, bay sạch cục tức! Vĩnh biệt đồ rẻ rách vô liêm sỉ ${targetName}!`
         ];
       }
 
-      showToast(`🤬🔥 Đang phát Voice Chửi cực gắt (${chunks.length} đoạn liên hoàn) vào ${targetName}! (Đã trừ -${meritPenalty} 💎 Phước Đức)`);
-      playMultiChunksSequential(chunks, 'karmaVoiceLiveText', `🤬🔥 <b>Đang Chửi Trút Giận Cực Gắt Vào ${targetName} (-${meritPenalty} 💎 Phước):</b>`, localKarmaScoldMp3, 'scold_fierce');
+      const modeTitle = isMildMang ? `😏🌶️ Đang Mắng & Cà Khịa Thâm Thúy Vào ${targetName}` : `🤬🌋 Đang Chửi Thậm Tệ Xối Xả Vào ${targetName}`;
+      showToast(`${modeTitle} (${chunks.length} đoạn · Trừ -${meritPenalty} 💎 Phước Đức)!`);
+      playMultiChunksSequential(chunks, 'karmaVoiceLiveText', `${modeTitle} (<b style="color:#ffeb3b;">-${meritPenalty} 💎 Phước</b>):`, localKarmaScoldMp3, 'scold_fierce');
     }
 
     function smashKarmaTarget() {
