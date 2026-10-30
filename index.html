@@ -1009,6 +1009,12 @@ function tapMo() {
 function toggleAutoMo() {
   state.autoMo = !state.autoMo;
   renderPanel();
+if (window.location.search.includes("tab=khach")) {
+  selectTab("khach");
+  camera.position.copy(targetCamPos);
+  currentLookAt.copy(targetLookAt);
+  camera.lookAt(currentLookAt);
+}
 }
 
 function triggerBow() {
@@ -1033,6 +1039,12 @@ function toggleAutoBow() {
   state.autoBow = !state.autoBow;
   if (state.autoBow && bowAnimState === 0) triggerBow();
   renderPanel();
+if (window.location.search.includes("tab=khach")) {
+  selectTab("khach");
+  camera.position.copy(targetCamPos);
+  currentLookAt.copy(targetLookAt);
+  camera.lookAt(currentLookAt);
+}
 }
 
 function submitPrayer(presetText = null) {
@@ -1283,6 +1295,12 @@ function selectTab(tab) {
     switchZone('zen');
   }
   renderPanel();
+if (window.location.search.includes("tab=khach")) {
+  selectTab("khach");
+  camera.position.copy(targetCamPos);
+  currentLookAt.copy(targetLookAt);
+  camera.lookAt(currentLookAt);
+}
 }
 
 function renderPanel() {
@@ -1390,6 +1408,12 @@ function renderPanel() {
   }
 }
 renderPanel();
+if (window.location.search.includes("tab=khach")) {
+  selectTab("khach");
+  camera.position.copy(targetCamPos);
+  currentLookAt.copy(targetLookAt);
+  camera.lookAt(currentLookAt);
+}
 
 // Raycaster for direct 3D clicks on Mõ, Chuông, Buddha, or Boss
 const raycaster = new THREE.Raycaster();
