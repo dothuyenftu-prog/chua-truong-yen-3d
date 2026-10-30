@@ -923,7 +923,8 @@ rageGroup.add(arenaBase);
 
 // Target Boss 3D Group (Wobbles & Takes Hits)
 const bossPivot = new THREE.Group();
-bossPivot.position.set(0, 0.7, 0);
+bossPivot.position.set(0, 0.25, 0);
+bossPivot.scale.set(0.75, 0.75, 0.75);
 rageGroup.add(bossPivot);
 
 const bossBodyMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3, emissive: 0x7f1d1d, emissiveIntensity: 0.4 });
@@ -1275,8 +1276,8 @@ function switchZone(zone) {
     scene.background.setHex(0x2a080c);
     scene.fog.color.setHex(0x3b0a11);
     rageGlow.intensity = 2.6;
-    targetCamPos.set(0, 5.2, 12.5);
-    targetLookAt.set(0, 2.5, -1.5);
+    targetCamPos.set(0, 4.8, 13.5);
+    targetLookAt.set(0, 2.8, -1.5);
     updateBossHud();
   }
 }
