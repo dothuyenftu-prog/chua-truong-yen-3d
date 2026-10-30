@@ -823,7 +823,7 @@
     <div id="csInteractiveBody">
       <div id="csClickTarget" class="cs-target-wrap" onclick="triggerCenterStageHit()">
         <img id="csTargetImg" src="assets/mo_go.png" alt="Pháp khí tương tác" />
-        <canvas id="csIncenseCanvas" width="220" height="176" style="display:none; width:188px; height:150px; border-radius:14px;"></canvas>
+        <canvas id="csIncenseCanvas" width="240" height="240" style="display:none; width:186px; height:186px; border-radius:14px; border:1.5px solid #ffd54f; box-shadow:0 6px 18px rgba(0,0,0,0.75);"></canvas>
         <div id="csTargetEmoji" style="font-size:82px; display:none; line-height:1;">🙏</div>
         <div id="csMalletIcon" class="cs-mallet">🥢</div>
       </div>
@@ -935,7 +935,7 @@
         <span class="dock-label">Thỉnh Chuông</span>
       </button>
       <button class="dock-item" onclick="openCenterStage('incense')">
-        <span class="dock-icon">♨️🙏</span>
+        <span class="dock-icon"><img src="assets/lu_huong_3nen.jpg" alt="3 Nén Hương" style="width:26px;height:26px;border-radius:6px;object-fit:cover;border:1px solid #ffd54f;vertical-align:middle;" /></span>
         <span class="dock-label">Thắp Hương</span>
       </button>
       <button class="dock-item highlight-red" onclick="openSoKhanModal()">
@@ -2358,7 +2358,8 @@
       leNguQua: new Image(),
       leTraOan: new Image(),
       leDaiLe: new Image(),
-      furnaceReal: new Image()
+      furnaceReal: new Image(),
+      luHuongReal: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
@@ -2376,6 +2377,7 @@
     images.leTraOan.src = 'assets/le_traoan.png';
     images.leDaiLe.src = 'assets/le_daile.png';
     images.furnaceReal.src = 'assets/furnace_real.jpg';
+    images.luHuongReal.src = 'assets/lu_huong_3nen.jpg';
 
     const urlParams = new URLSearchParams(window.location.search);
     let currentZone = urlParams.get('zone') || 'tambao';
@@ -3333,7 +3335,7 @@
       if (target) greetSpecificNpc(target);
     }
 
-    // Hiệu ứng động tác Dâng 3 Nén Tâm Hương & Cắm Thẳng Vào Lư Hương Đồng (#csIncenseCanvas)
+    // Hiệu ứng động tác Dâng 3 Nén Tâm Hương Thật & Cắm Thẳng Vào Lư Hương Đồng Ảnh Chụp Thật (#csIncenseCanvas)
     let csIncensePlantAnim = { active: false, prog: 0 };
     (function startCenterIncenseRenderer() {
       const c = document.getElementById('csIncenseCanvas');
@@ -3348,180 +3350,116 @@
           const H = c.height;
           icx.clearRect(0, 0, W, H);
 
-          // Nền hào quang ấm áp phía sau Lư Hương Đồng
-          const bgGrad = icx.createRadialGradient(W * 0.5, H * 0.62, 12, W * 0.5, H * 0.55, W * 0.52);
-          bgGrad.addColorStop(0, 'rgba(255, 190, 75, 0.34)');
-          bgGrad.addColorStop(1, 'rgba(28, 11, 3, 0)');
-          icx.fillStyle = bgGrad;
-          icx.fillRect(0, 0, W, H);
-
-          const censerX = W * 0.5;
-          const ashY = H * 0.66;
-
-          // 1. Vẽ các nén hương ĐÃ CẮM trong Lư Hương Đồng (Chân hương đỏ + thân trầm + đầu lửa đỏ + khói hương)
-          const totalSticks = Math.min(27, burningIncenseCount[String(player.wing)] || 9);
-          for (let i = 0; i < totalSticks; i++) {
-            const frac = (i / Math.max(1, totalSticks - 1)) - 0.5;
-            const bx = censerX + frac * 54;
-            const by = ashY + Math.abs(frac) * 3;
-            const angle = frac * 0.28;
-            const stickLen = 48 + (i % 3) * 6;
-            const tx = bx + Math.sin(angle) * stickLen;
-            const ty = by - Math.cos(angle) * stickLen;
-
-            // Chân hương đỏ (1/3 dưới)
-            const midX = bx + Math.sin(angle) * (stickLen * 0.38);
-            const midY = by - Math.cos(angle) * (stickLen * 0.38);
-            icx.strokeStyle = '#d50000';
-            icx.lineWidth = 2.0;
-            icx.beginPath();
-            icx.moveTo(bx, by);
-            icx.lineTo(midX, midY);
-            icx.stroke();
-
-            // Thân nén hương trầm nâu vàng (2/3 trên)
-            icx.strokeStyle = '#c89b62';
-            icx.lineWidth = 2.2;
-            icx.beginPath();
-            icx.moveTo(midX, midY);
-            icx.lineTo(tx, ty);
-            icx.stroke();
-
-            // Đốm lửa đỏ hồng đang cháy ở đầu nén hương
-            const glow = 0.72 + 0.28 * Math.sin(tFrame * 0.14 + i * 1.3);
-            icx.fillStyle = `rgba(255, 80, 15, ${glow})`;
-            icx.beginPath();
-            icx.arc(tx, ty, 2.8, 0, Math.PI * 2);
-            icx.fill();
-            icx.fillStyle = '#fff59d';
-            icx.beginPath();
-            icx.arc(tx, ty, 1.2, 0, Math.PI * 2);
-            icx.fill();
-
-            // Khói trầm hương bay lên từ đầu nén hương
-            if (i % 3 === 0) {
-              icx.strokeStyle = 'rgba(245, 238, 220, 0.26)';
-              icx.lineWidth = 1.4;
-              icx.beginPath();
-              icx.moveTo(tx, ty - 2);
-              const wave1 = Math.sin(tFrame * 0.06 + i) * 7;
-              const wave2 = Math.cos(tFrame * 0.05 + i) * 9;
-              icx.bezierCurveTo(tx + wave1, ty - 18, tx - wave2, ty - 34, tx + wave1 * 0.6, ty - 50);
-              icx.stroke();
-            }
+          // 1. Vẽ Ảnh Chụp Thật 100% Lư Hương Đồng Chạm Rồng & 3 Nén Hương Trầm Chân Đỏ Đang Cháy (assets/lu_huong_3nen.jpg)
+          if (images.luHuongReal && images.luHuongReal.complete && images.luHuongReal.naturalWidth > 0) {
+            icx.drawImage(images.luHuongReal, 0, 0, W, H);
+          } else {
+            icx.fillStyle = '#1a0a03';
+            icx.fillRect(0, 0, W, H);
           }
 
-          // 2. Động tác Đôi Tay Dâng 3 Nén Tâm Hương & CẮM THẲNG VÀO LƯ HƯƠNG ĐỒNG!
-          let handOffsetY = -28;
-          let bowScale = 0;
+          const censerX = W * 0.5;
+          const ashY = H * 0.535;
+          const totalSticks = Math.min(39, burningIncenseCount[String(player.wing)] || 9);
+
+          // 2. Hiệu ứng đốm lửa đỏ rực nhấp nháy ở đầu 3 nén hương thật trên ảnh + khói trầm hương sống động
+          const realTips = [
+            { x: W * 0.442, y: H * 0.258 },
+            { x: W * 0.501, y: H * 0.242 },
+            { x: W * 0.556, y: H * 0.256 }
+          ];
+          realTips.forEach((pt, idx) => {
+            const pulse = 0.65 + 0.35 * Math.sin(tFrame * 0.15 + idx * 1.4);
+            const g = icx.createRadialGradient(pt.x, pt.y, 1, pt.x, pt.y, 9);
+            g.addColorStop(0, `rgba(255, 240, 130, ${pulse})`);
+            g.addColorStop(0.45, `rgba(255, 70, 10, ${pulse * 0.85})`);
+            g.addColorStop(1, 'rgba(255, 40, 0, 0)');
+            icx.fillStyle = g;
+            icx.beginPath();
+            icx.arc(pt.x, pt.y, 9, 0, Math.PI * 2);
+            icx.fill();
+
+            // Làn khói trầm bay lên từ từng đầu nén hương thật
+            icx.strokeStyle = 'rgba(255, 250, 240, 0.28)';
+            icx.lineWidth = 1.6;
+            icx.beginPath();
+            icx.moveTo(pt.x, pt.y - 3);
+            const w1 = Math.sin(tFrame * 0.05 + idx * 1.7) * 8;
+            const w2 = Math.cos(tFrame * 0.04 + idx * 1.7) * 10;
+            icx.bezierCurveTo(pt.x + w1, pt.y - 20, pt.x - w2, pt.y - 38, pt.x + w1 * 0.7, pt.y - 56);
+            icx.stroke();
+          });
+
+          // 3. Động tác Đôi Tay Dâng 3 Nén Tâm Hương Chân Đỏ & CẮM THẲNG VÀO LƯ HƯƠNG ĐỒNG KHI BẤM!
           if (csIncensePlantAnim.active) {
-            csIncensePlantAnim.prog += 0.042;
+            csIncensePlantAnim.prog += 0.038;
             const p = csIncensePlantAnim.prog;
-            if (p < 0.42) {
-              // Vái khấn 3 nén hương trước khi cắm
-              bowScale = Math.sin((p / 0.42) * Math.PI * 2) * 7;
-              handOffsetY = -30 + bowScale;
+            let handOffsetY = -42;
+            if (p < 0.40) {
+              // Vái khấn 3 nén hương trước khi cắm xuống Lư Hương
+              const bowWave = Math.sin((p / 0.40) * Math.PI * 2) * 8;
+              handOffsetY = -42 + bowWave;
             } else if (p <= 1.0) {
-              // Hạ tay cắm thẳng 3 nén hương xuống lớp tro vàng trong Lư Hương!
-              const insertFrac = (p - 0.42) / 0.58;
-              handOffsetY = -30 + insertFrac * 30;
+              // Hạ tay cắm thẳng 3 nén hương chân đỏ xuống lớp tro vàng của Lư Hương Đồng!
+              const insertFrac = (p - 0.40) / 0.60;
+              handOffsetY = -42 + insertFrac * 42;
             } else {
               csIncensePlantAnim.active = false;
               handOffsetY = 0;
             }
-          } else {
-            // Nhịp thở nhẹ khi vừa cắm xong 3 nén hương chính giữa
-            handOffsetY = Math.sin(tFrame * 0.06) * 2 - 4;
+
+            if (p < 0.96) {
+              for (const sIdx of [-1, 0, 1]) {
+                const bx = censerX + sIdx * 13;
+                const by = ashY + handOffsetY;
+                const tx = bx + sIdx * 2;
+                const ty = by - 68;
+
+                // Chân hương đỏ thắm
+                icx.strokeStyle = '#ff1744';
+                icx.lineWidth = 3.2;
+                icx.beginPath();
+                icx.moveTo(bx, by);
+                icx.lineTo(bx + sIdx * 0.8, by - 25);
+                icx.stroke();
+
+                // Thân nén hương trầm nâu vàng rõ nét
+                icx.strokeStyle = '#e0b06c';
+                icx.lineWidth = 4.2;
+                icx.beginPath();
+                icx.moveTo(bx + sIdx * 0.8, by - 25);
+                icx.lineTo(tx, ty);
+                icx.stroke();
+
+                // Đốm lửa đầu nén hương
+                icx.fillStyle = '#ff3d00';
+                icx.beginPath();
+                icx.arc(tx, ty, 4.5, 0, Math.PI * 2);
+                icx.fill();
+                icx.fillStyle = '#ffff8d';
+                icx.beginPath();
+                icx.arc(tx, ty, 2.2, 0, Math.PI * 2);
+                icx.fill();
+              }
+              icx.font = '26px sans-serif';
+              icx.textAlign = 'center';
+              icx.fillText('🙏', censerX, ashY + handOffsetY - 8);
+            }
           }
 
-          // Vẽ 3 Nén Tâm Hương Chủ Đạo Chính Giữa đang được dâng & cắm xuống Lư Hương
-          for (const sIdx of [-1, 0, 1]) {
-            const bx = censerX + sIdx * 9;
-            const by = ashY + handOffsetY;
-            const tx = bx + sIdx * 3;
-            const ty = by - 58;
-
-            // Chân hương đỏ thắm
-            icx.strokeStyle = '#ff1744';
-            icx.lineWidth = 2.8;
-            icx.beginPath();
-            icx.moveTo(bx, by);
-            icx.lineTo(bx + sIdx * 1.2, by - 22);
-            icx.stroke();
-
-            // Thân nén hương trầm
-            icx.strokeStyle = '#e6b875';
-            icx.lineWidth = 3.2;
-            icx.beginPath();
-            icx.moveTo(bx + sIdx * 1.2, by - 22);
-            icx.lineTo(tx, ty);
-            icx.stroke();
-
-            // Đầu lửa hương cháy sáng rực
-            icx.fillStyle = '#ff3d00';
-            icx.beginPath();
-            icx.arc(tx, ty, 4.2, 0, Math.PI * 2);
-            icx.fill();
-            icx.fillStyle = '#ffff8d';
-            icx.beginPath();
-            icx.arc(tx, ty, 2.0, 0, Math.PI * 2);
-            icx.fill();
-          }
-
-          // Nếu đang trong nhịp dâng/cắm hương thì hiện Đôi Tay Chắp Dâng Hương
-          if (csIncensePlantAnim.active && csIncensePlantAnim.prog < 0.92) {
-            icx.font = '24px sans-serif';
-            icx.textAlign = 'center';
-            icx.fillText('🙏', censerX, ashY + handOffsetY - 8);
-          }
-
-          // 3. Vẽ LƯ HƯƠNG ĐỒNG CHẠM RỒNG CHÙA VIỆT (Tai rồng + Bầu lư đồng + Lớp tro vàng)
-          // Hai tai rồng Lư Hương hai bên
-          icx.strokeStyle = '#d49b35';
-          icx.lineWidth = 5;
+          // 4. Băng rôn trạng thái dưới chân ảnh chụp Lư Hương Đồng
+          icx.fillStyle = 'rgba(18, 7, 2, 0.86)';
+          icx.strokeStyle = 'rgba(255, 213, 79, 0.75)';
+          icx.lineWidth = 1.2;
           icx.beginPath();
-          icx.arc(censerX - 46, ashY + 18, 12, Math.PI * 0.4, Math.PI * 1.6);
-          icx.stroke();
-          icx.beginPath();
-          icx.arc(censerX + 46, ashY + 18, 12, -Math.PI * 0.6, Math.PI * 0.6);
-          icx.stroke();
-
-          // Bầu Lư Hương Đồng cổ kính
-          const censerGrad = icx.createLinearGradient(censerX - 44, ashY, censerX + 44, ashY + 46);
-          censerGrad.addColorStop(0, '#8d5518');
-          censerGrad.addColorStop(0.5, '#e2ad47');
-          censerGrad.addColorStop(1, '#5c3409');
-          icx.fillStyle = censerGrad;
-          icx.strokeStyle = '#ffe082';
-          icx.lineWidth = 2;
-          icx.beginPath();
-          icx.moveTo(censerX - 42, ashY);
-          icx.quadraticCurveTo(censerX - 48, ashY + 34, censerX - 26, ashY + 44);
-          icx.lineTo(censerX + 26, ashY + 44);
-          icx.quadraticCurveTo(censerX + 48, ashY + 34, censerX + 42, ashY);
-          icx.closePath();
+          icx.roundRect(10, H - 28, W - 20, 22, 8);
           icx.fill();
           icx.stroke();
 
-          // Mặt tro vàng Bát Hương (Nơi chân hương cắm thẳng xuống)
-          icx.fillStyle = '#d7b36a';
-          icx.strokeStyle = '#ffecb3';
-          icx.lineWidth = 2;
-          icx.beginPath();
-          icx.ellipse(censerX, ashY, 42, 8.5, 0, 0, Math.PI * 2);
-          icx.fill();
-          icx.stroke();
-
-          // Chữ chạm nổi trên Lư Hương Đồng
-          icx.font = 'bold 10px sans-serif';
-          icx.fillStyle = '#3e1e04';
+          icx.font = 'bold 11px sans-serif';
+          icx.fillStyle = '#ffd740';
           icx.textAlign = 'center';
-          icx.fillText('🐉 LƯ HƯƠNG TAM BẢO 🐉', censerX, ashY + 25);
-
-          // Nhãn hướng dẫn trực quan ngay dưới chân Lư Hương
-          icx.font = 'bold 10.5px sans-serif';
-          icx.fillStyle = '#ffe596';
-          icx.fillText(`♨️ Đang cháy ${totalSticks} nén hương trong Lư`, censerX, H - 5);
+          icx.fillText(`♨️ Đã cắm ${totalSticks} nén hương vào Lư Hương Đồng`, censerX, H - 13);
         }
         requestAnimationFrame(drawLoop);
       }
