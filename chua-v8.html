@@ -823,7 +823,8 @@
     <div id="csInteractiveBody">
       <div id="csClickTarget" class="cs-target-wrap" onclick="triggerCenterStageHit()">
         <img id="csTargetImg" src="assets/mo_go.png" alt="Pháp khí tương tác" />
-        <div id="csTargetEmoji" style="font-size:82px; display:none; line-height:1;">🕯️</div>
+        <canvas id="csIncenseCanvas" width="220" height="176" style="display:none; width:188px; height:150px; border-radius:14px;"></canvas>
+        <div id="csTargetEmoji" style="font-size:82px; display:none; line-height:1;">🙏</div>
         <div id="csMalletIcon" class="cs-mallet">🥢</div>
       </div>
 
@@ -934,7 +935,7 @@
         <span class="dock-label">Thỉnh Chuông</span>
       </button>
       <button class="dock-item" onclick="openCenterStage('incense')">
-        <span class="dock-icon">🕯️</span>
+        <span class="dock-icon">♨️🙏</span>
         <span class="dock-label">Thắp Hương</span>
       </button>
       <button class="dock-item highlight-red" onclick="openSoKhanModal()">
@@ -2528,6 +2529,9 @@
       interBody.style.display = 'block';
       tableBody.style.display = 'none';
 
+      const incCanvas = document.getElementById('csIncenseCanvas');
+      if (incCanvas) incCanvas.style.display = 'none';
+
       const buffTag = meritRateMultiplier > 1 ? ` · 🔥 BUFF X${meritRateMultiplier}` : '';
       if (mode === 'mo') {
         const pct = 10 * meritRateMultiplier;
@@ -2549,12 +2553,12 @@
         instrEl.textContent = `👆 Chạm vào Chuông Đồng để thỉnh (Xác suất hiện tại: ${pct}% được +${2 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       } else if (mode === 'incense') {
         const pct = 25 * meritRateMultiplier;
-        titleEl.textContent = `🕯️ DÂNG 3 NÉN TÂM HƯƠNG (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
+        titleEl.textContent = `♨️🙏 DÂNG 3 NÉN HƯƠNG & CẮM VÀO LƯ HƯƠNG (${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
-        emojiEl.style.display = 'block';
-        emojiEl.textContent = '🕯️🙏🕯️';
+        emojiEl.style.display = 'none';
+        if (incCanvas) incCanvas.style.display = 'block';
         malletEl.style.display = 'none';
-        instrEl.textContent = `👆 Chạm vào 3 Nén Tâm Hương để dâng hương (Xác suất hiện tại: ${pct}% kết tụ +${3 * meritRateMultiplier} 💎 Phước${buffTag})`;
+        instrEl.textContent = `👆 Chạm vào Lư Hương Đồng để Dâng 3 Nén Tâm Hương & Cắm Vào Lư Hương (Xác suất ${pct}% kết tụ +${3 * meritRateMultiplier} 💎 Phước${buffTag})`;
       } else if (mode === 'bow') {
         const pct = 15 * meritRateMultiplier;
         titleEl.textContent = `🙇 QUỲ LẠY TAM BẢO (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
@@ -2674,7 +2678,13 @@
           }
         }
       } else if (centerStageMode === 'incense') {
+        // KÍCH HOẠT ĐỘNG TÁC DÂNG 3 NÉN HƯƠNG ĐỎ & CẮM THẲNG VÀO LƯ HƯƠNG ĐỒNG!
+        csIncensePlantAnim = { active: true, prog: 0 };
         performRitual('incense');
+        document.getElementById('csHitCounter').textContent = csHitCount;
+        const luckyEl2 = document.getElementById('csLuckyCounter');
+        if (luckyEl2) luckyEl2.textContent = csLuckyCount;
+        document.getElementById('csMeritEarned').textContent = `+${csMeritSession} 💎`;
         return;
       } else if (centerStageMode === 'bow') {
         playMoSound();
@@ -3323,6 +3333,201 @@
       if (target) greetSpecificNpc(target);
     }
 
+    // Hiệu ứng động tác Dâng 3 Nén Tâm Hương & Cắm Thẳng Vào Lư Hương Đồng (#csIncenseCanvas)
+    let csIncensePlantAnim = { active: false, prog: 0 };
+    (function startCenterIncenseRenderer() {
+      const c = document.getElementById('csIncenseCanvas');
+      if (!c) return;
+      const icx = c.getContext('2d');
+      let tFrame = 0;
+
+      function drawLoop() {
+        tFrame++;
+        if (c.style.display !== 'none') {
+          const W = c.width;
+          const H = c.height;
+          icx.clearRect(0, 0, W, H);
+
+          // Nền hào quang ấm áp phía sau Lư Hương Đồng
+          const bgGrad = icx.createRadialGradient(W * 0.5, H * 0.62, 12, W * 0.5, H * 0.55, W * 0.52);
+          bgGrad.addColorStop(0, 'rgba(255, 190, 75, 0.34)');
+          bgGrad.addColorStop(1, 'rgba(28, 11, 3, 0)');
+          icx.fillStyle = bgGrad;
+          icx.fillRect(0, 0, W, H);
+
+          const censerX = W * 0.5;
+          const ashY = H * 0.66;
+
+          // 1. Vẽ các nén hương ĐÃ CẮM trong Lư Hương Đồng (Chân hương đỏ + thân trầm + đầu lửa đỏ + khói hương)
+          const totalSticks = Math.min(27, burningIncenseCount[String(player.wing)] || 9);
+          for (let i = 0; i < totalSticks; i++) {
+            const frac = (i / Math.max(1, totalSticks - 1)) - 0.5;
+            const bx = censerX + frac * 54;
+            const by = ashY + Math.abs(frac) * 3;
+            const angle = frac * 0.28;
+            const stickLen = 48 + (i % 3) * 6;
+            const tx = bx + Math.sin(angle) * stickLen;
+            const ty = by - Math.cos(angle) * stickLen;
+
+            // Chân hương đỏ (1/3 dưới)
+            const midX = bx + Math.sin(angle) * (stickLen * 0.38);
+            const midY = by - Math.cos(angle) * (stickLen * 0.38);
+            icx.strokeStyle = '#d50000';
+            icx.lineWidth = 2.0;
+            icx.beginPath();
+            icx.moveTo(bx, by);
+            icx.lineTo(midX, midY);
+            icx.stroke();
+
+            // Thân nén hương trầm nâu vàng (2/3 trên)
+            icx.strokeStyle = '#c89b62';
+            icx.lineWidth = 2.2;
+            icx.beginPath();
+            icx.moveTo(midX, midY);
+            icx.lineTo(tx, ty);
+            icx.stroke();
+
+            // Đốm lửa đỏ hồng đang cháy ở đầu nén hương
+            const glow = 0.72 + 0.28 * Math.sin(tFrame * 0.14 + i * 1.3);
+            icx.fillStyle = `rgba(255, 80, 15, ${glow})`;
+            icx.beginPath();
+            icx.arc(tx, ty, 2.8, 0, Math.PI * 2);
+            icx.fill();
+            icx.fillStyle = '#fff59d';
+            icx.beginPath();
+            icx.arc(tx, ty, 1.2, 0, Math.PI * 2);
+            icx.fill();
+
+            // Khói trầm hương bay lên từ đầu nén hương
+            if (i % 3 === 0) {
+              icx.strokeStyle = 'rgba(245, 238, 220, 0.26)';
+              icx.lineWidth = 1.4;
+              icx.beginPath();
+              icx.moveTo(tx, ty - 2);
+              const wave1 = Math.sin(tFrame * 0.06 + i) * 7;
+              const wave2 = Math.cos(tFrame * 0.05 + i) * 9;
+              icx.bezierCurveTo(tx + wave1, ty - 18, tx - wave2, ty - 34, tx + wave1 * 0.6, ty - 50);
+              icx.stroke();
+            }
+          }
+
+          // 2. Động tác Đôi Tay Dâng 3 Nén Tâm Hương & CẮM THẲNG VÀO LƯ HƯƠNG ĐỒNG!
+          let handOffsetY = -28;
+          let bowScale = 0;
+          if (csIncensePlantAnim.active) {
+            csIncensePlantAnim.prog += 0.042;
+            const p = csIncensePlantAnim.prog;
+            if (p < 0.42) {
+              // Vái khấn 3 nén hương trước khi cắm
+              bowScale = Math.sin((p / 0.42) * Math.PI * 2) * 7;
+              handOffsetY = -30 + bowScale;
+            } else if (p <= 1.0) {
+              // Hạ tay cắm thẳng 3 nén hương xuống lớp tro vàng trong Lư Hương!
+              const insertFrac = (p - 0.42) / 0.58;
+              handOffsetY = -30 + insertFrac * 30;
+            } else {
+              csIncensePlantAnim.active = false;
+              handOffsetY = 0;
+            }
+          } else {
+            // Nhịp thở nhẹ khi vừa cắm xong 3 nén hương chính giữa
+            handOffsetY = Math.sin(tFrame * 0.06) * 2 - 4;
+          }
+
+          // Vẽ 3 Nén Tâm Hương Chủ Đạo Chính Giữa đang được dâng & cắm xuống Lư Hương
+          for (const sIdx of [-1, 0, 1]) {
+            const bx = censerX + sIdx * 9;
+            const by = ashY + handOffsetY;
+            const tx = bx + sIdx * 3;
+            const ty = by - 58;
+
+            // Chân hương đỏ thắm
+            icx.strokeStyle = '#ff1744';
+            icx.lineWidth = 2.8;
+            icx.beginPath();
+            icx.moveTo(bx, by);
+            icx.lineTo(bx + sIdx * 1.2, by - 22);
+            icx.stroke();
+
+            // Thân nén hương trầm
+            icx.strokeStyle = '#e6b875';
+            icx.lineWidth = 3.2;
+            icx.beginPath();
+            icx.moveTo(bx + sIdx * 1.2, by - 22);
+            icx.lineTo(tx, ty);
+            icx.stroke();
+
+            // Đầu lửa hương cháy sáng rực
+            icx.fillStyle = '#ff3d00';
+            icx.beginPath();
+            icx.arc(tx, ty, 4.2, 0, Math.PI * 2);
+            icx.fill();
+            icx.fillStyle = '#ffff8d';
+            icx.beginPath();
+            icx.arc(tx, ty, 2.0, 0, Math.PI * 2);
+            icx.fill();
+          }
+
+          // Nếu đang trong nhịp dâng/cắm hương thì hiện Đôi Tay Chắp Dâng Hương
+          if (csIncensePlantAnim.active && csIncensePlantAnim.prog < 0.92) {
+            icx.font = '24px sans-serif';
+            icx.textAlign = 'center';
+            icx.fillText('🙏', censerX, ashY + handOffsetY - 8);
+          }
+
+          // 3. Vẽ LƯ HƯƠNG ĐỒNG CHẠM RỒNG CHÙA VIỆT (Tai rồng + Bầu lư đồng + Lớp tro vàng)
+          // Hai tai rồng Lư Hương hai bên
+          icx.strokeStyle = '#d49b35';
+          icx.lineWidth = 5;
+          icx.beginPath();
+          icx.arc(censerX - 46, ashY + 18, 12, Math.PI * 0.4, Math.PI * 1.6);
+          icx.stroke();
+          icx.beginPath();
+          icx.arc(censerX + 46, ashY + 18, 12, -Math.PI * 0.6, Math.PI * 0.6);
+          icx.stroke();
+
+          // Bầu Lư Hương Đồng cổ kính
+          const censerGrad = icx.createLinearGradient(censerX - 44, ashY, censerX + 44, ashY + 46);
+          censerGrad.addColorStop(0, '#8d5518');
+          censerGrad.addColorStop(0.5, '#e2ad47');
+          censerGrad.addColorStop(1, '#5c3409');
+          icx.fillStyle = censerGrad;
+          icx.strokeStyle = '#ffe082';
+          icx.lineWidth = 2;
+          icx.beginPath();
+          icx.moveTo(censerX - 42, ashY);
+          icx.quadraticCurveTo(censerX - 48, ashY + 34, censerX - 26, ashY + 44);
+          icx.lineTo(censerX + 26, ashY + 44);
+          icx.quadraticCurveTo(censerX + 48, ashY + 34, censerX + 42, ashY);
+          icx.closePath();
+          icx.fill();
+          icx.stroke();
+
+          // Mặt tro vàng Bát Hương (Nơi chân hương cắm thẳng xuống)
+          icx.fillStyle = '#d7b36a';
+          icx.strokeStyle = '#ffecb3';
+          icx.lineWidth = 2;
+          icx.beginPath();
+          icx.ellipse(censerX, ashY, 42, 8.5, 0, 0, Math.PI * 2);
+          icx.fill();
+          icx.stroke();
+
+          // Chữ chạm nổi trên Lư Hương Đồng
+          icx.font = 'bold 10px sans-serif';
+          icx.fillStyle = '#3e1e04';
+          icx.textAlign = 'center';
+          icx.fillText('🐉 LƯ HƯƠNG TAM BẢO 🐉', censerX, ashY + 25);
+
+          // Nhãn hướng dẫn trực quan ngay dưới chân Lư Hương
+          icx.font = 'bold 10.5px sans-serif';
+          icx.fillStyle = '#ffe596';
+          icx.fillText(`♨️ Đang cháy ${totalSticks} nén hương trong Lư`, censerX, H - 5);
+        }
+        requestAnimationFrame(drawLoop);
+      }
+      requestAnimationFrame(drawLoop);
+    })();
+
     function performRitual(type, silentMerit = false) {
       unlockAndStartAudio();
       const now = Date.now();
@@ -3334,16 +3539,21 @@
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
         incenseCeremony = { active: true, timer: 130, maxTimer: 130, wing: player.wing };
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
-        player.chat = `Con xin dâng 3 nén tâm hương lên ${zoneName} 🕯️🙏`;
+        const totalNow = burningIncenseCount[String(player.wing)];
+        player.chat = `Con xin dâng 3 nén tâm hương & cắm vào Lư Hương ${zoneName} (Hiện có ${totalNow} nén hương)! ♨️🙏`;
         player.chatTimer = 260;
         playBellSound();
         if (!silentMerit) {
           const rollBanner = document.getElementById('csLastRollBanner');
-          if (Math.random() < 0.25) {
+          const chance = 0.25 * meritRateMultiplier;
+          const pctLabel = Math.round(chance * 100);
+          const pts = 3 * meritRateMultiplier;
+          const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
+          if (Math.random() < chance) {
             lastIncenseMeritAt = now;
-            addMerit(3, `Dâng 3 nén tâm hương lên ${zoneName} (Trúng xác suất 25%)`);
+            addMerit(pts, `Dâng 3 nén tâm hương cắm vào Lư Hương ${zoneName} (Trúng ${pctLabel}%${buffSuffix})`);
             csLuckyCount++;
-            csMeritSession += 3;
+            csMeritSession += pts;
             const luckyEl = document.getElementById('csLuckyCounter');
             if (luckyEl) luckyEl.textContent = csLuckyCount;
             const mEl = document.getElementById('csMeritEarned');
@@ -3351,16 +3561,16 @@
             if (rollBanner) {
               rollBanner.style.color = '#69f0ae';
               rollBanner.style.borderColor = '#69f0ae';
-              rollBanner.innerHTML = `✨🕯️ <b>TRÚNG XÁC SUẤT 25%!</b> Hương trầm thấu thiên đình — Kết tụ <b>+3 💎 Phước Đức</b>!`;
+              rollBanner.innerHTML = `✨♨️ <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> Đã cắm 3 nén hương vào Lư Hương — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
             }
-            showToast(`✨🕯️ Hương trầm cảm ứng (Trúng 25%) → +3 💎 Phước Đức!`);
+            showToast(`✨♨️ Đã cắm 3 nén tâm hương vào Lư Hương (Trúng ${pctLabel}%${buffSuffix}) → +${pts} 💎 Phước Đức!`);
           } else {
             if (rollBanner) {
               rollBanner.style.color = '#ffe082';
               rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-              rollBanner.innerHTML = `🕯️ <i>Đã thắp 3 nén tâm hương thành kính (Chưa kết tụ Phước — Xác suất 25%/lần)</i>`;
+              rollBanner.innerHTML = `♨️🙏 <i>Đã dâng 3 nén tâm hương & cắm vào Lư Hương Đồng (${totalNow} nén đang cháy · Xác suất ${pctLabel}%/lần${buffSuffix})</i>`;
             }
-            showToast(`🕯️ Đã thành tâm dâng hương lên ${zoneName} (Xác suất tích phước 25% — Hãy kiên trì!)`);
+            showToast(`♨️🙏 Đã cắm 3 nén hương vào Lư Hương ${zoneName} (Xác suất tích phước ${pctLabel}%${buffSuffix})`);
           }
         }
       } else if (type === 'pray') {
@@ -5128,6 +5338,7 @@
     }
     if (location.search.includes('mo=1')) setTimeout(() => openCenterStage('mo'), 80);
     if (location.search.includes('bell=1')) setTimeout(() => openCenterStage('bell'), 80);
+    if (location.search.includes('incense=1')) setTimeout(() => openCenterStage('incense'), 80);
     if (location.search.includes('bow=1')) setTimeout(() => openCenterStage('bow'), 80);
     if (location.search.includes('pray=1')) setTimeout(() => openCenterStage('pray'), 80);
     if (location.search.includes('rename=1')) setTimeout(() => openRenameCharModal(), 80);
