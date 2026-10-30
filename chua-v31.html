@@ -905,15 +905,57 @@
     <div id="joyKnob360">✥</div>
   </div>
 
-  <!-- 3B. ON-SCREEN DIRECT OFFERING & BOW/PRAY BAR (Quỳ Lạy, Vái Khấn, Xem Bàn Lễ, Viết Sớ, Xin Xăm, Phòng Xả Nghiệp, Đốt Vàng Mã) -->
+  <!-- 3B. ON-SCREEN DIRECT HALL ACTIONS (Thực hiện trực tiếp tại Sảnh Chính, KHÔNG hiện ô to che màn hình!) -->
   <div class="quick-offering-bar">
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openCenterStage('bow')">🙇 Quỳ Lạy (15% +1💎)</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="openCenterStage('pray')">🙏 Vái Khấn (15% +1💎)</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ffd54f,#ffb300);color:#2b1002;border-color:#fff;" onclick="openCenterStage('table_inspect')">🔍 Xem Bàn Lễ</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="performDirectHallAction('bow')">🙇 Quỳ Lạy Tại Sảnh</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="performDirectHallAction('pray')">🙏 Vái Khấn Theo Gian</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;" onclick="toggleHallOfferingStrip()">🎁 Đặt Lễ / Hạ Lễ (≤100💎)</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#00838f,#004d40);color:#fff;border-color:#80deea;" onclick="toggleNpcInteractBar()">🤝💬 Chào / Hỏi Han / Đấm (-1💎)</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜✍️ Viết Sớ Số KPI</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🤬🧘‍♂️ Xả Nghiệp</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm (-5💎)</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🤬🥊 Xả Nghiệp</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Đốt Vàng Mã</button>
+  </div>
+
+  <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH TRỰC TIẾP TẠI SẢNH CHÍNH (Không che màn hình · Giá ≤100💎 · Có Lễ Chay, Heo Quay, Xôi Gà, Vàng Mã · Đặt sai ban Phật bị phạt!) -->
+  <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:48; width:min(96vw, 720px); background:rgba(24,10,3,0.92); border:1.5px solid #ffd54f; border-radius:12px; padding:6px 9px; box-shadow:0 8px 24px rgba(0,0,0,0.85); backdrop-filter:blur(6px);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;">
+      <span style="font-size:10.3px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ & HẠ LỄ TẠI SẢNH (<span id="stripRoomRuleHint" style="color:#69f0ae;">Ban Phật: Chỉ nhận Lễ Chay · Cấm Heo Quay/Xôi Gà/Vàng Mã!</span>)</span>
+      <div style="display:flex; gap:4px; align-items:center;">
+        <input id="quickOfferWishInput" type="text" value="Cầu đạt KPI 1.5 tỷ & bình an" placeholder="Nhập lời cầu..." style="width:155px; background:rgba(12,5,1,0.95); border:1px solid #ffd54f; border-radius:6px; padding:2px 6px; color:#fff8e1; font-size:9.8px;" />
+        <button type="button" onclick="manualTakeDownOffering()" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #80d8ff; border-radius:6px; padding:2px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ Thụ Lộc (+3💎)</button>
+        <button type="button" onclick="toggleHallOfferingStrip(false)" style="background:#b71c1c; color:#fff; border:none; border-radius:5px; padding:2px 6px; font-size:9.8px; cursor:pointer;">✕</button>
+      </div>
+    </div>
+    <div style="display:flex; gap:4px; overflow-x:auto; padding-bottom:2px; scrollbar-width:thin;">
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('lotus_tray','🪷','Hoa Sen Chay',18,'assets/le_hoasen.jpg',0,0,'chay')">🪷 Hoa Sen Chay (18💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('five_fruits','🍎','Mâm Ngũ Quả Chay',28,'assets/le_nguqua.jpg',0,0,'chay')">🍎 Ngũ Quả Chay (28💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('tea_oan','🍵','Oản Ngọc Trà Sen',38,'assets/le_traoan.jpg',0,0,'chay')">🍵 Oản Trà Chay (38💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('grand_offering','👑','Đại Lễ Cỗ Chay',95,'assets/le_daile.jpg',0,2,'chay')">👑 Đại Lễ Cỗ Chay (95💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('mam_ga_xoi','🐓','Xôi Gà Luộc (Lễ Mặn)',55,'assets/vangma_mamdaydu.jpg',0,1,'man')">🐓 Xôi Gà Mặn (55💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/vangma_mamdaydu.jpg',0,2,'man')">🐷 Heo Quay Mặn (85💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_dinh','🧧','Đinh Tiền Vàng Mã',15,'assets/vangma_dinh.jpg',0,2,'vang_ma')">🧧 Đinh Vàng Mã (15💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_le10','💴','Tháp Vàng Mã Đỏ',40,'assets/vangma_le10.jpg',0,3,'vang_ma')">💴 Tháp Vàng Mã (40💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_tiendola','💵','Mâm Tiền Vàng 500k',65,'assets/vangma_tiendola.jpg',0,4,'vang_ma')">💵 Tiền Vàng 500k (65💎)</button>
+    </div>
+  </div>
+
+  <!-- 3D. THANH TƯƠNG TÁC NHÂN VẬT & NHẮN TIN HỘI THOẠI HỎI HAN / ĐẤM TÁT TRỰC TIẾP TẠI SẢNH CHÍNH -->
+  <div id="npcInteractBar" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:49; width:min(96vw, 680px); background:rgba(16,22,28,0.94); border:1.5px solid #80deea; border-radius:12px; padding:6px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.88); backdrop-filter:blur(6px);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
+      <span style="font-size:10.5px; font-weight:900; color:#80deea;">🤝💬 TƯƠNG TÁC VỚI: <b id="selectedNpcNameLabel" style="color:#ffd740;">Chị Thu Trang</b> <span style="font-size:9.4px; color:#b2ebf2;">(Chạm vào bất kỳ ai trong sảnh để đổi người)</span></span>
+      <div style="display:flex; gap:4px; flex-wrap:wrap;">
+        <button type="button" onclick="interactWithHallNpc('greet')" style="background:linear-gradient(135deg,#2e7d32,#1b5e20); color:#fff; border:1px solid #a5d6a7; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">🙏 Chắp Tay Cúi Chào (+1💎)</button>
+        <button type="button" onclick="interactWithHallNpc('ask_kpi')" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #80d8ff; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">💬 Hỏi Thăm Công Việc</button>
+        <button type="button" onclick="interactWithHallNpc('punch')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1px solid #ff8a80; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">🥊 Đấm (-1💎)</button>
+        <button type="button" onclick="interactWithHallNpc('slap')" style="background:linear-gradient(135deg,#c62828,#4a148c); color:#fff; border:1px solid #ff80ab; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">🖐️ Vả / Tát (-1💎)</button>
+        <button type="button" onclick="toggleNpcInteractBar(false)" style="background:#b71c1c; color:#fff; border:none; border-radius:5px; padding:2px 6px; font-size:9.8px; cursor:pointer;">✕</button>
+      </div>
+    </div>
+    <div style="display:flex; gap:5px; align-items:center;">
+      <input id="npcDialogInput" type="text" placeholder="💬 Nhập tin nhắn hỏi han nhân vật này (VD: Chị đi lễ xin gì thế ạ?)..." style="flex:1; background:rgba(6,10,14,0.95); border:1px solid #4dd0e1; border-radius:7px; padding:4px 8px; color:#fff; font-size:10.3px;" onkeydown="if(event.key==='Enter') sendDirectNpcDialog()" />
+      <button type="button" onclick="sendDirectNpcDialog()" style="background:linear-gradient(135deg,#00acc1,#006064); color:#fff; border:1px solid #80deea; border-radius:7px; padding:4px 10px; font-size:10.2px; font-weight:800; cursor:pointer;">Gửi Hội Thoại 💬</button>
+    </div>
   </div>
 
   <!-- Collapsible Chat Input Drawer -->
@@ -923,18 +965,18 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương · Viết Sớ · Rút Thẻ · Phòng Xả Nghiệp · Đốt Vàng Mã) -->
+  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
   <div class="bottom-dock-wrap">
     <div class="bottom-dock">
-      <button class="dock-item active-ritual" onclick="openCenterStage('mo')">
+      <button class="dock-item active-ritual" onclick="performDirectHallAction('mo')">
         <span class="dock-icon">🪵</span>
         <span class="dock-label">Gõ Mõ (Thật)</span>
       </button>
-      <button class="dock-item active-ritual" onclick="openCenterStage('bell')">
+      <button class="dock-item active-ritual" onclick="performDirectHallAction('bell')">
         <span class="dock-icon">🔔</span>
         <span class="dock-label">Thỉnh Chuông</span>
       </button>
-      <button class="dock-item" onclick="openCenterStage('incense')">
+      <button class="dock-item" onclick="performDirectHallAction('incense')">
         <span class="dock-icon"><img src="assets/lu_huong_3nen.jpg" alt="3 Nén Hương" style="width:26px;height:26px;border-radius:6px;object-fit:cover;border:1px solid #ffd54f;vertical-align:middle;" /></span>
         <span class="dock-label">Thắp Hương</span>
       </button>
@@ -947,12 +989,12 @@
         <span class="dock-label">Rút Thẻ · Xin Xăm</span>
       </button>
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(136,14,79,0.96),rgba(49,27,146,0.96));border-color:#ff80ab;" onclick="openKarmaReleaseModal()">
-        <span class="dock-icon">😤🧘‍♂️</span>
-        <span class="dock-label">Phòng Xả Nghiệp</span>
+        <span class="dock-icon">🤬🥊</span>
+        <span class="dock-label">Xả Nghiệp · Đấm</span>
       </button>
       <button class="dock-item active-ritual" onclick="openMeritShopModal()">
         <span class="dock-icon">🎁</span>
-        <span class="dock-label">Thỉnh Lễ · Vàng Mã</span>
+        <span class="dock-label">Cửa Hàng Lễ (≤100💎)</span>
       </button>
       <button id="dockChantBtn" class="dock-item" onclick="toggleRealChanting()">
         <span class="dock-icon">📿</span>
@@ -1181,18 +1223,19 @@
         <!-- KHU VỰC MỚI: SÂN ĐẤM ĐẬP HÌNH NHÂN TRÚT GIẬN TƯƠNG TÁC TRỰC TIẾP! -->
         <div style="background:linear-gradient(180deg,rgba(42,6,6,0.98),rgba(20,3,3,0.98)); border:1.5px solid #ff9100; border-radius:10px; padding:7px 8px; margin-bottom:7px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span style="font-size:10.6px; font-weight:900; color:#ffd740;">🥊💥 SÂN ĐẤM ĐẬP HÌNH NHÂN TRÚT GIẬN (Chạm Để Đấm Đập Tới Bến!)</span>
+            <span style="font-size:10.5px; font-weight:900; color:#ffd740;">🥊💥 SÂN ĐẤM · VẢ · TÁT HÌNH NHÂN (Mỗi cái Đấm/Vả/Tát đều trừ -1 💎 Phước!)</span>
             <span id="punchComboBadge" style="font-size:9.8px; font-weight:900; background:#ff3d00; color:#fff; padding:1.5px 7px; border-radius:999px;">COMBO x0 · HP: 100%</span>
           </div>
           <canvas id="karmaPunchCanvas" width="440" height="138" onclick="hitKarmaCharacterCanvas(event)" style="width:100%; height:132px; border-radius:8px; border:1px solid rgba(255,145,0,0.55); cursor:crosshair; display:block; margin-bottom:5px; background:#160404;"></canvas>
-          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:4px; margin-bottom:4px;">
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); font-size:9.6px; padding:5px 3px; border:1px solid #ffd54f;" onclick="selectAndHitWeapon('punch')">🥊 Đấm Móc</button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ad1457,#6a1b9a); font-size:9.6px; padding:5px 3px; border:1px solid #ff80ab;" onclick="selectAndHitWeapon('slipper')">🩴 Vả Dép Lệch Mặt</button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#4e342e,#271815); font-size:9.6px; padding:5px 3px; border:1px solid #ffcc80;" onclick="selectAndHitWeapon('club')">🪵 Phang Gậy Tạ</button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#1565c0,#0d47a1); font-size:9.6px; padding:5px 3px; border:1px solid #80d8ff;" onclick="selectAndHitWeapon('lightning')">⚡ Sét Nghiệp Quật</button>
+          <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:4px; margin-bottom:4px;">
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); font-size:9.2px; padding:5px 2px; border:1px solid #ffd54f;" onclick="selectAndHitWeapon('punch')">🥊 Đấm Móc<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ad1457,#6a1b9a); font-size:9.2px; padding:5px 2px; border:1px solid #ff80ab;" onclick="selectAndHitWeapon('slipper')">🩴 Vả Dép<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#c62828,#880e4f); font-size:9.2px; padding:5px 2px; border:1px solid #ff8a80;" onclick="selectAndHitWeapon('slap')">🖐️ Tát Lật Mặt<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#4e342e,#271815); font-size:9.2px; padding:5px 2px; border:1px solid #ffcc80;" onclick="selectAndHitWeapon('club')">🪵 Phang Gậy<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
+            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#1565c0,#0d47a1); font-size:9.2px; padding:5px 2px; border:1px solid #80d8ff;" onclick="selectAndHitWeapon('lightning')">⚡ Sét Quật<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
           </div>
-          <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff6d00,#d50000); font-size:10.3px; padding:5px 8px; border:1px solid #fff59d;" onclick="triggerAutoBeatdownCombo()">
-            💥🥊 LIÊN HOÀN ĐẤM ĐẬP TỚI TẤP 15 PHÁT + BẮT XIN LỖI (Trừ -8 💎 Phước)
+          <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff6d00,#d50000); font-size:10.2px; padding:5px 8px; border:1px solid #fff59d;" onclick="triggerAutoBeatdownCombo()">
+            💥🥊 LIÊN HOÀN ĐẤM · VẢ · TÁT 15 PHÁT (Mỗi phát -1 💎 = Trừ -15 💎 Phước)
           </button>
         </div>
 
@@ -1330,101 +1373,100 @@
         </div>
       </div>
 
-      <!-- Phần 2: Cửa Hàng 8 Mâm Lễ Vật & Vàng Mã Ảnh Chụp Thật Theo 4 Bậc Quy Chuẩn -->
-      <div style="font-size:11px; color:#f7cf73; font-weight:800; margin-bottom:5px;">
-        2️⃣ Cửa Hàng Lễ Vật & Vàng Mã Chân Thật (Dùng Phước Tích Lũy Hoặc Phước Công Đức Zalo):
+      <!-- Phần 2: Cửa Hàng Lễ Vật Đa Dạng (Mức Giá Hợp Lý ≤ 100 💎 · Có Lễ Chay, Heo Quay, Xôi Gà, Vàng Mã · Đặt sai lên Ban Phật bị phạt trừ Phước!) -->
+      <div style="font-size:10.8px; color:#f7cf73; font-weight:800; margin-bottom:4px;">
+        2️⃣ Cửa Hàng Lễ Vật Đa Dạng (Giá ≤ 100 💎 · ⚠️ Lưu ý: Ban Phật Tam Bảo chỉ nhận Lễ Chay, đặt Heo Quay/Xôi Gà/Vàng Mã lên Ban Phật bị PHẠT -20 💎!):
       </div>
       <div class="shop-grid">
-        <!-- Bậc 1 -->
+        <!-- 1. Lễ Chay Thanh Tịnh (Dâng Ban Phật Tam Bảo, Đức Ông, Thần Tài đều đắc lộc) -->
+        <div class="shop-card" style="border-color:#81c784; background:rgba(24,48,22,0.92);">
+          <div class="shop-item-head">
+            <img src="assets/le_hoasen.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #81c784;" alt="Mâm Hoa Sen Bách Diệp" />
+            <div>
+              <div class="shop-name">🪷 Hoa Sen Bách Diệp (Chay)</div>
+              <div class="shop-desc">Lễ Chay Thanh Tịnh · Dâng Phật Tam Bảo chuẩn mực</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Bách Diệp (Chay)', 18, 'assets/le_hoasen.jpg', 0, 0, 'chay')">🪷 Thỉnh Lễ Chay (18 💎)</button>
+        </div>
+
+        <div class="shop-card" style="border-color:#81c784; background:rgba(24,48,22,0.92);">
+          <div class="shop-item-head">
+            <img src="assets/le_nguqua.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #81c784;" alt="Mâm Ngũ Quả Phật Thủ" />
+            <div>
+              <div class="shop-name">🍎 Mâm Ngũ Quả Phật Thủ (Chay)</div>
+              <div class="shop-desc">Lễ Chay · Chuối xanh, bưởi vàng, phật thủ tươi</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phật Thủ (Chay)', 28, 'assets/le_nguqua.jpg', 0, 0, 'chay')">🍎 Thỉnh Lễ Chay (28 💎)</button>
+        </div>
+
+        <div class="shop-card" style="border-color:#81c784; background:rgba(24,48,22,0.92);">
+          <div class="shop-item-head">
+            <img src="assets/le_traoan.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #81c784;" alt="Mâm Oản Ngọc & Trà Sen" />
+            <div>
+              <div class="shop-name">🍵 Oản Ngọc · Trà Sen (Chay)</div>
+              <div class="shop-desc">Lễ Chay · Oản tháp vàng, trà sen Bát Tràng</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="redeemOfferingItem('tea_oan', '🍵', 'Mâm Oản Ngọc & Trà Sen (Chay)', 38, 'assets/le_traoan.jpg', 0, 0, 'chay')">🍵 Thỉnh Lễ Chay (38 💎)</button>
+        </div>
+
+        <div class="shop-card" style="border-color:#ffd740; background:rgba(32,56,24,0.94);">
+          <div class="shop-item-head">
+            <img src="assets/le_daile.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd740;" alt="Đại Lễ Cỗ Chay Bát Trân" />
+            <div>
+              <div class="shop-name">👑 Đại Lễ Cỗ Chay Bát Trân</div>
+              <div class="shop-desc">Thượng Phẩm Chay · Xôi gấc chay, chè sen, oản ngọc</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#388e3c,#1b5e20);" onclick="redeemOfferingItem('grand_offering', '👑', 'Đại Lễ Cỗ Chay Bát Trân', 95, 'assets/le_daile.jpg', 0, 2, 'chay')">👑 Đại Lễ Cỗ Chay (95 💎)</button>
+        </div>
+
+        <!-- 2. Lễ Mặn Tam Sinh: Xôi Gà, Heo Quay (Chỉ đặt Ban Đức Ông & Thần Tài · Đặt lên Ban Phật bị phạt -20💎!) -->
+        <div class="shop-card" style="border-color:#ff7043; background:rgba(68,16,6,0.94);">
+          <div class="shop-item-head">
+            <img src="assets/vangma_mamdaydu.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ff7043;" alt="Xôi Gà Luộc Ngậm Hoa Hồng" />
+            <div>
+              <div class="shop-name">🐓 Xôi Gà Ngậm Hoa (Lễ Mặn)</div>
+              <div class="shop-desc">Dâng Đức Ông/Thần Tài · ⚠️ Cấm đặt Ban Phật (-20💎)</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#d84315,#9a1b06);" onclick="redeemOfferingItem('mam_ga_xoi', '🐓', 'Xôi Gà Luộc Ngậm Hoa (Lễ Mặn)', 55, 'assets/vangma_mamdaydu.jpg', 0, 2, 'man')">🐓 Thỉnh Xôi Gà Mặn (55 💎)</button>
+        </div>
+
+        <div class="shop-card" style="border-color:#ff5252; background:rgba(76,12,8,0.96);">
+          <div class="shop-item-head">
+            <img src="assets/vangma_mamdaydu.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ff5252;" alt="Heo Quay Da Giòn Nguyên Con" />
+            <div>
+              <div class="shop-name">🐷 Heo Quay Nguyên Con (Mặn)</div>
+              <div class="shop-desc">Dâng Đức Ông/Thần Tài · ⚠️ Đặt Ban Phật phạt -20💎!</div>
+            </div>
+          </div>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#c62828,#7f0000);" onclick="redeemOfferingItem('heo_quay', '🐷', 'Heo Quay Da Giòn Nguyên Con (Lễ Mặn)', 85, 'assets/vangma_mamdaydu.jpg', 0, 3, 'man')">🐷 Thỉnh Heo Quay (85 💎)</button>
+        </div>
+
+        <!-- 3. Tiền Vàng & Vàng Mã (Dâng Đức Ông/Thần Tài & Hóa Vàng · Đặt lên Ban Phật bị phạt -15💎!) -->
         <div class="shop-card" style="border-color:#ffab40; background:rgba(55,22,5,0.94);">
           <div class="shop-item-head">
-            <img src="assets/vangma_dinh.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Đinh Tiền Vàng Lá Đỏ" />
+            <img src="assets/vangma_dinh.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Đinh Tiền Vàng Lá Đỏ" />
             <div>
-              <div class="shop-name">Đinh Tiền Vàng Lá Đỏ</div>
-              <div class="shop-desc">Bậc 1 · Dâng Bàn Lễ & +2 Lễ vào Túi Hóa Vàng</div>
+              <div class="shop-name">🧧 Đinh Tiền Vàng Lá Đỏ</div>
+              <div class="shop-desc">+2 Lễ Hóa Vàng · ⚠️ Phật không nhận Vàng Mã (-15💎)</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 20, 'assets/vangma_dinh.jpg', 0, 2)">🧧 Thỉnh Lễ Bậc 1 (20 💎)</button>
-        </div>
-
-        <div class="shop-card" style="border-color:#f48fb1; background:rgba(55,22,5,0.94);">
-          <div class="shop-item-head">
-            <img src="assets/le_hoasen.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Hoa Sen Hồng Bách Diệp" />
-            <div>
-              <div class="shop-name">Mâm Hoa Sen Bách Diệp</div>
-              <div class="shop-desc">Bậc 1 · Sen hồng tươi dâng Phật</div>
-            </div>
-          </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('lotus_tray', '🪷', 'Mâm Hoa Sen Bách Diệp', 35, 'assets/le_hoasen.jpg', 0, 0)">🪷 Thỉnh Lễ Bậc 1 (35 💎)</button>
-        </div>
-
-        <!-- Bậc 2 -->
-        <div class="shop-card" style="border-color:#ff7043; background:rgba(62,18,6,0.94);">
-          <div class="shop-item-head">
-            <img src="assets/vangma_le10.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Tháp Vàng Mã Sen Đỏ 10 Lễ" />
-            <div>
-              <div class="shop-name">Tháp Vàng Mã Sen Đỏ</div>
-              <div class="shop-desc">Bậc 2 · +3 Lễ vào Túi Hóa Vàng</div>
-            </div>
-          </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#e65100,#b71c1c);" onclick="redeemOfferingItem('vang_le10', '💴', 'Tháp Vàng Mã Sen Đỏ', 80, 'assets/vangma_le10.jpg', 0, 3)">💴 Thỉnh Lễ Bậc 2 (80 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('vang_dinh', '🧧', 'Đinh Tiền Vàng Lá Đỏ', 15, 'assets/vangma_dinh.jpg', 0, 2, 'vang_ma')">🧧 Thỉnh Đinh Vàng (15 💎)</button>
         </div>
 
         <div class="shop-card" style="border-color:#ffd54f; background:rgba(55,22,5,0.94);">
           <div class="shop-item-head">
-            <img src="assets/vangma_tiendola.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Tiền Vàng Mã 500k & Đĩnh Vàng" />
+            <img src="assets/vangma_tiendola.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Tiền Vàng Mã 500k & Tháp Vàng" />
             <div>
-              <div class="shop-name">Mâm Tiền Vàng 500k & Đô</div>
-              <div class="shop-desc">Bậc 2 · +4 Lễ vào Túi Hóa Vàng</div>
+              <div class="shop-name">💵 Mâm Tiền Vàng Mã & Đĩnh</div>
+              <div class="shop-desc">+4 Lễ Hóa Vàng · ⚠️ Phật không nhận Vàng Mã (-15💎)</div>
             </div>
           </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('vang_tiendola', '💵', 'Mâm Tiền Vàng Mã 500k', 150, 'assets/vangma_tiendola.jpg', 0, 4)">💵 Thỉnh Lễ Bậc 2 (150 💎)</button>
-        </div>
-
-        <!-- Bậc 3 -->
-        <div class="shop-card" style="border-color:#81c784; background:rgba(48,20,5,0.94);">
-          <div class="shop-item-head">
-            <img src="assets/le_nguqua.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Ngũ Quả Phật Thủ Chuối Bưởi" />
-            <div>
-              <div class="shop-name">Mâm Ngũ Quả Phật Thủ</div>
-              <div class="shop-desc">Bậc 3 · Chuối xanh, bưởi, phật thủ</div>
-            </div>
-          </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('five_fruits', '🍎', 'Mâm Ngũ Quả Phật Thủ', 300, 'assets/le_nguqua.jpg', 0, 1)">🍎 Thỉnh Lễ Bậc 3 (300 💎)</button>
-        </div>
-
-        <div class="shop-card" style="border-color:#ffd54f; background:rgba(48,20,5,0.94);">
-          <div class="shop-item-head">
-            <img src="assets/le_traoan.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Mâm Oản Ngọc & Trà Sen Bát Tràng" />
-            <div>
-              <div class="shop-name">Oản Ngọc · Trà Bát Tràng</div>
-              <div class="shop-desc">Bậc 3 · Oản tháp vàng, ấm trà, trầu cau</div>
-            </div>
-          </div>
-          <button class="btn-redeem" onclick="redeemOfferingItem('tea_oan', '🍵', 'Mâm Oản Ngọc & Trà Sen', 500, 'assets/le_traoan.jpg', 0, 2)">🍵 Thỉnh Lễ Bậc 3 (500 💎)</button>
-        </div>
-
-        <!-- Bậc 4 (Dành cho Công Đức Ghi Nhận Nhóm Zalo Cty +1.000💎) -->
-        <div class="shop-card" style="border-color:#ff8a65; background:rgba(62,18,6,0.94);">
-          <div class="shop-item-head">
-            <img src="assets/vangma_mamdaydu.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd54f;" alt="Gà Luộc Ngậm Hoa Hồng & Xôi Gấc" />
-            <div>
-              <div class="shop-name">Gà Luộc Ngậm Hoa · Xôi Gấc</div>
-              <div class="shop-desc">Bậc 4 Công Đức · Gà cánh tiên, xôi gấc, +4 Lễ Vàng</div>
-            </div>
-          </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#d84315,#9a1b06);" onclick="redeemOfferingItem('mam_ga_xoi', '🐓', 'Mâm Gà Ngậm Hoa & Xôi Gấc', 800, 'assets/vangma_mamdaydu.jpg', 0, 4)">🐓 Thỉnh Lễ Bậc 4 (800 💎)</button>
-        </div>
-
-        <div class="shop-card" style="border-color:#ffd740; background:rgba(68,24,4,0.96);">
-          <div class="shop-item-head">
-            <img src="assets/le_daile.jpg" style="width:46px;height:46px;border-radius:8px;object-fit:cover;border:1.5px solid #ffd740;" alt="Đại Lễ Cúng Dường Tam Bảo Hoàng Kim" />
-            <div>
-              <div class="shop-name">Đại Lễ Kiến Tạo Chùa</div>
-              <div class="shop-desc">Bậc 4 Công Đức Zalo (1.000💎) · Tháp Oản & +8 Lễ Vàng</div>
-            </div>
-          </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#f57f17,#b71c1c);" onclick="redeemOfferingItem('grand_offering', '👑', 'Đại Lễ Kiến Tạo Chùa Trường Yến', 1000, 'assets/le_daile.jpg', 0, 8)">👑 Đại Lễ Công Đức (1.000 💎)</button>
+          <button class="btn-redeem" onclick="redeemOfferingItem('vang_tiendola', '💵', 'Mâm Tiền Vàng Mã 500k & Đĩnh Vàng', 65, 'assets/vangma_tiendola.jpg', 0, 4, 'vang_ma')">💵 Thỉnh Tiền Vàng Mã (65 💎)</button>
         </div>
       </div>
 
@@ -1840,6 +1882,17 @@
     }
 
     function openSoKhanModal() {
+      // Ở phòng nào thì khấn theo phòng đó: Ban Tam Bảo chỉ khấn Phật, Ban Đức Ông chỉ khấn Đức Ông, Ban Thần Tài chỉ khấn Thần Tài!
+      const titleBanner = document.querySelector('#goldenPetitionScroll > div:first-child');
+      if (titleBanner) {
+        if (player.wing === 0) {
+          titleBanner.innerHTML = '🪷 ĐẠI HÙNG BẢO ĐIỆN (BAN TAM BẢO) — VĂN KHẤN PHẬT & BỒ TÁT CỔ TRUYỀN 🪷';
+        } else if (player.wing === -1) {
+          titleBanner.innerHTML = '🔔 TẢ VU (BAN ĐỨC ÔNG CẤP CÔ ĐỘC) — VĂN KHẤN ĐỨC ÔNG & THÁNH HIỀN 🪷';
+        } else {
+          titleBanner.innerHTML = '💰 HỮU VU (BAN THẦN TÀI VỊ TIỀN) — VĂN KHẤN THẦN TÀI · THỔ ĐỊA · ĐẠT SỐ KPI 🪷';
+        }
+      }
       updateLiveSoPreview();
       document.getElementById('soKhanModal').classList.add('open');
     }
@@ -1870,38 +1923,24 @@
       return digits.split('').map(d => digitMap[d] || d).join(' ');
     }
 
-    // CHỈ PHÁT DUY NHẤT 1 GIỌNG ĐỌC CHUẨN (Không bao giờ phát chồng 2 giọng cùng lúc!)
-    // Tạm dừng nhạc nền khi đang đọc voice, và tự động phát lại nhạc thiền khi hết voice!
+    // PHÁT GIỌNG KHẤN CHÂN THẬT, TRUYỀN CẢM (Ưu tiên file thu âm Neural Studio ấm áp truyền cảm theo đúng từng Gian!)
     function speakVietnameseText(text, fallbackAudioEl) {
       try {
         stopAllVoices(true); // Dừng mọi voice cũ & tạm dừng nhạc nền
-        const ttsEl = document.getElementById('ttsVoicePlayer');
-        if (!ttsEl) return;
-        const shortText = String(text || '').slice(0, 195);
-        ttsEl.src = 'https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=' + encodeURIComponent(shortText);
-        ttsEl.volume = 1.0;
-        ttsEl.onended = () => {
+        const studioSrc = (player.wing === -1)
+          ? 'audio/khan_duc_ong.mp3'
+          : (player.wing === 1 ? 'audio/khan_than_tai.mp3' : 'audio/khan_tam_bao.mp3');
+        localPrayerMp3.src = studioSrc;
+        localPrayerMp3.currentTime = 0;
+        localPrayerMp3.volume = 1.0;
+        localPrayerMp3.onended = () => {
           isVoiceSpeaking = false;
           resumeZenMusicIfIdle();
         };
-        ttsEl.onerror = () => {
-          if (fallbackAudioEl) {
-            fallbackAudioEl.currentTime = 0;
-            fallbackAudioEl.volume = 1.0;
-            fallbackAudioEl.onended = () => {
-              isVoiceSpeaking = false;
-              resumeZenMusicIfIdle();
-            };
-            fallbackAudioEl.play().catch(() => {
-              isVoiceSpeaking = false;
-              resumeZenMusicIfIdle();
-            });
-          } else {
-            isVoiceSpeaking = false;
-            resumeZenMusicIfIdle();
-          }
-        };
-        ttsEl.play().catch(() => ttsEl.onerror());
+        localPrayerMp3.play().catch(() => {
+          isVoiceSpeaking = false;
+          resumeZenMusicIfIdle();
+        });
       } catch (e) {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
@@ -1935,11 +1974,13 @@
       if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
       altarOfferings[wingKey].push({
         icon: '📜',
-        label: `Sớ Chạy Số`,
-        fullName: `Sớ Cầu Đạt Số (${name}: Thiếu ${missingAmt} · Đặt ${quarterGoal})`,
+        label: `Sớ Khấn Cổ Truyền`,
+        fullName: `Sớ Cầu Nguyện (${name}: ${wish.slice(0, 32)})`,
         giver: name,
-        imgKey: 'vangDinh',
-        imgSrc: 'assets/vangma_dinh.jpg'
+        wish: `Cầu: ${wish.slice(0, 26)}`,
+        remainSec: 75,
+        imgKey: 'leTraOan',
+        imgSrc: 'assets/le_traoan.jpg'
       });
       if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
 
@@ -1948,7 +1989,7 @@
         type: 'sokhan',
         name: player.name,
         customer: currentCustomer,
-        text: `Đang đọc Sớ Chạy Số cho ${name}: Còn thiếu ${missingAmt} · Mục tiêu ${quarterGoal}`,
+        text: `Đang đọc Văn Khấn tại ${player.wing === 0 ? 'Ban Tam Bảo' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Thần Tài')} cho ${name}`,
         wing: player.wing
       });
     }
@@ -1962,77 +2003,38 @@
       readCurrentCustomerPrayer();
     }
 
+    // VĂN KHẤN CỔ TRUYỀN VIỆT NAM CHUẨN CHỈ NHẤT — Ở PHÒNG NÀO CHỈ ĐƯỢC KHẤN ĐÚNG VỊ Ở PHÒNG ĐÓ!
     function buildTopicPrayerChunks(topic, name, addr, phoneSpoken, wish) {
       const missingAmt = currentCustomer.missingAmt || document.getElementById('skInputMissingAmt')?.value || '120 triệu';
       const quarterGoal = currentCustomer.quarterGoal || document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
-      const who = `tín chủ ${name}, tại ${addr}` + (phoneSpoken ? `, số điện thoại ${phoneSpoken}` : '');
+      const who = `tín chủ ${name}, ngụ tại ${addr}` + (phoneSpoken ? `, số điện thoại ${phoneSpoken}` : '');
 
-      if (topic === 'thieu_so') {
+      // 1. GIAN GIỮA (wing === 0): BAN TAM BẢO — CHỈ ĐƯỢC KHẤN PHẬT & BỒ TÁT (Chuẩn Văn Khấn Lễ Phật Cổ Truyền)
+      if (player.wing === 0) {
         return [
-          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Ban Thờ Thần Tài Vị Tiền, Đức Ông Chùa Trường Yến!`,
-          `Hôm nay ${who} thành tâm quỳ dâng sớ vàng, khẩn cầu hoàn thành mục tiêu doanh số. Hiện tại con còn thiếu ${missingAmt} nữa là hoàn thành trọn vẹn chỉ tiêu tháng này, và quý này con đặt mục tiêu đạt ${quarterGoal}.`,
-          `Cúi xin Chư Phật và Thần Tài Vị Tiền khai thông tài vận, dẫn lối khách sỉ khách lẻ, đại lý và chủ thầu tìm đến chốt đơn liên tiếp, giúp con bù đủ ${missingAmt} còn thiếu ngay trong kỳ này!`,
-          `Nguyện cho đơn hàng xuất kho ùn ùn, về đích rực rỡ! Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'muc_tieu_quy') {
-        return [
-          `Nam mô A Di Đà Phật! Kính lạy Đại Hùng Bảo Điện và Ban Thờ Thần Tài Vị Tiền Chùa Trường Yến!`,
-          `Bước vào kỳ kinh doanh mới, ${who} xin thành tâm phát nguyện mục tiêu lớn: Quý này con đặt mục tiêu doanh số ${quarterGoal}, hiện tại con chỉ còn thiếu ${missingAmt} để bứt phá dẫn đầu.`,
-          `Cúi xin hồng ân Tam Bảo và Tôn Thần chứng giám lòng thành, gia hộ cho ${name} gặp toàn khách hàng thiện chí, báo giá đâu trúng đó, hợp đồng ký kết suôn sẻ!`,
-          `Quyết tâm cán mốc và vượt xa mục tiêu ${quarterGoal} đã đề ra! Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 've_dich_kep') {
-        return [
-          `Nam mô A Di Đà Phật! Kính lạy Chư Phật Mười Phương và Chư Vị Thần Tài Thổ Địa!`,
-          `Hôm nay ${who} thành kính dâng sớ cầu lộc bứt phá doanh số: Quý này con đặt mục tiêu ${quarterGoal}, và hiện nay con còn thiếu ${missingAmt}.`,
-          `Cúi xin ơn trên xoay chuyển vận khí, giúp con vừa chốt trọn số tiền ${missingAmt} còn thiếu, vừa thu hồi công nợ đúng hạn, hoàn thành xuất sắc mục tiêu ${quarterGoal}!`,
-          `Tâm thành tất ứng, lộc về đầy kho Trường Yến! Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'binh_an') {
-        return [
-          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Quan Thế Âm Bồ Tát!`,
-          `Hôm nay tại Chùa Trường Yến, ${who} một lòng thành kính dâng sớ điệp và nén tâm hương cầu nguyện bình an.`,
-          `Cúi xin Chư Phật mười phương từ bi gia hộ cho ${name} cùng toàn thể gia quyến: ${wish}.`,
-          `Bốn mùa không chút tai ương, tám tiết có điềm khánh hỷ. Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'suc_khoe') {
-        return [
-          `Nam mô Dược Sư Lưu Ly Quang Vương Phật!`,
-          `Hôm nay ${who} thành tâm đảnh lễ cầu xin sức khỏe và trường thọ.`,
-          `Nguyện cầu ánh sáng Phật pháp che chở cho ${name} cùng cha mẹ và gia đình tại ${addr}: ${wish}.`,
-          `Thân không tật bệnh, tâm luôn an lạc, phước thọ miên trường! Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'tai_loc') {
-        return [
-          `Nam mô A Di Đà Phật! Kính lạy Ban Thờ Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần.`,
-          `Hôm nay ${who} thành tâm dâng sớ vàng cầu xin tài lộc, thu hồi công nợ và hoàn thành mục tiêu ${quarterGoal}.`,
-          `Cúi xin Tôn Thần chứng giám lòng thành, độ trì cho ${name}: ${wish}.`,
-          `Khai thông vận khí, khách quý tìm đến, lộc tài vượng phát! Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'giam_stress') {
-        return [
-          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật!`,
-          `Hôm nay tại chốn thiền môn thanh tịnh, ${who} xin thành tâm khấn nguyện buông bỏ mọi căng thẳng và áp lực doanh số.`,
-          `Cầu xin Đức Phật từ bi soi sáng cho ${name}: ${wish}.`,
-          `Tâm bình thế giới bình, tinh thần minh mẫn để bứt phá mục tiêu ${quarterGoal}! Nam mô A Di Đà Phật!`
-        ];
-      } else if (topic === 'tu_nhan') {
-        return [
-          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật, Chư Đại Bồ Tát và Chư Vị Tôn Thần.`,
-          `Hôm nay ${who} quỳ trước chánh điện, thành tâm dâng sớ cầu nguyện từ đáy lòng: Con còn thiếu ${missingAmt}, quý này con đặt ${quarterGoal}.`,
-          `${wish}.`,
-          `Cúi xin Chư Phật chứng minh công đức và gia hộ cho tâm nguyện của ${name} sớm được viên mãn như ý! Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười phương Chư Phật, Chư vị Bồ Tát, Chư Hiền Thánh Tăng, Hộ Pháp Thiện Thần Thiên Long Bát Bộ ngự tại Đại Hùng Bảo Điện Ban Tam Bảo Chùa Trường Yến.`,
+          `Hôm nay ngày lành tháng tốt, đệ tử con là ${who}, năm vóc sát đất, một dạ chí thành dâng nén tâm hương và lễ chay thanh tịnh kính dâng lên Mười phương Thường Trụ Tam Bảo.`,
+          `Chúng con từ vô thủy kiếp đến nay trót tạo nhiều lỗi lầm sân si, nay cúi đầu sám hối trước đài sen. Ngưỡng nguyện Đức Phật Thích Ca Mâu Ni, Đức Phật A Di Đà cùng Đức Quán Thế Âm Bồ Tát từ bi phóng quang gia hộ cho ${name}: thân tâm an lạc, trí tuệ sáng suốt, tiêu trừ tật bệnh nghiệp chướng, gia đạo bốn mùa bình an (${wish}).`,
+          `Nguyện đem công đức này hướng về khắp tất cả, đệ tử và chúng sinh đều trọn thành Phật đạo. Nam mô A Di Đà Phật!`
         ];
       }
-      const altarTitle = (currentZone === 'thantai')
-        ? 'Ban Thờ Thần Tài Vị Tiền, Ngũ Phương Ngũ Thổ Long Thần, Tiền Hậu Địa Chủ Tài Thần'
-        : 'Đại Hùng Bảo Điện, Mười Phương Chư Phật, Đức Phật Thích Ca Mâu Ni';
+
+      // 2. GIAN TRÁI (wing === -1): BAN ĐỨC ÔNG — CHỈ ĐƯỢC KHẤN ĐỨC ÔNG CẤP CÔ ĐỘC & ĐỨC THÁNH HIỀN
+      if (player.wing === -1) {
+        return [
+          `Nam mô A Di Đà Phật! Kính lạy Đức Ông Tu Đạt Đa Cấp Cô Độc Tôn Giả, Đức Giám Trai Sứ Giả, cùng Chư vị Đức Thánh Hiền ngự tại Tả Vu Chùa Trường Yến.`,
+          `Hôm nay ngày lành tháng tốt, tín chủ con là ${who}, thành tâm sửa biện hương hoa lễ phẩm dâng lên trước án Ban Đức Ông.`,
+          `Kính bạch Đức Ông cai quản kho tàng phúc lộc chốn già lam, cúi xin Ngài chứng giám lòng thành, che chở bảo hộ cho ${name}: giữ của giữ kho vững bền, dẹp trừ kẻ tiểu nhân quấy phá, độ cho công danh sự nghiệp hanh thông, hoàn thành mục tiêu ${quarterGoal} và bù đủ ${missingAmt} còn thiếu (${wish}).`,
+          `Tâm thành kính lễ, cúi xin Đức Ông phù hộ độ trì vạn sự cát tường như ý! Nam mô A Di Đà Phật!`
+        ];
+      }
+
+      // 3. GIAN PHẢI (wing === 1): BAN THẦN TÀI VỊ TIỀN — CHỈ ĐƯỢC KHẤN THẦN TÀI · THỔ ĐỊA · CẦU ĐẠT SỐ KPI
       return [
-        `Nam mô A Di Đà Phật! Kính lạy ${altarTitle}.`,
-        `Hôm nay tại Chùa Trường Yến, đại diện Kho Tấm Ốp Trường Yến xin thành tâm dâng sớ khấn cầu cho tín chủ khách hàng: ${name}.`,
-        `Ngụ tại địa chỉ: ${addr}.` + (phoneSpoken ? ` Số điện thoại: ${phoneSpoken}.` : ''),
-        `Nguyện cầu ơn trên độ trì cho khách hàng ${name} tại ${addr}: ${wish}.`,
-        `Tâm thành tất ứng, chốt đơn suôn sẻ, vạn sự đại cát đại lợi! Nam mô A Di Đà Phật!`
+        `Nam mô A Di Đà Phật! Kính lạy Hoàng Thiên Hậu Thổ chư vị Tôn Thần, Ngài Đông Trù Tư Mệnh Táo Phủ Thần Quân, Ngài Thần Tài Vị Tiền, cùng các Ngài Thần Linh Thổ Địa cai quản kho lộc Trường Yến.`,
+        `Hôm nay tín chủ con là ${who}, thành tâm sửa biện hương hoa lễ vật, kim ngân trà quả dâng lên trước án Ban Thần Tài Vị Tiền.`,
+        `Kính bẩm Tôn Thần: Quý này con đặt mục tiêu doanh số ${quarterGoal}, hiện tại con còn thiếu ${missingAmt} nữa là hoàn thành chỉ tiêu. Cúi xin Thần Tài thương xót tín chủ, khai mở cung tài lộc, dẫn lối khách quý đại lý chủ thầu tìm đến chốt đơn liên tiếp, thu hồi công nợ suôn sẻ (${wish}).`,
+        `Sở cầu tất ứng, sở nguyện tòng tâm, lộc tài vượng phát đầy kho! Nam mô A Di Đà Phật!`
       ];
     }
 
@@ -2050,16 +2052,17 @@
       const ttsChunks = buildTopicPrayerChunks(selectedTopic, name, addr, phoneSpoken, wish);
 
       if (moRhythmInterval) clearInterval(moRhythmInterval);
-      moRhythmInterval = setInterval(playMoSound, 1150);
+      moRhythmInterval = setInterval(playMoSound, 1350);
 
-      let mp3File = 'audio/khan_chotdon.mp3';
-      if (selectedTopic === 'tai_loc' || selectedTopic === 'thieu_so' || selectedTopic === 'muc_tieu_quy' || selectedTopic === 've_dich_kep') mp3File = 'audio/khan_tailoc.mp3';
-      else if (selectedTopic === 'binh_an' || selectedTopic === 'suc_khoe' || selectedTopic === 'giam_stress') mp3File = 'audio/khan_binhan.mp3';
-      localPrayerMp3.src = mp3File;
+      // Phát trực tiếp giọng đọc truyền cảm chân thật đã thu âm chuẩn theo từng Gian (Ban Tam Bảo / Ban Đức Ông / Ban Thần Tài)!
+      const studioSrc = (player.wing === -1)
+        ? 'audio/khan_duc_ong.mp3'
+        : (player.wing === 1 ? 'audio/khan_than_tai.mp3' : 'audio/khan_tam_bao.mp3');
+      localPrayerMp3.src = studioSrc;
+      localPrayerMp3.currentTime = 0;
+      localPrayerMp3.volume = 1.0;
 
-      const ttsEl = document.getElementById('ttsVoicePlayer');
       let chunkIdx = 0;
-
       function finishCustomerChant() {
         if (moRhythmInterval) { clearInterval(moRhythmInterval); moRhythmInterval = null; }
         playBellSound();
@@ -2068,31 +2071,33 @@
         else resumeZenMusicIfIdle();
       }
 
-      function playNextChunk() {
-        if (!banner.classList.contains('open') || chunkIdx >= ttsChunks.length) {
-          finishCustomerChant();
+      document.getElementById('asPrayerPreview').textContent = `"${ttsChunks[0]}"`;
+      player.chat = ttsChunks[0];
+      player.chatTimer = 460;
+
+      const textAdvanceTimer = setInterval(() => {
+        if (!banner.classList.contains('open')) {
+          clearInterval(textAdvanceTimer);
           return;
         }
-        const textChunk = ttsChunks[chunkIdx++];
-        document.getElementById('asPrayerPreview').textContent = `"${textChunk}"`;
-        player.chat = textChunk;
-        player.chatTimer = 240;
-        // CHỈ PHÁT DUY NHẤT 1 GIỌNG ĐỌC (ttsEl)! Chỉ khi mạng lỗi mới dùng localPrayerMp3 dự phòng!
-        const url = 'https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=' + encodeURIComponent(textChunk.slice(0, 195));
-        ttsEl.src = url;
-        ttsEl.volume = 1.0;
-        ttsEl.playbackRate = 0.96;
-        ttsEl.onended = () => setTimeout(playNextChunk, 180);
-        ttsEl.onerror = () => {
-          localPrayerMp3.currentTime = 0;
-          localPrayerMp3.volume = 1.0;
-          localPrayerMp3.onended = () => finishCustomerChant();
-          localPrayerMp3.play().catch(() => finishCustomerChant());
-        };
-        ttsEl.play().catch(() => ttsEl.onerror());
-      }
+        chunkIdx++;
+        if (chunkIdx < ttsChunks.length) {
+          document.getElementById('asPrayerPreview').textContent = `"${ttsChunks[chunkIdx]}"`;
+          player.chat = ttsChunks[chunkIdx];
+          player.chatTimer = 460;
+        } else {
+          clearInterval(textAdvanceTimer);
+        }
+      }, 6500);
 
-      playNextChunk();
+      localPrayerMp3.onended = () => {
+        clearInterval(textAdvanceTimer);
+        finishCustomerChant();
+      };
+      localPrayerMp3.play().catch(() => {
+        clearInterval(textAdvanceTimer);
+        finishCustomerChant();
+      });
     }
 
     // =========================================================================
@@ -2229,23 +2234,25 @@
       punchBagState.cryText = punchBeggingLines[punchBagState.combo % punchBeggingLines.length];
 
       const icons = {
-        punch: '🥊💥 BỐP!',
-        slipper: '🩴💥 CHÁT!',
-        club: '🪵💥 RẦM!',
-        lightning: '⚡💥 ĐÙNG!'
+        punch: '🥊💥 ĐẤM! (-1💎)',
+        slipper: '🩴💥 VẢ DÉP! (-1💎)',
+        slap: '🖐️💥 TÁT! (-1💎)',
+        club: '🪵💥 PHANG! (-1💎)',
+        lightning: '⚡💥 SÉT QUẬT! (-1💎)'
       };
       punchBagState.fxList.push({
         x: hitX,
         y: hitY,
-        label: icons[wType] || '🥊💥 BỐP!',
+        label: icons[wType] || '🥊💥 ĐẤM! (-1💎)',
         life: 1.0
       });
       if (punchBagState.fxList.length > 8) punchBagState.fxList.shift();
 
-      if (deductMerit && punchBagState.combo % 3 === 1) {
+      // MỖI CÁI ĐẤM, CÁI VẢ, CÁI TÁT ĐỀU TRỪ -1 💎 PHƯỚC ĐỨC NGAY LẬP TỨC!
+      if (deductMerit) {
         karmaVentCount++;
-        karmaLostMeritTotal += 2;
-        addMerit(-2);
+        karmaLostMeritTotal += 1;
+        addMerit(-1);
         const cntEl = document.getElementById('karmaVentCounter');
         if (cntEl) cntEl.textContent = karmaVentCount;
         const lostEl = document.getElementById('karmaLostMeritCounter');
@@ -2257,21 +2264,14 @@
     function triggerAutoBeatdownCombo() {
       unlockAndStartAudio();
       const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'Kẻ Làm Sai';
-      karmaVentCount++;
-      karmaLostMeritTotal += 8;
-      addMerit(-8);
-      const cntEl = document.getElementById('karmaVentCounter');
-      if (cntEl) cntEl.textContent = karmaVentCount;
-      const lostEl = document.getElementById('karmaLostMeritCounter');
-      if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
-      appendMeritLog(`🥊💥 <b>[Xả Nghiệp Đấm Đập] ${player.name}</b>: Tung liên hoàn 15 đòn đấm đập tơi tả <b>${targetName}</b> (<b style="color:#ff5252;">-8 💎 Phước</b>)`);
+      appendMeritLog(`🥊💥 <b>[Xả Nghiệp Đấm · Vả · Tát] ${player.name}</b>: Tung liên hoàn 15 đòn đấm vả tát lên <b>${targetName}</b> (<b style="color:#ff5252;">Mỗi phát -1 💎 = -15 💎 Phước</b>)`);
 
-      const weapons = ['punch', 'slipper', 'club', 'lightning'];
+      const weapons = ['punch', 'slipper', 'slap', 'club', 'lightning'];
       let step = 0;
       const timer = setInterval(() => {
         step++;
         punchBagState.weapon = weapons[step % weapons.length];
-        executeKarmaHit(220 + (Math.random() - 0.5) * 65, 65 + (Math.random() - 0.5) * 35, false);
+        executeKarmaHit(220 + (Math.random() - 0.5) * 65, 65 + (Math.random() - 0.5) * 35, true);
         if (step >= 15) {
           clearInterval(timer);
           punchBagState.hp = 0;
@@ -2279,7 +2279,7 @@
           updatePunchComboBadge();
         }
       }, 95);
-      showToast(`🥊💥 Đang tung Liên Hoàn 15 Đòn Đấm · Vả Dép · Phang Gậy · Sét Đánh vào ${targetName}! (-8 💎 Phước)`);
+      showToast(`🥊💥 Đang tung Liên Hoàn 15 Đòn Đấm · Vả · Tát vào ${targetName}! (Mỗi phát -1 💎 = Trừ -15 💎 Phước)`);
     }
 
     (function startKarmaPunchRenderer() {
@@ -3462,47 +3462,53 @@
 
     // 80% Phật tử & Khách đi lễ là NỮ (gender: 'F') mặc Áo Lam truyền thống xuất hiện nhiều hơn nhân vật Nam!
     const visitorPool = [
-      { id: 'v_nu1', name: 'Phật Tử Diệu Liên', avatar: '🪷', gender: 'F', chat: 'Nam Mô A Di Đà Phật, nguyện cầu gia đạo bình an 🪷' },
-      { id: 'v_nu2', name: 'Chị Thu Trang (Hà Nội)', avatar: '👩🏻', gender: 'F', chat: 'Thành tâm dâng hương hoa lễ Phật tại Chùa Trường Yến 🙏' },
-      { id: 'v_nu3', name: 'Cô Mai Lan (Hải Phòng)', avatar: '👩🏻', gender: 'F', chat: 'Cầu xin Đức Phật gia hộ sức khỏe và tài lộc viên mãn 🪷' },
-      { id: 'v_nu4', name: 'Chị Ngọc Anh (Quảng Ninh)', avatar: '🪷', gender: 'F' },
-      { id: 'v_nu5', name: 'Bác Hòa (Khách Thập Phương)', avatar: '🪷', gender: 'F' },
-      { id: 'v_ducdoan', name: 'Anh Đức Đoàn (Khách Vãng Lai)', avatar: '👨🏻', gender: 'M' }
+      { id: 'v_nu1', name: 'Bé Thảo Nhí Nhảnh', avatar: '👩🏻', gender: 'F' },
+      { id: 'v_nu2', name: 'Chị Thu Trang (Hà Nội)', avatar: '👩🏻', gender: 'F' },
+      { id: 'v_nu3', name: 'Cô Mai Lan (Hải Phòng)', avatar: '🪷', gender: 'F' },
+      { id: 'v_nu4', name: 'Chị Ngọc Anh (Quảng Ninh)', avatar: '👩🏻', gender: 'F' },
+      { id: 'v_nu5', name: 'Em Linh Trà Sữa', avatar: '👩🏻', gender: 'F' },
+      { id: 'v_ducdoan', name: 'Anh Đức Đoàn (Hải Phòng)', avatar: '👨🏻', gender: 'M' }
     ];
 
-    // KHO LỜI KHẤN ĐA DẠNG CỦA KHÁCH VÃNG LAI (XIN XỎ HÀI HƯỚC · NGUYỀN RỦA TIỂU NHÂN/CON NỢ · NIỆM KINH · CẦU KPI)
-    const visitorDiversePrayers = [
-      // 1. Xin xỏ hài hước & KPI
-      "🙇 Phật ơi cứu con! Tháng này con còn thiếu 40 triệu KPI nữa thôi, xin độ khách chốt đơn liền tay!",
-      "🙏 Lạy Thần Tài! Khách hỏi giá 3 ngày rồi chưa cọc, xin tác ý cho khách ting ting đặt cọc ngay chiều nay!",
-      "🙇 Xin Bồ Tát độ cho con ăn bao nhiêu cũng không mập, tiền vào như nước mà dáng vẫn thon!",
-      "🙏 Con xin hứa quý này đạt mục tiêu doanh số, con dâng Mâm Gà Ngậm Hoa Hồng to nhất Chùa Trường Yến!",
-      "🙇 Lạy Phật độ cho chồng con bớt cằn nhằn, lương thưởng tự giác nộp đủ 100% không lập quỹ đen!",
-      "🙏 Xin Ông Thần Tài cho con trúng hợp đồng ốp full biệt phủ để cuối năm đổi xe mới!",
-      // 2. Nguyền rủa / Xả nghiệp kẻ bom hàng, quỵt nợ, tiểu nhân
-      "😤🙇 Lạy Đức Ông! Đứa nào hứa chuyển khoản trả nợ rồi lặn mất tăm, xin cho tối ngủ mơ thấy chủ nợ đòi rát tai!",
-      "⚡🙏 Tiểu nhân ăn cháo đá bát, nói xấu sau lưng con, xin cho nó hắt xì hơi liên tục 3 ngày chừa thói sân si!",
-      "😤🙇 Kẻ nào cướp khách, phá giá bẩn, xin Tổ Nghiệp quật cho tỉnh ngộ, làm ăn phải có đức mới bền!",
-      "⚡🙏 Mấy người hẹn giao hàng rồi thuê bao không liên lạc được, xin cho sớm biết ăn năn trả đủ công nợ!",
-      // 3. Niệm kinh / Trì chú thanh tịnh
-      "📿 Nam Mô A Di Đà Phật... Tâm bất biến giữa dòng đời vạn biến... 🪷",
-      "📿 Án Ma Ni Bát Mê Hồng... Nguyện tiêu tam chướng trừ phiền não, nguyện đắc trí huệ chơn minh liễu 🙏",
-      "📿 Nam Mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát, cứu khổ cứu nạn, gia đạo bình an 🪷",
-      "📿 Nam Mô Bổn Sư Thích Ca Mâu Ni Phật... Buông xả sân si, hòa khí sinh đại tài 🙏"
-    ];
+    // KHO LỜI KHẤN VUI VẺ, HÀI HƯỚC, NHÍ NHẢNH ĐI CHÙA XIN XỎ THEO ĐÚNG TỪNG GIAN (Hiện lâu 7.5–8 giây để đọc thoải mái!)
+    const visitorPrayersByWing = {
+      '0': [
+        "🙇‍♀️ Phật Tổ ơi! Con đi chùa không dám xin người yêu giàu, chỉ xin người yêu vừa đẹp trai vừa hay tự giác chuyển khoản cho con đi shopping thôi ạ hihi! 🪷",
+        "🙏 Nam Mô Bổn Sư Thích Ca! Xin Phật độ cho con uống trà sữa full topping, ăn bánh tráng trộn đêm khuya mà không béo lên lạng nào, mỡ bay hết sang đứa ghét con ạ!",
+        "🙇‍♀️ Bồ Tát ơi cứu con thoát kiếp FA! Hội bạn thân đi lấy chồng hết rồi, tháng nào cũng đi ăn cưới lỗ vốn quá trời quá đất huhu! 🙏",
+        "🙏 Lạy Phật độ cho chồng con ở nhà ngoan ngoãn, lương thưởng nộp đủ 100% không dám giấu quỹ đen đồng nào ạ! 🪷",
+        "📿 Nam Mô A Di Đà Phật... Con xin buông bỏ sân si, chỉ giữ lại tiền mặt và sổ đỏ trong người thôi ạ! 🙏",
+        "🙇‍♀️ Phật ơi cho con xin vía da đẹp dáng xinh, đi tới đâu ai nhìn cũng quý mến thương yêu ạ! ✨"
+      ],
+      '-1': [
+        "🙇‍♀️ Cụ Đức Ông ơi! Đứa nào mượn tiền con từ năm ngoái cứ khất lần khất lữa, xin Cụ nhắc nhẹ cho nó tối nay mất ngủ tự giác ting ting trả cả gốc lẫn lãi ạ!",
+        "🙏 Lạy Đức Ông Cấp Cô Độc! Sếp giao KPI tháng này căng quá, xin Cụ phù hộ cho khách nhắn tin chốt đơn ầm ầm không cần mặc cả giá luôn ạ!",
+        "😤🙇 Kẻ nào hay đặt điều nói xấu sau lưng con, xin Đức Ông phạt cho nó ăn cơm hay cắn phải lưỡi để chừa cái tật sân si đi ạ!",
+        "🙏 Bạch Đức Ông giữ kho! Xin Ngài canh giữ kho hàng Trường Yến xuất nhập tấp nập, hàng đi như nước, tiền về đầy két ạ!",
+        "🙇‍♀️ Lạy Đức Ông! Mấy người đặt hàng rồi bom hàng tắt máy, xin Cụ độ cho họ sớm tỉnh ngộ biết giữ chữ tín làm người ạ!"
+      ],
+      '1': [
+        "💰🙇‍♀️ Ông Thần Tài ơi! Khách hỏi báo giá 3 ngày rồi cứ 'để anh chị suy nghĩ thêm', xin Ông tác ý cho khách chuyển khoản đặt cọc ngay chiều nay đi ạ!",
+        "🙏 Lạy Thần Tài Thổ Địa! Cho con xin vía mở mắt ra là thấy tin nhắn ngân hàng cộng tiền ting ting liên hồi không nghỉ tay ạ! 💸",
+        "💰🙏 Tháng này con còn thiếu đúng 35 triệu là đạt thưởng nóng KPI rồi, xin Ông Thần Tài đẩy nhẹ 1 đơn biệt phủ vào tay con hôm nay nhé ạ!",
+        "🙇‍♀️ Ông Địa ơi! Con dâng mâm xôi gà ngậm hoa hồng béo ngậy, xin Ông độ cho cửa hàng con khách ra vào nườm nượp từ sáng tới tối ạ!",
+        "💰✨ Cầu Thần Tài Vị Tiền phù hộ cho con năm nay mua thêm được mảnh đất mặt tiền, đổi xe bốn bánh vi vu ạ!"
+      ]
+    };
 
-    function pickRandomVisitorPrayer() {
-      return visitorDiversePrayers[Math.floor(Math.random() * visitorDiversePrayers.length)];
+    function pickRandomVisitorPrayer(wing = 0) {
+      const list = visitorPrayersByWing[String(wing)] || visitorPrayersByWing['0'];
+      return list[Math.floor(Math.random() * list.length)];
     }
 
-    // Cả 3 Gian (Ban Tam Bảo wing=0, Ban Thần Tài wing=1, Ban Đức Ông wing=-1) đều có 1–2 khách vãng lai (tần suất vừa phải, mỗi gian 2 người luân phiên ra vào)
+    // Cả 3 Gian (Ban Tam Bảo wing=0, Ban Thần Tài wing=1, Ban Đức Ông wing=-1) đều có 2 khách vãng lai (hiển thị câu nói lâu 480 frames ≈ 8 giây, có tương tác chào/hỏi han/đấm nhau!)
     const visitingGuests = [
-      // Gian Giữa (wing = 0: Ban Tam Bảo)
+      // Gian Giữa (wing = 0: Ban Tam Bảo - Chỉ khấn Phật & Bồ Tát)
       {
         id: 'guest_tb1',
         homeWing: 0,
         wing: 0,
-        name: 'Chị Thu Trang (Khách Vãng Lai)',
+        name: 'Bé Thảo Nhí Nhảnh',
         avatar: '👩🏻',
         gender: 'F',
         u: 0.28,
@@ -3510,18 +3516,18 @@
         targetU: 0.28,
         targetV: 0.731,
         state: 'bow',
-        bowTimer: 120,
-        chat: '🙇 Phật ơi cứu con! Tháng này con còn thiếu 40 triệu KPI nữa thôi, xin độ khách chốt đơn liền tay!',
-        chatTimer: 320,
-        phaseTimer: 520,
+        bowTimer: 160,
+        chat: '🙇‍♀️ Phật Tổ ơi! Con đi chùa không dám xin người yêu giàu, chỉ xin người yêu vừa đẹp trai vừa hay chuyển khoản cho con đi shopping thôi ạ hihi! 🪷',
+        chatTimer: 480,
+        phaseTimer: 680,
         waitOutsideTimer: 0
       },
       {
         id: 'guest_tb2',
         homeWing: 0,
         wing: 0,
-        name: 'Phật Tử Diệu Liên',
-        avatar: '🪷',
+        name: 'Em Linh Trà Sữa',
+        avatar: '👩🏻',
         gender: 'F',
         u: 0.72,
         v: 0.783,
@@ -3529,35 +3535,35 @@
         targetV: 0.783,
         state: 'kneel',
         bowTimer: 0,
-        chat: '📿 Nam Mô A Di Đà Phật... Tâm bất biến giữa dòng đời vạn biến... 🪷',
-        chatTimer: 300,
-        phaseTimer: 680,
+        chat: '🙏 Xin Phật độ cho con uống trà sữa full topping, ăn bánh tráng trộn đêm khuya mà không béo lên lạng nào, mỡ bay hết sang đứa ghét con ạ!',
+        chatTimer: 480,
+        phaseTimer: 760,
         waitOutsideTimer: 0
       },
-      // Gian Phải (wing = 1: Ban Thần Tài Vị Tiền)
+      // Gian Phải (wing = 1: Ban Thần Tài Vị Tiền - Chỉ khấn Thần Tài & Thổ Địa)
       {
         id: 'guest_tt1',
         homeWing: 1,
         wing: 1,
         name: 'Cô Mai Lan (Hải Phòng)',
-        avatar: '👩🏻',
+        avatar: '🪷',
         gender: 'F',
         u: 0.28,
         v: 0.731,
         targetU: 0.28,
         targetV: 0.731,
         state: 'bow',
-        bowTimer: 115,
-        chat: '🙏 Lạy Thần Tài! Khách hỏi giá 3 ngày rồi chưa cọc, xin tác ý cho khách ting ting đặt cọc ngay chiều nay!',
-        chatTimer: 340,
-        phaseTimer: 560,
+        bowTimer: 155,
+        chat: '💰🙇‍♀️ Ông Thần Tài ơi! Khách hỏi báo giá 3 ngày rồi chưa cọc, xin Ông tác ý cho khách ting ting đặt cọc ngay chiều nay đi ạ!',
+        chatTimer: 480,
+        phaseTimer: 660,
         waitOutsideTimer: 0
       },
       {
         id: 'guest_tt2',
         homeWing: 1,
         wing: 1,
-        name: 'Anh Đức Đoàn (Khách Vãng Lai)',
+        name: 'Anh Đức Đoàn (Hải Phòng)',
         avatar: '👨🏻',
         gender: 'M',
         u: 0.72,
@@ -3566,36 +3572,36 @@
         targetV: 0.783,
         state: 'kneel',
         bowTimer: 0,
-        chat: '💰🙏 Xin Ông Thần Tài cho con trúng hợp đồng ốp full biệt phủ để cuối năm đổi xe mới!',
-        chatTimer: 310,
-        phaseTimer: 640,
+        chat: '💰🙏 Xin Ông Thần Tài đẩy nhẹ 1 đơn ốp full biệt phủ vào tay con hôm nay để đạt thưởng nóng KPI tháng này nhé ạ!',
+        chatTimer: 480,
+        phaseTimer: 740,
         waitOutsideTimer: 0
       },
-      // Gian Trái (wing = -1: Ban Đức Ông & Đại Hồng Chuông)
+      // Gian Trái (wing = -1: Ban Đức Ông - Chỉ khấn Đức Ông & Thánh Hiền)
       {
         id: 'guest_do1',
         homeWing: -1,
         wing: -1,
         name: 'Chị Ngọc Anh (Quảng Ninh)',
-        avatar: '🪷',
+        avatar: '👩🏻',
         gender: 'F',
         u: 0.28,
         v: 0.731,
         targetU: 0.28,
         targetV: 0.731,
         state: 'bow',
-        bowTimer: 125,
-        chat: '😤🙇 Lạy Đức Ông! Đứa nào hứa chuyển khoản trả nợ rồi lặn mất tăm, xin cho tối ngủ mơ thấy chủ nợ đòi rát tai!',
-        chatTimer: 340,
-        phaseTimer: 540,
+        bowTimer: 165,
+        chat: '🙇‍♀️ Cụ Đức Ông ơi! Đứa nào mượn tiền con từ năm ngoái cứ khất lần, xin Cụ nhắc nhẹ cho nó tối nay mất ngủ tự giác ting ting trả đủ ạ!',
+        chatTimer: 480,
+        phaseTimer: 650,
         waitOutsideTimer: 0
       },
       {
         id: 'guest_do2',
         homeWing: -1,
         wing: -1,
-        name: 'Bác Hòa (Khách Thập Phương)',
-        avatar: '🪷',
+        name: 'Chị Thu Trang (Hà Nội)',
+        avatar: '👩🏻',
         gender: 'F',
         u: 0.72,
         v: 0.783,
@@ -3603,9 +3609,9 @@
         targetV: 0.783,
         state: 'kneel',
         bowTimer: 0,
-        chat: '⚡🙏 Tiểu nhân ăn cháo đá bát, nói xấu sau lưng con, xin Đức Ông quật cho hắt xì hơi 3 ngày chừa thói sân si!',
-        chatTimer: 320,
-        phaseTimer: 660,
+        chat: '🙏 Lạy Đức Ông Cấp Cô Độc! Sếp giao KPI tháng này căng quá, xin Cụ phù hộ cho khách nhắn tin chốt đơn ầm ầm không cần mặc cả giá luôn ạ!',
+        chatTimer: 480,
+        phaseTimer: 720,
         waitOutsideTimer: 0
       }
     ];
@@ -3925,7 +3931,7 @@
     });
 
     function handleCanvasTap(clientX, clientY) {
-      // Check if user tapped on the Offering Table (Bàn Lễ Cúng Dường) -> Open Center Offering Inspector!
+      // Chạm vào Bàn Lễ Cúng Dường tại Sảnh Chính -> Mở ngay thanh Đặt Lễ & Hạ Lễ Nhanh tại Sảnh Chính (KHÔNG hiện ô to che màn hình!)
       if (lastHallLayout) {
         const { wingW, wingH, centerScreenX, topScreenY } = lastHallLayout;
         const wx = centerScreenX + (player.wing - camWingX) * wingW - wingW / 2;
@@ -3936,7 +3942,7 @@
         const tableH = 56 * (wingH / 960);
         if (clientX >= censerX - tableW / 2 && clientX <= censerX + tableW / 2 &&
             clientY >= tableY - 26 && clientY <= tableY + tableH + 18) {
-          openCenterStage('table_inspect');
+          toggleHallOfferingStrip(true);
           return;
         }
       }
@@ -3945,7 +3951,11 @@
       for (const npc of activeChars) {
         if (npc._screenX !== undefined && npc._screenY !== undefined) {
           const dist = Math.hypot(clientX - npc._screenX, clientY - (npc._screenY - 35));
-          if (dist < 44) {
+          if (dist < 48) {
+            selectedHallNpc = npc;
+            const lbl = document.getElementById('selectedNpcNameLabel');
+            if (lbl) lbl.textContent = npc.name;
+            toggleNpcInteractBar(true);
             greetSpecificNpc(npc);
             return;
           }
@@ -3988,37 +3998,297 @@
     }
 
     const greetingsPool = [
-      (name) => [`A Di Đà Phật! Chào ${name}, chúc ngày mới vạn sự cát tường! 🙏`, `Mô Phật! Cảm ơn ${player.name}, chúc bạn sức khỏe & chốt đơn rực rỡ nhé! 🪷`],
-      (name) => [`Hoan hỷ chào ${name}! Chúc tháng này lộc lá đầy kho! 💰`, `Dạ A Di Đà Phật! Chúc ${player.name} tâm an vạn sự lành ạ! 🙏`],
-      (name) => [`Chào ${name} đi lễ chùa! Cầu chúc gia đạo bình an hạnh phúc nhé! 🪷`, `Mô Phật! Chúc ${player.name} và đại gia đình Trường Yến đại thắng! ✨`]
+      (name) => [`🙏 A Di Đà Phật! Chào ${name}, đi lễ xin vía gì thế ạ?`, `🪷 Mô Phật! Chào ${player.name}, em đi xin vía chốt đơn vượt KPI và gia đạo bình an ạ hihi!`],
+      (name) => [`🙏 Hoan hỷ cúi chào ${name}! Chúc tháng này lộc lá đầy kho nhé!`, `💰 Dạ A Di Đà Phật! Cảm ơn ${player.name}, chúc bạn sức khỏe & tiền về như nước ạ!`],
+      (name) => [`🙏 Chắp tay kính chào ${name}! Hôm nay chùa thanh tịnh quá nhỉ!`, `🪷 Mô Phật! Chào ${player.name}, chúc đại gia đình Trường Yến vạn sự đại cát ạ!`]
     ];
 
+    let selectedHallNpc = visitingGuests[0];
     let lastGreetMeritTime = 0;
+
+    function updateStripRoomRuleHint() {
+      const el = document.getElementById('stripRoomRuleHint');
+      if (!el) return;
+      if (player.wing === 0) {
+        el.style.color = '#ff8a80';
+        el.textContent = '⚠️ Ban Tam Bảo (Thờ Phật): CHỈ nhận Lễ Chay · Đặt Heo Quay/Xôi Gà/Vàng Mã bị PHẠT -20💎!';
+      } else if (player.wing === -1) {
+        el.style.color = '#69f0ae';
+        el.textContent = '🔔 Ban Đức Ông: Nhận đủ Lễ Chay, Heo Quay, Xôi Gà & Tiền Vàng Mã!';
+      } else {
+        el.style.color = '#ffd740';
+        el.textContent = '💰 Ban Thần Tài: Nhận đủ Lễ Chay, Heo Quay, Xôi Gà & Tiền Vàng Mã!';
+      }
+    }
+
+    function toggleHallOfferingStrip(forceState) {
+      const strip = document.getElementById('hallQuickOfferingStrip');
+      const npcBar = document.getElementById('npcInteractBar');
+      if (!strip) return;
+      const show = (typeof forceState === 'boolean') ? forceState : (strip.style.display === 'none');
+      if (show && npcBar) npcBar.style.display = 'none';
+      strip.style.display = show ? 'block' : 'none';
+      if (show) updateStripRoomRuleHint();
+    }
+
+    function toggleNpcInteractBar(forceState) {
+      const npcBar = document.getElementById('npcInteractBar');
+      const strip = document.getElementById('hallQuickOfferingStrip');
+      if (!npcBar) return;
+      const show = (typeof forceState === 'boolean') ? forceState : (npcBar.style.display === 'none');
+      if (show && strip) strip.style.display = 'none';
+      if (show) {
+        const sameWing = visitingGuests.filter(g => g.wing === player.wing && g.waitOutsideTimer === 0);
+        if (!selectedHallNpc || selectedHallNpc.wing !== player.wing) {
+          selectedHallNpc = sameWing[0] || visitingGuests[0];
+        }
+        const lbl = document.getElementById('selectedNpcNameLabel');
+        if (lbl && selectedHallNpc) lbl.textContent = selectedHallNpc.name;
+      }
+      npcBar.style.display = show ? 'block' : 'none';
+    }
+
     function greetSpecificNpc(target) {
+      if (!target) return;
+      selectedHallNpc = target;
+      const lbl = document.getElementById('selectedNpcNameLabel');
+      if (lbl) lbl.textContent = target.name;
       player.targetWing = target.wing;
       targetWingX = target.wing;
-      player.targetU = Math.min(0.76, target.u + 0.05);
-      player.targetV = Math.max(0.56, target.v + 0.015);
+      player.targetU = Math.min(0.78, Math.max(0.22, target.u + (target.u < 0.5 ? 0.08 : -0.08)));
+      player.targetV = Math.max(0.58, target.v + 0.01);
       player.state = 'bow';
-      player.bowTimer = 115;
+      player.bowTimer = 135;
       const pair = greetingsPool[Math.floor(Math.random() * greetingsPool.length)](target.name);
       player.chat = pair[0];
-      player.chatTimer = 260;
+      player.chatTimer = 420;
       target.state = 'bow';
-      target.bowTimer = 115;
+      target.bowTimer = 135;
       target.chat = pair[1];
-      target.chatTimer = 280;
+      target.chatTimer = 460;
       playMoSound();
-      showToast(`🙌 ${player.name} vừa vái chào & chúc lộc cùng ${target.name}!`);
+      showToast(`🙏 ${player.name} và ${target.name} vừa chắp tay cúi chào nhau!`);
       const now = Date.now();
-      if (now - lastGreetMeritTime > 8000) {
+      if (now - lastGreetMeritTime > 4000) {
         lastGreetMeritTime = now;
-        if (Math.random() < 0.15) {
-          addMerit(1, `Vái chào đạo hữu ${target.name} (Trúng xác suất 15%)`);
-          showToast(`✨🙌 Tâm thành giao hảo (Trúng 15%) → +1 💎 Phước Đức!`);
-        }
+        addMerit(1, `Chắp tay cúi chào đạo hữu ${target.name} tại sảnh`);
       }
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
+    }
+
+    // TƯƠNG TÁC NHÂN VẬT TRỰC TIẾP TẠI SẢNH CHÍNH: CHẮP TAY CÚI CHÀO · HỎI HAN NHAU · ĐẤM / VẢ / TÁT NHAU (-1 💎 PHƯỚC/PHÁT!)
+    function interactWithHallNpc(actionType) {
+      unlockAndStartAudio();
+      const sameWing = visitingGuests.filter(g => g.wing === player.wing && g.waitOutsideTimer === 0);
+      const target = (selectedHallNpc && selectedHallNpc.wing === player.wing) ? selectedHallNpc : (sameWing[0] || visitingGuests[0]);
+      if (!target) return;
+      selectedHallNpc = target;
+      const lbl = document.getElementById('selectedNpcNameLabel');
+      if (lbl) lbl.textContent = target.name;
+
+      player.targetWing = target.wing;
+      player.targetU = Math.min(0.80, Math.max(0.20, target.u + (target.u < 0.5 ? 0.07 : -0.07)));
+      player.targetV = target.v;
+
+      if (actionType === 'greet') {
+        greetSpecificNpc(target);
+        return;
+      }
+      if (actionType === 'ask_kpi') {
+        const questions = [
+          `💬 Chào ${target.name}, dạo này công việc và chạy số KPI thế nào rồi ạ?`,
+          `💬 ${target.name} ơi, hôm nay đi lễ xin quẻ xăm được quẻ tốt không thế?`,
+          `💬 Chào ${target.name}, chúc bạn tháng này chốt đơn ầm ầm, tiền về đầy túi nhé!`
+        ];
+        const answers = [
+          `😊 Dạ cảm ơn ${player.name} hỏi thăm! Em đang cố cày nốt 35 triệu cuối tháng để về đích KPI đây ạ, cùng cố gắng nhé!`,
+          `🪷 Dạ trộm vía từ hôm lên Chùa Trường Yến xin vía, khách bên em chốt đơn mượt hẳn luôn anh/chị ${player.name} ơi!`,
+          `😄 Hihi cảm ơn ${player.name} nhiều nha! Em vừa dâng lễ chay xong, chúc ${player.name} quý này vượt gấp đôi mục tiêu nhé!`
+        ];
+        const idx = Math.floor(Math.random() * questions.length);
+        player.state = 'bow';
+        player.bowTimer = 95;
+        player.chat = questions[idx];
+        player.chatTimer = 450;
+        target.state = 'bow';
+        target.bowTimer = 95;
+        target.chat = answers[idx];
+        target.chatTimer = 480;
+        playBellSound();
+        showToast(`💬 ${player.name} đang trò chuyện hỏi han cùng ${target.name}!`);
+        return;
+      }
+
+      // ĐẤM HOẶC VẢ/TÁT NHÂN VẬT NGAY TẠI SẢNH CHÍNH -> MỖI CÁI ĐẤM, CÁI VẢ, CÁI TÁT ĐỀU TRỪ -1 💎 PHƯỚC!
+      const isSlap = (actionType === 'slap');
+      playHeavyPunchSfx(isSlap ? 'slipper' : 'punch');
+      addMerit(-1, `${isSlap ? 'Vả / Tát' : 'Đấm'} nhân vật ${target.name} ngay tại sảnh (-1 💎 Phước)`);
+
+      player.state = 'walk';
+      player.chat = isSlap
+        ? `🖐️💥 CHÁT! Vả cho ${target.name} tỉnh ngộ bớt sân si này! (-1 💎 Phước)`
+        : `🥊💥 BỐP! Đấm cho ${target.name} một phát chừa thói chen lấn này! (-1 💎 Phước)`;
+      player.chatTimer = 420;
+
+      // Hiệu ứng nhân vật bị đấm/tát văng lùi và la oái oái
+      target.u = Math.max(0.12, Math.min(0.88, target.u + (target.u >= player.u ? 0.06 : -0.06)));
+      target.targetU = target.u;
+      target.state = 'bow';
+      target.bowTimer = 110;
+      const cryReplies = [
+        `😵‍💫 Á á ối giời ơi! Sao ${player.name} lại ${isSlap ? 'tát lệch má' : 'đấm'} tôi giữa cửa chùa thế này?!`,
+        `🤕 Ui da đau quá! Đánh người nơi cửa Phật là bị trừ -1 💎 Phước đấy ${player.name} ơi!`,
+        `😭 Hu hu sưng vù mặt em rồi, em có làm gì đâu mà ${player.name} đấm तát em thế!`
+      ];
+      target.chat = cryReplies[Math.floor(Math.random() * cryReplies.length)];
+      target.chatTimer = 460;
+
+      floatingHits.push({
+        x: target._screenX || window.innerWidth * 0.5,
+        y: (target._screenY || window.innerHeight * 0.65) - 65,
+        text: isSlap ? `🖐️💥 TÁT BỐP! (-1 💎 Phước)` : `🥊💥 ĐẤM BỐP! (-1 💎 Phước)`,
+        color: '#ff5252',
+        life: 1.35
+      });
+      showToast(`${isSlap ? '🖐️💥 Đã vả/tát' : '🥊💥 Đã đấm'} ${target.name} tại sảnh! (Trừ -1 💎 Phước Đức)`);
+    }
+
+    function sendDirectNpcDialog() {
+      unlockAndStartAudio();
+      const inp = document.getElementById('npcDialogInput');
+      const txt = (inp ? inp.value.trim() : '') || 'Chào bạn, hôm nay đi chùa cầu xin điều gì thế ạ?';
+      if (inp) inp.value = '';
+      const sameWing = visitingGuests.filter(g => g.wing === player.wing && g.waitOutsideTimer === 0);
+      const target = (selectedHallNpc && selectedHallNpc.wing === player.wing) ? selectedHallNpc : (sameWing[0] || visitingGuests[0]);
+      if (!target) return;
+
+      player.chat = `💬 [Nhắn ${target.name}]: "${txt}"`;
+      player.chatTimer = 460;
+      player.state = 'bow';
+      player.bowTimer = 80;
+
+      const lower = txt.toLowerCase();
+      let reply = `😊 Dạ chào ${player.name}! Nghe bạn hỏi câu "${txt.slice(0, 28)}" ấm lòng quá, chúc bạn vạn sự như ý, chốt đơn mỏi tay nhé!`;
+      if (lower.includes('kpi') || lower.includes('số') || lower.includes('đơn')) {
+        reply = `🚀 Dạ ${player.name} ơi, em cũng đang xin vía chốt đơn chạy KPI tháng này đây, chúc hai chị em mình cùng vượt chỉ tiêu gấp đôi nhé!`;
+      } else if (lower.includes('người yêu') || lower.includes('chồng') || lower.includes('vợ') || lower.includes('duyên')) {
+        reply = `💗 Hihi ${player.name} hỏi trúng tim đen em rồi! Em lên chùa xin vía tình duyên đỏ thắm và gia đạo hạnh phúc viên mãn đấy ạ!`;
+      } else if (lower.includes('nợ') || lower.includes('tiền') || lower.includes('lộc')) {
+        reply = `💰 Dạ chuẩn luôn ${player.name} ạ! Em đang cầu khách thanh toán hết công nợ và lộc về ngập tài khoản chiều nay đây!`;
+      }
+      setTimeout(() => {
+        target.state = 'bow';
+        target.bowTimer = 95;
+        target.chat = reply;
+        target.chatTimer = 480;
+        playMoSound();
+      }, 350);
+      showToast(`💬 Đã gửi tin nhắn hội thoại tới ${target.name}!`);
+    }
+
+    // HÀNH ĐỘNG QUỲ LẠY · VÁI KHẤN · THẮP HƯƠNG · GÕ MÕ · THỈNH CHUÔNG TRỰC TIẾP TẠI SẢNH CHÍNH (KHÔNG HIỆN Ô TO CHE MÀN HÌNH!)
+    function performDirectHallAction(mode) {
+      unlockAndStartAudio();
+      closeCenterStage(); // Đảm bảo không có ô to nào che sảnh chính!
+      const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
+      const sx = player._screenX || (window.innerWidth * 0.5);
+      const sy = (player._screenY || (window.innerHeight * 0.68)) - 85;
+      const roomName = (player.wing === 0) ? 'Ban Tam Bảo (Phật)' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Thần Tài');
+
+      if (mode === 'mo') {
+        playMoSound();
+        player.state = 'kneel';
+        const chance = 0.10 * meritRateMultiplier;
+        const pts = 1 * meritRateMultiplier;
+        const hit = Math.random() < chance;
+        if (hit) addMerit(pts, `Gõ Mõ Tịnh Tâm tại ${roomName}`);
+        floatingHits.push({
+          x: sx, y: sy,
+          text: hit ? `✨🪵 CỐC! +${pts} 💎 Phước${buffSuffix}` : `🪵 Cốc... Tịnh tâm (${Math.round(chance * 100)}%${buffSuffix})`,
+          color: hit ? '#69f0ae' : '#ffe082',
+          life: 1.25
+        });
+        return;
+      }
+
+      if (mode === 'bell') {
+        playBellSound();
+        player.state = 'bow';
+        player.bowTimer = 70;
+        const chance = 0.20 * meritRateMultiplier;
+        const pts = 2 * meritRateMultiplier;
+        const hit = Math.random() < chance;
+        if (hit) addMerit(pts, `Thỉnh Đại Hồng Chuông tại ${roomName}`);
+        floatingHits.push({
+          x: sx, y: sy,
+          text: hit ? `✨🔔 BOONG! +${pts} 💎 Phước${buffSuffix}` : `🔔 Boong... Chuông ngân (${Math.round(chance * 100)}%${buffSuffix})`,
+          color: hit ? '#69f0ae' : '#ffd54f',
+          life: 1.25
+        });
+        return;
+      }
+
+      if (mode === 'incense') {
+        performRitual('incense');
+        return;
+      }
+
+      if (mode === 'bow') {
+        playMoSound();
+        setTimeout(playMoSound, 360);
+        player.targetU = 0.50;
+        player.targetV = 0.62;
+        player.state = 'bow';
+        player.bowTimer = 145;
+        const bowLines = {
+          '0': `🙇 ${player.name} năm vóc sát đất, chí thành đảnh lễ Đức Phật Tam Bảo!`,
+          '-1': `🙇 ${player.name} thành tâm quỳ lạy Đức Ông Cấp Cô Độc & Đức Thánh Hiền!`,
+          '1': `🙇 ${player.name} cúi đầu đảnh lễ Thần Tài Vị Tiền – Thổ Địa cầu đạt số KPI!`
+        };
+        player.chat = bowLines[String(player.wing)] || bowLines['0'];
+        player.chatTimer = 420;
+        const chance = 0.15 * meritRateMultiplier;
+        const pts = 1 * meritRateMultiplier;
+        const hit = Math.random() < chance;
+        if (hit) addMerit(pts, `Quỳ lạy chí thành tại ${roomName}`);
+        floatingHits.push({
+          x: sx, y: sy,
+          text: hit ? `✨🙇 ĐẢNH LỄ CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}` : `🙇 Quỳ lạy tại ${roomName} (${Math.round(chance * 100)}%${buffSuffix})`,
+          color: hit ? '#69f0ae' : '#ffd740',
+          life: 1.3
+        });
+        broadcastMyPresence();
+        return;
+      }
+
+      if (mode === 'pray') {
+        playBellSound();
+        player.targetU = 0.50;
+        player.targetV = 0.61;
+        player.state = 'bow';
+        player.bowTimer = 160;
+        // Ở phòng nào chỉ được khấn đúng vị ở phòng đó + phát giọng đọc truyền cảm chân thật!
+        const roomPrayers = {
+          '0': `🙏 [Văn Khấn Phật Ban Tam Bảo]: Nam mô Bổn Sư Thích Ca Mâu Ni Phật, Nam mô Quán Thế Âm Bồ Tát! Con là ${player.name} thành tâm kính lễ Phật, cầu gia đạo bình an, tâm trí sáng suốt, tiêu trừ nghiệp chướng!`,
+          '-1': `🙏 [Văn Khấn Ban Đức Ông]: Kính lạy Đức Ông Tu Đạt Đa Cấp Cô Độc Tôn Giả! Xin Ngài che chở bảo hộ công việc vững vàng, giữ của giữ kho, dẹp trừ tiểu nhân, hoàn thành mục tiêu quý!`,
+          '1': `🙏 [Văn Khấn Ban Thần Tài]: Kính lạy Ngài Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần! Cúi xin khai mở cung tài lộc, độ trì chốt đơn liên tiếp, hoàn thành vượt chỉ tiêu doanh số!`
+        };
+        player.chat = roomPrayers[String(player.wing)] || roomPrayers['0'];
+        player.chatTimer = 480;
+        speakVietnameseText(player.chat);
+
+        const chance = 0.15 * meritRateMultiplier;
+        const pts = 1 * meritRateMultiplier;
+        const hit = Math.random() < chance;
+        if (hit) addMerit(pts, `Chắp tay vái khấn đúng nghi lễ tại ${roomName}`);
+        floatingHits.push({
+          x: sx, y: sy,
+          text: hit ? `✨🙏 VÁI KHẤN CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}` : `🙏 Đang đọc Văn Khấn tại ${roomName} 🔊`,
+          color: hit ? '#69f0ae' : '#80d8ff',
+          life: 1.35
+        });
+        broadcastMyPresence();
+      }
     }
 
     function greetNearestDevotee() {
@@ -4166,13 +4436,13 @@
         player.targetU = 0.50;
         player.targetV = 0.57;
         player.state = 'bow';
-        player.bowTimer = 130;
+        player.bowTimer = 140;
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
-        incenseCeremony = { active: true, timer: 130, maxTimer: 130, wing: player.wing };
+        incenseCeremony = { active: true, timer: 140, maxTimer: 140, wing: player.wing };
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
         const totalNow = burningIncenseCount[String(player.wing)];
-        player.chat = `Con xin dâng 3 nén tâm hương & cắm vào Lư Hương ${zoneName} (Hiện có ${totalNow} nén hương)! ♨️🙏`;
-        player.chatTimer = 260;
+        player.chat = `♨️🙏 Con (${player.name}) thành tâm dâng 3 nén tâm hương chân đỏ cắm vào Lư Hương Đồng ${zoneName} (${totalNow} nén đang cháy)!`;
+        player.chatTimer = 420;
         playBellSound();
         if (!silentMerit) {
           const rollBanner = document.getElementById('csLastRollBanner');
@@ -4205,36 +4475,11 @@
           }
         }
       } else if (type === 'pray') {
-        player.state = 'walk';
-        const prayers = [
-          'Con quỳ dưới tòa sen đài, tâm đầu thành kính hướng về đây 🙏',
-          'Nam Mô Bổn Sư Thích Ca Mâu Ni Phật 🙏 Cầu bình an & tài lộc!',
-          'Xin Ông Thần Tài Vị Tiền phù hộ Kho Trường Yến bùng nổ doanh số! 💰'
-        ];
-        player.chat = prayers[Math.floor(Math.random() * prayers.length)];
-        player.chatTimer = 280;
-        playMoSound();
-        if (Math.random() < 0.15) {
-          addMerit(1, 'Chắp tay dâng lời khấn nguyện (Trúng xác suất 15%)');
-          showToast('✨🙏 Lời khấn cảm ứng (Trúng 15%) → +1 💎 Phước Đức!');
-        } else {
-          showToast('🙏 Đã chắp tay dâng lời khấn nguyện (Xác suất tích phước 15%)');
-        }
+        performDirectHallAction('pray');
+        return;
       } else if (type === 'bow') {
-        player.state = 'bow';
-        player.bowTimer = 150;
-        player.chat = (player.wing === 1)
-          ? 'Cúi lạy Thần Tài Vị Tiền độ lộc chốt đơn! 💰🙏'
-          : 'Con xin chí thành đảnh lễ dưới tòa sen vàng! 🙏';
-        player.chatTimer = 260;
-        playMoSound();
-        setTimeout(playMoSound, 420);
-        if (Math.random() < 0.15) {
-          addMerit(1, 'Quỳ lạy chí thành trước ban thờ (Trúng xác suất 15%)');
-          showToast('✨🙇 Lễ lạy chí thành cảm ứng (Trúng 15%) → +1 💎 Phước Đức!');
-        } else {
-          showToast('🙇 Đang quỳ lạy chí thành trước ban thờ (Xác suất tích phước 15%)');
-        }
+        performDirectHallAction('bow');
+        return;
       }
       publishMqtt({ type: 'ritual', name: player.name, ritual: type, chat: player.chat, wing: player.wing });
       broadcastMyPresence();
@@ -4272,27 +4517,123 @@
       if (badge) badge.textContent = `Quỹ Chùa: ${totalTempleBuildCongDuc}🏛️`;
     }
 
+    // MÂM LỄ TRÊN BÀN THỜ CÓ LÚC ĐẶT LỄ · LÚC HẠ LỄ LIÊN TỤC · RÕ TÊN NGƯỜI ĐẶT LỄ & CẦU GÌ!
+    // Ban Tam Bảo (wing=0) CHỈ bày Lễ Chay thanh tịnh!
     const altarOfferings = {
       '-1': [
-        { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ Truyền Thống', giver: 'Sếp Thành', imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' },
-        { icon: '🍎', label: 'Mâm Ngũ Quả', fullName: 'Mâm Ngũ Quả Phật Thủ Chuối Bưởi', giver: 'Phật Tử Minh Anh', imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
-        { icon: '🍵', label: 'Oản Ngọc · Trà', fullName: 'Mâm Oản Ngọc & Trà Sen Bát Tràng', giver: 'Phật Tử Kiều Trang', imgKey: 'leTraOan', imgSrc: 'assets/le_traoan.jpg' },
-        { icon: '🐓', label: 'Gà Ngậm Hoa', fullName: 'Mâm Gà Luộc Ngậm Hoa Hồng & Xôi Gấc', giver: 'KH Anh Phú', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' }
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu giữ kho an toàn, đạt 15 tỷ', remainSec: 52, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Chị Ngọc Anh', wish: 'Cầu thu hồi nợ 300tr êm đẹp', remainSec: 38, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🍎', label: 'Mâm Ngũ Quả', fullName: 'Mâm Ngũ Quả Phật Thủ Chuối Bưởi', giver: 'Sale Minh Anh', wish: 'Cầu bù đủ 120tr thiếu KPI', remainSec: 64, imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
+        { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ Truyền Thống', giver: 'Sale Kiều Trang', wish: 'Cầu dẹp tiểu nhân, chốt đơn', remainSec: 27, imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' }
       ],
       '0':  [
-        { icon: '🪷', label: 'Hoa Sen Tươi', fullName: 'Mâm Hoa Sen Hồng Bách Diệp', giver: 'Phật Tử Minh Anh', imgKey: 'leHoaSen', imgSrc: 'assets/le_hoasen.jpg' },
-        { icon: '🍎', label: 'Mâm Ngũ Quả', fullName: 'Mâm Ngũ Quả Phật Thủ Chuối Bưởi', giver: 'Sếp Thành', imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
-        { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ Truyền Thống', giver: 'Sếp Thành', imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' },
-        { icon: '👑', label: 'Đại Lễ Tam Bảo', fullName: 'Đại Lễ Cúng Dường Tam Bảo Hoàng Kim', giver: 'Đại Gia Đình Trường Yến', imgKey: 'leDaiLe', imgSrc: 'assets/le_daile.jpg' }
+        { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Mâm Hoa Sen Hồng Bách Diệp (Chay)', giver: 'Phật Tử Minh Anh', wish: 'Cầu tâm an trí sáng, bình an', remainSec: 48, imgKey: 'leHoaSen', imgSrc: 'assets/le_hoasen.jpg' },
+        { icon: '🍎', label: 'Ngũ Quả Chay', fullName: 'Mâm Ngũ Quả Phật Thủ (Lễ Chay)', giver: 'Sếp Thành', wish: 'Cầu đại gia đình Trường Yến an khang', remainSec: 62, imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
+        { icon: '🍵', label: 'Oản Ngọc Trà Sen', fullName: 'Mâm Oản Ngọc & Trà Sen (Lễ Chay)', giver: 'Bé Thảo Nhí Nhảnh', wish: 'Cầu sớm có người yêu chiều chuộng', remainSec: 33, imgKey: 'leTraOan', imgSrc: 'assets/le_traoan.jpg' },
+        { icon: '👑', label: 'Đại Lễ Cỗ Chay', fullName: 'Đại Lễ Cỗ Chay Bát Trân Thượng Phẩm', giver: 'Chị Thu Trang', wish: 'Cầu cha mẹ trường thọ, gia đạo hòa thuận', remainSec: 75, imgKey: 'leDaiLe', imgSrc: 'assets/le_daile.jpg' }
       ],
       '1':  [
-        { icon: '💵', label: 'Tiền Vàng 500k', fullName: 'Mâm Tiền Vàng Mã 500k & Đĩnh Vàng', giver: 'Sếp Thành', imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' },
-        { icon: '💴', label: 'Tháp Vàng Mã', fullName: 'Tháp Vàng Mã Sen Đỏ 10 Lễ Thật', giver: 'KH Đức Đoàn', imgKey: 'vangLe10', imgSrc: 'assets/vangma_le10.jpg' },
-        { icon: '🐓', label: 'Gà Xôi Gấc', fullName: 'Mâm Gà Luộc Ngậm Hoa Hồng & Xôi Gấc', giver: 'Phật Tử Bích Thủy', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
-        { icon: '🍵', label: 'Oản Ngọc · Trà', fullName: 'Mâm Oản Ngọc & Trà Sen Bát Tràng', giver: 'Phật Tử Sale Huế', imgKey: 'leTraOan', imgSrc: 'assets/le_traoan.jpg' }
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu bùng nổ doanh số quý 15 tỷ', remainSec: 58, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Mâm Gà Luộc Ngậm Hoa Hồng & Xôi Gấc', giver: 'Anh Đức Đoàn', wish: 'Cầu trúng thầu ốp biệt phủ lớn', remainSec: 41, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '💵', label: 'Tiền Vàng 500k', fullName: 'Mâm Tiền Vàng Mã 500k & Đĩnh Vàng', giver: 'Cô Mai Lan', wish: 'Cầu khách đặt cọc liền tay chiều nay', remainSec: 29, imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' },
+        { icon: '💴', label: 'Tháp Vàng Mã', fullName: 'Tháp Vàng Mã Sen Đỏ 10 Lễ', giver: 'Sale Bích Thủy', wish: 'Cầu vượt KPI tháng 1 tỷ 200tr', remainSec: 67, imgKey: 'vangLe10', imgSrc: 'assets/vangma_le10.jpg' }
       ]
     };
     let offeringCeremony = null;
+    let takeDownCeremony = null; // Hiệu ứng Hạ Lễ Thụ Lộc bay từ bàn thờ về tay người dâng!
+
+    // VÒNG ĐỜI MÂM LỄ LIÊN TỤC: Tự động đếm ngược thời gian dâng lễ -> Hạ Lễ Thụ Lộc -> Khách/Tín chủ Đặt Lễ Mới kèm Tên & Lời Cầu!
+    const autoNpcOfferingsPool = {
+      '0': [
+        { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Mâm Hoa Sen Bách Diệp (Chay)', giver: 'Bé Thảo Nhí Nhảnh', wish: 'Cầu thoát ế & da đẹp dáng xinh', imgKey: 'leHoaSen', imgSrc: 'assets/le_hoasen.jpg' },
+        { icon: '🍎', label: 'Ngũ Quả Chay', fullName: 'Mâm Ngũ Quả Phật Thủ (Chay)', giver: 'Em Linh Trà Sữa', wish: 'Cầu ăn ngon không béo, tâm an', imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
+        { icon: '🍵', label: 'Oản Trà Chay', fullName: 'Mâm Oản Ngọc & Trà Sen (Chay)', giver: 'Phật Tử Diệu Liên', wish: 'Cầu gia đạo bốn mùa bình an', imgKey: 'leTraOan', imgSrc: 'assets/le_traoan.jpg' },
+        { icon: '👑', label: 'Cỗ Chay Bát Trân', fullName: 'Đại Lễ Cỗ Chay Bát Trân', giver: 'Chị Thu Trang', wish: 'Cầu sức khỏe bình an viên mãn', imgKey: 'leDaiLe', imgSrc: 'assets/le_daile.jpg' }
+      ],
+      '-1': [
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Chị Ngọc Anh', wish: 'Cầu đòi được nợ 250tr chiều nay', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Sale Minh Anh', wish: 'Cầu bù đủ 120tr thiếu KPI', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ', giver: 'Sale Kiều Trang', wish: 'Cầu giữ kho vững bền, xuất hàng lớn', imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' }
+      ],
+      '1': [
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Anh Đức Đoàn', wish: 'Cầu trúng hợp đồng ốp biệt phủ', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Cô Mai Lan', wish: 'Cầu khách ting ting đặt cọc ngay', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '💵', label: 'Tiền Vàng 500k', fullName: 'Mâm Tiền Vàng Mã 500k', giver: 'Sale Huế', wish: 'Cầu đạt mục tiêu 900 triệu quý này', imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' }
+      ]
+    };
+
+    setInterval(() => {
+      for (const wKey of ['-1', '0', '1']) {
+        const list = altarOfferings[wKey] || [];
+        for (let i = 0; i < list.length; i++) {
+          list[i].remainSec = (list[i].remainSec || 45) - 1;
+          if (list[i].remainSec <= 0) {
+            const finished = list.splice(i, 1)[0];
+            if (Number(wKey) === player.wing) {
+              takeDownCeremony = {
+                active: true,
+                timer: 115,
+                maxTimer: 115,
+                wing: Number(wKey),
+                icon: finished.icon,
+                name: finished.fullName || finished.label,
+                giver: finished.giver,
+                wish: finished.wish || 'Thụ lộc bình an'
+              };
+            }
+            // Sau 2.2 giây tự động có khách/tín chủ Đặt Lễ Mới lên bàn thờ!
+            setTimeout(() => {
+              const pool = autoNpcOfferingsPool[wKey] || autoNpcOfferingsPool['0'];
+              const nextOff = pool[Math.floor(Math.random() * pool.length)];
+              altarOfferings[wKey].push({
+                ...nextOff,
+                remainSec: 45 + Math.floor(Math.random() * 35)
+              });
+              if (altarOfferings[wKey].length > 4) altarOfferings[wKey].shift();
+              if (Number(wKey) === player.wing && (!offeringCeremony || !offeringCeremony.active)) {
+                offeringCeremony = {
+                  active: true,
+                  timer: 115,
+                  maxTimer: 115,
+                  wing: Number(wKey),
+                  icon: nextOff.icon,
+                  name: nextOff.fullName,
+                  giver: nextOff.giver,
+                  wish: nextOff.wish
+                };
+              }
+            }, 2200);
+            break;
+          }
+        }
+      }
+    }, 1000);
+
+    function manualTakeDownOffering() {
+      unlockAndStartAudio();
+      const wKey = String(player.wing);
+      const list = altarOfferings[wKey] || [];
+      if (list.length === 0) {
+        showToast('⚠️ Trên bàn thờ hiện chưa có mâm lễ nào để hạ lễ! Hãy Đặt Lễ trước nhé!');
+        return;
+      }
+      const item = list.shift();
+      takeDownCeremony = {
+        active: true,
+        timer: 125,
+        maxTimer: 125,
+        wing: player.wing,
+        icon: item.icon,
+        name: item.fullName || item.label,
+        giver: item.giver,
+        wish: item.wish || 'Thụ lộc cát tường'
+      };
+      playBellSound();
+      addMerit(3, `Hạ lễ thụ lộc mâm "${item.fullName || item.label}" của ${item.giver}`);
+      player.chat = `📤🙏 Con xin thành tâm Hạ Lễ Thụ Lộc mâm "${item.fullName || item.label}" (${item.wish || 'Đắc lộc bình an'})! (+3 💎 Phước)`;
+      player.chatTimer = 420;
+      showToast(`📤✨ Đã Hạ Lễ Thụ Lộc "${item.fullName || item.label}" của ${item.giver} (+3 💎 Phước)!`);
+    }
 
     function computeSpiritualRank(totalPts) {
       if (myZaloCongDucCount >= 3 || totalPts >= 3000) return 'Đại Thí Chủ Xây Chùa';
@@ -4408,14 +4749,41 @@
       return 'vangDinh';
     }
 
-    function redeemOfferingItem(itemId, icon, itemName, cost, imgSrc, minTotalMerit = 0, goldBagBonus = 0) {
+    // DÂNG LỄ VẬT (GIÁ <= 100 💎 · ĐẶT SAI LỄ MẶN / VÀNG MÃ LÊN BAN PHẬT TAM BẢO BỊ PHẠT TRỪ PHƯỚC ĐỨC!)
+    function redeemOfferingItem(itemId, icon, itemName, cost, imgSrc, minTotalMerit = 0, goldBagBonus = 0, category = 'chay') {
       unlockAndStartAudio();
-      if (totalMeritAccumulated < minTotalMerit) {
-        showToast(`📏 Quy chuẩn cấp bậc: Lễ "${itemName}" yêu cầu Tổng Tích Lũy >= ${minTotalMerit} 💎 (Hiện đạt ${totalMeritAccumulated} 💎). Hãy tu tập Gõ Mõ · Dâng Hương · Viết Sớ thêm!`);
+      // Tự động nhận diện phân loại lễ nếu chưa truyền
+      if (!category) {
+        if (itemId.includes('ga') || itemId.includes('heo') || itemName.includes('Gà') || itemName.includes('Heo')) category = 'man';
+        else if (itemId.includes('vang') || itemName.includes('Vàng')) category = 'vang_ma';
+        else category = 'chay';
+      }
+
+      // KIỂM TRA PHẠM ĐẠI KỴ: ĐẶT LỄ MẶN (HEO QUAY, XÔI GÀ) HOẶC VÀNG MÃ LÊN BAN THỜ PHẬT (Ban Tam Bảo wing === 0)!
+      if (player.wing === 0 && (category === 'man' || category === 'vang_ma')) {
+        closeMeritShopModal();
+        const penalty = (category === 'man') ? 20 : 15;
+        addMerit(-penalty);
+        playHeavyPunchSfx('lightning');
+        const reasonMsg = (category === 'man')
+          ? `⚠️⚡ PHẠM ĐẠI KỴ NHÀ PHẬT (-${penalty} 💎 Phước)! Ban Tam Bảo thờ Phật ăn chay từ bi, TUYỆT ĐỐI KHÔNG đặt Lễ Mặn (${icon} ${itemName}) lên ban thờ Phật! Hãy sang Ban Đức Ông hoặc Ban Thần Tài!`
+          : `⚠️⚡ ĐẶT SAI BAN THỜ (-${penalty} 💎 Phước)! Đức Phật tại Ban Tam Bảo KHÔNG nhận Tiền Vàng, Vàng Mã âm phủ (${icon} ${itemName})! Hãy sang Ban Đức Ông, Ban Thần Tài hoặc vào Đài Hóa Vàng!`;
+        appendMeritLog(`<span style="color:#ff5252;">${reasonMsg}</span>`);
+        player.chat = reasonMsg;
+        player.chatTimer = 480;
+        floatingHits.push({
+          x: window.innerWidth * 0.5,
+          y: window.innerHeight * 0.42,
+          text: category === 'man' ? `⚡🚫 PHẠM KỴ DÂNG LỄ MẶN LÊN PHẬT! (-${penalty} 💎)` : `⚡🚫 PHẬT KHÔNG NHẬN VÀNG MÃ! (-${penalty} 💎)`,
+          color: '#ff1744',
+          life: 1.55
+        });
+        showToast(reasonMsg);
         return;
       }
+
       if (player.merit < cost) {
-        showToast(`⚠️ Chưa đủ Phước Khả Dụng! Cần ${cost} 💎 để thỉnh "${itemName}" (Hiện có ${player.merit} 💎). Hãy Gõ Mõ (+1💎), Thỉnh Chuông (+2💎), Thắp Hương (+5💎) hoặc Viết Sớ (+15💎)!`);
+        showToast(`⚠️ Chưa đủ Phước Khả Dụng! Cần ${cost} 💎 để thỉnh "${itemName}" (Hiện có ${player.merit} 💎). Hãy Gõ Mõ, Thỉnh Chuông, Lạy Phật hoặc Ghi Nhận Zalo để tích phước!`);
         return;
       }
       addMerit(-cost);
@@ -4424,23 +4792,28 @@
       }
       syncMeritAndBagHud();
 
+      const wishInp = document.getElementById('quickOfferWishInput');
+      const userWish = (wishInp && wishInp.value.trim()) ? wishInp.value.trim() : (player.wing === 0 ? 'Cầu bình an & tâm sáng' : 'Cầu đạt KPI 1.5 tỷ');
+
       const wingKey = String(player.wing);
       if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
       const imgKey = resolveImgKeyFromSrc(imgSrc);
 
       altarOfferings[wingKey].push({
         icon,
-        label: itemName.slice(0, 18),
+        label: itemName.slice(0, 16),
         fullName: itemName,
         giver: player.name,
+        wish: userWish,
+        remainSec: 65,
         imgKey,
-        imgSrc: imgSrc || 'assets/vangma_dinh.jpg'
+        imgSrc: imgSrc || 'assets/le_hoasen.jpg'
       });
       if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
 
       const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
       const bonusTxt = goldBagBonus > 0 ? ` (+${goldBagBonus} lễ vào Túi Hóa Vàng)` : '';
-      appendMeritLog(`🎁 <b>${player.name}</b> đã thỉnh <b>${icon} ${itemName}</b> (-${cost} 💎) dâng lên <b>${zoneName}</b>${bonusTxt}!`);
+      appendMeritLog(`🎁 <b>${player.name}</b> đã Đặt Lễ <b>${icon} ${itemName}</b> (-${cost} 💎) lên <b>${zoneName}</b> · Cầu: <i>"${userWish}"</i>${bonusTxt}!`);
 
       closeMeritShopModal();
       playBellSound();
@@ -4450,8 +4823,8 @@
       player.targetV = 0.57;
       player.state = 'bow';
       player.bowTimer = 160;
-      player.chat = `Con (${player.name}) thành tâm thỉnh & dâng ${icon} ${itemName} lên ${zoneName}! 🙏`;
-      player.chatTimer = 360;
+      player.chat = `📥🙏 Con (${player.name}) thành tâm Đặt Lễ ${icon} ${itemName} lên ${zoneName} — Nguyện cầu: "${userWish}"!`;
+      player.chatTimer = 460;
 
       offeringCeremony = {
         active: true,
@@ -4460,7 +4833,8 @@
         wing: player.wing,
         icon,
         name: itemName,
-        giver: player.name
+        giver: player.name,
+        wish: userWish
       };
 
       for (let i = 0; i < 20; i++) {
@@ -4475,17 +4849,16 @@
         });
       }
 
-      // CƠ CHẾ MỚI: KHI DÂNG LỄ LÊN BÀN THỜ → XÁC SUẤT TĂNG GẤP ĐÔI (X2) HOẶC GẤP BA (X3) PHƯỚC ĐỨC!
+      // KHI DÂNG ĐÚNG LỄ LÊN BÀN THỜ → XÁC SUẤT TĂNG GẤP ĐÔI (X2) HOẶC GẤP BA (X3) PHƯỚC ĐỨC!
       const rollOfferMult = Math.random();
-      const offerMult = (rollOfferMult < 0.35 || cost >= 300) ? 3 : 2;
-      const bonusReturnMerit = Math.round(cost * 0.25) * offerMult;
+      const offerMult = (rollOfferMult < 0.38 || cost >= 80) ? 3 : 2;
+      const bonusReturnMerit = Math.max(4, Math.round(cost * 0.25)) * offerMult;
       addMerit(bonusReturnMerit);
-      activateMeritRateBuff(offerMult, `Dâng Lễ ${itemName}`);
-      appendMeritLog(`🌟🎁 <b>${player.name}</b> dâng lễ cảm ứng <b>HỒNG ÂN X${offerMult}</b>: Tăng <b>GẤP ${offerMult} LẦN (X${offerMult})</b> xác suất tích phước & nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
+      activateMeritRateBuff(offerMult, `Đặt Lễ ${itemName}`);
+      appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ đúng phép cảm ứng <b>HỒNG ÂN X${offerMult}</b>: Tăng <b>GẤP ${offerMult} LẦN (X${offerMult})</b> xác suất tích phước & nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
-      showToast(`🎁🌟 Đã dâng "${itemName}" lên ${zoneName}! Nổ Lộc Hồi Hướng +${bonusReturnMerit} 💎 & KÍCH HOẠT BUFF X${offerMult} XÁC SUẤT NHẬN PHƯỚC!`);
-      speakVietnameseText(`Nam Mô A Di Đà Phật. Chứng minh công đức tín chủ ${player.name} thành tâm dâng ${itemName} lên ${zoneName}, hồng ân Tam Bảo ban lộc tăng gấp ${offerMult} lần xác suất nhận Phước Đức!`);
-      publishMqtt({ type: 'offering', name: player.name, icon, itemName, wing: player.wing, imgKey, imgSrc });
+      showToast(`📥🌟 Đã Đặt Lễ "${itemName}" (${player.name}: ${userWish}) lên ${zoneName}! Nổ Lộc X${offerMult} (+${bonusReturnMerit} 💎)!`);
+      publishMqtt({ type: 'offering', name: player.name, icon, itemName, wish: userWish, wing: player.wing, imgKey, imgSrc });
     }
 
     let burnCountTotal = 2;
@@ -5022,19 +5395,19 @@
         ctx.strokeRect(tableX + tableW - 19, tableY + tableH, 9, 12);
 
         // Golden inscription on the bottom border of the Offering Table
-        ctx.font = 'bold 8.5px sans-serif';
+        ctx.font = 'bold 8.3px sans-serif';
         ctx.fillStyle = '#ffd740';
         ctx.textAlign = 'center';
-        ctx.fillText('══ BÀN LỄ CÚNG DƯỜNG (CHẠM XEM CHI TIẾT LỄ GÌ · CỦA AI) ══', censerX, tableY + tableH - 4);
+        ctx.fillText('══ BÀN LỄ CÚNG DƯỜNG (ĐẶT LỄ · HẠ LỄ LIÊN TỤC · TÊN NGƯỜI ĐẶT & CẦU GÌ) ══', censerX, tableY + tableH - 3);
 
         // Arrange the 4 Photorealistic Real-Life Offering Trays (Mâm Bồng Lễ Vật Thật Ngoài Đời) prominently ON TOP of the Table!
         if (wingOfferings.length > 0) {
           const count = Math.min(4, wingOfferings.length);
-          const cardW = Math.min(104, (tableW - 12) / count - 3);
-          const cardH = 26;
+          const cardW = Math.min(112, (tableW - 10) / count - 3);
+          const cardH = 34;
           const totalCardsW = count * cardW + (count - 1) * 4;
           const startCardX = censerX - totalCardsW / 2;
-          const traySize = Math.min(76, cardW * 0.82);
+          const traySize = Math.min(72, cardW * 0.78);
 
           wingOfferings.slice(-4).forEach((off, idx) => {
             const cxCard = startCardX + idx * (cardW + 4);
@@ -5053,35 +5426,41 @@
             // Draw large, crisp real-life offering tray resting directly on top of the table!
             const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
             if (tex && tex.complete && tex.naturalWidth > 0) {
-              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 8, traySize, traySize);
+              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 6, traySize, traySize);
             } else {
-              ctx.font = '32px sans-serif';
+              ctx.font = '30px sans-serif';
               ctx.textAlign = 'center';
               ctx.textBaseline = 'middle';
               ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
             }
 
-            // Clear 2-Line Plaque directly under each tray: [Lễ Gì] + [👤 Của Ai]
-            const cyCard = tableY + 4;
-            ctx.fillStyle = 'rgba(28, 10, 2, 0.96)';
-            ctx.strokeStyle = '#ffd54f';
+            // Clear 3-Line Plaque directly under each tray: [Lễ Gì + Đếm ngược Hạ Lễ] + [👤 Người Đặt Lễ] + [🙏 Cầu Gì]
+            const cyCard = tableY + 2;
+            ctx.fillStyle = 'rgba(24, 8, 2, 0.96)';
+            ctx.strokeStyle = (off.remainSec && off.remainSec < 12) ? '#ff8a65' : '#ffd54f';
             ctx.lineWidth = 1.2;
             ctx.beginPath();
             ctx.roundRect(cxCard, cyCard, cardW, cardH, 6);
             ctx.fill();
             ctx.stroke();
 
-            // Line 1: Tên Lễ Vật (Lễ gì)
-            ctx.font = 'bold 8.4px sans-serif';
+            // Line 1: Tên Lễ Vật + Thời gian còn lại trên bàn trước khi Hạ Lễ
+            ctx.font = 'bold 7.9px sans-serif';
             ctx.fillStyle = '#ffd740';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText((off.label || 'Lễ Vật').slice(0, 16), slotCenterX, cyCard + 8);
+            const secTxt = off.remainSec ? ` (${off.remainSec}s)` : '';
+            ctx.fillText(`${(off.label || 'Lễ Vật').slice(0, 12)}${secTxt}`, slotCenterX, cyCard + 7);
 
-            // Line 2: Tên Người Dâng (Của ai)
-            ctx.font = 'bold 7.9px sans-serif';
+            // Line 2: Tên Người Đặt Lễ (Của ai)
+            ctx.font = 'bold 7.6px sans-serif';
             ctx.fillStyle = '#80d8ff';
-            ctx.fillText(`👤 ${String(off.giver || 'Sếp Thành').slice(0, 15)}`, slotCenterX, cyCard + 19);
+            ctx.fillText(`👤 ${String(off.giver || 'Sếp Thành').slice(0, 14)}`, slotCenterX, cyCard + 17);
+
+            // Line 3: Cầu Gì (Lời cầu nguyện trên mâm lễ)
+            ctx.font = 'bold 7.2px sans-serif';
+            ctx.fillStyle = '#a5d6a7';
+            ctx.fillText(`🙏 ${String(off.wish || 'Cầu đạt KPI & bình an').slice(0, 16)}`, slotCenterX, cyCard + 27);
           });
         }
         ctx.restore();
@@ -5104,7 +5483,50 @@
         ctx.fill();
       }
 
-      // Animate 1-2 Occasional Visiting Guests walking in less frequently, bowing/praying with diverse funny/cursing/chanting lines
+      // TỰ ĐỘNG CHO 2 NHÂN VẬT KHÁCH VÃNG LAI TƯƠNG TÁC VỚI NHAU (CHẮP TAY CÚI CHÀO · HỎI HAN NHAU · HOẶC ĐẤM NHAU TRỪ -1 💎 PHƯỚC!)
+      if (frameCount % 340 === 120) {
+        const pairInWing = visitingGuests.filter(g => g.wing === player.wing && g.waitOutsideTimer === 0);
+        if (pairInWing.length >= 2) {
+          const [g1, g2] = pairInWing;
+          const rollInter = Math.random();
+          if (rollInter < 0.45) {
+            // 2 nhân vật chắp tay cúi chào nhau
+            g1.state = 'bow'; g1.bowTimer = 110;
+            g2.state = 'bow'; g2.bowTimer = 110;
+            g1.chat = `🙏 A Di Đà Phật! Chào ${g2.name}, hôm nay đi chùa xin vía gì mà tươi thế ạ?`;
+            g1.chatTimer = 460;
+            g2.chat = `🪷 Mô Phật! Chào ${g1.name}, em đi xin vía chốt đơn vượt KPI và gia đạo bình an ạ hihi!`;
+            g2.chatTimer = 480;
+          } else if (rollInter < 0.80) {
+            // 2 nhân vật hỏi han trò chuyện vui vẻ
+            g1.state = 'bow'; g1.bowTimer = 90;
+            g2.state = 'bow'; g2.bowTimer = 90;
+            g1.chat = `💬 ${g2.name} ơi, nhớ nhé: Ban Phật chỉ dâng Lễ Chay thôi, đặt Heo Quay hay Vàng Mã lên Ban Phật là bị phạt trừ Phước đấy!`;
+            g1.chatTimer = 460;
+            g2.chat = `😊 Dạ chuẩn luôn ${g1.name} ơi! Lễ mặn với vàng mã em mang sang Ban Đức Ông và Ban Thần Tài dâng rồi ạ!`;
+            g2.chatTimer = 480;
+          } else {
+            // 2 nhân vật cãi cọ đấm/tát nhau (có trừ -1 💎 phước!)
+            g1.state = 'walk';
+            g2.state = 'bow'; g2.bowTimer = 95;
+            g1.chat = `🥊💥 BỐP! Này thì ${g2.name} dám chen hàng giành bồ đoàn số đẹp của tôi này! (-1 💎 Phước)`;
+            g1.chatTimer = 460;
+            g2.chat = `😵‍💫🖐️ Á á đau quá! Sao ${g1.name} lại đấm tát nhau giữa sảnh chùa thế, bị trừ -1 💎 Phước kìa!`;
+            g2.chatTimer = 480;
+            if (g2._screenX && g2._screenY) {
+              floatingHits.push({
+                x: g2._screenX,
+                y: g2._screenY - 55,
+                text: '🥊💥 2 KHÁCH ĐẤM NHAU! (-1 💎 Phước)',
+                color: '#ff5252',
+                life: 1.25
+              });
+            }
+          }
+        }
+      }
+
+      // Animate 1-2 Occasional Visiting Guests walking in less frequently, bowing/praying with diverse funny/playful lines (hiển thị lâu ~8 giây!)
       const renderables = [];
       for (const g of visitingGuests) {
         if (g.waitOutsideTimer > 0) {
@@ -5130,13 +5552,13 @@
             g.name = pick.name;
             g.avatar = pick.avatar;
             g.gender = pick.gender;
-            g.chat = pickRandomVisitorPrayer();
-            g.chatTimer = 320;
+            g.chat = pickRandomVisitorPrayer(chosenWing);
+            g.chatTimer = 480; // Hiện lâu ~8 giây để đọc thoải mái!
             g.u = seat ? seat.u : 0.28;
             g.v = 0.91;
             g.targetU = seat ? seat.u : 0.28;
             g.targetV = seat ? seat.v : 0.73;
-            g.phaseTimer = 560 + Math.floor(Math.random() * 340);
+            g.phaseTimer = 640 + Math.floor(Math.random() * 340);
             continue;
           } else {
             g.state = (g.bowTimer > 0) ? 'bow' : 'kneel';
@@ -5151,9 +5573,9 @@
         if (g.bowTimer > 0) {
           g.bowTimer--;
         } else if (g.state === 'kneel' && Math.random() < 0.006) {
-          g.bowTimer = 110;
-          g.chat = pickRandomVisitorPrayer();
-          g.chatTimer = 290;
+          g.bowTimer = 135;
+          g.chat = pickRandomVisitorPrayer(g.wing);
+          g.chatTimer = 480; // Hiện lâu ~8 giây!
         }
         if (g.chatTimer > 0) g.chatTimer--;
         renderables.push({ type: 'visitor', data: g, v: g.v });
@@ -5296,7 +5718,7 @@
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
       }
 
-      // Character Carrying & Placing Offering onto the Bàn Lễ Cúng Dường (Rõ Lễ Gì & Của Ai)
+      // 📥 ĐẶT LỄ LÊN BÀN THỜ (Hiển thị rõ Tên Người Đặt Lễ & Cầu Gì)
       if (offeringCeremony && offeringCeremony.active && offeringCeremony.timer > 0) {
         offeringCeremony.timer--;
         const prog = 1.0 - (offeringCeremony.timer / offeringCeremony.maxTimer);
@@ -5309,42 +5731,91 @@
         const ease = prog * prog * (3 - 2 * prog);
         const curX = startX + (targetX - startX) * ease;
         const curY = startY + (targetY - startY) * ease - Math.sin(prog * Math.PI) * 32;
-        const sc = 1.12 - ease * 0.28;
+        const sc = 1.10 - ease * 0.22;
 
         ctx.save();
         ctx.translate(curX, curY);
         ctx.scale(sc, sc);
-        const halo = ctx.createRadialGradient(0, 0, 4, 0, 0, 48);
+        const halo = ctx.createRadialGradient(0, 0, 4, 0, 0, 52);
         halo.addColorStop(0, 'rgba(255, 225, 110, 0.92)');
         halo.addColorStop(1, 'rgba(255, 180, 30, 0)');
         ctx.fillStyle = halo;
         ctx.beginPath();
-        ctx.arc(0, 0, 48, 0, Math.PI * 2);
+        ctx.arc(0, 0, 52, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = 'rgba(68, 24, 6, 0.96)';
-        ctx.strokeStyle = '#ffe082';
+        ctx.fillStyle = 'rgba(56, 18, 4, 0.96)';
+        ctx.strokeStyle = '#ffd740';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(-96, -24, 192, 48, 14);
+        ctx.roundRect(-114, -28, 228, 56, 14);
         ctx.fill();
         ctx.stroke();
 
         ctx.font = '24px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(offeringCeremony.icon, -68, 0);
+        ctx.fillText(offeringCeremony.icon, -86, 0);
 
-        ctx.font = 'bold 10.5px sans-serif';
-        ctx.fillStyle = '#80d8ff';
+        ctx.font = 'bold 9.8px sans-serif';
+        ctx.fillStyle = '#69f0ae';
         ctx.textAlign = 'left';
-        ctx.fillText(`👤 CỦA: ${offeringCeremony.giver || player.name}`, -46, -8);
-        ctx.font = 'bold 11.5px sans-serif';
-        ctx.fillStyle = '#ffd54f';
-        ctx.fillText(`🎁 LỄ: ${offeringCeremony.name}`, -46, 9);
+        ctx.fillText(`📥 ĐẶT LỄ: ${(offeringCeremony.name || '').slice(0, 22)}`, -62, -13);
+        ctx.font = 'bold 9.8px sans-serif';
+        ctx.fillStyle = '#80d8ff';
+        ctx.fillText(`👤 Người đặt: ${offeringCeremony.giver || player.name}`, -62, 1);
+        ctx.font = 'bold 9.4px sans-serif';
+        ctx.fillStyle = '#ffe082';
+        ctx.fillText(`🙏 Cầu: ${(offeringCeremony.wish || 'Đạt KPI & bình an').slice(0, 24)}`, -62, 15);
         ctx.restore();
 
         if (offeringCeremony.timer === 0) offeringCeremony.active = false;
+      }
+
+      // 📤 HẠ LỄ THỤ LỘC TỪ BÀN THỜ (Hiển thị rõ Tên Người Hạ Lễ & Lời Cầu Đã Chứng Giám)
+      if (takeDownCeremony && takeDownCeremony.active && takeDownCeremony.timer > 0) {
+        takeDownCeremony.timer--;
+        const prog = 1.0 - (takeDownCeremony.timer / takeDownCeremony.maxTimer);
+        const wx = centerScreenX + (takeDownCeremony.wing - camWingX) * wingW - wingW / 2;
+        const startX = wx + wingW * 0.50;
+        const startY = topScreenY + wingH * ((takeDownCeremony.wing === 0) ? 0.425 : 0.448);
+
+        const targetX = player._screenX || (W * 0.5);
+        const targetY = (player._screenY || (H * 0.68)) - 42;
+        const ease = prog * prog * (3 - 2 * prog);
+        const curX = startX + (targetX - startX) * ease;
+        const curY = startY + (targetY - startY) * ease - Math.sin(prog * Math.PI) * 28;
+        const sc = 0.92 + ease * 0.14;
+
+        ctx.save();
+        ctx.translate(curX, curY);
+        ctx.scale(sc, sc);
+        ctx.fillStyle = 'rgba(12, 42, 24, 0.96)';
+        ctx.strokeStyle = '#69f0ae';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(-114, -26, 228, 52, 14);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = '23px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(takeDownCeremony.icon || '📤', -86, 0);
+
+        ctx.font = 'bold 9.8px sans-serif';
+        ctx.fillStyle = '#69f0ae';
+        ctx.textAlign = 'left';
+        ctx.fillText(`📤 HẠ LỄ THỤ LỘC: ${(takeDownCeremony.name || '').slice(0, 18)}`, -62, -11);
+        ctx.font = 'bold 9.5px sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.fillText(`👤 Của: ${takeDownCeremony.giver || player.name}`, -62, 2);
+        ctx.font = 'bold 9.2px sans-serif';
+        ctx.fillStyle = '#ffd54f';
+        ctx.fillText(`🙏 Đã chứng: ${(takeDownCeremony.wish || 'Đắc lộc bình an').slice(0, 22)}`, -62, 15);
+        ctx.restore();
+
+        if (takeDownCeremony.timer === 0) takeDownCeremony.active = false;
       }
 
       // Đài Hóa Vàng Thật Khi Hóa Sớ Vàng Trong Chánh Điện (Ảnh chụp Lò Hóa Vàng + Lửa Volumetric Additive Chân Thật)
@@ -5982,12 +6453,30 @@
         openFortuneStickModal();
       }, 100);
     }
+    if (location.search.includes('strip=1')) {
+      setTimeout(() => {
+        toggleHallOfferingStrip(true);
+        performDirectHallAction('pray');
+      }, 90);
+    }
+    if (location.search.includes('taboo=1')) {
+      setTimeout(() => {
+        toggleHallOfferingStrip(true);
+        redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/vangma_mamdaydu.jpg',0,2,'man');
+      }, 90);
+    }
+    if (location.search.includes('npcbar=1')) {
+      setTimeout(() => {
+        toggleNpcInteractBar(true);
+        interactWithHallNpc('greet');
+      }, 90);
+    }
     if (location.search.includes('karma=1')) {
       setTimeout(() => {
         openKarmaReleaseModal();
         executeKarmaHit(145, 62);
         setTimeout(() => selectAndHitWeapon('slipper'), 70);
-        setTimeout(() => selectAndHitWeapon('lightning'), 140);
+        setTimeout(() => selectAndHitWeapon('slap'), 140);
       }, 100);
     }
     if (location.search.includes('burn=1')) {
