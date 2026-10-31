@@ -877,7 +877,7 @@
     <!-- Cụm Góc Phải Gọn Gàng + Nút Menu [🎛️ Nhạc · Kinh · Tiện Ích ▾] gom toàn bộ nút phụ -->
     <div class="top-group" style="max-width:52vw; justify-content:flex-end;">
       <button class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
-        🏆 Top Phước: <span id="activeCharProfileBadge">Sếp Thành</span> · 💎<span id="meritScore">120</span>
+        🏆 Top Phước: <span id="activeCharProfileBadge">Thành</span> · 💎<span id="meritScore">120</span>
       </button>
       <button id="tabKarma" class="chip-btn" style="background:linear-gradient(135deg,#880e4f,#4a148c);color:#fff;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">😤🥊 Xả Nghiệp</button>
       <button id="btnTopUtilityMenu" class="chip-btn active" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="toggleTopUtilityMenu()">🎛️ Nhạc · Kinh · Tiện Ích ▾</button>
@@ -6273,7 +6273,7 @@
       // V62: CHỈ những người đã tạo tài khoản / đăng nhập mới có trong danh sách Leo Top!
       // Các NPC phụ trong chùa chưa tạo tài khoản sẽ KHÔNG được lên Bảng Top Phước Đức!
       const defaults = {
-        'Sếp Thành': { merit: 120, congDuc: 5, gender: 'M', dept: 'Ban Giám Đốc', avatar: '🧘‍♂️', registered: true }
+        'Thành': { merit: 120, congDuc: 5, gender: 'M', dept: 'Ban Giám Đốc', avatar: '🧘‍♂️', registered: true }
       };
       try {
         const raw = localStorage.getItem(CHAR_PROFILES_STORAGE_KEY);
@@ -6373,6 +6373,8 @@
       switchOpt.textContent = '🔑 Đổi / Đăng Nhập Tài Khoản Khác...';
       sel.appendChild(switchOpt);
       sel.value = player.name;
+      const badgeEl = document.getElementById('activeCharProfileBadge');
+      if (badgeEl) badgeEl.textContent = player.name;
     }
 
     function switchActiveCharacterProfile(charName) {
@@ -10372,11 +10374,9 @@
         } else if (dm === "so_may_man") {
           openFortuneStickModal('soloc');
         } else if (dm === "v66_so") {
-          selectedTopic = "binh_an";
           const skName = document.getElementById("skInputName");
           if (skName) skName.value = "Thành";
-          currentCustomer.name = "Thành";
-          currentCustomer.addr = "Kho Trường Yến";
+          selectPrayerTopic("binh_an");
           submitAndReadSoKhan();
         }
       }, 300);
