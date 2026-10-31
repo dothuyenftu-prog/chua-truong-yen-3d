@@ -6683,7 +6683,20 @@
       camWingX = 1; targetWingX = 1; player.wing = 1; player.targetWing = 1;
     }
     if (location.search.includes('srv=1')) {
-      setTimeout(openServerSwitchModal, 90);
+      setTimeout(openServerSwitchModal, 60);
+    }
+    if (location.search.includes('demo_offer=1')) {
+      setTimeout(() => {
+        toggleHallOfferingStrip(true);
+        redeemOfferingItem("lotus_tray","🪷","Hoa Sen Chay",18,"assets/le_hoasen.jpg",0,0,"chay");
+      }, 60);
+    }
+    if (location.search.includes('demo_hale=1')) {
+      setTimeout(() => {
+        redeemOfferingItem("lotus_tray","🪷","Hoa Sen Chay",18,"assets/le_hoasen.jpg",0,0,"chay");
+        offeringCeremony = null;
+        manualTakeDownOffering();
+      }, 60);
     }
     requestAnimationFrame(render);
   </script>
