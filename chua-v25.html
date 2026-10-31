@@ -732,7 +732,7 @@
         <option value="__custom__">✏️ Tự Đặt / Đổi Tên Nhân Vật...</option>
       </select>
       <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đổi tên nhân vật hiển thị trên đầu">✏️ Đổi Tên</button>
-      <button id="btnOnlineMode" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#81c784;" onclick="toggleOnlinePresenceMode()" title="Khi bật chế độ Online, những ai trong công ty đang đăng nhập sẽ nhìn thấy nhân vật của nhau trong Chánh Điện">🟢 Online (<span id="onlineCountLabel">1</span>)</button>
+      <button id="btnOnlineMode" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#81c784;" onclick="toggleOnlinePresenceMode()" title="Hệ thống giới hạn tối đa 15 người cùng lúc trong chùa">🟢 Online (<span id="onlineCountLabel">1/15</span>)</button>
       <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
       <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
       <button id="tabDucOng" class="chip-btn" onclick="switchZone('ducong')">🔔 Đức Ông</button>
@@ -3452,33 +3452,22 @@
     }
 
     // =========================================================================
-    // 3. CHÁNH ĐIỆN 20 CHỖ NGỒI BỒ ĐOÀN + NHÂN VẬT NỮ XUẤT HIỆN NHIỀU HƠN NHÂN VẬT NAM (80% PHẬT TỬ NỮ ÁO LAM!)
+    // 3. HỆ THỐNG TỐI ĐA 15 NGƯỜI (5 CHỖ NGỒI BỒ ĐOÀN MỖI GIAN x 3 GIAN = ĐÚNG 15 CHỖ NGỒI TOÀN HỆ THỐNG!)
     // =========================================================================
+    const MAX_SYSTEM_PEOPLE = 15;
     const crowdDevotees = [];
     const cushions20 = [];
     for (let wing of [-1, 0, 1]) {
-      for (let row = 0; row < 5; row++) {
-        const v = 0.575 + row * 0.052;
-        cushions20.push({
-          wing, row, col: 0, side: -1,
-          u: 0.125, v,
-          seatNumber: row * 2 + 1
-        });
-        cushions20.push({
-          wing, row, col: 1, side: -1,
-          u: 0.28, v,
-          seatNumber: row * 2 + 2
-        });
-        cushions20.push({
-          wing, row, col: 0, side: 1,
-          u: 0.72, v,
-          seatNumber: 10 + row * 2 + 1
-        });
-        cushions20.push({
-          wing, row, col: 1, side: 1,
-          u: 0.875, v,
-          seatNumber: 10 + row * 2 + 2
-        });
+      // 5 bồ đoàn mỗi gian x 3 gian = đúng 15 chỗ ngồi toàn chùa (2 bên trái, 2 bên phải, 1 chính giữa)
+      const fiveSeats = [
+        { u: 0.18, v: 0.62, side: -1, row: 0, col: 0, seatNumber: 1 },
+        { u: 0.18, v: 0.72, side: -1, row: 1, col: 0, seatNumber: 2 },
+        { u: 0.50, v: 0.67, side: 0,  row: 0, col: 1, seatNumber: 3 },
+        { u: 0.82, v: 0.62, side: 1,  row: 0, col: 2, seatNumber: 4 },
+        { u: 0.82, v: 0.72, side: 1,  row: 1, col: 2, seatNumber: 5 }
+      ];
+      for (const s of fiveSeats) {
+        cushions20.push({ wing, ...s });
       }
     }
 
@@ -3807,8 +3796,9 @@
       const btn = document.getElementById('btnOnlineMode');
       if (isOnlinePresenceMode) {
         btn.style.background = 'linear-gradient(135deg,#1b5e20,#2e7d32)';
-        btn.innerHTML = `🟢 Online (<span id="onlineCountLabel">${1 + Object.keys(onlineCompanyPeers).length}</span>)`;
-        showToast('🟢 Đã BẬT Chế độ Online: Người trong công ty đăng nhập vào sẽ nhìn thấy nhân vật của nhau!');
+        const totalOnline = Math.min(MAX_SYSTEM_PEOPLE, 1 + Object.keys(onlineCompanyPeers).length);
+        btn.innerHTML = `🟢 Online (<span id="onlineCountLabel">${totalOnline}/${MAX_SYSTEM_PEOPLE}</span>)`;
+        showToast('🟢 Đã BẬT Chế độ Online (Giới hạn tối đa 15 người trong hệ thống)!');
         broadcastMyPresence();
       } else {
         btn.style.background = 'rgba(60, 60, 60, 0.85)';
@@ -5012,6 +5002,9 @@
           existing.bowTimer = 120;
         }
         existing.lastSeen = Date.now();
+        if (!onlineCompanyPeers[data.sender] && (1 + Object.keys(onlineCompanyPeers).length) >= MAX_SYSTEM_PEOPLE) {
+          return; // Giới hạn hệ thống tối đa 15 người!
+        }
         onlineCompanyPeers[data.sender] = existing;
         updateOnlineCountBadge();
       } else if (data.type === 'offering') {
@@ -5037,7 +5030,8 @@
         }
       }
       const el = document.getElementById('onlineCountLabel');
-      if (el) el.textContent = String(1 + Object.keys(onlineCompanyPeers).length);
+      const totalOnline = Math.min(MAX_SYSTEM_PEOPLE, 1 + Object.keys(onlineCompanyPeers).length);
+      if (el) el.textContent = `${totalOnline}/${MAX_SYSTEM_PEOPLE}`;
     }
 
     function broadcastMyPresence() {
