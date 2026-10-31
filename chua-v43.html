@@ -942,7 +942,7 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="performDirectHallAction('bow')">🙇 Quỳ Lạy Tại Sảnh</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="performDirectHallAction('pray')">🙏 Vái Khấn Theo Gian</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;" onclick="toggleHallOfferingStrip()">🎁 Đặt Lễ Lên Bàn</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ (Xóa Lễ)</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ Thụ Lộc (X2·X3·X10)</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#00838f,#004d40);color:#fff;border-color:#80deea;" onclick="toggleNpcInteractBar()">🤝💬 Chào / Hỏi Han / Đấm (-1💎)</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜✍️ Viết Sớ Số KPI</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm (-5💎)</button>
@@ -956,7 +956,7 @@
       <span style="font-size:10.3px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ & HẠ LỄ TẠI SẢNH (<span id="stripRoomRuleHint" style="color:#69f0ae;">Ban Phật: Chỉ nhận Lễ Chay · Cấm Heo Quay/Xôi Gà/Vàng Mã!</span>)</span>
       <div style="display:flex; gap:4px; align-items:center;">
         <input id="quickOfferWishInput" type="text" value="Cầu đạt KPI 1.5 tỷ & bình an" placeholder="Nhập lời cầu..." style="width:155px; background:rgba(12,5,1,0.95); border:1px solid #ffd54f; border-radius:6px; padding:2px 6px; color:#fff8e1; font-size:9.8px;" />
-        <button type="button" onclick="manualTakeDownOffering()" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #80d8ff; border-radius:6px; padding:2px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ Thụ Lộc (+3💎)</button>
+        <button type="button" onclick="manualTakeDownOffering()" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #80d8ff; border-radius:6px; padding:2px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ Thụ Lộc (X2·X3·X10 Chi Phí Lễ)</button>
         <button type="button" onclick="toggleHallOfferingStrip(false)" style="background:#b71c1c; color:#fff; border:none; border-radius:5px; padding:2px 6px; font-size:9.8px; cursor:pointer;">✕</button>
       </div>
     </div>
@@ -1096,9 +1096,16 @@
         </div>
       </div>
 
-      <div class="sk-field" style="margin-bottom:10px;">
-        <label>✍️ Lời Khấn Trên Sớ (Tự động đổi đúng theo Bài Khấn bạn chọn hoặc tự sửa):</label>
-        <input id="skInputWish" type="text" value="Hiện tại con còn thiếu 120 triệu nữa là hoàn thành chỉ tiêu tháng, quý này con đặt mục tiêu 1 tỷ 500 triệu, cúi xin độ trì khách chốt đơn Tấm Ốp về đích!" oninput="updateLiveSoPreview()" />
+      <div class="sk-field" style="margin-bottom:8px;">
+        <label>✍️ Lời Cầu Nguyện Trên Sớ (Tự động hiển thị đầy đủ trên Tờ Sớ & đọc nguyên văn 100%):</label>
+        <input id="skInputWish" type="text" value="Cúi xin bề trên chứng giám lòng thành, độ trì cho khách hàng xem mẫu Tấm Ốp Nano, Lam Sóng, Trần Nhôm chốt đơn đặt cọc ngay hôm nay để con bù đủ số thiếu, hoàn thành trọn vẹn chỉ tiêu tháng này." oninput="updateLiveSoPreview()" />
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; background:rgba(38,14,4,0.92); border:1px solid #ffd54f; border-radius:8px; padding:5px 9px; margin-bottom:9px; font-size:10.8px;">
+        <span style="color:#ffe082; font-weight:800;">🔊 Giọng đọc Sớ (Tự động theo Nhân Vật):</span>
+        <div style="display:flex; gap:5px;">
+          <button type="button" id="soVoiceBtnM" class="cm-auto-pill" style="padding:3px 9px; font-size:10.5px; background:linear-gradient(135deg,#ffd54f,#ffb300); color:#1a0a00; font-weight:900;" onclick="setSoKhanVoiceGender('M')">👨🏻 Giọng Nam (Nam Minh)</button>
+          <button type="button" id="soVoiceBtnF" class="cm-auto-pill" style="padding:3px 9px; font-size:10.5px;" onclick="setSoKhanVoiceGender('F')">👩🏻 Giọng Nữ (Hoài My)</button>
+        </div>
       </div>
 
       <div class="sk-actions" style="gap:8px;">
@@ -1799,83 +1806,109 @@
       }
     }
 
-    // 6 BÀI KHẤN CHUẨN CHỈNH — CHỌN BÀI KHẤN NÀO HIỂN THỊ TỜ SỚ & ĐỌC THÀNH TIẾNG ĐÚNG 100% BÀI KHẤN ĐÓ!
+    // 6 BÀI KHẤN CHUẨN CHỈNH — HIỂN THỊ & ĐỌC NGUYÊN VĂN ĐẦY ĐỦ 100% TỪ ĐẦU ĐẾN CUỐI (NAM ĐỌC GIỌNG NAM · NỮ ĐỌC GIỌNG NỮ!)
+    let soKhanVoiceGender = 'M';
+
+    function inferGenderFromName(nameStr, fallbackGender) {
+      const s = String(nameStr || '').toLowerCase();
+      if (s.includes('sếp thành') || s.includes('thế anh') || s.includes('đức đoàn') || s.includes('cư sĩ') || s.startsWith('anh ')) return 'M';
+      if (s.includes('minh anh') || s.includes('kiều trang') || s.includes('sale huế') || s.includes('bích thủy') || s.includes('ánh nguyệt') || s.includes('thu trang') || s.includes('mai lan') || s.includes('phật tử') || s.startsWith('chị ') || s.startsWith('cô ')) return 'F';
+      return (fallbackGender === 'F') ? 'F' : 'M';
+    }
+
+    function setSoKhanVoiceGender(g) {
+      soKhanVoiceGender = (g === 'F') ? 'F' : 'M';
+      const btnM = document.getElementById('soVoiceBtnM');
+      const btnF = document.getElementById('soVoiceBtnF');
+      if (btnM && btnF) {
+        if (soKhanVoiceGender === 'M') {
+          btnM.style.background = 'linear-gradient(135deg,#ffd54f,#ffb300)';
+          btnM.style.color = '#1a0a00';
+          btnM.style.fontWeight = '900';
+          btnF.style.background = 'rgba(255,255,255,0.1)';
+          btnF.style.color = '#ffe082';
+          btnF.style.fontWeight = '700';
+        } else {
+          btnF.style.background = 'linear-gradient(135deg,#ffd54f,#ffb300)';
+          btnF.style.color = '#1a0a00';
+          btnF.style.fontWeight = '900';
+          btnM.style.background = 'rgba(255,255,255,0.1)';
+          btnM.style.color = '#ffe082';
+          btnM.style.fontWeight = '700';
+        }
+      }
+    }
+
     const prayerTopicsConfig = {
       thieu_so: {
+        idx: 1,
         title: '📜 BÀI KHẤN 1: SỚ CẦU CHẠY SỐ & BÙ ĐỦ KPI THÁNG',
         showKpi: true,
-        audioFile: 'audio/khan_1_thieuso.mp3',
-        getWish: (m, g) => `Hiện tại con chỉ còn thiếu ${m} nữa là hoàn thành trọn vẹn chỉ tiêu tháng này, cúi xin độ trì cho khách hàng xem mẫu Tấm Ốp Nano, Lam Sóng, Trần Nhôm chốt đơn đặt cọc ngay hôm nay để bù đủ số thiếu!`,
-        getChunks: (name, addr, m, g, wish) => [
-          `Nam mô A Di Đà Phật! Kính lạy Chư Phật, Chư Bồ Tát cùng Chư Vị Tôn Thần cai quản kho lộc Trường Yến. Hôm nay tín chủ con là ${name} tại ${addr} thành tâm dâng tấm Sớ Vàng Cầu Chạy Số Bù Đủ KPI Tháng.`,
-          `Hiện tại con chỉ còn thiếu ${m} nữa là hoàn thành trọn vẹn chỉ tiêu tháng này (${wish}).`,
-          `Cúi xin bề trên thương xót chứng giám lòng thành, khai thông vận số, độ trì cho các khách hàng đang xem mẫu Tấm Ốp Nano, Lam Sóng và Trần Nhôm Tổ Ong quyết định chốt đơn đặt cọc ngay trong hôm nay để con bù đủ số thiếu, về đích vẻ vang. Nam mô A Di Đà Phật!`
-        ]
+        audioNam: 'audio/khan_1_nam.mp3',
+        audioNu: 'audio/khan_1_nu.mp3',
+        getWish: () => `Cúi xin bề trên chứng giám lòng thành, độ trì cho khách hàng xem mẫu Tấm Ốp Nano, Lam Sóng, Trần Nhôm chốt đơn đặt cọc ngay hôm nay để con bù đủ số thiếu, hoàn thành trọn vẹn chỉ tiêu tháng này.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật, Chư Đại Bồ Tát cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Chạy Số Và Bù Đủ KPI Tháng. Hiện tại mục tiêu chạy số của con còn thiếu ${m}, mục tiêu quý là ${g}. ${wish} Nam mô A Di Đà Phật!`
       },
       muc_tieu_quy: {
+        idx: 2,
         title: '📜 BÀI KHẤN 2: SỚ KHẤN ĐẶT MỤC TIÊU DOANH SỐ QUÝ',
         showKpi: true,
-        audioFile: 'audio/khan_2_muctieu.mp3',
-        getWish: (m, g) => `Quý này con đặt mục tiêu doanh số ${g}, nguyện cầu mở rộng mạng lưới đại lý khắp các tỉnh, xe tải xuất kho Tấm Ốp Nano, Than Tre và Trần Nhôm liên tục từ sáng tới chiều, vượt mục tiêu quý!`,
-        getChunks: (name, addr, m, g, wish) => [
-          `Nam mô A Di Đà Phật! Kính lạy Hoàng Thiên Hậu Thổ, Chư Phật Mười Phương cùng Ngài Thần Tài Vị Tiền. Hôm nay tín chủ con là ${name} tại ${addr} thành tâm dâng Sớ Khấn Đặt Mục Tiêu Doanh Số Quý đạt ${g}.`,
-          `Ngưỡng mong Chư Vị độ trì cho toàn thể đội ngũ kinh doanh và kho vận giữ vững khí thế, mở rộng mạng lưới đại lý khắp các tỉnh thành (${wish}).`,
-          `Nguyện cho xe tải xuất kho Tấm Ốp Nano Cốt Nguyên Sinh, Tấm Than Tre và Trần Nhôm liên tục từ sáng tới chiều, hoàn thành vượt mức mục tiêu doanh số quý đã đề ra. Nam mô A Di Đà Phật!`
-        ]
+        audioNam: 'audio/khan_2_nam.mp3',
+        audioNu: 'audio/khan_2_nu.mp3',
+        getWish: () => `Nguyện cầu Chư Vị độ trì mở rộng mạng lưới đại lý khắp các tỉnh, xe tải xuất kho Tấm Ốp Nano, Than Tre và Trần Nhôm liên tục từ sáng tới chiều, hoàn thành vượt mức mục tiêu doanh số quý đã đề ra.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Hoàng Thiên Hậu Thổ, Chư Phật Mười Phương cùng Ngài Thần Tài Vị Tiền. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Khấn Đặt Mục Tiêu Doanh Số Quý. Hiện tại số còn thiếu là ${m}, quý này con đặt mục tiêu doanh số ${g}. ${wish} Nam mô A Di Đà Phật!`
       },
       khach_hang: {
+        idx: 3,
         title: '📜 BÀI KHẤN 3: SỚ CẦU KHÁCH HÀNG CHỐT ĐƠN LỚN & ĐẠI LÝ NHẬP SỈ',
         showKpi: false,
-        audioFile: 'audio/khan_3_khachhang.mp3',
-        getWish: () => `Cầu xin dẫn lối cho các chủ nhà biệt thự, kiến trúc sư, cai thầu thi công và chủ showroom nội thất tìm đến Kho Tấm Ốp Trường Yến, nhìn mẫu nào ưng ngay mẫu đó, ký hợp đồng và chuyển khoản đặt cọc nhanh chóng!`,
-        getChunks: (name, addr, m, g, wish) => [
-          `Nam mô A Di Đà Phật! Kính lạy Chư Vị Tôn Thần, Ngài Thần Tài Thổ Địa cùng Đức Ông Cấp Cô Độc. Hôm nay tín chủ con là ${name} tại ${addr} thành tâm dâng Sớ Cầu Khách Hàng Chốt Đơn Lớn Và Đại Lý Nhập Sỉ.`,
-          `Cúi xin bề trên gieo duyên lành, dẫn lối cho các chủ nhà biệt thự, kiến trúc sư, cai thầu thi công và các chủ showroom nội thất tìm đến Kho Tấm Ốp Trường Yến (${wish}).`,
-          `Nguyện cầu khách nhìn mẫu nào ưng ngay mẫu đó, ký kết hợp đồng số lượng lớn, chuyển khoản đặt cọc nhanh chóng, đôi bên hợp tác đại cát đại lợi. Nam mô A Di Đà Phật!`
-        ]
+        audioNam: 'audio/khan_3_nam.mp3',
+        audioNu: 'audio/khan_3_nu.mp3',
+        getWish: () => `Cúi xin bề trên gieo duyên lành, dẫn lối cho các chủ nhà biệt thự, kiến trúc sư, cai thầu thi công và chủ showroom nội thất tìm đến Kho Tấm Ốp Trường Yến, nhìn mẫu nào ưng ngay mẫu đó, ký hợp đồng và chuyển khoản đặt cọc nhanh chóng.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Chư Vị Tôn Thần cùng Ngài Thần Tài Thổ Địa. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Khách Hàng Chốt Đơn Lớn Và Đại Lý Nhập Sỉ. ${wish} Nam mô A Di Đà Phật!`
       },
       tai_loc: {
+        idx: 4,
         title: '📜 BÀI KHẤN 4: SỚ CẦU TÀI LỘC & THU HỒI CÔNG NỢ ĐÚNG HẠN',
         showKpi: false,
-        audioFile: 'audio/khan_4_tailoc.mp3',
-        getWish: () => `Cầu xin che chở kho hàng Trường Yến vững chãi, cảm hóa các đối tác, chủ thầu và đại lý còn tồn đọng công nợ vật tư sớm thu xếp thanh toán sòng phẳng, đầy đủ, đúng hẹn, dòng tiền lưu thông mạnh mẽ!`,
-        getChunks: (name, addr, m, g, wish) => [
-          `Nam mô A Di Đà Phật! Kính lạy Đức Ông Tu Đạt Đa Cấp Cô Độc cùng Ngài Thần Tài Vị Tiền cai quản kho tàng phúc lộc. Hôm nay tín chủ con là ${name} tại ${addr} thành tâm dâng Sớ Cầu Tài Lộc Hanh Thông Và Thu Hồi Công Nợ Đúng Hạn.`,
-          `Cúi xin các Ngài che chở cho kho hàng Trường Yến luôn an toàn vững chãi, đồng thời cảm hóa các đối tác, chủ thầu và đại lý còn tồn đọng công nợ vật tư sớm thu xếp thanh toán sòng phẳng, đầy đủ, đúng hẹn (${wish}).`,
-          `Nguyện cho dòng tiền lưu thông mạnh mẽ, tài lộc chảy về đầy kho. Nam mô A Di Đà Phật!`
-        ]
+        audioNam: 'audio/khan_4_nam.mp3',
+        audioNu: 'audio/khan_4_nu.mp3',
+        getWish: () => `Cúi xin các Ngài che chở kho hàng Trường Yến vững chãi, cảm hóa các đối tác, chủ thầu và đại lý còn tồn đọng công nợ vật tư sớm thu xếp thanh toán sòng phẳng, đầy đủ, đúng hẹn, cho dòng tiền lưu thông mạnh mẽ.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Chư Vị Tôn Thần cùng Ngài Thần Tài Vị Tiền cai quản kho tàng phúc lộc. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tài Lộc Và Thu Hồi Công Nợ Đúng Hạn. ${wish} Nam mô A Di Đà Phật!`
       },
       binh_an: {
+        idx: 5,
         title: '📜 BÀI KHẤN 5: SỚ CẦU BÌNH AN GIA ĐẠO & SỨC KHỎE DỒI DÀO',
         showKpi: false,
-        audioFile: 'audio/khan_5_binhan.mp3',
-        getWish: () => `Cúi xin Mười Phương Chư Phật từ bi gia hộ cho cha mẹ, gia quyến và toàn thể anh chị em đại gia đình Trường Yến bốn mùa bình an, thân khỏe tâm an, bách bệnh tiêu trừ, gia đạo trên thuận dưới hòa!`,
-        getChunks: (name, addr, m, g, wish) => [
-          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát! Hôm nay đệ tử con là ${name} tại ${addr}, trước Đại Hùng Bảo Điện Chùa Trường Yến, một dạ chí thành dâng Sớ Cầu Bình An Gia Đạo Và Sức Khỏe.`,
-          `Cúi xin Mười Phương Chư Phật từ bi phóng quang gia hộ cho cha mẹ, gia quyến và toàn thể anh chị em đại gia đình Trường Yến bốn mùa bình an, thân khỏe tâm an, bách bệnh tiêu trừ, tai qua nạn khỏi (${wish}).`,
-          `Nguyện cho gia đạo trên thuận dưới hòa, phúc lộc vẹn toàn. Nam mô A Di Đà Phật!`
-        ]
+        audioNam: 'audio/khan_5_nam.mp3',
+        audioNu: 'audio/khan_5_nu.mp3',
+        getWish: () => `Cúi xin Mười Phương Chư Phật từ bi gia hộ cho cha mẹ, gia quyến và toàn thể anh chị em đại gia đình Trường Yến bốn mùa bình an, thân khỏe tâm an, bách bệnh tiêu trừ, gia đạo trên thuận dưới hòa.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát! Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Bình An Gia Đạo Và Sức Khỏe Dồi Dào. ${wish} Nam mô A Di Đà Phật!`
       },
       giam_stress: {
+        idx: 6,
         title: '📜 BÀI KHẤN 6: SỚ CẦU TỊNH TÂM AN LẠC & GIẢI TỎA ÁP LỰC',
         showKpi: false,
-        audioFile: 'audio/khan_6_taman.mp3',
-        getWish: () => `Giữa bộn bề công việc và áp lực doanh số, cúi xin ánh sáng từ bi của Phật soi rọi giúp con buông bỏ mọi căng thẳng, nóng giận và muộn phiền, đêm ngủ ngon giấc, ngày làm việc với trí tuệ sáng suốt!`,
-        getChunks: (name, addr, m, g, wish) => [
-          `Nam mô A Di Đà Phật! Kính lạy Đức Phật A Di Đà cùng Đức Quán Thế Âm Bồ Tát. Hôm nay đệ tử con là ${name} tại ${addr} thành tâm dâng Sớ Cầu Giải Tỏa Áp Lực, Tịnh Tâm An Lạc.`,
-          `Giữa bộn bề công việc và áp lực doanh số, cúi xin ánh sáng từ bi của Phật soi rọi giúp con buông bỏ mọi căng thẳng, nóng giận và muộn phiền (${wish}).`,
-          `Nguyện cho tâm hồn luôn thư thái bình yên, đêm ngủ ngon giấc, ngày làm việc với trí tuệ sáng suốt và niềm vui trọn vẹn. Nam mô A Di Đà Phật!`
-        ]
+        audioNam: 'audio/khan_6_nam.mp3',
+        audioNu: 'audio/khan_6_nu.mp3',
+        getWish: () => `Giữa bộn bề công việc và áp lực doanh số, cúi xin ánh sáng từ bi của Phật soi rọi giúp con buông bỏ mọi căng thẳng, nóng giận và muộn phiền, đêm ngủ ngon giấc, ngày làm việc với trí tuệ sáng suốt và niềm vui trọn vẹn.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Đức Phật A Di Đà cùng Đức Quán Thế Âm Bồ Tát. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tịnh Tâm An Lạc Và Giải Tỏa Áp Lực. ${wish} Nam mô A Di Đà Phật!`
       }
     };
 
     function updateLiveSoPreview() {
-      const name = document.getElementById('skInputName')?.value || 'Sếp Thành';
+      const name = document.getElementById('skInputName')?.value || player.name || 'Sếp Thành';
       const addr = document.getElementById('skInputAddr')?.value || 'Kho Trường Yến';
-      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu';
-      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
-      const wish = document.getElementById('skInputWish')?.value || 'Vạn sự cát tường như ý';
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu đồng';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu đồng';
       const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
+      const wish = document.getElementById('skInputWish')?.value || cfg.getWish(missingAmt, quarterGoal);
 
       const pTitle = document.getElementById('soPreviewTopicTitle');
       const pName = document.getElementById('soPreviewName');
@@ -1893,17 +1926,16 @@
       if (kpiBox) kpiBox.style.display = cfg.showKpi ? 'grid' : 'none';
       if (pMissing) pMissing.textContent = missingAmt;
       if (pGoal) pGoal.textContent = quarterGoal;
-      if (pWish) pWish.textContent = `"${wish}"`;
+      // Hiển thị NGUYÊN VĂN 100% toàn bộ bài khấn sẽ được đọc thành tiếng trên Tờ Sớ Vàng!
+      const fullText = cfg.buildFullText(name, addr, missingAmt, quarterGoal, wish);
+      if (pWish) pWish.textContent = `"${fullText}"`;
+
+      // Tự động đồng bộ giọng Nam / Nữ khi gõ hoặc đổi tên Tín Chủ
+      const autoG = inferGenderFromName(name, player.gender);
+      setSoKhanVoiceGender(autoG);
     }
 
     function syncKpiNumbersToWish() {
-      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu';
-      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
-      const wishInput = document.getElementById('skInputWish');
-      const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
-      if (wishInput && cfg.showKpi) {
-        wishInput.value = cfg.getWish(missingAmt, quarterGoal);
-      }
       updateLiveSoPreview();
     }
 
@@ -1912,17 +1944,24 @@
       document.querySelectorAll('#topicGrid .topic-btn').forEach(b => b.classList.remove('selected'));
       if (btnEl) btnEl.classList.add('selected');
       const wishInput = document.getElementById('skInputWish');
-      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu';
-      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu đồng';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu đồng';
       const cfg = prayerTopicsConfig[topicKey] || prayerTopicsConfig.thieu_so;
       if (wishInput) {
         wishInput.value = cfg.getWish(missingAmt, quarterGoal);
       }
       updateLiveSoPreview();
-      playMoSound();
     }
 
     function openSoKhanModal() {
+      const skName = document.getElementById('skInputName');
+      if (skName && player.name) skName.value = player.name;
+      setSoKhanVoiceGender(inferGenderFromName(player.name, player.gender));
+      const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
+      const wishInput = document.getElementById('skInputWish');
+      if (wishInput && !wishInput.dataset.customized) {
+        wishInput.value = cfg.getWish();
+      }
       updateLiveSoPreview();
       document.getElementById('soKhanModal').classList.add('open');
     }
@@ -1932,37 +1971,58 @@
     function stopAndClosePrayerBanner() {
       document.getElementById('activeScrollBanner').classList.remove('open');
       stopAllVoices(false);
-      showToast('🙏 Đã đóng bài khấn · Tiếp tục phát Nhạc Thiền nhẹ nhàng');
     }
 
     function phoneToVietnameseWords(phoneStr) {
-      const digitMap = {
-        '0': 'không', '1': 'một', '2': 'hai', '3': 'ba', '4': 'bốn',
-        '5': 'năm', '6': 'sáu', '7': 'bảy', '8': 'tám', '9': 'chín'
-      };
-      const digits = (phoneStr || '').replace(/[^0-9]/g, '');
-      if (!digits) return '';
-      return digits.split('').map(d => digitMap[d] || d).join(' ');
+      return '';
     }
 
-    function speakVietnameseText(text, fallbackAudioEl) {
+    function speakVietnameseText(text) {
       try {
         stopAllVoices(true);
         const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
-        localPrayerMp3.src = cfg.audioFile;
-        localPrayerMp3.currentTime = 0;
-        localPrayerMp3.volume = 1.0;
-        localPrayerMp3.onended = () => {
-          isVoiceSpeaking = false;
-          resumeZenMusicIfIdle();
-        };
-        localPrayerMp3.play().catch(() => {
-          isVoiceSpeaking = false;
-          resumeZenMusicIfIdle();
-        });
+        const g = soKhanVoiceGender || inferGenderFromName(player.name, player.gender);
+        const fallbackFile = (g === 'F') ? cfg.audioNu : cfg.audioNam;
+        playFullSoKhanVoice(text, g, fallbackFile);
       } catch (e) {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
+      }
+    }
+
+    function playFullSoKhanVoice(fullText, gender, fallbackMp3Url, onDoneCallback) {
+      const cleanText = String(fullText || '').replace(/["«»]/g, '').trim();
+      const g = (gender === 'F') ? 'F' : 'M';
+      const isLocalOrigin = (window.location.port === '8899');
+      const ttsApiBase = isLocalOrigin ? '' : 'http://192.168.1.13:8899';
+      const dynamicUrl = `${ttsApiBase}/api/tts?gender=${g}&text=${encodeURIComponent(cleanText)}`;
+
+      localPrayerMp3.onended = () => {
+        isVoiceSpeaking = false;
+        if (typeof onDoneCallback === 'function') onDoneCallback();
+        else resumeZenMusicIfIdle();
+      };
+
+      const playStaticFallback = () => {
+        localPrayerMp3.onerror = null;
+        localPrayerMp3.src = fallbackMp3Url + '?v=46';
+        localPrayerMp3.currentTime = 0;
+        localPrayerMp3.volume = 1.0;
+        localPrayerMp3.play().catch(() => {
+          isVoiceSpeaking = false;
+          if (typeof onDoneCallback === 'function') onDoneCallback();
+        });
+      };
+
+      // Nếu đang kết nối LAN Server (hoặc người dùng sửa tên/số KPI khác mặc định), ưu tiên đọc chính xác từng chữ qua /api/tts, fallback sang file thu sẵn Nam/Nữ đầy đủ 100%!
+      if (isLocalOrigin || lanConnected) {
+        localPrayerMp3.onerror = playStaticFallback;
+        localPrayerMp3.src = dynamicUrl;
+        localPrayerMp3.currentTime = 0;
+        localPrayerMp3.volume = 1.0;
+        localPrayerMp3.play().catch(playStaticFallback);
+      } else {
+        playStaticFallback();
       }
     }
 
@@ -1972,36 +2032,25 @@
 
     let lastSoKhanMeritTime = 0;
     function submitAndReadSoKhan() {
-      const name = document.getElementById('skInputName')?.value.trim() || 'Sếp Thành';
+      const name = document.getElementById('skInputName')?.value.trim() || player.name || 'Sếp Thành';
       const addr = document.getElementById('skInputAddr')?.value.trim() || 'Kho Trường Yến';
       const phone = document.getElementById('skInputPhone')?.value.trim() || '';
-      const missingAmt = document.getElementById('skInputMissingAmt')?.value.trim() || '120 triệu';
-      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value.trim() || '1 tỷ 500 triệu';
-      const wish = document.getElementById('skInputWish')?.value.trim() || 'Vạn sự cát tường như ý';
+      const missingAmt = document.getElementById('skInputMissingAmt')?.value.trim() || '120 triệu đồng';
+      const quarterGoal = document.getElementById('skInputQuarterGoal')?.value.trim() || '1 tỷ 500 triệu đồng';
       const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
+      const wish = document.getElementById('skInputWish')?.value.trim() || cfg.getWish(missingAmt, quarterGoal);
+      const fullText = cfg.buildFullText(name, addr, missingAmt, quarterGoal, wish);
 
-      currentCustomer = { name, addr, phone, missingAmt, quarterGoal, wish };
-      document.getElementById('asName').textContent = name;
-      document.getElementById('asAddr').textContent = cfg.showKpi ? `${addr} (Thiếu: ${missingAmt} · Mục tiêu: ${quarterGoal})` : `${addr} (${cfg.title.replace('📜 ', '')})`;
+      currentCustomer = { name, addr, phone, missingAmt, quarterGoal, wish, fullText, voiceGender: soKhanVoiceGender };
+      const voiceLabel = (soKhanVoiceGender === 'F') ? '👩🏻 Giọng Nữ' : '👨🏻 Giọng Nam';
+      document.getElementById('asName').textContent = `${name} (${voiceLabel})`;
+      document.getElementById('asAddr').textContent = cfg.showKpi ? `${addr} · Thiếu: ${missingAmt} · Mục tiêu: ${quarterGoal}` : addr;
       document.getElementById('asPhone').textContent = cfg.title.replace('📜 ', '');
       closeSoKhanModal();
 
       if (Math.random() < 0.30) {
         addMerit(5, `Dâng Sớ & Đọc ${cfg.title} cho ${name} (Trúng 30%)`);
       }
-      const wingKey = String(player.wing);
-      if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
-      altarOfferings[wingKey].push({
-        icon: '📜',
-        label: `Sớ Khấn Đã Chọn`,
-        fullName: `${cfg.title.replace('📜 ', '')} (${name})`,
-        giver: name,
-        wish: `Cầu: ${wish.slice(0, 26)}`,
-        remainSec: 75,
-        imgKey: 'leTraOan',
-        imgSrc: 'assets/le_traoan.jpg'
-      });
-      if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
 
       readCurrentCustomerPrayer();
       publishMqtt({
@@ -2014,75 +2063,36 @@
     }
 
     function submitAndBurnSoKhan() {
-      const name = document.getElementById('skInputName')?.value.trim() || 'Sếp Thành';
+      const name = document.getElementById('skInputName')?.value.trim() || player.name || 'Sếp Thành';
       const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
       closeSoKhanModal();
       burnGoldPaperRitual(`${cfg.title} (${name})`);
-      readCurrentCustomerPrayer();
-    }
-
-    function buildTopicPrayerChunks(topic, name, addr, phoneSpoken, wish) {
-      const missingAmt = currentCustomer.missingAmt || document.getElementById('skInputMissingAmt')?.value || '120 triệu';
-      const quarterGoal = currentCustomer.quarterGoal || document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu';
-      const cfg = prayerTopicsConfig[topic] || prayerTopicsConfig.thieu_so;
-      return cfg.getChunks(name, addr, missingAmt, quarterGoal, wish);
     }
 
     function readCurrentCustomerPrayer() {
       unlockAndStartAudio();
       stopAllVoices(true);
 
-      performRitual('incense', true);
+      const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
+      const name = currentCustomer.name || player.name || 'Sếp Thành';
+      const addr = currentCustomer.addr || 'Kho Trường Yến';
+      const missingAmt = currentCustomer.missingAmt || '120 triệu đồng';
+      const quarterGoal = currentCustomer.quarterGoal || '1 tỷ 500 triệu đồng';
+      const wish = currentCustomer.wish || cfg.getWish(missingAmt, quarterGoal);
+      const fullText = currentCustomer.fullText || cfg.buildFullText(name, addr, missingAmt, quarterGoal, wish);
+      const vGender = currentCustomer.voiceGender || soKhanVoiceGender || inferGenderFromName(name, player.gender);
 
-      const { name, addr, phone, wish } = currentCustomer;
-      const phoneSpoken = phoneToVietnameseWords(phone);
       const banner = document.getElementById('activeScrollBanner');
       banner.classList.add('open');
 
-      const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
-      const ttsChunks = buildTopicPrayerChunks(selectedTopic, name, addr, phoneSpoken, wish);
+      // Hiển thị ĐẦY ĐỦ 100% NGUYÊN VĂN BÀI KHẤN trên khung đọc sớ (Không cắt bớt, không chia đoạn nhảy chữ!)
+      document.getElementById('asPrayerPreview').textContent = `"${fullText}"`;
 
-      if (moRhythmInterval) clearInterval(moRhythmInterval);
-      moRhythmInterval = setInterval(playMoSound, 1500);
-
-      // Phát ĐÚNG 100% file thu âm của Bài Khấn người dùng vừa chọn (khan_1_thieuso.mp3 .. khan_6_taman.mp3)!
-      localPrayerMp3.src = cfg.audioFile + '?v=37';
-      localPrayerMp3.currentTime = 0;
-      localPrayerMp3.volume = 1.0;
-
-      let chunkIdx = 0;
-      function finishCustomerChant() {
-        if (moRhythmInterval) { clearInterval(moRhythmInterval); moRhythmInterval = null; }
-        playBellSound();
-        isVoiceSpeaking = false;
+      const fallbackFile = (vGender === 'F') ? cfg.audioNu : cfg.audioNam;
+      isVoiceSpeaking = true;
+      playFullSoKhanVoice(fullText, vGender, fallbackFile, () => {
         if (isChanting) toggleRealChanting(true);
         else resumeZenMusicIfIdle();
-      }
-
-      document.getElementById('asPrayerPreview').textContent = `"${ttsChunks[0]}"`;
-      player.chat = `🙏 ${cfg.title.replace('📜 ', '')}`;
-      player.chatTimer = 260;
-
-      const textAdvanceTimer = setInterval(() => {
-        if (!banner.classList.contains('open')) {
-          clearInterval(textAdvanceTimer);
-          return;
-        }
-        chunkIdx++;
-        if (chunkIdx < ttsChunks.length) {
-          document.getElementById('asPrayerPreview').textContent = `"${ttsChunks[chunkIdx]}"`;
-        } else {
-          clearInterval(textAdvanceTimer);
-        }
-      }, 6500);
-
-      localPrayerMp3.onended = () => {
-        clearInterval(textAdvanceTimer);
-        finishCustomerChant();
-      };
-      localPrayerMp3.play().catch(() => {
-        clearInterval(textAdvanceTimer);
-        finishCustomerChant();
       });
     }
 
@@ -3609,7 +3619,7 @@
         localStorage.setItem('ty_custom_char_gender', player.gender);
       } catch (err) {}
       const skName = document.getElementById('skInputName');
-      if (skName) { skName.value = player.name; updatePetitionPreview(); }
+      setSoKhanVoiceGender(player.gender); if (skName) { skName.value = player.name; updateLiveSoPreview(); }
       showToast(`🟢 Đã đăng nhập Online nhân vật: ${player.name}`);
       broadcastMyPresence();
     });
@@ -3635,8 +3645,8 @@
 
     function selectCharGender(g) {
       selectedCustomGender = (g === 'M') ? 'M' : 'F';
-      const btnF = document.getElementById('genderBtnF');
-      const btnM = document.getElementById('genderBtnM');
+      const btnF = document.getElementById('btnGenderF') || document.getElementById('genderBtnF');
+      const btnM = document.getElementById('btnGenderM') || document.getElementById('genderBtnM');
       if (btnF && btnM) {
         if (selectedCustomGender === 'F') {
           btnF.style.background = 'linear-gradient(135deg,#ffd54f,#ffb300)';
@@ -3671,6 +3681,8 @@
       }
       player.name = raw;
       player.gender = selectedCustomGender;
+      setSoKhanVoiceGender(player.gender);
+      const skInp = document.getElementById('skInputName'); if (skInp) skInp.value = player.name;
       player.avatar = (selectedCustomGender === 'M') ? '🧘‍♂️' : '🪷';
 
       // Cập nhật dropdown #charSelect để hiển thị tên mới
@@ -4405,7 +4417,15 @@
       altarOfferings[wKey] = [];
 
       takeDownCeremony = null;
-      addMerit(3, `Hạ lễ trên bàn thờ (${item.fullName || item.label})`);
+      // HẠ LỄ THỤ LỘC: Xác suất nhận GẤP ĐÔI (X2), GẤP BA (X3) hoặc GẤP MƯỜI (X10) chi phí lễ Phật!
+      const totalOfferCost = list.reduce((sum, it) => sum + (Number(it.cost) || 20), 0);
+      const rollLoc = Math.random();
+      const locMult = (rollLoc < 0.15) ? 10 : ((rollLoc < 0.48) ? 3 : 2);
+      const locReward = totalOfferCost * locMult;
+      const offerNames = countRemoved > 1 ? `${countRemoved} mâm lễ (${item.fullName || item.label}...)` : (item.fullName || item.label);
+      addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames} · Chi phí lễ ${totalOfferCost}💎) ➔ Nổ Lộc GẤP ${locMult} LẦN (X${locMult}): +${locReward} 💎`);
+      appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> (Chi phí lễ <b>${totalOfferCost}💎</b>) trúng xác suất <b style="color:#ffd740;">GẤP ${locMult} LẦN (X${locMult})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
+      showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" (Chi phí lễ ${totalOfferCost}💎) ➔ Trúng Lộc GẤP ${locMult} LẦN (X${locMult}): +${locReward} 💎 Phước!`);
       renderCenterOfferingInspector();
       publishMqtt({ type: 'takedown', wing: player.wing, clearAll: true, name: player.name });
     }
@@ -4581,6 +4601,7 @@
         fullName: itemName,
         giver: player.name,
         wish: userWish,
+        cost: Number(cost) || 20,
         remainSec: 65,
         imgKey,
         imgSrc: imgSrc || 'assets/le_hoasen.jpg'
