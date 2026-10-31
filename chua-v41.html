@@ -33,14 +33,19 @@
        1. ULTRA-CLEAN TOP BAR (Zone Tabs + Music Picker + Merit Leaderboard)
        ===================================================================== */
     .top-bar {
-      position: fixed; top: 6px; left: 8px; right: 8px;
+      position: fixed; top: 5px; left: 6px; right: 6px;
       display: flex; align-items: center; justify-content: space-between;
-      z-index: 30; pointer-events: none; gap: 5px; flex-wrap: wrap;
+      z-index: 62; pointer-events: none; gap: 4px; flex-wrap: wrap;
+      background: rgba(16, 8, 3, 0.86);
+      border: 1.5px solid rgba(255, 213, 79, 0.55);
+      border-radius: 14px;
+      padding: 4px 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.72);
     }
     .top-group {
-      display: flex; align-items: center; gap: 5px; pointer-events: auto;
-      overflow-x: auto; max-width: 100%; scrollbar-width: none;
-      padding: 2px 0;
+      display: flex; align-items: center; gap: 4px; pointer-events: auto;
+      flex-wrap: wrap; max-width: 100%;
+      padding: 1px 0;
     }
     .top-group::-webkit-scrollbar { display: none; }
 
@@ -430,17 +435,19 @@
       background: linear-gradient(180deg, rgba(196, 48, 22, 0.6), rgba(115, 20, 8, 0.7));
       border: 1px solid rgba(255, 208, 102, 0.75);
     }
-    .dock-icon { font-size: 19px; line-height: 1; }
-    .dock-label { font-size: 10.5px; font-weight: 700; white-space: nowrap; color: #ffefc8; }
+    .dock-icon { font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+    .dock-label { font-size: 10.2px; font-weight: 800; white-space: nowrap; color: #ffefc8; text-align: center; line-height: 1.15; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
     @media (max-width: 680px) {
       .top-bar {
         flex-wrap: wrap !important;
         justify-content: center !important;
         gap: 3px !important;
-        top: 4px !important;
-        left: 4px !important;
-        right: 4px !important;
+        top: 3px !important;
+        left: 3px !important;
+        right: 3px !important;
+        padding: 4px 5px !important;
+        border-radius: 11px !important;
       }
       .top-merit-hero {
         order: -1;
@@ -449,8 +456,11 @@
         justify-content: center;
       }
       .top-merit-hero button {
-        padding: 3px 11px !important;
-        font-size: 11px !important;
+        padding: 3px 10px !important;
+        font-size: 10.5px !important;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .top-group {
         max-width: 100% !important;
@@ -458,21 +468,29 @@
         justify-content: center !important;
         gap: 3px !important;
       }
-      .chip-btn { padding: 3.5px 6px !important; font-size: 9.6px !important; }
-      select.top-select { display: none !important; }
+      .chip-btn { padding: 3px 5.5px !important; font-size: 9.3px !important; }
+      #charSelect.top-select {
+        display: inline-block !important;
+        max-width: 124px !important;
+        padding: 3px 5px !important;
+        font-size: 9.3px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       #btnDesktopRightMerit { display: none !important; }
-      #toastBanner { top: 62px !important; font-size: 10px !important; padding: 3px 10px !important; }
+      #toastBanner { top: 68px !important; font-size: 9.8px !important; padding: 3px 10px !important; }
       .bottom-dock {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         width: 100%;
         gap: 4px;
         padding: 5px;
+        box-sizing: border-box;
       }
-      .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; overflow: hidden; }
-      .dock-icon { font-size: 16px; }
-      .dock-label { font-size: 8.8px; letter-spacing: -0.2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
-      #joystick360 { bottom: 156px; right: 8px; width: 92px; height: 92px; }
+      .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; overflow: hidden; box-sizing: border-box; justify-content: center; }
+      .dock-icon { font-size: 15px; }
+      .dock-label { font-size: 8.6px; letter-spacing: -0.2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+      #joystick360 { bottom: 158px; right: 8px; width: 90px; height: 90px; }
       .chuong-mo-panel { display: none !important; }
       .quick-offering-bar {
         bottom: 104px;
@@ -482,8 +500,9 @@
         border-radius: 12px !important;
         width: 96vw;
         gap: 3px !important;
+        box-sizing: border-box;
       }
-      .qo-btn { font-size: 9.2px; padding: 2.5px 5.5px; }
+      .qo-btn { font-size: 9px; padding: 2.5px 5px; }
     }
 
     /* =====================================================================
@@ -1197,6 +1216,7 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="performDirectHallAction('bow')">🙇 Quỳ Lạy</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="performDirectHallAction('pray')">🙏 Vái Khấn</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;" onclick="toggleHallOfferingStrip()">🎁 Đặt Lễ</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#f57f17,#c62828);color:#fff;border-color:#fff59d;font-weight:900;" onclick="donateTempleMeritCongDuc()">🙏 Công Đức</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼 Tương Tác</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜 Viết Sớ</button>
@@ -1272,19 +1292,19 @@
     <div class="bottom-dock">
       <button class="dock-item active-ritual" onclick="openCenterStage('mo')">
         <span class="dock-icon">🪵</span>
-        <span class="dock-label">Gõ Mõ (Thật)</span>
+        <span class="dock-label">Gõ Mõ</span>
       </button>
       <button class="dock-item active-ritual" onclick="openCenterStage('bell')">
         <span class="dock-icon">🔔</span>
         <span class="dock-label">Thỉnh Chuông</span>
       </button>
       <button class="dock-item" onclick="performDirectHallAction('incense')">
-        <span class="dock-icon"><img src="assets/lu_huong_3nen.jpg" alt="3 Nén Hương" style="width:26px;height:26px;border-radius:6px;object-fit:cover;border:1px solid #ffd54f;vertical-align:middle;" /></span>
-        <span class="dock-label">Thắp Hương</span>
+        <span class="dock-icon"><img src="assets/lu_huong_3nen.jpg" alt="3 Nén Hương" style="width:24px;height:24px;border-radius:6px;object-fit:cover;border:1px solid #ffd54f;vertical-align:middle;" /></span>
+        <span class="dock-label">Dâng Hương</span>
       </button>
       <button class="dock-item highlight-red" onclick="openSoKhanModal()">
         <span class="dock-icon">📜</span>
-        <span class="dock-label">Viết Sớ · Đọc Khấn</span>
+        <span class="dock-label">Viết Sớ · Khấn</span>
       </button>
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(142,24,68,0.95),rgba(74,12,36,0.96));border-color:#ffd54f;" onclick="openFortuneStickModal()">
         <span class="dock-icon">🎋</span>
@@ -1296,11 +1316,11 @@
       </button>
       <button class="dock-item active-ritual" onclick="openMeritShopModal()">
         <span class="dock-icon">🎁</span>
-        <span class="dock-label">Cửa Hàng Lễ (💎)</span>
+        <span class="dock-label">Cửa Hàng Lễ</span>
       </button>
       <button id="dockChantBtn" class="dock-item" onclick="toggleRealChanting()">
         <span class="dock-icon">📿</span>
-        <span class="dock-label" id="dockChantLabel">Tụng Kinh: TẮT</span>
+        <span class="dock-label" id="dockChantLabel">Tụng Kinh</span>
       </button>
     </div>
   </div>
@@ -1472,7 +1492,7 @@
             🚨 Rút Soi Hạn Quẻ Xấu (Tiểu Hung & Đại Hung · -5 💎)
           </button>
           <button class="btn-sk-submit" style="width:100%; padding:6px 8px; font-size:10.5px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentFortuneStick()">
-            🔊 Nghe Đọc Đầy Đủ Toàn Bộ Luận Giải Quẻ Này
+            🧙‍♂️🔊 Nghe Sư Thầy Trụ Trì Đọc Luận Giải Truyền Cảm
           </button>
         </div>
       </div>
@@ -1531,7 +1551,7 @@
               ☯️ Gieo Quẻ Kinh Dịch Ứng Sự Việc Hôm Nay (-5 💎)
             </button>
             <button type="button" class="btn-sk-submit" style="width:100%; padding:6px 8px; font-size:10.4px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentIChing()">
-              🔊 Nghe Thầy Đồ Đọc Luận Giải Quẻ Kinh Dịch
+              🧙‍♂️🔊 Nghe Sư Thầy Đọc Luận Giải Quẻ Kinh Dịch
             </button>
           </div>
         </div>
@@ -1584,7 +1604,7 @@
               🔮 Bình Giải Tử Vi (-5 💎)
             </button>
             <button type="button" class="btn-sk-submit" style="padding:7px 8px; font-size:10.4px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentTuVi()">
-              🔊 Đọc
+              🧙‍♂️🔊 Sư Thầy Đọc
             </button>
           </div>
         </div>
@@ -1606,13 +1626,13 @@
             🎰🔥 Thỉnh Ông Địa — Quay Xin Số May Mắn Hôm Nay (-5 💎)
           </button>
           <button type="button" class="btn-sk-submit" style="flex:0.8; padding:9px 8px; font-size:10.6px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentLuckyNumbers()">
-            🔊 Nghe Ông Địa Phán Số
+            🧙‍♂️🔊 Sư Thầy Luận Số
           </button>
         </div>
 
         <div id="solocResultBox" style="background:linear-gradient(180deg,#4a1204 0%,#1f0601 100%); border:2px solid #ffd740; border-radius:12px; padding:11px 13px; box-shadow:0 8px 24px rgba(0,0,0,0.88); text-align:center;">
           <div style="font-size:12px; font-weight:900; color:#ffd54f; margin-bottom:6px;" id="slHeaderTitle">
-            🏺✨ BẢNG VÀNG SỐ LỘC THẦN TÀI HÔM NAY CHO: SẾP THÀNH ✨🏺
+            🏺✨ BẢNG VÀNG SỐ LỘC THẦN TÀI HÔM NAY CHO: THÀNH ✨🏺
           </div>
 
           <!-- 3 Ô Số Vàng Nổi Bật: Bạch Thủ 2 Số · Song Thủ Đảo Lộc · Bộ 3 Càng Thần Tài -->
@@ -5251,10 +5271,10 @@
       stopAllVoices(true);
       const h = currentIChingHex || ICHING_HEXAGRAMS_POOL[0];
       const idx = Math.max(0, ICHING_HEXAGRAMS_POOL.indexOf(h));
-      const mp3Url = `audio/iching_${idx + 1}.mp3?v=67`;
-      showToast(`🔊 Đang đọc Luận Giải ${h.name}...`);
+      const mp3Url = `audio/iching_${idx + 1}.mp3?v=72`;
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc truyền cảm Luận Giải ${h.name}...`);
       const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const fallbackText = `Luận giải Quẻ Kinh Dịch. ${h.name}. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. Thoán từ phán rằng: ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
+      const fallbackText = `Nam mô A Di Đà Phật... Bần tăng xin thành tâm luận giải Quẻ Kinh Dịch ${h.name} cho thí chủ. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. Thoán từ phán rằng: ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
       localPrayerMp3.onended = () => {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
@@ -5380,19 +5400,19 @@
       const sel = document.getElementById('tuviZodiacSelect');
       const idx = sel ? (Number(sel.value) || 0) : 4;
       const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
-      const mp3Url = `audio/tuvi_${idx}.mp3?v=67`;
-      showToast(`🔊 Đang đọc Bình Giải Tử Vi ${tv.name}...`);
+      const mp3Url = `audio/tuvi_${idx}.mp3?v=72`;
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc truyền cảm Bình Giải Tử Vi ${tv.name}...`);
       const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const fallbackText = `Bình giải Tử Vi bản mệnh ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
+      const fallbackText = `A Di Đà Phật... Bần tăng xin bình giải lá số Tử Vi bản mệnh cho thí chủ ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
       localPrayerMp3.onended = () => {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
       };
-      localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'F');
+      localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
       localPrayerMp3.src = mp3Url;
       localPrayerMp3.currentTime = 0;
       localPrayerMp3.volume = 1.0;
-      localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'F'));
+      localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'M'));
     }
 
     // 3C. HỆ THỐNG XIN SỐ MAY MẮN TRONG NGÀY (THỈNH ÔNG ĐỊA - THẦN TÀI)
@@ -5478,9 +5498,9 @@
       stopAllVoices(true);
       const p = currentLuckyPack || LUCKY_NUMBER_MEANINGS[0];
       const idx = Math.max(0, LUCKY_NUMBER_MEANINGS.indexOf(p));
-      const mp3Url = `audio/soloc_${idx}.mp3?v=67`;
-      showToast(`🔊 Đang đọc Phán Số May Mắn (${p.pair} - ${p.rev})...`);
-      const fallbackText = `Ông Địa Thần Tài ban số may mắn hôm nay. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
+      const mp3Url = `audio/soloc_${idx}.mp3?v=72`;
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang luận giải Số May Mắn (${p.pair} - ${p.rev})...`);
+      const fallbackText = `Nam mô A Di Đà Phật... Bần tăng xin luận giải quẻ số may mắn hôm nay cho thí chủ. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
       localPrayerMp3.onended = () => {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
@@ -5575,7 +5595,8 @@
       unlockAndStartAudio();
       stopAllVoices(true);
       const st = currentFortuneStick || fortuneSticksPool[0];
-      const audioSrc = (st.audioFile || 'audio/xam_full_1.mp3') + '?v=55';
+      const audioSrc = (st.audioFile || 'audio/xam_full_1.mp3') + '?v=72';
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc truyền cảm Luận Giải ${st.num}...`);
       isVoiceSpeaking = true;
       localPrayerMp3.onerror = null;
       localPrayerMp3.playbackRate = 1.0;
@@ -5950,6 +5971,7 @@
         return;
       } else if (centerStageMode === 'bow') {
         playMoSound();
+        playNamMoADiDaPhatChant();
         player.state = 'bow_cycle';
         player.bowTimer = 320;
         player.vaiTimer = 0;
@@ -5983,6 +6005,7 @@
         }
       } else if (centerStageMode === 'pray') {
         playBellSound();
+        playNamMoADiDaPhatChant();
         player.state = 'vai';
         player.vaiTimer = 300;
         player.bowTimer = 0;
@@ -7312,6 +7335,7 @@
           renderZaloCongDucLeaderboard();
         }
         playBellSound();
+        playNamMoADiDaPhatChant();
 
         player.u = Math.max(0.18, midU - 0.075);
         target.u = Math.min(0.82, midU + 0.075);
@@ -7358,6 +7382,7 @@
         }
         playMoSound();
         setTimeout(playBellSound, 320);
+        playNamMoADiDaPhatChant();
 
         player.u = Math.max(0.18, midU - 0.082);
         target.u = Math.min(0.82, midU + 0.082);
@@ -7449,6 +7474,82 @@
       showToast(`💬 Đã gửi lời nói tới ${target.name}!`);
     }
 
+    // V72 (#mvwbbcmu6i & #mvwbbzs76j):
+    // 1. Khi Khấn / Vái / Quỳ Lạy / Dâng Hương -> Phát âm thanh giọng Sư Thầy niệm "Nam Mô A Di Đà Phật" trang nghiêm!
+    // 2. Khi Dâng Lễ / Công Đức / Hóa Vàng -> Giọng Sư Trụ Trì đọc lời cảm tạ thí chủ truyền cảm như thật!
+    const namMoRitualAudio = new Audio('audio/nam_mo_a_di_da_phat.mp3?v=72');
+    namMoRitualAudio.preload = 'auto';
+    let lastNamMoPlayedAt = 0;
+
+    function playNamMoADiDaPhatChant() {
+      try {
+        const now = Date.now();
+        if (now - lastNamMoPlayedAt < 1800) return;
+        lastNamMoPlayedAt = now;
+        namMoRitualAudio.currentTime = 0;
+        namMoRitualAudio.volume = 0.95;
+        namMoRitualAudio.play().catch(() => {});
+      } catch (e) {}
+    }
+
+    const abbotThankYouAudio = new Audio();
+    abbotThankYouAudio.preload = 'auto';
+
+    function playAbbotThankYouVoice(kind = 'le', detailText = '') {
+      try {
+        unlockAndStartAudio();
+        stopAllVoices(true);
+        let src = 'audio/su_tru_tri_cam_on_le.mp3?v=72';
+        let bannerTitle = `🧙‍♂️🙏 SƯ TRỤ TRÌ CẢM TẠ THÍ CHỦ ${player.name.toUpperCase()}`;
+        let bannerBody = `A Di Đà Phật! Thay mặt bổn tự Chùa Trường Yến, bần tăng xin tán thán công đức và thành tâm cảm tạ thí chủ <b>${player.name}</b> đã dâng lễ <b>${detailText || 'phẩm vật thanh tịnh'}</b> cúng dường. Nguyện cầu mười phương Chư Phật gia hộ cho thí chủ thân khỏe tâm an, phúc lộc dồi dào, vạn sự cát tường như ý!`;
+        if (kind === 'cong_duc') {
+          src = 'audio/su_tru_tri_cam_on_cong_duc.mp3?v=72';
+          bannerTitle = `🧙‍♂️🏅 SƯ TRỤ TRÌ TÁN THÁN CÔNG ĐỨC THÍ CHỦ ${(detailText || player.name).toUpperCase()}`;
+          bannerBody = `Nam Mô A Di Đà Phật! Bần tăng xin hoan hỷ ghi nhận và cảm tạ tấm lòng vàng phát tâm công đức của thí chủ <b>${detailText || player.name}</b>. Một giọt dầu công đức sáng rạng muôn đời, nguyện đem phước báu lành này hồi hướng cho thí chủ tài lộc hanh thông, sở cầu tất ứng!`;
+        } else if (kind === 'hoa_vang') {
+          src = 'audio/su_tru_tri_cam_on_hoa_vang.mp3?v=72';
+          bannerTitle = `🧙‍♂️🔥 SƯ TRỤ TRÌ CHỨNG MINH LỄ HÓA NGÂN VÀNG`;
+          bannerBody = `A Di Đà Phật! Bần tăng cảm tạ tấm lòng thành kính của thí chủ <b>${player.name}</b> đã tiến lễ hóa <b>${detailText || 'ngân vàng'}</b>. Nguyện cầu chư vị Tôn Thần, Thần Tài Thổ Địa chứng giám lòng thành, độ trì cho thí chủ buôn may bán đắt, đạt mọi chỉ tiêu ước nguyện!`;
+        }
+
+        const banner = document.getElementById('activeScrollBanner');
+        const tEl = document.getElementById('asBannerTitle');
+        const nEl = document.getElementById('asName');
+        const pEl = document.getElementById('asPrayerPreview');
+        if (tEl) tEl.textContent = bannerTitle;
+        if (nEl) nEl.textContent = `${player.name} (${getCharDeptName(player.name)})`;
+        if (pEl) pEl.innerHTML = bannerBody;
+        if (banner) banner.classList.add('open');
+
+        isVoiceSpeaking = true;
+        abbotThankYouAudio.src = src;
+        abbotThankYouAudio.currentTime = 0;
+        abbotThankYouAudio.volume = 1.0;
+        abbotThankYouAudio.onended = () => {
+          isVoiceSpeaking = false;
+          resumeZenMusicIfIdle();
+        };
+        abbotThankYouAudio.play().catch(() => {
+          isVoiceSpeaking = false;
+          resumeZenMusicIfIdle();
+        });
+      } catch (e) {}
+    }
+
+    function donateTempleMeritCongDuc() {
+      unlockAndStartAudio();
+      addMerit(20, 'Phát tâm Công Đức cúng dường Tam Bảo (+20 💎 Phước)');
+      playBellSound();
+      setTimeout(playMoSound, 300);
+      player.state = 'vai';
+      player.vaiTimer = 220;
+      player.chat = `🙏🏛️ Con là ${player.name} xin thành tâm phát tâm Công Đức cúng dường Tam Bảo! Nam Mô A Di Đà Phật!`;
+      player.chatTimer = 320;
+      showToast(`🧙‍♂️🙏 Sư Trụ Trì đang đọc lời cảm tạ Công Đức của thí chủ ${player.name} (+20 💎)!`);
+      playAbbotThankYouVoice('cong_duc', player.name);
+      broadcastMyPresence();
+    }
+
     // HÀNH ĐỘNG QUỲ LẠY · VÁI KHẤN · THẮP HƯƠNG · GÕ MÕ · THỈNH CHUÔNG TRỰC TIẾP TẠI SẢNH CHÍNH (KHÔNG HIỆN Ô TO CHE MÀN HÌNH!)
     function performDirectHallAction(mode) {
       unlockAndStartAudio();
@@ -7466,7 +7567,8 @@
       }
 
       if (mode === 'bow') {
-        // CHỈ thực hiện động tác Quỳ Lạy tại chỗ, không tự bật chat, không tự di chuyển, không kèm hiệu ứng phụ
+        playMoSound();
+        playNamMoADiDaPhatChant();
         player.state = 'bow_cycle';
         player.vaiTimer = 0;
         player.bowCycleTick = 24;
@@ -7479,7 +7581,8 @@
       }
 
       if (mode === 'pray') {
-        // CHỈ thực hiện động tác Đứng Chắp Tay Vái tại chỗ, không tự bật chat, không tự đọc giọng nói, không kèm hiệu ứng phụ
+        playBellSound();
+        playNamMoADiDaPhatChant();
         player.state = 'vai';
         player.bowTimer = 0;
         player.vaiTimer = 240;
@@ -7632,7 +7735,9 @@
       unlockAndStartAudio();
       const now = Date.now();
       if (type === 'incense') {
-        // V63 (#mvw5crbq5t): Thắp hương KHÔNG CÓ xác suất may rủi — Thành tâm dâng 3 nén tâm hương cắm vào lư hương đồng!
+        // V63 (#mvw5crbq5t) + V72 (#mvwbbcmu6i): Thắp hương kèm âm thanh "Nam Mô A Di Đà Phật" trang nghiêm!
+        playBellSound();
+        playNamMoADiDaPhatChant();
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo';
         const totalNow = burningIncenseCount[String(player.wing)];
@@ -7941,8 +8046,8 @@
       if (customInp) customInp.value = '';
       if (sel) sel.value = '';
 
-      showToast(`🏛️🎉 Đã vinh danh "${honoredMember}" lên Bảng Top Phước Đức (+1.000 💎)!`);
-      speakVietnameseText(`Nam Mô A Di Đà Phật! Bảng Vàng Công Đức Chùa Trường Yến xin vinh danh thành viên ${honoredMember} vừa được ghi nhận trên Nhóm Zalo Công Ty với thành tích: ${note}. Xin cộng một nghìn Phước Đức lên Bảng Top!`, memberGender);
+      showToast(`🏛️🎉 Đã vinh danh "${honoredMember}" lên Bảng Top Phước Đức (+1.000 💎) · Sư Trụ Trì đang đọc lời cảm tạ!`);
+      playAbbotThankYouVoice('cong_duc', honoredMember);
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
 
@@ -8066,7 +8171,8 @@
       if (offerMult >= 2) activateMeritRateBuff(offerMult, `Đặt Lễ ${itemName}`);
       appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ <b>${itemName}</b> quay trúng <b>${rOffer.label} (${rOffer.probText})</b> → Nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
-      
+      showToast(`🧙‍♂️🙏 Sư Trụ Trì đang đọc lời cảm tạ thí chủ ${player.name} đã dâng lễ "${itemName}"!`);
+      playAbbotThankYouVoice('le', itemName);
       publishMqtt({ type: 'offering', name: player.name, icon, itemName, wish: userWish, wing: player.wing, imgKey, imgSrc });
     }
 
@@ -8116,7 +8222,8 @@
 
       playBellSound();
       setTimeout(playMoSound, 400);
-      showToast(`🔥🌟 Đã hóa ${label}! Nổ Lộc GẤP ${mult} LẦN (X${mult}) → +${pts} 💎 Phước Đức & Tăng X${mult} Xác Suất Tích Phước!`);
+      playAbbotThankYouVoice('hoa_vang', label);
+      showToast(`🔥🌟 Đã hóa ${label}! Sư Trụ Trì đang đọc lời chứng minh & cảm tạ thí chủ ${player.name}!`);
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
 
@@ -8494,31 +8601,35 @@
     function drawRoundedBadge(x, y, avatar, name, isPlayer = false) {
       if (!isPlayer && (x < 12 || x > window.innerWidth - 12)) return;
       ctx.save();
-      ctx.font = isPlayer ? 'bold 11.5px sans-serif' : '600 10.5px sans-serif';
-      const textW = ctx.measureText(name).width;
-      const boxW = textW + 32;
-      const boxH = 21;
-      const bx = Math.max(6, Math.min(window.innerWidth - boxW - 6, x - boxW / 2));
-      const by = y - boxH / 2;
+      const fontStr = isPlayer
+        ? 'bold 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        : '600 10.2px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.font = fontStr;
+      const fullLabel = `${avatar ? avatar + ' ' : ''}${name}`.trim();
+      const textW = Math.ceil(ctx.measureText(fullLabel).width);
+      const boxW = Math.max(68, textW + 24);
+      const boxH = 22;
+      const bx = Math.max(6, Math.min(window.innerWidth - boxW - 6, Math.round(x - boxW / 2)));
+      const by = Math.round(y - boxH / 2);
 
-      ctx.fillStyle = isPlayer ? 'rgba(42, 24, 6, 0.90)' : 'rgba(18, 14, 10, 0.78)';
-      ctx.strokeStyle = isPlayer ? '#ffd46b' : 'rgba(225, 190, 115, 0.45)';
-      ctx.lineWidth = isPlayer ? 1.5 : 0.9;
+      ctx.fillStyle = isPlayer ? 'rgba(42, 24, 6, 0.94)' : 'rgba(18, 14, 10, 0.86)';
+      ctx.strokeStyle = isPlayer ? '#ffd46b' : 'rgba(225, 190, 115, 0.55)';
+      ctx.lineWidth = isPlayer ? 1.6 : 1.0;
       ctx.beginPath();
       ctx.roundRect(bx, by, boxW, boxH, 11);
       ctx.fill();
       ctx.stroke();
 
-      ctx.font = '10.5px sans-serif';
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(bx + 2, by + 1, boxW - 4, boxH - 2, 9);
+      ctx.clip();
+      ctx.font = fontStr;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#fff';
-      ctx.fillText(avatar, bx + 11, y + 0.5);
-
-      ctx.font = isPlayer ? 'bold 11px sans-serif' : '600 10.5px sans-serif';
-      ctx.textAlign = 'left';
       ctx.fillStyle = isPlayer ? '#ffe596' : '#f5ead2';
-      ctx.fillText(name, bx + 21, y + 0.5);
+      ctx.fillText(fullLabel, bx + boxW / 2, by + boxH / 2 + 0.5);
+      ctx.restore();
       ctx.restore();
     }
 
@@ -9104,20 +9215,21 @@
           const traySize = Math.min(72, cardW * 0.78);
 
           // Nhãn tổng số người để lễ trên bàn thờ (Tối đa 5/5)
-          const hdrW = 206;
-          const hdrH = 17;
+          const hdrTxt = `🎁 BÀN LỄ ĐANG DÂNG: ${count}/5 NGƯỜI ĐỂ LỄ`;
+          ctx.font = 'bold 9.2px system-ui, -apple-system, sans-serif';
+          const hdrW = Math.max(216, Math.ceil(ctx.measureText(hdrTxt).width) + 26);
+          const hdrH = 19;
           ctx.fillStyle = 'rgba(38, 12, 3, 0.94)';
           ctx.strokeStyle = '#ffd54f';
           ctx.lineWidth = 1.2;
           ctx.beginPath();
-          ctx.roundRect(censerX - hdrW / 2, tableY - traySize - 14, hdrW, hdrH, 8);
+          ctx.roundRect(censerX - hdrW / 2, tableY - traySize - 15, hdrW, hdrH, 9);
           ctx.fill();
           ctx.stroke();
-          ctx.font = 'bold 9.2px sans-serif';
           ctx.fillStyle = '#ffe082';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText(`🎁 BÀN LỄ ĐANG DÂNG: ${count}/5 NGƯỜI ĐỂ LỄ`, censerX, tableY - traySize - 5.5);
+          ctx.fillText(hdrTxt, censerX, tableY - traySize - 5.5);
 
           wingOfferings.slice(-5).forEach((off, idx) => {
             const cxCard = startCardX + idx * (cardW + 5);
@@ -9134,7 +9246,7 @@
               ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
             }
 
-            // Thẻ Bài 2 Dòng Dưới Mỗi Mâm Lễ: Dòng 1 = Tên Lễ Vật · Dòng 2 = 👤 Của: [Tên Người Đặt Lễ]
+            // Thẻ Bài 2 Dòng Dưới Mỗi Mâm Lễ: Clip 100% bên trong khung để chữ không bao giờ lệch ra ngoài ô
             const cyCard = tableY + 2;
             ctx.fillStyle = 'rgba(20, 7, 2, 0.96)';
             ctx.strokeStyle = '#ffd54f';
@@ -9144,16 +9256,21 @@
             ctx.fill();
             ctx.stroke();
 
-            ctx.font = 'bold 8.5px sans-serif';
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(cxCard + 2, cyCard + 1, cardW - 4, cardH - 2, 5);
+            ctx.clip();
+            ctx.font = 'bold 8.4px system-ui, -apple-system, sans-serif';
             ctx.fillStyle = '#ffd740';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 13)}`, slotCenterX, cyCard + 8.5);
+            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 12)}`, slotCenterX, cyCard + 8.5);
 
-            ctx.font = 'bold 8.3px sans-serif';
+            ctx.font = 'bold 8.2px system-ui, -apple-system, sans-serif';
             ctx.fillStyle = '#69f0ae';
-            const giverName = (off.giver || 'Tín Chủ').replace(' (Giám Đốc)', '').replace(' (KH)', '').slice(0, 14);
+            const giverName = (off.giver || 'Tín Chủ').replace(' (Giám Đốc)', '').replace(' (KH)', '').slice(0, 12);
             ctx.fillText(`👤 Của: ${giverName}`, slotCenterX, cyCard + 20.5);
+            ctx.restore();
           });
           ctx.restore();
         }
@@ -9681,13 +9798,16 @@
         }
         ctx.restore();
 
-        // V63 (#mvw5crbq5t): Hiển thị nghi thức Dâng 3 Nén Tâm Hương trang nghiêm (Không tính xác suất may rủi khi thắp hương)
+        // V63 (#mvw5crbq5t): Hiển thị nghi thức Dâng 3 Nén Tâm Hương trang nghiêm (Đo chiều rộng tự động + Clip chống tràn ô chữ)
         ctx.save();
-        const cardX = W * 0.5;
-        const cardY = Math.max(102, targetY - 58);
-        const cardW = 296;
+        const incLine1 = `♨️🙏 DÂNG 3 NÉN TÂM HƯƠNG CẮM VÀO LƯ HƯƠNG`;
+        const incLine2 = `👤 Tín chủ: ${incenseCeremony.giver || player.name} · Kính lễ ${incenseCeremony.zoneName || 'Tam Bảo'}`;
+        ctx.font = 'bold 10px system-ui, -apple-system, sans-serif';
+        const cardW = Math.min(W - 16, Math.max(276, Math.ceil(Math.max(ctx.measureText(incLine1).width, ctx.measureText(incLine2).width)) + 28));
         const cardH = 44;
-        ctx.fillStyle = 'rgba(36, 14, 4, 0.94)';
+        const cardX = W * 0.5;
+        const cardY = Math.max(106, targetY - 58);
+        ctx.fillStyle = 'rgba(36, 14, 4, 0.95)';
         ctx.strokeStyle = '#ffd54f';
         ctx.lineWidth = 1.8;
         ctx.beginPath();
@@ -9695,21 +9815,26 @@
         ctx.fill();
         ctx.stroke();
 
-        ctx.font = 'bold 10.5px sans-serif';
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(cardX - cardW / 2 + 3, cardY - cardH / 2 + 2, cardW - 6, cardH - 4, 10);
+        ctx.clip();
+        ctx.font = 'bold 10px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#ffd740';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`♨️🙏 DÂNG 3 NÉN TÂM HƯƠNG CẮM VÀO LƯ HƯƠNG`, cardX, cardY - 8);
+        ctx.fillText(incLine1, cardX, cardY - 8);
 
-        ctx.font = 'bold 9.5px sans-serif';
+        ctx.font = 'bold 9.3px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#ffe082';
-        ctx.fillText(`👤 Tín chủ: ${incenseCeremony.giver || player.name} · Thành tâm kính lễ ${incenseCeremony.zoneName || 'Tam Bảo'}`, cardX, cardY + 9);
+        ctx.fillText(incLine2, cardX, cardY + 9);
+        ctx.restore();
         ctx.restore();
 
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
       }
 
-      // 📥 ĐẶT LỄ LÊN BÀN THỜ (Hiển thị rõ Tên Người Đặt Lễ & Cầu Gì)
+      // 📥 ĐẶT LỄ LÊN BÀN THỜ (Hiển thị rõ Tên Người Đặt Lễ & Cầu Gì · Căn chuẩn trong ô không tràn chữ)
       if (offeringCeremony && offeringCeremony.active && offeringCeremony.timer > 0) {
         offeringCeremony.timer--;
         const prog = 1.0 - (offeringCeremony.timer / offeringCeremony.maxTimer);
@@ -9720,9 +9845,9 @@
         const startX = player._screenX || (W * 0.5);
         const startY = (player._screenY || (H * 0.64)) - 56;
         const ease = prog * prog * (3 - 2 * prog);
-        const curX = startX + (targetX - startX) * ease;
+        const curX = Math.max(134, Math.min(W - 134, startX + (targetX - startX) * ease));
         const curY = startY + (targetY - startY) * ease - Math.sin(prog * Math.PI) * 32;
-        const sc = 1.10 - ease * 0.22;
+        const sc = 1.06 - ease * 0.18;
 
         ctx.save();
         ctx.translate(curX, curY);
@@ -9735,34 +9860,48 @@
         ctx.arc(0, 0, 52, 0, Math.PI * 2);
         ctx.fill();
 
+        const offL1 = `📥 ĐẶT LỄ: ${(offeringCeremony.name || '').slice(0, 20)}`;
+        const offL2 = `👤 Người đặt: ${offeringCeremony.giver || player.name}`;
+        const offL3 = `🙏 Cầu: ${(offeringCeremony.wish || 'Đạt KPI & bình an').slice(0, 22)}`;
+        ctx.font = 'bold 9.6px system-ui, -apple-system, sans-serif';
+        const txtMaxW = Math.ceil(Math.max(ctx.measureText(offL1).width, ctx.measureText(offL2).width, ctx.measureText(offL3).width));
+        const offBoxW = Math.max(244, txtMaxW + 78);
+        const offHalfW = offBoxW / 2;
+
         ctx.fillStyle = 'rgba(56, 18, 4, 0.96)';
         ctx.strokeStyle = '#ffd740';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(-118, -30, 236, 60, 14);
+        ctx.roundRect(-offHalfW, -30, offBoxW, 60, 14);
         ctx.fill();
         ctx.stroke();
 
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(-offHalfW + 3, -28, offBoxW - 6, 56, 12);
+        ctx.clip();
         const offTex = offeringCeremony.imgKey ? images[offeringCeremony.imgKey] : null;
         if (offTex && offTex.complete && offTex.naturalWidth > 0) {
-          ctx.drawImage(offTex, -110, -24, 48, 48);
+          ctx.drawImage(offTex, -offHalfW + 8, -24, 48, 48);
         } else {
           ctx.font = '24px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText(offeringCeremony.icon, -86, 0);
+          ctx.fillText(offeringCeremony.icon, -offHalfW + 32, 0);
         }
 
-        ctx.font = 'bold 9.8px sans-serif';
+        const txtStartX = -offHalfW + 62;
+        ctx.font = 'bold 9.6px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#69f0ae';
         ctx.textAlign = 'left';
-        ctx.fillText(`📥 ĐẶT LỄ: ${(offeringCeremony.name || '').slice(0, 22)}`, -56, -13);
-        ctx.font = 'bold 9.8px sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(offL1, txtStartX, -13);
         ctx.fillStyle = '#80d8ff';
-        ctx.fillText(`👤 Người đặt: ${offeringCeremony.giver || player.name}`, -56, 1);
-        ctx.font = 'bold 9.4px sans-serif';
+        ctx.fillText(offL2, txtStartX, 1);
+        ctx.font = 'bold 9.2px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#ffe082';
-        ctx.fillText(`🙏 Cầu: ${(offeringCeremony.wish || 'Đạt KPI & bình an').slice(0, 24)}`, -56, 15);
+        ctx.fillText(offL3, txtStartX, 15);
+        ctx.restore();
         ctx.restore();
 
         if (offeringCeremony.timer === 0) offeringCeremony.active = false;
