@@ -73,7 +73,7 @@
     /* Compact Toast Notification */
     #toastBanner {
       position: fixed;
-      top: 44px;
+      top: 76px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 25;
@@ -710,139 +710,16 @@
       border-color: #fff59d;
       box-shadow: 0 0 12px rgba(255, 160, 0, 0.7);
     }
-
-    /* =====================================================================
-       KOREAN-STYLE ULTRA-MINIMAL TRANSLUCENT UI (@linhoichoigi 3D TEMPLE)
-       ===================================================================== */
-    .quick-offering-bar { display: none !important; }
-    #joystick360 {
-      width: 78px !important;
-      height: 78px !important;
-      right: 12px !important;
-      bottom: 84px !important;
-      opacity: 0.45;
-      transition: opacity 0.2s;
-    }
-    #joystick360:hover, #joystick360:active { opacity: 0.9; }
-    #joyKnob360 { width: 30px !important; height: 30px !important; font-size: 9px !important; }
-
-    .bottom-dock-wrap {
-      left: 0; right: 0; bottom: 14px;
-      z-index: 35;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
-    .bottom-dock.korean-pill-dock {
-      pointer-events: auto;
-      background: rgba(22, 25, 22, 0.76);
-      border: 1.2px solid rgba(255, 255, 255, 0.28);
-      border-radius: 999px;
-      padding: 7px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.75);
-      width: auto;
-      max-width: 96vw;
-    }
-    .korean-dock-btn {
-      border: none;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.92);
-      padding: 4px 8px;
-      border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      cursor: pointer;
-      transition: all 0.16s ease;
-      min-width: 52px;
-    }
-    .korean-dock-btn:hover, .korean-dock-btn:active, .korean-dock-btn.active {
-      background: rgba(255, 255, 255, 0.14);
-      transform: translateY(-2px);
-      color: #ffe082;
-    }
-    .korean-dock-btn svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.9;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .korean-dock-label {
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-      white-space: nowrap;
-      color: inherit;
-    }
-    @media (max-width: 680px) {
-      .bottom-dock.korean-pill-dock {
-        display: flex !important;
-        padding: 6px 12px !important;
-        gap: 8px !important;
-      }
-      .korean-dock-btn { min-width: 44px; padding: 3px 5px; }
-      .korean-dock-label { font-size: 9.5px; }
-    }
-    #topUtilityDrawer {
-      position: fixed;
-      top: 42px;
-      right: 10px;
-      z-index: 60;
-      background: rgba(18, 16, 14, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 16px;
-      padding: 10px 12px;
-      width: min(340px, 92vw);
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.85);
-    }
-    #topUtilityDrawer.open { display: flex; }
   </style>
 </head>
 <body>
 
   <canvas id="gameCanvas"></canvas>
 
-  <!-- 1. ULTRA-MINIMAL TOP BAR (1 Dòng Duy Nhất Gọn Sạch Như @linhoichoigi) -->
-  <div class="top-bar" style="top:8px; left:8px; right:8px; justify-content:space-between; flex-wrap:nowrap;">
-    <div class="top-group" style="background:rgba(20,22,20,0.74); border:1px solid rgba(255,255,255,0.22); border-radius:999px; padding:2px 5px; gap:2px; flex-shrink:0;">
-      <button id="tabTamBao" class="chip-btn active" style="border:none; background:transparent; padding:4px 8px; font-size:10.5px;" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
-      <button id="tabThanTai" class="chip-btn" style="border:none; background:transparent; padding:4px 8px; font-size:10.5px;" onclick="switchZone('thantai')">💰 Thần Tài</button>
-      <button id="tabDucOng" class="chip-btn" style="border:none; background:transparent; padding:4px 8px; font-size:10.5px;" onclick="switchZone('ducong')">🔔 Đức Ông</button>
-    </div>
-
-    <div class="top-group" style="gap:4px; flex-shrink:0;">
-      <button id="btnSmoothMode" class="chip-btn" style="background:rgba(28,58,36,0.92); border-color:#69f0ae; color:#b9f6ca; font-size:10px; padding:4px 7px;" onclick="toggleUltraSmoothMode()">
-        ⚡ Siêu Mượt
-      </button>
-      <button class="chip-btn" style="background:rgba(20,22,20,0.88); border-color:rgba(255,255,255,0.22); font-size:10.5px; padding:4px 8px;" onclick="openMeritShopModal()">
-        💎 <span id="meritScore">35</span><span style="display:none;" id="congDucCountHud">5</span><span style="display:none;" id="onlineCountLabel">1</span>
-      </button>
-      <button class="chip-btn" style="background:rgba(20,22,20,0.88); border-color:rgba(255,255,255,0.25); font-size:10.5px; padding:4px 8px;" onclick="document.getElementById('topUtilityDrawer').classList.toggle('open')">
-        ⚙️ Menu ▾
-      </button>
-    </div>
-  </div>
-
-  <!-- Ngăn Tiện Ích Mở Rộng (Giữ nguyên 100% tính năng mà không làm rối màn hình chính) -->
-  <div id="topUtilityDrawer">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:6px;">
-      <span style="font-size:12px; font-weight:800; color:#ffe082;">⚙️ TIỆN ÍCH CHÙA TRƯỜNG YẾN</span>
-      <button type="button" onclick="document.getElementById('topUtilityDrawer').classList.remove('open')" style="background:transparent; border:none; color:#fff; font-size:14px; cursor:pointer;">✕</button>
-    </div>
-    <div style="display:flex; gap:6px; align-items:center;">
-      <select id="charSelect" class="top-select" style="flex:1;" title="Đăng nhập hoặc đổi tên nhân vật">
+  <!-- 1. TOP BAR: ROLE + 3 BAN THỜ + CHỌN 6 NHẠC NỀN TIKTOK + BẢNG CÔNG ĐỨC -->
+  <div class="top-bar">
+    <div class="top-group">
+      <select id="charSelect" class="top-select" title="Đăng nhập hoặc đổi tên nhân vật">
         <option value="Sếp Thành">🧘‍♂️ Sếp Thành</option>
         <option value="Sale Minh Anh">🪷 Minh Anh</option>
         <option value="Sale Kiều Trang">🪷 Kiều Trang</option>
@@ -854,32 +731,31 @@
         <option value="Anh Phú (CT Trần Hoàn)">🙏 KH A. Phú</option>
         <option value="__custom__">✏️ Tự Đặt / Đổi Tên Nhân Vật...</option>
       </select>
-      <button class="chip-btn" onclick="openRenameCharModal(); document.getElementById('topUtilityDrawer').classList.remove('open')">✏️ Đổi Tên</button>
+      <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đổi tên nhân vật hiển thị trên đầu">✏️ Đổi Tên</button>
+      <button id="btnOnlineMode" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#81c784;" onclick="toggleOnlinePresenceMode()" title="Khi bật chế độ Online, những ai trong công ty đang đăng nhập sẽ nhìn thấy nhân vật của nhau trong Chánh Điện">🟢 Online (<span id="onlineCountLabel">1</span>)</button>
+      <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
+      <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
+      <button id="tabDucOng" class="chip-btn" onclick="switchZone('ducong')">🔔 Đức Ông</button>
+      <button id="tabFurnace" class="chip-btn" style="background:linear-gradient(135deg,#d84315,#8e1b05);color:#fff;border-color:#ffcc80;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
+      <button id="tabKarma" class="chip-btn" style="background:linear-gradient(135deg,#880e4f,#4a148c);color:#fff;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">😤🧘‍♂️ Phòng Xả Nghiệp</button>
     </div>
-    <select id="bgMusicSelect" class="top-select" style="width:100%;" onchange="changeBgMusicTrack(this.value)">
-      <option value="audio/tk2_chua.mp3" selected>🌿 1. Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não</option>
-      <option value="audio/nhac_nen_chua.mp3">🪷 2. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
-      <option value="audio/lien_hoa.mp3">🎵 3. Liên Hoa · Diệu Pháp Liên Hoa</option>
-      <option value="audio/do_ta_khong_do_nang.mp3">🎵 4. Độ Ta Không Độ Nàng</option>
-      <option value="audio/chu_dai_bi.mp3">📿 5. Chú Đại Bi · Dưới Tòa Sen Đài</option>
-      <option value="audio/tk4_duoi_toa_sen_vang.mp3">📿 6. Chú Dược Sư (Tiếng Phạn)</option>
-      <option value="audio/tk1_om_mani.mp3">📿 7. Thần Chú Om Mani Padme Hum</option>
-      <option value="audio/tk3_chua.mp3">🎵 8. Vũ Khúc Thiên Đình (Tây Du)</option>
-      <option value="off">🔇 Tắt Nhạc Nền</option>
-    </select>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-      <button class="chip-btn" onclick="performDirectHallAction('incense'); document.getElementById('topUtilityDrawer').classList.remove('open')">🕯️ Thắp Hương</button>
-      <button class="chip-btn" onclick="performDirectHallAction('mo'); document.getElementById('topUtilityDrawer').classList.remove('open')">🪵 Gõ Mõ</button>
-      <button class="chip-btn" onclick="performDirectHallAction('bell'); document.getElementById('topUtilityDrawer').classList.remove('open')">🔔 Thỉnh Chuông</button>
-      <button class="chip-btn" onclick="openFortuneStickModal(); document.getElementById('topUtilityDrawer').classList.remove('open')">🎋 Rút Thẻ Xăm</button>
-      <button id="tabFurnace" class="chip-btn" onclick="openGoldFurnaceRoom(); document.getElementById('topUtilityDrawer').classList.remove('open')">🔥 Hóa Vàng</button>
-      <button class="chip-btn" onclick="toggleNpcInteractBar(); document.getElementById('topUtilityDrawer').classList.remove('open')">🤝 Hỏi Thăm Khách</button>
+
+    <div class="top-group">
+      <select id="bgMusicSelect" class="top-select" onchange="changeBgMusicTrack(this.value)" title="Mặc định: Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não (Ai có nhu cầu đổi nhạc thì chọn tại đây)">
+        <option value="audio/tk2_chua.mp3" selected>🌿 1. Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não (Mặc Định)</option>
+        <option value="audio/nhac_nen_chua.mp3">🪷 2. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
+        <option value="audio/lien_hoa.mp3">🎵 3. Liên Hoa · Diệu Pháp Liên Hoa (Thiền)</option>
+        <option value="audio/do_ta_khong_do_nang.mp3">🎵 4. Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
+        <option value="audio/chu_dai_bi.mp3">📿 5. Chú Đại Bi · Dưới Tòa Sen Đài</option>
+        <option value="audio/tk4_duoi_toa_sen_vang.mp3">📿 6. Chú Dược Sư (Tiếng Phạn)</option>
+        <option value="audio/tk1_om_mani.mp3">📿 7. Thần Chú Om Mani Padme Hum</option>
+        <option value="audio/tk3_chua.mp3">🎵 8. Vũ Khúc Thiên Đình (Tây Du)</option>
+        <option value="off">🔇 Tắt Nhạc Nền</option>
+      </select>
       <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
-      <button id="dockChantBtn" class="chip-btn" onclick="toggleRealChanting()"><span id="dockChantLabel">📿 Tụng Kinh: TẮT</span></button>
+      <button class="chip-btn active" onclick="openMeritShopModal()">🏛️ Công Đức (<span id="congDucCountHud">5</span>) · 💎 Phước (<span id="meritScore">35</span>)</button>
+      <button id="meritBuffBadge" class="chip-btn active" style="background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;border-color:#ffd740;" onclick="openGoldFurnaceRoom()" title="Đốt Vàng Mã hoặc Dâng Lễ để tăng Gấp Đôi (X2) hoặc Gấp 3 (X3) xác suất nhận Phước Đức!">🔥 Lộc Lễ/Vàng: Xác Suất X2·X3</button>
     </div>
-    <button id="btnOnlineMode" style="display:none;"></button>
-    <button id="tabKarma" style="display:none;"></button>
-    <button id="meritBuffBadge" style="display:none;"></button>
   </div>
 
   <div id="toastBanner">🙏 Bấm vào Mõ, Chuông, Thắp Hương hoặc Bàn Lễ để hiện lên giữa màn hình thao tác!</div>
@@ -1080,49 +956,41 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- 4. ULTRA-CLEAN KOREAN-STYLE TRANSLUCENT PILL DOCK (@linhoichoigi: Chắp Tay Vái · Quỳ Lạy · Chuỗi Hạt 3D · Sớ Khấn · Dâng Lễ · Sân Đấm) -->
+  <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
   <div class="bottom-dock-wrap">
-    <div class="bottom-dock korean-pill-dock">
-      <button class="korean-dock-btn" onclick="performDirectHallAction('pray')" title="Đứng Chắp Tay Cúi Vái (합장)">
-        <svg viewBox="0 0 24 24"><path d="M12 3L8 12l4 3 4-3-4-9z"/><path d="M8 12l-2 6h12l-2-6"/></svg>
-        <span class="korean-dock-label">Chắp Tay Vái</span>
+    <div class="bottom-dock">
+      <button class="dock-item active-ritual" onclick="performDirectHallAction('mo')">
+        <span class="dock-icon">🪵</span>
+        <span class="dock-label">Gõ Mõ (Thật)</span>
       </button>
-      <button class="korean-dock-btn" onclick="performDirectHallAction('bow')" title="Đứng Lên · Quỳ Xuống Cúi Lạy Liên Tục (절하기)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M7 18c0-4 2.5-6 5-6s5 2 5 6"/><path d="M4 19h16"/></svg>
-        <span class="korean-dock-label">Quỳ Lạy</span>
+      <button class="dock-item active-ritual" onclick="performDirectHallAction('bell')">
+        <span class="dock-icon">🔔</span>
+        <span class="dock-label">Thỉnh Chuông</span>
       </button>
-      <button class="korean-dock-btn" onclick="openBeads3DModal()" title="Lần Chuỗi Hạt Gỗ Vàng 3D (beads)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="16.5" cy="7.5" r="2"/><circle cx="18" cy="12.5" r="2"/><circle cx="15" cy="17" r="2"/><circle cx="9" cy="17" r="2"/><circle cx="6" cy="12.5" r="2"/><circle cx="7.5" cy="7.5" r="2"/></svg>
-        <span class="korean-dock-label">Chuỗi Hạt</span>
+      <button class="dock-item" onclick="performDirectHallAction('incense')">
+        <span class="dock-icon"><img src="assets/lu_huong_3nen.jpg" alt="3 Nén Hương" style="width:26px;height:26px;border-radius:6px;object-fit:cover;border:1px solid #ffd54f;vertical-align:middle;" /></span>
+        <span class="dock-label">Thắp Hương</span>
       </button>
-      <button class="korean-dock-btn" onclick="openSoKhanModal()" title="Viết Sớ & Đọc Bài Khấn">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
-        <span class="korean-dock-label">Sớ Khấn</span>
+      <button class="dock-item highlight-red" onclick="openSoKhanModal()">
+        <span class="dock-icon">📜</span>
+        <span class="dock-label">Viết Sớ · Đọc Khấn</span>
       </button>
-      <button class="korean-dock-btn" onclick="toggleHallOfferingStrip()" title="Dâng Lễ Vật Lên Bàn Thờ">
-        <svg viewBox="0 0 24 24"><path d="M12 4c-3 3-5 6-5 9a5 5 0 0 0 10 0c0-3-2-6-5-9z"/><path d="M4 19h16"/></svg>
-        <span class="korean-dock-label">Dâng Lễ</span>
+      <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(142,24,68,0.95),rgba(74,12,36,0.96));border-color:#ffd54f;" onclick="openFortuneStickModal()">
+        <span class="dock-icon">🎋</span>
+        <span class="dock-label">Rút Thẻ · Xin Xăm</span>
       </button>
-      <button class="korean-dock-btn" onclick="openKarmaReleaseModal()" title="Phòng Sân Đấm & Trụ Trì Khuyên">
-        <svg viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-        <span class="korean-dock-label">Sân Đấm</span>
+      <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(136,14,79,0.96),rgba(49,27,146,0.96));border-color:#ff80ab;" onclick="openKarmaReleaseModal()">
+        <span class="dock-icon">🤬🥊</span>
+        <span class="dock-label">Xả Nghiệp · Đấm</span>
       </button>
-    </div>
-  </div>
-
-  <!-- 4B. MÀN HÌNH LẦN CHUỖI HẠT GỖ VÀNG 3D DỌC MÀN HÌNH (CHUẨN Y HỆT FRAME 18 & 20 VIDEO @linhoichoigi!) -->
-  <div id="beads3DModal" style="display:none; position:fixed; inset:0; z-index:92; background:#1c252a; flex-direction:column; align-items:center; justify-content:space-between; user-select:none; touch-action:none;">
-    <div style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:12px 16px; z-index:5;">
-      <div style="background:rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.2); border-radius:999px; padding:5px 14px; font-size:12px; font-weight:700; color:#ffe082;">
-        📿 Lần Chuỗi Hạt Tịnh Tâm · Đã lần: <b id="beadsCountLabel" style="color:#69f0ae;">0</b> hạt (+<span id="beadsMeritLabel">0</span> 💎)
-      </div>
-      <button type="button" onclick="closeBeads3DModal()" style="background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:999px; padding:6px 16px; font-size:12px; font-weight:700; cursor:pointer;">
-        ✕ Quay Lại Chánh Điện
+      <button class="dock-item active-ritual" onclick="openMeritShopModal()">
+        <span class="dock-icon">🎁</span>
+        <span class="dock-label">Cửa Hàng Lễ (≤100💎)</span>
       </button>
-    </div>
-    <canvas id="beads3DCanvas" style="position:absolute; inset:0; width:100%; height:100%; cursor:ns-resize;"></canvas>
-    <div style="z-index:5; margin-bottom:22px; background:rgba(0,0,0,0.48); border:1px solid rgba(255,255,255,0.2); border-radius:999px; padding:6px 18px; font-size:11.5px; color:#e0e8ec; pointer-events:none;">
-      ↕ Kéo Chuỗi Hạt Xuống Hoặc Chạm Để Lần Từng Hạt Niệm Phật
+      <button id="dockChantBtn" class="dock-item" onclick="toggleRealChanting()">
+        <span class="dock-icon">📿</span>
+        <span class="dock-label" id="dockChantLabel">Tụng Kinh: TẮT</span>
+      </button>
     </div>
   </div>
 
@@ -3132,8 +3000,7 @@
       leDaiLe: new Image(),
       furnaceReal: new Image(),
       luHuongReal: new Image(),
-      sanDamRoom: new Image(),
-      koreanMural: new Image()
+      sanDamRoom: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
@@ -3154,7 +3021,6 @@
     images.furnaceReal.src = 'assets/furnace_real.jpg';
     images.luHuongReal.src = 'assets/lu_huong_3nen.jpg';
     images.sanDamRoom.src = 'assets/san_dam_room.jpg';
-    images.koreanMural.src = 'assets/korean_buddha_mural.jpg';
 
     const urlParams = new URLSearchParams(window.location.search);
     let currentZone = urlParams.get('zone') || 'tambao';
@@ -3954,8 +3820,18 @@
     // =========================================================================
     // 4. ATMOSPHERIC EFFECTS: LOTUS PETALS, INCENSE SMOKE, BURNING INCENSE
     // =========================================================================
-    // Không vẽ cánh hoa hồng rơi dày đặc để khung cảnh Chánh Điện gỗ trầm tối chuẩn 100% @linhoichoigi!
     const lotusPetals = [];
+    for (let i = 0; i < 32; i++) {
+      lotusPetals.push({
+        x: Math.random(),
+        y: Math.random(),
+        size: 6 + Math.random() * 9,
+        speedY: 0.0006 + Math.random() * 0.001,
+        speedX: (Math.random() - 0.5) * 0.0005,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.03
+      });
+    }
 
     const smokeParticles = [];
     for (let i = 0; i < 55; i++) {
@@ -4684,14 +4560,30 @@
       if (badge) badge.textContent = `Quỹ Chùa: ${totalTempleBuildCongDuc}🏛️`;
     }
 
-    // Mặc định bàn hương án thoáng sạch như @linhoichoigi (Chỉ hiện mâm lễ khi người chơi bấm Dâng Lễ!)
+    // MÂM LỄ TRÊN BÀN THỜ CÓ LÚC ĐẶT LỄ · LÚC HẠ LỄ LIÊN TỤC · RÕ TÊN NGƯỜI ĐẶT LỄ & CẦU GÌ & 100% KHỚP HÌNH ẢNH THẬT!
+    // Ban Tam Bảo (wing=0) CHỈ bày Lễ Chay thanh tịnh!
     const altarOfferings = {
-      '-1': [],
-      '0':  [],
-      '1':  []
+      '-1': [
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu giữ kho Tấm Ốp an toàn, đạt 15 tỷ', remainSec: 52, imgKey: 'leHeoQuay', imgSrc: 'assets/le_heoquay.jpg' },
+        { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Chị Ngọc Anh (KTS)', wish: 'Cầu thu hồi nợ vật tư 300tr êm đẹp', remainSec: 38, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🍎', label: 'Mâm Ngũ Quả', fullName: 'Mâm Ngũ Quả Phật Thủ Chuối Bưởi', giver: 'Sale Minh Anh', wish: 'Cầu xuất 3 xe Tấm Nano bù đủ KPI', remainSec: 64, imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
+        { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ Truyền Thống', giver: 'Chị Phương (Đại Lý)', wish: 'Cầu xuất kho Trần Nhôm 130 thuận lợi', remainSec: 27, imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' }
+      ],
+      '0':  [
+        { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Mâm Hoa Sen Hồng Bách Diệp (Chay)', giver: 'Phật Tử Minh Anh', wish: 'Cầu tâm an trí sáng, khách quý mến', remainSec: 48, imgKey: 'leHoaSen', imgSrc: 'assets/le_hoasen.jpg' },
+        { icon: '🍎', label: 'Ngũ Quả Chay', fullName: 'Mâm Ngũ Quả Phật Thủ (Lễ Chay)', giver: 'Sếp Thành', wish: 'Cầu đại gia đình Trường Yến an khang', remainSec: 62, imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
+        { icon: '🍵', label: 'Oản Ngọc Trà Sen', fullName: 'Mâm Oản Ngọc & Trà Sen (Lễ Chay)', giver: 'Chị Hương (Chủ Biệt Thự)', wish: 'Cầu ốp nhà bằng Tấm Nano bền đẹp', remainSec: 33, imgKey: 'leTraOan', imgSrc: 'assets/le_traoan.jpg' },
+        { icon: '👑', label: 'Đại Lễ Cỗ Chay', fullName: 'Đại Lễ Cỗ Chay Bát Trân Thượng Phẩm', giver: 'Chị Thu Trang (Đại Lý)', wish: 'Cầu đại lý Tấm Ốp Hải Phòng bình an', remainSec: 75, imgKey: 'leDaiLe', imgSrc: 'assets/le_daile.jpg' }
+      ],
+      '1':  [
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu bùng nổ doanh số Tấm Ốp 15 tỷ', remainSec: 58, imgKey: 'leHeoQuay', imgSrc: 'assets/le_heoquay.jpg' },
+        { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Mâm Gà Luộc Ngậm Hoa Hồng & Xôi Gấc', giver: 'Anh Đức Đoàn (Cai Thầu)', wish: 'Cầu trúng thầu ốp 5 căn biệt phủ', remainSec: 41, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '💵', label: 'Tiền Vàng 500k', fullName: 'Mâm Tiền Vàng Mã 500k & Đĩnh Vàng', giver: 'Cô Mai Lan (Showroom)', wish: 'Cầu khách cọc đơn Lam Sóng chiều nay', remainSec: 29, imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' },
+        { icon: '💴', label: 'Tháp Vàng Mã', fullName: 'Tháp Vàng Mã Sen Đỏ 10 Lễ', giver: 'Sale Bích Thủy', wish: 'Cầu vượt KPI Trần Nhôm 1 tỷ 200tr', remainSec: 67, imgKey: 'vangLe10', imgSrc: 'assets/vangma_le10.jpg' }
+      ]
     };
     let offeringCeremony = null;
-    let takeDownCeremony = null;
+    let takeDownCeremony = null; // Hiệu ứng Hạ Lễ Thụ Lộc bay từ bàn thờ về tay người dâng!
 
     // VÒNG ĐỜI MÂM LỄ LIÊN TỤC: Tự động đếm ngược thời gian dâng lễ -> Hạ Lễ Thụ Lộc -> Khách/Tín chủ Đặt Lễ Mới kèm Tên & Lời Cầu!
     const autoNpcOfferingsPool = {
@@ -5201,297 +5093,64 @@
     }
 
     // =========================================================================
-    // 7. MAIN PHOTOREALISTIC RENDER LOOP
+    // 7. MAIN PHOTOREALISTIC RENDER LOOP (OPTIMIZED 60FPS ZERO-LAG ENGINE)
     // =========================================================================
     let lastHallLayout = null;
     let frameCount = 0;
-    let ultraSmoothMode = true; // Mặc định BẬT Chế độ Siêu Mượt 60FPS không lag trên mọi điện thoại!
-    const sanctuaryWingCache = {};
-
-    function toggleUltraSmoothMode() {
-      ultraSmoothMode = !ultraSmoothMode;
-      const btn = document.getElementById('btnSmoothMode');
-      if (btn) {
-        if (ultraSmoothMode) {
-          btn.textContent = '⚡ Siêu Mượt';
-          btn.style.background = 'rgba(28,58,36,0.92)';
-          btn.style.borderColor = '#69f0ae';
-          btn.style.color = '#b9f6ca';
-          showToast('⚡ Đã bật Chế độ Siêu Mượt (Tối ưu đồ họa đệm tĩnh 60FPS không giật lag)');
-        } else {
-          btn.textContent = '✨ Đầy Đủ';
-          btn.style.background = 'rgba(48,38,18,0.92)';
-          btn.style.borderColor = '#ffd54f';
-          btn.style.color = '#ffe082';
-          showToast('✨ Đã chuyển sang Chế độ Đồ Họa Đầy Đủ');
-        }
-      }
-      Object.keys(sanctuaryWingCache).forEach(k => delete sanctuaryWingCache[k]);
-      resizeCanvas();
-    }
+    const wingStaticCache = {};
 
     function resizeCanvas() {
-      // Giới hạn DPR = 1.0 ở chế độ Siêu Mượt để giảm 89% số điểm ảnh phải vẽ mỗi khung hình trên điện thoại màn hình Retina 3x!
-      const dpr = ultraSmoothMode ? 1.0 : Math.min(1.25, window.devicePixelRatio || 1);
+      // Giữ DPR = 1.0 trên điện thoại để giảm 89% số pixel phải vẽ mỗi khung hình, mượt 60FPS không giật lag!
+      const dpr = 1.0;
       canvas.width = Math.round(window.innerWidth * dpr);
       canvas.height = Math.round(window.innerHeight * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      Object.keys(sanctuaryWingCache).forEach(k => delete sanctuaryWingCache[k]);
+      Object.keys(wingStaticCache).forEach(k => delete wingStaticCache[k]);
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Nhóm Phật tử 3D áo lam xám + y vàng chéo vai đứng/quỳ tĩnh tâm phía trước Phật đài (Chuẩn khung cảnh @linhoichoigi)
-    const frontAltarDevotees = [
-      { u: 0.44, v: 0.50, mode: 'stand' },
-      { u: 0.47, v: 0.51, mode: 'stand' },
-      { u: 0.50, v: 0.50, mode: 'stand' },
-      { u: 0.53, v: 0.51, mode: 'stand' },
-      { u: 0.56, v: 0.50, mode: 'stand' },
-      { u: 0.22, v: 0.54, mode: 'kneel' },
-      { u: 0.31, v: 0.54, mode: 'kneel' },
-      { u: 0.69, v: 0.54, mode: 'kneel' },
-      { u: 0.78, v: 0.54, mode: 'prostrate' }
-    ];
-
-    // =========================================================================
-    // MÀN HÌNH LẦN CHUỖI HẠT GỖ VÀNG 3D DỌC MÀN HÌNH (CHUẨN FRAME 18 & 20 @linhoichoigi)
-    // =========================================================================
-    let beads3DOpen = false;
-    let beadsAngleOffset = 0;
-    let beadsTargetOffset = 0;
-    let beadsTotalPulled = 0;
-    let beadsMeritSession = 0;
-    let beadsDragging = false;
-    let beadsLastY = 0;
-    let beadsAccumStep = 0;
-    let beadSpriteCanvas = null;
-
-    function getBeadSpriteCanvas() {
-      if (beadSpriteCanvas) return beadSpriteCanvas;
-      const sz = 68;
-      const c = document.createElement('canvas');
-      c.width = sz;
-      c.height = sz;
-      const gctx = c.getContext('2d');
-      const r = 28;
-      const cx = sz / 2;
-      const cy = sz / 2;
-
-      // Bóng đổ 3D dưới hạt
-      gctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-      gctx.beginPath();
-      gctx.arc(cx + 2, cy + 4, r * 0.96, 0, Math.PI * 2);
-      gctx.fill();
-
-      // Quả cầu gỗ vàng óng 3D được vẽ sẵn 1 lần duy nhất vào bộ nhớ đệm
-      const hlX = cx - r * 0.32;
-      const hlY = cy - r * 0.32;
-      const g = gctx.createRadialGradient(hlX, hlY, r * 0.08, cx, cy, r);
-      g.addColorStop(0, '#fff5ba');
-      g.addColorStop(0.28, '#f5c742');
-      g.addColorStop(0.68, '#d49415');
-      g.addColorStop(1, '#7d4d04');
-      gctx.fillStyle = g;
-      gctx.beginPath();
-      gctx.arc(cx, cy, r, 0, Math.PI * 2);
-      gctx.fill();
-
-      gctx.strokeStyle = 'rgba(120, 70, 5, 0.22)';
-      gctx.lineWidth = 1.1;
-      gctx.beginPath();
-      gctx.arc(cx, cy, r * 0.72, 0.2, Math.PI - 0.2);
-      gctx.stroke();
-
-      gctx.fillStyle = 'rgba(255, 255, 240, 0.55)';
-      gctx.beginPath();
-      gctx.ellipse(hlX, hlY, r * 0.22, r * 0.13, -0.5, 0, Math.PI * 2);
-      gctx.fill();
-
-      beadSpriteCanvas = c;
-      return c;
-    }
-
-    function openBeads3DModal() {
-      const m = document.getElementById('beads3DModal');
-      if (!m) return;
-      m.style.display = 'flex';
-      beads3DOpen = true;
-      resizeBeads3DCanvas();
-      renderBeads3DOverlay(true);
-      playBellSound();
-    }
-
-    function closeBeads3DModal() {
-      const m = document.getElementById('beads3DModal');
-      if (m) m.style.display = 'none';
-      beads3DOpen = false;
-    }
-
-    function resizeBeads3DCanvas() {
-      const bc = document.getElementById('beads3DCanvas');
-      if (!bc) return;
-      bc.width = window.innerWidth;
-      bc.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeBeads3DCanvas);
-
-    function advanceBeadsByDelta(dy) {
-      beadsTargetOffset += dy * 0.0085;
-      beadsAccumStep += Math.abs(dy);
-      while (beadsAccumStep >= 26) {
-        beadsAccumStep -= 26;
-        beadsTotalPulled++;
-        playMoSound();
-        const pts = 1 * meritRateMultiplier;
-        beadsMeritSession += pts;
-        addMerit(pts, `Lần chuỗi hạt tịnh tâm (Hạt thứ #${beadsTotalPulled})`);
-        const cEl = document.getElementById('beadsCountLabel');
-        const mEl = document.getElementById('beadsMeritLabel');
-        if (cEl) cEl.textContent = String(beadsTotalPulled);
-        if (mEl) mEl.textContent = String(beadsMeritSession);
-      }
-    }
-
-    setTimeout(() => {
-      const bc = document.getElementById('beads3DCanvas');
-      if (!bc) return;
-      bc.addEventListener('pointerdown', (e) => {
-        beadsDragging = true;
-        beadsLastY = e.clientY;
-        advanceBeadsByDelta(28);
-      });
-      window.addEventListener('pointermove', (e) => {
-        if (!beadsDragging || !beads3DOpen) return;
-        const dy = e.clientY - beadsLastY;
-        beadsLastY = e.clientY;
-        if (Math.abs(dy) > 1) advanceBeadsByDelta(dy);
-      });
-      window.addEventListener('pointerup', () => { beadsDragging = false; });
-      bc.addEventListener('wheel', (e) => {
-        if (!beads3DOpen) return;
-        advanceBeadsByDelta(e.deltaY > 0 ? 28 : -28);
-      }, { passive: true });
-    }, 100);
-
-    function renderBeads3DOverlay() {
-      if (!beads3DOpen) return;
-      const diff = beadsTargetOffset - beadsAngleOffset;
-      beadsAngleOffset += diff * 0.22;
-
-      const bc = document.getElementById('beads3DCanvas');
-      if (!bc) return;
-      const bctx = bc.getContext('2d');
-      const W = window.innerWidth;
-      const H = window.innerHeight;
-      bctx.save();
-      bctx.setTransform(1, 0, 0, 1, 0, 0);
-
-      bctx.fillStyle = '#1a2328';
-      bctx.fillRect(0, 0, W, H);
-
-      const cx = W * 0.5;
-      const cy = H * 0.49;
-      const rx = Math.min(W * 0.17, H * 0.105, 86);
-      const ry = Math.min(H * 0.36, 275);
-      const numBeads = 18;
-      const beadDrawSize = Math.min(rx * 0.72, ry * 0.25, 58) * 1.15;
-
-      bctx.strokeStyle = 'rgba(210, 175, 110, 0.55)';
-      bctx.lineWidth = 2.4;
-      bctx.beginPath();
-      for (let i = 0; i <= 36; i++) {
-        const a = (i / 36) * Math.PI * 2;
-        const px = cx + Math.cos(a) * rx * (1 - 0.12 * Math.pow(Math.sin(a), 2));
-        const py = cy + Math.sin(a) * ry;
-        if (i === 0) bctx.moveTo(px, py);
-        else bctx.lineTo(px, py);
-      }
-      bctx.closePath();
-      bctx.stroke();
-
-      const beadList = [];
-      for (let i = 0; i < numBeads; i++) {
-        const angle = (i / numBeads) * Math.PI * 2 + beadsAngleOffset;
-        const squeeze = 1 - 0.08 * Math.sin(angle);
-        const bx = cx + Math.cos(angle) * rx * squeeze;
-        const by = cy + Math.sin(angle) * ry;
-        beadList.push({ bx, by, depth: Math.sin(angle) });
-      }
-      beadList.sort((a, b) => a.depth - b.depth);
-
-      const sprite = getBeadSpriteCanvas();
-      const halfSz = beadDrawSize * 0.5;
-      for (const b of beadList) {
-        bctx.drawImage(sprite, b.bx - halfSz, b.by - halfSz, beadDrawSize, beadDrawSize);
-      }
-      bctx.restore();
-    }
-
-    // Nhãn tên trắng tối giản kiểu Hàn Quốc (@linhoichoigi: [나] 다정한 이끼)
     function drawRoundedBadge(x, y, avatar, name, isPlayer = false) {
       ctx.save();
-      ctx.font = isPlayer ? '700 10.5px sans-serif' : '600 9.5px sans-serif';
-      const cleanName = (name || 'Phật Tử').replace(/\(.*?\)/g, '').trim();
-      const textW = ctx.measureText(cleanName).width;
-      const boxW = textW + (isPlayer ? 32 : 16);
-      const boxH = isPlayer ? 20 : 17;
+      ctx.font = isPlayer ? 'bold 11.5px sans-serif' : '600 10.5px sans-serif';
+      const textW = ctx.measureText(name).width;
+      const boxW = textW + 32;
+      const boxH = 21;
       const bx = Math.max(6, Math.min(window.innerWidth - boxW - 6, x - boxW / 2));
       const by = y - boxH / 2;
 
-      if (isPlayer) {
-        ctx.fillStyle = 'rgba(246, 243, 234, 0.96)';
-        ctx.strokeStyle = 'rgba(120, 115, 100, 0.35)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(bx, by, boxW, boxH, 10);
-        ctx.fill();
-        ctx.stroke();
+      ctx.fillStyle = isPlayer ? 'rgba(42, 24, 6, 0.90)' : 'rgba(18, 14, 10, 0.78)';
+      ctx.strokeStyle = isPlayer ? '#ffd46b' : 'rgba(225, 190, 115, 0.45)';
+      ctx.lineWidth = isPlayer ? 1.5 : 0.9;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, boxW, boxH, 11);
+      ctx.fill();
+      ctx.stroke();
 
-        ctx.fillStyle = '#5e6b4d';
-        ctx.beginPath();
-        ctx.arc(bx + 11, y, 6.5, 0, Math.PI * 2);
-        ctx.fill();
+      ctx.font = '10.5px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#fff';
+      ctx.fillText(avatar, bx + 11, y + 0.5);
 
-        ctx.font = 'bold 7.5px sans-serif';
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Tôi', bx + 11, y + 0.5);
-
-        ctx.font = '700 10.5px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#4a4a42';
-        ctx.fillText(cleanName, bx + 21, y + 0.5);
-      } else {
-        ctx.fillStyle = 'rgba(24, 22, 18, 0.78)';
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
-        ctx.lineWidth = 0.8;
-        ctx.beginPath();
-        ctx.roundRect(bx, by, boxW, boxH, 8);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.font = '600 9.2px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = 'rgba(240, 235, 220, 0.88)';
-        ctx.fillText(cleanName, bx + boxW / 2, y + 0.5);
-      }
+      ctx.font = isPlayer ? 'bold 11px sans-serif' : '600 10.5px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillStyle = isPlayer ? '#ffe596' : '#f5ead2';
+      ctx.fillText(name, bx + 21, y + 0.5);
       ctx.restore();
     }
 
     function drawDarkChatBubble(x, y, text) {
       if (!text) return;
       ctx.save();
-      ctx.font = '600 10.5px sans-serif';
-      const cleanText = text.length > 68 ? (text.slice(0, 66) + '…') : text;
+      ctx.font = '600 11px sans-serif';
+      const cleanText = text.length > 74 ? (text.slice(0, 72) + '…') : text;
       const lines = [];
       const words = cleanText.split(' ');
       let cur = '';
       for (const w of words) {
         const test = cur ? (cur + ' ' + w) : w;
-        if (ctx.measureText(test).width > 200 && cur) {
+        if (ctx.measureText(test).width > 215 && cur) {
           lines.push(cur);
           cur = w;
           if (lines.length >= 2) break;
@@ -5504,578 +5163,40 @@
       let maxW = 0;
       for (const l of lines) maxW = Math.max(maxW, ctx.measureText(l).width);
       const boxW = maxW + 16;
-      const boxH = lines.length * 13 + 9;
+      const boxH = lines.length * 14 + 10;
+      // Giữ hộp thoại luôn nằm gọn 100% trong màn hình, kể cả khi khách ngồi ở rìa trái/phải!
       const bx = Math.max(6, Math.min(window.innerWidth - boxW - 6, x - boxW / 2));
       const by = y - boxH;
       const textCenterX = bx + boxW / 2;
 
-      ctx.fillStyle = 'rgba(246, 243, 234, 0.95)';
-      ctx.strokeStyle = 'rgba(94, 107, 77, 0.55)';
+      ctx.fillStyle = 'rgba(20, 15, 10, 0.90)';
+      ctx.strokeStyle = 'rgba(235, 192, 102, 0.65)';
       ctx.lineWidth = 1.1;
       ctx.beginPath();
-      ctx.roundRect(bx, by, boxW, boxH, 9);
+      ctx.roundRect(bx, by, boxW, boxH, 8);
       ctx.fill();
       ctx.stroke();
 
+      // Mũi tên trỏ đúng về phía đầu nhân vật ở rìa
       const ptrX = Math.max(bx + 10, Math.min(bx + boxW - 10, x));
       ctx.beginPath();
-      ctx.moveTo(ptrX - 4, by + boxH);
-      ctx.lineTo(ptrX + 4, by + boxH);
-      ctx.lineTo(ptrX, by + boxH + 4);
+      ctx.moveTo(ptrX - 5, by + boxH);
+      ctx.lineTo(ptrX + 5, by + boxH);
+      ctx.lineTo(ptrX, by + boxH + 5);
       ctx.closePath();
       ctx.fill();
 
-      ctx.fillStyle = '#2c2e28';
+      ctx.fillStyle = '#fff2d6';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       lines.forEach((line, idx) => {
-        ctx.fillText(line, textCenterX, by + 10 + idx * 13);
+        ctx.fillText(line, textCenterX, by + 11 + idx * 14);
       });
       ctx.restore();
     }
 
-    // =========================================================================
-    // VẼ NHÂN VẬT 3D ĐẦU TRÒN MẶC ÁO LAM XÁM + Y VÀNG VẮT CHÉO VAI (SIÊU NHẸ 0 GRADIENT PER FRAME!)
-    // =========================================================================
-    function draw3DMonkCharacter(ctx, sx, sy, scale, poseMode, animParam, isFacingFront = false) {
-      ctx.save();
-      ctx.translate(sx, sy);
-      const s = scale * 1.18;
-      ctx.scale(s, s);
-
-      // Bóng đổ mềm dưới chân (Flat fill siêu nhẹ, 0 cấp phát Gradient)
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.42)';
-      ctx.beginPath();
-      ctx.ellipse(0, -2, 24, 8.5, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (poseMode === 'prostrate') {
-        // TƯ THẾ 3: CÚI RẠP SÁT ĐỆM BỒ ĐOÀN (Chuẩn y hệt Frame 28 của @linhoichoigi!)
-        ctx.fillStyle = '#6c787d';
-        ctx.beginPath();
-        ctx.roundRect(-18, -15, 36, 14, 7);
-        ctx.fill();
-
-        ctx.fillStyle = '#7e8c91';
-        ctx.beginPath();
-        ctx.ellipse(2, -21, 22, 14, 0.08, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = '#96a4a9';
-        ctx.beginPath();
-        ctx.ellipse(-2, -24, 15, 8.5, 0.05, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = '#d4b512';
-        ctx.beginPath();
-        ctx.moveTo(-6, -33);
-        ctx.lineTo(18, -26);
-        ctx.lineTo(20, -12);
-        ctx.lineTo(-4, -14);
-        ctx.closePath();
-        ctx.fill();
-
-        // Chỏm đầu tròn 3D màu nâu ấm 2 lớp (0 gradient allocation!)
-        const headX = -14;
-        const headY = -27;
-        ctx.fillStyle = '#8d4c14';
-        ctx.beginPath();
-        ctx.arc(headX, headY, 16.5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#b56925';
-        ctx.beginPath();
-        ctx.arc(headX - 3, headY - 3, 11.5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#cf8339';
-        ctx.beginPath();
-        ctx.arc(headX - 5, headY - 5, 6, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-        return sy - 42 * s;
-      }
-
-      if (poseMode === 'kneel') {
-        // TƯ THẾ 2: QUỲ THẲNG TRÊN ĐỆM BỒ ĐOÀN VUÔNG
-        ctx.fillStyle = '#6c787d';
-        ctx.beginPath();
-        ctx.roundRect(-21, -16, 42, 15, 7);
-        ctx.fill();
-
-        ctx.fillStyle = '#7c8a8f';
-        ctx.beginPath();
-        ctx.roundRect(-18, -54, 36, 40, 12);
-        ctx.fill();
-
-        ctx.fillStyle = '#95a3a8';
-        ctx.beginPath();
-        ctx.roundRect(-16, -53, 22, 34, 10);
-        ctx.fill();
-
-        ctx.fillStyle = '#d6b814';
-        ctx.beginPath();
-        ctx.moveTo(-11, -53);
-        ctx.lineTo(4, -51);
-        ctx.lineTo(15, -15);
-        ctx.lineTo(-10, -15);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = '#859398';
-        ctx.beginPath();
-        ctx.roundRect(-24, -48, 9, 24, 5);
-        ctx.roundRect(15, -48, 9, 24, 5);
-        ctx.fill();
-
-        // Đầu tròn 3D 3 lớp siêu nhẹ
-        ctx.fillStyle = '#8c4b13';
-        ctx.beginPath();
-        ctx.arc(0, -74, 23, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#b26622';
-        ctx.beginPath();
-        ctx.arc(-3.5, -77.5, 16.5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#cf843a';
-        ctx.beginPath();
-        ctx.arc(-6.5, -80.5, 9, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-        return sy - 102 * s;
-      }
-
-      // TƯ THẾ 1 & 4: ĐỨNG THẲNG / ĐI BỘ / ĐỨNG CHẮP TAY CÚI VÁI (합장)
-      const isVai = (poseMode === 'vai');
-      const walkSwing = (poseMode === 'walk') ? Math.sin(animParam * 0.22) * 6 : 0;
-      const vaiBowDip = isVai ? (0.35 + 0.65 * Math.pow(Math.sin(animParam * 0.09), 2)) : 0;
-
-      // 1. Đôi giày vải trắng 3D
-      ctx.fillStyle = '#dfddd4';
-      ctx.beginPath();
-      ctx.ellipse(-9, -4 + walkSwing * 0.5, 7.5, 4.5, 0, 0, Math.PI * 2);
-      ctx.ellipse(9, -4 - walkSwing * 0.5, 7.5, 4.5, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2. Hai ống quần lam xám 3D
-      ctx.fillStyle = '#738085';
-      ctx.beginPath();
-      ctx.roundRect(-16, -34 + walkSwing * 0.4, 13, 29, 5);
-      ctx.roundRect(3, -34 - walkSwing * 0.4, 13, 29, 5);
-      ctx.fill();
-
-      ctx.save();
-      const torsoDropY = vaiBowDip * 11;
-      ctx.translate(0, torsoDropY);
-      if (isVai) {
-        ctx.rotate(-vaiBowDip * 0.14);
-      }
-
-      // 3. Hai cánh tay áo lam xám 3D
-      ctx.save();
-      if (isVai) {
-        ctx.fillStyle = '#839196';
-        ctx.beginPath();
-        ctx.ellipse(-18, -56, 7, 17, 0.25, 0, Math.PI * 2);
-        ctx.ellipse(18, -56, 7, 17, -0.25, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        ctx.fillStyle = '#87959a';
-        ctx.save();
-        ctx.translate(-19, -68);
-        ctx.rotate(0.32 - walkSwing * 0.03);
-        ctx.beginPath();
-        ctx.roundRect(-5, 0, 11, 28, 5.5);
-        ctx.fill();
-        ctx.fillStyle = '#a86224';
-        ctx.beginPath();
-        ctx.arc(0.5, 29, 4.2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-
-        ctx.fillStyle = '#87959a';
-        ctx.save();
-        ctx.translate(19, -68);
-        ctx.rotate(-0.32 + walkSwing * 0.03);
-        ctx.beginPath();
-        ctx.roundRect(-6, 0, 11, 28, 5.5);
-        ctx.fill();
-        ctx.fillStyle = '#a86224';
-        ctx.beginPath();
-        ctx.arc(-0.5, 29, 4.2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-      ctx.restore();
-
-      // 4. Thân áo lam xám 3D
-      ctx.fillStyle = '#78868b';
-      ctx.beginPath();
-      ctx.roundRect(-20, -75, 40, 48, 12);
-      ctx.fill();
-      ctx.fillStyle = '#94a2a7';
-      ctx.beginPath();
-      ctx.roundRect(-18, -74, 24, 42, 10);
-      ctx.fill();
-
-      // 5. Dải y vàng tươi vắt chéo từ vai trái xuống vạt phải
-      ctx.fillStyle = '#d9ba16';
-      ctx.beginPath();
-      ctx.moveTo(-13, -74);
-      ctx.lineTo(3, -72);
-      ctx.lineTo(17, -28);
-      ctx.lineTo(-10, -28);
-      ctx.closePath();
-      ctx.fill();
-
-      // 6. Đầu tròn 3D màu nâu ấm 3 lớp (Siêu nhẹ 0 gradient allocation!)
-      const headCenterY = -98 + vaiBowDip * 12;
-      const headCenterX = isVai ? (-vaiBowDip * 4) : 0;
-      ctx.fillStyle = '#8c4b13';
-      ctx.beginPath();
-      ctx.arc(headCenterX, headCenterY, 26, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#b46823';
-      ctx.beginPath();
-      ctx.arc(headCenterX - 4, headCenterY - 4, 18.5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#d4883c';
-      ctx.beginPath();
-      ctx.arc(headCenterX - 7.5, headCenterY - 7.5, 10, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (isFacingFront && !isVai) {
-        ctx.strokeStyle = '#3b1d04';
-        ctx.lineWidth = 2.0;
-        ctx.beginPath();
-        ctx.arc(-8, headCenterY + 1, 4, Math.PI * 1.15, Math.PI * 1.85);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(8, headCenterY + 1, 4, Math.PI * 1.15, Math.PI * 1.85);
-        ctx.stroke();
-      }
-
-      ctx.restore();
-      ctx.restore();
-      return sy - (128 - vaiBowDip * 18) * s;
-    }
-
-    // =========================================================================
-    // VẼ KHUNG CẢNH CHÁNH ĐIỆN GỖ TRẦM 3D VÀO BỘ NHỚ ĐỆM TĨNH (OFFSCREEN CACHE = VẼ TRONG 0.05ms!)
-    // =========================================================================
-    function renderStaticSanctuaryLayer(cctx, wingW, wingH, visW, wdIdx) {
-      const wx = 0;
-      const topScreenY = 0;
-      const cx = wingW * 0.5;
-      const horizonY = wingH * 0.455;
-      const stepsTopY = wingH * 0.815;
-      const stepsBotY = wingH * 0.868;
-      const bottomY = wingH * 1.05;
-
-      // 1. TRẦN GỖ LIM TỐI & TƯỜNG HẬU CUNG TRẦM MẶC
-      const ceilGrad = cctx.createLinearGradient(0, 0, 0, horizonY);
-      ceilGrad.addColorStop(0, '#090705');
-      ceilGrad.addColorStop(0.55, '#140f0a');
-      ceilGrad.addColorStop(1, '#1d160f');
-      cctx.fillStyle = ceilGrad;
-      cctx.fillRect(0, 0, wingW, horizonY + 2);
-
-      cctx.strokeStyle = 'rgba(10, 7, 4, 0.85)';
-      cctx.lineWidth = 4;
-      for (let r = 0; r < 5; r++) {
-        const ry = horizonY * (0.08 + r * 0.12);
-        cctx.beginPath();
-        cctx.moveTo(0, ry);
-        cctx.lineTo(wingW, ry);
-        cctx.stroke();
-      }
-
-      // 2. VÁCH TƯỜNG HAI BÊN & KHUNG CỬA SỔ GỖ CHẤN SONG
-      const wallLeftW = wingW * 0.20;
-      cctx.fillStyle = '#16110c';
-      cctx.fillRect(0, wingH * 0.12, wallLeftW, horizonY - wingH * 0.12);
-      cctx.fillRect(wingW - wallLeftW, wingH * 0.12, wallLeftW, horizonY - wingH * 0.12);
-
-      for (const side of [-1, 1]) {
-        const winW = wallLeftW * 0.68;
-        const winH = wingH * 0.17;
-        const winX = (side === 1) ? (wingW - wallLeftW * 0.84) : (wallLeftW * 0.16);
-        const winY = wingH * 0.21;
-
-        cctx.fillStyle = '#14211f';
-        cctx.fillRect(winX, winY, winW, winH);
-
-        cctx.strokeStyle = '#0d0906';
-        cctx.lineWidth = 2.4;
-        cctx.strokeRect(winX, winY, winW, winH);
-        for (let gx = 1; gx < 6; gx++) {
-          const lx = winX + (winW / 6) * gx;
-          cctx.beginPath(); cctx.moveTo(lx, winY); cctx.lineTo(lx, winY + winH); cctx.stroke();
-        }
-        for (let gy = 1; gy < 4; gy++) {
-          const ly = winY + (winH / 4) * gy;
-          cctx.beginPath(); cctx.moveTo(winX, ly); cctx.lineTo(winX + winW, ly); cctx.stroke();
-        }
-      }
-
-      // 3. BỨC TRANH BÍCH HỌA MANDALA PHẬT GIÁO CỔ KÍNH & TƯỢNG PHẬT VÀNG 3D
-      const muralW = Math.min(visW * 0.68, wingW * 0.58);
-      const muralH = wingH * 0.285;
-      const muralX = cx - muralW / 2;
-      const muralY = horizonY - muralH - wingH * 0.008;
-
-      cctx.fillStyle = '#1b120b';
-      cctx.fillRect(muralX - 10, muralY - 8, muralW + 20, muralH + 12);
-
-      if (images.koreanMural && images.koreanMural.complete && images.koreanMural.naturalWidth > 0) {
-        cctx.drawImage(images.koreanMural, muralX, muralY, muralW, muralH);
-      } else {
-        cctx.fillStyle = '#2b1208';
-        cctx.fillRect(muralX, muralY, muralW, muralH);
-      }
-
-      const colW = Math.max(18, wingW * 0.028);
-      cctx.fillStyle = '#150e09';
-      cctx.fillRect(muralX - colW - 8, wingH * 0.08, colW, horizonY - wingH * 0.08);
-      cctx.fillRect(muralX + muralW + 8, wingH * 0.08, colW, horizonY - wingH * 0.08);
-
-      // 4. SÀN GỖ LIM TỐI 3D + 3 BẬC TAM CẤP GỖ + SÂN RÊU NGOÀI HIÊN
-      const floorGrad = cctx.createLinearGradient(cx, horizonY, cx, stepsTopY);
-      floorGrad.addColorStop(0, '#17120d');
-      floorGrad.addColorStop(0.5, '#1d1711');
-      floorGrad.addColorStop(1, '#15110c');
-      cctx.fillStyle = floorGrad;
-      cctx.fillRect(0, horizonY, wingW, stepsTopY - horizonY);
-
-      cctx.strokeStyle = 'rgba(8, 5, 3, 0.65)';
-      cctx.lineWidth = 1.2;
-      for (let p = -10; p <= 10; p++) {
-        const topPx = cx + p * (visW * 0.045);
-        const botPx = cx + p * (visW * 0.105);
-        cctx.beginPath();
-        cctx.moveTo(topPx, horizonY);
-        cctx.lineTo(botPx, stepsTopY);
-        cctx.stroke();
-      }
-      for (let h = 1; h <= 8; h++) {
-        const frac = Math.pow(h / 8, 1.35);
-        const py = horizonY + (stepsTopY - horizonY) * frac;
-        cctx.beginPath();
-        cctx.moveTo(0, py);
-        cctx.lineTo(wingW, py);
-        cctx.stroke();
-      }
-
-      const stepCount = 3;
-      const stepH = (stepsBotY - stepsTopY) / stepCount;
-      for (let st = 0; st < stepCount; st++) {
-        const syTop = stepsTopY + st * stepH;
-        cctx.fillStyle = '#28211a';
-        cctx.fillRect(0, syTop, wingW, stepH * 0.55);
-        cctx.fillStyle = '#120e0a';
-        cctx.fillRect(0, syTop + stepH * 0.55, wingW, stepH * 0.45);
-      }
-
-      const mossGrad = cctx.createLinearGradient(cx, stepsBotY, cx, bottomY);
-      mossGrad.addColorStop(0, '#2a301d');
-      mossGrad.addColorStop(1, '#1e2414');
-      cctx.fillStyle = mossGrad;
-      cctx.fillRect(0, stepsBotY, wingW, bottomY - stepsBotY);
-
-      cctx.fillStyle = 'rgba(68, 82, 42, 0.35)';
-      for (let m = 0; m < 14; m++) {
-        const mx = ((m * 97) % 100) * 0.01 * wingW;
-        const my = stepsBotY + 8 + ((m * 43) % 100) * 0.01 * (bottomY - stepsBotY - 14);
-        cctx.beginPath();
-        cctx.ellipse(mx, my, 28 + (m % 4) * 12, 7 + (m % 3) * 3, 0, 0, Math.PI * 2);
-        cctx.fill();
-      }
-
-      const statueBaseY = horizonY - wingH * 0.012;
-      const statueH = muralH * 0.68;
-      const statueW = statueH * 0.78;
-
-      const spotGrad = cctx.createRadialGradient(cx, statueBaseY - statueH * 0.35, 10, cx, statueBaseY + 20, statueW * 1.35);
-      spotGrad.addColorStop(0, 'rgba(255, 210, 80, 0.19)');
-      spotGrad.addColorStop(1, 'rgba(235, 175, 45, 0)');
-      cctx.fillStyle = spotGrad;
-      cctx.fillRect(cx - statueW * 1.4, muralY, statueW * 2.8, wingH * 0.42);
-
-      if (wdIdx !== 0) {
-        const plaqueTitle = (wdIdx === -1) ? 'ĐỨC ÔNG TU ĐẠT ĐA' : 'THẦN TÀI VỊ TIỀN';
-        cctx.fillStyle = 'rgba(28, 16, 6, 0.92)';
-        cctx.strokeStyle = '#d4a84f';
-        cctx.lineWidth = 1.2;
-        cctx.beginPath();
-        cctx.roundRect(cx - 68, muralY + 6, 136, 20, 6);
-        cctx.fill();
-        cctx.stroke();
-        cctx.font = 'bold 10px sans-serif';
-        cctx.fillStyle = '#ffe082';
-        cctx.textAlign = 'center';
-        cctx.textBaseline = 'middle';
-        cctx.fillText(plaqueTitle, cx, muralY + 16);
-      }
-
-      // 6. BÀN HƯƠNG ÁN GỖ ĐEN + ĐÔI CHÂN NẾN ĐỒNG NẾN TRẮNG + BÌNH HOA SEN TRẮNG + LƯ HƯƠNG
-      const altarTableY = horizonY + wingH * 0.008;
-      const altarTableW = statueW * 0.62;
-      const altarTableH = wingH * 0.048;
-
-      for (const cSide of [-1, 1]) {
-        const standX = cx + cSide * (statueW * 0.62);
-        const standBaseY = horizonY + 4;
-        cctx.fillStyle = '#b58d28';
-        cctx.fillRect(standX - 9, standBaseY - 4, 18, 4);
-        cctx.fillRect(standX - 2.5, standBaseY - 24, 5, 20);
-        cctx.fillRect(standX - 8, standBaseY - 26, 16, 3);
-        cctx.fillStyle = '#f2efe6';
-        cctx.fillRect(standX - 4.5, standBaseY - 44, 9, 18);
-        cctx.fillStyle = '#ffdf5d';
-        cctx.beginPath();
-        cctx.ellipse(standX, standBaseY - 48, 3.2, 6, 0, 0, Math.PI * 2);
-        cctx.fill();
-
-        const vaseX = standX - cSide * 16;
-        cctx.fillStyle = '#6d8c7a';
-        cctx.beginPath();
-        cctx.ellipse(vaseX, standBaseY - 10, 7, 10, 0, 0, Math.PI * 2);
-        cctx.fill();
-        cctx.fillStyle = '#f5f2e9';
-        cctx.beginPath();
-        cctx.arc(vaseX - 4, standBaseY - 23, 3.5, 0, Math.PI * 2);
-        cctx.arc(vaseX + 4, standBaseY - 24, 3.5, 0, Math.PI * 2);
-        cctx.arc(vaseX, standBaseY - 27, 3.8, 0, Math.PI * 2);
-        cctx.fill();
-      }
-
-      cctx.fillStyle = '#0e0905';
-      cctx.fillRect(cx - altarTableW / 2, altarTableY, altarTableW, 6);
-      cctx.fillRect(cx - altarTableW / 2 + 4, altarTableY + 6, 5, altarTableH);
-      cctx.fillRect(cx + altarTableW / 2 - 9, altarTableY + 6, 5, altarTableH);
-
-      cctx.fillStyle = '#3d3522';
-      cctx.fillRect(cx - 14, altarTableY - 7, 28, 7);
-      for (const sOff of [-4, 0, 4]) {
-        cctx.strokeStyle = '#1c1610';
-        cctx.lineWidth = 1.6;
-        cctx.beginPath();
-        cctx.moveTo(cx + sOff, altarTableY - 7);
-        cctx.lineTo(cx + sOff, altarTableY - 24);
-        cctx.stroke();
-        cctx.fillStyle = '#ff6d00';
-        cctx.beginPath();
-        cctx.arc(cx + sOff, altarTableY - 24, 1.6, 0, Math.PI * 2);
-        cctx.fill();
-      }
-
-      // 7. ĐÔI ĐÈN LỒNG VÀNG ẤM TREO HAI BÊN HIÊN CHÁNH ĐIỆN
-      for (const lSide of [-1, 1]) {
-        const lx = cx + lSide * (visW * 0.42);
-        const ly = wingH * 0.205;
-        const lGlow = cctx.createRadialGradient(lx, ly, 4, lx, ly, 36);
-        lGlow.addColorStop(0, 'rgba(255, 238, 155, 0.55)');
-        lGlow.addColorStop(1, 'rgba(255, 200, 80, 0)');
-        cctx.fillStyle = lGlow;
-        cctx.beginPath();
-        cctx.arc(lx, ly, 36, 0, Math.PI * 2);
-        cctx.fill();
-
-        cctx.fillStyle = '#fff3b8';
-        cctx.beginPath();
-        cctx.roundRect(lx - 11, ly - 15, 22, 30, 7);
-        cctx.fill();
-      }
-
-      // 8. CÁC HÀNG ĐỆM BỒ ĐOÀN VUÔNG MÀU XÁM ĐEN 3D XẾP DỌC HAI BÊN LỐI ĐI
-      for (const c of cushions20) {
-        if (c.wing !== wdIdx) continue;
-        const cxPos = cx + (c.u - 0.5) * visW;
-        const cyPos = c.v * wingH;
-        const cScale = (0.56 + (c.v - 0.55) * 1.05) * (wingH / 960);
-        const mw = 38 * cScale;
-        const mh = 13 * cScale;
-        const mThick = 5.5 * cScale;
-
-        cctx.fillStyle = 'rgba(0, 0, 0, 0.48)';
-        cctx.beginPath();
-        cctx.roundRect(cxPos - mw - 2, cyPos - mh + 2, mw * 2 + 4, mh * 2 + mThick, 4);
-        cctx.fill();
-
-        cctx.fillStyle = '#222423';
-        cctx.beginPath();
-        cctx.roundRect(cxPos - mw, cyPos - mh + 3, mw * 2, mh * 2 + mThick - 3, 4);
-        cctx.fill();
-
-        cctx.fillStyle = '#363937';
-        cctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-        cctx.lineWidth = 1;
-        cctx.beginPath();
-        cctx.moveTo(cxPos - mw * 0.90, cyPos - mh);
-        cctx.lineTo(cxPos + mw * 0.90, cyPos - mh);
-        cctx.lineTo(cxPos + mw, cyPos + mh);
-        cctx.lineTo(cxPos - mw, cyPos + mh);
-        cctx.closePath();
-        cctx.fill();
-        cctx.stroke();
-      }
-
-      // 9. CÁC PHẬT TỬ 3D ÁO LAM XÁM + Y VÀNG ĐỨNG/QUỲ TĨNH TÂM PHÍA TRƯỚC PHẬT ĐÀI (Vẽ luôn vào lớp đệm nền tĩnh!)
-      for (let idx = 0; idx < frontAltarDevotees.length; idx++) {
-        const fd = frontAltarDevotees[idx];
-        const fx = cx + (fd.u - 0.5) * visW;
-        const fy = fd.v * wingH;
-        const fScale = Math.max(0.32, 0.34 + (fd.v - 0.46) * 1.1) * (wingH / 960);
-        draw3DMonkCharacter(cctx, fx, fy, fScale, fd.mode, 0, false);
-      }
-    }
-
-    function draw3DKoreanSanctuary(ctx, wx, topScreenY, wingW, wingH, visW, wdIdx) {
-      const rw = Math.max(100, Math.round(wingW));
-      const rh = Math.max(100, Math.round(wingH));
-      const rVisW = Math.round(visW);
-      const muralReady = Boolean(images.koreanMural && images.koreanMural.complete && images.koreanMural.naturalWidth > 0);
-      const cacheKey = `${wdIdx}_${rw}_${rh}_${rVisW}_${muralReady ? 1 : 0}`;
-
-      let cached = sanctuaryWingCache[wdIdx];
-      if (!cached || cached.key !== cacheKey) {
-        const offCanvas = (cached && cached.canvas) ? cached.canvas : document.createElement('canvas');
-        offCanvas.width = rw;
-        offCanvas.height = Math.round(rh * 1.05);
-        const offCtx = offCanvas.getContext('2d');
-        renderStaticSanctuaryLayer(offCtx, rw, rh, rVisW, wdIdx);
-        cached = { key: cacheKey, canvas: offCanvas };
-        sanctuaryWingCache[wdIdx] = cached;
-      }
-
-      // Chỉ tốn ĐÚNG 1 LỆNH drawImage (< 0.05ms) để vẽ toàn bộ Chánh Điện 3D + Tượng Phật + 14 Đệm Bồ Đoàn + 9 Phật Tử!
-      ctx.drawImage(cached.canvas, Math.round(wx), Math.round(topScreenY));
-
-      // 10. HIỂN THỊ CÁC MÂM LỄ VẬT DÂNG LÊN BÀN THỜ (Nếu có đặt lễ)
-      const wingOfferings = altarOfferings[String(wdIdx)] || [];
-      if (wingOfferings.length > 0) {
-        const cx = wx + wingW * 0.5;
-        const horizonY = topScreenY + wingH * 0.455;
-        const altarTableY = horizonY + wingH * 0.008;
-        const count = Math.min(4, wingOfferings.length);
-        const slotW = 56 * (wingH / 960);
-        const totalW = count * slotW + (count - 1) * 8;
-        const startX = cx - totalW / 2;
-        const trayY = altarTableY + 8;
-        wingOfferings.slice(-4).forEach((off, idx) => {
-          const sxSlot = startX + idx * (slotW + 8) + slotW / 2;
-          const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
-          if (tex && tex.complete && tex.naturalWidth > 0) {
-            ctx.drawImage(tex, sxSlot - slotW / 2, trayY - slotW * 0.5, slotW, slotW);
-          }
-        });
-      }
-    }
-
-    let camFollowV = 0.78;
-
-    function isAnyFullOverlayOpen() {
-      if (furnaceOpen || beads3DOpen) return true;
+    function isAnyOverlayModalOpen() {
+      if (furnaceOpen) return true;
       const kModal = document.getElementById('karmaReleaseModal');
       if (kModal && kModal.classList.contains('open')) return true;
       const sModal = document.getElementById('soKhanModal');
@@ -6085,13 +5206,106 @@
       return false;
     }
 
+    function renderStaticVietnameseWingToCache(cctx, wd, wingW, wingH, visW, W) {
+      if (wd.img && wd.img.complete && wd.img.naturalWidth > 0) {
+        cctx.drawImage(wd.img, 0, 0, wingW, wingH);
+      }
+      cctx.fillStyle = 'rgba(28, 15, 5, 0.65)';
+      cctx.fillRect(0, 0, 6, wingH);
+
+      const wingCenterX = wingW * 0.5;
+      const altarCx = wingCenterX;
+      const altarCy = wingH * 0.36;
+      const glowGrad = cctx.createRadialGradient(altarCx, altarCy, 10, altarCx, altarCy, wingW * 0.28);
+      glowGrad.addColorStop(0, 'rgba(255, 210, 110, 0.16)');
+      glowGrad.addColorStop(1, 'rgba(255, 210, 110, 0)');
+      cctx.fillStyle = glowGrad;
+      cctx.fillRect(0, 0, wingW, wingH * 0.65);
+
+      // 1. Visible burning incense sticks inside bronze censer
+      const censerX = wingCenterX;
+      const censerY = wingH * ((wd.idx === 0) ? 0.382 : 0.402);
+      const stickCount = Math.min(21, burningIncenseCount[String(wd.idx)] || 9);
+      cctx.save();
+      for (let s = 0; s < stickCount; s++) {
+        const frac = (s / (stickCount - 1 || 1)) - 0.5;
+        const angle = frac * 0.42;
+        const stickLen = (25 + (s % 3) * 5) * (wingH / 960);
+        const bx = censerX + frac * 22 * (wingW / 1200);
+        const by = censerY;
+        const tx = bx + Math.sin(angle) * stickLen;
+        const ty = by - Math.cos(angle) * stickLen;
+        cctx.strokeStyle = '#b82828';
+        cctx.lineWidth = 1.5;
+        cctx.beginPath();
+        cctx.moveTo(bx, by);
+        cctx.lineTo(tx, ty);
+        cctx.stroke();
+        cctx.fillStyle = 'rgba(255, 95, 20, 0.9)';
+        cctx.beginPath();
+        cctx.arc(tx, ty, 2.3, 0, Math.PI * 2);
+        cctx.fill();
+      }
+      cctx.restore();
+
+      // 2. Render ALL 20 Empty Red-and-Gold Meditation Cushions into static cache
+      cctx.save();
+      for (const c of cushions20) {
+        if (c.wing !== wd.idx) continue;
+        const cxPos = wingCenterX + (c.u - 0.5) * visW;
+        const cyPos = c.v * wingH;
+        const cScale = (0.58 + (c.v - 0.575) * 0.92) * (wingH / 960);
+        const rx = 25.5 * cScale;
+        const ry = 9.8 * cScale;
+
+        cctx.fillStyle = 'rgba(138, 24, 14, 0.92)';
+        cctx.strokeStyle = 'rgba(255, 215, 90, 0.90)';
+        cctx.lineWidth = 1.5;
+        cctx.beginPath();
+        cctx.ellipse(cxPos, cyPos, rx, ry, 0, 0, Math.PI * 2);
+        cctx.fill();
+        cctx.stroke();
+
+        cctx.fillStyle = 'rgba(195, 42, 22, 0.95)';
+        cctx.beginPath();
+        cctx.ellipse(cxPos, cyPos - 1.5, rx * 0.74, ry * 0.70, 0, 0, Math.PI * 2);
+        cctx.fill();
+      }
+      cctx.restore();
+
+      // 3. Carved Red & Gold Lacquered Wooden Table Top & Apron into static cache
+      cctx.save();
+      const tableY = censerY + 46 * (wingH / 960);
+      const tableW = Math.min(W - 14, Math.max(305, wingW * 0.64));
+      const tableH = 26 * (wingH / 960);
+      const tableX = censerX - tableW / 2;
+
+      const tblGrad = cctx.createLinearGradient(tableX, tableY - 6, tableX, tableY + tableH);
+      tblGrad.addColorStop(0, 'rgba(136, 32, 10, 0.97)');
+      tblGrad.addColorStop(0.25, 'rgba(92, 20, 6, 0.98)');
+      tblGrad.addColorStop(1, 'rgba(42, 10, 3, 0.99)');
+      cctx.fillStyle = tblGrad;
+      cctx.strokeStyle = '#ffd56b';
+      cctx.lineWidth = 2.0;
+      cctx.beginPath();
+      cctx.roundRect(tableX, tableY, tableW, tableH, 10);
+      cctx.fill();
+      cctx.stroke();
+
+      cctx.fillStyle = 'rgba(168, 42, 12, 0.96)';
+      cctx.strokeStyle = '#ffe082';
+      cctx.lineWidth = 1.4;
+      cctx.beginPath();
+      cctx.roundRect(tableX - 3, tableY - 7, tableW + 6, 9, 4);
+      cctx.fill();
+      cctx.stroke();
+      cctx.restore();
+    }
+
     function render() {
       frameCount++;
-      if (beads3DOpen) {
-        renderBeads3DOverlay();
-      }
-      // Khi đang mở bất kỳ phòng riêng / modal toàn màn hình nào (Sân Đấm, Chuỗi Hạt, Lò Hóa Vàng, Sớ Khấn, Dâng Lễ), tạm dừng vẽ canvas 3D nền để chạy 60FPS không lag!
-      if (isAnyFullOverlayOpen()) {
+      // Khi đang mở Phòng Đốt Vàng Mã, Sân Đấm, Sớ Khấn hoặc Cửa Hàng, tạm dừng vẽ canvas 3D nền để chạy siêu mượt 60FPS không lag!
+      if (isAnyOverlayModalOpen()) {
         requestAnimationFrame(render);
         return;
       }
@@ -6100,7 +5314,7 @@
 
       if (holdDir.dx !== 0 || holdDir.dy !== 0) {
         player.targetU += holdDir.dx * 0.0115;
-        player.targetV = Math.max(0.53, Math.min(0.92, player.targetV + holdDir.dy * 0.0095));
+        player.targetV = Math.max(0.56, Math.min(0.93, player.targetV + holdDir.dy * 0.0095));
         player.state = 'walk';
         player.bowTimer = 0;
         player.vaiTimer = 0;
@@ -6109,14 +5323,15 @@
       if (player.wing !== player.targetWing) player.wing = player.targetWing;
       const du = player.targetU - player.u;
       const dv = player.targetV - player.v;
-      const isMovingNow = Math.hypot(du, dv) > 0.0025;
-      if (isMovingNow) {
-        player.u += du * 0.15;
-        player.v += dv * 0.15;
+      if (Math.hypot(du, dv) > 0.002) {
+        player.u += du * 0.16;
+        player.v += dv * 0.16;
+      } else if (player.state === 'walk' && player.v < 0.62 && (!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
+        player.state = 'kneel';
       }
 
-      // TỰ ĐỘNG CHUYỂN PHÒNG KHI DI CHUYỂN SANG TRÁI HOẶC SANG PHẢI
-      if (player.u < 0.12 && player.wing > -1) {
+      // TỰ ĐỘNG CHUYỂN PHÒNG KHI DI CHUYỂN SANG TRÁI HOẶC SANG PHẢI (Kể cả dùng Joystick, Phím mũi tên hay Chạm đi bộ!)
+      if (player.u < 0.15 && player.wing > -1) {
         player.targetWing--;
         player.wing = player.targetWing;
         player.targetU = 0.78;
@@ -6124,11 +5339,11 @@
         targetWingX = player.targetWing;
         currentZone = (player.wing === -1) ? 'ducong' : (player.wing === 0 ? 'tambao' : 'thantai');
         const roomLabel = (player.wing === -1) ? '🔔 Ban Đức Ông (Gian Trái)' : '🏛️ Ban Tam Bảo (Gian Giữa)';
-        showToast(`🚪 Tự động chuyển phòng ➔ ${roomLabel}`);
+        showToast(`🚪 Tự động chuyển phòng khi di chuyển ➔ ${roomLabel}`);
         playBellSound();
         if (isChanting) toggleRealChanting(true);
         updateZoneTabs();
-      } else if (player.u > 0.88 && player.wing < 1) {
+      } else if (player.u > 0.85 && player.wing < 1) {
         player.targetWing++;
         player.wing = player.targetWing;
         player.targetU = 0.22;
@@ -6136,7 +5351,7 @@
         targetWingX = player.targetWing;
         currentZone = (player.wing === 1) ? 'thantai' : (player.wing === 0 ? 'tambao' : 'ducong');
         const roomLabel = (player.wing === 1) ? '💰 Ban Thần Tài Vị Tiền (Gian Phải)' : '🏛️ Ban Tam Bảo (Gian Giữa)';
-        showToast(`🚪 Tự động chuyển phòng ➔ ${roomLabel}`);
+        showToast(`🚪 Tự động chuyển phòng khi di chuyển ➔ ${roomLabel}`);
         playMoSound();
         if (isChanting) toggleRealChanting(true);
         updateZoneTabs();
@@ -6156,107 +5371,229 @@
       }
       if (player.chatTimer > 0) player.chatTimer--;
 
-      // CAMERA 3D GÓC NHÌN THỨ 3 ĐI THEO SAU LƯNG NHÂN VẬT
-      camFollowV += (player.v - camFollowV) * 0.10;
-      const forwardDepth = Math.max(0, Math.min(0.34, 0.84 - camFollowV));
       if (!isDragging) {
-        targetWingX = player.wing + (player.u - 0.5) * 0.34;
+        targetWingX = player.wing + (player.u - 0.5) * 0.26;
       }
       camWingX += (targetWingX - camWingX) * 0.12;
-      const dynamicTargetZoom = targetZoom * (1.0 + forwardDepth * 0.92);
-      camZoom += (dynamicTargetZoom - camZoom) * 0.10;
+      camZoom += (targetZoom - camZoom) * 0.10;
 
-      ctx.fillStyle = '#0c0805';
+      ctx.fillStyle = '#0e0703';
       ctx.fillRect(0, 0, W, H);
 
       const imgAspect = 1376 / 1336;
       let wingH = H * camZoom;
       let wingW = Math.max(W * camZoom, wingH * imgAspect);
       if (W > H * 1.15 && !wideOverviewMode) {
-        wingH = Math.max(H * 1.04 * (1 + forwardDepth * 0.55), W * 0.66);
+        wingH = Math.max(H * 1.02, W * 0.68);
         wingW = wingH * imgAspect;
       }
       const centerScreenX = W / 2;
-      let povPitchOffset = forwardDepth * H * 0.32;
+      let povPitchOffset = 0;
       if (cameraPovMode === 'first') {
         if (player.bowTimer > 0) {
-          povPitchOffset += -Math.abs(Math.sin(frameCount * 0.08)) * 55;
+          povPitchOffset = -Math.abs(Math.sin(frameCount * 0.08)) * 55;
         } else {
-          povPitchOffset += Math.sin(frameCount * 0.03) * 4 + 38;
+          povPitchOffset = Math.sin(frameCount * 0.03) * 4 + 38;
         }
       }
-      const topScreenY = (H - wingH) * 0.34 + povPitchOffset;
-      const visW = Math.min(W * 0.94, wingW * 0.90);
+      const topScreenY = (H - wingH) * 0.32 + povPitchOffset;
+      const visW = Math.min(W * 0.96, wingW * 0.92);
       lastHallLayout = { wingW, wingH, visW, centerScreenX, topScreenY };
 
       const wingDefs = [
-        { idx: -1 },
-        { idx: 0 },
-        { idx: 1 }
+        { idx: -1, img: images.ducong },
+        { idx: 0,  img: images.tambao },
+        { idx: 1,  img: images.thantai }
       ];
 
       for (const wd of wingDefs) {
         const wx = centerScreenX + (wd.idx - camWingX) * wingW - wingW / 2;
         if (wx + wingW < -50 || wx > W + 50) continue;
-        draw3DKoreanSanctuary(ctx, wx, topScreenY, wingW, wingH, visW, wd.idx);
-      }
 
-      if (!ultraSmoothMode) {
-        for (const sp of smokeParticles) {
-          sp.life += sp.speed;
-          if (sp.life > 1) sp.life = 0;
-          const wx = centerScreenX + (sp.wing - camWingX) * wingW - wingW / 2;
-          const sx = wx + wingW * (0.5 + sp.offsetX + Math.sin(sp.life * 8 + frameCount * 0.02) * 0.012);
-          const sy = topScreenY + wingH * (0.45 - sp.life * 0.18);
-          const alpha = Math.sin(sp.life * Math.PI) * 0.14;
-          const rad = sp.size * (0.6 + sp.life * 0.9);
-          ctx.fillStyle = `rgba(245, 240, 230, ${alpha})`;
-          ctx.beginPath();
-          ctx.arc(sx, sy, rad * 0.65, 0, Math.PI * 2);
-          ctx.fill();
+        const rw = Math.max(100, Math.round(wingW));
+        const rh = Math.max(100, Math.round(wingH));
+        const rVisW = Math.round(visW);
+        const imgReady = Boolean(wd.img && wd.img.complete && wd.img.naturalWidth > 0);
+        const incCount = Math.min(21, burningIncenseCount[String(wd.idx)] || 9);
+        const cacheKey = `${wd.idx}_${rw}_${rh}_${rVisW}_${imgReady ? 1 : 0}_${incCount}`;
+
+        let cached = wingStaticCache[wd.idx];
+        if (!cached || cached.key !== cacheKey) {
+          const offCanvas = (cached && cached.canvas) ? cached.canvas : document.createElement('canvas');
+          offCanvas.width = rw;
+          offCanvas.height = rh;
+          const offCtx = offCanvas.getContext('2d');
+          renderStaticVietnameseWingToCache(offCtx, wd, rw, rh, rVisW, W);
+          cached = { key: cacheKey, canvas: offCanvas };
+          wingStaticCache[wd.idx] = cached;
+        }
+
+        // Vẽ toàn bộ Ban Thờ + Lư Hương + 20 Bồ Đoàn + Bàn Lễ bằng 1 lệnh drawImage siêu mượt (< 0.05ms)!
+        ctx.drawImage(cached.canvas, Math.round(wx), Math.round(topScreenY));
+
+        const wingCenterX = wx + wingW * 0.5;
+        const censerX = wingCenterX;
+        const censerY = topScreenY + wingH * ((wd.idx === 0) ? 0.382 : 0.402);
+
+        // 2B. CỬA CHUYỂN PHÒNG TỰ ĐỘNG HAI BÊN TRÁI / PHẢI
+        if (wd.idx === player.wing && !wideOverviewMode) {
+          ctx.save();
+          const portalY = topScreenY + wingH * 0.845;
+          if (wd.idx > -1) {
+            const leftLbl = (wd.idx === 0) ? '⬅️ Đi sang Ban Đức Ông' : '⬅️ Đi sang Ban Tam Bảo';
+            ctx.fillStyle = 'rgba(38, 16, 4, 0.92)';
+            ctx.strokeStyle = '#ffd54f';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(8, portalY - 13, 122, 25, 12);
+            ctx.fill();
+            ctx.stroke();
+            ctx.font = 'bold 9.2px sans-serif';
+            ctx.fillStyle = '#ffd740';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(leftLbl, 69, portalY - 0.5);
+          }
+          if (wd.idx < 1) {
+            const rightLbl = (wd.idx === 0) ? 'Đi sang Ban Thần Tài ➡️' : 'Đi sang Ban Tam Bảo ➡️';
+            ctx.fillStyle = 'rgba(38, 16, 4, 0.92)';
+            ctx.strokeStyle = '#ffd54f';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(W - 130, portalY - 13, 122, 25, 12);
+            ctx.fill();
+            ctx.stroke();
+            ctx.font = 'bold 9.2px sans-serif';
+            ctx.fillStyle = '#ffd740';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(rightLbl, W - 69, portalY - 0.5);
+          }
+          ctx.restore();
+        }
+
+        // 3. Render 4 PHOTOREALISTIC VIETNAMESE OFFERING TRAYS ON TOP OF THE ALTAR TABLE
+        const wingOfferings = altarOfferings[String(wd.idx)] || [];
+        if (wingOfferings.length > 0) {
+          ctx.save();
+          const tableY = censerY + 46 * (wingH / 960);
+          const tableW = Math.min(W - 14, Math.max(305, wingW * 0.64));
+          const count = Math.min(4, wingOfferings.length);
+          const cardW = Math.min(112, (tableW - 10) / count - 3);
+          const cardH = 18;
+          const totalCardsW = count * cardW + (count - 1) * 4;
+          const startCardX = censerX - totalCardsW / 2;
+          const traySize = Math.min(74, cardW * 0.80);
+
+          wingOfferings.slice(-4).forEach((off, idx) => {
+            const cxCard = startCardX + idx * (cardW + 4);
+            const slotCenterX = cxCard + cardW / 2;
+            const trayCenterY = tableY - traySize * 0.44;
+
+            const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
+            if (tex && tex.complete && tex.naturalWidth > 0) {
+              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 6, traySize, traySize);
+            } else {
+              ctx.font = '30px sans-serif';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
+            }
+
+            const cyCard = tableY + 3;
+            ctx.fillStyle = 'rgba(24, 8, 2, 0.94)';
+            ctx.strokeStyle = '#ffd54f';
+            ctx.lineWidth = 1.1;
+            ctx.beginPath();
+            ctx.roundRect(cxCard, cyCard, cardW, cardH, 6);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = 'bold 8.5px sans-serif';
+            ctx.fillStyle = '#ffd740';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${(off.label || 'Lễ Vật').slice(0, 14)}`, slotCenterX, cyCard + 9);
+          });
+          ctx.restore();
         }
       }
 
-      // TỰ ĐỘNG CHO KHÁCH VÃNG LAI TƯƠNG TÁC VỀ NGÀNH TẤM ỐP TRƯỜNG YẾN
-      if (frameCount % 360 === 140) {
+      for (const sp of smokeParticles) {
+        sp.life += sp.speed;
+        if (sp.life > 1) sp.life = 0;
+        const wx = centerScreenX + (sp.wing - camWingX) * wingW - wingW / 2;
+        if (wx + wingW < -20 || wx > W + 20) continue;
+        const sx = wx + wingW * (0.5 + sp.offsetX + Math.sin(sp.life * 8 + frameCount * 0.02) * 0.012);
+        const sy = topScreenY + wingH * (0.43 - sp.life * 0.22);
+        const alpha = Math.sin(sp.life * Math.PI) * 0.14;
+        const rad = sp.size * (0.5 + sp.life * 0.8);
+        ctx.fillStyle = `rgba(245, 240, 230, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(sx, sy, rad, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // TỰ ĐỘNG CHO 2 NHÂN VẬT KHÁCH VÃNG LAI TƯƠNG TÁC VỚI NHAU VỀ NGÀNH TẤM ỐP TRƯỜNG YẾN (CHẮP TAY CÚI CHÀO · HỎI HAN NHAU · HOẶC ĐẤM NHAU TRỪ -1 💎 PHƯỚC!)
+      if (frameCount % 340 === 120) {
         const pairInWing = visitingGuests.filter(g => g.wing === player.wing && g.waitOutsideTimer === 0);
         if (pairInWing.length >= 2) {
           const [g1, g2] = pairInWing;
           const rollInter = Math.random();
-          if (rollInter < 0.5) {
+          if (rollInter < 0.45) {
+            // 2 nhân vật chắp tay cúi chào nhau hỏi thăm đơn hàng Tấm Ốp
             g1.state = 'bow'; g1.bowTimer = 110;
             g2.state = 'bow'; g2.bowTimer = 110;
-            g1.chat = `🙏 A Di Đà Phật! Chào ${g2.name}, tuần này đại lý nhập mấy xe Tấm Ốp Nano Trường Yến thế ạ?`;
-            g1.chatTimer = 380;
-          } else {
+            g1.chat = `🙏 A Di Đà Phật! Chào ${g2.name}, tuần này đại lý bên mình nhập mấy xe Tấm Ốp Nano với Lam Sóng Trường Yến thế ạ?`;
+            g1.chatTimer = 460;
+            g2.chat = `🪷 Mô Phật! Chào ${g1.name}, em vừa báo Kho Trường Yến xuất 2 xe Tấm Nano Cốt Nguyên Sinh với Trần Nhôm 130 đi công trình biệt phủ ạ hihi!`;
+            g2.chatTimer = 480;
+          } else if (rollInter < 0.80) {
+            // 2 nhân vật hỏi han trò chuyện công trình & quy tắc đặt lễ
             g1.state = 'bow'; g1.bowTimer = 90;
             g2.state = 'bow'; g2.bowTimer = 90;
-            g1.chat = `🪷 Nhờ lấy Tấm Ốp Nano với Trần Nhôm Trường Yến chuẩn nét mà chủ nhà nghiệm thu giải ngân ngay ạ!`;
-            g1.chatTimer = 380;
+            g1.chat = `💬 ${g2.name} ơi, nhớ nhé: Ban Phật chỉ dâng Lễ Chay thôi, còn xin lộc chốt đơn Tấm Than Tre với đòi nợ công trình thì mang Heo Quay sang Ban Thần Tài & Đức Ông nhé!`;
+            g1.chatTimer = 460;
+            g2.chat = `😊 Dạ chuẩn luôn ${g1.name} ơi! Nhờ lấy Tấm Ốp Trường Yến chuẩn nét mà chủ nhà nghiệm thu phát một, giải ngân tiền mặt luôn rồi ạ!`;
+            g2.chatTimer = 480;
+          } else {
+            // 2 nhân vật cãi cọ đấm/tát nhau vì giành thợ / phá giá (có trừ -1 💎 phước!)
+            g1.state = 'walk';
+            g2.state = 'bow'; g2.bowTimer = 95;
+            g1.chat = `🥊💥 BỐP! Này thì ${g2.name} dám giành đội thợ thi công Tấm Ốp với báo giá phá giá của tôi này! (-1 💎 Phước)`;
+            g1.chatTimer = 460;
+            g2.chat = `😵‍💫🖐️ Á á đau quá! Sao ${g1.name} lại đấm tát nhau giữa sảnh chùa thế, bị trừ -1 💎 Phước kìa!`;
+            g2.chatTimer = 480;
+            if (g2._screenX && g2._screenY) {
+              floatingHits.push({
+                x: g2._screenX,
+                y: g2._screenY - 55,
+                text: '🥊💥 2 KHÁCH ĐẤM NHAU! (-1 💎 Phước)',
+                color: '#ff5252',
+                life: 1.25
+              });
+            }
           }
         }
       }
 
+      // Animate 1-2 Occasional Visiting Guests walking in less frequently, bowing/praying with diverse funny/playful lines (hiển thị lâu ~8 giây!)
       const renderables = [];
-      let visitorCountInWing = 0;
       for (const g of visitingGuests) {
-        if (ultraSmoothMode && g.wing === player.wing) {
-          visitorCountInWing++;
-          if (visitorCountInWing > 2) continue; // Giữ tối đa 2 khách động ở chế độ Siêu Mượt để khung hình thoáng và mượt tuyệt đối
-        }
         if (g.waitOutsideTimer > 0) {
           g.waitOutsideTimer--;
-          continue;
+          continue; // Đang ở ngoài cổng chùa (giảm tần suất xuất hiện để Chánh Điện thanh tịnh, thoáng đãng)
         }
         g.phaseTimer--;
         const gdu = g.targetU - g.u;
         const gdv = g.targetV - g.v;
         if (Math.hypot(gdu, gdv) > 0.003) {
-          g.u += gdu * 0.025;
-          g.v += gdv * 0.025;
+          g.u += gdu * 0.028;
+          g.v += gdv * 0.028;
           g.state = 'walk';
         } else {
           if (g.v > 0.89) {
+            // Đã đi ra khỏi cổng chùa -> Nghỉ một lúc (260-520 frames) rồi khách vãng lai mới bước vào đúng gian đó!
             g.waitOutsideTimer = 260 + Math.floor(Math.random() * 260);
             const pick = visitorPool[Math.floor(Math.random() * visitorPool.length)];
             const chosenWing = (typeof g.homeWing === 'number') ? g.homeWing : 0;
@@ -6267,7 +5604,7 @@
             g.avatar = pick.avatar;
             g.gender = pick.gender;
             g.chat = pickRandomVisitorPrayer(chosenWing);
-            g.chatTimer = 380;
+            g.chatTimer = 480; // Hiện lâu ~8 giây để đọc thoải mái!
             g.u = seat ? seat.u : 0.28;
             g.v = 0.91;
             g.targetU = seat ? seat.u : 0.28;
@@ -6279,6 +5616,7 @@
           }
         }
         if (g.phaseTimer <= 0) {
+          // Đi bộ ra cổng chùa
           g.targetV = 0.92;
           g.state = 'walk';
           g.phaseTimer = 320;
@@ -6288,12 +5626,13 @@
         } else if (g.state === 'kneel' && Math.random() < 0.006) {
           g.bowTimer = 135;
           g.chat = pickRandomVisitorPrayer(g.wing);
-          g.chatTimer = 380;
+          g.chatTimer = 480; // Hiện lâu ~8 giây!
         }
         if (g.chatTimer > 0) g.chatTimer--;
         renderables.push({ type: 'visitor', data: g, v: g.v });
       }
 
+      // Render Online Company Peers (Chỉ hiện người trong công ty khi họ thực sự đăng nhập Online!)
       if (isOnlinePresenceMode) {
         for (const peerId of Object.keys(onlineCompanyPeers)) {
           const peer = onlineCompanyPeers[peerId];
@@ -6306,6 +5645,7 @@
       renderables.push({ type: 'player', data: player, v: player.v });
       renderables.sort((a, b) => a.v - b.v);
 
+      // Chỉ hiển thị TỐI ĐA 1 bong bóng thoại tại một thời điểm (ưu tiên người chơi) để màn hình luôn thoáng đẹp, không đè chữ lên nhau!
       let activeBubbleOwner = null;
       if (player.chat && player.chatTimer > 0) {
         activeBubbleOwner = player;
@@ -6325,36 +5665,62 @@
 
         const sx = (wx + wingW * 0.5) + (d.u - 0.5) * visW;
         const sy = topScreenY + d.v * wingH;
-        const scale = Math.max(0.36, 0.36 + (d.v - 0.46) * 1.25) * (wingH / 960);
+        const scale = Math.max(0.34, 0.35 + (d.v - 0.46) * 1.12) * (wingH / 960);
 
         const isPlayer = (item.type === 'player');
         d._screenX = sx;
         d._screenY = sy;
 
         if (isPlayer && cameraPovMode === 'first') {
-          continue;
+          continue; // In 1st-person POV, we render First-Person Hands at bottom instead of back sprite
         }
+
+        let spr = (d.gender === 'M') ? images.walkM : images.walkF;
+        let poseScaleY = 1.0;
+        let poseOffsetY = 0;
+        let poseStatusText = '';
+        let poseStatusColor = '#ffd740';
 
         const isVaiState = (d.state === 'vai' || (d.vaiTimer && d.vaiTimer > 0));
         const isBowCycleState = (!isVaiState) && (d.state === 'bow_cycle' || d.state === 'bow' || (d.bowTimer && d.bowTimer > 0));
 
-        let poseMode = 'stand';
-        let animParam = frameCount;
-
         if (isVaiState) {
           if (d.vaiTimer && d.vaiTimer > 0 && !isPlayer) d.vaiTimer--;
-          // ĐỨNG THẲNG CHẮP TAY CÚI VÁI (합장 — Frame 24)
-          poseMode = 'vai';
+          // VÁI KHẤN / CHẮP TAY VÁI CHÀO: ĐỨNG THẲNG CHẮP TAY CÚI VÁI LIÊN TỤC (Không ngồi hay quỳ xuống bồ đoàn!)
+          spr = (d.gender === 'M') ? images.walkM : images.walkF;
+          const vaiDip = Math.pow(Math.sin(frameCount * 0.13 + (isPlayer ? 0 : 1.2)), 2); // Nhịp cúi vái 2.5 lần/giây
+          poseScaleY = 1.0 - vaiDip * 0.17; // Gập người cúi vái xuống từ thắt lưng trong khi chân vẫn đứng thẳng!
+          poseOffsetY = vaiDip * 6;
+          poseStatusText = vaiDip > 0.45 ? '🙏 Đang Đứng Chắp Tay Cúi Vái Xuống' : '🙏 Đang Đứng Chắp Tay Vái Khấn';
+          poseStatusColor = '#80d8ff';
         } else if (isBowCycleState) {
-          // QUỲ LẠY LIÊN TỤC: ĐỨNG LÊN ➔ QUỲ XUỐNG ➔ CÚI RẠP SÁT ĐỆM BỒ ĐOÀN ➔ ĐỨNG DẬY (절하기 — Frame 28)
+          // QUỲ LẠY LIÊN TỤC: ĐỨNG LÊN ➔ QUỲ XUỐNG ➔ CÚI LẠY SÁT ĐẤT ➔ ĐỨNG DẬY LẶP LẠI LIÊN TỤC!
           const seedOffset = isPlayer ? 0 : ((d.id ? d.id.charCodeAt(d.id.length - 1) * 17 : 23));
           const cycleTick = ((isPlayer ? (d.bowCycleTick || frameCount) : (frameCount + seedOffset))) % 76;
           if (cycleTick < 18) {
-            poseMode = 'vai';
+            // Pha 1: Đứng thẳng chắp tay trước ngực
+            spr = (d.gender === 'M') ? images.walkM : images.walkF;
+            const prepDip = Math.sin((cycleTick / 18) * Math.PI) * 0.05;
+            poseScaleY = 1.0 - prepDip;
+            poseStatusText = '🙇 [Quỳ Lạy 1/4]: Đứng Thẳng Chắp Tay';
+            poseStatusColor = '#ffe082';
           } else if (cycleTick < 34) {
-            poseMode = 'kneel';
+            // Pha 2: Từ từ hạ gối Quỳ Xuống bồ đoàn
+            spr = images.kneel;
+            const dropFrac = (cycleTick - 18) / 16;
+            poseScaleY = 1.04 - dropFrac * 0.06;
+            poseOffsetY = dropFrac * 5;
+            poseStatusText = '🙇 [Quỳ Lạy 2/4]: Hạ Gối Quỳ Xuống';
+            poseStatusColor = '#ffd54f';
           } else if (cycleTick < 58) {
-            poseMode = 'prostrate';
+            // Pha 3: Cúi rập đầu Năm Vóc Sát Đất trên bồ đoàn
+            spr = images.bow;
+            const bowFrac = Math.sin(((cycleTick - 34) / 24) * Math.PI);
+            poseScaleY = 1.0 - bowFrac * 0.11;
+            poseOffsetY = bowFrac * 7;
+            poseStatusText = '🙇 [Quỳ Lạy 3/4]: Cúi Lạy Sát Đất';
+            poseStatusColor = '#69f0ae';
+            // Mỗi lần cúi lạy chạm đất (cycleTick === 45) của người chơi -> Gõ tiếng Mõ + tính nhịp lạy!
             if (isPlayer && cycleTick === 45) {
               player.bowCountSession = (player.bowCountSession || 1) + 1;
               playMoSound();
@@ -6364,37 +5730,85 @@
               if (hit) addMerit(pts, `Quỳ lạy nhịp #${player.bowCountSession} (Đứng lên - Quỳ xuống liên tục)`);
               floatingHits.push({
                 x: sx,
-                y: sy - 85,
-                text: hit ? `✨🙇 LẠY THỨ #${player.bowCountSession}: +${pts} 💎 PHƯỚC!` : `🙇 Lạy thứ #${player.bowCountSession}`,
-                color: hit ? '#69f0ae' : '#ffe082',
-                life: 1.05
+                y: sy - 95,
+                text: hit ? `✨🙇 LẠY THỨ #${player.bowCountSession}: +${pts} 💎 PHƯỚC!` : `🙇 Lạy thứ #${player.bowCountSession} (Đứng lên · Quỳ xuống)`,
+                color: hit ? '#69f0ae' : '#ffd740',
+                life: 1.15
               });
             }
           } else if (cycleTick < 67) {
-            poseMode = 'kneel';
+            // Pha 4A: Ngẩng đầu lên tư thế quỳ thẳng
+            spr = images.kneel;
+            poseScaleY = 1.0;
+            poseStatusText = '🙇 [Quỳ Lạy 4/4]: Ngẩng Lên Từ Bồ Đoàn';
+            poseStatusColor = '#ffd54f';
           } else {
-            poseMode = 'stand';
+            // Pha 4B: Đứng thẳng dậy chắp tay chuẩn bị nhịp lạy tiếp theo
+            spr = (d.gender === 'M') ? images.walkM : images.walkF;
+            const riseFrac = (cycleTick - 67) / 9;
+            poseScaleY = 0.92 + riseFrac * 0.08;
+            poseStatusText = '🙇 [Quỳ Lạy 4/4]: Đứng Thẳng Dậy';
+            poseStatusColor = '#ffe082';
           }
-          if (isPlayer && location.search.includes('v38_prostrate=1')) {
-            poseMode = 'prostrate';
-          }
-        } else if (!isPlayer && d.state === 'kneel') {
-          poseMode = 'kneel';
-        } else if ((isPlayer && isMovingNow) || (!isPlayer && d.state === 'walk')) {
-          poseMode = 'walk';
+        } else if (d.state === 'kneel') {
+          spr = images.kneel;
         } else {
-          poseMode = 'stand';
+          spr = (d.gender === 'M') ? images.walkM : images.walkF;
         }
 
-        const headTopY = draw3DMonkCharacter(ctx, sx, sy, scale, poseMode, animParam, false);
-
-        // Hiển thị nhãn tên trắng nhỏ gọn kiểu @linhoichoigi cho người chơi (và khách ở gần)
-        if (isPlayer || item.type === 'online_peer' || Math.hypot(d.u - player.u, d.v - player.v) < 0.22) {
-          drawRoundedBadge(sx, headTopY - 12, d.avatar || '🙏', d.name, isPlayer);
+        if (isPlayer || item.type === 'online_peer') {
+          ctx.save();
+          ctx.strokeStyle = isPlayer ? 'rgba(255, 215, 90, 0.85)' : 'rgba(105, 240, 174, 0.85)';
+          ctx.lineWidth = 2.0;
+          ctx.beginPath();
+          ctx.ellipse(sx, sy - 4, 24 * scale, 9 * scale, 0, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
         }
 
-        if (d === activeBubbleOwner && d.chat && d.chatTimer > 0) {
-          drawDarkChatBubble(sx, headTopY - 28, d.chat);
+        if (spr.complete && spr.naturalWidth > 0) {
+          const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
+          const sw = spr.naturalWidth * scale * mult;
+          const sh = spr.naturalHeight * scale * mult * poseScaleY;
+          const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState) ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
+          ctx.drawImage(spr, sx - sw / 2, sy - sh - bob + poseOffsetY, sw, sh);
+
+          // Nếu đang Đứng Chắp Tay Cúi Vái -> Vẽ thêm biểu tượng đôi bàn tay chắp vái 🙏 nhấp nhô nhịp nhàng trước ngực/trán!
+          if (isVaiState) {
+            const handBob = Math.sin(frameCount * 0.26) * 6;
+            ctx.save();
+            ctx.font = `${Math.round(18 * scale)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText('🙏', sx, sy - sh * 0.68 + handBob);
+            ctx.restore();
+          }
+
+          const headY = sy - sh - bob + poseOffsetY - 8;
+          const badgeLabel = (item.type === 'online_peer') ? `🟢 ${d.name}` : d.name;
+          drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
+
+          // Hiển thị băng trạng thái động tác trực quan (Đứng Chắp Tay Cúi Vái / Đứng Lên Quỳ Xuống 1/4..4/4) cho người chơi!
+          if (isPlayer && poseStatusText) {
+            ctx.save();
+            ctx.font = 'bold 9.5px sans-serif';
+            const pw = ctx.measureText(poseStatusText).width + 14;
+            ctx.fillStyle = 'rgba(18, 8, 2, 0.92)';
+            ctx.strokeStyle = poseStatusColor;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.roundRect(sx - pw / 2, sy + 4, pw, 16, 8);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = poseStatusColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(poseStatusText, sx, sy + 12);
+            ctx.restore();
+          }
+
+          if (d === activeBubbleOwner && d.chat && d.chatTimer > 0) {
+            drawDarkChatBubble(sx, headY - 14, d.chat);
+          }
         }
       }
 
@@ -6409,13 +5823,9 @@
         ctx.save();
         ctx.translate(px, py);
         ctx.rotate(p.rot);
-        const grad = ctx.createRadialGradient(0, 0, 1, 0, 0, p.size);
-        grad.addColorStop(0, '#ffd6e7');
-        grad.addColorStop(0.6, '#f783ac');
-        grad.addColorStop(1, 'rgba(230, 73, 128, 0)');
-        ctx.fillStyle = grad;
+        ctx.fillStyle = 'rgba(247, 131, 172, 0.78)';
         ctx.beginPath();
-        ctx.ellipse(0, 0, p.size, p.size * 0.58, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, p.size * 0.85, p.size * 0.50, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
@@ -7262,22 +6672,13 @@
     if (location.search.includes('offer=1')) {
       offeringCeremony = { active: true, timer: 95, maxTimer: 140, wing: player.wing, icon: '🧧', name: 'Lễ Gấp Vàng Mã 10 Lễ', giver: 'Sếp Thành' };
     }
-    if (location.search.includes('v38_entrance=1')) {
-      player.u = 0.50; player.v = 0.78; player.targetU = 0.50; player.targetV = 0.78; camFollowV = 0.78; player.chatTimer = 0;
-      visitingGuests.forEach(g => g.chatTimer = 0);
+    if (location.search.includes('zone=thantai')) {
+      switchZone('thantai');
+      camWingX = 1; targetWingX = 1; player.wing = 1; player.targetWing = 1;
     }
-    if (location.search.includes('v38_vai=1')) {
-      player.u = 0.48; player.v = 0.62; player.targetU = 0.48; player.targetV = 0.62; camFollowV = 0.62;
-      player.state = 'vai'; player.vaiTimer = 400; player.chatTimer = 0;
-      visitingGuests.forEach(g => g.chatTimer = 0);
-    }
-    if (location.search.includes('v38_prostrate=1')) {
-      player.u = 0.60; player.v = 0.68; player.targetU = 0.60; player.targetV = 0.68; camFollowV = 0.68;
-      player.state = 'bow_cycle'; player.bowTimer = 400; player.vaiTimer = 0; player.bowCycleTick = 44; player.chatTimer = 0;
-      visitingGuests.forEach(g => g.chatTimer = 0);
-    }
-    if (location.search.includes('v38_beads=1')) {
-      setTimeout(() => { openBeads3DModal(); renderBeads3DOverlay(); }, 60);
+    if (location.search.includes('zone=ducong')) {
+      switchZone('ducong');
+      camWingX = -1; targetWingX = -1; player.wing = -1; player.targetWing = -1;
     }
     requestAnimationFrame(render);
   </script>
