@@ -9052,6 +9052,24 @@
           if (typeof selectCharGender === "function") selectCharGender("M");
           if (typeof saveCustomCharName === "function") saveCustomCharName();
           if (typeof submitAndReadSoKhan === "function") submitAndReadSoKhan();
+        } else if (dm === "top_phuoc_duc") {
+          openMeritShopModal();
+        } else if (dm === "brawl") {
+          toggleNpcInteractBar(true);
+          selectHallNpcFromDropdown("KH Hoàng Hỏi 100 Mẫu");
+          interactWithHallNpc("brawl");
+          if (typeof activeMutualInteraction === "object" && activeMutualInteraction) {
+            activeMutualInteraction.timer = 200;
+          }
+        } else if (dm === "mutual_vai") {
+          toggleNpcInteractBar(true);
+          selectHallNpcFromDropdown("Trinh Kế Toán Trưởng");
+          interactWithHallNpc("mutual_vai");
+        } else if (dm === "mutual_kneel") {
+          toggleNpcInteractBar(true);
+          selectHallNpcFromDropdown("Anh Trung QL Kho HN");
+          interactWithHallNpc("mutual_kneel");
+          frameCount = 44; // Right in the middle of the kowtow prostration phase!
         }
       }, 300);
     });
