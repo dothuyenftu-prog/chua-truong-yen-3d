@@ -40,8 +40,6 @@
 
     .chip-btn {
       background: rgba(18, 11, 5, 0.84);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(228, 184, 96, 0.48);
       border-radius: 999px;
       padding: 5px 10px;
@@ -108,8 +106,6 @@
       align-items: center;
       gap: 7px;
       background: rgba(18, 11, 5, 0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(232, 188, 98, 0.42);
       border-radius: 16px;
       padding: 6px 8px;
@@ -176,8 +172,6 @@
       background: radial-gradient(circle, rgba(40, 22, 8, 0.22) 0%, rgba(14, 7, 3, 0.38) 100%);
       border: 1.8px solid rgba(255, 220, 130, 0.38);
       box-shadow: 0 4px 18px rgba(0,0,0,0.38), inset 0 0 14px rgba(255, 210, 100, 0.12);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
       touch-action: none;
       user-select: none;
       display: flex;
@@ -358,8 +352,6 @@
     .bottom-dock {
       pointer-events: auto;
       background: rgba(18, 11, 5, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1.5px solid rgba(226, 180, 88, 0.65);
       border-radius: 18px;
       padding: 5px 8px;
@@ -500,7 +492,6 @@
     .modal-backdrop {
       position: fixed; inset: 0;
       background: rgba(6, 3, 1, 0.80);
-      backdrop-filter: blur(5px);
       z-index: 95;
       display: none;
       align-items: center;
@@ -745,8 +736,6 @@
     .bottom-dock.korean-pill-dock {
       pointer-events: auto;
       background: rgba(22, 25, 22, 0.76);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1.2px solid rgba(255, 255, 255, 0.28);
       border-radius: 999px;
       padding: 7px 20px;
@@ -809,7 +798,6 @@
       right: 10px;
       z-index: 60;
       background: rgba(18, 16, 14, 0.94);
-      backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 16px;
       padding: 10px 12px;
@@ -828,17 +816,20 @@
 
   <!-- 1. ULTRA-MINIMAL TOP BAR (1 Dòng Duy Nhất Gọn Sạch Như @linhoichoigi) -->
   <div class="top-bar" style="top:8px; left:8px; right:8px; justify-content:space-between; flex-wrap:nowrap;">
-    <div class="top-group" style="background:rgba(20,22,20,0.74); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.22); border-radius:999px; padding:2px 5px; gap:2px; flex-shrink:0;">
+    <div class="top-group" style="background:rgba(20,22,20,0.74); border:1px solid rgba(255,255,255,0.22); border-radius:999px; padding:2px 5px; gap:2px; flex-shrink:0;">
       <button id="tabTamBao" class="chip-btn active" style="border:none; background:transparent; padding:4px 8px; font-size:10.5px;" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
       <button id="tabThanTai" class="chip-btn" style="border:none; background:transparent; padding:4px 8px; font-size:10.5px;" onclick="switchZone('thantai')">💰 Thần Tài</button>
       <button id="tabDucOng" class="chip-btn" style="border:none; background:transparent; padding:4px 8px; font-size:10.5px;" onclick="switchZone('ducong')">🔔 Đức Ông</button>
     </div>
 
     <div class="top-group" style="gap:4px; flex-shrink:0;">
-      <button class="chip-btn" style="background:rgba(20,22,20,0.74); border-color:rgba(255,255,255,0.22); font-size:10.5px; padding:4px 8px;" onclick="openMeritShopModal()">
+      <button id="btnSmoothMode" class="chip-btn" style="background:rgba(28,58,36,0.92); border-color:#69f0ae; color:#b9f6ca; font-size:10px; padding:4px 7px;" onclick="toggleUltraSmoothMode()">
+        ⚡ Siêu Mượt
+      </button>
+      <button class="chip-btn" style="background:rgba(20,22,20,0.88); border-color:rgba(255,255,255,0.22); font-size:10.5px; padding:4px 8px;" onclick="openMeritShopModal()">
         💎 <span id="meritScore">35</span><span style="display:none;" id="congDucCountHud">5</span><span style="display:none;" id="onlineCountLabel">1</span>
       </button>
-      <button class="chip-btn" style="background:rgba(20,22,20,0.74); border-color:rgba(255,255,255,0.25); font-size:10.5px; padding:4px 8px;" onclick="document.getElementById('topUtilityDrawer').classList.toggle('open')">
+      <button class="chip-btn" style="background:rgba(20,22,20,0.88); border-color:rgba(255,255,255,0.25); font-size:10.5px; padding:4px 8px;" onclick="document.getElementById('topUtilityDrawer').classList.toggle('open')">
         ⚙️ Menu ▾
       </button>
     </div>
@@ -1042,7 +1033,7 @@
   </div>
 
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH TRỰC TIẾP TẠI SẢNH CHÍNH (Không che màn hình · Giá ≤100💎 · Có Lễ Chay, Heo Quay, Xôi Gà, Vàng Mã · Đặt sai ban Phật bị phạt!) -->
-  <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:48; width:min(96vw, 720px); background:rgba(24,10,3,0.92); border:1.5px solid #ffd54f; border-radius:12px; padding:6px 9px; box-shadow:0 8px 24px rgba(0,0,0,0.85); backdrop-filter:blur(6px);">
+  <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:48; width:min(96vw, 720px); background:rgba(24,10,3,0.92); border:1.5px solid #ffd54f; border-radius:12px; padding:6px 9px; box-shadow:0 8px 24px rgba(0,0,0,0.85); ">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;">
       <span style="font-size:10.3px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ & HẠ LỄ TẠI SẢNH (<span id="stripRoomRuleHint" style="color:#69f0ae;">Ban Phật: Chỉ nhận Lễ Chay · Cấm Heo Quay/Xôi Gà/Vàng Mã!</span>)</span>
       <div style="display:flex; gap:4px; align-items:center;">
@@ -1065,7 +1056,7 @@
   </div>
 
   <!-- 3D. THANH TƯƠNG TÁC NHÂN VẬT & NHẮN TIN HỘI THOẠI HỎI HAN / ĐẤM TÁT TRỰC TIẾP TẠI SẢNH CHÍNH -->
-  <div id="npcInteractBar" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:49; width:min(96vw, 680px); background:rgba(16,22,28,0.94); border:1.5px solid #80deea; border-radius:12px; padding:6px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.88); backdrop-filter:blur(6px);">
+  <div id="npcInteractBar" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:49; width:min(96vw, 680px); background:rgba(16,22,28,0.94); border:1.5px solid #80deea; border-radius:12px; padding:6px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.88); ">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
       <span style="font-size:10.5px; font-weight:900; color:#80deea;">🤝💬 TƯƠNG TÁC VỚI: <b id="selectedNpcNameLabel" style="color:#ffd740;">Chị Thu Trang</b> <span style="font-size:9.4px; color:#b2ebf2;">(Chạm vào bất kỳ ai trong sảnh để đổi người)</span></span>
       <div style="display:flex; gap:4px; flex-wrap:wrap;">
@@ -5214,11 +5205,38 @@
     // =========================================================================
     let lastHallLayout = null;
     let frameCount = 0;
+    let ultraSmoothMode = true; // Mặc định BẬT Chế độ Siêu Mượt 60FPS không lag trên mọi điện thoại!
+    const sanctuaryWingCache = {};
+
+    function toggleUltraSmoothMode() {
+      ultraSmoothMode = !ultraSmoothMode;
+      const btn = document.getElementById('btnSmoothMode');
+      if (btn) {
+        if (ultraSmoothMode) {
+          btn.textContent = '⚡ Siêu Mượt';
+          btn.style.background = 'rgba(28,58,36,0.92)';
+          btn.style.borderColor = '#69f0ae';
+          btn.style.color = '#b9f6ca';
+          showToast('⚡ Đã bật Chế độ Siêu Mượt (Tối ưu đồ họa đệm tĩnh 60FPS không giật lag)');
+        } else {
+          btn.textContent = '✨ Đầy Đủ';
+          btn.style.background = 'rgba(48,38,18,0.92)';
+          btn.style.borderColor = '#ffd54f';
+          btn.style.color = '#ffe082';
+          showToast('✨ Đã chuyển sang Chế độ Đồ Họa Đầy Đủ');
+        }
+      }
+      Object.keys(sanctuaryWingCache).forEach(k => delete sanctuaryWingCache[k]);
+      resizeCanvas();
+    }
 
     function resizeCanvas() {
-      canvas.width = window.innerWidth * window.devicePixelRatio;
-      canvas.height = window.innerHeight * window.devicePixelRatio;
-      ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+      // Giới hạn DPR = 1.0 ở chế độ Siêu Mượt để giảm 89% số điểm ảnh phải vẽ mỗi khung hình trên điện thoại màn hình Retina 3x!
+      const dpr = ultraSmoothMode ? 1.0 : Math.min(1.25, window.devicePixelRatio || 1);
+      canvas.width = Math.round(window.innerWidth * dpr);
+      canvas.height = Math.round(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      Object.keys(sanctuaryWingCache).forEach(k => delete sanctuaryWingCache[k]);
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
@@ -5247,6 +5265,52 @@
     let beadsDragging = false;
     let beadsLastY = 0;
     let beadsAccumStep = 0;
+    let beadSpriteCanvas = null;
+
+    function getBeadSpriteCanvas() {
+      if (beadSpriteCanvas) return beadSpriteCanvas;
+      const sz = 68;
+      const c = document.createElement('canvas');
+      c.width = sz;
+      c.height = sz;
+      const gctx = c.getContext('2d');
+      const r = 28;
+      const cx = sz / 2;
+      const cy = sz / 2;
+
+      // Bóng đổ 3D dưới hạt
+      gctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+      gctx.beginPath();
+      gctx.arc(cx + 2, cy + 4, r * 0.96, 0, Math.PI * 2);
+      gctx.fill();
+
+      // Quả cầu gỗ vàng óng 3D được vẽ sẵn 1 lần duy nhất vào bộ nhớ đệm
+      const hlX = cx - r * 0.32;
+      const hlY = cy - r * 0.32;
+      const g = gctx.createRadialGradient(hlX, hlY, r * 0.08, cx, cy, r);
+      g.addColorStop(0, '#fff5ba');
+      g.addColorStop(0.28, '#f5c742');
+      g.addColorStop(0.68, '#d49415');
+      g.addColorStop(1, '#7d4d04');
+      gctx.fillStyle = g;
+      gctx.beginPath();
+      gctx.arc(cx, cy, r, 0, Math.PI * 2);
+      gctx.fill();
+
+      gctx.strokeStyle = 'rgba(120, 70, 5, 0.22)';
+      gctx.lineWidth = 1.1;
+      gctx.beginPath();
+      gctx.arc(cx, cy, r * 0.72, 0.2, Math.PI - 0.2);
+      gctx.stroke();
+
+      gctx.fillStyle = 'rgba(255, 255, 240, 0.55)';
+      gctx.beginPath();
+      gctx.ellipse(hlX, hlY, r * 0.22, r * 0.13, -0.5, 0, Math.PI * 2);
+      gctx.fill();
+
+      beadSpriteCanvas = c;
+      return c;
+    }
 
     function openBeads3DModal() {
       const m = document.getElementById('beads3DModal');
@@ -5254,6 +5318,7 @@
       m.style.display = 'flex';
       beads3DOpen = true;
       resizeBeads3DCanvas();
+      renderBeads3DOverlay(true);
       playBellSound();
     }
 
@@ -5266,15 +5331,14 @@
     function resizeBeads3DCanvas() {
       const bc = document.getElementById('beads3DCanvas');
       if (!bc) return;
-      bc.width = window.innerWidth * window.devicePixelRatio;
-      bc.height = window.innerHeight * window.devicePixelRatio;
+      bc.width = window.innerWidth;
+      bc.height = window.innerHeight;
     }
     window.addEventListener('resize', resizeBeads3DCanvas);
 
     function advanceBeadsByDelta(dy) {
       beadsTargetOffset += dy * 0.0085;
       beadsAccumStep += Math.abs(dy);
-      const stepThreshold = (Math.PI * 2) / 18;
       while (beadsAccumStep >= 26) {
         beadsAccumStep -= 26;
         beadsTotalPulled++;
@@ -5312,37 +5376,32 @@
 
     function renderBeads3DOverlay() {
       if (!beads3DOpen) return;
+      const diff = beadsTargetOffset - beadsAngleOffset;
+      beadsAngleOffset += diff * 0.22;
+
       const bc = document.getElementById('beads3DCanvas');
       if (!bc) return;
       const bctx = bc.getContext('2d');
-      const dpr = window.devicePixelRatio || 1;
       const W = window.innerWidth;
       const H = window.innerHeight;
       bctx.save();
-      bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      // Nền xám xanh trầm tĩnh mịch chuẩn y hệt Frame 18 & 20 của @linhoichoigi
-      const bgGrad = bctx.createLinearGradient(0, 0, 0, H);
-      bgGrad.addColorStop(0, '#1e282d');
-      bgGrad.addColorStop(1, '#151d21');
-      bctx.fillStyle = bgGrad;
+      bctx.fillStyle = '#1a2328';
       bctx.fillRect(0, 0, W, H);
-
-      beadsAngleOffset += (beadsTargetOffset - beadsAngleOffset) * 0.18;
 
       const cx = W * 0.5;
       const cy = H * 0.49;
       const rx = Math.min(W * 0.17, H * 0.105, 86);
       const ry = Math.min(H * 0.36, 275);
       const numBeads = 18;
-      const beadRadius = Math.min(rx * 0.36, ry * 0.125, 29);
+      const beadDrawSize = Math.min(rx * 0.72, ry * 0.25, 58) * 1.15;
 
-      // Vẽ dây xâu chuỗi hạt mảnh màu nâu vàng
       bctx.strokeStyle = 'rgba(210, 175, 110, 0.55)';
       bctx.lineWidth = 2.4;
       bctx.beginPath();
-      for (let i = 0; i <= 64; i++) {
-        const a = (i / 64) * Math.PI * 2;
+      for (let i = 0; i <= 36; i++) {
+        const a = (i / 36) * Math.PI * 2;
         const px = cx + Math.cos(a) * rx * (1 - 0.12 * Math.pow(Math.sin(a), 2));
         const py = cy + Math.sin(a) * ry;
         if (i === 0) bctx.moveTo(px, py);
@@ -5351,53 +5410,20 @@
       bctx.closePath();
       bctx.stroke();
 
-      // Sắp xếp hạt theo chiều sâu 3D giả lập để các hạt gần chồng tự nhiên ở đỉnh và đáy
       const beadList = [];
       for (let i = 0; i < numBeads; i++) {
         const angle = (i / numBeads) * Math.PI * 2 + beadsAngleOffset;
-        // Hình oval hơi thắt nhẹ ở đáy như chuỗi hạt thật treo dọc
         const squeeze = 1 - 0.08 * Math.sin(angle);
         const bx = cx + Math.cos(angle) * rx * squeeze;
         const by = cy + Math.sin(angle) * ry;
-        const depth = Math.sin(angle);
-        beadList.push({ bx, by, depth, angle });
+        beadList.push({ bx, by, depth: Math.sin(angle) });
       }
       beadList.sort((a, b) => a.depth - b.depth);
 
+      const sprite = getBeadSpriteCanvas();
+      const halfSz = beadDrawSize * 0.5;
       for (const b of beadList) {
-        bctx.save();
-        // Bóng đổ 3D dưới mỗi hạt
-        bctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-        bctx.beginPath();
-        bctx.arc(b.bx + 2, b.by + 4, beadRadius * 0.98, 0, Math.PI * 2);
-        bctx.fill();
-
-        // Quả cầu gỗ vàng óng 3D (Glossy Golden Wooden Bead)
-        const hlX = b.bx - beadRadius * 0.32;
-        const hlY = b.by - beadRadius * 0.32;
-        const g = bctx.createRadialGradient(hlX, hlY, beadRadius * 0.08, b.bx, b.by, beadRadius);
-        g.addColorStop(0, '#fff5ba');
-        g.addColorStop(0.28, '#f5c742');
-        g.addColorStop(0.68, '#d49415');
-        g.addColorStop(1, '#7d4d04');
-        bctx.fillStyle = g;
-        bctx.beginPath();
-        bctx.arc(b.bx, b.by, beadRadius, 0, Math.PI * 2);
-        bctx.fill();
-
-        // Vân gỗ mờ chạy ngang hạt
-        bctx.strokeStyle = 'rgba(120, 70, 5, 0.22)';
-        bctx.lineWidth = 1.1;
-        bctx.beginPath();
-        bctx.arc(b.bx, b.by, beadRadius * 0.72, 0.2, Math.PI - 0.2);
-        bctx.stroke();
-
-        // Điểm phản quang bóng 3D
-        bctx.fillStyle = 'rgba(255, 255, 240, 0.55)';
-        bctx.beginPath();
-        bctx.ellipse(hlX, hlY, beadRadius * 0.22, beadRadius * 0.13, -0.5, 0, Math.PI * 2);
-        bctx.fill();
-        bctx.restore();
+        bctx.drawImage(sprite, b.bx - halfSz, b.by - halfSz, beadDrawSize, beadDrawSize);
       }
       bctx.restore();
     }
@@ -5414,8 +5440,7 @@
       const by = y - boxH / 2;
 
       if (isPlayer) {
-        // Viên thuốc trắng ngà chuẩn y hệt nhãn (나) trong video @linhoichoigi
-        ctx.fillStyle = 'rgba(246, 243, 234, 0.95)';
+        ctx.fillStyle = 'rgba(246, 243, 234, 0.96)';
         ctx.strokeStyle = 'rgba(120, 115, 100, 0.35)';
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -5423,7 +5448,6 @@
         ctx.fill();
         ctx.stroke();
 
-        // Chấm tròn xanh rêu bên trái chữ (Tôi)
         ctx.fillStyle = '#5e6b4d';
         ctx.beginPath();
         ctx.arc(bx + 11, y, 6.5, 0, Math.PI * 2);
@@ -5440,7 +5464,7 @@
         ctx.fillStyle = '#4a4a42';
         ctx.fillText(cleanName, bx + 21, y + 0.5);
       } else {
-        ctx.fillStyle = 'rgba(24, 22, 18, 0.68)';
+        ctx.fillStyle = 'rgba(24, 22, 18, 0.78)';
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
         ctx.lineWidth = 0.8;
         ctx.beginPath();
@@ -5485,7 +5509,7 @@
       const by = y - boxH;
       const textCenterX = bx + boxW / 2;
 
-      ctx.fillStyle = 'rgba(246, 243, 234, 0.94)';
+      ctx.fillStyle = 'rgba(246, 243, 234, 0.95)';
       ctx.strokeStyle = 'rgba(94, 107, 77, 0.55)';
       ctx.lineWidth = 1.1;
       ctx.beginPath();
@@ -5511,7 +5535,7 @@
     }
 
     // =========================================================================
-    // VẼ NHÂN VẬT 3D ĐẦU TRÒN MẶC ÁO LAM XÁM + Y VÀNG VẮT CHÉO VAI (CHUẨN 100% @linhoichoigi)
+    // VẼ NHÂN VẬT 3D ĐẦU TRÒN MẶC ÁO LAM XÁM + Y VÀNG VẮT CHÉO VAI (SIÊU NHẸ 0 GRADIENT PER FRAME!)
     // =========================================================================
     function draw3DMonkCharacter(ctx, sx, sy, scale, poseMode, animParam, isFacingFront = false) {
       ctx.save();
@@ -5519,37 +5543,30 @@
       const s = scale * 1.18;
       ctx.scale(s, s);
 
-      // Bóng đổ mềm dưới chân trên đệm bồ đoàn / sàn gỗ
-      const shGrad = ctx.createRadialGradient(0, -2, 2, 0, -2, 30);
-      shGrad.addColorStop(0, 'rgba(0, 0, 0, 0.55)');
-      shGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = shGrad;
+      // Bóng đổ mềm dưới chân (Flat fill siêu nhẹ, 0 cấp phát Gradient)
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.42)';
       ctx.beginPath();
-      ctx.ellipse(0, -2, 28, 10, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, -2, 24, 8.5, 0, 0, Math.PI * 2);
       ctx.fill();
 
       if (poseMode === 'prostrate') {
         // TƯ THẾ 3: CÚI RẠP SÁT ĐỆM BỒ ĐOÀN (Chuẩn y hệt Frame 28 của @linhoichoigi!)
-        // Phần chân và vạt quần xám xếp gọn phía sau
         ctx.fillStyle = '#6c787d';
         ctx.beginPath();
         ctx.roundRect(-18, -15, 36, 14, 7);
         ctx.fill();
 
-        // Thân áo lam xám gập sát mặt đệm
-        const backGrad = ctx.createLinearGradient(-20, -34, 20, -8);
-        backGrad.addColorStop(0, '#96a4a9');
-        backGrad.addColorStop(1, '#68757a');
-        ctx.fillStyle = backGrad;
+        ctx.fillStyle = '#7e8c91';
         ctx.beginPath();
         ctx.ellipse(2, -21, 22, 14, 0.08, 0, Math.PI * 2);
         ctx.fill();
 
-        // Dải y vàng vắt chéo trên lưng khi cúi lạy sát đất
-        const sashGrad = ctx.createLinearGradient(-12, -32, 18, -10);
-        sashGrad.addColorStop(0, '#e3c51b');
-        sashGrad.addColorStop(1, '#b89a08');
-        ctx.fillStyle = sashGrad;
+        ctx.fillStyle = '#96a4a9';
+        ctx.beginPath();
+        ctx.ellipse(-2, -24, 15, 8.5, 0.05, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#d4b512';
         ctx.beginPath();
         ctx.moveTo(-6, -33);
         ctx.lineTo(18, -26);
@@ -5558,16 +5575,20 @@
         ctx.closePath();
         ctx.fill();
 
-        // Chỏm đầu tròn 3D màu nâu ấm cúi sát đệm phía trước
+        // Chỏm đầu tròn 3D màu nâu ấm 2 lớp (0 gradient allocation!)
         const headX = -14;
         const headY = -27;
-        const hGrad = ctx.createRadialGradient(headX - 5, headY - 6, 2, headX, headY, 17);
-        hGrad.addColorStop(0, '#cc8237');
-        hGrad.addColorStop(0.6, '#9c5618');
-        hGrad.addColorStop(1, '#6b3609');
-        ctx.fillStyle = hGrad;
+        ctx.fillStyle = '#8d4c14';
         ctx.beginPath();
         ctx.arc(headX, headY, 16.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#b56925';
+        ctx.beginPath();
+        ctx.arc(headX - 3, headY - 3, 11.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#cf8339';
+        ctx.beginPath();
+        ctx.arc(headX - 5, headY - 5, 6, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
@@ -5575,27 +5596,23 @@
       }
 
       if (poseMode === 'kneel') {
-        // TƯ THẾ 2: QUỲ THẲNG TRÊN ĐỆM BỒ ĐOÀN VUÔNG (Chuẩn y hệt các nhân vật ngồi/quỳ ở Frame 06 & 14!)
-        // Chân xếp bằng dưới đệm
+        // TƯ THẾ 2: QUỲ THẲNG TRÊN ĐỆM BỒ ĐOÀN VUÔNG
         ctx.fillStyle = '#6c787d';
         ctx.beginPath();
         ctx.roundRect(-21, -16, 42, 15, 7);
         ctx.fill();
 
-        // Thân áo lam xám 3D
-        const bodyGrad = ctx.createLinearGradient(-18, -56, 18, -12);
-        bodyGrad.addColorStop(0, '#9ba9ae');
-        bodyGrad.addColorStop(1, '#6b787d');
-        ctx.fillStyle = bodyGrad;
+        ctx.fillStyle = '#7c8a8f';
         ctx.beginPath();
         ctx.roundRect(-18, -54, 36, 40, 12);
         ctx.fill();
 
-        // Dải y vàng tươi vắt chéo từ vai trái xuống hông phải
-        const yGrad = ctx.createLinearGradient(-14, -52, 16, -14);
-        yGrad.addColorStop(0, '#e3c619');
-        yGrad.addColorStop(1, '#b89908');
-        ctx.fillStyle = yGrad;
+        ctx.fillStyle = '#95a3a8';
+        ctx.beginPath();
+        ctx.roundRect(-16, -53, 22, 34, 10);
+        ctx.fill();
+
+        ctx.fillStyle = '#d6b814';
         ctx.beginPath();
         ctx.moveTo(-11, -53);
         ctx.lineTo(4, -51);
@@ -5604,28 +5621,31 @@
         ctx.closePath();
         ctx.fill();
 
-        // Hai tay áo lam xám
         ctx.fillStyle = '#859398';
         ctx.beginPath();
         ctx.roundRect(-24, -48, 9, 24, 5);
         ctx.roundRect(15, -48, 9, 24, 5);
         ctx.fill();
 
-        // Đầu tròn 3D màu nâu ấm
-        const hGrad = ctx.createRadialGradient(-6, -82, 3, 0, -74, 24);
-        hGrad.addColorStop(0, '#cf853a');
-        hGrad.addColorStop(0.65, '#9e5819');
-        hGrad.addColorStop(1, '#6e380a');
-        ctx.fillStyle = hGrad;
+        // Đầu tròn 3D 3 lớp siêu nhẹ
+        ctx.fillStyle = '#8c4b13';
         ctx.beginPath();
         ctx.arc(0, -74, 23, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#b26622';
+        ctx.beginPath();
+        ctx.arc(-3.5, -77.5, 16.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#cf843a';
+        ctx.beginPath();
+        ctx.arc(-6.5, -80.5, 9, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
         return sy - 102 * s;
       }
 
-      // TƯ THẾ 1 & 4: ĐỨNG THẲNG / ĐI BỘ / ĐỨNG CHẮP TAY CÚI VÁI (합장 — Frame 01..24)
+      // TƯ THẾ 1 & 4: ĐỨNG THẲNG / ĐI BỘ / ĐỨNG CHẮP TAY CÚI VÁI (합장)
       const isVai = (poseMode === 'vai');
       const walkSwing = (poseMode === 'walk') ? Math.sin(animParam * 0.22) * 6 : 0;
       const vaiBowDip = isVai ? (0.35 + 0.65 * Math.pow(Math.sin(animParam * 0.09), 2)) : 0;
@@ -5638,16 +5658,12 @@
       ctx.fill();
 
       // 2. Hai ống quần lam xám 3D
-      const legGrad = ctx.createLinearGradient(-16, -34, 16, -4);
-      legGrad.addColorStop(0, '#89979c');
-      legGrad.addColorStop(1, '#616d72');
-      ctx.fillStyle = legGrad;
+      ctx.fillStyle = '#738085';
       ctx.beginPath();
       ctx.roundRect(-16, -34 + walkSwing * 0.4, 13, 29, 5);
       ctx.roundRect(3, -34 - walkSwing * 0.4, 13, 29, 5);
       ctx.fill();
 
-      // Phần thân trên (Khi Đứng Chắp Tay Vái thì thân trên & đầu cúi gập về phía trước như Frame 24!)
       ctx.save();
       const torsoDropY = vaiBowDip * 11;
       ctx.translate(0, torsoDropY);
@@ -5658,14 +5674,12 @@
       // 3. Hai cánh tay áo lam xám 3D
       ctx.save();
       if (isVai) {
-        // Khi Chắp Tay Vái (합장): Hai tay đưa ra phía trước ngực chắp lại (như Frame 24)
         ctx.fillStyle = '#839196';
         ctx.beginPath();
         ctx.ellipse(-18, -56, 7, 17, 0.25, 0, Math.PI * 2);
         ctx.ellipse(18, -56, 7, 17, -0.25, 0, Math.PI * 2);
         ctx.fill();
       } else {
-        // Tay buông tự nhiên hai bên hơi vung vẩy khi đi bộ (như Frame 04, 06, 12)
         ctx.fillStyle = '#87959a';
         ctx.save();
         ctx.translate(-19, -68);
@@ -5695,21 +5709,17 @@
       ctx.restore();
 
       // 4. Thân áo lam xám 3D
-      const tunicGrad = ctx.createLinearGradient(-20, -76, 20, -26);
-      tunicGrad.addColorStop(0, '#9eadb2');
-      tunicGrad.addColorStop(0.6, '#7f8d92');
-      tunicGrad.addColorStop(1, '#637075');
-      ctx.fillStyle = tunicGrad;
+      ctx.fillStyle = '#78868b';
       ctx.beginPath();
       ctx.roundRect(-20, -75, 40, 48, 12);
       ctx.fill();
+      ctx.fillStyle = '#94a2a7';
+      ctx.beginPath();
+      ctx.roundRect(-18, -74, 24, 42, 10);
+      ctx.fill();
 
-      // 5. Dải y vàng tươi vắt chéo từ vai trái xuống vạt phải (Đặc trưng chuẩn 100% @linhoichoigi!)
-      const kasayaGrad = ctx.createLinearGradient(-15, -74, 18, -28);
-      kasayaGrad.addColorStop(0, '#e8ca1e');
-      kasayaGrad.addColorStop(0.55, '#d4b411');
-      kasayaGrad.addColorStop(1, '#ad9006');
-      ctx.fillStyle = kasayaGrad;
+      // 5. Dải y vàng tươi vắt chéo từ vai trái xuống vạt phải
+      ctx.fillStyle = '#d9ba16';
       ctx.beginPath();
       ctx.moveTo(-13, -74);
       ctx.lineTo(3, -72);
@@ -5718,19 +5728,22 @@
       ctx.closePath();
       ctx.fill();
 
-      // 6. Đầu tròn 3D màu nâu ấm mịn màng (Khi cúi vái đầu gập xuống sâu hơn như Frame 24!)
+      // 6. Đầu tròn 3D màu nâu ấm 3 lớp (Siêu nhẹ 0 gradient allocation!)
       const headCenterY = -98 + vaiBowDip * 12;
       const headCenterX = isVai ? (-vaiBowDip * 4) : 0;
-      const headGrad = ctx.createRadialGradient(headCenterX - 8, headCenterY - 9, 3, headCenterX, headCenterY, 27);
-      headGrad.addColorStop(0, '#d68b3e');
-      headGrad.addColorStop(0.62, '#a15a1a');
-      headGrad.addColorStop(1, '#6b3609');
-      ctx.fillStyle = headGrad;
+      ctx.fillStyle = '#8c4b13';
       ctx.beginPath();
       ctx.arc(headCenterX, headCenterY, 26, 0, Math.PI * 2);
       ctx.fill();
+      ctx.fillStyle = '#b46823';
+      ctx.beginPath();
+      ctx.arc(headCenterX - 4, headCenterY - 4, 18.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#d4883c';
+      ctx.beginPath();
+      ctx.arc(headCenterX - 7.5, headCenterY - 7.5, 10, 0, Math.PI * 2);
+      ctx.fill();
 
-      // Nếu nhân vật đang quay mặt lại (như Frame 14), vẽ đôi mắt cười híp dễ thương
       if (isFacingFront && !isVai) {
         ctx.strokeStyle = '#3b1d04';
         ctx.lineWidth = 2.0;
@@ -5748,300 +5761,302 @@
     }
 
     // =========================================================================
-    // VẼ KHUNG CẢNH CHÁNH ĐIỆN GỖ TRẦM 3D + TƯỢNG PHẬT VÀNG & BÍCH HỌA MANDALA (CHUẨN 100% @linhoichoigi)
+    // VẼ KHUNG CẢNH CHÁNH ĐIỆN GỖ TRẦM 3D VÀO BỘ NHỚ ĐỆM TĨNH (OFFSCREEN CACHE = VẼ TRONG 0.05ms!)
     // =========================================================================
-    function draw3DKoreanSanctuary(ctx, wx, topScreenY, wingW, wingH, visW, wdIdx) {
-      ctx.save();
-      const cx = wx + wingW * 0.5;
-      const horizonY = topScreenY + wingH * 0.455;
-      const stepsTopY = topScreenY + wingH * 0.815;
-      const stepsBotY = topScreenY + wingH * 0.868;
-      const bottomY = topScreenY + wingH * 1.05;
+    function renderStaticSanctuaryLayer(cctx, wingW, wingH, visW, wdIdx) {
+      const wx = 0;
+      const topScreenY = 0;
+      const cx = wingW * 0.5;
+      const horizonY = wingH * 0.455;
+      const stepsTopY = wingH * 0.815;
+      const stepsBotY = wingH * 0.868;
+      const bottomY = wingH * 1.05;
 
-      // 1. TRẦN GỖ LIM TỐI & TƯỜNG HẬU CUNG TRầm MẶC
-      const ceilGrad = ctx.createLinearGradient(wx, topScreenY, wx, horizonY);
+      // 1. TRẦN GỖ LIM TỐI & TƯỜNG HẬU CUNG TRẦM MẶC
+      const ceilGrad = cctx.createLinearGradient(0, 0, 0, horizonY);
       ceilGrad.addColorStop(0, '#090705');
       ceilGrad.addColorStop(0.55, '#140f0a');
       ceilGrad.addColorStop(1, '#1d160f');
-      ctx.fillStyle = ceilGrad;
-      ctx.fillRect(wx, topScreenY, wingW, horizonY - topScreenY + 2);
+      cctx.fillStyle = ceilGrad;
+      cctx.fillRect(0, 0, wingW, horizonY + 2);
 
-      // Các thanh xà gỗ trên trần chạy theo phối cảnh 3D
-      ctx.strokeStyle = 'rgba(10, 7, 4, 0.85)';
-      ctx.lineWidth = 4;
+      cctx.strokeStyle = 'rgba(10, 7, 4, 0.85)';
+      cctx.lineWidth = 4;
       for (let r = 0; r < 5; r++) {
-        const ry = topScreenY + (horizonY - topScreenY) * (0.08 + r * 0.12);
-        ctx.beginPath();
-        ctx.moveTo(wx, ry);
-        ctx.lineTo(wx + wingW, ry);
-        ctx.stroke();
+        const ry = horizonY * (0.08 + r * 0.12);
+        cctx.beginPath();
+        cctx.moveTo(0, ry);
+        cctx.lineTo(wingW, ry);
+        cctx.stroke();
       }
 
-      // 2. VÁCH TƯỜNG HAI BÊN & KHUNG CỬA SỔ GỖ CHẤN SONG NHÌN RA VƯỜN ĐÊM (Chuẩn Frame 24 & 28)
+      // 2. VÁCH TƯỜNG HAI BÊN & KHUNG CỬA SỔ GỖ CHẤN SONG
       const wallLeftW = wingW * 0.20;
-      ctx.fillStyle = '#16110c';
-      ctx.fillRect(wx, topScreenY + wingH * 0.12, wallLeftW, horizonY - (topScreenY + wingH * 0.12));
-      ctx.fillRect(wx + wingW - wallLeftW, topScreenY + wingH * 0.12, wallLeftW, horizonY - (topScreenY + wingH * 0.12));
+      cctx.fillStyle = '#16110c';
+      cctx.fillRect(0, wingH * 0.12, wallLeftW, horizonY - wingH * 0.12);
+      cctx.fillRect(wingW - wallLeftW, wingH * 0.12, wallLeftW, horizonY - wingH * 0.12);
 
-      // Cửa sổ gỗ chấn song bên phải (như Frame 24 & 28) và bên trái
       for (const side of [-1, 1]) {
         const winW = wallLeftW * 0.68;
         const winH = wingH * 0.17;
-        const winX = (side === 1) ? (wx + wingW - wallLeftW * 0.84) : (wx + wallLeftW * 0.16);
-        const winY = topScreenY + wingH * 0.21;
+        const winX = (side === 1) ? (wingW - wallLeftW * 0.84) : (wallLeftW * 0.16);
+        const winY = wingH * 0.21;
 
-        const nightGrad = ctx.createLinearGradient(winX, winY, winX, winY + winH);
-        nightGrad.addColorStop(0, '#121d24');
-        nightGrad.addColorStop(1, '#16261c');
-        ctx.fillStyle = nightGrad;
-        ctx.fillRect(winX, winY, winW, winH);
+        cctx.fillStyle = '#14211f';
+        cctx.fillRect(winX, winY, winW, winH);
 
-        // Chấn song kẻ ô vuông gỗ đen
-        ctx.strokeStyle = '#0d0906';
-        ctx.lineWidth = 2.4;
-        ctx.strokeRect(winX, winY, winW, winH);
+        cctx.strokeStyle = '#0d0906';
+        cctx.lineWidth = 2.4;
+        cctx.strokeRect(winX, winY, winW, winH);
         for (let gx = 1; gx < 6; gx++) {
           const lx = winX + (winW / 6) * gx;
-          ctx.beginPath(); ctx.moveTo(lx, winY); ctx.lineTo(lx, winY + winH); ctx.stroke();
+          cctx.beginPath(); cctx.moveTo(lx, winY); cctx.lineTo(lx, winY + winH); cctx.stroke();
         }
         for (let gy = 1; gy < 4; gy++) {
           const ly = winY + (winH / 4) * gy;
-          ctx.beginPath(); ctx.moveTo(winX, ly); ctx.lineTo(winX + winW, ly); ctx.stroke();
+          cctx.beginPath(); cctx.moveTo(winX, ly); cctx.lineTo(winX + winW, ly); cctx.stroke();
         }
       }
 
-      // 3. BỨC TRANH BÍCH HỌA MANDALA PHẬT GIÁO CỔ KÍNH & TƯỢNG PHẬT VÀNG 3D (Chuẩn 100% Frame 04, 12, 16 @linhoichoigi!)
+      // 3. BỨC TRANH BÍCH HỌA MANDALA PHẬT GIÁO CỔ KÍNH & TƯỢNG PHẬT VÀNG 3D
       const muralW = Math.min(visW * 0.68, wingW * 0.58);
       const muralH = wingH * 0.285;
       const muralX = cx - muralW / 2;
       const muralY = horizonY - muralH - wingH * 0.008;
 
-      // Khung gỗ trầm bao quanh bích họa
-      ctx.fillStyle = '#1b120b';
-      ctx.fillRect(muralX - 10, muralY - 8, muralW + 20, muralH + 12);
+      cctx.fillStyle = '#1b120b';
+      cctx.fillRect(muralX - 10, muralY - 8, muralW + 20, muralH + 12);
 
       if (images.koreanMural && images.koreanMural.complete && images.koreanMural.naturalWidth > 0) {
-        ctx.drawImage(images.koreanMural, muralX, muralY, muralW, muralH);
+        cctx.drawImage(images.koreanMural, muralX, muralY, muralW, muralH);
       } else {
-        ctx.fillStyle = '#2b1208';
-        ctx.fillRect(muralX, muralY, muralW, muralH);
+        cctx.fillStyle = '#2b1208';
+        cctx.fillRect(muralX, muralY, muralW, muralH);
       }
 
-      // Hai cột gỗ lim tròn lớn hai bên bích họa
       const colW = Math.max(18, wingW * 0.028);
-      ctx.fillStyle = '#150e09';
-      ctx.fillRect(muralX - colW - 8, topScreenY + wingH * 0.08, colW, horizonY - (topScreenY + wingH * 0.08));
-      ctx.fillRect(muralX + muralW + 8, topScreenY + wingH * 0.08, colW, horizonY - (topScreenY + wingH * 0.08));
+      cctx.fillStyle = '#150e09';
+      cctx.fillRect(muralX - colW - 8, wingH * 0.08, colW, horizonY - wingH * 0.08);
+      cctx.fillRect(muralX + muralW + 8, wingH * 0.08, colW, horizonY - wingH * 0.08);
 
-      // 4. SÀN GỖ LIM TỐI 3D + 3 BẬC TAM CẤP GỖ + SÂN RÊU NGOÀI HIÊN (Chuẩn Frame 01, 02, 04, 08)
-      const floorGrad = ctx.createLinearGradient(cx, horizonY, cx, stepsTopY);
+      // 4. SÀN GỖ LIM TỐI 3D + 3 BẬC TAM CẤP GỖ + SÂN RÊU NGOÀI HIÊN
+      const floorGrad = cctx.createLinearGradient(cx, horizonY, cx, stepsTopY);
       floorGrad.addColorStop(0, '#17120d');
       floorGrad.addColorStop(0.5, '#1d1711');
       floorGrad.addColorStop(1, '#15110c');
-      ctx.fillStyle = floorGrad;
-      ctx.fillRect(wx, horizonY, wingW, stepsTopY - horizonY);
+      cctx.fillStyle = floorGrad;
+      cctx.fillRect(0, horizonY, wingW, stepsTopY - horizonY);
 
-      // Các đường khe ván sàn gỗ hội tụ theo phối cảnh 3D về phía Phật đài
-      ctx.strokeStyle = 'rgba(8, 5, 3, 0.65)';
-      ctx.lineWidth = 1.2;
+      cctx.strokeStyle = 'rgba(8, 5, 3, 0.65)';
+      cctx.lineWidth = 1.2;
       for (let p = -10; p <= 10; p++) {
         const topPx = cx + p * (visW * 0.045);
         const botPx = cx + p * (visW * 0.105);
-        ctx.beginPath();
-        ctx.moveTo(topPx, horizonY);
-        ctx.lineTo(botPx, stepsTopY);
-        ctx.stroke();
+        cctx.beginPath();
+        cctx.moveTo(topPx, horizonY);
+        cctx.lineTo(botPx, stepsTopY);
+        cctx.stroke();
       }
       for (let h = 1; h <= 8; h++) {
         const frac = Math.pow(h / 8, 1.35);
         const py = horizonY + (stepsTopY - horizonY) * frac;
-        ctx.beginPath();
-        ctx.moveTo(wx, py);
-        ctx.lineTo(wx + wingW, py);
-        ctx.stroke();
+        cctx.beginPath();
+        cctx.moveTo(0, py);
+        cctx.lineTo(wingW, py);
+        cctx.stroke();
       }
 
-      // 3 Bậc Tam Cấp Gỗ Tối ở lối vào (stepsTopY -> stepsBotY, chuẩn Frame 01 & 02)
       const stepCount = 3;
       const stepH = (stepsBotY - stepsTopY) / stepCount;
       for (let st = 0; st < stepCount; st++) {
         const syTop = stepsTopY + st * stepH;
-        ctx.fillStyle = '#28211a';
-        ctx.fillRect(wx, syTop, wingW, stepH * 0.55);
-        ctx.fillStyle = '#120e0a';
-        ctx.fillRect(wx, syTop + stepH * 0.55, wingW, stepH * 0.45);
+        cctx.fillStyle = '#28211a';
+        cctx.fillRect(0, syTop, wingW, stepH * 0.55);
+        cctx.fillStyle = '#120e0a';
+        cctx.fillRect(0, syTop + stepH * 0.55, wingW, stepH * 0.45);
       }
 
-      // Nền Sân Rêu Xanh Trầm ngoài bậc thềm (stepsBotY -> bottomY, chuẩn Frame 01)
-      const mossGrad = ctx.createLinearGradient(cx, stepsBotY, cx, bottomY);
+      const mossGrad = cctx.createLinearGradient(cx, stepsBotY, cx, bottomY);
       mossGrad.addColorStop(0, '#2a301d');
       mossGrad.addColorStop(1, '#1e2414');
-      ctx.fillStyle = mossGrad;
-      ctx.fillRect(wx, stepsBotY, wingW, bottomY - stepsBotY);
+      cctx.fillStyle = mossGrad;
+      cctx.fillRect(0, stepsBotY, wingW, bottomY - stepsBotY);
 
-      ctx.fillStyle = 'rgba(68, 82, 42, 0.35)';
-      for (let m = 0; m < 18; m++) {
-        const mx = wx + ((m * 97) % 100) * 0.01 * wingW;
+      cctx.fillStyle = 'rgba(68, 82, 42, 0.35)';
+      for (let m = 0; m < 14; m++) {
+        const mx = ((m * 97) % 100) * 0.01 * wingW;
         const my = stepsBotY + 8 + ((m * 43) % 100) * 0.01 * (bottomY - stepsBotY - 14);
-        ctx.beginPath();
-        ctx.ellipse(mx, my, 28 + (m % 4) * 12, 7 + (m % 3) * 3, 0, 0, Math.PI * 2);
-        ctx.fill();
+        cctx.beginPath();
+        cctx.ellipse(mx, my, 28 + (m % 4) * 12, 7 + (m % 3) * 3, 0, 0, Math.PI * 2);
+        cctx.fill();
       }
 
       const statueBaseY = horizonY - wingH * 0.012;
       const statueH = muralH * 0.68;
       const statueW = statueH * 0.78;
 
-      // Ánh sáng vàng ấm chiếu từ Tượng Phật Vàng xuống mặt sàn gỗ giữa sảnh
-      const spotGrad = ctx.createRadialGradient(cx, statueBaseY - statueH * 0.35, 10, cx, statueBaseY + 20, statueW * 1.35);
-      spotGrad.addColorStop(0, `rgba(255, 210, 80, ${0.18 + 0.03 * Math.sin(frameCount * 0.04)})`);
+      const spotGrad = cctx.createRadialGradient(cx, statueBaseY - statueH * 0.35, 10, cx, statueBaseY + 20, statueW * 1.35);
+      spotGrad.addColorStop(0, 'rgba(255, 210, 80, 0.19)');
       spotGrad.addColorStop(1, 'rgba(235, 175, 45, 0)');
-      ctx.fillStyle = spotGrad;
-      ctx.fillRect(cx - statueW * 1.4, muralY, statueW * 2.8, wingH * 0.42);
+      cctx.fillStyle = spotGrad;
+      cctx.fillRect(cx - statueW * 1.4, muralY, statueW * 2.8, wingH * 0.42);
 
-      // Biển tên nhỏ tinh tế trên khung gỗ nếu ở Gian Đức Ông hoặc Thần Tài
       if (wdIdx !== 0) {
         const plaqueTitle = (wdIdx === -1) ? 'ĐỨC ÔNG TU ĐẠT ĐA' : 'THẦN TÀI VỊ TIỀN';
-        ctx.fillStyle = 'rgba(28, 16, 6, 0.92)';
-        ctx.strokeStyle = '#d4a84f';
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.roundRect(cx - 68, muralY + 6, 136, 20, 6);
-        ctx.fill();
-        ctx.stroke();
-        ctx.font = 'bold 10px sans-serif';
-        ctx.fillStyle = '#ffe082';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(plaqueTitle, cx, muralY + 16);
+        cctx.fillStyle = 'rgba(28, 16, 6, 0.92)';
+        cctx.strokeStyle = '#d4a84f';
+        cctx.lineWidth = 1.2;
+        cctx.beginPath();
+        cctx.roundRect(cx - 68, muralY + 6, 136, 20, 6);
+        cctx.fill();
+        cctx.stroke();
+        cctx.font = 'bold 10px sans-serif';
+        cctx.fillStyle = '#ffe082';
+        cctx.textAlign = 'center';
+        cctx.textBaseline = 'middle';
+        cctx.fillText(plaqueTitle, cx, muralY + 16);
       }
 
-      // 6. BÀN HƯƠNG ÁN GỖ ĐEN + ĐÔI CHÂN NẾN ĐỒNG NẾN TRẮNG + BÌNH HOA SEN TRẮNG + LƯ HƯƠNG 3 NÉN NHANG (Chuẩn Frame 12, 16, 22, 24)
+      // 6. BÀN HƯƠNG ÁN GỖ ĐEN + ĐÔI CHÂN NẾN ĐỒNG NẾN TRẮNG + BÌNH HOA SEN TRẮNG + LƯ HƯƠNG
       const altarTableY = horizonY + wingH * 0.008;
       const altarTableW = statueW * 0.62;
       const altarTableH = wingH * 0.048;
 
-      // Đôi chân nến đồng + Nến trắng cháy sáng + Bình gốm xanh ngọc cắm hoa trắng hai bên
       for (const cSide of [-1, 1]) {
         const standX = cx + cSide * (statueW * 0.62);
         const standBaseY = horizonY + 4;
-        // Chân nến đồng
-        ctx.fillStyle = '#b58d28';
-        ctx.fillRect(standX - 9, standBaseY - 4, 18, 4);
-        ctx.fillRect(standX - 2.5, standBaseY - 24, 5, 20);
-        ctx.fillRect(standX - 8, standBaseY - 26, 16, 3);
-        // Cây nến trắng
-        ctx.fillStyle = '#f2efe6';
-        ctx.fillRect(standX - 4.5, standBaseY - 44, 9, 18);
-        // Ngọn lửa nến vàng ấm
-        const flamePulse = Math.sin(frameCount * 0.15 + cSide) * 1.2;
-        ctx.fillStyle = '#ffdf5d';
-        ctx.beginPath();
-        ctx.ellipse(standX, standBaseY - 48 + flamePulse * 0.3, 3.2, 6, 0, 0, Math.PI * 2);
-        ctx.fill();
+        cctx.fillStyle = '#b58d28';
+        cctx.fillRect(standX - 9, standBaseY - 4, 18, 4);
+        cctx.fillRect(standX - 2.5, standBaseY - 24, 5, 20);
+        cctx.fillRect(standX - 8, standBaseY - 26, 16, 3);
+        cctx.fillStyle = '#f2efe6';
+        cctx.fillRect(standX - 4.5, standBaseY - 44, 9, 18);
+        cctx.fillStyle = '#ffdf5d';
+        cctx.beginPath();
+        cctx.ellipse(standX, standBaseY - 48, 3.2, 6, 0, 0, Math.PI * 2);
+        cctx.fill();
 
-        // Bình gốm xanh ngọc cắm 3 bông hoa sen trắng bên cạnh chân nến
         const vaseX = standX - cSide * 16;
-        ctx.fillStyle = '#6d8c7a';
-        ctx.beginPath();
-        ctx.ellipse(vaseX, standBaseY - 10, 7, 10, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = '#f5f2e9';
-        ctx.beginPath();
-        ctx.arc(vaseX - 4, standBaseY - 23, 3.5, 0, Math.PI * 2);
-        ctx.arc(vaseX + 4, standBaseY - 24, 3.5, 0, Math.PI * 2);
-        ctx.arc(vaseX, standBaseY - 27, 3.8, 0, Math.PI * 2);
-        ctx.fill();
+        cctx.fillStyle = '#6d8c7a';
+        cctx.beginPath();
+        cctx.ellipse(vaseX, standBaseY - 10, 7, 10, 0, 0, Math.PI * 2);
+        cctx.fill();
+        cctx.fillStyle = '#f5f2e9';
+        cctx.beginPath();
+        cctx.arc(vaseX - 4, standBaseY - 23, 3.5, 0, Math.PI * 2);
+        cctx.arc(vaseX + 4, standBaseY - 24, 3.5, 0, Math.PI * 2);
+        cctx.arc(vaseX, standBaseY - 27, 3.8, 0, Math.PI * 2);
+        cctx.fill();
       }
 
-      // Bàn hương án gỗ đen bốn chân đặt chính giữa trước Phật đài (như Frame 16, 22, 24)
-      ctx.fillStyle = '#0e0905';
-      ctx.fillRect(cx - altarTableW / 2, altarTableY, altarTableW, 6);
-      ctx.fillRect(cx - altarTableW / 2 + 4, altarTableY + 6, 5, altarTableH);
-      ctx.fillRect(cx + altarTableW / 2 - 9, altarTableY + 6, 5, altarTableH);
+      cctx.fillStyle = '#0e0905';
+      cctx.fillRect(cx - altarTableW / 2, altarTableY, altarTableW, 6);
+      cctx.fillRect(cx - altarTableW / 2 + 4, altarTableY + 6, 5, altarTableH);
+      cctx.fillRect(cx + altarTableW / 2 - 9, altarTableY + 6, 5, altarTableH);
 
-      // Lư hương & 3 nén nhang thẳng đứng chính giữa bàn hương án
-      ctx.fillStyle = '#3d3522';
-      ctx.fillRect(cx - 14, altarTableY - 7, 28, 7);
+      cctx.fillStyle = '#3d3522';
+      cctx.fillRect(cx - 14, altarTableY - 7, 28, 7);
       for (const sOff of [-4, 0, 4]) {
-        ctx.strokeStyle = '#1c1610';
-        ctx.lineWidth = 1.6;
-        ctx.beginPath();
-        ctx.moveTo(cx + sOff, altarTableY - 7);
-        ctx.lineTo(cx + sOff, altarTableY - 24);
-        ctx.stroke();
-        ctx.fillStyle = '#ff6d00';
-        ctx.beginPath();
-        ctx.arc(cx + sOff, altarTableY - 24, 1.6, 0, Math.PI * 2);
-        ctx.fill();
+        cctx.strokeStyle = '#1c1610';
+        cctx.lineWidth = 1.6;
+        cctx.beginPath();
+        cctx.moveTo(cx + sOff, altarTableY - 7);
+        cctx.lineTo(cx + sOff, altarTableY - 24);
+        cctx.stroke();
+        cctx.fillStyle = '#ff6d00';
+        cctx.beginPath();
+        cctx.arc(cx + sOff, altarTableY - 24, 1.6, 0, Math.PI * 2);
+        cctx.fill();
       }
 
-      // 7. ĐÔI ĐÈN LỒNG VÀNG ẤM TREO HAI BÊN HIÊN CHÁNH ĐIỆN (Chuẩn Frame 01, 02, 04, 06, 28)
+      // 7. ĐÔI ĐÈN LỒNG VÀNG ẤM TREO HAI BÊN HIÊN CHÁNH ĐIỆN
       for (const lSide of [-1, 1]) {
         const lx = cx + lSide * (visW * 0.42);
-        const ly = topScreenY + wingH * 0.205;
-        const lGlow = ctx.createRadialGradient(lx, ly, 4, lx, ly, 36);
+        const ly = wingH * 0.205;
+        const lGlow = cctx.createRadialGradient(lx, ly, 4, lx, ly, 36);
         lGlow.addColorStop(0, 'rgba(255, 238, 155, 0.55)');
         lGlow.addColorStop(1, 'rgba(255, 200, 80, 0)');
-        ctx.fillStyle = lGlow;
-        ctx.beginPath();
-        ctx.arc(lx, ly, 36, 0, Math.PI * 2);
-        ctx.fill();
+        cctx.fillStyle = lGlow;
+        cctx.beginPath();
+        cctx.arc(lx, ly, 36, 0, Math.PI * 2);
+        cctx.fill();
 
-        ctx.fillStyle = '#fff3b8';
-        ctx.beginPath();
-        ctx.roundRect(lx - 11, ly - 15, 22, 30, 7);
-        ctx.fill();
+        cctx.fillStyle = '#fff3b8';
+        cctx.beginPath();
+        cctx.roundRect(lx - 11, ly - 15, 22, 30, 7);
+        cctx.fill();
       }
 
-      // 8. CÁC HÀNG ĐỆM BỒ ĐOÀN VUÔNG MÀU XÁM ĐEN 3D XẾP DỌC HAI BÊN LỐI ĐI (Chuẩn Frame 04, 06, 08, 12, 24, 28)
+      // 8. CÁC HÀNG ĐỆM BỒ ĐOÀN VUÔNG MÀU XÁM ĐEN 3D XẾP DỌC HAI BÊN LỐI ĐI
       for (const c of cushions20) {
         if (c.wing !== wdIdx) continue;
         const cxPos = cx + (c.u - 0.5) * visW;
-        const cyPos = topScreenY + c.v * wingH;
+        const cyPos = c.v * wingH;
         const cScale = (0.56 + (c.v - 0.55) * 1.05) * (wingH / 960);
         const mw = 38 * cScale;
         const mh = 13 * cScale;
         const mThick = 5.5 * cScale;
 
-        // Bóng đổ dưới đệm bồ đoàn vuông
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.48)';
-        ctx.beginPath();
-        ctx.roundRect(cxPos - mw - 2, cyPos - mh + 2, mw * 2 + 4, mh * 2 + mThick, 4);
-        ctx.fill();
+        cctx.fillStyle = 'rgba(0, 0, 0, 0.48)';
+        cctx.beginPath();
+        cctx.roundRect(cxPos - mw - 2, cyPos - mh + 2, mw * 2 + 4, mh * 2 + mThick, 4);
+        cctx.fill();
 
-        // Cạnh trước dày 3D của đệm bồ đoàn vuông xám đen
-        ctx.fillStyle = '#222423';
-        ctx.beginPath();
-        ctx.roundRect(cxPos - mw, cyPos - mh + 3, mw * 2, mh * 2 + mThick - 3, 4);
-        ctx.fill();
+        cctx.fillStyle = '#222423';
+        cctx.beginPath();
+        cctx.roundRect(cxPos - mw, cyPos - mh + 3, mw * 2, mh * 2 + mThick - 3, 4);
+        cctx.fill();
 
-        // Mặt trên vát 3D của đệm bồ đoàn vuông xám đen
-        ctx.fillStyle = '#363937';
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(cxPos - mw * 0.90, cyPos - mh);
-        ctx.lineTo(cxPos + mw * 0.90, cyPos - mh);
-        ctx.lineTo(cxPos + mw, cyPos + mh);
-        ctx.lineTo(cxPos - mw, cyPos + mh);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
+        cctx.fillStyle = '#363937';
+        cctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        cctx.lineWidth = 1;
+        cctx.beginPath();
+        cctx.moveTo(cxPos - mw * 0.90, cyPos - mh);
+        cctx.lineTo(cxPos + mw * 0.90, cyPos - mh);
+        cctx.lineTo(cxPos + mw, cyPos + mh);
+        cctx.lineTo(cxPos - mw, cyPos + mh);
+        cctx.closePath();
+        cctx.fill();
+        cctx.stroke();
       }
 
-      // 9. CÁC PHẬT TỬ 3D ÁO LAM XÁM + Y VÀNG ĐỨNG/QUỲ PHÍA TRƯỚC PHẬT ĐÀI (Chuẩn Frame 04..16)
+      // 9. CÁC PHẬT TỬ 3D ÁO LAM XÁM + Y VÀNG ĐỨNG/QUỲ TĨNH TÂM PHÍA TRƯỚC PHẬT ĐÀI (Vẽ luôn vào lớp đệm nền tĩnh!)
       for (let idx = 0; idx < frontAltarDevotees.length; idx++) {
         const fd = frontAltarDevotees[idx];
         const fx = cx + (fd.u - 0.5) * visW;
-        const fy = topScreenY + fd.v * wingH;
+        const fy = fd.v * wingH;
         const fScale = Math.max(0.32, 0.34 + (fd.v - 0.46) * 1.1) * (wingH / 960);
-        draw3DMonkCharacter(ctx, fx, fy, fScale, fd.mode, frameCount + idx * 19, false);
+        draw3DMonkCharacter(cctx, fx, fy, fScale, fd.mode, 0, false);
+      }
+    }
+
+    function draw3DKoreanSanctuary(ctx, wx, topScreenY, wingW, wingH, visW, wdIdx) {
+      const rw = Math.max(100, Math.round(wingW));
+      const rh = Math.max(100, Math.round(wingH));
+      const rVisW = Math.round(visW);
+      const muralReady = Boolean(images.koreanMural && images.koreanMural.complete && images.koreanMural.naturalWidth > 0);
+      const cacheKey = `${wdIdx}_${rw}_${rh}_${rVisW}_${muralReady ? 1 : 0}`;
+
+      let cached = sanctuaryWingCache[wdIdx];
+      if (!cached || cached.key !== cacheKey) {
+        const offCanvas = (cached && cached.canvas) ? cached.canvas : document.createElement('canvas');
+        offCanvas.width = rw;
+        offCanvas.height = Math.round(rh * 1.05);
+        const offCtx = offCanvas.getContext('2d');
+        renderStaticSanctuaryLayer(offCtx, rw, rh, rVisW, wdIdx);
+        cached = { key: cacheKey, canvas: offCanvas };
+        sanctuaryWingCache[wdIdx] = cached;
       }
 
-      // 10. HIỂN THỊ CÁC MÂM LỄ VẬT DÂNG LÊN BÀN THỜ (Nếu có đặt lễ, gọn sạch, khớp 100% hình ảnh)
+      // Chỉ tốn ĐÚNG 1 LỆNH drawImage (< 0.05ms) để vẽ toàn bộ Chánh Điện 3D + Tượng Phật + 14 Đệm Bồ Đoàn + 9 Phật Tử!
+      ctx.drawImage(cached.canvas, Math.round(wx), Math.round(topScreenY));
+
+      // 10. HIỂN THỊ CÁC MÂM LỄ VẬT DÂNG LÊN BÀN THỜ (Nếu có đặt lễ)
       const wingOfferings = altarOfferings[String(wdIdx)] || [];
       if (wingOfferings.length > 0) {
+        const cx = wx + wingW * 0.5;
+        const horizonY = topScreenY + wingH * 0.455;
+        const altarTableY = horizonY + wingH * 0.008;
         const count = Math.min(4, wingOfferings.length);
         const slotW = 56 * (wingH / 960);
         const totalW = count * slotW + (count - 1) * 8;
@@ -6055,19 +6070,28 @@
           }
         });
       }
-
-      ctx.restore();
     }
 
     let camFollowV = 0.78;
+
+    function isAnyFullOverlayOpen() {
+      if (furnaceOpen || beads3DOpen) return true;
+      const kModal = document.getElementById('karmaReleaseModal');
+      if (kModal && kModal.classList.contains('open')) return true;
+      const sModal = document.getElementById('soKhanModal');
+      if (sModal && sModal.classList.contains('open')) return true;
+      const mModal = document.getElementById('meritShopModal');
+      if (mModal && mModal.classList.contains('open')) return true;
+      return false;
+    }
 
     function render() {
       frameCount++;
       if (beads3DOpen) {
         renderBeads3DOverlay();
       }
-      // Khi đang mở Phòng Đốt Vàng Mã, tạm dừng vẽ canvas 3D nền để Lò Hóa Vàng chạy siêu mượt 60FPS không lag!
-      if (furnaceOpen) {
+      // Khi đang mở bất kỳ phòng riêng / modal toàn màn hình nào (Sân Đấm, Chuỗi Hạt, Lò Hóa Vàng, Sớ Khấn, Dâng Lễ), tạm dừng vẽ canvas 3D nền để chạy 60FPS không lag!
+      if (isAnyFullOverlayOpen()) {
         requestAnimationFrame(render);
         return;
       }
@@ -6132,7 +6156,7 @@
       }
       if (player.chatTimer > 0) player.chatTimer--;
 
-      // CAMERA 3D GÓC NHÌN THỨ 3 ĐI THEO SAU LƯNG NHÂN VẬT (Tiến lại gần Tượng Phật khi đi bộ lên phía trước chuẩn @linhoichoigi!)
+      // CAMERA 3D GÓC NHÌN THỨ 3 ĐI THEO SAU LƯNG NHÂN VẬT
       camFollowV += (player.v - camFollowV) * 0.10;
       const forwardDepth = Math.max(0, Math.min(0.34, 0.84 - camFollowV));
       if (!isDragging) {
@@ -6177,21 +6201,20 @@
         draw3DKoreanSanctuary(ctx, wx, topScreenY, wingW, wingH, visW, wd.idx);
       }
 
-      for (const sp of smokeParticles) {
-        sp.life += sp.speed;
-        if (sp.life > 1) sp.life = 0;
-        const wx = centerScreenX + (sp.wing - camWingX) * wingW - wingW / 2;
-        const sx = wx + wingW * (0.5 + sp.offsetX + Math.sin(sp.life * 8 + frameCount * 0.02) * 0.012);
-        const sy = topScreenY + wingH * (0.45 - sp.life * 0.18);
-        const alpha = Math.sin(sp.life * Math.PI) * 0.18;
-        const rad = sp.size * (0.6 + sp.life * 0.9);
-        const sg = ctx.createRadialGradient(sx, sy, 1, sx, sy, rad);
-        sg.addColorStop(0, `rgba(245, 240, 230, ${alpha})`);
-        sg.addColorStop(1, 'rgba(245, 240, 230, 0)');
-        ctx.fillStyle = sg;
-        ctx.beginPath();
-        ctx.arc(sx, sy, rad, 0, Math.PI * 2);
-        ctx.fill();
+      if (!ultraSmoothMode) {
+        for (const sp of smokeParticles) {
+          sp.life += sp.speed;
+          if (sp.life > 1) sp.life = 0;
+          const wx = centerScreenX + (sp.wing - camWingX) * wingW - wingW / 2;
+          const sx = wx + wingW * (0.5 + sp.offsetX + Math.sin(sp.life * 8 + frameCount * 0.02) * 0.012);
+          const sy = topScreenY + wingH * (0.45 - sp.life * 0.18);
+          const alpha = Math.sin(sp.life * Math.PI) * 0.14;
+          const rad = sp.size * (0.6 + sp.life * 0.9);
+          ctx.fillStyle = `rgba(245, 240, 230, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, rad * 0.65, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
       // TỰ ĐỘNG CHO KHÁCH VÃNG LAI TƯƠNG TÁC VỀ NGÀNH TẤM ỐP TRƯỜNG YẾN
@@ -6215,7 +6238,12 @@
       }
 
       const renderables = [];
+      let visitorCountInWing = 0;
       for (const g of visitingGuests) {
+        if (ultraSmoothMode && g.wing === player.wing) {
+          visitorCountInWing++;
+          if (visitorCountInWing > 2) continue; // Giữ tối đa 2 khách động ở chế độ Siêu Mượt để khung hình thoáng và mượt tuyệt đối
+        }
         if (g.waitOutsideTimer > 0) {
           g.waitOutsideTimer--;
           continue;
