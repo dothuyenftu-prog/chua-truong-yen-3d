@@ -1679,7 +1679,7 @@
 
   <!-- 6. MODAL BẢNG TOP PHƯỚC ĐỨC CỦA CÁC NHÂN VẬT & CỬA HÀNG THỈNH LỄ -->
   <div class="modal-backdrop" id="meritShopModal" onclick="if(event.target===this) closeMeritShopModal()">
-    <div class="so-khan-box">
+    <div class="so-khan-box" style="max-width:580px;">
       <div class="sk-top-row">
         <span class="sk-title">🏆 Bảng Top Phước Đức Các Nhân Vật & 🎁 Cửa Hàng Lễ Vật</span>
         <button class="btn-modal-x" onclick="closeMeritShopModal()">✕ Đóng</button>
@@ -6164,7 +6164,7 @@
       target.phaseTick = Math.max(target.phaseTick || 300, 420);
 
       const midU = Math.max(0.28, Math.min(0.72, (player.u + target.u) * 0.5));
-      const midV = Math.max(0.64, Math.min(0.82, (player.v + target.v) * 0.5));
+      const midV = 0.615;
 
       let mode = actionType;
       if (mode === 'punch' || mode === 'slap') mode = 'brawl';
@@ -8077,8 +8077,9 @@
 
           if (d.wing === player.wing && d.chat && d.chatTimer > 0) {
             // Khi 2 người đứng cạnh nhau đối thoại / đánh nhau / vái nhau, tách độ cao 2 khung thoại để hiển thị rõ cả 2 câu cùng lúc!
-            const bubbleOffsetY = (inMutual && !isPlayer) ? -58 : -14;
-            drawDarkChatBubble(sx, headY + bubbleOffsetY, d.chat);
+            const bubbleOffsetX = inMutual ? (isPlayer ? -105 : 105) : 0;
+            const bubbleOffsetY = (inMutual && !isPlayer) ? -68 : -14;
+            drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
           }
         }
       }
