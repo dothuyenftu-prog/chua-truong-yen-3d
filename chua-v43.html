@@ -980,6 +980,7 @@
           <option value="hoi_huong">✨ 5. Kệ Hồi Hướng Công Đức (Thầy Chùa Tụng)</option>
           <option value="sam_hoi">🙇 6. Kinh Sám Hối Hồng Danh (Thầy Thích Trí Thoát Tụng)</option>
           <option value="duoc_su">👑 7. Chú Dược Sư Lưu Ly (Thầy Thích Trí Thoát Tụng)</option>
+          <option value="giam_stress">🧠 8. Kinh Giảm Đau Đầu · Giảm Stress · Tiêu Trừ Ác Niệm</option>
         </select>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:6px; padding-top:4px;">
@@ -1346,10 +1347,11 @@
         <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('khach_hang', this)">💰 3. Khấn Khách Chốt Đơn Lớn & Đại Lý Sỉ</button>
         <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('tai_loc', this)">💳 4. Khấn Tài Lộc & Thu Hồi Công Nợ</button>
         <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('binh_an', this)">🕊️ 5. Khấn Bình An Gia Đạo & Sức Khỏe</button>
-        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('giam_stress', this)">🧘 6. Khấn Tịnh Tâm & Giải Tỏa Áp Lực</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('giam_stress', this)">🧘 6. Sớ Giảm Đau Đầu · Xả Stress · Trừ Ác Niệm</button>
         <button class="topic-btn" style="padding:8px 7px; font-size:10.8px; border-color:#ffb74d; color:#ffe082;" onclick="selectPrayerTopic('sam_hoi', this)">🙏 7. Kinh Từ Bi Sám Hối (Tiêu Trừ Nghiệp Chướng)</button>
         <button class="topic-btn" style="padding:8px 7px; font-size:10.8px; border-color:#81c784; color:#e8f5e9;" onclick="selectPrayerTopic('hoi_huong', this)">🪷 8. Kinh Hồi Hướng Công Đức (Phước Báu Viên Thành)</button>
-        <button class="topic-btn" style="grid-column: 1 / -1; padding:8px 10px; font-size:11.2px; border-color:#40c4ff; color:#e1f5fe; background:linear-gradient(135deg,rgba(1,87,155,0.85),rgba(0,47,108,0.92)); font-weight:900;" onclick="selectPrayerTopic('chu_dai_bi', this)">📿 9. Kinh Chú Đại Bi (Tiêu Tai Giải Nạn · Hiện Chữ Karaoke Đọc Theo)</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px; border-color:#40c4ff; color:#e1f5fe; background:linear-gradient(135deg,rgba(1,87,155,0.85),rgba(0,47,108,0.92)); font-weight:900;" onclick="selectPrayerTopic('chu_dai_bi', this)">📿 9. Kinh Chú Đại Bi (84 Câu Karaoke)</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px; border-color:#69f0ae; color:#e8f5e9; background:linear-gradient(135deg,rgba(0,105,92,0.88),rgba(27,94,32,0.92)); font-weight:900;" onclick="selectPrayerTopic('kinh_giam_stress', this)">🧠 10. Kinh Giảm Đau Đầu · Giảm Stress · Tiêu Trừ Ác Niệm</button>
       </div>
 
       <!-- 2. TỜ SỚ ĐIỆP VÀNG (Hiển thị 100% khớp với Bài Khấn vừa chọn!) -->
@@ -1838,12 +1840,14 @@
     <!-- Hàng Pill Chọn Bài Kinh + Tiêu Đề Phụ Gọn Sát Mép Trên (Không Chạm Hào Quang & Tượng Phật) -->
     <div style="display:flex; flex-direction:column; align-items:center; width:100%; max-width:820px; pointer-events:auto;">
       <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:4px;">
-        <button type="button" id="krBtn_niem_phat" onclick="switchKaraokeSutra('niem_phat')" style="border-radius:999px; padding:4px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;">Niệm Phật</button>
-        <button type="button" id="krBtn_bat_nha" onclick="switchKaraokeSutra('bat_nha')" style="border-radius:999px; padding:4px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;">Bát Nhã Tâm Kinh</button>
-        <button type="button" id="krBtn_chu_vang_sanh" onclick="switchKaraokeSutra('chu_vang_sanh')" style="border-radius:999px; padding:4px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;">Chú Vãng Sanh</button>
-        <button type="button" id="krBtn_chu_dai_bi" onclick="switchKaraokeSutra('chu_dai_bi')" style="border-radius:999px; padding:4px 14px; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.2s;">Chú Đại Bi</button>
-        <button type="button" id="krBtn_hoi_huong" onclick="switchKaraokeSutra('hoi_huong')" style="border-radius:999px; padding:4px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;">Kệ Hồi Hướng</button>
-        <button type="button" id="krBtn_sam_hoi" onclick="switchKaraokeSutra('sam_hoi')" style="border-radius:999px; padding:4px 14px; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.2s;">Kinh Sám Hối</button>
+        <button type="button" id="krBtn_giam_stress" onclick="switchKaraokeSutra('giam_stress')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:800; cursor:pointer; transition:all 0.2s;">🧠 Kinh Giảm Đau Đầu · Giảm Stress · Trừ Ác Niệm</button>
+        <button type="button" id="krBtn_niem_phat" onclick="switchKaraokeSutra('niem_phat')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.2s;">Niệm Phật</button>
+        <button type="button" id="krBtn_bat_nha" onclick="switchKaraokeSutra('bat_nha')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.2s;">Bát Nhã Tâm Kinh</button>
+        <button type="button" id="krBtn_chu_vang_sanh" onclick="switchKaraokeSutra('chu_vang_sanh')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.2s;">Chú Vãng Sanh</button>
+        <button type="button" id="krBtn_chu_dai_bi" onclick="switchKaraokeSutra('chu_dai_bi')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:800; cursor:pointer; transition:all 0.2s;">Chú Đại Bi</button>
+        <button type="button" id="krBtn_hoi_huong" onclick="switchKaraokeSutra('hoi_huong')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.2s;">Kệ Hồi Hướng</button>
+        <button type="button" id="krBtn_sam_hoi" onclick="switchKaraokeSutra('sam_hoi')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.2s;">Kinh Sám Hối</button>
+        <button type="button" id="krBtn_duoc_su" onclick="switchKaraokeSutra('duoc_su')" style="border-radius:999px; padding:4px 12px; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.2s;">Chú Dược Sư</button>
       </div>
       <div id="karaokeSutraTitle" style="font-size:11.5px; color:rgba(255,245,230,0.92); font-weight:600; text-align:center; letter-spacing:0.2px; text-shadow:0 2px 6px rgba(0,0,0,0.95);">
         Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni, 84 câu
@@ -2408,6 +2412,40 @@
         secPerLine: 2.2,
         times: [5.5, 12.65, 22.06, 30.34, 36.37, 41.27, 48.43, 52.2, 60.48, 71.02, 79.3, 89.83, 98.11, 108.65, 119.18, 128.59, 138.0],
         lines: ["Nam mô Bạc già phạt đế", "Bệ sát xã, lũ rô thích lưu ly", "Bát lạt bà, hắc ra xà dã", "Đát tha yết đa da", "A ra hắc đế", "Tam miệu tam bột đà da", "Đát điệt tha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Nam Mô Dược Sư Lưu Ly Quang Vương Phật", "Nam Mô Nhật Quang Biến Chiếu Bồ Tát", "Nam Mô Nguyệt Quang Biến Chiếu Bồ Tát", "Nam Mô Dược Sư Hải Hội Phật Bồ Tát"]
+      },
+      giam_stress: {
+        title: "Kinh Giảm Đau Đầu · Giảm Stress · Tiêu Trừ Ác Niệm (Kinh Dược Sư & Quán Âm Tịnh Tâm)",
+        audioReal: "audio/thay_tung_giam_stress.mp3",
+        secPerLine: 2.4,
+        times: [0.2, 2.7, 5.5, 8.2, 10.6, 13.0, 15.4, 17.8, 20.2, 22.6, 25.0, 27.4, 29.8, 32.2, 34.6, 37.0, 39.4, 42.0, 44.6, 47.2, 49.6, 52.0, 54.4, 56.8, 59.4, 61.6],
+        lines: [
+          "Nam mô Dược Sư Lưu Ly Quang Vương Phật",
+          "Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát",
+          "Nam mô Thanh Tịnh Đại Hải Chúng Bồ Tát",
+          "Nguyện đem nước nhành dương thanh lương",
+          "Rưới mát đỉnh đầu tan nhức mỏi",
+          "Bao nhiêu căng thẳng cùng áp lực",
+          "Theo hơi thở nhẹ hóa hư không",
+          "Thân xác nhẹ nhàng, đầu êm dịu",
+          "Thần kinh thư giãn, trí sáng trong",
+          "Mọi nỗi bất an đều lắng xuống",
+          "Chẳng còn nóng giận, chẳng ưu phiền",
+          "Ác niệm tham sân vừa khởi dậy",
+          "Liền nhờ ánh Phật chiếu tiêu tan",
+          "Tâm như mặt hồ thu phẳng lặng",
+          "Chẳng vướng bụi trần, chẳng thở than",
+          "Án, bệ sát thệ, bệ sát thệ",
+          "Bệ sát xã, tam một yết đế toả ha",
+          "Yết đế, yết đế, ba la yết đế",
+          "Ba la tăng yết đế, Bồ đề tát bà ha",
+          "Nguyện cho tín chủ tâm thanh tịnh",
+          "Đầu hết đau nhức, trí an nhiên",
+          "Đêm ngủ an lành không mộng mị",
+          "Ngày làm sáng suốt, phước vô biên",
+          "Nam mô Dược Sư Lưu Ly Quang Vương Phật",
+          "Nam mô Quán Thế Âm Bồ Tát",
+          "Nam mô A Di Đà Phật"
+        ]
       }
     };
 
@@ -2510,7 +2548,7 @@
       if (titleEl) titleEl.textContent = data.title;
 
       // Cập nhật trạng thái nút Pill giống hệt ảnh mẫu (Nút đang chọn nền vàng cam, các nút khác nền tối viền mảnh)
-      ['niem_phat', 'bat_nha', 'chu_vang_sanh', 'chu_dai_bi', 'hoi_huong', 'sam_hoi', 'duoc_su'].forEach(k => {
+      ['giam_stress', 'niem_phat', 'bat_nha', 'chu_vang_sanh', 'chu_dai_bi', 'hoi_huong', 'sam_hoi', 'duoc_su'].forEach(k => {
         const b = document.getElementById('krBtn_' + k);
         if (!b) return;
         if (k === currentKaraokeKey) {
@@ -3141,13 +3179,25 @@
       },
       giam_stress: {
         idx: 6,
-        title: '📜 BÀI KHẤN 6: SỚ CẦU TỊNH TÂM AN LẠC & GIẢI TỎA ÁP LỰC',
+        title: '📜 BÀI KHẤN 6: SỚ CẦU GIẢM ĐAU ĐẦU · GIẢM STRESS · TIÊU TRỪ ÁC NIỆM',
         showKpi: false,
         audioNam: 'audio/khan_6_nam.mp3',
         audioNu: 'audio/khan_6_nu.mp3',
-        getWish: () => `Giữa bộn bề công việc và áp lực doanh số, cúi xin ánh sáng từ bi của Phật soi rọi giúp con buông bỏ mọi căng thẳng, nóng giận và muộn phiền, đêm ngủ ngon giấc, ngày làm việc với trí tuệ sáng suốt và niềm vui trọn vẹn.`,
+        getWish: () => `Giữa bộn bề công việc và áp lực doanh số, cúi xin nước nhành dương thanh lương của Đức Quán Thế Âm và ánh sáng lưu ly của Đức Phật Dược Sư soi rọi đỉnh đầu, giúp con dứt hẳn chứng đau đầu nhức mỏi, giải tỏa mọi căng thẳng stress, tiêu trừ sạch ác niệm nóng giận tham sân, đêm ngủ sâu giấc, ngày làm việc minh mẫn an vui.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tịnh Tâm An Lạc Và Giải Tỏa Áp Lực. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô Dược Sư Lưu Ly Quang Vương Phật! Nam mô Đại Bi Quán Thế Âm Bồ Tát! Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Giảm Đau Đầu, Giảm Stress Và Tiêu Trừ Ác Niệm. ${wish} Nam mô A Di Đà Phật!`
+      },
+      kinh_giam_stress: {
+        idx: 10,
+        isSutra: true,
+        sutraKey: 'giam_stress',
+        title: '🧠 BÀI KINH 10: KINH GIẢM ĐAU ĐẦU · GIẢM STRESS · TIÊU TRỪ ÁC NIỆM',
+        showKpi: false,
+        audioNam: 'audio/thay_tung_giam_stress.mp3',
+        audioNu: 'audio/thay_tung_giam_stress.mp3',
+        getWish: () => `Nam mô Dược Sư Lưu Ly Quang Vương Phật. Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát. Nguyện đem nước nhành dương thanh lương, rưới mát đỉnh đầu tan nhức mỏi. Bao nhiêu căng thẳng cùng áp lực, theo hơi thở nhẹ hóa hư không. Thân xác nhẹ nhàng đầu êm dịu, thần kinh thư giãn trí sáng trong. Mọi nỗi bất an đều lắng xuống, chẳng còn nóng giận chẳng ưu phiền. Ác niệm tham sân vừa khởi dậy, liền nhờ ánh Phật chiếu tiêu tan. Tâm như mặt hồ thu phẳng lặng, chẳng vướng bụi trần chẳng thở than. Án bệ sát thệ bệ sát thệ, bệ sát xã tam một yết đế toả ha. Nguyện cho tín chủ tâm thanh tịnh, đầu hết đau nhức trí an nhiên, đêm ngủ an lành không mộng mị, ngày làm sáng suốt phước vô biên.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô Dược Sư Lưu Ly Quang Vương Phật! ${wish} Nam mô A Di Đà Phật!`
       },
       sam_hoi: {
         idx: 7,
@@ -4115,7 +4165,7 @@
           liveBox.innerHTML = `${prefixHtml} <span style="color:#ffeb3b;font-size:10px;">(Đoạn ${idx}/${chunks.length})</span><br/><span style="color:#fff;font-weight:800;">"${part}"</span>`;
         }
         player.chat = part;
-        player.chatTimer = 260;
+        player.chatTimer = 115; // Giữ lời nói 1.8s - 2s rõ ràng rồi tự tắt (#mvwcw2aw6p)
         if (voiceStyle === 'scold_fierce') {
           playMoSound();
           setTimeout(playMoSound, 110);
@@ -4127,15 +4177,18 @@
           ttsEl.preservesPitch = true;
           ttsEl.playbackRate = 1.24; // Đọc nhanh, đanh thép, dồn dập, hăng say!
         } else if (voiceStyle === 'deep_male_abbot') {
-          ttsEl.preservesPitch = false;
-          ttsEl.mozPreservesPitch = false;
-          ttsEl.webkitPreservesPitch = false;
-          ttsEl.playbackRate = 0.76; // Hạ trầm sâu xuống giọng Nam Trầm ấm uy nghiêm!
+          ttsEl.preservesPitch = true;
+          ttsEl.mozPreservesPitch = true;
+          ttsEl.webkitPreservesPitch = true;
+          ttsEl.playbackRate = 1.05;
         } else {
           ttsEl.preservesPitch = true;
           ttsEl.playbackRate = 1.0;
         }
-        ttsEl.onended = () => setTimeout(nextChunk, voiceStyle === 'scold_fierce' ? 75 : 180);
+        ttsEl.onended = () => {
+          player.chatTimer = 105; // Giữ lại ~1.75s sau khi nói xong rồi mới tắt (#mvwcw2aw6p)
+          setTimeout(nextChunk, voiceStyle === 'scold_fierce' ? 75 : 180);
+        };
         ttsEl.onerror = () => {
           if (fallbackAudioEl) {
             fallbackAudioEl.currentTime = 0;
@@ -5274,15 +5327,17 @@
       stopAllVoices(true);
       const h = currentIChingHex || ICHING_HEXAGRAMS_POOL[0];
       const idx = Math.max(0, ICHING_HEXAGRAMS_POOL.indexOf(h));
-      const mp3Url = `audio/iching_${idx + 1}.mp3?v=72`;
-      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc truyền cảm Luận Giải ${h.name}...`);
+      const mp3Url = `audio/iching_${idx + 1}.mp3?v=73`;
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc rõ ràng Luận Giải ${h.name}...`);
       const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const fallbackText = `Nam mô A Di Đà Phật... Bần tăng xin thành tâm luận giải Quẻ Kinh Dịch ${h.name} cho thí chủ. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. Thoán từ phán rằng: ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
+      const fallbackText = `Nam mô A Di Đà Phật. Sư thầy trụ trì xin luận giải Quẻ Kinh Dịch ${h.name} cho thí chủ. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
       localPrayerMp3.onended = () => {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
       };
       localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
+      if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
+      localPrayerMp3.playbackRate = 1.05;
       localPrayerMp3.src = mp3Url;
       localPrayerMp3.currentTime = 0;
       localPrayerMp3.volume = 1.0;
@@ -5403,15 +5458,17 @@
       const sel = document.getElementById('tuviZodiacSelect');
       const idx = sel ? (Number(sel.value) || 0) : 4;
       const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
-      const mp3Url = `audio/tuvi_${idx}.mp3?v=72`;
-      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc truyền cảm Bình Giải Tử Vi ${tv.name}...`);
+      const mp3Url = `audio/tuvi_${idx}.mp3?v=73`;
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc rõ ràng Bình Giải Tử Vi ${tv.name}...`);
       const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const fallbackText = `A Di Đà Phật... Bần tăng xin bình giải lá số Tử Vi bản mệnh cho thí chủ ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
+      const fallbackText = `Nam mô A Di Đà Phật. Sư thầy trụ trì xin bình giải lá số Tử Vi bản mệnh cho thí chủ ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
       localPrayerMp3.onended = () => {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
       };
       localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
+      if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
+      localPrayerMp3.playbackRate = 1.05;
       localPrayerMp3.src = mp3Url;
       localPrayerMp3.currentTime = 0;
       localPrayerMp3.volume = 1.0;
@@ -5501,14 +5558,16 @@
       stopAllVoices(true);
       const p = currentLuckyPack || LUCKY_NUMBER_MEANINGS[0];
       const idx = Math.max(0, LUCKY_NUMBER_MEANINGS.indexOf(p));
-      const mp3Url = `audio/soloc_${idx}.mp3?v=72`;
-      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang luận giải Số May Mắn (${p.pair} - ${p.rev})...`);
-      const fallbackText = `Nam mô A Di Đà Phật... Bần tăng xin luận giải quẻ số may mắn hôm nay cho thí chủ. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
+      const mp3Url = `audio/soloc_${idx}.mp3?v=73`;
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang luận giải rõ ràng Số May Mắn (${p.pair} - ${p.rev})...`);
+      const fallbackText = `Nam mô A Di Đà Phật. Sư thầy trụ trì xin luận giải quẻ số may mắn hôm nay cho thí chủ. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
       localPrayerMp3.onended = () => {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
       };
       localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
+      if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
+      localPrayerMp3.playbackRate = 1.05;
       localPrayerMp3.src = mp3Url;
       localPrayerMp3.currentTime = 0;
       localPrayerMp3.volume = 1.0;
@@ -5598,11 +5657,12 @@
       unlockAndStartAudio();
       stopAllVoices(true);
       const st = currentFortuneStick || fortuneSticksPool[0];
-      const audioSrc = (st.audioFile || 'audio/xam_full_1.mp3') + '?v=72';
-      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc truyền cảm Luận Giải ${st.num}...`);
+      const audioSrc = (st.audioFile || 'audio/xam_full_1.mp3') + '?v=73';
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc rõ ràng Luận Giải ${st.num}...`);
       isVoiceSpeaking = true;
       localPrayerMp3.onerror = null;
-      localPrayerMp3.playbackRate = 1.0;
+      if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
+      localPrayerMp3.playbackRate = 1.05;
       localPrayerMp3.src = audioSrc;
       localPrayerMp3.currentTime = 0;
       localPrayerMp3.volume = 1.0;
@@ -6121,29 +6181,29 @@
     ];
 
     const visitorPool = [
-      { id: 'v_nu1', name: 'Phật Tử Thu Trang', avatar: '👩🏻', gender: 'F' },
+      { id: 'v_nu1', name: 'Phật Tử Thu Trang', avatar: '👩', gender: 'F' },
       { id: 'v_nu2', name: 'Phật Tử Mai Lan', avatar: '🪷', gender: 'F' },
-      { id: 'v_ducdoan', name: 'Cư Sĩ Đức Đoàn', avatar: '👨🏻', gender: 'M' }
+      { id: 'v_ducdoan', name: 'Cư Sĩ Đức Đoàn', avatar: '👨', gender: 'M' }
     ];
 
     // DANH SÁCH ĐẦY ĐỦ CÁC BỘ PHẬN CÔNG TY, KHÁCH HÀNG & XÃ HỘI KÈM LỜI NÓI HÀI HƯỚC, CAY CÚ, BỰC BỘI, KHÓ CHỊU ĐỜI THỰC (V57)
     const CHARACTER_ROSTER_V57 = [
       // 1. Ban Giám Đốc & Quản Lý
-      { name: 'Thành', dept: 'Ban Giám Đốc', roleTag: 'bgd', avatar: '🧘‍♂️', gender: 'M', initMerit: 1380 },
+      { name: 'Thành', dept: 'Ban Giám Đốc', roleTag: 'bgd', avatar: '🧘', gender: 'M', initMerit: 1380 },
       { name: 'CEO Yến', dept: 'Ban Giám Đốc', roleTag: 'bgd', avatar: '👑', gender: 'F', initMerit: 115 },
       { name: 'Chị An Trưởng Phòng', dept: 'Quản Lý KD', roleTag: 'bgd', avatar: '🌸', gender: 'F', initMerit: 95 },
       // 2. Bộ Phận Kế Toán & Nhân Sự (HR)
       { name: 'Trinh Kế Toán Trưởng', dept: 'Kế Toán', roleTag: 'ketoan', avatar: '💼', gender: 'F', initMerit: 90 },
       { name: 'Hải Yến Kế Toán', dept: 'Kế Toán Công Nợ', roleTag: 'ketoan', avatar: '📊', gender: 'F', initMerit: 78 },
       { name: 'HR Kế Toán', dept: 'Hành Chính NS', roleTag: 'hr', avatar: '📋', gender: 'F', initMerit: 72 },
-      { name: 'Hùng HR', dept: 'Nhân Sự', roleTag: 'hr', avatar: '🧑🏻', gender: 'M', initMerit: 68 },
+      { name: 'Hùng HR', dept: 'Nhân Sự', roleTag: 'hr', avatar: '🧑', gender: 'M', initMerit: 68 },
       // 3. Bộ Phận Sale · Kinh Doanh · Marketing
       { name: 'Sale Minh Anh', dept: 'Kinh Doanh', roleTag: 'sale', avatar: '🪷', gender: 'F', initMerit: 85 },
       { name: 'Sale Huế', dept: 'Kinh Doanh', roleTag: 'sale', avatar: '🌺', gender: 'F', initMerit: 80 },
       { name: 'Sale Kiều Trang', dept: 'Kinh Doanh', roleTag: 'sale', avatar: '🪷', gender: 'F', initMerit: 76 },
       { name: 'Sale Bích Thủy', dept: 'Kinh Doanh', roleTag: 'sale', avatar: '🌸', gender: 'F', initMerit: 74 },
       { name: 'Sale Ánh Nguyệt', dept: 'Kinh Doanh', roleTag: 'sale', avatar: '🪷', gender: 'F', initMerit: 70 },
-      { name: 'Thu Trang', dept: 'CSKH & Sale', roleTag: 'sale', avatar: '👩🏻', gender: 'F', initMerit: 66 },
+      { name: 'Thu Trang', dept: 'CSKH & Sale', roleTag: 'sale', avatar: '👩', gender: 'F', initMerit: 66 },
       { name: 'Bích Ngọc', dept: 'Marketing TikTok', roleTag: 'mkt', avatar: '🎬', gender: 'F', initMerit: 64 },
       // 4. Bộ Phận Kho Vận · Tài Xế · Thi Công
       { name: 'Anh Trung QL Kho HN', dept: 'Kho Hà Nội', roleTag: 'kho', avatar: '📦', gender: 'M', initMerit: 82 },
@@ -6153,7 +6213,7 @@
       { name: 'Anh Long Tài Xế', dept: 'Vận Chuyển', roleTag: 'taixe', avatar: '🚚', gender: 'M', initMerit: 62 },
       { name: 'Anh Cường Bốc Xếp', dept: 'Bốc Xếp Kho', roleTag: 'kho', avatar: '💪', gender: 'M', initMerit: 60 },
       // 5. Khách Hàng (Đại Lý · Chủ Thầu · Chủ Nhà)
-      { name: 'Anh Đức Đoàn (KH)', dept: 'Khách Đại Lý', roleTag: 'khach', avatar: '🧔🏻', gender: 'M', initMerit: 88 },
+      { name: 'Anh Đức Đoàn (KH)', dept: 'Khách Đại Lý', roleTag: 'khach', avatar: '🧔', gender: 'M', initMerit: 88 },
       { name: 'Anh Phú (CT Trần Hoàn)', dept: 'Khách Công Trình', roleTag: 'khach', avatar: '🙏', gender: 'M', initMerit: 73 },
       { name: 'Chị Lan Biệt Thự (KH)', dept: 'Chủ Nhà Kỹ Tính', roleTag: 'khach', avatar: '🏡', gender: 'F', initMerit: 58 },
       { name: 'Anh Tuấn Chủ Thầu (KH)', dept: 'Chủ Thầu Xây Dựng', roleTag: 'khach', avatar: '🏗️', gender: 'M', initMerit: 52 },
@@ -6276,7 +6336,8 @@
       return list[Math.floor(Math.random() * list.length)];
     }
 
-    const visitorNamesPool = CHARACTER_ROSTER_V57.map(c => ({
+    // Loại bỏ tài khoản người chơi chính ('Thành') khỏi danh sách NPC vãng lai để không bao giờ bị trùng 2 nhân vật cùng tên trên sảnh (#mvwcvpyf6o)
+    const visitorNamesPool = CHARACTER_ROSTER_V57.filter(c => c.name !== 'Thành').map(c => ({
       name: c.name,
       avatar: c.avatar,
       gender: c.gender,
@@ -6303,7 +6364,7 @@
         bowTimer: 50,
         sentenceIdx: 0,
         chat: ROLE_SPEECH_DB.sale[0],
-        chatTimer: 220,
+        chatTimer: 105,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -6324,7 +6385,7 @@
         bowTimer: 40,
         sentenceIdx: 1,
         chat: ROLE_SPEECH_DB.kho[0],
-        chatTimer: 240,
+        chatTimer: 110,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -6345,7 +6406,7 @@
         bowTimer: 50,
         sentenceIdx: 0,
         chat: ROLE_SPEECH_DB.ketoan[0],
-        chatTimer: 220,
+        chatTimer: 105,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -6366,7 +6427,7 @@
         bowTimer: 30,
         sentenceIdx: 1,
         chat: ROLE_SPEECH_DB.khach[1],
-        chatTimer: 220,
+        chatTimer: 105,
         pauseTimer: 0,
         waitOutsideTimer: 0
       }
@@ -6378,7 +6439,7 @@
 
     const player = {
       name: 'Thành',
-      avatar: '🧘‍♂️',
+      avatar: '🧘',
       gender: 'M',
       wing: (currentZone === 'thantai') ? 1 : 0,
       targetWing: (currentZone === 'thantai') ? 1 : 0,
@@ -6767,7 +6828,7 @@
       if (typeof saveCurrentCharProfile === 'function') saveCurrentCharProfile();
       setSoKhanVoiceGender(player.gender);
       const skInp = document.getElementById('skInputName'); if (skInp) skInp.value = player.name;
-      player.avatar = (selectedCustomGender === 'M') ? '🧘‍♂️' : '🪷';
+      player.avatar = (selectedCustomGender === 'M') ? '🧘' : '🪷';
 
       // V66 (#mvw6xcd363): Gói gọn #charSelect — Ai đăng nhập tài khoản nào thì chỉ hiện đúng tài khoản đó!
       syncTopAccountSelectDropdown();
@@ -6786,7 +6847,7 @@
       } catch (err) {}
 
       player.chat = `🙏 ${player.name} đã đăng nhập vào Chánh Điện Chùa Trường Yến!`;
-      player.chatTimer = 220;
+      player.chatTimer = 110; // Giữ lời nói ~1.8s rồi tự tắt (#mvwcw2aw6p)
       closeRenameCharModal();
       showToast(`🔑 Đã đăng nhập Tài Khoản "${player.name}" (Phước Đức: ${player.merit} 💎)!`);
       broadcastMyPresence();
@@ -7311,9 +7372,9 @@
         target.targetV = midV;
 
         player.chat = dlg.pLine;
-        player.chatTimer = 340;
+        player.chatTimer = 115;
         target.chat = dlg.tLine;
-        target.chatTimer = 340;
+        target.chatTimer = 115;
 
         activeMutualInteraction = {
           active: true,
@@ -7357,9 +7418,9 @@
         target.bowTimer = 0;
 
         player.chat = dlg.pLine;
-        player.chatTimer = 320;
+        player.chatTimer = 115;
         target.chat = dlg.tLine;
-        target.chatTimer = 320;
+        target.chatTimer = 115;
 
         activeMutualInteraction = {
           active: true,
@@ -7406,9 +7467,9 @@
         target.bowCycleTick = 20;
 
         player.chat = dlg.pLine;
-        player.chatTimer = 340;
+        player.chatTimer = 115;
         target.chat = dlg.tLine;
-        target.chatTimer = 340;
+        target.chatTimer = 115;
 
         activeMutualInteraction = {
           active: true,
@@ -7437,9 +7498,9 @@
       target.targetV = midV;
 
       player.chat = dlg.pLine;
-      player.chatTimer = 360;
+      player.chatTimer = 115;
       target.chat = dlg.tLine;
-      target.chatTimer = 360;
+      target.chatTimer = 115;
 
       activeMutualInteraction = {
         active: true,
@@ -7467,11 +7528,11 @@
       toggleNpcInteractBar(false);
 
       player.chat = `💬 [${player.name} ➔ ${target.name}]: "${txt}"`;
-      player.chatTimer = 420;
+      player.chatTimer = 115;
       const reply = pickRandomSpeechForChar(target.name, player.wing);
       setTimeout(() => {
         target.chat = reply;
-        target.chatTimer = 440;
+        target.chatTimer = 120;
         playMoSound();
       }, 280);
       showToast(`💬 Đã gửi lời nói tới ${target.name}!`);
@@ -7480,17 +7541,19 @@
     // V72 (#mvwbbcmu6i & #mvwbbzs76j):
     // 1. Khi Khấn / Vái / Quỳ Lạy / Dâng Hương -> Phát âm thanh giọng Sư Thầy niệm "Nam Mô A Di Đà Phật" trang nghiêm!
     // 2. Khi Dâng Lễ / Công Đức / Hóa Vàng -> Giọng Sư Trụ Trì đọc lời cảm tạ thí chủ truyền cảm như thật!
-    const namMoRitualAudio = new Audio('audio/nam_mo_a_di_da_phat.mp3?v=72');
+    const namMoRitualAudio = new Audio('audio/nam_mo_a_di_da_phat.mp3?v=73');
     namMoRitualAudio.preload = 'auto';
     let lastNamMoPlayedAt = 0;
 
     function playNamMoADiDaPhatChant() {
       try {
         const now = Date.now();
-        if (now - lastNamMoPlayedAt < 1800) return;
+        if (now - lastNamMoPlayedAt < 650) return;
         lastNamMoPlayedAt = now;
+        if ('preservesPitch' in namMoRitualAudio) namMoRitualAudio.preservesPitch = true;
+        namMoRitualAudio.playbackRate = 1.25;
         namMoRitualAudio.currentTime = 0;
-        namMoRitualAudio.volume = 0.95;
+        namMoRitualAudio.volume = 0.98;
         namMoRitualAudio.play().catch(() => {});
       } catch (e) {}
     }
@@ -7502,15 +7565,15 @@
       try {
         unlockAndStartAudio();
         stopAllVoices(true);
-        let src = 'audio/su_tru_tri_cam_on_le.mp3?v=72';
+        let src = 'audio/su_tru_tri_cam_on_le.mp3?v=73';
         let bannerTitle = `🧙‍♂️🙏 SƯ TRỤ TRÌ CẢM TẠ THÍ CHỦ ${player.name.toUpperCase()}`;
         let bannerBody = `A Di Đà Phật! Thay mặt bổn tự Chùa Trường Yến, bần tăng xin tán thán công đức và thành tâm cảm tạ thí chủ <b>${player.name}</b> đã dâng lễ <b>${detailText || 'phẩm vật thanh tịnh'}</b> cúng dường. Nguyện cầu mười phương Chư Phật gia hộ cho thí chủ thân khỏe tâm an, phúc lộc dồi dào, vạn sự cát tường như ý!`;
         if (kind === 'cong_duc') {
-          src = 'audio/su_tru_tri_cam_on_cong_duc.mp3?v=72';
+          src = 'audio/su_tru_tri_cam_on_cong_duc.mp3?v=73';
           bannerTitle = `🧙‍♂️🏅 SƯ TRỤ TRÌ TÁN THÁN CÔNG ĐỨC THÍ CHỦ ${(detailText || player.name).toUpperCase()}`;
           bannerBody = `Nam Mô A Di Đà Phật! Bần tăng xin hoan hỷ ghi nhận và cảm tạ tấm lòng vàng phát tâm công đức của thí chủ <b>${detailText || player.name}</b>. Một giọt dầu công đức sáng rạng muôn đời, nguyện đem phước báu lành này hồi hướng cho thí chủ tài lộc hanh thông, sở cầu tất ứng!`;
         } else if (kind === 'hoa_vang') {
-          src = 'audio/su_tru_tri_cam_on_hoa_vang.mp3?v=72';
+          src = 'audio/su_tru_tri_cam_on_hoa_vang.mp3?v=73';
           bannerTitle = `🧙‍♂️🔥 SƯ TRỤ TRÌ CHỨNG MINH LỄ HÓA NGÂN VÀNG`;
           bannerBody = `A Di Đà Phật! Bần tăng cảm tạ tấm lòng thành kính của thí chủ <b>${player.name}</b> đã tiến lễ hóa <b>${detailText || 'ngân vàng'}</b>. Nguyện cầu chư vị Tôn Thần, Thần Tài Thổ Địa chứng giám lòng thành, độ trì cho thí chủ buôn may bán đắt, đạt mọi chỉ tiêu ước nguyện!`;
         }
@@ -8344,7 +8407,7 @@
         if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
         return;
       }
-      if (data.sender === clientId) return;
+      if (data.sender === clientId || (data.name && data.name === player.name)) return;
       if (data.type === 'leave') {
         delete onlineCompanyPeers[data.sender];
         updateOnlineCountBadge();
@@ -8378,7 +8441,7 @@
         if (data.state) existing.state = data.state;
         if (data.text || data.chat) {
           existing.chat = (data.text || data.chat).slice(0, 60);
-          existing.chatTimer = 240;
+          existing.chatTimer = 110; // Giữ lời nói ~1.8s rồi tự tắt (#mvwcw2aw6p)
         }
         if (data.ritual === 'bow') {
           existing.state = 'bow_cycle';
@@ -8601,38 +8664,51 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
+    function sanitizeEmojiForCanvas(str) {
+      return String(str || '')
+        .replace(/\u200d[\u2640\u2642\u2695\u2696\u2708\u{1F300}-\u{1FAFF}]*\ufe0f?/gu, '')
+        .replace(/[\u200d\ufe0f\u{1F3FB}-\u{1F3FF}]/gu, '')
+        .trim();
+    }
+
     function drawRoundedBadge(x, y, avatar, name, isPlayer = false) {
       if (!isPlayer && (x < 12 || x > window.innerWidth - 12)) return;
       ctx.save();
       const fontStr = isPlayer
-        ? 'bold 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
-        : '600 10.2px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ? 'bold 11.2px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        : '600 10.5px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
       ctx.font = fontStr;
-      const fullLabel = `${avatar ? avatar + ' ' : ''}${name}`.trim();
-      const textW = Math.ceil(ctx.measureText(fullLabel).width);
-      const boxW = Math.max(68, textW + 24);
+
+      // V73 (#mvwcvpyf6o): Tách riêng biểu tượng Emoji và chữ Tiếng Việt sang 2 lệnh fillText độc lập + Loại bỏ hoàn toàn ZWJ (\u200d)
+      // để CoreText trên iOS Safari KHÔNG BAO GIỜ cắt cụt các chữ cuối của Tên Nhân Vật ("🧘 Thà" -> "🧘 Thành", "🧘 Thành · 1.388 💎")!
+      const cleanIcon = sanitizeEmojiForCanvas(avatar) || (isPlayer ? '🧘' : '🙏');
+      const pureName = sanitizeEmojiForCanvas(name).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').replace(/\s+/g, ' ').trim();
+      const iconW = cleanIcon ? Math.ceil(ctx.measureText(cleanIcon).width) + 5 : 0;
+      const nameW = Math.ceil(ctx.measureText(pureName).width);
+      const contentW = iconW + nameW;
+      const boxW = Math.max(72, contentW + 24);
       const boxH = 22;
       const bx = Math.max(6, Math.min(window.innerWidth - boxW - 6, Math.round(x - boxW / 2)));
       const by = Math.round(y - boxH / 2);
 
-      ctx.fillStyle = isPlayer ? 'rgba(42, 24, 6, 0.94)' : 'rgba(18, 14, 10, 0.86)';
-      ctx.strokeStyle = isPlayer ? '#ffd46b' : 'rgba(225, 190, 115, 0.55)';
-      ctx.lineWidth = isPlayer ? 1.6 : 1.0;
+      ctx.fillStyle = isPlayer ? 'rgba(42, 24, 6, 0.95)' : 'rgba(18, 14, 10, 0.88)';
+      ctx.strokeStyle = isPlayer ? '#ffd46b' : 'rgba(225, 190, 115, 0.62)';
+      ctx.lineWidth = isPlayer ? 1.6 : 1.1;
       ctx.beginPath();
       ctx.roundRect(bx, by, boxW, boxH, 11);
       ctx.fill();
       ctx.stroke();
 
-      ctx.save();
-      ctx.beginPath();
-      ctx.roundRect(bx + 2, by + 1, boxW - 4, boxH - 2, 9);
-      ctx.clip();
+      const startX = Math.round(bx + (boxW - contentW) / 2);
+      const centerY = by + boxH / 2 + 0.5;
       ctx.font = fontStr;
-      ctx.textAlign = 'center';
+      ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = isPlayer ? '#ffe596' : '#f5ead2';
-      ctx.fillText(fullLabel, bx + boxW / 2, by + boxH / 2 + 0.5);
-      ctx.restore();
+      if (cleanIcon) {
+        ctx.fillText(cleanIcon, startX, centerY);
+      }
+      ctx.fillText(pureName, startX + iconW, centerY);
       ctx.restore();
     }
 
@@ -9232,11 +9308,26 @@
       // KHÁCH VÃNG LAI ĐI RA ĐI VÀO LIÊN TỤC (#2380 & #2385):
       // Bước từ cửa vào bồ đoàn -> Quỳ lễ & khấn 1 câu ngắn gọn -> Đứng dậy đi ra cửa -> Đổi lượt khách mới bước vào!
       for (const g of visitingGuests) {
+        if (g.name === player.name) {
+          const alt = visitorNamesPool.find(p => p.name !== player.name && !visitingGuests.some(o => o !== g && o.name === p.name)) || visitorNamesPool[0];
+          if (alt) {
+            g.name = alt.name;
+            g.avatar = alt.avatar;
+            g.gender = alt.gender;
+          }
+        }
         if (g.waitOutsideTimer > 0) {
           g.waitOutsideTimer--;
           if (g.waitOutsideTimer === 0) {
-            const nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
+            let nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
             nextVisitorPoolIdx++;
+            for (let tries = 0; tries < visitorNamesPool.length; tries++) {
+              if (nextProfile.name !== player.name && !visitingGuests.some(o => o !== g && o.name === nextProfile.name)) {
+                break;
+              }
+              nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
+              nextVisitorPoolIdx++;
+            }
             g.name = nextProfile.name;
             g.avatar = nextProfile.avatar;
             g.gender = nextProfile.gender;
@@ -9265,10 +9356,10 @@
           } else {
             g.phase = 'praying';
             g.state = 'kneel';
-            g.phaseTick = 320; // Quỳ lễ ~5.3 giây rồi đi ra
+            g.phaseTick = 280; // Quỳ lễ ~4.6 giây rồi đi ra
             g.bowTimer = 90;
             g.chat = pickRandomSpeechForChar(g.name, g.wing);
-            g.chatTimer = 240;
+            g.chatTimer = 108; // Giữ lời nói của nhân vật đúng ~1.8s (1-2s) rồi tự tắt (#mvwcw2aw6p)
           }
         } else if (g.phase === 'praying') {
           if (g.bowTimer > 0) g.bowTimer--;
@@ -9304,6 +9395,10 @@
       if (isOnlinePresenceMode) {
         for (const peerId of Object.keys(onlineCompanyPeers)) {
           const peer = onlineCompanyPeers[peerId];
+          if (!peer || peer.name === player.name) {
+            delete onlineCompanyPeers[peerId];
+            continue;
+          }
           if (typeof peer.targetU === 'number') peer.u += (peer.targetU - peer.u) * 0.15;
           if (typeof peer.targetV === 'number') peer.v += (peer.targetV - peer.v) * 0.15;
           if (peer.vaiTimer && peer.vaiTimer > 0) peer.vaiTimer--;
@@ -9563,8 +9658,8 @@
 
           const headY = sy - sh - bob + poseOffsetY - 8;
           const badgeLabel = isPlayer
-            ? `${d.name} · 💎${(player.merit || 0).toLocaleString('vi-VN')}`
-            : ((item.type === 'online_peer') ? `🟢 ${d.name}` : d.name);
+            ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
+            : d.name;
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
 
           // Khi đang inMutual đã có Banner trung tâm nổi bật nên không vẽ chồng 2 nhãn nhỏ bên dưới nữa
