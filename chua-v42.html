@@ -858,12 +858,12 @@
 
   <canvas id="gameCanvas"></canvas>
 
-  <!-- 1. TOP BAR: ROLE + 3 BAN THỜ + CHỌN 6 NHẠC NỀN TIKTOK + BẢNG CÔNG ĐỨC -->
+  <!-- 1. TOP BAR: ROLE + ĐIỂM TÍCH PHƯỚC TRÊN CÙNG + 3 BAN THỜ + BẢNG CÔNG ĐỨC -->
   <div class="top-bar" style="flex-wrap:nowrap; align-items:flex-start; justify-content:space-between; pointer-events:none;">
-    <!-- Cụm Góc Trái Gọn Gàng (Không bao giờ tràn ra giữa che mặt tượng Phật!) -->
-    <div class="top-group" style="max-width:44vw;">
+    <!-- Cụm Góc Trái Gọn Gàng -->
+    <div class="top-group" style="max-width:42vw;">
       <select id="charSelect" class="top-select" title="Tài khoản đang đăng nhập của bạn (Gói gọn: Ai đăng nhập tài khoản nào chỉ hiện đúng tài khoản đó)">
-        <option id="customUserCharOption" value="Thành">👤 Thành (Tài khoản của bạn)</option>
+        <option id="customUserCharOption" value="Thành">👤 Thành · 💎 1.380 Phước</option>
         <option value="__custom__">🔑 Đổi / Đăng Nhập Tài Khoản Khác...</option>
       </select>
       <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đăng nhập Tài Khoản Riêng (Tên + Mã PIN 4 số), tạo nick mới hoặc đổi nhân vật">🔑 Tài Khoản</button>
@@ -871,13 +871,19 @@
       <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
     </div>
 
-    <!-- KHOẢNG TRỐNG CHÍNH GIỮA ĐỂ LỘ TRỌN VẸN Hào Quang & Tượng Phật Tam Bảo / Thần Tài -->
-    <div style="flex:1; min-width:40px; pointer-events:none;"></div>
+    <!-- HUY HIỆU ĐIỂM TÍCH PHƯỚC NỔI BẬT Ở CHÍNH GIỮA TRÊN CÙNG MÀN HÌNH (#mvw8mq8n6c) -->
+    <div style="pointer-events:auto; display:flex; justify-content:center; align-items:center;">
+      <button type="button" onclick="openMeritShopModal()" title="Bấm để mở Bảng Top Phước Đức & Cửa Hàng Lễ Vật" style="background:linear-gradient(135deg,#4a1c03,#8d3b05,#4a1c03); color:#fff8e1; border:2px solid #ffd740; border-radius:999px; padding:5px 16px; font-size:12.5px; font-weight:900; cursor:pointer; box-shadow:0 4px 16px rgba(255,215,64,0.45), inset 0 1px 4px rgba(255,255,255,0.35); display:flex; align-items:center; gap:7px; white-space:nowrap;">
+        <span>💎 ĐIỂM TÍCH PHƯỚC:</span>
+        <span id="topCenterMeritScore" style="color:#ffd740; font-size:14.5px; text-shadow:0 0 8px rgba(255,215,64,0.85);">1.380 💎</span>
+        <span style="background:rgba(255,215,64,0.22); color:#69f0ae; border:1px solid rgba(105,240,174,0.6); border-radius:999px; padding:1px 8px; font-size:10.5px;">🏆 Top #1 (<span id="activeCharProfileBadge">Thành</span>)</span>
+      </button>
+    </div>
 
     <!-- Cụm Góc Phải Gọn Gàng + Nút Menu [🎛️ Nhạc · Kinh · Tiện Ích ▾] gom toàn bộ nút phụ -->
-    <div class="top-group" style="max-width:52vw; justify-content:flex-end;">
+    <div class="top-group" style="max-width:42vw; justify-content:flex-end;">
       <button class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
-        🏆 Top Phước: <span id="activeCharProfileBadge">Thành</span> · 💎<span id="meritScore">1380</span>
+        🏆 Bảng Top · 💎<span id="meritScore">1.380</span>
       </button>
       <button id="tabKarma" class="chip-btn" style="background:linear-gradient(135deg,#880e4f,#4a148c);color:#fff;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">😤🥊 Xả Nghiệp</button>
       <button id="btnTopUtilityMenu" class="chip-btn active" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="toggleTopUtilityMenu()">🎛️ Nhạc · Kinh · Tiện Ích ▾</button>
@@ -1167,6 +1173,10 @@
 
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH NEO GỌN Ở GÓC TRÊN TRÁI (Không bao giờ đè lên nhân vật hay tượng Phật!) -->
   <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:10px; top:44px; z-index:66; width:min(94vw, 375px); background:rgba(24,10,3,0.94); border:1.5px solid #ffd54f; border-radius:12px; padding:8px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.88);">
+    <div style="background:linear-gradient(90deg,rgba(90,42,6,0.95),rgba(48,18,4,0.95)); border:1px solid #ffd740; border-radius:7px; padding:4px 8px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; font-size:10.5px; font-weight:900; color:#fff8e1;">
+      <span>💎 Điểm Tích Phước hiện có: <b id="stripMeritScore" style="color:#ffd740; font-size:12px;">1.380 💎</b></span>
+      <span style="color:#69f0ae; font-size:9.5px; cursor:pointer;" onclick="openMeritShopModal()">🏆 Xem Top ▸</span>
+    </div>
     <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
       <div style="display:flex; align-items:center; gap:6px;">
         <button type="button" onclick="toggleHallOfferingStrip(false)" title="Đóng thanh đặt lễ" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:6px; padding:2px 7px; font-size:10.5px; font-weight:900; cursor:pointer;">✕</button>
@@ -1187,8 +1197,13 @@
     </div>
   </div>
 
-  <!-- 3D. BẢNG TƯƠNG TÁC NHÂN VẬT NEO GỌN Ở GÓC TRÊN TRÁI + CHỌN TƯƠNG TÁC RỒI MỚI HÀNH ĐỘNG (KHÔNG MẶC ĐỊNH LẠY NHAU!) -->
-  <div id="npcInteractBar" style="display:none; position:fixed; left:10px; top:44px; z-index:67; width:min(94vw, 385px); background:rgba(16,12,24,0.96); border:2px solid #ffd54f; border-radius:14px; padding:10px 12px; box-shadow:0 10px 28px rgba(0,0,0,0.92);">
+  <!-- 3D. BẢNG TƯƠNG TÁC NHÂN VẬT NEO GỌN Ở GÓC TRÊN TRÁI + ĐIỂM TÍCH PHƯỚC Ở TRÊN CÙNG + CHỌN TƯƠNG TÁC RỒI MỚI HÀNH ĐỘNG! -->
+  <div id="npcInteractBar" style="display:none; position:fixed; left:10px; top:44px; z-index:67; width:min(94vw, 392px); background:rgba(16,12,24,0.96); border:2px solid #ffd54f; border-radius:14px; padding:10px 12px; box-shadow:0 10px 28px rgba(0,0,0,0.92);">
+    <!-- DÒNG TRÊN CÙNG: ĐIỂM TÍCH PHƯỚC CỦA BẠN (#mvw8mq8n6c) -->
+    <div style="background:linear-gradient(90deg,rgba(88,40,6,0.96),rgba(42,16,4,0.96)); border:1.5px solid #ffd740; border-radius:8px; padding:5px 9px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:11px; font-weight:900; color:#fff8e1;">💎 Điểm Tích Phước: <b id="npcBarMyMerit" style="color:#ffd740; font-size:12.5px;">1.380 💎</b></span>
+      <button type="button" onclick="toggleNpcInteractBar(false); openMeritShopModal();" style="background:rgba(255,215,64,0.2); color:#69f0ae; border:1px solid #69f0ae; border-radius:6px; padding:2px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">🏆 Bảng Top</button>
+    </div>
     <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px;">
       <div style="font-size:11px; font-weight:900; color:#69f0ae;">
         🎯 Đã chọn: <span id="selectedNpcNameLabel" style="color:#ffd740; text-decoration:underline;">CEO Yến</span> — <span style="color:#ffe082; font-weight:700;">Chọn hành động bên dưới:</span>
@@ -6463,7 +6478,7 @@
       const myOpt = document.createElement('option');
       myOpt.id = 'customUserCharOption';
       myOpt.value = player.name;
-      myOpt.textContent = `👤 ${player.name} (Tài khoản của bạn)`;
+      myOpt.textContent = `👤 ${player.name} · 💎 ${(player.merit || 0).toLocaleString('vi-VN')} Phước`;
       sel.appendChild(myOpt);
 
       const switchOpt = document.createElement('option');
@@ -7736,14 +7751,23 @@
     }
 
     function syncMeritAndBagHud() {
+      const fmtMerit = (player.merit || 0).toLocaleString('vi-VN');
       const mEl = document.getElementById('meritScore');
-      if (mEl) mEl.textContent = player.merit.toLocaleString('vi-VN');
+      if (mEl) mEl.textContent = fmtMerit;
+      const topCenterEl = document.getElementById('topCenterMeritScore');
+      if (topCenterEl) topCenterEl.textContent = `${fmtMerit} 💎`;
+      const npcBarMeritEl = document.getElementById('npcBarMyMerit');
+      if (npcBarMeritEl) npcBarMeritEl.textContent = `${fmtMerit} 💎`;
+      const stripMeritEl = document.getElementById('stripMeritScore');
+      if (stripMeritEl) stripMeritEl.textContent = `${fmtMerit} 💎`;
+      const myOptEl = document.getElementById('customUserCharOption');
+      if (myOptEl) myOptEl.textContent = `👤 ${player.name} · 💎 ${fmtMerit} Phước`;
       const balEl = document.getElementById('shopMeritBalance');
-      if (balEl) balEl.textContent = player.merit.toLocaleString('vi-VN');
+      if (balEl) balEl.textContent = fmtMerit;
       const charLbl = document.getElementById('shopCharNameLabel');
       if (charLbl) charLbl.textContent = `${player.name} (${getCharDeptName(player.name)})`;
       const totEl = document.getElementById('shopTotalMerit');
-      if (totEl) totEl.textContent = player.merit.toLocaleString('vi-VN');
+      if (totEl) totEl.textContent = fmtMerit;
       const rnkEl = document.getElementById('shopRankTitle');
       if (rnkEl) rnkEl.textContent = computeSpiritualRank(player.merit);
       const bagShopEl = document.getElementById('shopGoldBagCount');
@@ -9432,7 +9456,9 @@
           }
 
           const headY = sy - sh - bob + poseOffsetY - 8;
-          const badgeLabel = (item.type === 'online_peer') ? `🟢 ${d.name}` : d.name;
+          const badgeLabel = isPlayer
+            ? `${d.name} · 💎${(player.merit || 0).toLocaleString('vi-VN')}`
+            : ((item.type === 'online_peer') ? `🟢 ${d.name}` : d.name);
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
 
           // Khi đang inMutual đã có Banner trung tâm nổi bật nên không vẽ chồng 2 nhãn nhỏ bên dưới nữa
