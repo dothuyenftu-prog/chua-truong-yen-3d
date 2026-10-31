@@ -1913,6 +1913,42 @@
         </div>
       </div>
 
+      <!-- KHUNG GHI NHẬN & VINH DANH THÀNH VIÊN KHÁC LÊN BẢNG TOP CÔNG ĐỨC (+1.000 💎) (#mvw6qzyu62) -->
+      <div style="background:linear-gradient(135deg,rgba(48,22,4,0.97),rgba(28,10,2,0.97)); border:1.5px solid #ffd740; border-radius:10px; padding:8px 10px; margin-bottom:8px; box-shadow:0 4px 14px rgba(0,0,0,0.65);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; flex-wrap:wrap; gap:4px;">
+          <span style="font-size:10.8px; font-weight:900; color:#ffd740;">🏅 GHI NHẬN & VINH DANH THÀNH VIÊN LÊN BẢNG CÔNG ĐỨC (NHÓM ZALO CTY +1.000 💎)</span>
+          <span style="font-size:9.3px; color:#69f0ae; font-weight:800;">⚡ Ghi nhận ai người đó lên Bảng Top ngay!</span>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
+          <select id="zaloRecMemberSelect" onchange="onSelectZaloHonorMember(this.value)" style="background:rgba(16,6,2,0.96); border:1.2px solid #ffd54f; border-radius:7px; padding:5px 7px; color:#fff8e1; font-size:10.3px; font-weight:800; outline:none;">
+            <option value="">👤 Chọn Thành Viên Để Vinh Danh...</option>
+            <option value="CEO Yến">👑 CEO Yến (Ban Giám Đốc)</option>
+            <option value="Sếp Thành">🧘‍♂️ Sếp Thành (Ban Giám Đốc)</option>
+            <option value="Chị An Trưởng Phòng">🌸 Chị An Trưởng Phòng (Quản Lý KD)</option>
+            <option value="Trinh Kế Toán Trưởng">💼 Trinh Kế Toán Trưởng (Kế Toán)</option>
+            <option value="Anh Trung QL Kho HN">📦 Anh Trung QL Kho HN (Kho Hà Nội)</option>
+            <option value="Anh Tâm Kho HP">⚓ Anh Tâm Kho HP (Kho Hải Phòng)</option>
+            <option value="Thế Anh Kho HN">🙏 Thế Anh Kho HN (Kho Hà Nội)</option>
+            <option value="Anh Hải Thi Công">👷 Anh Hải Thi Công (Đội Thi Công)</option>
+            <option value="Hải Yến Kế Toán">📊 Hải Yến Kế Toán (Kế Toán)</option>
+            <option value="HR Kế Toán">📋 HR Kế Toán (Nhân Sự - KT)</option>
+            <option value="Hùng HR">🧑🏻 Hùng HR (Nhân Sự)</option>
+            <option value="Thu Trang">🪷 Thu Trang (Kinh Doanh)</option>
+            <option value="Sale Minh Anh">🪷 Sale Minh Anh (Kinh Doanh)</option>
+            <option value="Sale Huế">🪷 Sale Huế (Kinh Doanh)</option>
+            <option value="Sale Kiều Trang">🪷 Sale Kiều Trang (Kinh Doanh)</option>
+            <option value="Bích Ngọc">🌸 Bích Ngọc (Kinh Doanh)</option>
+          </select>
+          <input id="zaloRecCustomNameInput" type="text" placeholder="✏️ Hoặc nhập tên thành viên bất kỳ..." style="background:rgba(16,6,2,0.96); border:1.2px solid #80d8ff; border-radius:7px; padding:5px 8px; color:#fff; font-size:10.3px; font-weight:800; outline:none;" />
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <input id="meritNoteInput" type="text" value="Ghi nhận đóng góp xuất sắc trên Nhóm Zalo Công Ty, góp phần xây dựng Chùa Trường Yến" placeholder="💬 Nhập lý do ghi nhận / thành tích trên nhóm Zalo..." style="flex:1; background:rgba(12,4,1,0.95); border:1px solid rgba(255,213,79,0.6); border-radius:7px; padding:5px 8px; color:#ffe082; font-size:10.2px; outline:none;" />
+          <button type="button" onclick="recordTempleContribution()" style="background:linear-gradient(135deg,#00c853,#1b5e20); color:#fff; border:1.5px solid #ffd740; border-radius:8px; padding:5px 10px; font-size:10.4px; font-weight:900; cursor:pointer; flex-shrink:0; box-shadow:0 3px 10px rgba(0,200,83,0.45);">
+            🏅 Vinh Danh (+1.000 💎)
+          </button>
+        </div>
+      </div>
+
       <!-- BẢNG QUY CHUẨN TÍCH PHƯỚC XÁC SUẤT -->
       <div style="background:rgba(24,10,3,0.94); border:1px solid rgba(255,213,79,0.55); border-radius:9px; padding:6px 9px; margin-bottom:7px; font-size:9.9px; color:#ffe596; line-height:1.42;">
         🪵 <b>1. QUY CHUẨN TÍCH PHƯỚC ĐỨC CÁ NHÂN (Đua Top Phước Đức Giữa Các Bộ Phận · Khách Hàng · Xã Hội):</b><br/>
@@ -6225,19 +6261,24 @@
       return 'http://192.168.1.13:8899';
     }
 
-    function syncAccountMeritToServer() {
-      if (!player || !player.name) return;
+    function syncSpecificAccountToServer(accName, meritVal, congDucVal, genderVal, deptVal, honorNote) {
+      if (!accName) return;
       const payload = {
         type: 'account_merit_sync',
-        name: player.name,
-        pin: currentAccountPin || '1234',
-        merit: player.merit,
-        congDuc: typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
-        gender: player.gender || 'F',
-        dept: typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'
+        name: accName,
+        pin: '1234',
+        merit: Number(meritVal ?? 100),
+        congDuc: Number(congDucVal ?? 1),
+        gender: genderVal || 'F',
+        dept: deptVal || (typeof getCharDeptName === 'function' ? getCharDeptName(accName) : 'Phật Tử'),
+        registered: true,
+        honorNote: honorNote || ''
       };
       if (typeof lanWsSocket !== 'undefined' && lanWsSocket && lanWsSocket.readyState === 1) {
         try { lanWsSocket.send(JSON.stringify(payload)); } catch (e) {}
+      }
+      if (typeof publishMqtt === 'function') {
+        try { publishMqtt(payload); } catch (e) {}
       }
       try {
         fetch(getAccountApiBaseUrl() + '/api/account/sync', {
@@ -6246,6 +6287,17 @@
           body: JSON.stringify(payload)
         }).catch(() => {});
       } catch (e) {}
+    }
+
+    function syncAccountMeritToServer() {
+      if (!player || !player.name) return;
+      syncSpecificAccountToServer(
+        player.name,
+        player.merit,
+        typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
+        player.gender || 'F',
+        typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'
+      );
     }
 
     function saveCurrentCharProfile() {
@@ -7418,7 +7470,9 @@
             name: cName,
             dept: prof.dept || (rosterMatch ? rosterMatch.dept : getCharDeptName(cName)),
             avatar: prof.avatar || (rosterMatch ? rosterMatch.avatar : (prof.gender === 'M' ? '🧘‍♂️' : '🪷')),
-            merit: m
+            merit: m,
+            congDuc: Number(prof.congDuc || 0),
+            honorNote: prof.honorNote || ''
           });
         });
       }
@@ -7446,6 +7500,7 @@
               <span style="font-weight:900; color:#ffd740; min-width:22px;">${medal}</span>
               <span style="color:#fff8e1; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.avatar} ${item.name}</span>
               <span style="color:#80d8ff; font-size:9.3px; font-weight:700;">[${item.dept}]</span>
+              ${item.congDuc > 0 ? `<span style="background:rgba(255,193,7,0.22); border:1px solid #ffd54f; color:#ffe082; border-radius:4px; padding:0 4px; font-size:8.6px; font-weight:800;" title="${(item.honorNote || 'Được vinh danh trên Nhóm Zalo Công Ty').replace(/"/g, '&quot;')}">🏅${item.congDuc}</span>` : ''}
             </div>
             <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
               <b style="color:#ffd54f; font-size:11px;">💎 ${Number(item.merit).toLocaleString('vi-VN')}</b>
@@ -7554,23 +7609,32 @@
       document.getElementById('meritShopModal').classList.remove('open');
     }
 
+    function onSelectZaloHonorMember(val) {
+      const customInp = document.getElementById('zaloRecCustomNameInput');
+      if (customInp && val) customInp.value = val;
+    }
+
     function fillZaloRecognitionPreset(memberName, noteText) {
       const sel = document.getElementById('zaloRecMemberSelect');
       if (sel) sel.value = memberName;
+      const customInp = document.getElementById('zaloRecCustomNameInput');
+      if (customInp) customInp.value = memberName;
       const inp = document.getElementById('meritNoteInput');
       if (inp) inp.value = noteText;
       recordTempleContribution();
     }
 
-    // GHI NHẬN CÔNG ĐỨC XÂY DỰNG CHÙA TỪ NHÓM ZALO CÔNG TY (+1 🏛️ CÔNG ĐỨC & +1.000 💎 PHƯỚC ĐỨC!)
+    // V65 (#mvw6qzyu62): GHI NHẬN & VINH DANH THÀNH VIÊN KHÁC LÊN BẢNG TOP PHƯỚC ĐỨC & CÔNG ĐỨC (+1 🏛️ CÔNG ĐỨC & +1.000 💎 PHƯỚC ĐỨC!)
     function recordTempleContribution() {
       unlockAndStartAudio();
+      const customInp = document.getElementById('zaloRecCustomNameInput');
       const sel = document.getElementById('zaloRecMemberSelect');
-      const honoredMember = (sel && sel.value) ? sel.value : player.name;
+      const rawCustom = (customInp && customInp.value.trim()) ? customInp.value.trim() : '';
+      const rawSel = (sel && sel.value.trim()) ? sel.value.trim() : '';
+      const honoredMember = rawCustom || rawSel || player.name;
       const inp = document.getElementById('meritNoteInput');
       const note = (inp && inp.value.trim()) ? inp.value.trim() : 'Ghi nhận đóng góp xuất sắc trên Nhóm Zalo Công Ty, góp phần xây dựng Chùa Trường Yến';
 
-      myZaloCongDucCount += 1;
       totalTempleBuildCongDuc += 1;
       let existing = zaloCongDucBoard.find(item => item.name === honoredMember);
       if (!existing) {
@@ -7580,19 +7644,61 @@
       existing.count += 1;
       existing.meritBonus += 1000;
 
-      // Cộng ngay +1.000 💎 Phước Đức theo đúng quy chuẩn Công Đức Nhóm Zalo Công Ty!
-      addMerit(1000);
-      appendMeritLog(`🏛️📲 <b>[Nhóm Zalo Cty] ${honoredMember}</b> được vinh danh Bảng Công Đức Xây Chùa: <i>"${note}"</i> (<b>+1 🏛️ Công Đức · +1.000 💎 Phước Đức</b>)`);
+      // Ghi nhận trực tiếp cho Thành Viên Được Vinh Danh (Tự động kích hoạt registered = true và cộng +1.000 💎 lên Bảng Top!)
+      const rosterMatch = (typeof CHARACTER_ROSTER_V57 !== 'undefined')
+        ? CHARACTER_ROSTER_V57.find(r => r.name === honoredMember)
+        : null;
+      const prevProf = allCharProfiles[honoredMember] || {};
+      const baseMerit = (honoredMember === player.name)
+        ? player.merit
+        : (prevProf.registered ? Number(prevProf.merit ?? 0) : 0);
+      const newMerit = baseMerit + 1000;
+      const newCongDuc = Number(prevProf.congDuc || 0) + 1;
+      const memberGender = prevProf.gender || (rosterMatch ? rosterMatch.gender : 'F');
+      const memberDept = prevProf.dept || (rosterMatch ? rosterMatch.dept : getCharDeptName(honoredMember));
+      const memberAvatar = prevProf.avatar || (rosterMatch ? rosterMatch.avatar : (memberGender === 'M' ? '🧘‍♂️' : '🪷'));
+
+      allCharProfiles[honoredMember] = {
+        ...prevProf,
+        name: honoredMember,
+        merit: newMerit,
+        congDuc: newCongDuc,
+        gender: memberGender,
+        dept: memberDept,
+        avatar: memberAvatar,
+        registered: true,
+        honorNote: note,
+        updatedAt: Date.now()
+      };
+
+      if (honoredMember === player.name) {
+        myZaloCongDucCount = newCongDuc;
+        addMerit(1000, `Vinh danh Công Đức Nhóm Zalo Cty: ${note}`);
+      } else {
+        try {
+          localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+        } catch (e) {}
+      }
+
+      // Đồng bộ tài khoản thành viên vừa được vinh danh lên Server LAN & MQTT để mọi máy đều thấy trên Bảng Top!
+      syncSpecificAccountToServer(honoredMember, newMerit, newCongDuc, memberGender, memberDept, note);
+      renderZaloCongDucLeaderboard();
+      syncMeritAndBagHud();
+
+      appendMeritLog(`🏛️🏅 <b>[Vinh Danh Nhóm Zalo Cty] ${honoredMember}</b> vừa được ghi nhận lên <b>Bảng Top Phước Đức & Công Đức</b>: <i>"${note}"</i> (<b>+1 🏛️ Công Đức · +1.000 💎 ➔ Tổng: ${newMerit.toLocaleString('vi-VN')} 💎</b>)`);
       playBellSound();
       setTimeout(playMoSound, 300);
 
       player.state = 'bow';
       player.bowTimer = 150;
-      player.chat = `🏛️📲 Vinh danh Nhóm Zalo Cty: ${honoredMember} (${note}) → +1 Công Đức Xây Chùa & +1.000 💎 Phước Đức!`;
+      player.chat = `🏛️🏅 Vinh danh ${honoredMember} lên Bảng Top Công Đức (+1.000 💎): "${note}"!`;
       player.chatTimer = 380;
 
-      showToast(`🏛️🎉 Đã vinh danh ${honoredMember} lên Bảng Công Đức Xây Chùa (Nhóm Zalo Cty) & cộng +1.000 💎 Phước Đức!`);
-      speakVietnameseText(`Nam Mô A Di Đà Phật! Bảng Vàng Công Đức Xây Dựng Chùa Trường Yến xin vinh danh ${honoredMember} vừa được ghi nhận trên Nhóm Zalo Công Ty với thành tích: ${note}. Xin ban tặng một nghìn Phước Đức!`);
+      if (customInp) customInp.value = '';
+      if (sel) sel.value = '';
+
+      showToast(`🏛️🎉 Đã vinh danh "${honoredMember}" lên Bảng Top Phước Đức (+1.000 💎)!`);
+      speakVietnameseText(`Nam Mô A Di Đà Phật! Bảng Vàng Công Đức Chùa Trường Yến xin vinh danh thành viên ${honoredMember} vừa được ghi nhận trên Nhóm Zalo Công Ty với thành tích: ${note}. Xin cộng một nghìn Phước Đức lên Bảng Top!`, memberGender);
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
 
@@ -7867,6 +7973,13 @@
         allCharProfiles[data.name].merit = Number(data.merit ?? 50);
         allCharProfiles[data.name].congDuc = Number(data.congDuc ?? 1);
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
+        if (data.dept) allCharProfiles[data.name].dept = data.dept;
+        allCharProfiles[data.name].registered = true;
+        if (data.honorNote) allCharProfiles[data.name].honorNote = data.honorNote;
+        try {
+          localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+        } catch (e) {}
+        if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
         return;
       }
       if (data.sender === clientId) return;
@@ -10173,6 +10286,8 @@
           if (typeof submitAndReadSoKhan === "function") submitAndReadSoKhan();
         } else if (dm === "top_phuoc_duc") {
           openMeritShopModal();
+          fillZaloRecognitionPreset("CEO Yến", "Chốt đơn công trình lớn & dẫn dắt đội ngũ xuất sắc trên Nhóm Zalo Cty");
+          fillZaloRecognitionPreset("Chị An Trưởng Phòng", "Hỗ trợ chốt đại lý tấm ốp & đào tạo Sale nhiệt tình");
         } else if (dm === "offer_5_givers") {
           altarOfferings['0'] = [
             { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Hoa Sen Bách Diệp', giver: 'Sếp Thành', wish: 'Cầu đạt KPI Quý', cost: 18, imgKey: 'leHoaSen' },
