@@ -1737,7 +1737,7 @@
         <div style="background:linear-gradient(180deg,rgba(78,36,6,0.96),rgba(34,14,3,0.96)); border:1.5px solid #ffd56b; border-radius:11px; padding:8px 10px;">
           <div style="font-size:11px; font-weight:900; color:#ffd740; border-bottom:1px solid rgba(255,213,107,0.35); padding-bottom:4px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center;">
             <span>🏆 BẢNG TOP PHƯỚC ĐỨC CÁC NHÂN VẬT</span>
-            <span id="templeBuildProgressBadge" style="color:#80d8ff; font-size:9.5px;">Đủ Bộ Phận · KH · Xã Hội</span>
+            <span id="templeBuildProgressBadge" style="color:#69f0ae; font-size:9.5px;">🔒 Chỉ Tài Khoản Đã Đăng Ký</span>
           </div>
           <div id="zaloCongDucLeaderboard" style="max-height:175px; overflow-y:auto; display:flex; flex-direction:column; gap:4px; padding-right:2px;">
           </div>
@@ -2143,266 +2143,54 @@
     //      3) TỰ ĐỘNG CÀY PHƯỚC (GÕ MÕ · THỈNH CHUÔNG · LỄ LẠY)
     // =========================================================================
     const KARAOKE_SUTRAS_DATA = {
-      niem_phat: {
-        title: 'Chuyên tâm trì niệm danh hiệu Đức Phật A Di Đà — TT. Thích Trí Thoát tụng',
-        audioReal: 'audio/thay_tung_niem_phat.mp3',
-        secPerLine: 4.2,
-        lines: [
-          'Nam mô A Di Đà Phật',
-          'Nam mô Đại Bi Quán Thế Âm Bồ Tát',
-          'Nam mô Đại Thế Chí Bồ Tát',
-          'Nam mô Địa Tạng Vương Bồ Tát',
-          'Nam mô Thanh Tịnh Đại Hải Chúng Bồ Tát',
-          'Phật A Di Đà thân kim sắc',
-          'Tướng tốt quang minh tự trang nghiêm',
-          'Năm Tu Di uyển chuyển bạch hào',
-          'Bốn biển lớn trong ngần mắt biếc',
-          'Trong hào quang hóa vô số Phật',
-          'Vô số Bồ Tát hiện ở trong',
-          'Bốn mươi tám nguyện độ chúng sanh',
-          'Chín phẩm sen vàng lên giải thoát',
-          'Quy mạng lễ A Di Đà Phật',
-          'Ở phương Tây thế giới an lành',
-          'Con nay xin phát nguyện vãng sanh',
-          'Cúi xin Đức Từ Bi nhiếp受',
-          'Nam mô Tây Phương Cực Lạc Thế Giới',
-          'Đại Từ Đại Bi A Di Đà Phật',
-          'Nam mô A Di Đà Phật',
-          'Nam mô A Di Đà Phật',
-          'Nam mô A Di Đà Phật'
-        ]
+      chu_dai_bi: {
+        title: "Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni, 84 câu",
+        audioReal: "audio/thay_tung_chu_dai_bi.mp3",
+        secPerLine: 2.2,
+        times: [2.1, 12.26, 15.71, 17.5, 19.98, 22.3, 24.78, 26.65, 27.15, 29.04, 31.2, 35.67, 39.75, 42.26, 45.55, 48.44, 49.76, 53.45, 55.16, 56.88, 58.2, 59.94, 60.85, 61.56, 62.6, 64.71, 66.16, 67.6, 70.05, 72.16, 74.94, 77.05, 78.49, 79.61, 81.05, 82.5, 84.28, 85.39, 86.84, 88.29, 90.73, 92.18, 93.62, 95.73, 97.85, 99.29, 100.74, 102.18, 104.3, 106.41, 107.85, 109.3, 111.08, 112.53, 113.64, 114.75, 115.87, 117.65, 118.76, 120.21, 121.65, 122.77, 124.21, 125.33, 126.77, 127.89, 130.33, 131.44, 134.22, 135.34, 137.78, 138.89, 141.34, 142.45, 145.23, 146.34, 148.78, 149.9, 153.34, 155.12, 156.57, 158.01, 159.13, 160.57, 161.69, 162.8, 164.9],
+        lines: ["Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni", "Nam mô hắc ra đát na đa ra dạ da", "Nam mô a rị da", "Bà lô yết đế thước bát ra da", "Bồ đề tát đỏa bà da", "Ma ha tát đỏa bà da", "Ma ha ca lô ni ca da", "Án", "Tát bàn ra phạt duệ", "Số đát na đát tỏa", "Nam mô tất kiết lật đỏa y mông a rị da", "Bà lô kiết đế thất Phật ra lăng đà bà", "Nam mô na ra cẩn trì", "Hê rị ma ha bàn đa sa mế", "Tát bà a tha đậu du bằng", "A thệ dựng", "Tát bà tát đa na ma bà tát đa", "Na ma bà già", "Ma phạt đạt đậu", "Đát điệt tha", "Án a bà lô hê", "Lô ca đế", "Ca ra đế", "Di hê rị", "Ma ha bồ đề tát đỏa", "Tát bà tát bà", "Ma ra ma ra", "Ma hê ma hê rị đà dựng", "Cu lô cu lô kiết mông", "Độ lô độ lô phạt xà da đế", "Ma ha phạt xà da đế", "Đà ra đà ra", "Địa rị ni", "Thất Phật ra da", "Dạ ra dạ ra", "Mạ mạ phạt ma ra", "Mục đế lệ", "Y hê di hê", "Thất na thất na", "A ra sâm Phật ra xá lợi", "Phạt sa phạt sâm", "Phật ra xá da", "Hô lô hô lô ma ra", "Hô lô hô lô hê rị", "Ta ra ta ra", "Tất rị tất rị", "Tô rô tô rô", "Bồ đề dạ bồ đề dạ", "Bồ đà dạ bồ đà dạ", "Di đế rị dạ", "Na ra cẩn trì", "Địa rị sắc ni na", "Ba dạ ma na", "Ta bà ha", "Tất đà dạ", "Ta bà ha", "Ma ha tất đà dạ", "Ta bà ha", "Tất đà du nghệ", "Thất bàn ra dạ", "Ta bà ha", "Na ra cẩn trì", "Ta bà ha", "Ma ra na ra", "Ta bà ha", "Tất ra tăng a mục khê da", "Ta bà ha", "Ta bà ma ha a tất đà dạ", "Ta bà ha", "Giả kiết ra a tất đà dạ", "Ta bà ha", "Ba đà ma yết tất đà dạ", "Ta bà ha", "Na ra cẩn trì bàn đà ra dạ", "Ta bà ha", "Ma bà lợi thắng yết ra dạ", "Ta bà ha", "Nam mô hắc ra đát na đa ra dạ da", "Nam mô a rị da", "Bà lô yết đế", "Thước bàn ra dạ", "Ta bà ha", "Án tất điện đô", "Mạn đa ra", "Bạt đà dạ", "Ta bà ha", "Nam Mô Đại Bi Hội Thượng Phật Bồ Tát (3 lần)"]
       },
       bat_nha: {
-        title: 'Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh — TT. Thích Trí Thoát trì tụng',
-        audioReal: 'audio/thay_tung_bat_nha.mp3',
-        secPerLine: 3.1,
-        lines: [
-          'Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh',
-          'Quán Tự Tại Bồ Tát',
-          'Hành thâm Bát Nhã Ba La Mật Đa thời',
-          'Chiếu kiến ngũ uẩn giai không',
-          'Độ nhất thiết khổ ách',
-          'Xá Lợi Tử',
-          'Sắc bất dị không, không bất dị sắc',
-          'Sắc tức thị không, không tức thị sắc',
-          'Thọ tưởng hành thức diệc phục như thị',
-          'Xá Lợi Tử',
-          'Thị chư pháp không tướng',
-          'Bất sanh bất diệt, bất cấu bất tịnh',
-          'Bất tăng bất giảm',
-          'Thị cố không trung vô sắc',
-          'Vô thọ tưởng hành thức',
-          'Vô nhãn nhĩ tỷ thiệt thân ý',
-          'Vô sắc thanh hương vị xúc pháp',
-          'Vô nhãn giới nãi chí vô ý thức giới',
-          'Vô vô minh diệc vô vô minh tận',
-          'Nãi chí vô lão tử, diệc vô lão tử tận',
-          'Vô khổ tập diệt đạo',
-          'Vô trí diệc vô đắc, dĩ vô sở đắc cố',
-          'Bồ Đề Tát Đỏa y Bát Nhã Ba La Mật Đa cố',
-          'Tâm vô quái ngại, vô quái ngại cố',
-          'Vô hữu khủng bố',
-          'Viễn ly điên đảo mộng tưởng',
-          'Cứu cánh Niết Bàn',
-          'Tam thế chư Phật y Bát Nhã Ba La Mật Đa cố',
-          'Đắc A Nậu Đa La Tam Miệu Tam Bồ Đề',
-          'Cố tri Bát Nhã Ba La Mật Đa',
-          'Thị đại thần chú, thị đại minh chú',
-          'Thị vô thượng chú, thị vô đẳng đẳng chú',
-          'Năng trừ nhất thiết khổ, chân thật bất hư',
-          'Cố thuyết Bát Nhã Ba La Mật Đa chú',
-          'Tức thuyết chú viết:',
-          'Yết đế yết đế, ba la yết đế',
-          'Ba la tăng yết đế',
-          'Bồ đề tát bà ha'
-        ]
+        title: "Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh — TT. Thích Trí Thoát tụng",
+        audioReal: "audio/thay_tung_bat_nha.mp3",
+        secPerLine: 2.2,
+        times: [1.0, 5.54, 8.8, 12.18, 14.47, 16.4, 17.36, 20.46, 23.22, 27.98, 31.5, 34.89, 36.82, 39.63, 42.01, 45.27, 48.52, 52.67, 54.78, 57.39, 58.75, 61.36, 65.23, 68.86, 72.7, 75.55, 79.5, 84.57, 87.06, 91.18, 94.69, 96.67, 98.66, 99.58, 105.19, 110.02, 113.91],
+        lines: ["Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh", "Quán Tự Tại Bồ Tát", "Hành thâm Bát Nhã Ba La Mật Đa thời", "Chiếu kiến ngũ uẩn giai không", "Độ nhất thiết khổ ách", "Xá Lợi Tử!", "Sắc bất dị không, không bất dị sắc", "Sắc tức thị không, không tức thị sắc", "Thụ, tưởng, hành, thức, diệc phục như thị", "Xá Lợi Tử! Thị chư pháp không tướng", "Bất sinh, bất diệt, bất cấu, bất tịnh", "Bất tăng, bất giảm", "Thị cố không trung vô sắc", "Vô thụ, tưởng, hành, thức", "Vô nhãn, nhĩ, tỷ, thiệt, thân, ý", "Vô sắc, thanh, hương, vị, xúc, pháp", "Vô nhãn giới, nãi chí vô ý thức giới", "Vô vô minh, diệc vô vô minh tận", "Nãi chí vô lão tử, diệc vô lão tử tận", "Vô khổ, tập, diệt, đạo", "Vô trí diệc vô đắc, dĩ vô sở đắc cố", "Bồ Đề Tát Đỏa y Bát Nhã Ba La Mật Đa cố", "Tâm vô quái ngại; vô quái ngại cố", "Vô hữu khủng bố, viễn ly điên đảo mộng tưởng", "Cứu cánh Niết Bàn", "Tam thế chư Phật y Bát Nhã Ba La Mật Đa cố", "Đắc A Nậu Đa La Tam Miệu Tam Bồ Đề", "Cố tri Bát Nhã Ba La Mật Đa", "Thị đại thần chú, thị đại minh chú", "Thị vô thượng chú, thị vô đẳng đẳng chú", "Năng trừ nhất thiết khổ, chân thực bất hư", "Cố thuyết Bát Nhã Ba La Mật Đa chú", "Tức thuyết chú viết:", "Yết đế, yết đế, ba la yết đế", "Ba la tăng yết đế, Bồ đề tát bà ha", "Yết đế, yết đế, ba la yết đế", "Ba la tăng yết đế, Bồ đề tát bà ha"]
       },
       chu_vang_sanh: {
-        title: 'Bạt Nhất Thiết Nghiệp Chướng Căn Bản Đắc Sinh Tịnh Độ Đà La Ni — TT. Thích Trí Thoát',
-        audioReal: 'audio/thay_tung_chu_vang_sanh.mp3',
-        secPerLine: 2.8,
-        lines: [
-          'Nam mô A Di Đa Bà Dạ',
-          'Đa tha già đa dạ',
-          'Đa địa dạ tha',
-          'A di rị đô bà tỳ',
-          'A di rị đa tất đam bà tỳ',
-          'A di rị đa tỳ ca lan đế',
-          'A di rị đa tỳ ca lan đa',
-          'Già di nị già già na',
-          'Chỉ đa ca lệ ta bà ha',
-          'Nam mô A Di Đa Bà Dạ',
-          'Đa tha già đa dạ',
-          'Đa địa dạ tha',
-          'A di rị đô bà tỳ',
-          'A di rị đa tất đam bà tỳ',
-          'A di rị đa tỳ ca lan đế',
-          'A di rị đa tỳ ca lan đa',
-          'Già di nị già già na',
-          'Chỉ đa ca lệ ta bà ha'
-        ]
+        title: "Bạt Nhất Thiết Nghiệp Chướng Căn Bản Đắc Sinh Tịnh Độ Đà La Ni",
+        audioReal: "audio/thay_tung_chu_vang_sanh.mp3",
+        secPerLine: 2.2,
+        times: [1.5, 7.12, 11.21, 14.53, 19.38, 25.77, 32.15, 38.53, 43.38, 49.0, 56.0, 60.0, 63.25, 68.01, 74.25, 80.5, 86.75, 91.5, 97.0, 103.56, 107.31, 110.36, 114.82, 120.67, 126.53, 132.39, 136.84, 142.0],
+        lines: ["Nam mô a di đa bà dạ", "Đa tha dà đa dạ", "Đa địa dạ tha", "A di rị đô bà tỳ", "A di rị đa tất đam bà tỳ", "A di rị đa tì ca lan đế", "A di rị đa tì ca lan đa", "Dà di nhị dà dà na", "Chỉ đa ca lệ ta bà ha", "Nam mô a di đa bà dạ (Biến 2)", "Đa tha dà đa dạ", "Đa địa dạ tha", "A di rị đô bà tỳ", "A di rị đa tất đam bà tỳ", "A di rị đa tì ca lan đế", "A di rị đa tì ca lan đa", "Dà di nhị dà dà na", "Chỉ đa ca lệ ta bà ha", "Nam mô a di đa bà dạ (Biến 3)", "Đa tha dà đa dạ", "Đa địa dạ tha", "A di rị đô bà tỳ", "A di rị đa tất đam bà tỳ", "A di rị đa tì ca lan đế", "A di rị đa tì ca lan đa", "Dà di nhị dà dà na", "Chỉ đa ca lệ ta bà ha", "Nam Mô A Di Đà Phật"]
       },
-      chu_dai_bi: {
-        title: 'Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni, 84 câu',
-        audioReal: 'audio/thay_tung_chu_dai_bi.mp3',
-        secPerLine: 2.0,
-        lines: [
-          'Nam mô Đại Bi Hội Thượng Phật Bồ Tát',
-          'Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni',
-          'Nam mô hắc ra đát na đa ra dạ da',
-          'Nam mô a rị da',
-          'Bà lô yết đế thước bát ra da',
-          'Bồ đề tát đỏa bà da',
-          'Ma ha tát đỏa bà da',
-          'Ma ha ca lô ni ca da',
-          'Án',
-          'Tát bàn ra phạt duệ',
-          'Số đát na đát tỏa',
-          'Nam mô tất kiết lật đỏa y mông a rị da',
-          'Bà lô kiết đế thất Phật ra lăng đà bà',
-          'Nam mô na ra cẩn trì',
-          'Hê rị ma ha bàn đa sa mế',
-          'Tát bà a tha đậu du bằng',
-          'A thệ dựng',
-          'Tát bà tát đa na ma bà tát đa',
-          'Na ma bà già',
-          'Ma phạt đạt đậu',
-          'Đát điệt tha',
-          'Án a bà lô hê',
-          'Lô ca đế',
-          'Ca ra đế',
-          'Di hê rị',
-          'Ma ha bồ đề tát đỏa',
-          'Tát bà tát bà',
-          'Ma ra ma ra',
-          'Ma hê ma hê rị đà dựng',
-          'Cu lô cu lô kiết mông',
-          'Độ lô độ lô phạt xà da đế',
-          'Ma ha phạt xà da đế',
-          'Đà ra đà ra',
-          'Địa rị ni',
-          'Thất Phật ra da',
-          'Giá ra giá ra',
-          'Mạ mạ phạt ma ra',
-          'Mục đế lệ',
-          'Y hê y hê',
-          'Thất na thất na',
-          'A ra sâm Phật ra xá lợi',
-          'Phạt sa phạt sâm',
-          'Phật ra xá da',
-          'Hô lô hô lô ma ra',
-          'Hô lô hô lô hê rị',
-          'Ta ra ta ra',
-          'Tất rị tất rị',
-          'Tô rô tô rô',
-          'Bồ đề dạ bồ đề dạ',
-          'Bồ đà dạ bồ đà dạ',
-          'Di đế rị dạ',
-          'Na ra cẩn trì',
-          'Địa rị sắc ni na',
-          'Ba dạ ma na',
-          'Ta bà ha',
-          'Tất đà dạ',
-          'Ta bà ha',
-          'Ma ha tất đà dạ',
-          'Ta bà ha',
-          'Tất đà du nghệ',
-          'Thất bàn ra dạ',
-          'Ta bà ha',
-          'Na ra cẩn trì',
-          'Ta bà ha',
-          'Ma ra na ra',
-          'Ta bà ha',
-          'Tất ra tăng a mục khê da',
-          'Ta bà ha',
-          'Ta bà ma ha a tất đà dạ',
-          'Ta bà ha',
-          'Giả kiết ra a tất đà dạ',
-          'Ta bà ha',
-          'Ba đà ma yết tất đà dạ',
-          'Ta bà ha',
-          'Na ra cẩn trì bàn đà ra dạ',
-          'Ta bà ha',
-          'Ma bà lợi thắng yết ra dạ',
-          'Ta bà ha',
-          'Nam mô hắc ra đát na đa ra dạ da',
-          'Nam mô a rị da',
-          'Bà lô kiết đế',
-          'Thước bàn ra dạ',
-          'Ta bà ha',
-          'Án tất điện đô',
-          'Mạn đa ra',
-          'Bạt đà dạ',
-          'Ta bà ha'
-        ]
+      niem_phat: {
+        title: "Chuyên tâm trì niệm danh hiệu Đức Phật A Di Đà — TT. Thích Trí Thoát tụng",
+        audioReal: "audio/thay_tung_niem_phat.mp3",
+        secPerLine: 2.2,
+        times: [1.2, 5.81, 12.59, 17.92, 23.25, 30.03, 35.36, 40.69, 46.02, 51.35, 56.68, 62.02, 67.35, 72.68, 78.01, 83.34, 88.67, 94.0, 105.49, 112.76, 117.23, 121.69, 126.15, 130.61, 135.08, 139.54, 144.0],
+        lines: ["Nam mô A Di Đà Phật", "Nam mô Đại Bi Quán Thế Âm Bồ Tát", "Nam mô Đại Thế Chí Bồ Tát", "Nam mô Địa Tạng Vương Bồ Tát", "Nam mô Thanh Tịnh Đại Hải Chúng Bồ Tát", "Phật A Di Đà thân kim sắc", "Tướng tốt quang minh tự trang nghiêm", "Năm Tu Di uyển chuyển bạch hào", "Bốn biển lớn trong ngần mắt biếc", "Trong hào quang hóa vô số Phật", "Vô số Bồ Tát hiện ở trong", "Bốn mươi tám nguyện độ chúng sinh", "Chín phẩm sen vàng lên giải thoát", "Quy mạng lễ A Di Đà Phật", "Ở phương Tây thế giới an lành", "Con nay xin phát nguyện vãng sinh", "Cúi xin Đức Từ Bi nhiếp thọ", "Nam mô Tây Phương Cực Lạc Thế Giới Đại Từ Đại Bi A Di Đà Phật", "Nam mô A Di Đà Phật (Niệm theo nhịp mõ)", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật", "Nam mô A Di Đà Phật"]
       },
       hoi_huong: {
-        title: 'Kệ Hồi Hướng Công Đức Viên Mãn — Giọng Thầy Chùa Tụng Thật',
-        audioReal: 'audio/thay_tung_hoi_huong.mp3',
-        secPerLine: 3.8,
-        lines: [
-          'Phúng kinh công đức thù thắng hạnh',
-          'Vô biên thắng phước giai hồi hướng',
-          'Phổ nguyện trầm nịch chư chúng sanh',
-          'Tốc vãng vô lượng quang Phật sát',
-          'Nguyện tiêu tam chướng trừ phiền não',
-          'Nguyện đắc trí tuệ chân minh liễu',
-          'Phổ nguyện tội chướng tất tiêu trừ',
-          'Thế thế thường hành Bồ Tát đạo',
-          'Nguyện sanh Tây Phương Tịnh Độ trung',
-          'Cửu phẩm liên hoa vi phụ mẫu',
-          'Hoa khai kiến Phật ngộ vô sanh',
-          'Bất thối Bồ Tát vi bạn lữ',
-          'Nguyện đem công đức hiện tiền này',
-          'Hướng về khắp tất cả đệ tử và chúng sanh',
-          'Đều trọn thành Phật đạo',
-          'Nam mô A Di Đà Phật'
-        ]
+        title: "Kệ Hồi Hướng Công Đức Viên Mãn — Giọng Thầy Chùa Tụng Thật",
+        audioReal: "audio/thay_tung_hoi_huong.mp3",
+        secPerLine: 2.2,
+        times: [1.5, 9.47, 17.43, 25.4, 33.36, 41.33, 49.29, 57.26, 65.22, 73.19, 81.15, 89.12, 97.08, 105.05, 110.84, 116.64, 122.44, 128.24, 135.12, 142.0],
+        lines: ["Phục nguyện: Hương linh cùng tín chủ", "Lễ bái trì kinh công đức lớn", "Thắng phước vô biên đồng hướng về", "Phổ nguyện pháp giới chư chúng sinh", "Tốc vãng Vô Lượng Quang Phật sát", "Nguyện tiêu tam chướng trừ phiền não", "Nguyện đắc trí tuệ chân minh liễu", "Phổ nguyện tội chướng tất tiêu trừ", "Thế thế thường hành Bồ Tát đạo", "Nguyện sinh Tây Phương Tịnh Độ trung", "Cửu phẩm liên hoa vi phụ mẫu", "Hoa khai kiến Phật ngộ Vô Sinh", "Bất thoái Bồ Tát vi bạn lữ", "Nguyện đem công đức này", "Hướng về khắp tất cả", "Đệ tử và chúng sinh", "Đều trọn thành Phật đạo", "Nam Mô A Di Đà Phật", "Nam Mô A Di Đà Phật", "Nam Mô A Di Đà Phật"]
       },
       sam_hoi: {
-        title: 'Kinh Sám Hối Hồng Danh (88 Đức Phật) — TT. Thích Trí Thoát trì tụng',
-        audioReal: 'audio/thay_tung_sam_hoi.mp3',
-        secPerLine: 3.6,
-        lines: [
-          'Nam mô Bổn Sư Thích Ca Mâu Ni Phật',
-          'Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát',
-          'Đệ tử chúng con từ vô thỉ kiếp đến nay',
-          'Bỏ mất bản tâm, không biết đạo lành',
-          'Xưa kia đã tạo bao ác nghiệp',
-          'Đều bởi vô thỉ tham sân si',
-          'Từ thân miệng ý mà sinh ra',
-          'Hết thảy chúng con xin chí thành sám hối',
-          'Tội từ tâm khởi đem tâm sám',
-          'Tâm nếu diệt rồi tội cũng tiêu',
-          'Tội tiêu tâm tịnh cả hai không',
-          'Ấy mới thật là chân sám hối',
-          'Nam mô Phổ Quang Phật',
-          'Nam mô Phổ Minh Phật',
-          'Nam mô Phổ Tịnh Phật',
-          'Nam mô Đa Ma La Bạt Chiên Đàn Hương Phật',
-          'Nam mô Chiên Đàn Quang Phật',
-          'Nam mô Ma Ni Tràng Phật',
-          'Nam mô Hoan Hỷ Tạng Ma Ni Bảo Tích Phật',
-          'Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát'
-        ]
+        title: "Kinh Sám Hối Hồng Danh (Trích Đoạn Sám Hối Tam Nghiệp — TT. Thích Trí Thoát)",
+        audioReal: "audio/thay_tung_sam_hoi.mp3",
+        secPerLine: 2.2,
+        times: [8.8, 15.08, 21.35, 27.63, 33.9, 40.18, 46.45, 52.73, 59.0, 65.28, 71.55, 77.83, 84.11, 90.38, 96.66, 102.93, 111.77, 119.75, 125.17, 131.45, 137.72, 144.0],
+        lines: ["Đệ tử chúng con từ vô thủy", "Gây bao tội ác bởi lầm mê", "Hoặc bởi tham sân cùng si mê", "Từ thân miệng ý phát sinh ra", "Tất cả chúng con đều sám hối", "Xưa kia con tạo bao ác nghiệp", "Đều bởi vô thủy tham sân si", "Từ thân miệng ý mà sinh ra", "Hết thảy con nay xin sám hối", "Bao nhiêu tội chướng sâu nặng nhất", "Thành tâm lễ Phật cầu tiêu trừ", "Nguyện đem lửa trí đốt tham sân", "Quay về bến giác bờ thanh tịnh", "Nam Mô Cầu Sám Hối Bồ Tát", "Nam Mô Cầu Sám Hối Bồ Tát", "Nam Mô Cầu Sám Hối Bồ Tát Ma Ha Tát", "Nam Mô Bổn Sư Thích Ca Mâu Ni Phật", "Nam Mô A Di Đà Phật", "Nam Mô Quán Thế Âm Bồ Tát", "Nam Mô Đại Thế Chí Bồ Tát", "Nam Mô Địa Tạng Vương Bồ Tát", "Nam Mô Thanh Tịnh Đại Hải Chúng Bồ Tát"]
       },
       duoc_su: {
-        title: 'Chú Dược Sư Lưu Ly Quang Vương Phật — TT. Thích Trí Thoát trì tụng',
-        audioReal: 'audio/thay_tung_duoc_su.mp3',
-        secPerLine: 3.0,
-        lines: [
-          'Nam mô Dược Sư Lưu Ly Quang Vương Phật',
-          'Nam mô Bạc già phạt đế',
-          'Bệ sát xã, lũ rô thích lưu ly',
-          'Bát lạt bà, hắc ra xà dã',
-          'Đát tha yết đa da',
-          'A ra hắc đế, tam miệu tam bột đà da',
-          'Đát điệt tha',
-          'Án, bệ sát thệ, bệ sát thệ',
-          'Bệ sát xã, tam một yết đế toả ha',
-          'Án, bệ sát thệ, bệ sát thệ',
-          'Bệ sát xã, tam một yết đế toả ha'
-        ]
+        title: "Dược Sư Quán Đỉnh Chân Ngôn (Tiêu Trừ Bệnh Tật · Tăng Phúc Thọ)",
+        audioReal: "audio/thay_tung_duoc_su.mp3",
+        secPerLine: 2.2,
+        times: [5.5, 12.65, 22.06, 30.34, 36.37, 41.27, 48.43, 52.2, 60.48, 71.02, 79.3, 89.83, 98.11, 108.65, 119.18, 128.59, 138.0],
+        lines: ["Nam mô Bạc già phạt đế", "Bệ sát xã, lũ rô thích lưu ly", "Bát lạt bà, hắc ra xà dã", "Đát tha yết đa da", "A ra hắc đế", "Tam miệu tam bột đà da", "Đát điệt tha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Nam Mô Dược Sư Lưu Ly Quang Vương Phật", "Nam Mô Nhật Quang Biến Chiếu Bồ Tát", "Nam Mô Nguyệt Quang Biến Chiếu Bồ Tát", "Nam Mô Dược Sư Hải Hội Phật Bồ Tát"]
       }
     };
 
@@ -2585,13 +2373,23 @@
         elapsedSec = ((performance.now() - sutraStartTimeMs) / 1000.0) * karaokePlaybackRate;
       }
 
-      const newLineIdx = Math.floor(elapsedSec / secPerLine) % sutraLines.length;
+      let newLineIdx = 0;
+      if (data && Array.isArray(data.times) && data.times.length === sutraLines.length) {
+        for (let i = data.times.length - 1; i >= 0; i--) {
+          if (elapsedSec >= data.times[i]) {
+            newLineIdx = i;
+            break;
+          }
+        }
+      } else {
+        newLineIdx = Math.floor(elapsedSec / secPerLine) % sutraLines.length;
+      }
       if (newLineIdx !== currentSutraLineIdx) {
         currentSutraLineIdx = newLineIdx;
         renderKaraokeSutraView();
         const prog = document.getElementById('krProgressText');
         if (prog) {
-          prog.textContent = `📿 Câu ${currentSutraLineIdx + 1}/${sutraLines.length} · ${karaokeVoiceGuide ? '🔊 Giọng Thầy Chùa Tụng Thật' : '🥁 Tự Đọc Theo Nhịp Mõ'}`;
+          prog.textContent = `📿 Câu ${currentSutraLineIdx + 1}/${sutraLines.length} · ${karaokeVoiceGuide ? '🔊 Khớp Giọng Thầy Tụng Từng Chữ' : '🥁 Tự Đọc Theo Nhịp Mõ'}`;
         }
       }
     }
@@ -2602,7 +2400,9 @@
       currentSutraLineIdx = Math.max(0, Math.min(sutraLines.length - 1, lineIdx));
       const data = KARAOKE_SUTRAS_DATA[currentKaraokeKey];
       const secPerLine = (data && data.secPerLine) ? data.secPerLine : 2.2;
-      const targetSec = currentSutraLineIdx * secPerLine;
+      const targetSec = (data && Array.isArray(data.times) && data.times[currentSutraLineIdx] !== undefined)
+        ? data.times[currentSutraLineIdx]
+        : (currentSutraLineIdx * secPerLine);
       if (karaokeVoiceGuide && localPrayerMp3) {
         try {
           localPrayerMp3.currentTime = targetSec;
@@ -5803,12 +5603,13 @@
     };
 
     // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V57)
-    const CHAR_PROFILES_STORAGE_KEY = 'chua_ty_char_profiles_v57';
+    const CHAR_PROFILES_STORAGE_KEY = 'chua_ty_registered_accounts_v62';
     function loadAllCharProfiles() {
-      const defaults = {};
-      CHARACTER_ROSTER_V57.forEach(c => {
-        defaults[c.name] = { merit: c.initMerit, gender: c.gender, dept: c.dept, avatar: c.avatar };
-      });
+      // V62: CHỈ những người đã tạo tài khoản / đăng nhập mới có trong danh sách Leo Top!
+      // Các NPC phụ trong chùa chưa tạo tài khoản sẽ KHÔNG được lên Bảng Top Phước Đức!
+      const defaults = {
+        'Sếp Thành': { merit: 120, congDuc: 5, gender: 'M', dept: 'Ban Giám Đốc', avatar: '🧘‍♂️', registered: true }
+      };
       try {
         const raw = localStorage.getItem(CHAR_PROFILES_STORAGE_KEY);
         if (raw) {
@@ -5858,7 +5659,10 @@
         merit: player.merit,
         congDuc: typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
         gender: player.gender || 'F',
+        dept: typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử',
+        avatar: player.avatar || (player.gender === 'M' ? '🧘‍♂️' : '🪷'),
         pin: allCharProfiles[player.name]?.pin || currentAccountPin || '1234',
+        registered: true,
         updatedAt: Date.now()
       };
       try {
@@ -7006,33 +6810,30 @@
       const list = [];
       const seen = new Set();
 
-      if (typeof CHARACTER_ROSTER_V57 !== 'undefined') {
-        CHARACTER_ROSTER_V57.forEach(c => {
-          const prof = (allCharProfiles && allCharProfiles[c.name]) ? allCharProfiles[c.name] : { merit: c.initMerit };
-          const m = (c.name === player.name) ? player.merit : Number(prof.merit ?? c.initMerit);
-          seen.add(c.name);
+      // V62: CHỈ hiển thị những người thật đã Tạo Tài Khoản / Đăng Nhập (registered === true)!
+      // Các NPC phụ trong sảnh chưa tham gia tạo nick sẽ KHÔNG được lên Bảng Top Phước Đức!
+      if (typeof allCharProfiles === 'object' && allCharProfiles) {
+        Object.keys(allCharProfiles).forEach(cName => {
+          const prof = allCharProfiles[cName];
+          if (!prof || prof.registered === false) return;
+          if (seen.has(cName)) return;
+          const m = (cName === player.name) ? player.merit : Number(prof.merit ?? 80);
+          seen.add(cName);
+          const rosterMatch = (typeof CHARACTER_ROSTER_V57 !== 'undefined')
+            ? CHARACTER_ROSTER_V57.find(r => r.name === cName)
+            : null;
           list.push({
-            name: c.name,
-            dept: c.dept,
-            avatar: c.avatar || '🙏',
+            name: cName,
+            dept: prof.dept || (rosterMatch ? rosterMatch.dept : getCharDeptName(cName)),
+            avatar: prof.avatar || (rosterMatch ? rosterMatch.avatar : (prof.gender === 'M' ? '🧘‍♂️' : '🪷')),
             merit: m
           });
         });
       }
 
-      if (typeof allCharProfiles === 'object' && allCharProfiles) {
-        Object.keys(allCharProfiles).forEach(cName => {
-          if (seen.has(cName)) return;
-          const prof = allCharProfiles[cName];
-          const m = (cName === player.name) ? player.merit : Number(prof.merit ?? 35);
-          seen.add(cName);
-          list.push({
-            name: cName,
-            dept: prof.dept || getCharDeptName(cName),
-            avatar: prof.avatar || '👤',
-            merit: m
-          });
-        });
+      const badgeCountEl = document.getElementById('templeBuildProgressBadge');
+      if (badgeCountEl) {
+        badgeCountEl.textContent = `🔒 ${list.length} Tài Khoản Đã Đăng Ký`;
       }
 
       list.sort((a, b) => b.merit - a.merit);
@@ -7060,7 +6861,12 @@
             </div>
           </div>
         `;
-      }).join('');
+      }).join('') + `
+        <div style="margin-top:5px; padding:6px 8px; border-radius:7px; background:rgba(255,215,64,0.08); border:1px dashed rgba(255,215,64,0.38); font-size:9.6px; color:#ffe082; line-height:1.38; text-align:center;">
+          🔒 <b>Chỉ thành viên đã Tạo Tài Khoản / Đăng Nhập</b> mới được ghi danh đua Top!<br/>
+          (Bấm nút <b style="color:#69f0ae;">[🔑 Tài Khoản]</b> ở góc trên trái để tạo tài khoản mới)
+        </div>
+      `;
     }
 // QUY CHUẨN MỚI (V43): BÀN THỜ MẶC ĐỊNH TRỐNG 100% — CÓ NGƯỜI ĐẶT LỄ LÊN THÌ MỚI XUẤT HIỆN, KHI HẠ LỄ THÌ LỄ VẬT MẤT ĐI NGAY!
     const altarOfferings = {
@@ -7925,6 +7731,340 @@
       cctx.restore();
     }
 
+
+    // V62: VẼ NHÂN VẬT PHẬT TỬ ÁO LAM CÓ KHỚP XƯƠNG CHUYỂN ĐỘNG THẬT (NGHIÊNG MẶT ĐỐI DIỆN NHAU KHI VÁI LẠY · QUỲ LẠY SÁT ĐẤT · ĐẤM NHAU)
+    function drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) {
+      ctx.save();
+      ctx.translate(sx, sy);
+      // faceDir = +1 (Đứng bên trái quay mặt sang phải), -1 (Đứng bên phải quay mặt sang trái)
+      ctx.scale(faceDir * scale * 1.18, scale * 1.18);
+
+      const isMale = (d.gender === 'M');
+      const robeMain = isMale ? '#5c6bc0' : '#7986cb';
+      const robeDark = isMale ? '#3949ab' : '#5c6bc0';
+      const robeLight = isMale ? '#8c9eff' : '#b3bcf5';
+      const pantsColor = isMale ? '#303f9f' : '#3f51b5';
+      const skinColor = '#f5cba7';
+      const skinShadow = '#e0ac82';
+      const hairColor = '#1c140d';
+
+      // Tính góc khớp xương theo từng hành động
+      let hipX = 0, hipY = -44;
+      let torsoAngle = 0;       // Góc gập lưng (radian, dương = cúi về phía đối phương)
+      let headNod = 0;          // Góc cúi đầu
+      let shoulderAngle = 0;    // Góc cánh tay trên
+      let elbowAngle = 0;       // Góc cẳng tay
+      let isKneeling = false;
+      let punchExtendL = 0;
+      let punchExtendR = 0;
+
+      if (mutualMode === 'mutual_kneel') {
+        isKneeling = true;
+        // Chu kỳ Quỳ Lạy Sát Đất (Ngũ thể đầu địa): Đứng chắp tay -> Hạ gối quỳ -> Cúi rạp trán chạm sàn -> Ngẩng lên
+        const cycle = (frameCount % 76) / 76.0;
+        hipX = -6;
+        hipY = -20; // Hạ thấp trọng tâm xuống gối trên đệm lạy
+        let bowProgress = 0;
+        if (cycle < 0.20) {
+          // Chuẩn bị quỳ thẳng lưng, tay chắp trước ngực
+          bowProgress = (cycle / 0.20) * 0.15;
+        } else if (cycle < 0.72) {
+          // Cúi lạy rạp người xuống sàn (lưng gập 82 độ, hai bàn tay trải ra sàn trước đầu gối, trán chạm tay!)
+          const t = (cycle - 0.20) / 0.52;
+          bowProgress = 0.15 + Math.sin(t * Math.PI) * 0.85;
+        } else {
+          // Nâng người dậy về tư thế quỳ thẳng chắp tay
+          const t = (cycle - 0.72) / 0.28;
+          bowProgress = 0.15 * (1.0 - t);
+        }
+        torsoAngle = bowProgress * 1.38; // ~80 độ cúi sát đất
+        headNod = bowProgress * 0.42;
+        // Khi cúi sát đất, cánh tay vươn thẳng ra phía trước chạm đất
+        shoulderAngle = -0.55 - bowProgress * 0.85;
+        elbowAngle = -1.15 + bowProgress * 0.90;
+      } else if (mutualMode === 'mutual_vai') {
+        // Chu kỳ Đứng Xoay Mặt Vái Nhau: Chân đứng thẳng vững chãi, thắt lưng gập nhịp nhàng 40 độ, hai tay chắp búp sen vái lên xuống trước ngực/trán!
+        const vaiWave = Math.pow(Math.sin(frameCount * 0.14), 2);
+        hipX = 0;
+        hipY = -46;
+        torsoAngle = 0.12 + vaiWave * 0.62; // Lưng gập từ 7° đến 42° cực kỳ tự nhiên!
+        headNod = 0.10 + vaiWave * 0.32;
+        shoulderAngle = -0.82 - vaiWave * 0.35;
+        elbowAngle = -1.25 + vaiWave * 0.25;
+      } else {
+        // 'brawl': Đứng tấn võ thuật, chân bước tới lui, 2 tay đấm liên hoàn!
+        const step = Math.sin(frameCount * 0.45 + (isPlayer ? 0 : 1.8));
+        hipX = step * 5;
+        hipY = -44 + Math.abs(step) * 3;
+        torsoAngle = 0.22 + step * 0.14;
+        headNod = 0.08;
+        punchExtendR = Math.max(0, Math.sin(frameCount * 0.75 + (isPlayer ? 0 : 1.5)));
+        punchExtendL = Math.max(0, Math.sin(frameCount * 0.75 + Math.PI + (isPlayer ? 0 : 1.5)));
+      }
+
+      // 1. VẼ TỌA CỤ (ĐỆM QUỲ ĐỎ VIỀN VÀNG) DƯỚI CHÂN
+      ctx.fillStyle = '#8e1b05';
+      ctx.strokeStyle = '#ffd54f';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(4, 2, 24, 7, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // 2. VẼ ĐÔI CHÂN & QUẦN ÁO LAM (KHỚP HÔNG - ĐÙI - ĐẦU GỐI - BÀN CHÂN)
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      if (isKneeling) {
+        // Tư thế quỳ gối thật: Bắp đùi hạ xuống đầu gối ở (10, -2), cẳng chân gập ngang ra sau tới (-18, -1)
+        // Chân sau (khuất nhẹ)
+        ctx.strokeStyle = robeDark;
+        ctx.lineWidth = 11;
+        ctx.beginPath();
+        ctx.moveTo(hipX - 2, hipY + 2);
+        ctx.lineTo(8, -4);
+        ctx.lineTo(-16, -3);
+        ctx.stroke();
+
+        // Chân trước
+        ctx.strokeStyle = pantsColor;
+        ctx.lineWidth = 12;
+        ctx.beginPath();
+        ctx.moveTo(hipX, hipY);
+        ctx.lineTo(12, -2); // Đầu gối chạm đệm lạy
+        ctx.lineTo(-15, -1); // Ống chân trải trên đệm
+        ctx.stroke();
+
+        // Bàn chân gập phía sau
+        ctx.fillStyle = skinShadow;
+        ctx.beginPath();
+        ctx.ellipse(-18, -1, 5, 3, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // Tư thế đứng (hoặc bước tấn khi đấm nhau)
+        const stride = (mutualMode === 'brawl') ? Math.sin(frameCount * 0.45) * 9 : 3;
+        // Chân sau
+        ctx.strokeStyle = robeDark;
+        ctx.lineWidth = 11;
+        ctx.beginPath();
+        ctx.moveTo(hipX - 3, hipY);
+        ctx.lineTo(-4 - stride * 0.5, -22);
+        ctx.lineTo(-6 - stride, -2);
+        ctx.stroke();
+        // Giày chân sau
+        ctx.fillStyle = '#261810';
+        ctx.beginPath();
+        ctx.ellipse(-2 - stride, -1, 7, 3.2, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Chân trước
+        ctx.strokeStyle = pantsColor;
+        ctx.lineWidth = 11.5;
+        ctx.beginPath();
+        ctx.moveTo(hipX + 2, hipY);
+        ctx.lineTo(4 + stride * 0.5, -22);
+        ctx.lineTo(5 + stride, -1);
+        ctx.stroke();
+        // Giày chân trước
+        ctx.fillStyle = '#3e2723';
+        ctx.beginPath();
+        ctx.ellipse(9 + stride, 0, 7.5, 3.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 3. XOAY KHỚP THẮT LƯNG (HIP JOINT) ĐỂ VẼ THÂN TRÊN, ĐẦU & CÁNH TAY
+      ctx.save();
+      ctx.translate(hipX, hipY);
+      ctx.rotate(torsoAngle);
+
+      // Cánh tay phía xa (Far Arm) - vẽ trước thân áo để tạo chiều sâu 3D
+      const shoulderX = 3;
+      const shoulderY = -36;
+      if (mutualMode === 'brawl') {
+        const reachL = 14 + punchExtendL * 26;
+        ctx.strokeStyle = robeDark;
+        ctx.lineWidth = 8.5;
+        ctx.beginPath();
+        ctx.moveTo(shoulderX, shoulderY);
+        ctx.lineTo(shoulderX + reachL * 0.5, shoulderY + 4);
+        ctx.lineTo(shoulderX + reachL, shoulderY - 2);
+        ctx.stroke();
+        // Găng đấm bốc tay xa
+        ctx.fillStyle = '#b71c1c';
+        ctx.beginPath();
+        ctx.arc(shoulderX + reachL + 3, shoulderY - 2, 6.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Vạt Áo Lam (Torso & Flowing Robe)
+      const gradRobe = ctx.createLinearGradient(-12, -42, 14, 6);
+      gradRobe.addColorStop(0, robeLight);
+      gradRobe.addColorStop(0.5, robeMain);
+      gradRobe.addColorStop(1, robeDark);
+      ctx.fillStyle = gradRobe;
+      ctx.strokeStyle = '#283593';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(-11, -39); // Vai sau
+      ctx.lineTo(9, -39);   // Vai trước
+      ctx.quadraticCurveTo(14, -18, 12, 8); // Vạt áo trước
+      ctx.lineTo(-13, 8);   // Vạt áo sau
+      ctx.quadraticCurveTo(-14, -18, -11, -39);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Đường viền cổ áo chéo & hàng cúc Áo Lam truyền thống
+      ctx.strokeStyle = '#e8eaf6';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(2, -40);
+      ctx.lineTo(9, -28);
+      ctx.lineTo(8, 5);
+      ctx.stroke();
+
+      // 4. VẼ CỔ & ĐẦU NGHIÊNG (NHÌN THẲNG VÀO ĐỐI PHƯƠNG)
+      ctx.save();
+      ctx.translate(2, -42);
+      ctx.rotate(headNod);
+
+      // Cổ
+      ctx.fillStyle = skinShadow;
+      ctx.fillRect(-3, -6, 7, 8);
+
+      // Khuôn mặt nghiêng (Side-profile Head)
+      ctx.fillStyle = skinColor;
+      ctx.strokeStyle = '#c68b59';
+      ctx.lineWidth = 1.1;
+      ctx.beginPath();
+      ctx.arc(1, -14, 11.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Sống mũi & cằm nghiêng rõ nét hướng về phía đối phương
+      ctx.fillStyle = skinColor;
+      ctx.beginPath();
+      ctx.moveTo(11, -17);
+      ctx.lineTo(14.5, -13); // Mũi
+      ctx.lineTo(11.5, -11);
+      ctx.closePath();
+      ctx.fill();
+
+      // Mắt & Lông mày (nhắm thành kính khi lạy hoặc mở to khi đấm nhau)
+      ctx.strokeStyle = '#2d1a10';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      if (mutualMode === 'brawl') {
+        // Lông mày xếch dữ dằn
+        ctx.moveTo(6, -18);
+        ctx.lineTo(11, -16);
+        ctx.stroke();
+        ctx.fillStyle = '#1a0d00';
+        ctx.beginPath();
+        ctx.arc(8.5, -14.5, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // Mắt khép nhẹ thành kính khi Vái / Quỳ lạy nhau
+        ctx.arc(8.5, -14.5, 2.2, 0.15 * Math.PI, 0.85 * Math.PI);
+        ctx.stroke();
+      }
+
+      // Mái tóc (Nam cắt gọn, Nữ búi tóc tròn sau gáy kèm trâm sen)
+      ctx.fillStyle = hairColor;
+      ctx.beginPath();
+      ctx.arc(0, -16, 12, Math.PI * 0.62, Math.PI * 1.88);
+      ctx.quadraticCurveTo(4, -22, 8, -19);
+      ctx.quadraticCurveTo(1, -14, -4, -9);
+      ctx.closePath();
+      ctx.fill();
+
+      if (!isMale) {
+        // Búi tóc nữ phía sau
+        ctx.fillStyle = hairColor;
+        ctx.beginPath();
+        ctx.arc(-13, -15, 5.5, 0, Math.PI * 2);
+        ctx.fill();
+        // Dây buộc tóc hồng sen
+        ctx.strokeStyle = '#ff80ab';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.arc(-10, -15, 4.5, -0.5, 0.5);
+        ctx.stroke();
+      }
+      ctx.restore(); // Kết thúc vẽ Đầu
+
+      // 5. VẼ CÁNH TAY GẦN & ĐÔI BÀN TAY CHẮP VÁI / LẠY SÁT ĐẤT / ĐẤM BỐC
+      if (mutualMode === 'brawl') {
+        const reachR = 14 + punchExtendR * 28;
+        ctx.strokeStyle = robeLight;
+        ctx.lineWidth = 9.5;
+        ctx.beginPath();
+        ctx.moveTo(shoulderX, shoulderY);
+        ctx.lineTo(shoulderX + reachR * 0.45, shoulderY + 6);
+        ctx.lineTo(shoulderX + reachR, shoulderY);
+        ctx.stroke();
+        // Găng đấm bốc đỏ rực
+        ctx.fillStyle = '#ff1744';
+        ctx.strokeStyle = '#ffd740';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.arc(shoulderX + reachR + 3, shoulderY, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        // Cánh tay có khớp Khuỷu (Shoulder -> Elbow -> Wrist -> Clasped Hands)
+        const upperLen = 16;
+        const foreLen = 17;
+        const elbowX = shoulderX + Math.sin(-shoulderAngle) * upperLen;
+        const elbowY = shoulderY + Math.cos(-shoulderAngle) * upperLen;
+        const totalForeAngle = shoulderAngle + elbowAngle;
+        const wristX = elbowX + Math.sin(-totalForeAngle) * foreLen;
+        const wristY = elbowY + Math.cos(-totalForeAngle) * foreLen;
+
+        // Vẽ ống tay Áo Lam rộng (Bắp tay -> Khuỷu tay -> Cổ tay)
+        ctx.strokeStyle = robeLight;
+        ctx.lineWidth = 10.5;
+        ctx.beginPath();
+        ctx.moveTo(shoulderX, shoulderY);
+        ctx.lineTo(elbowX, elbowY);
+        ctx.lineTo(wristX, wristY);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#283593';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(shoulderX, shoulderY);
+        ctx.lineTo(elbowX, elbowY);
+        ctx.lineTo(wristX, wristY);
+        ctx.stroke();
+
+        // Đôi bàn tay chắp búp sen (Clasped Hands) hoặc úp chạm sàn khi lạy sát đất
+        ctx.save();
+        ctx.translate(wristX, wristY);
+        ctx.rotate(totalForeAngle + 0.35);
+        ctx.fillStyle = skinColor;
+        ctx.strokeStyle = '#b87a4b';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(0, -3);
+        ctx.quadraticCurveTo(9, -5, 13, 0);
+        ctx.quadraticCurveTo(9, 5, 0, 3);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // Tràng hạt đeo cổ tay
+        ctx.fillStyle = '#5d4037';
+        for (let b = -3; b <= 3; b += 2) {
+          ctx.beginPath();
+          ctx.arc(0, b, 1.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      ctx.restore(); // Kết thúc xoay khớp Hông
+      ctx.restore();
+    }
+
     function render() {
       frameCount++;
       // Khi đang mở Phòng Đốt Vàng Mã, Sân Đấm, Sớ Khấn hoặc Cửa Hàng, tạm dừng vẽ canvas 3D nền để chạy siêu mượt 60FPS không lag!
@@ -8453,29 +8593,16 @@
           const sh = spr.naturalHeight * scale * mult * poseScaleY;
           const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
 
-          ctx.save();
-          // Xoay & nghiêng nhân vật quanh điểm chân đứng (sx, sy) để thể hiện rõ động tác Xoay Người Vái Nhau / Quỳ Lạy Nhau / Đấm Nhau!
-          ctx.translate(sx, sy - bob + poseOffsetY);
-          if (poseRotation !== 0) {
-            ctx.rotate(poseRotation);
-          }
-          if (faceDir !== 0) {
-            ctx.scale(faceDir, 1);
-          }
-          ctx.drawImage(spr, -sw / 2, -sh, sw, sh);
-          ctx.restore();
-
-          // Vẽ biểu tượng đôi tay chắp vái 🙏 hoặc lạy 🙇 hoặc nắm đấm 🥊 hướng thẳng về phía người kia!
-          if (isVaiState || isBowCycleState || mutualMode === 'brawl') {
-            const handBob = Math.sin(frameCount * 0.28) * 6;
-            const handX = sx + (faceDir !== 0 ? faceDir * (sw * 0.36) : 0);
-            const handY = sy - sh * (isBowCycleState ? 0.45 : 0.65) + poseOffsetY + handBob;
+          if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
+            // V62: Khi 2 người Xoay Người Vái Nhau / Quỳ Lạy Nhau / Đấm Nhau -> Vẽ nhân vật góc nghiêng đối diện nhau có khớp lưng, khớp gối và cánh tay chắp vái / lạy sát đất thật 100%!
+            drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
+          } else {
             ctx.save();
-            ctx.font = `${Math.round(22 * scale)}px sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            const actionIcon = (mutualMode === 'brawl') ? ((frameCount % 8 < 4) ? '🥊' : '👊') : (isBowCycleState ? '🙇' : '🙏');
-            ctx.fillText(actionIcon, handX, handY);
+            ctx.translate(sx, sy - bob + poseOffsetY);
+            if (poseRotation !== 0) {
+              ctx.rotate(poseRotation);
+            }
+            ctx.drawImage(spr, -sw / 2, -sh, sw, sh);
             ctx.restore();
           }
 
