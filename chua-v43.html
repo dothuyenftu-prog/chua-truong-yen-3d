@@ -2836,15 +2836,16 @@
     }
 
     function resolveCharacterIntroSlug(nameStr, gender) {
-      const s = String(nameStr || '').toLowerCase();
+      const s = String(nameStr || '').toLowerCase().trim();
+      if (s.includes('car money') || s.includes('thích car') || s.includes('thich car')) return 'thich_car_money';
       if (s.includes('ceo yến') || (s.includes('yến') && !s.includes('hải yến'))) return 'ceo_yen';
       if (s.includes('hải yến')) return 'hai_yen';
-      if (s.includes('chị an') || s.includes('c an') || s.includes('trưởng phòng')) return 'chi_an';
+      if (s.includes('chị an') || s.includes('c an') || s.includes('c. an') || s.includes('trưởng phòng')) return 'chi_an';
       if (s.includes('anh hải') || s.includes('hải thi công')) return 'anh_hai';
-      if (s.includes('anh trung') || s.includes('trung quản lý') || s.includes('trung ql')) return 'anh_trung';
+      if (s.includes('anh trung') || s.includes('a. trung') || s.includes('trung quản lý') || s.includes('trung ql')) return 'anh_trung';
       if (s.includes('hr kế toán')) return 'hr_ketoan';
       if (s.includes('hùng hr') || s.includes('hùng')) return 'hung_hr';
-      if (s.includes('anh tâm') || s.includes('a tâm') || s.includes('tâm kho')) return 'anh_tam';
+      if (s.includes('anh tâm') || s.includes('a tâm') || s.includes('a. tâm') || s.includes('tâm kho')) return 'anh_tam';
       if (s.includes('thế anh')) return 'the_anh';
       if (s.includes('trinh')) return 'trinh_ktt';
       if (s.includes('bích ngọc')) return 'bich_ngoc';
@@ -2859,8 +2860,8 @@
       if (s.includes('phú')) return 'anh_phu';
       if (s.includes('chị lan')) return 'chi_lan_kh';
       if (s.includes('anh tuấn') || s.includes('chủ thầu')) return 'anh_tuan_kh';
-      if (s.includes('sếp thành') || s.includes('thành')) return 'sep_thanh';
-      return (gender === 'F') ? 'minh_anh' : 'sep_thanh';
+      if (s.includes('sếp thành') || s === 'thành' || s.includes('anh thành')) return 'sep_thanh';
+      return '__custom__';
     }
 
     function playFullSoKhanVoice(fullText, gender, fallbackMp3Url, onDoneCallback) {
@@ -2868,10 +2869,10 @@
       const g = (gender === 'F') ? 'F' : 'M';
       const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
 
-      // Nếu là 3 Bài Kinh (Chú Đại Bi, Kinh Sám Hối, Kinh Hồi Hướng):
-      // Phát trực tiếp file Kinh thu âm chuẩn Neural TO RÕ (không qua translate_tts tránh lỗi!) + Hiện chữ chạy Karaoke trên màn hình!
+      // Nếu là Bài Kinh (Chú Đại Bi, Kinh Sám Hối, Kinh Hồi Hướng, Bát Nhã, Dược Sư):
+      // Phát trực tiếp file Kinh thu âm chuẩn Sư Thầy có Chuông Mõ + Hiện chữ chạy Karaoke khớp 100%!
       if (cfg.isSutra) {
-        const sutraUrl = ((g === 'F') ? cfg.audioNu : cfg.audioNam) + '?v=49';
+        const sutraUrl = ((g === 'F') ? cfg.audioNu : cfg.audioNam) + '?v=54';
         startKaraokeSutraOverlay(cfg.sutraKey || 'chu_dai_bi', true, g);
         localPrayerMp3.onerror = null;
         localPrayerMp3.src = sutraUrl;
@@ -2896,35 +2897,54 @@
       const topicIdx = cfg.idx || 1;
       const activeName = (currentCustomer && currentCustomer.name) ? currentCustomer.name : (player.name || 'Sếp Thành');
       const charSlug = resolveCharacterIntroSlug(activeName, g);
-      const introUrl = `audio/intro_${charSlug}.mp3?v=49`;
-      const bodyUrl = `audio/body_${topicIdx}_${g === 'F' ? 'nu' : 'nam'}.mp3?v=49`;
+      const bodyUrl = `audio/body_${topicIdx}_${g === 'F' ? 'nu' : 'nam'}.mp3?v=54`;
+      const genericCustomIntroUrl = `audio/intro_custom_${g === 'F' ? 'nu' : 'nam'}.mp3?v=54`;
+
+      const playBodyPart = () => {
+        localPrayerMp3.onerror = null;
+        localPrayerMp3.onended = () => {
+          isVoiceSpeaking = false;
+          if (typeof onDoneCallback === 'function') onDoneCallback();
+          else resumeZenMusicIfIdle();
+        };
+        localPrayerMp3.src = bodyUrl;
+        localPrayerMp3.currentTime = 0;
+        localPrayerMp3.volume = 1.0;
+        localPrayerMp3.play().catch(() => {
+          isVoiceSpeaking = false;
+          if (typeof onDoneCallback === 'function') onDoneCallback();
+        });
+      };
 
       const playTwoPartExactCharacterStatic = () => {
-        localPrayerMp3.onerror = null;
+        if (charSlug === '__custom__') {
+          // Tên nhân vật tự đặt mới: Đọc đúng tên nhân vật mới (không bao giờ đọc nhầm "Sếp Thành"!)
+          const shortCustomIntroText = `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật. Hôm nay tín chủ con là ${activeName.slice(0, 48)} tại Kho Trường Yến:`;
+          const customTtsIntroUrl = `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=tw-ob&tl=vi&q=${encodeURIComponent(shortCustomIntroText)}`;
+          const fallbackGenericCustomIntro = () => {
+            localPrayerMp3.onerror = playBodyPart;
+            localPrayerMp3.onended = playBodyPart;
+            localPrayerMp3.src = genericCustomIntroUrl;
+            localPrayerMp3.currentTime = 0;
+            localPrayerMp3.volume = 1.0;
+            localPrayerMp3.play().catch(playBodyPart);
+          };
+          localPrayerMp3.onerror = fallbackGenericCustomIntro;
+          localPrayerMp3.onended = playBodyPart;
+          localPrayerMp3.src = customTtsIntroUrl;
+          localPrayerMp3.currentTime = 0;
+          localPrayerMp3.volume = 1.0;
+          localPrayerMp3.play().catch(fallbackGenericCustomIntro);
+          return;
+        }
+
+        const introUrl = `audio/intro_${charSlug}.mp3?v=54`;
+        localPrayerMp3.onerror = playBodyPart;
+        localPrayerMp3.onended = playBodyPart;
         localPrayerMp3.src = introUrl;
         localPrayerMp3.currentTime = 0;
         localPrayerMp3.volume = 1.0;
-        localPrayerMp3.onended = () => {
-          localPrayerMp3.onended = () => {
-            isVoiceSpeaking = false;
-            if (typeof onDoneCallback === 'function') onDoneCallback();
-            else resumeZenMusicIfIdle();
-          };
-          localPrayerMp3.src = bodyUrl;
-          localPrayerMp3.currentTime = 0;
-          localPrayerMp3.volume = 1.0;
-          localPrayerMp3.play().catch(() => {
-            isVoiceSpeaking = false;
-            if (typeof onDoneCallback === 'function') onDoneCallback();
-          });
-        };
-        localPrayerMp3.play().catch(() => {
-          localPrayerMp3.src = bodyUrl;
-          localPrayerMp3.play().catch(() => {
-            isVoiceSpeaking = false;
-            if (typeof onDoneCallback === 'function') onDoneCallback();
-          });
-        });
+        localPrayerMp3.play().catch(playBodyPart);
       };
 
       if (isLocalOrigin || lanConnected) {
@@ -2996,8 +3016,17 @@
       const missingAmt = currentCustomer.missingAmt || '120 triệu đồng';
       const quarterGoal = currentCustomer.quarterGoal || '1 tỷ 500 triệu đồng';
       const wish = currentCustomer.wish || cfg.getWish(missingAmt, quarterGoal);
-      const fullText = currentCustomer.fullText || cfg.buildFullText(name, addr, missingAmt, quarterGoal, wish);
+      const fullText = cfg.buildFullText(name, addr, missingAmt, quarterGoal, wish);
+      currentCustomer.fullText = fullText;
       const vGender = currentCustomer.voiceGender || soKhanVoiceGender || inferGenderFromName(name, player.gender);
+
+      const voiceLabel = (vGender === 'F') ? '👩🏻 Giọng Nữ' : '👨🏻 Giọng Nam';
+      const asNameEl = document.getElementById('asName');
+      const asAddrEl = document.getElementById('asAddr');
+      const asPhoneEl = document.getElementById('asPhone');
+      if (asNameEl) asNameEl.textContent = `${name} (${voiceLabel})`;
+      if (asAddrEl) asAddrEl.textContent = cfg.showKpi ? `${addr} · Thiếu: ${missingAmt} · Mục tiêu: ${quarterGoal}` : addr;
+      if (asPhoneEl) asPhoneEl.textContent = cfg.title.replace('📜 ', '');
 
       const banner = document.getElementById('activeScrollBanner');
       banner.classList.add('open');
