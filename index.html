@@ -772,13 +772,40 @@
       height: 100vh;
       height: 100dvh !important;
     }
-    @media (min-width: 769px) {
-      /* Trên Laptop / PC: Khung Sân Đấm & Bảng Điều Khiển căn giữa cân đối, nút to rõ */
+    #karmaPunchCanvas {
+      width: auto !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      aspect-ratio: 540 / 520 !important;
+      display: block !important;
+      margin: auto !important;
+    }
+    @media (min-width: 900px) {
+      /* Trên Laptop / PC (Màn ngang): Chia 2 cột Trái (Hình Nhân Vật Chuẩn Tỉ Lệ Không Méo) - Phải (Bảng Điều Khiển Đấm + Chửi + Khuyên) */
+      #karmaTabPunchRoom.karma-main-layout {
+        flex-direction: row !important;
+        align-items: stretch !important;
+      }
       #karmaTabPunchRoom .karma-canvas-wrap {
-        min-height: 320px !important;
+        flex: 1.12 !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        border-bottom: none !important;
+        border-right: 2px solid #ff9100 !important;
+        padding: 10px !important;
       }
       #karmaTabPunchRoom .karma-controls-wrap {
-        padding: 10px 16px !important;
+        flex: 0.88 !important;
+        max-width: 520px !important;
+        height: 100% !important;
+        overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        padding: 12px 16px !important;
+        margin: 0 !important;
       }
     }
     @media (max-width: 768px) {
@@ -1358,7 +1385,7 @@
       <!-- MÀN 1: PHÒNG SÂN ĐẤM + CHỬI SẮC SÉO CHUA NGOA + TRỤ TRÌ KHUYÊN NGAY TRÊN 1 MÀN HÌNH (DÙNG ĐIỆN THOẠI HAY LAPTOP ĐỀU CHUẨN!) -->
       <div id="karmaTabPunchRoom" class="karma-main-layout" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
         <div class="karma-canvas-wrap" style="position:relative; width:100%; flex:1; min-height:240px; background:#140404; border-bottom:2px solid #ff9100; overflow:hidden; display:flex; align-items:center; justify-content:center;">
-          <canvas id="karmaPunchCanvas" width="540" height="520" onclick="hitKarmaCharacterCanvas(event)" style="width:100%; height:100%; max-width:680px; display:block; cursor:crosshair; object-fit:contain;"></canvas>
+          <canvas id="karmaPunchCanvas" width="540" height="520" onclick="hitKarmaCharacterCanvas(event)" style="width:auto; height:auto; max-width:100%; max-height:100%; aspect-ratio:540/520; display:block; margin:auto; cursor:crosshair;"></canvas>
         </div>
 
         <!-- Bảng Điều Khiển Hợp Nhất: [1. Đấm/Vả] + [2. Chửi Chua Ngoa Sắc Séo -> Nhân Vật Khóc 😭] + [3. Trụ Trì Khuyên -> Nhân Vật Cảm Động 🥹] -->
@@ -3092,10 +3119,13 @@
             pctx.roundRect(-dw * 0.5, -dh * 0.5 - 10, dw, dh, 18);
             pctx.stroke();
           } else if (images.sanDamRoom && images.sanDamRoom.complete && images.sanDamRoom.naturalWidth > 0) {
-            // Cắt lấy phần trung tâm Nhân Vật Bị Đấm To Ngang Màn Hình trong Phòng Võ Đài (9:16 -> 540x480)
+            // Cắt chuẩn tỉ lệ 1:1 khung mặt & hai bàn tay Nhân Vật trong Phòng Võ Đài để KHÔNG BỊ KÉO GIÃN NGANG trên cả Laptop lẫn Điện Thoại!
             const sw = images.sanDamRoom.naturalWidth;
             const sh = images.sanDamRoom.naturalHeight;
-            pctx.drawImage(images.sanDamRoom, 0, sh * 0.06, sw, sh * 0.78, -W * 0.52, -H * 0.54, W * 1.04, H * 1.08);
+            const targetRatio = (W * 1.04) / (H * 1.08);
+            const cropH = Math.min(sh * 0.82, sw / targetRatio);
+            const cropY = Math.max(0, sh * 0.13);
+            pctx.drawImage(images.sanDamRoom, 0, cropY, sw, cropH, -W * 0.52, -H * 0.54, W * 1.04, H * 1.08);
           } else {
             const bg = pctx.createRadialGradient(0, 0, 20, 0, 0, W * 0.6);
             bg.addColorStop(0, '#5f0e08');
@@ -7605,6 +7635,32 @@
       }, 60);
     }
     requestAnimationFrame(render);
+  
+    window.addEventListener("load", () => {
+      const dm = new URLSearchParams(window.location.search).get("demo");
+      if (!dm) return;
+      setTimeout(() => {
+        const wm = document.getElementById("welcomeModal");
+        if (wm) wm.style.display = "none";
+        if (dm === "karaoke") {
+          if (typeof toggleGlobalAutoFarmMerit === "function" && !window._globalAutoFarmActive) toggleGlobalAutoFarmMerit();
+          if (typeof openKaraokeSutraOverlay === "function") {
+            openKaraokeSutraOverlay("chu_dai_bi");
+            window._karaokeLineIdx = 2;
+            window._karaokeWordIdx = 5;
+            if (typeof renderKaraokeSutraView === "function") renderKaraokeSutraView();
+          }
+        } else if (dm === "scold") {
+          if (typeof openKarmaReleaseModal === "function") openKarmaReleaseModal();
+          if (typeof selectKarmaChar === "function") selectKarmaChar("anh_hai");
+          if (typeof triggerDirectScoldOnCanvas === "function") triggerDirectScoldOnCanvas(1);
+        } else if (dm === "abbot") {
+          if (typeof openKarmaReleaseModal === "function") openKarmaReleaseModal();
+          if (typeof selectKarmaChar === "function") selectKarmaChar("anh_hai");
+          if (typeof triggerDirectAbbotOnCanvas === "function") triggerDirectAbbotOnCanvas(1);
+        }
+      }, 300);
+    });
   </script>
 </body>
 </html>
