@@ -1309,11 +1309,11 @@
       <div id="kpiGoalInputBox" style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
         <div class="sk-field" style="margin-bottom:0;">
           <label style="color:#ffab40;">💸 Số KPI còn thiếu:</label>
-          <input id="skInputMissingAmt" type="text" value="120 triệu" oninput="syncKpiNumbersToWish()" placeholder="VD: 120 triệu..." />
+          <input id="skInputMissingAmt" type="text" value="120 triệu đồng" oninput="syncKpiNumbersToWish()" placeholder="VD: 120 triệu..." />
         </div>
         <div class="sk-field" style="margin-bottom:0;">
           <label style="color:#80d8ff;">🚀 Mục tiêu Quý / Tháng:</label>
-          <input id="skInputQuarterGoal" type="text" value="1 tỷ 500 triệu" oninput="syncKpiNumbersToWish()" placeholder="VD: 1 tỷ 500 triệu..." />
+          <input id="skInputQuarterGoal" type="text" value="1 tỷ 500 triệu đồng" oninput="syncKpiNumbersToWish()" placeholder="VD: 1 tỷ 500 triệu..." />
         </div>
       </div>
 
@@ -2928,8 +2928,8 @@
       name: 'Sale Minh Anh',
       addr: 'Kho Trường Yến',
       phone: '0988668888',
-      missingAmt: '120 triệu',
-      quarterGoal: '1 tỷ 500 triệu',
+      missingAmt: '120 triệu đồng',
+      quarterGoal: '1 tỷ 500 triệu đồng',
       wish: 'Con còn thiếu 120 triệu nữa là đạt KPI tháng, quý này con đặt mục tiêu 1 tỷ 500 triệu, cúi xin độ trì chốt đơn về đích!'
     };
     let moRhythmInterval = null;
@@ -3023,7 +3023,7 @@
         audioNu: 'audio/khan_1_nu.mp3',
         getWish: () => `Cúi xin bề trên chứng giám lòng thành, độ trì cho khách hàng xem mẫu Tấm Ốp Nano, Lam Sóng, Trần Nhôm chốt đơn đặt cọc ngay hôm nay để con bù đủ số thiếu, hoàn thành trọn vẹn chỉ tiêu tháng này.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật, Chư Đại Bồ Tát cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Chạy Số Và Bù Đủ KPI Tháng. Hiện tại mục tiêu chạy số của con còn thiếu ${m}, mục tiêu quý là ${g}. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Chạy Số Và Bù Đủ KPI Tháng. Hiện tại mục tiêu chạy số của con còn thiếu ${m}, mục tiêu quý là ${g}. ${wish} Nam mô A Di Đà Phật!`
       },
       muc_tieu_quy: {
         idx: 2,
@@ -3033,7 +3033,7 @@
         audioNu: 'audio/khan_2_nu.mp3',
         getWish: () => `Nguyện cầu Chư Vị độ trì mở rộng mạng lưới đại lý khắp các tỉnh, xe tải xuất kho Tấm Ốp Nano, Than Tre và Trần Nhôm liên tục từ sáng tới chiều, hoàn thành vượt mức mục tiêu doanh số quý đã đề ra.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô A Di Đà Phật! Kính lạy Hoàng Thiên Hậu Thổ, Chư Phật Mười Phương cùng Ngài Thần Tài Vị Tiền. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Khấn Đặt Mục Tiêu Doanh Số Quý. Hiện tại số còn thiếu là ${m}, quý này con đặt mục tiêu doanh số ${g}. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Khấn Đặt Mục Tiêu Doanh Số Quý. Hiện tại số còn thiếu là ${m}, quý này con đặt mục tiêu doanh số ${g}. ${wish} Nam mô A Di Đà Phật!`
       },
       khach_hang: {
         idx: 3,
@@ -3043,7 +3043,7 @@
         audioNu: 'audio/khan_3_nu.mp3',
         getWish: () => `Cúi xin bề trên gieo duyên lành, dẫn lối cho các chủ nhà biệt thự, kiến trúc sư, cai thầu thi công và chủ showroom nội thất tìm đến Kho Tấm Ốp Trường Yến, nhìn mẫu nào ưng ngay mẫu đó, ký hợp đồng và chuyển khoản đặt cọc nhanh chóng.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô A Di Đà Phật! Kính lạy Chư Vị Tôn Thần cùng Ngài Thần Tài Thổ Địa. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Khách Hàng Chốt Đơn Lớn Và Đại Lý Nhập Sỉ. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Khách Hàng Chốt Đơn Lớn Và Đại Lý Nhập Sỉ. ${wish} Nam mô A Di Đà Phật!`
       },
       tai_loc: {
         idx: 4,
@@ -3053,7 +3053,7 @@
         audioNu: 'audio/khan_4_nu.mp3',
         getWish: () => `Cúi xin các Ngài che chở kho hàng Trường Yến vững chãi, cảm hóa các đối tác, chủ thầu và đại lý còn tồn đọng công nợ vật tư sớm thu xếp thanh toán sòng phẳng, đầy đủ, đúng hẹn, cho dòng tiền lưu thông mạnh mẽ.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô A Di Đà Phật! Kính lạy Chư Vị Tôn Thần cùng Ngài Thần Tài Vị Tiền cai quản kho tàng phúc lộc. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tài Lộc Và Thu Hồi Công Nợ Đúng Hạn. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tài Lộc Và Thu Hồi Công Nợ Đúng Hạn. ${wish} Nam mô A Di Đà Phật!`
       },
       binh_an: {
         idx: 5,
@@ -3063,7 +3063,7 @@
         audioNu: 'audio/khan_5_nu.mp3',
         getWish: () => `Cúi xin Mười Phương Chư Phật từ bi gia hộ cho cha mẹ, gia quyến và toàn thể anh chị em đại gia đình Trường Yến bốn mùa bình an, thân khỏe tâm an, bách bệnh tiêu trừ, gia đạo trên thuận dưới hòa.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát! Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Bình An Gia Đạo Và Sức Khỏe Dồi Dào. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Bình An Gia Đạo Và Sức Khỏe Dồi Dào. ${wish} Nam mô A Di Đà Phật!`
       },
       giam_stress: {
         idx: 6,
@@ -3356,7 +3356,7 @@
       const playTwoPartExactCharacterStatic = () => {
         if (charSlug === '__custom__') {
           // Đọc CHÍNH XÁC 100% tên nhân vật tự đặt (activeName) và địa chỉ (activeAddr) qua #ttsVoicePlayer, sau đó nối mượt vào phần thân bài Sớ!
-          const shortCustomIntroText = `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Hôm nay tín chủ con là ${activeName.slice(0, 48)} tại ${activeAddr.slice(0, 36)},`;
+          const shortCustomIntroText = `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${activeName.slice(0, 48)} tại ${activeAddr.slice(0, 36)},`;
           const customTtsIntroUrl = `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=vi&q=${encodeURIComponent(shortCustomIntroText)}`;
           const ttsEl = document.getElementById('ttsVoicePlayer');
           const fallbackGenericCustomIntro = () => {
@@ -3394,7 +3394,11 @@
         localPrayerMp3.play().catch(playBodyPart);
       };
 
-      if (isLocalOrigin || lanConnected) {
+      if (charSlug !== '__custom__') {
+        // Khi có sẵn file thu âm Studio Neural khớp 100% tên nhân vật (VD: "Thành" -> intro_thanh.mp3):
+        // Phát trực tiếp bộ file Studio Neural chuẩn xác 100% từng chữ trên cả LAN & GitHub Pages!
+        playTwoPartExactCharacterStatic();
+      } else if (isLocalOrigin || lanConnected) {
         localPrayerMp3.onended = () => {
           isVoiceSpeaking = false;
           if (typeof onDoneCallback === 'function') onDoneCallback();
@@ -5192,10 +5196,23 @@
     }
 
     function speakCurrentIChing() {
+      unlockAndStartAudio();
+      stopAllVoices(true);
       const h = currentIChingHex || ICHING_HEXAGRAMS_POOL[0];
+      const idx = Math.max(0, ICHING_HEXAGRAMS_POOL.indexOf(h));
+      const mp3Url = `audio/iching_${idx + 1}.mp3?v=67`;
+      showToast(`🔊 Đang đọc Luận Giải ${h.name}...`);
       const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const text = `Luận giải Quẻ Kinh Dịch cho tín chủ ${player.name}. Bạn gieo được Quẻ số ${h.num}, ${h.name}. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. Thoán từ phán rằng: ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
-      speakVietnameseText(text, 'M');
+      const fallbackText = `Luận giải Quẻ Kinh Dịch. ${h.name}. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. Thoán từ phán rằng: ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
+      localPrayerMp3.onended = () => {
+        isVoiceSpeaking = false;
+        resumeZenMusicIfIdle();
+      };
+      localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
+      localPrayerMp3.src = mp3Url;
+      localPrayerMp3.currentTime = 0;
+      localPrayerMp3.volume = 1.0;
+      localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'M'));
     }
 
     // 3B. DỮ LIỆU TỬ VI 12 CON GIÁP & BẢN MỆNH TRONG NGÀY
@@ -5307,12 +5324,24 @@
     }
 
     function speakCurrentTuVi() {
+      unlockAndStartAudio();
+      stopAllVoices(true);
       const sel = document.getElementById('tuviZodiacSelect');
       const idx = sel ? (Number(sel.value) || 0) : 4;
       const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
+      const mp3Url = `audio/tuvi_${idx}.mp3?v=67`;
+      showToast(`🔊 Đang đọc Bình Giải Tử Vi ${tv.name}...`);
       const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const text = `Bình giải Tử Vi hôm nay cho tín chủ ${player.name}, bản mệnh ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
-      speakVietnameseText(text, 'F');
+      const fallbackText = `Bình giải Tử Vi bản mệnh ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
+      localPrayerMp3.onended = () => {
+        isVoiceSpeaking = false;
+        resumeZenMusicIfIdle();
+      };
+      localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'F');
+      localPrayerMp3.src = mp3Url;
+      localPrayerMp3.currentTime = 0;
+      localPrayerMp3.volume = 1.0;
+      localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'F'));
     }
 
     // 3C. HỆ THỐNG XIN SỐ MAY MẮN TRONG NGÀY (THỈNH ÔNG ĐỊA - THẦN TÀI)
@@ -5394,9 +5423,22 @@
     }
 
     function speakCurrentLuckyNumbers() {
+      unlockAndStartAudio();
+      stopAllVoices(true);
       const p = currentLuckyPack || LUCKY_NUMBER_MEANINGS[0];
-      const text = `Ông Địa Thần Tài ban số may mắn hôm nay cho tín chủ ${player.name}. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
-      speakVietnameseText(text, 'M');
+      const idx = Math.max(0, LUCKY_NUMBER_MEANINGS.indexOf(p));
+      const mp3Url = `audio/soloc_${idx}.mp3?v=67`;
+      showToast(`🔊 Đang đọc Phán Số May Mắn (${p.pair} - ${p.rev})...`);
+      const fallbackText = `Ông Địa Thần Tài ban số may mắn hôm nay. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
+      localPrayerMp3.onended = () => {
+        isVoiceSpeaking = false;
+        resumeZenMusicIfIdle();
+      };
+      localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
+      localPrayerMp3.src = mp3Url;
+      localPrayerMp3.currentTime = 0;
+      localPrayerMp3.volume = 1.0;
+      localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'M'));
     }
 
     function switchDivinationTab(tab) {
