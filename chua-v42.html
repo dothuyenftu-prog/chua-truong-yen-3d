@@ -1202,7 +1202,7 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼 Tương Tác</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜 Viết Sớ</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">☯️ Xăm · Dịch · Tử Vi · Số</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🥊 Xả Nghiệp</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
   </div>
@@ -1279,7 +1279,7 @@
       </button>
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(142,24,68,0.95),rgba(74,12,36,0.96));border-color:#ffd54f;" onclick="openFortuneStickModal()">
         <span class="dock-icon">🎋</span>
-        <span class="dock-label">Rút Thẻ · Xin Xăm</span>
+        <span class="dock-label">Xăm · Dịch · Tử Vi · Số</span>
       </button>
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(136,14,79,0.96),rgba(49,27,146,0.96));border-color:#ff80ab;" onclick="openKarmaReleaseModal()">
         <span class="dock-icon">🤬🥊</span>
@@ -1379,19 +1379,38 @@
     </div>
   </div>
 
-  <!-- 5B. MODAL RÚT THẺ XĂM CỔ TRUYỀN & LUẬN GIẢI CHI TIẾT THEO NGÀNH NGHỀ (MẤT PHƯỚC KHI MUA/RÚT THẺ · ĐỦ QUẺ TỐT & QUẺ XẤU THỰC TẾ!) -->
+  <!-- 5B. MODAL TỔNG HỢP 4 TRONG 1: XIN XĂM QUAN ÂM · GIEO QUẺ KINH DỊCH · XEM TỬ VI · XIN SỐ MAY MẮN TRONG NGÀY -->
   <div class="modal-backdrop" id="fortuneStickModal" onclick="if(event.target===this) closeFortuneStickModal()">
-    <div class="so-khan-box" style="max-width:540px; text-align:left;">
-      <div class="sk-top-row">
-        <span class="sk-title">🎋 QUAN ÂM LINH XĂM CÁ NHÂN (TÀI LỘC · CÔNG DANH · TÌNH DUYÊN · BÌNH AN)</span>
+    <div class="so-khan-box" style="max-width:580px; text-align:left;">
+      <div class="sk-top-row" style="margin-bottom:8px;">
+        <span class="sk-title" id="divinationModalMainTitle">☯️ XIN XĂM · KINH DỊCH · TỬ VI · XIN SỐ MAY MẮN TRONG NGÀY</span>
         <button class="btn-modal-x" onclick="closeFortuneStickModal()">✕ Đóng</button>
       </div>
 
-      <!-- Thanh hiển thị Phước hiện có & Chi phí Mua/Thỉnh Thẻ Xăm (-5 💎 Phước/thẻ) -->
-      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(38,14,4,0.95); border:1px solid #ffd54f; border-radius:9px; padding:6px 10px; margin-bottom:7px; font-size:10.8px;">
-        <span>💎 Phước Khả Dụng: <b id="fortuneMeritBalance" style="color:#ffd740; font-size:12.5px;">35</b> 💎</span>
-        <span style="color:#ffab40; font-weight:800;">🎫 Thỉnh 1 Thẻ Xăm: <b style="color:#ff5252;">-5 💎 Phước</b> (Có cả Quẻ Tốt & Quẻ Xấu như thật!)</span>
+      <!-- THANH CHUYỂN 4 CHỨC NĂNG: [🎋 Xin Xăm] · [☯️ Kinh Dịch] · [🔮 Tử Vi] · [🎰 Xin Số May Mắn] -->
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:5px; margin-bottom:8px;">
+        <button type="button" id="divTabBtn_xam" onclick="switchDivinationTab('xam')" style="background:linear-gradient(135deg,#ff8f00,#c62828); color:#fff; border:2px solid #fff59d; border-radius:9px; padding:6px 4px; font-size:10.6px; font-weight:900; cursor:pointer; box-shadow:0 0 10px rgba(255,160,0,0.6);">
+          🎋 1. Xin Xăm
+        </button>
+        <button type="button" id="divTabBtn_dich" onclick="switchDivinationTab('dich')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:6px 4px; font-size:10.6px; font-weight:900; cursor:pointer;">
+          ☯️ 2. Kinh Dịch
+        </button>
+        <button type="button" id="divTabBtn_tuvi" onclick="switchDivinationTab('tuvi')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:6px 4px; font-size:10.6px; font-weight:900; cursor:pointer;">
+          🔮 3. Tử Vi
+        </button>
+        <button type="button" id="divTabBtn_soloc" onclick="switchDivinationTab('soloc')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:6px 4px; font-size:10.6px; font-weight:900; cursor:pointer;">
+          🎰 4. Số May Mắn
+        </button>
       </div>
+
+      <!-- Thanh hiển thị Phước hiện có & Chi phí Thỉnh Quẻ (-5 💎 Phước) -->
+      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(38,14,4,0.95); border:1px solid #ffd54f; border-radius:9px; padding:5px 10px; margin-bottom:7px; font-size:10.6px;">
+        <span>👤 Tín chủ: <b id="divActiveUserName" style="color:#69f0ae;">Sếp Thành</b> · 💎 Phước: <b id="fortuneMeritBalance" style="color:#ffd740; font-size:12px;">120</b> 💎</span>
+        <span style="color:#ffab40; font-weight:800;">🎫 Mỗi lần Gieo Quẻ / Xin Số: <b style="color:#ff5252;">-5 💎</b></span>
+      </div>
+
+      <!-- ================= TAB 1: QUAN ÂM LINH XĂM ================= -->
+      <div id="divTabPanel_xam">
 
       <!-- Chọn Nhanh Hoặc Tra Cứu Trực Tiếp Bộ 24 Thẻ Xăm (6 Đại Cát · 6 Trung Bình · 6 Tiểu Hung · 6 Đại Hung) -->
       <div class="sk-field" style="margin-bottom:6px;">
@@ -1481,6 +1500,136 @@
         <div id="fcRemedyBox" style="background:rgba(28,48,18,0.85); border:1px solid #81c784; border-radius:8px; padding:6px 8px; font-size:10.4px; color:#e8f5e9; line-height:1.4;">
         </div>
       </div>
+      </div><!-- End divTabPanel_xam -->
+
+      <!-- ================= TAB 2: GIEO QUẺ KINH DỊCH LỤC HÀO (64 QUẺ CHU DỊCH) ================= -->
+      <div id="divTabPanel_dich" style="display:none;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; align-items:center; margin-bottom:8px;">
+          <div id="ichingCoinsWrap" onclick="castIChingHexagram()" style="cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px; border-radius:12px; background:radial-gradient(circle, rgba(255,215,64,0.25) 0%, rgba(32,12,4,0.95) 75%); border:2px solid #ffd54f; text-align:center; transition:transform 0.18s;">
+            <div id="ichingCoinsVisual" style="display:flex; gap:8px; justify-content:center; align-items:center; margin-bottom:4px;">
+              <span class="iching-coin" style="display:inline-flex; width:36px; height:36px; border-radius:50%; background:radial-gradient(circle,#ffe082,#f57f17); border:2px solid #fff59d; color:#3e1404; font-weight:900; font-size:11px; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,0.6);">乾隆</span>
+              <span class="iching-coin" style="display:inline-flex; width:36px; height:36px; border-radius:50%; background:radial-gradient(circle,#ffe082,#f57f17); border:2px solid #fff59d; color:#3e1404; font-weight:900; font-size:11px; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,0.6);">通寶</span>
+              <span class="iching-coin" style="display:inline-flex; width:36px; height:36px; border-radius:50%; background:radial-gradient(circle,#ffe082,#f57f17); border:2px solid #fff59d; color:#3e1404; font-weight:900; font-size:11px; align-items:center; justify-content:center; box-shadow:0 3px 8px rgba(0,0,0,0.6);">乾隆</span>
+            </div>
+            <div id="ichingCastStatus" style="font-size:10.5px; font-weight:900; color:#ffd740;">👆 Chạm Gieo 3 Đồng Xu Cổ Lục Hào (-5 💎)</div>
+            <div style="font-size:9.2px; color:#80d8ff; margin-top:2px;">Lập 6 Hào Âm Dương · Thượng Quái & Hạ Quái</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:5px;">
+            <select id="ichingDirectSelect" onchange="selectIChingByIndex(this.value)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:5px 7px; color:#fff8e1; font-size:10.3px; font-weight:800;">
+            </select>
+            <button type="button" class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:10.6px; background:linear-gradient(135deg,#e65100,#b71c1c); border:1px solid #ffd54f;" onclick="castIChingHexagram()">
+              ☯️ Gieo Quẻ Kinh Dịch Ứng Sự Việc Hôm Nay (-5 💎)
+            </button>
+            <button type="button" class="btn-sk-submit" style="width:100%; padding:6px 8px; font-size:10.4px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentIChing()">
+              🔊 Nghe Thầy Đồ Đọc Luận Giải Quẻ Kinh Dịch
+            </button>
+          </div>
+        </div>
+
+        <!-- Bảng Kết Quả Quẻ Kinh Dịch Lục Hào -->
+        <div id="ichingResultBox" style="background:linear-gradient(180deg,#3e1404 0%,#1a0702 100%); border:2px solid #ffd740; border-radius:12px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,0.85);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,215,64,0.4); padding-bottom:5px; margin-bottom:7px; flex-wrap:wrap; gap:6px;">
+            <span id="icHexTitle" style="font-size:12.8px; font-weight:900; color:#ffd740;">☯️ QUẺ SỐ 14: HỎA THIÊN ĐẠI HỮU (䷍)</span>
+            <span id="icHexBadge" style="background:#69f0ae; color:#003314; font-size:9.8px; font-weight:900; padding:2px 8px; border-radius:999px;">THƯỢNG CÁT · MẶT TRỜI GIỮA TRỜI</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 0.38fr 0.62fr; gap:10px; align-items:center; margin-bottom:7px; background:rgba(0,0,0,0.35); padding:7px 9px; border-radius:9px; border:1px dashed rgba(255,215,64,0.38);">
+            <div id="icSixLinesVisual" style="display:flex; flex-direction:column; gap:4px; align-items:center;"></div>
+            <div style="font-size:10.5px; line-height:1.45; color:#ffe0b2;">
+              <div>🔺 <b>Ngoại Quái (Thượng):</b> <span id="icUpperTrigram" style="color:#ffd740;">Ly ☲ (Hỏa - Lửa Sáng)</span></div>
+              <div>🔻 <b>Nội Quái (Hạ):</b> <span id="icLowerTrigram" style="color:#80d8ff;">Càn ☰ (Thiên - Trời Mạnh)</span></div>
+              <div>⚡ <b>Hào Động Ứng Việc:</b> <span id="icMovingLine" style="color:#69f0ae;">Hào Ngũ Động (Chân thành giữ tín nghĩa)</span></div>
+              <div style="margin-top:3px; color:#fff8e1; font-style:italic;" id="icJudgmentText">"Đại Hữu: Nguyên hanh — Tài lộc hội tụ lớn, quân tử thuận thiên thời mà làm việc lớn."</div>
+            </div>
+          </div>
+
+          <div id="icDetailedAnalysis" style="display:grid; grid-template-columns:1fr 1fr; gap:5px 8px; background:rgba(16,5,2,0.85); border:1px solid rgba(255,213,79,0.35); border-radius:8px; padding:7px 9px; font-size:10.3px; color:#ffe0b2; margin-bottom:7px; line-height:1.42;"></div>
+
+          <div id="icActionAdvice" style="background:rgba(20,48,22,0.88); border:1px solid #81c784; border-radius:8px; padding:6px 9px; font-size:10.5px; color:#e8f5e9; line-height:1.42;"></div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 3: TỬ VI 12 CON GIÁP & BẢN MỆNH TRONG NGÀY ================= -->
+      <div id="divTabPanel_tuvi" style="display:none;">
+        <div style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:7px; margin-bottom:8px; align-items:end;">
+          <div class="sk-field" style="margin-bottom:0;">
+            <label style="font-size:10.4px; color:#ffd740;">🐉 Chọn Tuổi / Năm Sinh Của Bạn (12 Con Giáp & Ngũ Hành Bản Mệnh):</label>
+            <select id="tuviZodiacSelect" onchange="renderTuViReading(false)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 8px; color:#fff8e1; font-size:10.6px; font-weight:800;">
+              <option value="0">🐭 Tuổi Tý (1984 Giáp Tý · 1996 Bính Tý · 1972 Nhâm Tý)</option>
+              <option value="1">🐮 Tuổi Sửu (1985 Ất Sửu · 1997 Đinh Sửu · 1973 Quý Sửu)</option>
+              <option value="2">🐯 Tuổi Dần (1986 Bính Dần · 1998 Mậu Dần · 1974 Giáp Dần)</option>
+              <option value="3">🐱 Tuổi Mão (1987 Đinh Mão · 1999 Kỷ Mão · 1975 Ất Mão)</option>
+              <option value="4" selected>🐲 Tuổi Thìn (1988 Mậu Thìn · 2000 Canh Thìn · 1976 Bính Thìn)</option>
+              <option value="5">🐍 Tuổi Tỵ (1989 Kỷ Tỵ · 2001 Tân Tỵ · 1977 Đinh Tỵ)</option>
+              <option value="6">🐴 Tuổi Ngọ (1990 Canh Ngọ · 2002 Nhâm Ngọ · 1978 Mậu Ngọ)</option>
+              <option value="7">🐐 Tuổi Mùi (1991 Tân Mùi · 2003 Quý Mùi · 1979 Kỷ Mùi)</option>
+              <option value="8">🐵 Tuổi Thân (1992 Nhâm Thân · 2004 Giáp Thân · 1980 Canh Thân)</option>
+              <option value="9">🐔 Tuổi Dậu (1993 Quý Dậu · 2005 Ất Dậu · 1981 Tân Dậu)</option>
+              <option value="10">🐶 Tuổi Tuất (1994 Giáp Tuất · 2006 Bính Tuất · 1982 Nhâm Tuất)</option>
+              <option value="11">🐷 Tuổi Hợi (1995 Ất Hợi · 2007 Đinh Hợi · 1983 Quý Hợi)</option>
+            </select>
+          </div>
+          <div style="display:flex; gap:5px;">
+            <button type="button" class="btn-sk-submit" style="flex:1; padding:7px 6px; font-size:10.4px; background:linear-gradient(135deg,#6a1b9a,#4a148c); border:1px solid #ea80fc;" onclick="renderTuViReading(true)">
+              🔮 Bình Giải Tử Vi (-5 💎)
+            </button>
+            <button type="button" class="btn-sk-submit" style="padding:7px 8px; font-size:10.4px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentTuVi()">
+              🔊 Đọc
+            </button>
+          </div>
+        </div>
+
+        <div id="tuviResultBox" style="background:linear-gradient(180deg,#2a0845 0%,#120321 100%); border:2px solid #ea80fc; border-radius:12px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,0.85);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(234,128,252,0.4); padding-bottom:5px; margin-bottom:7px; flex-wrap:wrap; gap:6px;">
+            <span id="tvTitle" style="font-size:12.6px; font-weight:900; color:#ffd740;">🔮 LÁ SỐ TỬ VI HÔM NAY — TUỔI THÌN (LONG ĐỨC HỘ MỆNH)</span>
+            <span id="tvStarBadge" style="background:#ffd740; color:#311b92; font-size:9.8px; font-weight:900; padding:2px 8px; border-radius:999px;">🌟 SAO THIÊN HỶ · TÀI LỘC 92%</span>
+          </div>
+          <div id="tvMainGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px 8px; background:rgba(12,2,22,0.82); border:1px solid rgba(234,128,252,0.35); border-radius:8px; padding:7px 9px; font-size:10.4px; color:#f3e5f5; margin-bottom:7px; line-height:1.44;"></div>
+          <div id="tvAuspiciousInfo" style="background:rgba(28,48,18,0.88); border:1px solid #81c784; border-radius:8px; padding:6px 9px; font-size:10.4px; color:#e8f5e9; line-height:1.42;"></div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 4: XIN SỐ MAY MẮN TRONG NGÀY (THỈNH LỘC ÔNG ĐỊA - THẦN TÀI) ================= -->
+      <div id="divTabPanel_soloc" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
+          <button type="button" class="btn-sk-submit" style="flex:1.4; padding:9px 10px; font-size:11.2px; background:linear-gradient(135deg,#ff6f00,#b71c1c); border:1.5px solid #fff59d; font-weight:900; box-shadow:0 4px 14px rgba(255,111,0,0.55);" onclick="spinDailyLuckyNumbers(true)">
+            🎰🔥 Thỉnh Ông Địa — Quay Xin Số May Mắn Hôm Nay (-5 💎)
+          </button>
+          <button type="button" class="btn-sk-submit" style="flex:0.8; padding:9px 8px; font-size:10.6px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentLuckyNumbers()">
+            🔊 Nghe Ông Địa Phán Số
+          </button>
+        </div>
+
+        <div id="solocResultBox" style="background:linear-gradient(180deg,#4a1204 0%,#1f0601 100%); border:2px solid #ffd740; border-radius:12px; padding:11px 13px; box-shadow:0 8px 24px rgba(0,0,0,0.88); text-align:center;">
+          <div style="font-size:12px; font-weight:900; color:#ffd54f; margin-bottom:6px;" id="slHeaderTitle">
+            🏺✨ BẢNG VÀNG SỐ LỘC THẦN TÀI HÔM NAY CHO: SẾP THÀNH ✨🏺
+          </div>
+
+          <!-- 3 Ô Số Vàng Nổi Bật: Bạch Thủ 2 Số · Song Thủ Đảo Lộc · Bộ 3 Càng Thần Tài -->
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:9px;">
+            <div style="background:radial-gradient(circle,#fff59d 0%,#ffb300 75%,#e65100 100%); color:#3e0a00; border:2px solid #fff; border-radius:12px; padding:8px 6px; box-shadow:0 4px 14px rgba(255,193,7,0.55);">
+              <div style="font-size:9.5px; font-weight:900; text-transform:uppercase;">🎯 Số Bạch Thủ Đại Lộc</div>
+              <div id="slNumBachThu" style="font-size:28px; font-weight:900; letter-spacing:2px; line-height:1.15; color:#b71c1c; text-shadow:0 1px 0 #fff;">68</div>
+              <div style="font-size:9px; font-weight:800;">Lộc Phát Vững Bền</div>
+            </div>
+            <div style="background:radial-gradient(circle,#e1f5fe 0%,#29b6f6 75%,#01579b 100%); color:#001933; border:2px solid #fff; border-radius:12px; padding:8px 6px; box-shadow:0 4px 14px rgba(41,182,246,0.45);">
+              <div style="font-size:9.5px; font-weight:900; text-transform:uppercase;">💎 Song Thủ & Xiên Đôi</div>
+              <div id="slNumSongThu" style="font-size:22px; font-weight:900; line-height:1.35; color:#002b4d; text-shadow:0 1px 0 #fff;">39 · 79</div>
+              <div style="font-size:9px; font-weight:800;">Thần Tài Nhỏ · Thần Tài Lớn</div>
+            </div>
+            <div style="background:radial-gradient(circle,#f3e5f5 0%,#ab47bc 75%,#4a148c 100%); color:#fff; border:2px solid #ffd54f; border-radius:12px; padding:8px 6px; box-shadow:0 4px 14px rgba(171,71,188,0.45);">
+              <div style="font-size:9.5px; font-weight:900; color:#ffe082; text-transform:uppercase;">👑 Bộ 3 Số Tam Quý</div>
+              <div id="slNumBaCang" style="font-size:26px; font-weight:900; letter-spacing:1.5px; line-height:1.18; color:#ffd740; text-shadow:0 2px 4px rgba(0,0,0,0.7);">868</div>
+              <div style="font-size:9px; font-weight:800; color:#f8bbd0;">Phát Lộc Phát Tài</div>
+            </div>
+          </div>
+
+          <div id="slDetailsBox" style="text-align:left; background:rgba(16,5,2,0.88); border:1px solid rgba(255,213,79,0.4); border-radius:9px; padding:8px 10px; font-size:10.5px; color:#ffe0b2; line-height:1.46; margin-bottom:7px;"></div>
+          <div id="slMessageBox" style="text-align:left; background:rgba(20,48,22,0.88); border:1px solid #81c784; border-radius:9px; padding:7px 10px; font-size:10.4px; color:#e8f5e9; line-height:1.42;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -4754,15 +4903,453 @@
       }
     }
 
-    function openFortuneStickModal() {
+    function openFortuneStickModal(initialTab) {
       unlockAndStartAudio();
       updateFortuneCardDisplay();
+      if (initialTab && ['xam', 'dich', 'tuvi', 'soloc'].includes(initialTab)) {
+        switchDivinationTab(initialTab);
+      } else {
+        switchDivinationTab(currentDivinationTab || 'xam');
+      }
       document.getElementById('fortuneStickModal').classList.add('open');
       playMoSound();
     }
     function closeFortuneStickModal() {
       document.getElementById('fortuneStickModal').classList.remove('open');
       stopAllVoices(false);
+    }
+
+    // =========================================================================
+    // V64: HỆ THỐNG XEM KINH DỊCH LỤC HÀO · TỬ VI 12 CON GIÁP · XIN SỐ MAY MẮN TRONG NGÀY (#mvw5mg3a5w)
+    // =========================================================================
+    let currentDivinationTab = 'xam';
+
+    const ICHING_HEXAGRAMS_POOL = [
+      {
+        num: 1, name: 'Thuần Càn (乾為天)', symbol: '䷀', rank: 'THƯỢNG THƯỢNG CÁT · LONG ĐẰNG TỨ HẢI', tier: 'good',
+        upper: 'Càn ☰ (Thiên - Trời)', lower: 'Càn ☰ (Thiên - Trời)', lines: [1, 1, 1, 1, 1, 1],
+        moving: 'Hào Cửu Ngũ: Phi long tại thiên, lợi kiến đại nhân (Rồng bay trên trời, gặp quý nhân lớn).',
+        judgment: 'Càn: Nguyên, Hanh, Lợi, Trinh — Khí dương cực thịnh, thời vận mở mang mạnh mẽ, quyết đoán làm việc lớn ắt thành công.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Đại cát! Thời điểm vàng để ký hợp đồng lớn, mở rộng đại lý tấm ốp và chốt các công trình trọng điểm.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Dòng tiền lưu thông mạnh, đòi nợ dễ thu hồi nếu nói chuyện đàng hoàng, uy quyền.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Uy tín lãnh đạo tăng cao, cấp dưới đồng lòng chạy KPI vượt mức.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia môn hưng vượng, có tin vui từ người thân hoặc quý nhân phương xa.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> "Thiên hành kiện, quân tử dĩ tự cường bất tức" — Hãy chủ động chốt đơn ngay hôm nay, nhưng tránh kiêu ngạo độc đoán.'
+      },
+      {
+        num: 14, name: 'Hỏa Thiên Đại Hữu (火天大有)', symbol: '䷍', rank: 'THƯỢNG THƯỢNG CÁT · MẶT TRỜI GIỮA TRỜI', tier: 'good',
+        upper: 'Ly ☲ (Hỏa - Lửa Sáng)', lower: 'Càn ☰ (Thiên - Trời)', lines: [1, 1, 1, 1, 0, 1],
+        moving: 'Hào Lục Ngũ: Tín tâm giao kết, uy như cát (Lấy chữ Tín làm đầu thì tự nhiên được trời ban phúc).',
+        judgment: 'Đại Hữu: Nguyên hanh — Mặt trời tỏa sáng trên bầu trời cao, vạn vật đều được soi tỏ, tài lộc thu về đầy kho.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Khách hàng tự tìm đến đặt hàng số lượng lớn, hàng xuất kho liên tục từ sáng tới chiều.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Tài vận cực vượng, khách hàng thanh toán sòng phẳng, có lộc bất ngờ.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Danh tiếng công ty và cá nhân vang xa, hợp tác đôi bên cùng thắng lớn.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Hòa khí sinh tài, trong ấm ngoài êm, tâm thần sáng suốt.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Giữ vững chữ Tín về chất lượng hàng hóa và tiến độ giao hàng, lộc lớn sẽ bền vững lâu dài.'
+      },
+      {
+        num: 15, name: 'Địa Sơn Khiêm (地山謙)', symbol: '䷎', rank: 'THƯỢNG CÁT · LỤC HÀO ĐỀU CÁT', tier: 'good',
+        upper: 'Khôn ☷ (Địa - Đất)', lower: 'Cấn ☶ (Sơn - Núi)', lines: [0, 0, 1, 0, 0, 0],
+        moving: 'Hào Cửu Tam: Lao khiêm quân tử, hữu chung cát (Người có công lao mà vẫn khiêm nhường thì trọn đời tốt đẹp).',
+        judgment: 'Khiêm: Hanh, quân tử hữu chung — Núi cao ẩn mình dưới đất thấp, càng khiêm tốn mềm mỏng càng thu phục được lòng người và khách khó tính.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Hôm nay tư vấn khách bằng sự chân thành, nhẫn nại sẽ chốt được cả những vị khách kỹ tính nhất.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Nhắc nợ khéo léo, mềm mỏng nhưng chắc chắn sẽ thu được tiền về.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Được đồng nghiệp và cấp trên quý trọng, hóa giải mọi hiềm khích nội bộ.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Nhường nhịn một câu, gia đạo êm ấm trăm bề.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Trong 64 quẻ Kinh Dịch, chỉ duy nhất quẻ Khiêm cả 6 hào đều Tốt! Hãy lấy nhu thắng cương hôm nay.'
+      },
+      {
+        num: 11, name: 'Địa Thiên Thái (地天泰)', symbol: '䷊', rank: 'THƯỢNG CÁT · ÂM DƯƠNG GIAO HÒA', tier: 'good',
+        upper: 'Khôn ☷ (Địa - Đất)', lower: 'Càn ☰ (Thiên - Trời)', lines: [1, 1, 1, 0, 0, 0],
+        moving: 'Hào Cửu Nhị: Bao hoang, dụng bằng hà, bất di viễn (Bao dung rộng mở, kết nối xa gần đều thông suốt).',
+        judgment: 'Thái: Tiểu vãng đại lai, cát hanh — Cái nhỏ mất đi, cái lớn kéo về; trời đất giao hòa, bế tắc tiêu tan, vạn sự hanh thông.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Phối hợp nhịp nhàng giữa Sale - Kế Toán - Kho - Xe Tải, đơn hàng trôi chảy không vướng mắc.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Thu chi cân đối, dòng tiền về đúng hẹn, đầu tư sinh lời.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Trên dưới đồng lòng, tinh thần làm việc hứng khởi.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia đình sum vầy, sức khỏe dồi dào.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Đang đà vận Thái hanh thông, hãy tranh thủ giải quyết dứt điểm các việc tồn đọng và chăm sóc đại lý thân thiết.'
+      },
+      {
+        num: 55, name: 'Lôi Hỏa Phong (雷火豐)', symbol: '䷶', rank: 'THƯỢNG CÁT · ĐẠI PHONG THỊNH VƯỢNG', tier: 'good',
+        upper: 'Chấn ☳ (Lôi - Sấm Động)', lower: 'Ly ☲ (Hỏa - Lửa Sáng)', lines: [1, 0, 1, 0, 0, 1],
+        moving: 'Hào Lục Ngũ: Lai chương, hữu khánh dự, cát (Đón người tài giỏi và khách quý tới, có tin mừng lớn).',
+        judgment: 'Phong: Hanh, vương giả chi chí — Sấm rền chớp sáng, thanh thế lẫy lừng, hàng hóa đầy kho, tài lộc dồi dào.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Hôm nay cực hợp chạy chiến dịch bán hàng tốc chiến, livestream hoặc gửi báo giá hàng loạt.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Có khoản thu lớn đổ về tài khoản trong ngày.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Quyết định nhanh gọn, sáng suốt như ánh chớp.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Đón tin vui tài chính trong nhà.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Hành động quyết liệt, chớp thời cơ ngay trong khung giờ hoàng đạo hôm nay!'
+      },
+      {
+        num: 3, name: 'Thủy Lôi Truân (水雷屯)', symbol: '䷂', rank: 'TRUNG BÌNH · VẠN SỰ KHỞI ĐẦU NAN', tier: 'neutral',
+        upper: 'Khảm ☵ (Thủy - Nước Hiểm)', lower: 'Chấn ☳ (Lôi - Sấm Động)', lines: [1, 0, 0, 0, 1, 0],
+        moving: 'Hào Sơ Cửu: Bàn hoàn, lợi cư trinh, lợi kiến hầu (Bước đầu còn ngập ngừng, cần kiên trì xây nền móng và tìm người phụ giúp).',
+        judgment: 'Truân: Nguyên hanh lợi trinh, vật dụng hữu du vãng — Như mầm cây mới nhú xuyên qua đất cứng, lúc đầu vất vả nhưng về sau phát triển mạnh.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Đơn hàng buổi sáng có thể hơi chậm hoặc khách đắn đo giá, nhưng kiên trì bám sát chiều tối sẽ chốt được.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Chưa nên nóng vội thúc ép quá gắt, hãy chia lộ trình thanh toán rõ ràng.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Cần nhờ đồng nghiệp hoặc cấp trên hỗ trợ tháo gỡ nút thắt kỹ thuật/vận chuyển.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Bình tĩnh lắng nghe, tránh mang áp lực công việc về nhà.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Đừng nản lòng trước khó khăn ban đầu; hãy củng cố hồ sơ, mẫu mã và nhờ quý nhân hỗ trợ.'
+      },
+      {
+        num: 64, name: 'Hỏa Thủy Vị Tế (火水未濟)', symbol: '䷿', rank: 'TRUNG BÌNH · SẮP QUA SÔNG CẦN THẬN TRỌNG', tier: 'neutral',
+        upper: 'Ly ☲ (Hỏa - Lửa)', lower: 'Khảm ☵ (Thủy - Nước)', lines: [0, 1, 0, 1, 0, 1],
+        moving: 'Hào Cửu Tư: Trinh cát, hối vong (Giữ tâm chính trực, kiên trì vượt thử thách cuối cùng sẽ thành công lớn).',
+        judgment: 'Vị Tế: Hanh, tiểu hồ汔 tế, nhu kỳ vĩ — Cáo nhỏ sắp qua được sông nhưng chớ chủ quan ở bước cuối cùng.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Đơn hàng đang ở bước chốt cọc cuối cùng, cần kiểm tra kỹ mã màu, số lượng và địa chỉ giao hàng.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Phải nhận được tiền cọc hoặc xác nhận chuyển khoản rõ ràng trước khi xuất hàng lớn.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Rà soát kỹ chứng từ, hóa đơn trước khi bàn giao.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Chậm mà chắc, mọi việc đang chuyển dần từ hung sang cát.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Cẩn tắc vô áy náy ở khâu chốt cọc và kiểm hàng xuất kho hôm nay!'
+      },
+      {
+        num: 6, name: 'Thiên Thủy Tụng (天水訟)', symbol: '䷅', rank: 'CẢNH BÁO TIỂU HUNG · ĐỀ PHÒNG TRANH CÃI', tier: 'bad',
+        upper: 'Càn ☰ (Thiên - Trời)', lower: 'Khảm ☵ (Thủy - Nước Hiểm)', lines: [0, 1, 0, 1, 1, 1],
+        moving: 'Hào Cửu Nhị: Bất khắc tụng, quy nhi bô (Không nên hơn thua kiện tụng, lùi một bước giữ hòa khí thì tránh được tai vạ).',
+        judgment: 'Tụng: Hữu孚,窒惕, trung cát, chung hung — Trời đi lên, nước chảy xuống, ý kiến trái ngược dễ nảy sinh tranh chấp, cãi vã.',
+        business: '💰 <b>Kinh doanh & Doanh số:</b> Cẩn thận thỏa thuận miệng dễ gây hiểu lầm với khách hàng hoặc đội thợ thi công.',
+        debt: '💳 <b>Công nợ & Tiền bạc:</b> Mọi giao dịch hôm nay bắt buộc phải có tin nhắn xác nhận hoặc giấy tờ rõ ràng.',
+        career: '🚀 <b>Công danh & Đội ngũ:</b> Tránh nổi nóng tranh cãi giữa các bộ phận; nhẫn nhịn bàn bạc sẽ êm đẹp.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Giữ lời ăn tiếng nói hòa nhã.',
+        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> "Hòa vi quý" — Hôm nay tuyệt đối không đôi co nóng nảy, hãy dùng giấy trắng mực đen và sự điềm tĩnh để giải quyết.'
+      }
+    ];
+
+    let currentIChingHex = ICHING_HEXAGRAMS_POOL[1];
+
+    function initIChingDropdown() {
+      const sel = document.getElementById('ichingDirectSelect');
+      if (!sel) return;
+      sel.innerHTML = ICHING_HEXAGRAMS_POOL.map((h, idx) =>
+        `<option value="${idx}" ${idx === 1 ? 'selected' : ''}>${h.symbol} Quẻ số ${h.num}: ${h.name} — [${h.rank.split('·')[0].trim()}]</option>`
+      ).join('');
+    }
+
+    function renderIChingHexagramView() {
+      const h = currentIChingHex || ICHING_HEXAGRAMS_POOL[0];
+      const titleEl = document.getElementById('icHexTitle');
+      const badgeEl = document.getElementById('icHexBadge');
+      const linesEl = document.getElementById('icSixLinesVisual');
+      const upEl = document.getElementById('icUpperTrigram');
+      const lowEl = document.getElementById('icLowerTrigram');
+      const movEl = document.getElementById('icMovingLine');
+      const judgEl = document.getElementById('icJudgmentText');
+      const detEl = document.getElementById('icDetailedAnalysis');
+      const advEl = document.getElementById('icActionAdvice');
+
+      if (titleEl) titleEl.textContent = `☯️ QUẺ SỐ ${h.num}: ${h.name.toUpperCase()} (${h.symbol})`;
+      if (badgeEl) {
+        badgeEl.textContent = h.rank;
+        badgeEl.style.background = h.tier === 'good' ? '#69f0ae' : (h.tier === 'neutral' ? '#ffd54f' : '#ff5252');
+        badgeEl.style.color = h.tier === 'bad' ? '#fff' : '#003314';
+      }
+      if (linesEl) {
+        // Vẽ từ Hào Thượng (trên cùng) xuống Hào Sơ (dưới cùng)
+        const labels = ['Hào Sơ', 'Hào Nhị', 'Hào Tam', 'Hào Tư', 'Hào Ngũ', 'Hào Thượng'];
+        let htmlLines = '';
+        for (let i = 5; i >= 0; i--) {
+          const isYang = h.lines[i] === 1;
+          const isKey = (i === 4 || i === 1);
+          const color = isKey ? '#ffd740' : '#ffab40';
+          if (isYang) {
+            htmlLines += `<div style="display:flex; align-items:center; gap:5px; width:100%; justify-content:center;">
+              <span style="font-size:8.5px; color:#bcaaa4; width:46px; text-align:right;">${labels[i]}</span>
+              <div style="width:76px; height:7px; background:${color}; border-radius:2px; box-shadow:0 0 6px rgba(255,215,64,0.5);"></div>
+            </div>`;
+          } else {
+            htmlLines += `<div style="display:flex; align-items:center; gap:5px; width:100%; justify-content:center;">
+              <span style="font-size:8.5px; color:#bcaaa4; width:46px; text-align:right;">${labels[i]}</span>
+              <div style="display:flex; justify-content:space-between; width:76px;">
+                <div style="width:32px; height:7px; background:${color}; border-radius:2px;"></div>
+                <div style="width:32px; height:7px; background:${color}; border-radius:2px;"></div>
+              </div>
+            </div>`;
+          }
+        }
+        linesEl.innerHTML = htmlLines;
+      }
+      if (upEl) upEl.textContent = h.upper;
+      if (lowEl) lowEl.textContent = h.lower;
+      if (movEl) movEl.textContent = h.moving;
+      if (judgEl) judgEl.textContent = `"${h.judgment}"`;
+      if (detEl) {
+        detEl.innerHTML = `
+          <div>${h.business}</div>
+          <div>${h.debt}</div>
+          <div>${h.career}</div>
+          <div>${h.family}</div>
+        `;
+      }
+      if (advEl) advEl.innerHTML = h.advice;
+    }
+
+    function selectIChingByIndex(idx) {
+      const i = Number(idx) || 0;
+      currentIChingHex = ICHING_HEXAGRAMS_POOL[i] || ICHING_HEXAGRAMS_POOL[0];
+      renderIChingHexagramView();
+      playMoSound();
+    }
+
+    function castIChingHexagram() {
+      unlockAndStartAudio();
+      if (player.merit < 5) {
+        showToast('⚠️ Cần 5 💎 Phước để gieo 3 đồng xu cổ Kinh Dịch!');
+        return;
+      }
+      addMerit(-5, 'Gieo 3 đồng xu cổ Lục Hào Kinh Dịch (-5 💎)');
+      updateFortuneCardDisplay();
+
+      const wrap = document.getElementById('ichingCoinsWrap');
+      const statusEl = document.getElementById('ichingCastStatus');
+      if (statusEl) statusEl.textContent = '🪙 Đang tung 3 đồng xu Càn Long Thông Bảo lập 6 hào...';
+      let steps = 0;
+      const timer = setInterval(() => {
+        steps++;
+        playBellSound();
+        if (wrap) wrap.style.transform = (steps % 2 === 0) ? 'scale(1.05) rotate(3deg)' : 'scale(0.97) rotate(-3deg)';
+        if (steps >= 5) {
+          clearInterval(timer);
+          if (wrap) wrap.style.transform = 'scale(1) rotate(0deg)';
+          const others = ICHING_HEXAGRAMS_POOL.filter(x => x !== currentIChingHex);
+          currentIChingHex = others[Math.floor(Math.random() * others.length)] || ICHING_HEXAGRAMS_POOL[0];
+          const sel = document.getElementById('ichingDirectSelect');
+          if (sel) sel.value = String(ICHING_HEXAGRAMS_POOL.indexOf(currentIChingHex));
+          renderIChingHexagramView();
+          if (statusEl) statusEl.textContent = `✅ Đã ứng Quẻ số ${currentIChingHex.num}: ${currentIChingHex.name}!`;
+          appendMeritLog(`☯️ <b>${player.name}</b> gieo 3 đồng xu Kinh Dịch ứng <b>Quẻ số ${currentIChingHex.num}: ${currentIChingHex.name}</b> (${currentIChingHex.rank}).`);
+        }
+      }, 130);
+    }
+
+    function speakCurrentIChing() {
+      const h = currentIChingHex || ICHING_HEXAGRAMS_POOL[0];
+      const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
+      const text = `Luận giải Quẻ Kinh Dịch cho tín chủ ${player.name}. Bạn gieo được Quẻ số ${h.num}, ${h.name}. Thượng quái là ${h.upper}, Hạ quái là ${h.lower}. Thoán từ phán rằng: ${h.judgment} ${h.moving} ${clean(h.business)} ${clean(h.debt)} ${clean(h.career)} ${clean(h.advice)}`;
+      speakVietnameseText(text, 'M');
+    }
+
+    // 3B. DỮ LIỆU TỬ VI 12 CON GIÁP & BẢN MỆNH TRONG NGÀY
+    const TUVI_ZODIAC_DATA = [
+      { name: 'Tuổi Tý (Chuột Vàng Thông Tuệ)', star: '🌟 Sao Thiên Đức & Phúc Tinh · Tài Lộc 91%', element: 'Kim Thủy Tương Sinh',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Chính Tài vượng phát, khách hàng cũ quay lại đặt thêm đơn tấm ốp Nano và lam sóng số lượng lớn.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Đầu óc nhạy bén, đàm phán giá cả cực kỳ thuyết phục, dễ ký được công trình mới.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Thân, Tuổi Thìn, Tuổi Sửu (Tam Hợp & Lục Hợp trợ lực).',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Tránh thức khuya quá sức; kiểm tra kỹ công nợ trước khi giao ca chiều.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Thìn (07h-09h), Giờ Thân (15h-17h) · <b>Hướng Thần Tài:</b> Hướng Đông Nam · <b>Màu hợp mệnh:</b> Vàng Kim, Xanh Dương.' },
+      { name: 'Tuổi Sửu (Trâu Vàng Chắc Chắn)', star: '🌟 Sao Hoa Cái & Lộc Tồn · Tài Lộc 89%', element: 'Thổ Sinh Kim Vượng',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Tích tiểu thành đại, các khoản công nợ tồn đọng bất ngờ được khách chuyển khoản thanh toán.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Sự uy tín và cẩn trọng giúp bạn ghi điểm tuyệt đối với chủ thầu và đại lý.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Tỵ, Tuổi Dậu, Tuổi Tý.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Đừng quá cứng nhắc khi khách xin hỗ trợ vận chuyển nhẹ, linh hoạt sẽ chốt đơn nhanh hơn.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Tỵ (09h-11h), Giờ Dậu (17h-19h) · <b>Hướng Thần Tài:</b> Hướng Chính Đông · <b>Màu hợp mệnh:</b> Đỏ Đô, Vàng Đất.' },
+      { name: 'Tuổi Dần (Hổ Vàng Bản Lĩnh)', star: '🌟 Sao Dịch Mã & Quốc Ấn · Tài Lộc 93%', element: 'Mộc Hỏa Thông Minh',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Lộc Dịch Mã động — Đơn hàng đi tỉnh và các chuyến xe xuất kho liên tỉnh mang về doanh số lớn.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Khí thế quyết đoán, giải quyết nhanh gọn mọi phát sinh tại công trình và kho bãi.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Ngọ, Tuổi Tuất, Tuổi Hợi.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Hạ bớt nóng nảy khi giục đơn vận chuyển, nói lời hòa nhã lộc càng dày.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Ngọ (11h-13h), Giờ Tuất (19h-21h) · <b>Hướng Thần Tài:</b> Hướng Chính Nam · <b>Màu hợp mệnh:</b> Xanh Lá, Đỏ Cam.' },
+      { name: 'Tuổi Mão (Mèo Vàng Khéo Léo)', star: '🌟 Sao Thái Âm & Thiên Hỷ · Tài Lộc 90%', element: 'Thủy Mộc Tương Sinh',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Quý nhân nữ giới (chủ nhà, kế toán, trưởng phòng) mang tới cơ hội hợp đồng béo bở.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Giao tiếp mềm mỏng, khéo léo giúp hóa giải mọi khúc mắc về giá và mẫu mã.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Hợi, Tuổi Mùi, Tuổi Tuất.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Tránh cả nể cho nợ quá hạn mức quy định của kho.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Mùi (13h-15h), Giờ Hợi (21h-23h) · <b>Hướng Thần Tài:</b> Hướng Tây Nam · <b>Màu hợp mệnh:</b> Xanh Ngọc, Đen.' },
+      { name: 'Tuổi Thìn (Rồng Vàng Quyền Uy)', star: '🌟 Sao Long Đức & Tử Vi · Tài Lộc 96%', element: 'Thượng Đẳng Đại Cát',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Rồng gặp mây hội! Vận tài lộc mở rộng cực đại, dễ chốt được đại lý sỉ hoặc công trình lớn.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Sao Tử Vi chiếu mệnh, mọi quyết sách điều hành và thương lượng hôm nay đều chuẩn xác.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Tý, Tuổi Thân, Tuổi Dậu.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Chú ý giữ gìn sức khỏe cổ vai gáy và uống đủ nước khi làm việc cường độ cao.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Thìn (07h-09h), Giờ Thân (15h-17h) · <b>Hướng Thần Tài:</b> Hướng Đông Nam · <b>Màu hợp mệnh:</b> Vàng Hoàng Kim, Đỏ Tía.' },
+      { name: 'Tuổi Tỵ (Rắn Vàng Sâu Sắc)', star: '🌟 Sao Thiên Tài & Nguyệt Đức · Tài Lộc 91%', element: 'Hỏa Thổ Vượng Khí',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Có lộc Thiên Tài bất ngờ từ khách hàng mới tinh hoặc đơn đặt hàng phát sinh thêm phụ kiện phào nẹp.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Tính toán chi phí và báo giá cực kỳ chặt chẽ, không để thất thoát một đồng.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Sửu, Tuổi Dậu, Tuổi Thân.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Không nên đa nghi quá mức, hãy tin tưởng giao việc cho cộng sự.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Tỵ (09h-11h), Giờ Mùi (13h-15h) · <b>Hướng Thần Tài:</b> Hướng Chính Tây · <b>Màu hợp mệnh:</b> Đỏ, Tím, Vàng.' },
+      { name: 'Tuổi Ngọ (Ngựa Vàng Tốc Chiến)', star: '🌟 Sao Thái Dương & Bát Tọa · Tài Lộc 94%', element: 'Nhật Xuất Phù Tang',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Thái Dương chiếu rực rỡ, càng năng động gọi điện và gửi mẫu càng nổ đơn liên tiếp.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Tinh thần nhiệt huyết lan tỏa cả phòng, thúc đẩy tiến độ xuất hàng nhanh gấp đôi.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Dần, Tuổi Tuất, Tuổi Mùi.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Kiểm tra kỹ số lượng kiện hàng và mã màu trước khi xe lăn bánh.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Mão (05h-07h), Giờ Ngọ (11h-13h) · <b>Hướng Thần Tài:</b> Hướng Chính Nam · <b>Màu hợp mệnh:</b> Đỏ Rực, Xanh Lá.' },
+      { name: 'Tuổi Mùi (Dê Vàng Phúc Hậu)', star: '🌟 Sao Thiên Quý & Giải Thần · Tài Lộc 88%', element: 'Hòa Khí Sinh Tài',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Lộc đến từ sự chu đáo, tận tâm; khách cũ giới thiệu thêm khách mới cho bạn.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Sao Giải Thần giúp hóa giải êm đẹp mọi rắc rối về đơn từ, chứng từ kế toán.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Hợi, Tuổi Mão, Tuổi Ngọ.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Quyết đoán hơn khi chốt cọc, đừng để khách hẹn sang tuần sau.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Tỵ (09h-11h), Giờ Mùi (13h-15h) · <b>Hướng Thần Tài:</b> Hướng Đông Nam · <b>Màu hợp mệnh:</b> Nâu Vàng, Cam.' },
+      { name: 'Tuổi Thân (Khỉ Vàng Linh Hoạt)', star: '🌟 Sao Hồng Loan & Thiên Khôi · Tài Lộc 92%', element: 'Kim Thủy Sinh Tài',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Ứng biến thông minh giúp bạn chốt đơn ngay cả khi khách đang phân vân so sánh giá.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Nhân duyên cực vượng, nói chuyện ai cũng mến, ký kết hợp đồng thuận lợi.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Tý, Tuổi Thìn, Tuổi Tỵ.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Tập trung dứt điểm từng đơn lớn, tránh ôm đồm nhiều việc nhỏ cùng lúc.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Thìn (07h-09h), Giờ Thân (15h-17h) · <b>Hướng Thần Tài:</b> Hướng Chính Bắc · <b>Màu hợp mệnh:</b> Trắng Ánh Kim, Vàng.' },
+      { name: 'Tuổi Dậu (Gà Vàng Chăm Chỉ)', star: '🌟 Sao Kim Quỹ & Thiên Phúc · Tài Lộc 93%', element: 'Kho Vàng Đầy Ắp',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Kim Quỹ (Hòm Vàng) chiếu mệnh — Hôm nay rất có duyên với tiền mặt và thu hồi công nợ khó.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Làm việc chuẩn chỉnh, tỉ mỉ từng con số giúp tập thể tránh được sai sót lớn.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Sửu, Tuổi Tỵ, Tuổi Thìn.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Giữ giọng điệu nhẹ nhàng khi nhắc nhở đồng nghiệp để giữ hòa khí.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Sửu (01h-03h), Giờ Tỵ (09h-11h), Giờ Dậu (17h-19h) · <b>Hướng Thần Tài:</b> Hướng Đông Bắc · <b>Màu hợp mệnh:</b> Vàng Kim, Nâu.' },
+      { name: 'Tuổi Tuất (Chó Vàng Trọng Tín)', star: '🌟 Sao Vũ Khúc & Tướng Tinh · Tài Lộc 90%', element: 'Chính Tài Vững Chắc',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Vũ Khúc chủ về tiền tài thực lực — Khách tin tưởng uy tín của bạn nên xuống tiền đặt cọc nhanh.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Trách nhiệm cao, bảo vệ quyền lợi công ty và khách hàng vẹn toàn.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Dần, Tuổi Ngọ, Tuổi Mão.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Dành thời gian nghỉ ngơi hợp lý buổi trưa để chiều giữ tinh thần minh mẫn.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Dần (03h-05h), Giờ Ngọ (11h-13h) · <b>Hướng Thần Tài:</b> Hướng Chính Nam · <b>Màu hợp mệnh:</b> Đỏ, Vàng Đất.' },
+      { name: 'Tuổi Hợi (Heo Vàng Phúc Lộc)', star: '🌟 Sao Thiên Lộc & Tam Thai · Tài Lộc 95%', element: 'Phúc Lộc Song Toàn',
+        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Thiên Lộc ban phước, hôm nay buôn may bán đắt, dễ có khách sỉ chốt đơn lớn không cần mặc cả nhiều.',
+        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Đi tới đâu cũng có người hỗ trợ, vận chuyển và bốc xếp phối hợp êm ru.',
+        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Mão, Tuổi Mùi, Tuổi Dần.',
+        caution: '⚠️ <b>Điều cần lưu ý:</b> Khi có lộc lớn nhớ chia sẻ niềm vui và khích lệ anh em kho bãi, tài xế.',
+        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Mão (05h-07h), Giờ Mùi (13h-15h) · <b>Hướng Thần Tài:</b> Hướng Đông Bắc · <b>Màu hợp mệnh:</b> Xanh Dương, Trắng.' }
+    ];
+
+    function renderTuViReading(chargeMerit = false) {
+      if (chargeMerit) {
+        if (player.merit < 5) {
+          showToast('⚠️ Cần 5 💎 Phước để thỉnh Thầy lập lá số Tử Vi hôm nay!');
+          return;
+        }
+        addMerit(-5, 'Xem Tử Vi 12 Con Giáp & Bản Mệnh (-5 💎)');
+        updateFortuneCardDisplay();
+        playBellSound();
+      }
+      const sel = document.getElementById('tuviZodiacSelect');
+      const idx = sel ? (Number(sel.value) || 0) : 4;
+      const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
+
+      const titleEl = document.getElementById('tvTitle');
+      const badgeEl = document.getElementById('tvStarBadge');
+      const gridEl = document.getElementById('tvMainGrid');
+      const auspEl = document.getElementById('tvAuspiciousInfo');
+
+      if (titleEl) titleEl.textContent = `🔮 LÁ SỐ TỬ VI HÔM NAY — ${tv.name.toUpperCase()}`;
+      if (badgeEl) badgeEl.textContent = tv.star;
+      if (gridEl) {
+        gridEl.innerHTML = `
+          <div>${tv.wealth}</div>
+          <div>${tv.career}</div>
+          <div>${tv.compat}</div>
+          <div>${tv.caution}</div>
+        `;
+      }
+      if (auspEl) auspEl.innerHTML = tv.auspicious;
+    }
+
+    function speakCurrentTuVi() {
+      const sel = document.getElementById('tuviZodiacSelect');
+      const idx = sel ? (Number(sel.value) || 0) : 4;
+      const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
+      const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
+      const text = `Bình giải Tử Vi hôm nay cho tín chủ ${player.name}, bản mệnh ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
+      speakVietnameseText(text, 'F');
+    }
+
+    // 3C. HỆ THỐNG XIN SỐ MAY MẮN TRONG NGÀY (THỈNH ÔNG ĐỊA - THẦN TÀI)
+    const LUCKY_NUMBER_MEANINGS = [
+      { pair: '68', rev: '86', three: '868', xien: '68 - 86 · 39 - 79', title: 'Lộc Phát Đại Cát — Tiền Vào Như Nước',
+        verse: 'Ông Địa cười tươi phán một lời: Sáu Tám Lộc Phát sáng ngời ngời, Chốt đơn thu nợ đều suôn sẻ, Phúc lộc đầy kho khắp mọi nơi!' },
+      { pair: '39', rev: '79', three: '739', xien: '39 - 79 · 38 - 78', title: 'Thần Tài Nhỏ & Thần Tài Lớn Hội Tụ',
+        verse: 'Ba Chín Thần Tài gõ cửa nhà, Bảy Chín đại lộc nở đơm hoa, Đơn to đơn nhỏ đều chốt gọn, Vận đỏ hanh thông suốt cả ngày!' },
+      { pair: '88', rev: '66', three: '888', xien: '66 - 88 · 18 - 81', title: 'Song Phát Vững Bền — Đại Phú Đại Quý',
+        verse: 'Tám Tám song phát vượng khí tràn, Lục Lục lộc biếc đón bình an, Khách sỉ khách lẻ đua nhau chốt, Doanh số tăng vọt vượt chỉ tiêu!' },
+      { pair: '26', rev: '62', three: '626', xien: '26 - 62 · 28 - 82', title: 'Mãi Lộc Trường Cửu — Thuận Buồm Xuôi Gió',
+        verse: 'Hai Sáu mãi lộc vững đường dài, Quý nhân tương trợ chẳng sai lời, Mở hàng đầu ngày thêm may mắn, Tài lộc dồi dào khắp Đông Tây!' },
+      { pair: '56', rev: '65', three: '568', xien: '56 - 65 · 68 - 86', title: 'Sinh Lộc Phát Tài — Ngũ Phúc Lâm Môn',
+        verse: 'Năm Sáu sinh lộc nảy mầm vàng, Năm Sáu Tám phát bước thênh thang, Công nợ thu về ngay trong buổi, Đắc tài đắc lộc đắc bình an!' },
+      { pair: '19', rev: '91', three: '919', xien: '19 - 91 · 09 - 90', title: 'Nhất Cửu Trường Thọ — Đỉnh Cao Vận Đỏ',
+        verse: 'Một bước lên mây Chín tầng trời, Thần Tài ban lộc sáng ngời ngời, Chăm chỉ cày đơn thêm số đẹp, Cuối ngày đếm lộc nở nụ cười!' }
+    ];
+
+    let currentLuckyPack = LUCKY_NUMBER_MEANINGS[0];
+
+    function renderLuckyNumbersView() {
+      const p = currentLuckyPack || LUCKY_NUMBER_MEANINGS[0];
+      const todayStr = new Date().toLocaleDateString('vi-VN');
+      const hdrEl = document.getElementById('slHeaderTitle');
+      const btEl = document.getElementById('slNumBachThu');
+      const stEl = document.getElementById('slNumSongThu');
+      const bcEl = document.getElementById('slNumBaCang');
+      const detEl = document.getElementById('slDetailsBox');
+      const msgEl = document.getElementById('slMessageBox');
+
+      if (hdrEl) hdrEl.textContent = `🏺✨ BẢNG VÀNG SỐ LỘC THẦN TÀI NGÀY ${todayStr} — ${player.name.toUpperCase()} ✨🏺`;
+      if (btEl) btEl.textContent = p.pair;
+      if (stEl) stEl.textContent = `${p.pair} · ${p.rev}`;
+      if (bcEl) bcEl.textContent = p.three;
+      if (detEl) {
+        detEl.innerHTML = `
+          <div>🌟 <b>Ý nghĩa quẻ số hôm nay:</b> <span style="color:#ffd740; font-weight:900;">${p.title}</span></div>
+          <div>🍀 <b>Cặp Xiên Đôi Đẹp Nhất Ngày:</b> <b style="color:#69f0ae;">${p.xien}</b></div>
+          <div>🔢 <b>Đuôi Số Điện Thoại / Mã Đơn Hàng Hợp Vía Lộc Hôm Nay:</b> Đuôi <b style="color:#80d8ff;">...${p.pair}</b> hoặc <b style="color:#80d8ff;">...${p.rev}</b></div>
+          <div>⏰ <b>Giờ Vàng Đón Vía Thần Tài:</b> 08h30 – 10h30 sáng & 16h00 – 17h45 chiều</div>
+        `;
+      }
+      if (msgEl) {
+        msgEl.innerHTML = `📜 <b>Lời Phán Của Ông Địa — Thần Tài:</b> <i>"${p.verse}"</i><br/><span style="color:#ffe082; font-size:9.8px;">(💡 Lưu ý: Con số may mắn giúp kích hoạt tâm lý phấn chấn, chọn đuôi số báo giá / mã đơn hàng lấy vía đỏ chốt KPI!)</span>`;
+      }
+    }
+
+    function spinDailyLuckyNumbers(chargeMerit = true) {
+      unlockAndStartAudio();
+      if (chargeMerit) {
+        if (player.merit < 5) {
+          showToast('⚠️ Cần 5 💎 Phước để thỉnh Ông Địa — Thần Tài xin số may mắn hôm nay!');
+          return;
+        }
+        addMerit(-5, 'Thỉnh Ông Địa — Xin Số May Mắn Trong Ngày (-5 💎)');
+        updateFortuneCardDisplay();
+      }
+      const btEl = document.getElementById('slNumBachThu');
+      const stEl = document.getElementById('slNumSongThu');
+      const bcEl = document.getElementById('slNumBaCang');
+      let ticks = 0;
+      const timer = setInterval(() => {
+        ticks++;
+        playMoSound();
+        const r2 = String(Math.floor(10 + Math.random() * 89));
+        const r3 = String(Math.floor(100 + Math.random() * 899));
+        if (btEl) btEl.textContent = r2;
+        if (stEl) stEl.textContent = `${r2} · ${r2.split('').reverse().join('')}`;
+        if (bcEl) bcEl.textContent = r3;
+        if (ticks >= 7) {
+          clearInterval(timer);
+          playBellSound();
+          const others = LUCKY_NUMBER_MEANINGS.filter(x => x !== currentLuckyPack);
+          currentLuckyPack = others[Math.floor(Math.random() * others.length)] || LUCKY_NUMBER_MEANINGS[0];
+          renderLuckyNumbersView();
+          appendMeritLog(`🎰 <b>${player.name}</b> thỉnh Ông Địa xin Số May Mắn Hôm Nay ➔ Bạch thủ <b style="color:#ffd740;">${currentLuckyPack.pair}</b> · Song thủ <b>${currentLuckyPack.pair}-${currentLuckyPack.rev}</b> · 3 càng <b>${currentLuckyPack.three}</b>!`);
+        }
+      }, 95);
+    }
+
+    function speakCurrentLuckyNumbers() {
+      const p = currentLuckyPack || LUCKY_NUMBER_MEANINGS[0];
+      const text = `Ông Địa Thần Tài ban số may mắn hôm nay cho tín chủ ${player.name}. Con số Bạch thủ đại lộc là ${p.pair}. Cặp song thủ đảo lộc là ${p.pair} và ${p.rev}. Bộ ba số tam quý là ${p.three}. Ý nghĩa: ${p.title}. ${p.verse}`;
+      speakVietnameseText(text, 'M');
+    }
+
+    function switchDivinationTab(tab) {
+      currentDivinationTab = tab || 'xam';
+      const tabs = ['xam', 'dich', 'tuvi', 'soloc'];
+      tabs.forEach(t => {
+        const panel = document.getElementById(`divTabPanel_${t}`);
+        const btn = document.getElementById(`divTabBtn_${t}`);
+        const active = (t === currentDivinationTab);
+        if (panel) panel.style.display = active ? 'block' : 'none';
+        if (btn) {
+          btn.style.background = active ? 'linear-gradient(135deg,#ff8f00,#c62828)' : 'rgba(45,18,6,0.92)';
+          btn.style.color = active ? '#fff' : '#ffe082';
+          btn.style.borderColor = active ? '#fff59d' : 'rgba(255,213,79,0.5)';
+          btn.style.boxShadow = active ? '0 0 10px rgba(255,160,0,0.6)' : 'none';
+        }
+      });
+      const userEl = document.getElementById('divActiveUserName');
+      if (userEl) userEl.textContent = player.name;
+      initIChingDropdown();
+      renderIChingHexagramView();
+      renderTuViReading(false);
+      renderLuckyNumbersView();
     }
 
     function shakeAndDrawFortuneStick(drawMode = 'all') {
@@ -9620,7 +10207,13 @@
           toggleNpcInteractBar(true);
           selectHallNpcFromDropdown("Anh Trung QL Kho HN");
           interactWithHallNpc("mutual_kneel");
-          frameCount = 44; // Right in the middle of the kowtow prostration phase!
+          frameCount = 44;
+        } else if (dm === "kinh_dich") {
+          openFortuneStickModal('dich');
+        } else if (dm === "tu_vi") {
+          openFortuneStickModal('tuvi');
+        } else if (dm === "so_may_man") {
+          openFortuneStickModal('soloc');
         }
       }, 300);
     });
