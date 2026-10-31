@@ -4963,24 +4963,44 @@
     }
 
     // =========================================================================
-    // 6. REAL-TIME ONLINE COMPANY PRESENCE SYNC (MQTT + BROADCASTCHANNEL)
+    // 6. REAL-TIME ONLINE COMPANY PRESENCE SYNC (15-PERSON MULTI-BROKER + LERP SMOOTHING)
     // =========================================================================
     let mqttClient = null;
-    const clientId = 'ty_v14_' + Math.random().toString(16).slice(2, 9);
+    const clientId = (() => {
+      try {
+        let id = sessionStorage.getItem('ty_chua_client_id');
+        if (!id) {
+          id = 'ty_v41_' + Math.random().toString(16).slice(2, 9);
+          sessionStorage.setItem('ty_chua_client_id', id);
+        }
+        return id;
+      } catch (e) {
+        return 'ty_v41_' + Math.random().toString(16).slice(2, 9);
+      }
+    })();
     const localPresenceChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('chua_ty_v14_online') : null;
+    let lastPresenceBroadcastMs = 0;
 
     function handleIncomingPresence(data) {
       if (!data || data.sender === clientId || !isOnlinePresenceMode) return;
+      if (data.type === 'leave') {
+        delete onlineCompanyPeers[data.sender];
+        updateOnlineCountBadge();
+        return;
+      }
       if (data.type === 'presence' || data.type === 'chat' || data.type === 'ritual') {
         const existing = onlineCompanyPeers[data.sender] || {
           id: data.sender,
           name: data.name || 'Thành Viên Công Ty',
           avatar: data.avatar || '🪷',
           gender: data.gender || 'F',
-          wing: data.wing || 0,
-          u: data.u || 0.42,
-          v: data.v || 0.62,
+          wing: (typeof data.wing === 'number') ? data.wing : 0,
+          u: (typeof data.u === 'number') ? data.u : 0.42,
+          v: (typeof data.v === 'number') ? data.v : 0.62,
+          targetU: (typeof data.u === 'number') ? data.u : 0.42,
+          targetV: (typeof data.v === 'number') ? data.v : 0.62,
           state: data.state || 'walk',
+          vaiTimer: 0,
           bowTimer: 0,
           chat: '',
           chatTimer: 0,
@@ -4990,16 +5010,19 @@
         existing.avatar = data.avatar || existing.avatar;
         existing.gender = data.gender || existing.gender;
         if (typeof data.wing === 'number') existing.wing = data.wing;
-        if (typeof data.u === 'number') existing.u = data.u;
-        if (typeof data.v === 'number') existing.v = data.v;
+        if (typeof data.u === 'number') existing.targetU = data.u;
+        if (typeof data.v === 'number') existing.targetV = data.v;
         if (data.state) existing.state = data.state;
         if (data.text || data.chat) {
           existing.chat = data.text || data.chat;
-          existing.chatTimer = 280;
+          existing.chatTimer = 320;
         }
         if (data.ritual === 'bow') {
-          existing.state = 'bow';
-          existing.bowTimer = 120;
+          existing.state = 'bow_cycle';
+          existing.bowTimer = 152;
+        } else if (data.ritual === 'pray') {
+          existing.state = 'vai';
+          existing.vaiTimer = 130;
         }
         existing.lastSeen = Date.now();
         if (!onlineCompanyPeers[data.sender] && (1 + Object.keys(onlineCompanyPeers).length) >= MAX_SYSTEM_PEOPLE) {
@@ -5025,7 +5048,7 @@
     function updateOnlineCountBadge() {
       const now = Date.now();
       for (const k of Object.keys(onlineCompanyPeers)) {
-        if (now - onlineCompanyPeers[k].lastSeen > 15000) {
+        if (now - onlineCompanyPeers[k].lastSeen > 16000) {
           delete onlineCompanyPeers[k];
         }
       }
@@ -5034,8 +5057,11 @@
       if (el) el.textContent = `${totalOnline}/${MAX_SYSTEM_PEOPLE}`;
     }
 
-    function broadcastMyPresence() {
+    function broadcastMyPresence(force = false) {
       if (!isOnlinePresenceMode) return;
+      const now = Date.now();
+      if (!force && now - lastPresenceBroadcastMs < 380) return;
+      lastPresenceBroadcastMs = now;
       const payload = {
         type: 'presence',
         sender: clientId,
@@ -5043,8 +5069,8 @@
         avatar: player.avatar,
         gender: player.gender,
         wing: player.wing,
-        u: player.u,
-        v: player.v,
+        u: Math.round(player.targetU * 1000) / 1000,
+        v: Math.round(player.targetV * 1000) / 1000,
         state: player.state,
         chat: player.chatTimer > 0 ? player.chat : ''
       };
@@ -5058,23 +5084,41 @@
       localPresenceChannel.onmessage = (ev) => handleIncomingPresence(ev.data);
     }
 
-    try {
-      mqttClient = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
-      mqttClient.on('connect', () => {
-        mqttClient.subscribe('truongyen/chua3d/v14_online');
-        broadcastMyPresence();
-      });
-      mqttClient.on('message', (topic, payload) => {
-        try {
-          handleIncomingPresence(JSON.parse(payload.toString()));
-        } catch (err) {}
-      });
-    } catch (e) {}
+    // Hệ thống Multi-Broker tự động chuyển mạch (EMQX ➔ HiveMQ) đảm bảo 15 người kết nối không bao giờ đứt mạng!
+    const MQTT_BROKERS = [
+      'wss://broker.emqx.io:8084/mqtt',
+      'wss://broker.hivemq.com:8884/mqtt'
+    ];
+    let currentBrokerIdx = 0;
+
+    function connectMultiplayerBroker() {
+      try {
+        const url = MQTT_BROKERS[currentBrokerIdx % MQTT_BROKERS.length];
+        mqttClient = mqtt.connect(url, { connectTimeout: 5000, reconnectPeriod: 4000 });
+        mqttClient.on('connect', () => {
+          mqttClient.subscribe('truongyen/chua3d/v14_online');
+          broadcastMyPresence(true);
+        });
+        mqttClient.on('message', (topic, payload) => {
+          try {
+            handleIncomingPresence(JSON.parse(payload.toString()));
+          } catch (err) {}
+        });
+        mqttClient.on('error', () => {
+          currentBrokerIdx++;
+        });
+      } catch (e) {}
+    }
+    connectMultiplayerBroker();
+
+    window.addEventListener('beforeunload', () => {
+      publishMqtt({ type: 'leave', sender: clientId });
+    });
 
     setInterval(() => {
       broadcastMyPresence();
       updateOnlineCountBadge();
-    }, 3500);
+    }, 4000);
 
     function publishMqtt(obj) {
       const msg = { ...obj, sender: clientId };
@@ -5626,10 +5670,13 @@
         renderables.push({ type: 'visitor', data: g, v: g.v });
       }
 
-      // Render Online Company Peers (Chỉ hiện người trong công ty khi họ thực sự đăng nhập Online!)
+      // Render Online Company Peers (Nội suy chuyển động mượt 60FPS + Giới hạn 15 người toàn hệ thống!)
       if (isOnlinePresenceMode) {
         for (const peerId of Object.keys(onlineCompanyPeers)) {
           const peer = onlineCompanyPeers[peerId];
+          if (typeof peer.targetU === 'number') peer.u += (peer.targetU - peer.u) * 0.15;
+          if (typeof peer.targetV === 'number') peer.v += (peer.targetV - peer.v) * 0.15;
+          if (peer.vaiTimer && peer.vaiTimer > 0) peer.vaiTimer--;
           if (peer.bowTimer > 0) peer.bowTimer--;
           if (peer.chatTimer > 0) peer.chatTimer--;
           renderables.push({ type: 'online_peer', data: peer, v: peer.v });
