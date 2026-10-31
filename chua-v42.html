@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Chùa Trường Yến 3D — Đi Chùa Online (WebGL 3D V42)</title>
+  <script src="three.min.js"></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      background: #0d0906;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #fff;
+      touch-action: none;
+    }
+    #webgl-container {
+      position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+
+    /* Crisp 3D Projected Nametag (matching @linhoichoigi single clean white pill) */
+    #labels-layer {
+      position: fixed; inset: 0; pointer-events: none; z-index: 10; overflow: hidden;
+    }
+    .char-label {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #26221e;
+      padding: 4px 12px 4px 6px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+      white-space: nowrap;
+      will-change: left, top;
+    }
+    .char-label .badge {
+      background: #5c7056;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+    .char-label.peer {
+      background: rgba(245, 242, 235, 0.90);
+      font-size: 11px;
+      padding: 3px 9px 3px 5px;
+    }
+    .char-label.peer .badge {
+      background: #8c6d46;
+    }
+
+    /* Top Minimalist Bar */
+    #top-bar {
+      position: fixed; top: 12px; left: 12px; right: 12px; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      pointer-events: none; flex-wrap: wrap;
+    }
+    .top-group {
+      display: flex; align-items: center; gap: 4px; pointer-events: auto;
+      background: rgba(18, 13, 9, 0.78);
+      border: 1px solid rgba(255, 215, 130, 0.25);
+      padding: 4px; border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .wing-btn {
+      background: transparent; border: none; color: rgba(255,240,215,0.82);
+      padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px;
+    }
+    .wing-btn.active {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      color: #fff; box-shadow: 0 2px 10px rgba(217,119,6,0.5);
+    }
+    .pill-stat {
+      pointer-events: auto;
+      background: rgba(18, 13, 9, 0.78);
+      border: 1px solid rgba(255, 215, 130, 0.25);
+      color: #fde68a; padding: 6px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px;
+      cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+    }
+    .online-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* Minimalist Glass Dock at Bottom (matching @linhoichoigi) */
+    #bottom-dock-wrap {
+      position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+      z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      width: min(92vw, 490px); pointer-events: none;
+    }
+    #action-status-pill {
+      background: rgba(255, 255, 255, 0.94);
+      color: #1e293b;
+      padding: 5px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      display: none; pointer-events: auto;
+    }
+    #bottom-dock {
+      pointer-events: auto;
+      background: rgba(24, 20, 18, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      padding: 7px 16px;
+      display: flex; align-items: center; justify-content: space-around;
+      gap: 4px; width: 100%;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.65);
+    }
+    .dock-btn {
+      background: transparent; border: none; color: rgba(255,255,255,0.88);
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      padding: 6px 10px; border-radius: 16px; cursor: pointer;
+      transition: transform 0.15s, background 0.15s, color 0.15s;
+      font-size: 11px; font-weight: 600;
+    }
+    .dock-btn:hover, .dock-btn.active {
+      background: rgba(255, 215, 130, 0.18);
+      color: #ffd166;
+      transform: translateY(-2px);
+    }
+    .dock-btn svg {
+      width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 1.9;
+    }
+
+    /* Virtual Joystick */
+    #joystick-zone {
+      position: fixed; bottom: 92px; right: 16px; width: 78px; height: 78px;
+      border-radius: 50%; background: rgba(255,255,255,0.06);
+      border: 1.5px dashed rgba(255,215,130,0.3);
+      z-index: 20; display: flex; align-items: center; justify-content: center;
+      touch-action: none; cursor: grab;
+    }
+    #joystick-knob {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fde68a, #d97706);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    #cam-hint {
+      position: fixed; bottom: 96px; left: 16px; z-index: 20;
+      background: rgba(18, 13, 9, 0.72);
+      border: 1px solid rgba(255,215,130,0.22);
+      color: rgba(255,240,215,0.85);
+      padding: 5px 11px; border-radius: 999px; font-size: 11px;
+      pointer-events: auto; cursor: pointer;
+    }
+
+    /* Beads 3D Overlay UI */
+    #beads-ui {
+      position: fixed; inset: 0; z-index: 25; pointer-events: none;
+      display: none; flex-direction: column; justify-content: space-between;
+      padding: 18px;
+    }
+    .beads-top {
+      display: flex; justify-content: space-between; align-items: center; pointer-events: auto;
+      gap: 8px;
+    }
+    .beads-counter {
+      background: rgba(15, 23, 30, 0.85); border: 1px solid rgba(255,215,130,0.35);
+      padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; color: #fde68a;
+    }
+    .beads-close {
+      background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; padding: 8px 14px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+    }
+    .beads-bottom-hint {
+      align-self: center; background: rgba(15, 23, 30, 0.82);
+      border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0;
+      padding: 8px 18px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      margin-bottom: 12px; text-align: center;
+    }
+    #beads-arrow-cursor {
+      position: fixed; left: 61%; top: 50%; transform: translate(-50%, -50%);
+      font-size: 28px; font-weight: 900; color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+      pointer-events: none; z-index: 26; display: none;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(10, 8, 6, 0.76);
+      z-index: 40; display: none; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .modal-card {
+      background: linear-gradient(180deg, #261a12 0%, #170f0a 100%);
+      border: 1.5px solid #d97706; border-radius: 20px;
+      width: min(94vw, 480px); max-height: 86vh; overflow-y: auto;
+      padding: 18px; color: #fef3c7; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(251,191,36,0.2); padding-bottom: 10px; margin-bottom: 14px;
+    }
+    .modal-title { font-size: 16px; font-weight: 800; color: #fbbf24; }
+    .modal-close {
+      background: rgba(255,255,255,0.1); border: none; color: #fff;
+      width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .item-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(251,191,36,0.25);
+      border-radius: 14px; padding: 10px; text-align: center; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .item-card:hover { background: rgba(251,191,36,0.15); border-color: #fbbf24; }
+    .item-card .emo { font-size: 28px; margin-bottom: 4px; }
+    .item-card .name { font-size: 13px; font-weight: 700; color: #fff; }
+    .item-card .sub { font-size: 11px; color: #fcd34d; margin-top: 2px; }
+
+    #toast-box {
+      position: fixed; top: 68px; left: 50%; transform: translateX(-50%);
+      background: rgba(20, 14, 10, 0.95); border: 1.5px solid #fbbf24;
+      color: #fef3c7; padding: 10px 18px; border-radius: 14px;
+      font-size: 13px; font-weight: 700; z-index: 60;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.65); display: none; text-align: center;
+      max-width: 90vw;
+    }
+
+    /* Fullscreen Punching Room */
+    #punch-room {
+      position: fixed; inset: 0; z-index: 50; display: none;
+      background: url('assets/san_dam_room.jpg') center/cover no-repeat;
+      flex-direction: column; justify-content: space-between; align-items: center;
+      padding: 18px;
+    }
+    #punch-room::before {
+      content: ""; position: absolute; inset: 0;
+      background: rgba(15, 6, 4, 0.55); z-index: 0;
+    }
+    #punch-room > * { position: relative; z-index: 1; }
+    .punch-top {
+      width: 100%; max-width: 500px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .punch-target-wrap {
+      position: relative; width: 260px; height: 290px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    #punch-bag {
+      width: 210px; height: 240px; border-radius: 28px;
+      background: rgba(40, 12, 10, 0.78);
+      border: 3px solid #ef4444;
+      box-shadow: 0 16px 40px rgba(239,68,68,0.4);
+      transition: transform 0.08s;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    }
+    .hp-bar-bg {
+      width: 240px; height: 14px; background: rgba(0,0,0,0.65);
+      border-radius: 999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.25);
+      margin: 0 auto 8px auto;
+    }
+    #hp-bar-fill {
+      width: 100%; height: 100%; background: linear-gradient(90deg, #ef4444, #f97316);
+      transition: width 0.15s;
+    }
+  </style>
+</head>
+<body>
+  <div id="webgl-container"></div>
+  <div id="labels-layer"></div>
+
+  <!-- Top Navigation & Status -->
+  <div id="top-bar">
+    <div class="top-group">
+      <button class="wing-btn active" id="wing-center" onclick="moveToWing(0)">🏛️ Tam Bảo</button>
+      <button class="wing-btn" id="wing-left" onclick="moveToWing(-1)">🔔 Đức Ông</button>
+      <button class="wing-btn" id="wing-right" onclick="moveToWing(1)">💰 Thần Tài</button>
+    </div>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <div class="pill-stat" onclick="promptRename()" title="Đổi tên hiển thị">
+        <span class="online-dot"></span>
+        <span id="online-count-txt">Online (1/15)</span>
+      </div>
+      <div class="pill-stat" id="merit-pill">
+        💎 <span id="merit-val">35</span> Phước
+      </div>
+      <div class="pill-stat" onclick="toggleAudio()" id="audio-btn">
+        🔊 Nhạc Thiền
+      </div>
+    </div>
+  </div>
+
+  <!-- Camera Angle Toggle Hint -->
+  <div id="cam-hint" onclick="cycleCameraPreset()">
+    🎥 <strong id="cam-mode-txt">Góc 3D Sau Lưng</strong> · Kéo xoay 360°
+  </div>
+
+  <!-- Virtual Joystick -->
+  <div id="joystick-zone">
+    <div id="joystick-knob"></div>
+  </div>
+
+  <!-- Minimalist Bottom Dock (matching @linhoichoigi) -->
+  <div id="bottom-dock-wrap">
+    <div id="action-status-pill">🙏 Đang chắp tay niệm Phật...</div>
+    <div id="bottom-dock">
+      <button class="dock-btn" id="btn-chaptay" onclick="triggerChapTay()">
+        <svg viewBox="0 0 24 24"><path d="M12 3L8 13h8L12 3z"/><path d="M9 13v6h6v-6"/></svg>
+        <span>Chắp Tay</span>
+      </button>
+      <button class="dock-btn" id="btn-quylay" onclick="triggerQuyLay()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2"/><path d="M6 19c1.5-4 4-6 6-6s4.5 2 6 6"/><path d="M4 20h16"/></svg>
+        <span>Quỳ Lạy</span>
+      </button>
+      <button class="dock-btn" id="btn-beads" onclick="openBeads3D()">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="17" cy="8" r="2"/><circle cx="18" cy="14" r="2"/><circle cx="14" cy="19" r="2"/><circle cx="10" cy="19" r="2"/><circle cx="6" cy="14" r="2"/><circle cx="7" cy="8" r="2"/></svg>
+        <span>Chuỗi Hạt</span>
+      </button>
+      <button class="dock-btn" onclick="openModal('modal-rituals')">
+        <svg viewBox="0 0 24 24"><path d="M12 2v4M8 4v3M16 4v3"/><path d="M5 10h14l-1.5 9h-11L5 10z"/></svg>
+        <span>Nghi Lễ</span>
+      </button>
+      <button class="dock-btn" onclick="openModal('modal-offerings')">
+        <svg viewBox="0 0 24 24"><path d="M12 4c3 3 5 6 5 9a5 5 0 01-10 0c0-3 2-6 5-9z"/><path d="M4 20h16"/></svg>
+        <span>Dâng Lễ</span>
+      </button>
+      <button class="dock-btn" onclick="openPunchRoom()">
+        <svg viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 00-4 0v4M14 10V4a2 2 0 00-4 0v6M10 10.5V6a2 2 0 00-4 0v8c0 4 3 7 7 7s7-3 7-7v-3a2 2 0 00-2-2z"/></svg>
+        <span>Xả Nghiệp</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 3D Prayer Beads UI Overlay (matching frame_20 of @linhoichoigi) -->
+  <div id="beads-ui">
+    <div class="beads-top">
+      <div class="beads-counter">📿 Lần Chuỗi Bồ Đề 3D: <span id="beads-count">0</span> / 108</div>
+      <button class="beads-close" onclick="closeBeads3D()">✕ Về Chánh Điện</button>
+    </div>
+    <div class="beads-bottom-hint">↕ Vuốt lên / xuống trên chuỗi hạt 3D hoặc chạm để lần từng hạt niệm Phật (+1 💎)</div>
+  </div>
+  <div id="beads-arrow-cursor">↕</div>
+
+  <!-- Rituals Modal -->
+  <div class="modal-backdrop" id="modal-rituals" onclick="if(event.target===this)closeModal('modal-rituals')">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">🔔 Nghi Lễ Chùa Việt 3D</div>
+        <button class="modal-close" onclick="closeModal('modal-rituals')">✕</button>
+      </div>
+      <div class="grid-2">
+        <div class="item-card" onclick="doTapWoodenFish(); closeModal('modal-rituals')">
+          <div class="emo">🪵</div>
+          <div class="name">Gõ Mõ Tịnh Tâm</div>
+          <div class="sub">Âm mõ gỗ chùa thật (+2 💎)</div>
+        </div>
+        <div class="item-card" onclick="doRingBell3D(); closeModal('modal-rituals')">
+          <div class="emo">🔔</div>
+          <div class="name">Thỉnh Đại Hồng Chuông</div>
+          <div class="sub">Dùi gỗ 3D gõ chuông đồng (+5 💎)</div>
+        </div>
+        <div class="item-card" onclick="doLightIncense3D(); closeModal('modal-rituals')">
+          <div class="emo">♨️</div>
+          <div class="name">Dâng 3 Nén Tâm Hương</div>
+          <div class="sub">Cắm hương lên lư đồng 3D (+5 💎)</div>
+        </div>
+        <div class="item-card" onclick="doDrawFortune(); closeModal('modal-rituals')">
+          <div class="emo">🎋</div>
+          <div class="name">Gieo Quẻ Xin Xăm</div>
+          <div class="sub">Lắc ống xăm 3D nhận lời khuyên</div>
+        </div>
+        <div class="item-card" onclick="doBurnGoldPaper(); closeModal('modal-rituals')">
+          <div class="emo">🔥</div>
+          <div class="name">Hóa Vàng Tạ Lễ</div>
+          <div class="sub">Lò hóa sớ rực lửa (+5 💎)</div>
+        </div>
+        <div class="item-card" onclick="promptRename(); closeModal('modal-rituals')">
+          <div class="emo">✏️</div>
+          <div class="name">Đổi Pháp Danh / Tên</div>
+          <div class="sub">Hiển thị trên đầu nhân vật 3D</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offerings Modal -->
+  <div class="modal-backdrop" id="modal-offerings" onclick="if(event.target===this)closeModal('modal-offerings')">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">🪷 Cửa Hàng Dâng Lễ 3D (Chay & Mặn)</div>
+        <button class="modal-close" onclick="closeModal('modal-offerings')">✕</button>
+      </div>
+      <p style="font-size:12px; color:#fde68a; margin-bottom:10px;">
+        ⚠️ Lưu ý: <strong>Ban Tam Bảo</strong> chỉ nhận Lễ Chay thanh tịnh. <strong>Ban Đức Ông & Ban Thần Tài</strong> nhận cả Lễ Chay và Lễ Mặn.
+      </p>
+      <div class="grid-2">
+        <div class="item-card" onclick="placeOffering3D('assets/le_hoasen.png', 'Hoa Sen Tuyết Chay', false)">
+          <div class="emo">🪷</div>
+          <div class="name">Hoa Sen Tuyết Chay</div>
+          <div class="sub">Lễ Chay · +8 💎</div>
+        </div>
+        <div class="item-card" onclick="placeOffering3D('assets/le_nguqua.png', 'Mâm Ngũ Quả Chay', false)">
+          <div class="emo">🍍</div>
+          <div class="name">Mâm Ngũ Quả Chay</div>
+          <div class="sub">Lễ Chay · +8 💎</div>
+        </div>
+        <div class="item-card" onclick="placeOffering3D('assets/le_daile.png', 'Đại Lễ Cỗ Chay 9 Món', false)">
+          <div class="emo">🥗</div>
+          <div class="name">Đại Lễ Cỗ Chay</div>
+          <div class="sub">Lễ Chay · +10 💎</div>
+        </div>
+        <div class="item-card" onclick="placeOffering3D('assets/le_heoquay.png', 'Heo Quay Nguyên Con', true)">
+          <div class="emo">🐖</div>
+          <div class="name">Heo Quay Vàng Giòn</div>
+          <div class="sub">Lễ Mặn (Đức Ông/Thần Tài) · +10 💎</div>
+        </div>
+        <div class="item-card" onclick="placeOffering3D('assets/le_traoan.png', 'Oản Ngọc Trà Sen', false)">
+          <div class="emo">🍵</div>
+          <div class="name">Oản Ngọc Trà Sen</div>
+          <div class="sub">Lễ Chay · +8 💎</div>
+        </div>
+        <div class="item-card" onclick="placeOffering3D('assets/vangma_dinh.png', 'Tháp Kim Nguyên Bảo', false)">
+          <div class="emo">🪙</div>
+          <div class="name">Tháp Vàng Tài Lộc</div>
+          <div class="sub">Chiêu Tài Lộc · +10 💎</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Punching Room -->
+  <div id="punch-room">
+    <div class="punch-top">
+      <div style="font-size:16px; font-weight:800; color:#fca5a5;">🥊 Sân Đấm Xả Nghiệp — Chuyển Hóa Sân Si</div>
+      <button class="beads-close" onclick="closePunchRoom()">✕ Về Chánh Điện 3D</button>
+    </div>
+    <div style="text-align:center;">
+      <div id="punch-target-title" style="font-size:17px; font-weight:800; color:#fde047; margin-bottom:6px;">
+        Mục tiêu: Nhà Xe Giao Trễ Hẹn Làm Nhỡ Việc Thợ
+      </div>
+      <div class="hp-bar-bg"><div id="hp-bar-fill"></div></div>
+      <div style="font-size:12px; color:#fecaca;">Máu Sân Si: <span id="punch-hp-txt">100</span>% · Đấm liên hoàn để hóa giải!</div>
+    </div>
+    <div class="punch-target-wrap" onclick="hitPunchBag(event)">
+      <div id="punch-bag">
+        <div style="font-size:68px;">🥊😤</div>
+        <span style="background:rgba(0,0,0,0.8); padding:5px 14px; border-radius:999px; font-size:12px; font-weight:700; color:#fde047;">💥 CHẠM ĐỂ ĐẤM XẢ STRESS!</span>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+      <button class="wing-btn active" onclick="setPunchTarget('Nhà Xe Giao Trễ Hẹn')">🚛 Nhà Xe Trễ Hẹn</button>
+      <button class="wing-btn active" onclick="setPunchTarget('Khách Hỏi 100 Lần Không Chốt')">😤 Khách Bom Hàng</button>
+      <button class="wing-btn active" onclick="setPunchTarget('Đối Thủ Phá Giá Hàng Mỏng')">📉 Đối Thủ Phá Giá</button>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    // =========================================================================
+    // 1. SOUND ENGINE
+    // =========================================================================
+    let audioCtx = null;
+    let ambientAudio = null;
+    let isAudioPlaying = false;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playBeadClickSound() {
+      try {
+        ensureAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.045);
+        gain.gain.setValueAtTime(0.28, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.055);
+      } catch (e) {}
+    }
+
+    function playWoodenFishSound() {
+      try {
+        const a = new Audio('audio/wooden_fish.mp3');
+        a.volume = 0.75;
+        a.play().catch(() => playBeadClickSound());
+      } catch (e) { playBeadClickSound(); }
+    }
+
+    function playBellSound() {
+      try {
+        const a = new Audio('audio/temple_bell.mp3');
+        a.volume = 0.85;
+        a.play().catch(() => {});
+      } catch (e) {}
+    }
+
+    function toggleAudio() {
+      if (!ambientAudio) {
+        ambientAudio = new Audio('audio/zen_flute.mp3');
+        ambientAudio.loop = true;
+        ambientAudio.volume = 0.45;
+      }
+      if (isAudioPlaying) {
+        ambientAudio.pause();
+        isAudioPlaying = false;
+        document.getElementById('audio-btn').innerHTML = '🔇 Bật Nhạc';
+      } else {
+        ambientAudio.play().catch(() => {});
+        isAudioPlaying = true;
+        document.getElementById('audio-btn').innerHTML = '🔊 Nhạc Thiền';
+      }
+    }
+
+    function showToast(msg, dur = 3200) {
+      const b = document.getElementById('toast-box');
+      b.innerHTML = msg;
+      b.style.display = 'block';
+      clearTimeout(b._t);
+      b._t = setTimeout(() => { b.style.display = 'none'; }, dur);
+    }
+
+    // =========================================================================
+    // 2. TRUE THREE.JS WEBGL 3D ENGINE (V42 ULTRA 3D)
+    // =========================================================================
+    const MAX_SYSTEM_PEOPLE = 15;
+    let meritPoints = Number(localStorage.getItem('ty_merit_v42') || 35);
+    let myName = localStorage.getItem('ty_name_v42') || 'Sếp Thành';
+    let currentWing = 0; // -1: Đức Ông (x=-12), 0: Tam Bảo (x=0), 1: Thần Tài (x=+12)
+    let isBeadsMode = false;
+    let beadsCount = 0;
+
+    function addMerit(n) {
+      meritPoints += n;
+      localStorage.setItem('ty_merit_v42', meritPoints);
+      document.getElementById('merit-val').textContent = meritPoints;
+    }
+    document.getElementById('merit-val').textContent = meritPoints;
+
+    const container = document.getElementById('webgl-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 2, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    container.appendChild(renderer.domElement);
+
+    // Main 3D Sanctuary Scene & Camera (Deep Atmospheric Temple like @linhoichoigi)
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x110b07);
+    scene.fog = new THREE.FogExp2(0x110b07, 0.022);
+
+    const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 3.2, 11.2);
+
+    // Dedicated 3D Prayer Beads Scene & Camera (matching frame_20 of @linhoichoigi)
+    const beadsScene = new THREE.Scene();
+    beadsScene.background = new THREE.Color(0x1e2832);
+    const beadsCamera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 50);
+    beadsCamera.position.set(0, 0, 11.8);
+
+    // Dark Polished Rosewood Floor Texture (matching @linhoichoigi dark wood planks)
+    function createDarkWoodFloorTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const g = c.getContext('2d');
+      g.fillStyle = '#1c120b';
+      g.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 16; i++) {
+        const y = i * 32;
+        g.fillStyle = i % 2 === 0 ? '#21150d' : '#19100a';
+        g.fillRect(0, y, 512, 30);
+        g.fillStyle = '#0e0805';
+        g.fillRect(0, y + 30, 512, 2);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(12, 12);
+      return tex;
+    }
+
+    // Window Lattice with Green Forest View (matching frame_25 of @linhoichoigi)
+    function createWindowForestTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const g = c.getContext('2d');
+      const grad = g.createLinearGradient(0, 0, 0, 512);
+      grad.addColorStop(0, '#1b3528');
+      grad.addColorStop(0.5, '#13281d');
+      grad.addColorStop(1, '#09140e');
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 45; i++) {
+        g.fillStyle = `rgba(${30 + (i % 25)}, ${75 + (i % 45)}, ${38 + (i % 20)}, 0.55)`;
+        g.beginPath();
+        g.arc((i * 73) % 512, 100 + ((i * 97) % 380), 26 + (i % 24), 0, Math.PI * 2);
+        g.fill();
+      }
+      g.fillStyle = '#140c07';
+      for (let x = 0; x <= 512; x += 64) g.fillRect(x - 5, 0, 10, 512);
+      for (let y = 0; y <= 512; y += 64) g.fillRect(0, y - 5, 512, 10);
+      return new THREE.CanvasTexture(c);
+    }
+
+    // Lighting Setup (Warm Sanctuary Lighting with Soft Shadows)
+    const hemiLight = new THREE.HemisphereLight(0xffdfa8, 0x1a1008, 0.72);
+    scene.add(hemiLight);
+
+    const mainSpot = new THREE.DirectionalLight(0xffe0a3, 1.15);
+    mainSpot.position.set(3, 12, 9);
+    mainSpot.castShadow = true;
+    mainSpot.shadow.mapSize.width = 1024;
+    mainSpot.shadow.mapSize.height = 1024;
+    const d = 16;
+    mainSpot.shadow.camera.left = -d;
+    mainSpot.shadow.camera.right = d;
+    mainSpot.shadow.camera.top = d;
+    mainSpot.shadow.camera.bottom = -d;
+    scene.add(mainSpot);
+
+    // Warm Golden Point Lights Focused on the 3 Altars
+    [-12, 0, 12].forEach((wx) => {
+      const pl = new THREE.PointLight(0xffb84d, 1.45, 16);
+      pl.position.set(wx, 3.8, -3.8);
+      scene.add(pl);
+    });
+
+    // 3D Dark Wood Floor + Entrance Steps (matching frame_01 & frame_05 of @linhoichoigi)
+    const floorMat = new THREE.MeshStandardMaterial({
+      map: createDarkWoodFloorTexture(), roughness: 0.38, metalness: 0.08
+    });
+    const mainFloor = new THREE.Mesh(new THREE.BoxGeometry(40, 0.4, 24), floorMat);
+    mainFloor.position.set(0, -0.2, 0);
+    mainFloor.receiveShadow = true;
+    scene.add(mainFloor);
+
+    // Raised Sanctuary Dais & Entrance Steps
+    const stepMat = new THREE.MeshStandardMaterial({ color: 0x24160d, roughness: 0.48 });
+    for (let s = 0; s < 3; s++) {
+      const step = new THREE.Mesh(new THREE.BoxGeometry(40, 0.16, 0.65), stepMat);
+      step.position.set(0, -0.06 - s * 0.12, 7.2 + s * 0.65);
+      step.receiveShadow = true;
+      scene.add(step);
+    }
+
+    // Deep Dark Mahogany Temple Walls & Ceiling Beams
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x160e09, roughness: 0.8 });
+    const backWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 12), wallMat);
+    backWall.position.set(0, 5.2, -7.2);
+    scene.add(backWall);
+
+    // Side Lattice Windows (matching frame_25 of @linhoichoigi)
+    const winMat = new THREE.MeshBasicMaterial({ map: createWindowForestTexture() });
+    const rightWin = new THREE.Mesh(new THREE.PlaneGeometry(10, 4.4), winMat);
+    rightWin.position.set(18.5, 3.4, 1.2);
+    rightWin.rotation.y = -Math.PI / 2;
+    scene.add(rightWin);
+
+    const leftWin = new THREE.Mesh(new THREE.PlaneGeometry(10, 4.4), winMat);
+    leftWin.position.set(-18.5, 3.4, 1.2);
+    leftWin.rotation.y = Math.PI / 2;
+    scene.add(leftWin);
+
+    // 3D Wooden Pillars & Glowing Hanging Paper Lanterns (matching @linhoichoigi)
+    const pillarMat = new THREE.MeshStandardMaterial({ color: 0x21130b, roughness: 0.55 });
+    const lanternMat = new THREE.MeshBasicMaterial({ color: 0xfff0b8 });
+    [
+      [-5.6, -6.5], [5.6, -6.5], [-17.4, -6.5], [17.4, -6.5],
+      [-5.6, 2.2], [5.6, 2.2]
+    ].forEach(([px, pz]) => {
+      const p = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 10, 20), pillarMat);
+      p.position.set(px, 4.6, pz);
+      p.castShadow = true;
+      scene.add(p);
+    });
+
+    // Glowing Hanging Lanterns on left/right of each altar (like @linhoichoigi frame_03)
+    [-4.2, 4.2, -8.5, -15.5, 8.5, 15.5].forEach((lx) => {
+      const lg = new THREE.Group();
+      const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 2.0), pillarMat);
+      cord.position.y = 1.0;
+      const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.22, 0.55, 16), lanternMat);
+      lg.add(cord, shade);
+      lg.position.set(lx, 5.4, -3.6);
+      scene.add(lg);
+    });
+
+    // =========================================================================
+    // 3. THREE VIETNAMESE ALTARS IN 3D (USING EXACT HIGH-RES ASSETS)
+    // =========================================================================
+    const texLoader = new THREE.TextureLoader();
+    const goldMat = new THREE.MeshStandardMaterial({
+      color: 0xffcf40, metalness: 0.72, roughness: 0.25, emissive: 0x3a2500, emissiveIntensity: 0.28
+    });
+    const bronzeMat = new THREE.MeshStandardMaterial({
+      color: 0x8d6e3f, metalness: 0.65, roughness: 0.35
+    });
+    const woodAltarMat = new THREE.MeshStandardMaterial({
+      color: 0x2c180e, roughness: 0.45, metalness: 0.08
+    });
+
+    function createCarpetRunnerTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 512;
+      const g = c.getContext('2d');
+      g.fillStyle = '#7f1d1d';
+      g.fillRect(0, 0, 256, 512);
+      g.fillStyle = '#d97706';
+      g.fillRect(8, 0, 14, 512);
+      g.fillRect(234, 0, 14, 512);
+      g.strokeStyle = 'rgba(253, 224, 71, 0.38)';
+      g.lineWidth = 3;
+      for (let y = 16; y < 512; y += 48) {
+        g.strokeRect(32, y, 192, 32);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(1, 4);
+      return tex;
+    }
+    const carpetMat = new THREE.MeshStandardMaterial({ map: createCarpetRunnerTexture(), roughness: 0.75 });
+
+    function createAltarWing(wingX, muralUrl, isDucOng = false, isThanTai = false) {
+      const group = new THREE.Group();
+      group.position.set(wingX, 0, -5.8);
+
+      // 3D Carpet Runner on the 3D wooden floor leading up to this altar
+      const runner = new THREE.Mesh(new THREE.PlaneGeometry(2.15, 11.5), carpetMat);
+      runner.rotation.x = -Math.PI / 2;
+      runner.position.set(0, 0.012, 6.2);
+      runner.receiveShadow = true;
+      group.add(runner);
+
+      // 3D Stepped Wooden Altar Dais (Bậc tam cấp lên Ban Thờ)
+      const dais1 = new THREE.Mesh(new THREE.BoxGeometry(9.6, 0.28, 2.5), woodAltarMat);
+      dais1.position.set(0, 0.14, 0.0);
+      dais1.receiveShadow = true;
+      const dais2 = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.28, 1.9), woodAltarMat);
+      dais2.position.set(0, 0.42, -0.25);
+      dais2.receiveShadow = true;
+      group.add(dais1, dais2);
+
+      // Flank 3D Pillars & Top Beam framing the Altar Niche seamlessly
+      [-4.6, 4.6].forEach((px) => {
+        const col = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.30, 5.6, 20), woodAltarMat);
+        col.position.set(px, 2.8, -0.55);
+        col.castShadow = true;
+        group.add(col);
+      });
+      const topBeam = new THREE.Mesh(new THREE.BoxGeometry(9.8, 0.45, 0.55), woodAltarMat);
+      topBeam.position.set(0, 5.45, -0.55);
+      group.add(topBeam);
+
+      // High-Res Photorealistic Altar Backdrop — UV-cropped to ONLY the upper Altar & Statues (v: 0.43 .. 0.98) so there is NO 2D floor inside the image!
+      const muralGeo = new THREE.PlaneGeometry(9.0, 4.75);
+      const muralMat = new THREE.MeshBasicMaterial({ color: 0xfff8eb });
+      texLoader.load(muralUrl, (t) => {
+        t.repeat.set(1, 0.55);
+        t.offset.set(0, 0.43);
+        t.needsUpdate = true;
+        muralMat.map = t;
+        muralMat.needsUpdate = true;
+      });
+      const muralMesh = new THREE.Mesh(muralGeo, muralMat);
+      muralMesh.position.set(0, 2.92, -0.72);
+      group.add(muralMesh);
+
+      // 3D Front Incense & Candle Table (like @linhoichoigi frame_05!)
+      const frontTable = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.68, 0.95), woodAltarMat);
+      frontTable.position.set(0, 0.34, 0.65);
+      frontTable.castShadow = true;
+      group.add(frontTable);
+
+      // Pair of 3D Flickering White Candles on Golden Candlesticks (matching @linhoichoigi)
+      [-1.25, 1.25].forEach((cx) => {
+        const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.19, 0.36, 16), goldMat);
+        stand.position.set(cx, 0.86, 0.65);
+        const candle = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.075, 0.075, 0.42, 16),
+          new THREE.MeshBasicMaterial({ color: 0xfffbeb })
+        );
+        candle.position.set(cx, 1.24, 0.65);
+        const flame = new THREE.Mesh(
+          new THREE.SphereGeometry(0.055, 12, 12),
+          new THREE.MeshBasicMaterial({ color: 0xffb700 })
+        );
+        flame.scale.set(0.65, 1.85, 0.65);
+        flame.position.set(cx, 1.50, 0.65);
+        group.add(stand, candle, flame);
+      });
+
+      // Pair of Celadon Vases with White Lotus Blooms (matching @linhoichoigi)
+      [-0.82, 0.82].forEach((vx) => {
+        const vase = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.10, 0.14, 0.32, 16),
+          new THREE.MeshStandardMaterial({ color: 0x7fa388, roughness: 0.3 })
+        );
+        vase.position.set(vx, 0.84, 0.65);
+        const blooms = new THREE.Mesh(
+          new THREE.SphereGeometry(0.15, 16, 16),
+          new THREE.MeshStandardMaterial({ color: 0xfefae0, roughness: 0.5 })
+        );
+        blooms.position.set(vx, 1.08, 0.65);
+        group.add(vase, blooms);
+      });
+
+      // Bronze Incense Censer + 3 Glowing Incense Sticks
+      const censer = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.15, 0.24, 20), bronzeMat);
+      censer.position.set(0, 0.80, 0.65);
+      group.add(censer);
+      [-0.04, 0, 0.04].forEach((ix) => {
+        const stick = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.01, 0.01, 0.28, 8),
+          new THREE.MeshBasicMaterial({ color: 0xd97706 })
+        );
+        stick.position.set(ix, 1.04, 0.65);
+        const tip = new THREE.Mesh(
+          new THREE.SphereGeometry(0.02, 8, 8),
+          new THREE.MeshBasicMaterial({ color: 0xff3b00 })
+        );
+        tip.position.set(ix, 1.19, 0.65);
+        group.add(stick, tip);
+      });
+
+      // 3D Bronze Great Bell (Đại Hồng Chuông) for Ban Đức Ông
+      if (isDucOng) {
+        const bellGroup = new THREE.Group();
+        bellGroup.position.set(-2.9, 1.9, 0.5);
+        const bellBody = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.52, 1.05, 24), bronzeMat);
+        const striker = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.9, 12), woodAltarMat);
+        striker.rotation.z = Math.PI / 2;
+        striker.position.set(0.8, -0.1, 0);
+        bellGroup.add(bellBody, striker);
+        group.add(bellGroup);
+      }
+
+      // 3D Gold Ingots for Ban Thần Tài
+      if (isThanTai) {
+        [-0.42, 0.42].forEach((gx) => {
+          const ingot = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 12), goldMat);
+          ingot.scale.set(1.4, 0.65, 0.85);
+          ingot.position.set(gx, 0.76, 0.82);
+          group.add(ingot);
+        });
+      }
+
+      scene.add(group);
+      return group;
+    }
+
+    createAltarWing(0, 'assets/hall_tambao.jpg', false, false);
+    createAltarWing(-12, 'assets/hall_ducong.jpg', true, false);
+    createAltarWing(12, 'assets/hall_thantai.jpg', false, true);
+
+    const activeOfferings3D = new THREE.Group();
+    scene.add(activeOfferings3D);
+
+    // =========================================================================
+    // 4. 3D MEDITATION CUSHIONS (BỒ ĐOÀN 3D — 15 SEATS MAX)
+    // =========================================================================
+    const cushionMat = new THREE.MeshStandardMaterial({ color: 0x32302d, roughness: 0.72, metalness: 0.04 });
+    const cushionPositions = [];
+    // Main Hall: 9 cushions in neat rows (left & right of center aisle like @linhoichoigi!)
+    [-2.8, -1.5, 1.5, 2.8].forEach((cx) => {
+      [-0.8, 1.2, 3.2].forEach((cz) => {
+        cushionPositions.push({ x: cx, z: cz, wing: 0 });
+      });
+    });
+    // Center kneeling cushion right in front of the altar
+    cushionPositions.push({ x: 0, z: 1.2, wing: 0 });
+    cushionPositions.push({ x: 0, z: 3.2, wing: 0 });
+    // Ban Đức Ông & Ban Thần Tài cushions
+    [-13.4, -12.0, -10.6].forEach((cx) => cushionPositions.push({ x: cx, z: 0.8, wing: -1 }));
+    [10.6, 12.0, 13.4].forEach((cx) => cushionPositions.push({ x: cx, z: 0.8, wing: 1 }));
+
+    cushionPositions.forEach((pos) => {
+      const cush = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.11, 0.86), cushionMat);
+      cush.position.set(pos.x, 0.055, pos.z);
+      cush.castShadow = true;
+      cush.receiveShadow = true;
+      scene.add(cush);
+    });
+
+    // =========================================================================
+    // 5. TRUE 3D CHIBI DEVOTEE CHARACTER BUILDER (MATCHING @linhoichoigi)
+    // =========================================================================
+    const headSkinMat = new THREE.MeshStandardMaterial({ color: 0x8f5522, roughness: 0.56, metalness: 0.02 });
+    const robeGreyMat = new THREE.MeshStandardMaterial({ color: 0x7a838c, roughness: 0.62 });
+    const kasayaYellowMat = new THREE.MeshStandardMaterial({ color: 0xd1ad0f, roughness: 0.48 });
+    const shoeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xdbe2e8, roughness: 0.55 });
+
+    function create3DDevoteeCharacter(name, isSelf = false, showLabel = false) {
+      const root = new THREE.Group();
+
+      const bodyPivot = new THREE.Group();
+      bodyPivot.position.y = 0.44;
+      root.add(bodyPivot);
+
+      // Soft Ground Contact Shadow Blob (like @linhoichoigi)
+      const shadowBlob = new THREE.Mesh(
+        new THREE.CircleGeometry(0.38, 24),
+        new THREE.MeshBasicMaterial({ color: 0x050302, transparent: true, opacity: 0.48 })
+      );
+      shadowBlob.rotation.x = -Math.PI / 2;
+      shadowBlob.position.y = 0.015;
+      root.add(shadowBlob);
+
+      // Grey Monastic Tunic (Áo Lam) + Rounded Shoulders
+      const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.28, 0.58, 24), robeGreyMat);
+      torso.position.y = 0.29;
+      torso.castShadow = true;
+      bodyPivot.add(torso);
+
+      const shoulderDome = new THREE.Mesh(new THREE.SphereGeometry(0.235, 24, 16), robeGreyMat);
+      shoulderDome.scale.set(1.18, 0.55, 0.92);
+      shoulderDome.position.y = 0.55;
+      bodyPivot.add(shoulderDome);
+
+      // Iconic Yellow Kasaya Sash (Y Vàng đắp lưng & ngực giống @linhoichoigi)
+      const sash = new THREE.Mesh(new THREE.CylinderGeometry(0.232, 0.29, 0.55, 24, 1, false, -0.85, 3.5), kasayaYellowMat);
+      sash.position.y = 0.29;
+      bodyPivot.add(sash);
+
+      // Smooth Matte Chibi Head (proportioned like @linhoichoigi)
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.35, 32, 32), headSkinMat);
+      head.position.y = 0.90;
+      head.castShadow = true;
+      bodyPivot.add(head);
+
+      // Ears
+      [-0.34, 0.34].forEach((ex) => {
+        const ear = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 12), headSkinMat);
+        ear.position.set(ex, 0.88, 0);
+        bodyPivot.add(ear);
+      });
+
+      // Articulated Arms
+      const leftArmPivot = new THREE.Group();
+      leftArmPivot.position.set(-0.27, 0.54, 0);
+      const leftSleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.09, 0.38, 16), robeGreyMat);
+      leftSleeve.position.y = -0.15;
+      const leftHand = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 12), headSkinMat);
+      leftHand.position.y = -0.35;
+      leftArmPivot.add(leftSleeve, leftHand);
+      leftArmPivot.rotation.z = 0.22;
+      bodyPivot.add(leftArmPivot);
+
+      const rightArmPivot = new THREE.Group();
+      rightArmPivot.position.set(0.27, 0.54, 0);
+      const rightSleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.09, 0.38, 16), robeGreyMat);
+      rightSleeve.position.y = -0.15;
+      const rightHand = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 12), headSkinMat);
+      rightHand.position.y = -0.35;
+      rightArmPivot.add(rightSleeve, rightHand);
+      rightArmPivot.rotation.z = -0.22;
+      bodyPivot.add(rightArmPivot);
+
+      // Articulated Legs + White Shoes
+      const leftLegPivot = new THREE.Group();
+      leftLegPivot.position.set(-0.11, 0.44, 0);
+      const leftPants = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.085, 0.38, 16), robeGreyMat);
+      leftPants.position.y = -0.19;
+      const leftShoe = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.08, 0.20), shoeWhiteMat);
+      leftShoe.position.set(0, -0.39, -0.02);
+      leftLegPivot.add(leftPants, leftShoe);
+      root.add(leftLegPivot);
+
+      const rightLegPivot = new THREE.Group();
+      rightLegPivot.position.set(0.11, 0.44, 0);
+      const rightPants = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.085, 0.38, 16), robeGreyMat);
+      rightPants.position.y = -0.19;
+      const rightShoe = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.08, 0.20), shoeWhiteMat);
+      rightShoe.position.set(0, -0.39, -0.02);
+      rightLegPivot.add(rightPants, rightShoe);
+      root.add(rightLegPivot);
+
+      let labelEl = null;
+      if (showLabel) {
+        labelEl = document.createElement('div');
+        labelEl.className = isSelf ? 'char-label' : 'char-label peer';
+        labelEl.innerHTML = `<span class="badge">${isSelf ? 'Tôi' : 'Online'}</span> <span class="lbl-txt">${name}</span>`;
+        document.getElementById('labels-layer').appendChild(labelEl);
+      }
+
+      scene.add(root);
+
+      return {
+        root, bodyPivot, leftArmPivot, rightArmPivot, leftLegPivot, rightLegPivot,
+        labelEl, name, isSelf,
+        x: 0, z: 4.5, tx: 0, tz: 4.5, rotY: Math.PI,
+        state: 'idle',
+        animTime: Math.random() * 10
+      };
+    }
+
+    // Create Self Player (Only self + live MQTT peers display floating white pill nametags, keeping the altar view 100% clean like @linhoichoigi!)
+    const player = create3DDevoteeCharacter(myName, true, true);
+    player.x = 0; player.z = 4.6;
+    player.tx = 0; player.tz = 4.6;
+    player.root.position.set(player.x, 0, player.z);
+    player.root.rotation.y = Math.PI;
+
+    // Silent Fellow Devotees in the Hall (matching @linhoichoigi background devotees without noisy text labels)
+    const npcDevotees = [];
+    const npcConfigs = [
+      { name: 'Phật tử 1', x: -0.85, z: -3.7, state: 'chaptay' },
+      { name: 'Phật tử 2', x: -0.30, z: -3.8, state: 'chaptay' },
+      { name: 'Phật tử 3', x: 0.30, z: -3.8, state: 'chaptay' },
+      { name: 'Phật tử 4', x: 0.85, z: -3.7, state: 'chaptay' },
+      { name: 'Phật tử 5', x: -2.8, z: 1.2, state: 'quylay' },
+      { name: 'Phật tử 6', x: 1.5, z: 1.2, state: 'chaptay' },
+      { name: 'Phật tử 7', x: -1.5, z: -0.8, state: 'chaptay' },
+      { name: 'Phật tử 8', x: 2.8, z: -0.8, state: 'quylay' },
+      { name: 'Phật tử 9', x: -13.4, z: 0.8, state: 'chaptay' },
+      { name: 'Phật tử 10', x: 13.4, z: 0.8, state: 'quylay' }
+    ];
+    npcConfigs.forEach((cfg, idx) => {
+      const d = create3DDevoteeCharacter(cfg.name, false, false);
+      d.x = cfg.x; d.z = cfg.z; d.tx = cfg.x; d.tz = cfg.z;
+      d.state = cfg.state;
+      d.animTime = idx * 1.4;
+      d.root.position.set(d.x, 0, d.z);
+      d.root.rotation.y = Math.PI;
+      npcDevotees.push(d);
+    });
+
+    const remotePeers = new Map();
+    function updateOnlineCounter() {
+      const totalOnline = Math.min(MAX_SYSTEM_PEOPLE, 1 + remotePeers.size);
+      document.getElementById('online-count-txt').textContent = `Online (${totalOnline}/${MAX_SYSTEM_PEOPLE})`;
+    }
+    updateOnlineCounter();
+
+    // =========================================================================
+    // 6. 3D INTERACTIVE PRAYER BEADS RING (MATCHING FRAME_20 OF @linhoichoigi)
+    // =========================================================================
+    const beadsLight1 = new THREE.DirectionalLight(0xfff5d6, 1.35);
+    beadsLight1.position.set(-3.5, 5, 8);
+    beadsScene.add(beadsLight1);
+    const beadsLight2 = new THREE.AmbientLight(0xffcf70, 0.58);
+    beadsScene.add(beadsLight2);
+
+    const beadsGroup = new THREE.Group();
+    beadsScene.add(beadsGroup);
+
+    const NUM_BEADS_3D = 20;
+    const beadMeshes = [];
+    const beadMat3D = new THREE.MeshStandardMaterial({
+      color: 0xd99b16, roughness: 0.24, metalness: 0.12, emissive: 0x331a00, emissiveIntensity: 0.22
+    });
+
+    const cordPts = [];
+    for (let i = 0; i <= 64; i++) {
+      const t = (i / 64) * Math.PI * 2;
+      cordPts.push(new THREE.Vector3(Math.sin(t) * 1.42, Math.cos(t) * 3.82, 0));
+    }
+    const cordGeo = new THREE.BufferGeometry().setFromPoints(cordPts);
+    const cordLine = new THREE.Line(cordGeo, new THREE.LineBasicMaterial({ color: 0x94a3b8 }));
+    beadsGroup.add(cordLine);
+
+    for (let i = 0; i < NUM_BEADS_3D; i++) {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(0.41, 36, 36), beadMat3D);
+      beadsGroup.add(m);
+      beadMeshes.push(m);
+    }
+
+    let beadLoopOffset = 0;
+    let targetBeadLoopOffset = 0;
+
+    function updateBeads3DPositions() {
+      beadLoopOffset += (targetBeadLoopOffset - beadLoopOffset) * 0.18;
+      for (let i = 0; i < NUM_BEADS_3D; i++) {
+        const angle = ((i / NUM_BEADS_3D) * Math.PI * 2) + beadLoopOffset;
+        const bx = Math.sin(angle) * 1.42;
+        const by = Math.cos(angle) * 3.82;
+        const bz = Math.sin(angle * 2) * 0.12;
+        beadMeshes[i].position.set(bx, by, bz);
+      }
+    }
+    updateBeads3DPositions();
+
+    function advanceOneBead() {
+      targetBeadLoopOffset -= (Math.PI * 2) / NUM_BEADS_3D;
+      beadsCount = (beadsCount + 1) % 109;
+      document.getElementById('beads-count').textContent = beadsCount;
+      addMerit(1);
+      playBeadClickSound();
+    }
+
+    window.openBeads3D = function() {
+      isBeadsMode = true;
+      document.getElementById('beads-ui').style.display = 'flex';
+      document.getElementById('beads-arrow-cursor').style.display = 'block';
+      document.getElementById('labels-layer').style.display = 'none';
+      document.getElementById('bottom-dock-wrap').style.display = 'none';
+      document.getElementById('top-bar').style.display = 'none';
+      document.getElementById('joystick-zone').style.display = 'none';
+      document.getElementById('cam-hint').style.display = 'none';
+    };
+
+    window.closeBeads3D = function() {
+      isBeadsMode = false;
+      document.getElementById('beads-ui').style.display = 'none';
+      document.getElementById('beads-arrow-cursor').style.display = 'none';
+      document.getElementById('labels-layer').style.display = 'block';
+      document.getElementById('bottom-dock-wrap').style.display = 'flex';
+      document.getElementById('top-bar').style.display = 'flex';
+      document.getElementById('joystick-zone').style.display = 'flex';
+      document.getElementById('cam-hint').style.display = 'block';
+    };
+
+    // =========================================================================
+    // 7. CHARACTER ANIMATION & CAMERA CONTROLLER
+    // =========================================================================
+    let camYaw = 0;
+    let camPitch = 0.18;
+    let camDist = 4.6;
+    let camPreset = 0;
+
+    window.cycleCameraPreset = function() {
+      camPreset = (camPreset + 1) % 3;
+      const names = ['Góc 3D Sau Lưng', 'Góc Toàn Cảnh 3D', 'Góc Cận Cảnh Ban Thờ'];
+      document.getElementById('cam-mode-txt').textContent = names[camPreset];
+      if (camPreset === 0) { camDist = 4.6; camPitch = 0.18; camYaw = 0; }
+      else if (camPreset === 1) { camDist = 7.8; camPitch = 0.30; camYaw = 0; }
+      else { camDist = 3.2; camPitch = 0.12; camYaw = 0; }
+    };
+
+    window.moveToWing = function(w) {
+      currentWing = w;
+      document.getElementById('wing-center').classList.toggle('active', w === 0);
+      document.getElementById('wing-left').classList.toggle('active', w === -1);
+      document.getElementById('wing-right').classList.toggle('active', w === 1);
+      const targetX = w * 12;
+      player.tx = targetX;
+      player.tz = 2.6;
+      player.state = 'walk';
+      const wingNames = { '0': '🏛️ Ban Tam Bảo (Chính Điện)', '-1': '🔔 Ban Đức Ông & Đại Hồng Chuông', '1': '💰 Ban Thần Tài – Thổ Địa' };
+      showToast(`Đang bước sang ${wingNames[String(w)]}`);
+    };
+
+    window.triggerChapTay = function() {
+      player.state = player.state === 'chaptay' ? 'idle' : 'chaptay';
+      document.getElementById('btn-chaptay').classList.toggle('active', player.state === 'chaptay');
+      document.getElementById('btn-quylay').classList.remove('active');
+      const pill = document.getElementById('action-status-pill');
+      if (player.state === 'chaptay') {
+        pill.textContent = '🙏 Đang chắp tay tĩnh tâm niệm Phật... (+2 💎)';
+        pill.style.display = 'block';
+        player.labelEl.querySelector('.lbl-txt').textContent = `${player.name} · Đang chắp tay`;
+        addMerit(2);
+        playWoodenFishSound();
+      } else {
+        pill.style.display = 'none';
+        player.labelEl.querySelector('.lbl-txt').textContent = player.name;
+      }
+      broadcastState();
+    };
+
+    window.triggerQuyLay = function() {
+      let bestCush = null, bestD = 999;
+      cushionPositions.forEach((c) => {
+        const d = Math.hypot(c.x - player.x, c.z - player.z);
+        if (d < bestD) { bestD = d; bestCush = c; }
+      });
+      if (bestCush && bestD < 3.8) {
+        player.tx = bestCush.x;
+        player.tz = bestCush.z;
+        player.x = bestCush.x;
+        player.z = bestCush.z;
+      }
+      player.state = player.state === 'quylay' ? 'idle' : 'quylay';
+      player.animTime = 1.4; // start directly in deep bow pose for immediate visual feedback
+      document.getElementById('btn-quylay').classList.toggle('active', player.state === 'quylay');
+      document.getElementById('btn-chaptay').classList.remove('active');
+      const pill = document.getElementById('action-status-pill');
+      if (player.state === 'quylay') {
+        pill.textContent = '🙇 Đang quỳ lạy Ngũ Thể Đầu Địa trên bồ đoàn... (+5 💎)';
+        pill.style.display = 'block';
+        player.labelEl.querySelector('.lbl-txt').textContent = `${player.name} · Đang quỳ lạy`;
+        addMerit(5);
+        playBellSound();
+      } else {
+        pill.style.display = 'none';
+        player.labelEl.querySelector('.lbl-txt').textContent = player.name;
+      }
+      broadcastState();
+    };
+
+    function animateCharacter3D(ch, dt) {
+      ch.animTime += dt;
+      const dx = ch.tx - ch.x;
+      const dz = ch.tz - ch.z;
+      const dist = Math.hypot(dx, dz);
+
+      if (dist > 0.06) {
+        const speed = 3.4;
+        const step = Math.min(dist, speed * dt);
+        ch.x += (dx / dist) * step;
+        ch.z += (dz / dist) * step;
+        ch.rotY = Math.atan2(dx, dz);
+        if (ch.state !== 'chaptay') ch.state = 'walk';
+      } else if (ch.state === 'walk') {
+        ch.state = 'idle';
+        ch.rotY = Math.PI;
+      }
+
+      ch.root.position.set(ch.x, 0, ch.z);
+      let diffRot = ch.rotY - ch.root.rotation.y;
+      while (diffRot > Math.PI) diffRot -= Math.PI * 2;
+      while (diffRot < -Math.PI) diffRot += Math.PI * 2;
+      ch.root.rotation.y += diffRot * 0.18;
+
+      if (ch.state === 'walk') {
+        const w = ch.animTime * 8.5;
+        ch.bodyPivot.position.y = 0.44 + Math.abs(Math.sin(w)) * 0.035;
+        ch.bodyPivot.rotation.x = 0.05;
+        ch.leftLegPivot.rotation.x = Math.sin(w) * 0.55;
+        ch.rightLegPivot.rotation.x = -Math.sin(w) * 0.55;
+        ch.leftArmPivot.rotation.x = -Math.sin(w) * 0.4;
+        ch.rightArmPivot.rotation.x = Math.sin(w) * 0.4;
+        ch.leftArmPivot.rotation.z = 0.22;
+        ch.rightArmPivot.rotation.z = -0.22;
+      } else if (ch.state === 'chaptay') {
+        ch.bodyPivot.position.y = 0.44 + Math.sin(ch.animTime * 2) * 0.01;
+        ch.bodyPivot.rotation.x = 0.08;
+        ch.leftLegPivot.rotation.x = 0;
+        ch.rightLegPivot.rotation.x = 0;
+        ch.leftArmPivot.rotation.x = -0.65;
+        ch.rightArmPivot.rotation.x = -0.65;
+        ch.leftArmPivot.rotation.z = -0.28;
+        ch.rightArmPivot.rotation.z = 0.28;
+      } else if (ch.state === 'quylay') {
+        const cycle = (Math.sin(ch.animTime * 2.2 - Math.PI / 2) + 1) * 0.5;
+        ch.bodyPivot.position.y = 0.26 - cycle * 0.12;
+        ch.bodyPivot.rotation.x = 0.22 + cycle * 1.15;
+        ch.leftLegPivot.rotation.x = -1.28;
+        ch.rightLegPivot.rotation.x = -1.28;
+        ch.leftArmPivot.rotation.x = -0.55 - cycle * 1.05;
+        ch.rightArmPivot.rotation.x = -0.55 - cycle * 1.05;
+        ch.leftArmPivot.rotation.z = 0.12;
+        ch.rightArmPivot.rotation.z = -0.12;
+      } else {
+        ch.bodyPivot.position.y = 0.44 + Math.sin(ch.animTime * 2) * 0.01;
+        ch.bodyPivot.rotation.x = 0;
+        ch.leftLegPivot.rotation.x = 0;
+        ch.rightLegPivot.rotation.x = 0;
+        ch.leftArmPivot.rotation.x = 0;
+        ch.rightArmPivot.rotation.x = 0;
+        ch.leftArmPivot.rotation.z = 0.22;
+        ch.rightArmPivot.rotation.z = -0.22;
+      }
+    }
+
+    const projVec = new THREE.Vector3();
+    function updateCharacterLabel(ch) {
+      if (!ch.labelEl) return;
+      projVec.set(ch.x, ch.state === "quylay" ? 0.95 : 1.65, ch.z);
+      projVec.project(camera);
+      if (projVec.z > 1) {
+        ch.labelEl.style.opacity = '0';
+        return;
+      }
+      const sx = (projVec.x * 0.5 + 0.5) * window.innerWidth;
+      const sy = (-projVec.y * 0.5 + 0.5) * window.innerHeight;
+      ch.labelEl.style.left = `${sx}px`;
+      ch.labelEl.style.top = `${sy}px`;
+      ch.labelEl.style.opacity = '1';
+    }
+
+    // =========================================================================
+    // 8. INPUT CONTROLS
+    // =========================================================================
+    const keys = {};
+    window.addEventListener('keydown', (e) => { keys[e.code] = true; });
+    window.addEventListener('keyup', (e) => { keys[e.code] = false; });
+
+    const joyZone = document.getElementById('joystick-zone');
+    const joyKnob = document.getElementById('joystick-knob');
+    let joyActive = false, joyDX = 0, joyDY = 0;
+
+    joyZone.addEventListener('pointerdown', (e) => {
+      joyActive = true;
+      joyZone.setPointerCapture(e.pointerId);
+    });
+    joyZone.addEventListener('pointermove', (e) => {
+      if (!joyActive) return;
+      const rect = joyZone.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      let dx = e.clientX - cx;
+      let dy = e.clientY - cy;
+      const maxR = 24;
+      const d = Math.hypot(dx, dy);
+      if (d > maxR) { dx = (dx / d) * maxR; dy = (dy / d) * maxR; }
+      joyKnob.style.transform = `translate(${dx}px, ${dy}px)`;
+      joyDX = dx / maxR;
+      joyDY = dy / maxR;
+    });
+    const resetJoy = () => {
+      joyActive = false; joyDX = 0; joyDY = 0;
+      joyKnob.style.transform = 'translate(0px, 0px)';
+    };
+    joyZone.addEventListener('pointerup', resetJoy);
+    joyZone.addEventListener('pointercancel', resetJoy);
+
+    const raycaster = new THREE.Raycaster();
+    const mouseNDC = new THREE.Vector2();
+    let isDraggingCanvas = false, dragStartX = 0, dragStartY = 0, totalDrag = 0;
+
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+      ensureAudio();
+      isDraggingCanvas = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      totalDrag = 0;
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDraggingCanvas) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+      totalDrag += Math.hypot(dx, dy);
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+
+      if (isBeadsMode) {
+        if (Math.abs(dy) > 12) advanceOneBead();
+      } else {
+        camYaw -= dx * 0.006;
+        camPitch = Math.max(0.05, Math.min(0.68, camPitch + dy * 0.004));
+      }
+    });
+
+    window.addEventListener('pointerup', (e) => {
+      if (!isDraggingCanvas) return;
+      isDraggingCanvas = false;
+      if (totalDrag < 10) {
+        if (isBeadsMode) {
+          advanceOneBead();
+        } else {
+          mouseNDC.x = (e.clientX / window.innerWidth) * 2 - 1;
+          mouseNDC.y = -(e.clientY / window.innerHeight) * 2 + 1;
+          raycaster.setFromCamera(mouseNDC, camera);
+          const hits = raycaster.intersectObject(mainFloor);
+          if (hits.length > 0) {
+            const pt = hits[0].point;
+            player.tx = Math.max(-16.5, Math.min(16.5, pt.x));
+            player.tz = Math.max(-3.2, Math.min(8.2, pt.z));
+            player.state = 'walk';
+            document.getElementById('action-status-pill').style.display = 'none';
+            broadcastState();
+          }
+        }
+      }
+    });
+
+    // =========================================================================
+    // 9. RITUALS, OFFERINGS & PUNCH ROOM
+    // =========================================================================
+    window.openModal = (id) => { document.getElementById(id).style.display = 'flex'; };
+    window.closeModal = (id) => { document.getElementById(id).style.display = 'none'; };
+
+    window.doTapWoodenFish = function() {
+      playWoodenFishSound();
+      addMerit(2);
+      showToast('🪵 Cốc... Cốc... Tiếng mõ gỗ vang lên giữa Chánh Điện 3D (+2 💎)');
+    };
+
+    window.doRingBell3D = function() {
+      playBellSound();
+      addMerit(5);
+      moveToWing(-1);
+      showToast('🔔 Boong... Đại Hồng Chuông đồng 3D ngân vang khắp 3 gian điện (+5 💎)');
+    };
+
+    window.doLightIncense3D = function() {
+      addMerit(5);
+      showToast('♨️ Đã dâng 3 nén tâm hương trầm ấm lên Lư Đồng 3D (+5 💎)');
+    };
+
+    const FORTUNES = [
+      '🌸 Quẻ Đại Cát — Thượng Thượng: Công trình thuận buồm xuôi gió, khách sỉ lẻ chốt đơn rộn ràng!',
+      '🌟 Quẻ Trung Cát: Giữ tâm bình an, lấy chữ Tín làm đầu, lộc lớn tự khắc tìm về.',
+      '🪷 Quẻ Phúc Lộc: Gia đạo bình an, quý nhân phù trợ, tài lộc dồi dào cả tháng!',
+      '☀️ Quẻ Khai Thông: Mọi vướng mắc vận chuyển hay công nợ đều được hóa giải êm đẹp.'
+    ];
+    window.doDrawFortune = function() {
+      addMerit(3);
+      showToast(FORTUNES[Math.floor(Math.random() * FORTUNES.length)], 5200);
+    };
+
+    window.doBurnGoldPaper = function() {
+      addMerit(5);
+      showToast('🔥 Đã hóa vàng tạ lễ tại Lò Hóa Sớ — Lộc bất tận hưởng (+5 💎)');
+    };
+
+    window.placeOffering3D = function(imgUrl, name, isSavory) {
+      closeModal('modal-offerings');
+      if (currentWing === 0 && isSavory) {
+        showToast('⚠️ Ban Tam Bảo (Phật Điện) chỉ nhận Lễ Chay thanh tịnh! Vui lòng sang Ban Đức Ông hoặc Ban Thần Tài để dâng Lễ Mặn.', 4800);
+        return;
+      }
+      const tray = new THREE.Group();
+      const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.22, 0.06, 20), goldMat);
+      tray.add(plate);
+      texLoader.load(imgUrl, (tex) => {
+        const spMat = new THREE.SpriteMaterial({ map: tex, transparent: true });
+        const sp = new THREE.Sprite(spMat);
+        sp.scale.set(0.65, 0.65, 1);
+        sp.position.y = 0.32;
+        tray.add(sp);
+      });
+      const wx = currentWing * 12 + (Math.random() - 0.5) * 1.4;
+      tray.position.set(wx, 0.72, -5.15);
+      activeOfferings3D.add(tray);
+      addMerit(8);
+      showToast(`🪷 Đã dâng [${name}] lên bàn thờ 3D thành kính (+8 💎)`);
+    };
+
+    window.promptRename = function() {
+      const n = prompt('Nhập Pháp danh / Tên hiển thị trên đầu nhân vật 3D:', myName);
+      if (n && n.trim()) {
+        myName = n.trim().slice(0, 24);
+        localStorage.setItem('ty_name_v42', myName);
+        player.name = myName;
+        player.labelEl.querySelector('.lbl-txt').textContent = myName;
+        broadcastState();
+      }
+    };
+
+    let punchHp = 100;
+    window.openPunchRoom = function() {
+      punchHp = 100;
+      document.getElementById('hp-bar-fill').style.width = '100%';
+      document.getElementById('punch-hp-txt').textContent = '100';
+      document.getElementById('punch-room').style.display = 'flex';
+    };
+    window.closePunchRoom = function() {
+      document.getElementById('punch-room').style.display = 'none';
+    };
+    window.setPunchTarget = function(title) {
+      punchHp = 100;
+      document.getElementById('punch-target-title').textContent = `Mục tiêu: ${title}`;
+      document.getElementById('hp-bar-fill').style.width = '100%';
+      document.getElementById('punch-hp-txt').textContent = '100';
+    };
+    window.hitPunchBag = function() {
+      playWoodenFishSound();
+      punchHp = Math.max(0, punchHp - 12);
+      document.getElementById('hp-bar-fill').style.width = `${punchHp}%`;
+      document.getElementById('punch-hp-txt').textContent = punchHp;
+      const bag = document.getElementById('punch-bag');
+      bag.style.transform = 'scale(0.91) rotate(-4deg)';
+      setTimeout(() => { bag.style.transform = 'scale(1) rotate(0deg)'; }, 85);
+      if (punchHp === 0) {
+        addMerit(10);
+        showToast('🎉 Đã đánh tan 100% cục tức! Tâm thanh tịnh trở lại (+10 💎)');
+        punchHp = 100;
+        document.getElementById('hp-bar-fill').style.width = '100%';
+        document.getElementById('punch-hp-txt').textContent = '100';
+      }
+    };
+
+    // =========================================================================
+    // 10. MULTIPLAYER MQTT SYNC (MAX 15 PEOPLE CAP)
+    // =========================================================================
+    const clientId = 'ty3d_' + Math.random().toString(36).slice(2, 9);
+    let mqttClient = null;
+    const BROKERS = [
+      'wss://broker.emqx.io:8084/mqtt',
+      'wss://broker.hivemq.com:8884/mqtt',
+      'wss://test.mosquitto.org:8081/mqtt'
+    ];
+
+    function connectMqtt() {
+      if (typeof mqtt === 'undefined') return;
+      try {
+        mqttClient = mqtt.connect(BROKERS[0], { connectTimeout: 4000, reconnectPeriod: 4000 });
+        mqttClient.on('connect', () => {
+          mqttClient.subscribe('truongyen/chua3d/v42/state');
+          broadcastState();
+        });
+        mqttClient.on('message', (topic, payload) => {
+          try {
+            const data = JSON.parse(payload.toString());
+            if (!data || data.id === clientId) return;
+            if (!remotePeers.has(data.id)) {
+              if (1 + remotePeers.size >= MAX_SYSTEM_PEOPLE) return;
+              const peerChar = create3DDevoteeCharacter(data.name || 'Phật tử', false, true);
+              peerChar.x = data.x || 0; peerChar.z = data.z || 4;
+              peerChar.tx = peerChar.x; peerChar.tz = peerChar.z;
+              remotePeers.set(data.id, { char: peerChar, lastSeen: Date.now() });
+              updateOnlineCounter();
+            }
+            const entry = remotePeers.get(data.id);
+            if (entry) {
+              entry.lastSeen = Date.now();
+              entry.char.tx = data.x;
+              entry.char.tz = data.z;
+              entry.char.state = data.state || 'idle';
+              entry.char.name = data.name || 'Phật tử';
+              if (entry.char.labelEl) entry.char.labelEl.querySelector('.lbl-txt').textContent = entry.char.name;
+            }
+          } catch (e) {}
+        });
+      } catch (e) {}
+    }
+    connectMqtt();
+
+    function broadcastState() {
+      if (mqttClient && mqttClient.connected) {
+        mqttClient.publish('truongyen/chua3d/v42/state', JSON.stringify({
+          id: clientId, name: player.name, x: Number(player.x.toFixed(2)), z: Number(player.z.toFixed(2)), state: player.state
+        }));
+      }
+    }
+    setInterval(broadcastState, 2000);
+
+    // =========================================================================
+    // 11. MAIN 60FPS WEBGL 3D RENDER LOOP
+    // =========================================================================
+    let lastTime = performance.now();
+
+    function renderLoop(now) {
+      requestAnimationFrame(renderLoop);
+      const dt = Math.min(0.05, (now - lastTime) / 1000);
+      lastTime = now;
+
+      if (isBeadsMode) {
+        updateBeads3DPositions();
+        renderer.render(beadsScene, beadsCamera);
+        return;
+      }
+
+      let moveX = joyDX;
+      let moveZ = joyDY;
+      if (keys['KeyW'] || keys['ArrowUp']) moveZ -= 1;
+      if (keys['KeyS'] || keys['ArrowDown']) moveZ += 1;
+      if (keys['KeyA'] || keys['ArrowLeft']) moveX -= 1;
+      if (keys['KeyD'] || keys['ArrowRight']) moveX += 1;
+
+      if (Math.hypot(moveX, moveZ) > 0.05) {
+        const len = Math.hypot(moveX, moveZ);
+        player.tx = Math.max(-16.5, Math.min(16.5, player.x + (moveX / len) * 0.45));
+        player.tz = Math.max(-3.2, Math.min(8.2, player.z + (moveZ / len) * 0.45));
+        player.state = 'walk';
+      }
+
+      animateCharacter3D(player, dt);
+      updateCharacterLabel(player);
+
+      npcDevotees.forEach((npc) => animateCharacter3D(npc, dt));
+
+      remotePeers.forEach((entry, id) => {
+        if (now - entry.lastSeen > 25000) {
+          scene.remove(entry.char.root);
+          if (entry.char.labelEl) entry.char.labelEl.remove();
+          remotePeers.delete(id);
+          updateOnlineCounter();
+        } else {
+          animateCharacter3D(entry.char, dt);
+          updateCharacterLabel(entry.char);
+        }
+      });
+
+      const targetCamX = player.x + Math.sin(camYaw) * camDist;
+      const targetCamZ = player.z + Math.cos(camYaw) * camDist;
+      const targetCamY = 1.45 + Math.sin(camPitch) * camDist * 0.62;
+
+      camera.position.x += (targetCamX - camera.position.x) * 0.14;
+      camera.position.y += (targetCamY - camera.position.y) * 0.14;
+      camera.position.z += (targetCamZ - camera.position.z) * 0.14;
+
+      camera.lookAt(player.x * 0.92, 1.85, player.z - 4.8);
+
+      const autoWing = player.x < -6.0 ? -1 : (player.x > 6.0 ? 1 : 0);
+      if (autoWing !== currentWing) {
+        currentWing = autoWing;
+        document.getElementById('wing-center').classList.toggle('active', currentWing === 0);
+        document.getElementById('wing-left').classList.toggle('active', currentWing === -1);
+        document.getElementById('wing-right').classList.toggle('active', currentWing === 1);
+      }
+
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(renderLoop);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      beadsCamera.aspect = window.innerWidth / window.innerHeight;
+      beadsCamera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
