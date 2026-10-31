@@ -4856,6 +4856,10 @@
       walkM: new Image(),
       kneel: new Image(),
       bow: new Image(),
+      poseVaiUp: new Image(),
+      poseVaiBow: new Image(),
+      poseKneelUp: new Image(),
+      poseKneelBow: new Image(),
       vangDinh: new Image(),
       vangLe10: new Image(),
       vangTienDola: new Image(),
@@ -4875,6 +4879,10 @@
     images.walkM.src = 'assets/walk_male.png';
     images.kneel.src = 'assets/kneel.png';
     images.bow.src = 'assets/bow.png';
+    images.poseVaiUp.src = 'assets/pose_vai_up.png';
+    images.poseVaiBow.src = 'assets/pose_vai_bow.png';
+    images.poseKneelUp.src = 'assets/pose_kneel_up.png';
+    images.poseKneelBow.src = 'assets/pose_kneel_bow.png';
     images.vangDinh.src = 'assets/vangma_dinh.png';
     images.vangLe10.src = 'assets/vangma_le10.png';
     images.vangTienDola.src = 'assets/vangma_tiendola.png';
@@ -6756,24 +6764,33 @@
       const now = Date.now();
       if (type === 'incense') {
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
-        incenseCeremony = { active: true, timer: 90, maxTimer: 90, wing: player.wing };
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo';
         const totalNow = burningIncenseCount[String(player.wing)];
+        const tier = rollSixTierMultiplier();
+        const incMult = tier.mult;
+        const incRateLabel = tier.rate;
+        const baseIncPts = 3;
+        const pts = baseIncPts * incMult * meritRateMultiplier;
+        incenseCeremony = {
+          active: true,
+          timer: 135,
+          maxTimer: 135,
+          wing: player.wing,
+          mult: incMult,
+          rateLabel: incRateLabel,
+          pts: pts,
+          zoneName: zoneName,
+          giver: player.name
+        };
         if (!silentMerit) {
-          // THẮP HƯƠNG XÁC SUẤT NHÂN X2 · X3 · X5 · X10 THEO TỈ LỆ CÀNG CAO CÀNG KHÓ (#mvvsw2jr3y & #mvvswa9j3z):
-          // Tỉ lệ: X1 (50%) · X2 (30%) · X3 (12%) · X5 (6%) · X10 (2% - Cực khó!)
-          const tier = rollSixTierMultiplier();
-          const incMult = tier.mult;
-          const incRateLabel = tier.rate;
-          const baseIncPts = 3;
-          const pts = baseIncPts * incMult * meritRateMultiplier;
           lastIncenseMeritAt = now;
           if (pts > 0) {
             addMerit(pts, `Thắp 3 nén tâm hương tại ${zoneName} ➔ Trúng X${incMult} (Tỉ lệ ${incRateLabel}): +${pts} 💎`);
             appendMeritLog(`♨️🌟 <b>${player.name}</b>: Thắp Hương tại <b>${zoneName}</b> trúng <b style="color:#ffd740;">X${incMult} (Tỉ lệ ${incRateLabel})</b> → Nhận <b>+${pts} 💎 Phước Đức</b>!`);
             showToast(`♨️🌟 Thắp Hương trúng X${incMult} (Tỉ lệ ${incRateLabel} · Càng cao càng khó) ➔ +${pts} 💎 Phước!`);
           } else {
-            showToast(`♨️💨 Đã thắp 3 nén hương tại ${zoneName} ➔ Trúng X0 (Không có gì · Tỉ lệ 55% · Hãy thắp tiếp săn X1·X2·X3·X5·X10!)`);
+            appendMeritLog(`♨️💨 <b>${player.name}</b>: Thắp 3 nén hương tại <b>${zoneName}</b> trúng <b>X0 (Không có gì · Tỉ lệ ${incRateLabel})</b> — Hãy thắp tiếp săn X1·X2·X3·X5·X10!`);
+            showToast(`♨️💨 Đã thắp 3 nén hương tại ${zoneName} ➔ Trúng X0 (Không có gì · Tỉ lệ ${incRateLabel} · Hãy thắp tiếp săn X1·X2·X3·X5·X10!)`);
           }
         }
       } else if (type === 'pray') {
@@ -7072,6 +7089,17 @@
 
       const wingKey = String(player.wing);
       if (!altarOfferings[wingKey]) altarOfferings[wingKey] = [];
+      const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo';
+
+      // V63: Giới hạn tối đa 5 người để lễ trên mỗi bàn thờ (#mvw5ey135v)
+      if (altarOfferings[wingKey].length >= 5) {
+        addMerit(cost); // Hoàn lại chi phí vì bàn thờ đã đủ 5 lễ
+        if (goldBagBonus > 0) goldInventoryCount = Math.max(0, goldInventoryCount - goldBagBonus);
+        syncMeritAndBagHud();
+        showToast(`⚠️ ${zoneName} đã đủ giới hạn tối đa 5 người để lễ (5/5)! Vui lòng bấm [📤 Hạ Lễ] trước khi đặt thêm lễ mới.`);
+        return;
+      }
+
       const imgKey = resolveImgKeyFromSrc(imgSrc);
 
       altarOfferings[wingKey].push({
@@ -7085,14 +7113,23 @@
         imgKey,
         imgSrc: imgSrc || 'assets/le_hoasen.jpg'
       });
-      if (altarOfferings[wingKey].length > 4) altarOfferings[wingKey].shift();
+      if (altarOfferings[wingKey].length > 5) altarOfferings[wingKey].shift();
 
-      const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
       const bonusTxt = goldBagBonus > 0 ? ` (+${goldBagBonus} lễ vào Túi Hóa Vàng)` : '';
-      appendMeritLog(`🎁 <b>${player.name}</b> đã Đặt Lễ <b>${icon} ${itemName}</b> (-${cost} 💎) lên <b>${zoneName}</b> · Cầu: <i>"${userWish}"</i>${bonusTxt}!`);
+      appendMeritLog(`🎁 <b>${player.name}</b> đã Đặt Lễ <b>${icon} ${itemName}</b> (-${cost} 💎) lên <b>${zoneName}</b> (${altarOfferings[wingKey].length}/5 lễ) · Cầu: <i>"${userWish}"</i>${bonusTxt}!`);
 
       closeMeritShopModal();
-      offeringCeremony = null;
+      offeringCeremony = {
+        active: true,
+        timer: 95,
+        maxTimer: 95,
+        wing: player.wing,
+        icon,
+        name: itemName,
+        giver: player.name,
+        wish: userWish,
+        imgKey
+      };
 
       // Không sinh lá hồng rơi khi đặt lễ (#mvvv047b4r)
 
@@ -7732,336 +7769,214 @@
     }
 
 
-    // V62: VẼ NHÂN VẬT PHẬT TỬ ÁO LAM CÓ KHỚP XƯƠNG CHUYỂN ĐỘNG THẬT (NGHIÊNG MẶT ĐỐI DIỆN NHAU KHI VÁI LẠY · QUỲ LẠY SÁT ĐẤT · ĐẤM NHAU)
+    // V63: HỆ THỐNG RENDER 3D CHÂN THỰC 100% CHO ĐỘNG TÁC VÁI KHẤN · QUỲ LẠY TAM BẢO · TƯƠNG TÁC VÁI NHAU / QUỲ LẠY NHAU / ĐẤM NHAU
+    // Sử dụng Sprite Studio 3D Áo Lam Thật (pose_vai_up, pose_vai_bow, pose_kneel_up, pose_kneel_bow, kneel, bow, walkM, walkF)
+    // kết hợp Khớp Xương Hông/Lưng 60FPS & Đổ Bóng 3D Tiếp Đất Tự Nhiên!
+    function drawPhotorealistic3DWaistBow(ctx, spr, sw, sh, bowDepth) {
+      // Chia nhân vật 3D thành 2 phần tại khớp thắt lưng (52% chiều cao):
+      // - Phần chân & tà áo dưới (50%..100%) giữ nguyên đứng vững trên sàn chùa, KHÔNG bị co lùn 2D!
+      // - Phần thân trên, đầu & hai tay chắp (0%..54%) gập xuống theo phối cảnh 3D quanh khớp lưng!
+      const natW = spr.naturalWidth;
+      const natH = spr.naturalHeight;
+      const splitRatio = 0.52;
+      const srcSplitY = Math.round(natH * splitRatio);
+      const dstSplitH = sh * splitRatio;
+      const dstLowerH = sh * (1.0 - splitRatio);
+
+      // 1. Vẽ thân dưới đứng vững trên mặt sàn 3D
+      ctx.drawImage(
+        spr,
+        0, srcSplitY, natW, natH - srcSplitY,
+        -sw / 2, -dstLowerH, sw, dstLowerH
+      );
+
+      // 2. Vẽ thân trên gập khớp lưng về phía trước theo chiều sâu 3D
+      ctx.save();
+      const pivotY = -dstLowerH + 3;
+      ctx.translate(0, pivotY);
+      const torsoScaleY = 1.0 - bowDepth * 0.28;
+      const torsoScaleX = 1.0 + bowDepth * 0.04;
+      const dropY = bowDepth * (dstSplitH * 0.22);
+      ctx.translate(0, dropY);
+      ctx.scale(torsoScaleX, torsoScaleY);
+      ctx.drawImage(
+        spr,
+        0, 0, natW, srcSplitY + Math.round(natH * 0.04),
+        -sw / 2, -dstSplitH, sw, dstSplitH + sh * 0.04
+      );
+      ctx.restore();
+    }
+
     function drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) {
       ctx.save();
       ctx.translate(sx, sy);
-      // faceDir = +1 (Đứng bên trái quay mặt sang phải), -1 (Đứng bên phải quay mặt sang trái)
-      ctx.scale(faceDir * scale * 1.18, scale * 1.18);
 
-      const isMale = (d.gender === 'M');
-      const robeMain = isMale ? '#5c6bc0' : '#7986cb';
-      const robeDark = isMale ? '#3949ab' : '#5c6bc0';
-      const robeLight = isMale ? '#8c9eff' : '#b3bcf5';
-      const pantsColor = isMale ? '#303f9f' : '#3f51b5';
-      const skinColor = '#f5cba7';
-      const skinShadow = '#e0ac82';
-      const hairColor = '#1c140d';
+      // Đổ bóng tiếp đất 3D đa lớp dưới chân / bồ đoàn
+      const shadowGrad = ctx.createRadialGradient(0, -2, 4 * scale, 0, -2, 34 * scale);
+      shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.62)');
+      shadowGrad.addColorStop(0.65, 'rgba(0, 0, 0, 0.28)');
+      shadowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = shadowGrad;
+      ctx.beginPath();
+      ctx.ellipse(0, -2, 34 * scale, 11 * scale, 0, 0, Math.PI * 2);
+      ctx.fill();
 
-      // Tính góc khớp xương theo từng hành động
-      let hipX = 0, hipY = -44;
-      let torsoAngle = 0;       // Góc gập lưng (radian, dương = cúi về phía đối phương)
-      let headNod = 0;          // Góc cúi đầu
-      let shoulderAngle = 0;    // Góc cánh tay trên
-      let elbowAngle = 0;       // Góc cẳng tay
-      let isKneeling = false;
-      let punchExtendL = 0;
-      let punchExtendR = 0;
+      const dir = (faceDir >= 0) ? 1 : -1;
+      ctx.scale(dir, 1);
 
-      if (mutualMode === 'mutual_kneel') {
-        isKneeling = true;
-        // Chu kỳ Quỳ Lạy Sát Đất (Ngũ thể đầu địa): Đứng chắp tay -> Hạ gối quỳ -> Cúi rạp trán chạm sàn -> Ngẩng lên
-        const cycle = (frameCount % 76) / 76.0;
-        hipX = -6;
-        hipY = -20; // Hạ thấp trọng tâm xuống gối trên đệm lạy
-        let bowProgress = 0;
-        if (cycle < 0.20) {
-          // Chuẩn bị quỳ thẳng lưng, tay chắp trước ngực
-          bowProgress = (cycle / 0.20) * 0.15;
-        } else if (cycle < 0.72) {
-          // Cúi lạy rạp người xuống sàn (lưng gập 82 độ, hai bàn tay trải ra sàn trước đầu gối, trán chạm tay!)
-          const t = (cycle - 0.20) / 0.52;
-          bowProgress = 0.15 + Math.sin(t * Math.PI) * 0.85;
+      const vaiUp = images.poseVaiUp;
+      const vaiBow = images.poseVaiBow;
+      const kneelUp = images.poseKneelUp;
+      const kneelBow = images.poseKneelBow;
+
+      if (mutualMode === 'mutual_kneel' && kneelUp && kneelUp.complete && kneelBow && kneelBow.complete) {
+        // CHU KỲ QUỲ LẠY NHAU 3D CHÂN THỰC TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa 60FPS):
+        // Pha 1 (0..0.28): Quỳ thẳng chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu
+        // Pha 2 (0.28..0.48): Khớp lưng gập dần xuống sàn chuyển mượt sang tư thế lạy sát đất
+        // Pha 3 (0.48..0.80): Cúi rạp trán và hai bàn tay chạm sàn trước bồ đoàn (pose_kneel_bow)
+        // Pha 4 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm trên bồ đoàn
+        const cycle = (frameCount % 84) / 84.0;
+        const baseH = 128 * scale;
+
+        if (cycle < 0.30) {
+          const nodT = Math.sin((cycle / 0.30) * Math.PI);
+          const h = baseH;
+          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
+          // Khớp lưng trên bồ đoàn khẽ cúi chào trước khi lạy xuống
+          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
+          const lowerH = h * 0.44;
+          const upperH = h * 0.56;
+          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(-w * 0.04, -lowerH + 4);
+          ctx.rotate(nodT * 0.18);
+          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+          ctx.restore();
+        } else if (cycle < 0.46) {
+          // Chuyển khớp mượt từ Quỳ thẳng -> Cúi rạp lạy sát đất
+          const t = (cycle - 0.30) / 0.16;
+          const ease = t * t * (3 - 2 * t);
+          if (ease < 0.55) {
+            const h = baseH;
+            const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
+            const splitY = Math.round(kneelUp.naturalHeight * 0.56);
+            const lowerH = h * 0.44;
+            const upperH = h * 0.56;
+            ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+            ctx.save();
+            ctx.translate(-w * 0.04, -lowerH + 4);
+            ctx.rotate(0.18 + ease * 0.62);
+            ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+            ctx.restore();
+          } else {
+            const hBow = 78 * scale;
+            const wBow = hBow * (kneelBow.naturalWidth / kneelBow.naturalHeight);
+            const dip = (1.0 - ease) * 0.14;
+            ctx.save();
+            ctx.rotate(-dip);
+            ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
+            ctx.restore();
+          }
+        } else if (cycle < 0.80) {
+          // Ngũ thể đầu địa: Cúi rạp đầu và hai bàn tay chạm sát sàn chùa
+          const breathe = Math.sin(((cycle - 0.46) / 0.34) * Math.PI);
+          const hBow = (77 - breathe * 2.5) * scale;
+          const wBow = (78 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
+          ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
         } else {
-          // Nâng người dậy về tư thế quỳ thẳng chắp tay
-          const t = (cycle - 0.72) / 0.28;
-          bowProgress = 0.15 * (1.0 - t);
+          // Ngẩng đầu dậy trở về tư thế quỳ thẳng chắp tay
+          const t = (cycle - 0.80) / 0.20;
+          const ease = t * t * (3 - 2 * t);
+          const h = baseH;
+          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
+          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
+          const lowerH = h * 0.44;
+          const upperH = h * 0.56;
+          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(-w * 0.04, -lowerH + 4);
+          ctx.rotate((1.0 - ease) * 0.48);
+          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+          ctx.restore();
         }
-        torsoAngle = bowProgress * 1.38; // ~80 độ cúi sát đất
-        headNod = bowProgress * 0.42;
-        // Khi cúi sát đất, cánh tay vươn thẳng ra phía trước chạm đất
-        shoulderAngle = -0.55 - bowProgress * 0.85;
-        elbowAngle = -1.15 + bowProgress * 0.90;
-      } else if (mutualMode === 'mutual_vai') {
-        // Chu kỳ Đứng Xoay Mặt Vái Nhau: Chân đứng thẳng vững chãi, thắt lưng gập nhịp nhàng 40 độ, hai tay chắp búp sen vái lên xuống trước ngực/trán!
-        const vaiWave = Math.pow(Math.sin(frameCount * 0.14), 2);
-        hipX = 0;
-        hipY = -46;
-        torsoAngle = 0.12 + vaiWave * 0.62; // Lưng gập từ 7° đến 42° cực kỳ tự nhiên!
-        headNod = 0.10 + vaiWave * 0.32;
-        shoulderAngle = -0.82 - vaiWave * 0.35;
-        elbowAngle = -1.25 + vaiWave * 0.25;
-      } else {
-        // 'brawl': Đứng tấn võ thuật, chân bước tới lui, 2 tay đấm liên hoàn!
-        const step = Math.sin(frameCount * 0.45 + (isPlayer ? 0 : 1.8));
-        hipX = step * 5;
-        hipY = -44 + Math.abs(step) * 3;
-        torsoAngle = 0.22 + step * 0.14;
-        headNod = 0.08;
-        punchExtendR = Math.max(0, Math.sin(frameCount * 0.75 + (isPlayer ? 0 : 1.5)));
-        punchExtendL = Math.max(0, Math.sin(frameCount * 0.75 + Math.PI + (isPlayer ? 0 : 1.5)));
+        ctx.restore();
+        return;
       }
 
-      // 1. VẼ TỌA CỤ (ĐỆM QUỲ ĐỎ VIỀN VÀNG) DƯỚI CHÂN
-      ctx.fillStyle = '#8e1b05';
-      ctx.strokeStyle = '#ffd54f';
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      ctx.ellipse(4, 2, 24, 7, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
+      if (mutualMode === 'mutual_vai' && vaiUp && vaiUp.complete && vaiBow && vaiBow.complete) {
+        // CHU KỲ ĐỨNG CHẮP TAY VÁI LẠY NHAU 3D CHÂN THỰC (60FPS):
+        // Chân giữ vững trên sàn, khớp hông và lưng cúi gập trang nghiêm 45 độ với hai tay chắp búp sen!
+        const bowWave = 0.5 - 0.5 * Math.cos(frameCount * 0.15); // 0.0 (đứng thẳng chắp tay) -> 1.0 (cúi vái sâu 45 độ)
+        const baseH = 142 * scale;
 
-      // 2. VẼ ĐÔI CHÂN & QUẦN ÁO LAM (KHỚP HÔNG - ĐÙI - ĐẦU GỐI - BÀN CHÂN)
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      if (isKneeling) {
-        // Tư thế quỳ gối thật: Bắp đùi hạ xuống đầu gối ở (10, -2), cẳng chân gập ngang ra sau tới (-18, -1)
-        // Chân sau (khuất nhẹ)
-        ctx.strokeStyle = robeDark;
-        ctx.lineWidth = 11;
-        ctx.beginPath();
-        ctx.moveTo(hipX - 2, hipY + 2);
-        ctx.lineTo(8, -4);
-        ctx.lineTo(-16, -3);
-        ctx.stroke();
-
-        // Chân trước
-        ctx.strokeStyle = pantsColor;
-        ctx.lineWidth = 12;
-        ctx.beginPath();
-        ctx.moveTo(hipX, hipY);
-        ctx.lineTo(12, -2); // Đầu gối chạm đệm lạy
-        ctx.lineTo(-15, -1); // Ống chân trải trên đệm
-        ctx.stroke();
-
-        // Bàn chân gập phía sau
-        ctx.fillStyle = skinShadow;
-        ctx.beginPath();
-        ctx.ellipse(-18, -1, 5, 3, 0.3, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        // Tư thế đứng (hoặc bước tấn khi đấm nhau)
-        const stride = (mutualMode === 'brawl') ? Math.sin(frameCount * 0.45) * 9 : 3;
-        // Chân sau
-        ctx.strokeStyle = robeDark;
-        ctx.lineWidth = 11;
-        ctx.beginPath();
-        ctx.moveTo(hipX - 3, hipY);
-        ctx.lineTo(-4 - stride * 0.5, -22);
-        ctx.lineTo(-6 - stride, -2);
-        ctx.stroke();
-        // Giày chân sau
-        ctx.fillStyle = '#261810';
-        ctx.beginPath();
-        ctx.ellipse(-2 - stride, -1, 7, 3.2, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Chân trước
-        ctx.strokeStyle = pantsColor;
-        ctx.lineWidth = 11.5;
-        ctx.beginPath();
-        ctx.moveTo(hipX + 2, hipY);
-        ctx.lineTo(4 + stride * 0.5, -22);
-        ctx.lineTo(5 + stride, -1);
-        ctx.stroke();
-        // Giày chân trước
-        ctx.fillStyle = '#3e2723';
-        ctx.beginPath();
-        ctx.ellipse(9 + stride, 0, 7.5, 3.5, 0, 0, Math.PI * 2);
-        ctx.fill();
+        if (bowWave < 0.42) {
+          const t = bowWave / 0.42;
+          const h = baseH;
+          const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
+          const splitY = Math.round(vaiUp.naturalHeight * 0.52);
+          const lowerH = h * 0.48;
+          const upperH = h * 0.52;
+          // Chân đứng thẳng vững chãi
+          ctx.drawImage(vaiUp, 0, splitY, vaiUp.naturalWidth, vaiUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          // Thân trên bắt đầu cúi gập quanh khớp thắt lưng
+          ctx.save();
+          ctx.translate(0, -lowerH + 4);
+          ctx.rotate(t * 0.28);
+          ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 10, -w * 0.48, -upperH, w, upperH + 5);
+          ctx.restore();
+        } else {
+          // Tư thế cúi gập người vái sâu 3D (pose_vai_bow) với nhịp nhún kính cẩn ở đỉnh cúi
+          const deepT = (bowWave - 0.42) / 0.58;
+          const h = baseH * 0.96;
+          const w = h * (vaiBow.naturalWidth / vaiBow.naturalHeight);
+          const splitY = Math.round(vaiBow.naturalHeight * 0.54);
+          const lowerH = h * 0.46;
+          const upperH = h * 0.54;
+          ctx.drawImage(vaiBow, 0, splitY, vaiBow.naturalWidth, vaiBow.naturalHeight - splitY, -w * 0.34, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(-w * 0.05, -lowerH + 5);
+          ctx.rotate((deepT - 0.35) * 0.18);
+          ctx.drawImage(vaiBow, 0, 0, vaiBow.naturalWidth, splitY + 10, -w * 0.29, -upperH, w, upperH + 5);
+          ctx.restore();
+        }
+        ctx.restore();
+        return;
       }
 
-      // 3. XOAY KHỚP THẮT LƯNG (HIP JOINT) ĐỂ VẼ THÂN TRÊN, ĐẦU & CÁNH TAY
-      ctx.save();
-      ctx.translate(hipX, hipY);
-      ctx.rotate(torsoAngle);
+      if (mutualMode === 'brawl' && vaiBow && vaiBow.complete && vaiUp && vaiUp.complete) {
+        // ĐẤM NHAU TÚI BỤI 3D: Sử dụng nhân vật 3D thật nghiêng mình tung đòn liên hoàn + hiệu ứng găng đấm 3D & sóng xung kích!
+        const phase = frameCount * 0.65 + (isPlayer ? 0 : Math.PI);
+        const useBow = Math.sin(phase) > 0;
+        const spr3d = useBow ? vaiBow : vaiUp;
+        const h = (useBow ? 135 : 140) * scale;
+        const w = h * (spr3d.naturalWidth / spr3d.naturalHeight);
+        const lungeX = Math.sin(phase) * 7 * scale;
+        const bobY = Math.abs(Math.cos(phase)) * 4 * scale;
 
-      // Cánh tay phía xa (Far Arm) - vẽ trước thân áo để tạo chiều sâu 3D
-      const shoulderX = 3;
-      const shoulderY = -36;
-      if (mutualMode === 'brawl') {
-        const reachL = 14 + punchExtendL * 26;
-        ctx.strokeStyle = robeDark;
-        ctx.lineWidth = 8.5;
-        ctx.beginPath();
-        ctx.moveTo(shoulderX, shoulderY);
-        ctx.lineTo(shoulderX + reachL * 0.5, shoulderY + 4);
-        ctx.lineTo(shoulderX + reachL, shoulderY - 2);
-        ctx.stroke();
-        // Găng đấm bốc tay xa
-        ctx.fillStyle = '#b71c1c';
-        ctx.beginPath();
-        ctx.arc(shoulderX + reachL + 3, shoulderY - 2, 6.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Vạt Áo Lam (Torso & Flowing Robe)
-      const gradRobe = ctx.createLinearGradient(-12, -42, 14, 6);
-      gradRobe.addColorStop(0, robeLight);
-      gradRobe.addColorStop(0.5, robeMain);
-      gradRobe.addColorStop(1, robeDark);
-      ctx.fillStyle = gradRobe;
-      ctx.strokeStyle = '#283593';
-      ctx.lineWidth = 1.4;
-      ctx.beginPath();
-      ctx.moveTo(-11, -39); // Vai sau
-      ctx.lineTo(9, -39);   // Vai trước
-      ctx.quadraticCurveTo(14, -18, 12, 8); // Vạt áo trước
-      ctx.lineTo(-13, 8);   // Vạt áo sau
-      ctx.quadraticCurveTo(-14, -18, -11, -39);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-
-      // Đường viền cổ áo chéo & hàng cúc Áo Lam truyền thống
-      ctx.strokeStyle = '#e8eaf6';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(2, -40);
-      ctx.lineTo(9, -28);
-      ctx.lineTo(8, 5);
-      ctx.stroke();
-
-      // 4. VẼ CỔ & ĐẦU NGHIÊNG (NHÌN THẲNG VÀO ĐỐI PHƯƠNG)
-      ctx.save();
-      ctx.translate(2, -42);
-      ctx.rotate(headNod);
-
-      // Cổ
-      ctx.fillStyle = skinShadow;
-      ctx.fillRect(-3, -6, 7, 8);
-
-      // Khuôn mặt nghiêng (Side-profile Head)
-      ctx.fillStyle = skinColor;
-      ctx.strokeStyle = '#c68b59';
-      ctx.lineWidth = 1.1;
-      ctx.beginPath();
-      ctx.arc(1, -14, 11.5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Sống mũi & cằm nghiêng rõ nét hướng về phía đối phương
-      ctx.fillStyle = skinColor;
-      ctx.beginPath();
-      ctx.moveTo(11, -17);
-      ctx.lineTo(14.5, -13); // Mũi
-      ctx.lineTo(11.5, -11);
-      ctx.closePath();
-      ctx.fill();
-
-      // Mắt & Lông mày (nhắm thành kính khi lạy hoặc mở to khi đấm nhau)
-      ctx.strokeStyle = '#2d1a10';
-      ctx.lineWidth = 1.4;
-      ctx.beginPath();
-      if (mutualMode === 'brawl') {
-        // Lông mày xếch dữ dằn
-        ctx.moveTo(6, -18);
-        ctx.lineTo(11, -16);
-        ctx.stroke();
-        ctx.fillStyle = '#1a0d00';
-        ctx.beginPath();
-        ctx.arc(8.5, -14.5, 1.6, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        // Mắt khép nhẹ thành kính khi Vái / Quỳ lạy nhau
-        ctx.arc(8.5, -14.5, 2.2, 0.15 * Math.PI, 0.85 * Math.PI);
-        ctx.stroke();
-      }
-
-      // Mái tóc (Nam cắt gọn, Nữ búi tóc tròn sau gáy kèm trâm sen)
-      ctx.fillStyle = hairColor;
-      ctx.beginPath();
-      ctx.arc(0, -16, 12, Math.PI * 0.62, Math.PI * 1.88);
-      ctx.quadraticCurveTo(4, -22, 8, -19);
-      ctx.quadraticCurveTo(1, -14, -4, -9);
-      ctx.closePath();
-      ctx.fill();
-
-      if (!isMale) {
-        // Búi tóc nữ phía sau
-        ctx.fillStyle = hairColor;
-        ctx.beginPath();
-        ctx.arc(-13, -15, 5.5, 0, Math.PI * 2);
-        ctx.fill();
-        // Dây buộc tóc hồng sen
-        ctx.strokeStyle = '#ff80ab';
-        ctx.lineWidth = 1.8;
-        ctx.beginPath();
-        ctx.arc(-10, -15, 4.5, -0.5, 0.5);
-        ctx.stroke();
-      }
-      ctx.restore(); // Kết thúc vẽ Đầu
-
-      // 5. VẼ CÁNH TAY GẦN & ĐÔI BÀN TAY CHẮP VÁI / LẠY SÁT ĐẤT / ĐẤM BỐC
-      if (mutualMode === 'brawl') {
-        const reachR = 14 + punchExtendR * 28;
-        ctx.strokeStyle = robeLight;
-        ctx.lineWidth = 9.5;
-        ctx.beginPath();
-        ctx.moveTo(shoulderX, shoulderY);
-        ctx.lineTo(shoulderX + reachR * 0.45, shoulderY + 6);
-        ctx.lineTo(shoulderX + reachR, shoulderY);
-        ctx.stroke();
-        // Găng đấm bốc đỏ rực
-        ctx.fillStyle = '#ff1744';
-        ctx.strokeStyle = '#ffd740';
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.arc(shoulderX + reachR + 3, shoulderY, 7, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-      } else {
-        // Cánh tay có khớp Khuỷu (Shoulder -> Elbow -> Wrist -> Clasped Hands)
-        const upperLen = 16;
-        const foreLen = 17;
-        const elbowX = shoulderX + Math.sin(-shoulderAngle) * upperLen;
-        const elbowY = shoulderY + Math.cos(-shoulderAngle) * upperLen;
-        const totalForeAngle = shoulderAngle + elbowAngle;
-        const wristX = elbowX + Math.sin(-totalForeAngle) * foreLen;
-        const wristY = elbowY + Math.cos(-totalForeAngle) * foreLen;
-
-        // Vẽ ống tay Áo Lam rộng (Bắp tay -> Khuỷu tay -> Cổ tay)
-        ctx.strokeStyle = robeLight;
-        ctx.lineWidth = 10.5;
-        ctx.beginPath();
-        ctx.moveTo(shoulderX, shoulderY);
-        ctx.lineTo(elbowX, elbowY);
-        ctx.lineTo(wristX, wristY);
-        ctx.stroke();
-
-        ctx.strokeStyle = '#283593';
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(shoulderX, shoulderY);
-        ctx.lineTo(elbowX, elbowY);
-        ctx.lineTo(wristX, wristY);
-        ctx.stroke();
-
-        // Đôi bàn tay chắp búp sen (Clasped Hands) hoặc úp chạm sàn khi lạy sát đất
         ctx.save();
-        ctx.translate(wristX, wristY);
-        ctx.rotate(totalForeAngle + 0.35);
-        ctx.fillStyle = skinColor;
-        ctx.strokeStyle = '#b87a4b';
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(0, -3);
-        ctx.quadraticCurveTo(9, -5, 13, 0);
-        ctx.quadraticCurveTo(9, 5, 0, 3);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-        // Tràng hạt đeo cổ tay
-        ctx.fillStyle = '#5d4037';
-        for (let b = -3; b <= 3; b += 2) {
+        ctx.translate(lungeX, -bobY);
+        ctx.rotate(0.12 + Math.sin(phase) * 0.08);
+        ctx.drawImage(spr3d, -w * 0.42, -h, w, h);
+
+        // Hiệu ứng vệt nắm đấm 3D & sóng xung kích khi tung cú đấm
+        const punchExt = Math.max(0, Math.sin(phase)) * 26 * scale;
+        if (punchExt > 6 * scale) {
+          const fistX = w * 0.32 + punchExt;
+          const fistY = -h * 0.68;
+          const fistGrad = ctx.createRadialGradient(fistX - 2, fistY - 2, 1, fistX, fistY, 10 * scale);
+          fistGrad.addColorStop(0, '#ffeb3b');
+          fistGrad.addColorStop(0.5, '#ff1744');
+          fistGrad.addColorStop(1, 'rgba(213, 0, 0, 0)');
+          ctx.fillStyle = fistGrad;
           ctx.beginPath();
-          ctx.arc(0, b, 1.3, 0, Math.PI * 2);
+          ctx.arc(fistX, fistY, 10 * scale, 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.restore();
+        ctx.restore();
+        return;
       }
 
-      ctx.restore(); // Kết thúc xoay khớp Hông
       ctx.restore();
     }
 
@@ -8234,38 +8149,55 @@
           ctx.restore();
         }
 
-        // 3. CHỈ VẼ LỄ VẬT TRÊN BÀN THỜ KHI CÓ NGƯỜI ĐẶT LỄ (Khi Hạ Lễ mảng rỗng -> biến mất hoàn toàn!)
+        // 3. CHỈ VẼ LỄ VẬT TRÊN BÀN THỜ KHI CÓ NGƯỜI ĐẶT LỄ (Giới hạn tối đa 5 người để lễ · Hiện rõ Lễ Gì & Lễ Của Ai!)
         const wingOfferings = altarOfferings[String(wd.idx)] || [];
         if (wingOfferings.length > 0) {
           ctx.save();
           const tableY = censerY + 46 * (wingH / 960);
-          const tableW = Math.min(W - 14, Math.max(305, wingW * 0.64));
-          const count = Math.min(4, wingOfferings.length);
-          const cardW = Math.min(112, (tableW - 10) / count - 3);
-          const cardH = 18;
-          const totalCardsW = count * cardW + (count - 1) * 4;
+          const tableW = Math.min(W - 14, Math.max(325, wingW * 0.68));
+          const count = Math.min(5, wingOfferings.length);
+          const cardW = Math.min(116, (tableW - 12) / count - 4);
+          const cardH = 29;
+          const totalCardsW = count * cardW + (count - 1) * 5;
           const startCardX = censerX - totalCardsW / 2;
-          const traySize = Math.min(74, cardW * 0.80);
+          const traySize = Math.min(72, cardW * 0.78);
 
-          wingOfferings.slice(-4).forEach((off, idx) => {
-            const cxCard = startCardX + idx * (cardW + 4);
+          // Nhãn tổng số người để lễ trên bàn thờ (Tối đa 5/5)
+          const hdrW = 206;
+          const hdrH = 17;
+          ctx.fillStyle = 'rgba(38, 12, 3, 0.94)';
+          ctx.strokeStyle = '#ffd54f';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.roundRect(censerX - hdrW / 2, tableY - traySize - 14, hdrW, hdrH, 8);
+          ctx.fill();
+          ctx.stroke();
+          ctx.font = 'bold 9.2px sans-serif';
+          ctx.fillStyle = '#ffe082';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(`🎁 BÀN LỄ ĐANG DÂNG: ${count}/5 NGƯỜI ĐỂ LỄ`, censerX, tableY - traySize - 5.5);
+
+          wingOfferings.slice(-5).forEach((off, idx) => {
+            const cxCard = startCardX + idx * (cardW + 5);
             const slotCenterX = cxCard + cardW / 2;
             const trayCenterY = tableY - traySize * 0.44;
 
             const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
             if (tex && tex.complete && tex.naturalWidth > 0) {
-              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 6, traySize, traySize);
+              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 5, traySize, traySize);
             } else {
-              ctx.font = '30px sans-serif';
+              ctx.font = '28px sans-serif';
               ctx.textAlign = 'center';
               ctx.textBaseline = 'middle';
               ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
             }
 
-            const cyCard = tableY + 3;
-            ctx.fillStyle = 'rgba(24, 8, 2, 0.94)';
+            // Thẻ Bài 2 Dòng Dưới Mỗi Mâm Lễ: Dòng 1 = Tên Lễ Vật · Dòng 2 = 👤 Của: [Tên Người Đặt Lễ]
+            const cyCard = tableY + 2;
+            ctx.fillStyle = 'rgba(20, 7, 2, 0.96)';
             ctx.strokeStyle = '#ffd54f';
-            ctx.lineWidth = 1.1;
+            ctx.lineWidth = 1.25;
             ctx.beginPath();
             ctx.roundRect(cxCard, cyCard, cardW, cardH, 6);
             ctx.fill();
@@ -8275,7 +8207,12 @@
             ctx.fillStyle = '#ffd740';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${(off.label || 'Lễ Vật').slice(0, 14)}`, slotCenterX, cyCard + 9);
+            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 13)}`, slotCenterX, cyCard + 8.5);
+
+            ctx.font = 'bold 8.3px sans-serif';
+            ctx.fillStyle = '#69f0ae';
+            const giverName = (off.giver || 'Tín Chủ').replace(' (Giám Đốc)', '').replace(' (KH)', '').slice(0, 14);
+            ctx.fillText(`👤 Của: ${giverName}`, slotCenterX, cyCard + 20.5);
           });
           ctx.restore();
         }
@@ -8594,8 +8531,32 @@
           const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
 
           if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
-            // V62: Khi 2 người Xoay Người Vái Nhau / Quỳ Lạy Nhau / Đấm Nhau -> Vẽ nhân vật góc nghiêng đối diện nhau có khớp lưng, khớp gối và cánh tay chắp vái / lạy sát đất thật 100%!
+            // V63: Khi 2 người Tương Tác (Vái Nhau / Quỳ Lạy Nhau / Đấm Nhau) -> Render Nhân Vật 3D Studio Thật Góc Nghiêng Có Khớp Lưng & Bồ Đoàn 60FPS!
             drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
+          } else if (isVaiState) {
+            // V63: Động tác VÁI KHẤN trước bàn thờ 3D chân thực (Chân giữ vững trên sàn, khớp lưng trên cúi gập vái 3 nhịp trang nghiêm, không co lùn 2D!)
+            const fullSh = spr.naturalHeight * scale * mult;
+            const vaiDip = 0.5 - 0.5 * Math.cos(frameCount * 0.16);
+            ctx.save();
+            ctx.translate(sx, sy);
+            drawPhotorealistic3DWaistBow(ctx, spr, sw, fullSh, vaiDip);
+            ctx.restore();
+          } else if (isBowCycleState) {
+            // V63: Động tác QUỲ LẠY TAM BẢO 3D chân thực (Đứng chắp tay cúi vái -> Hạ gối quỳ trên bồ đoàn -> Khớp lưng gập xuống lạy sát đất Ngũ Thể Đầu Địa!)
+            const fullSh = spr.naturalHeight * scale * mult;
+            const cycleTick = (frameCount + (isPlayer ? 0 : 19)) % 76;
+            ctx.save();
+            ctx.translate(sx, sy + poseOffsetY);
+            if (cycleTick < 16) {
+              const standBow = Math.sin((cycleTick / 16) * Math.PI) * 0.65;
+              drawPhotorealistic3DWaistBow(ctx, spr, sw, fullSh, standBow);
+            } else if (cycleTick < 32) {
+              const kneelProg = (cycleTick - 16) / 16;
+              drawPhotorealistic3DWaistBow(ctx, images.kneel, sw, images.kneel.naturalHeight * scale * 0.54, kneelProg * 0.45);
+            } else {
+              ctx.drawImage(spr, -sw / 2, -sh, sw, sh);
+            }
+            ctx.restore();
           } else {
             ctx.save();
             ctx.translate(sx, sy - bob + poseOffsetY);
@@ -8610,7 +8571,8 @@
           const badgeLabel = (item.type === 'online_peer') ? `🟢 ${d.name}` : d.name;
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
 
-          if ((isPlayer || inMutual) && poseStatusText) {
+          // Khi đang inMutual đã có Banner trung tâm nổi bật nên không vẽ chồng 2 nhãn nhỏ bên dưới nữa
+          if (isPlayer && !inMutual && poseStatusText) {
             ctx.save();
             ctx.font = 'bold 9.5px sans-serif';
             const pw = ctx.measureText(poseStatusText).width + 14;
@@ -8765,6 +8727,40 @@
           ctx.restore();
         }
         ctx.restore();
+
+        // V63: HIỂN THỊ BẢNG QUAY XÁC SUẤT THẮP HƯƠNG 6 BẬC (X0·X1·X2·X3·X5·X10) NỔI RÕ RÀNG TRÊN MÀN HÌNH SẢNH CHÍNH!
+        ctx.save();
+        const cardX = W * 0.5;
+        const cardY = Math.max(105, targetY - 62);
+        const cardW = 330;
+        const cardH = 66;
+        const isWin = (incenseCeremony.pts || 0) > 0;
+        ctx.fillStyle = isWin ? 'rgba(38, 16, 4, 0.96)' : 'rgba(24, 18, 14, 0.95)';
+        ctx.strokeStyle = isWin ? '#ffd740' : '#ffab40';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.roundRect(cardX - cardW / 2, cardY - cardH / 2, cardW, cardH, 14);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = 'bold 10.5px sans-serif';
+        ctx.fillStyle = '#ffd54f';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`♨️ THẮP 3 NÉN TÂM HƯƠNG · QUAY XÁC SUẤT 6 BẬC`, cardX, cardY - 19);
+
+        ctx.font = 'bold 9.2px sans-serif';
+        ctx.fillStyle = '#ffe082';
+        ctx.fillText(`Tỉ lệ: X0(40%) · X1(32%) · X2(15%) · X3(8%) · X5(4%) · X10(1%)`, cardX, cardY - 3);
+
+        ctx.font = 'bold 11.5px sans-serif';
+        ctx.fillStyle = isWin ? '#69f0ae' : '#ffab91';
+        const resTxt = isWin
+          ? `🎯 KẾT QUẢ: TRÚNG X${incenseCeremony.mult} (${incenseCeremony.rateLabel}) ➔ +${incenseCeremony.pts} 💎 PHƯỚC!`
+          : `💨 KẾT QUẢ: TRÚNG X0 (Không có gì · ${incenseCeremony.rateLabel}) · Thắp tiếp săn X10!`;
+        ctx.fillText(resTxt, cardX, cardY + 16);
+        ctx.restore();
+
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
       }
 
@@ -9614,6 +9610,25 @@
           if (typeof submitAndReadSoKhan === "function") submitAndReadSoKhan();
         } else if (dm === "top_phuoc_duc") {
           openMeritShopModal();
+        } else if (dm === "offer_5_givers") {
+          altarOfferings['0'] = [
+            { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Hoa Sen Bách Diệp', giver: 'Sếp Thành', wish: 'Cầu đạt KPI Quý', cost: 18, imgKey: 'leHoaSen' },
+            { icon: '🍎', label: 'Mâm Ngũ Quả', fullName: 'Mâm Ngũ Quả Phật Thủ', giver: 'CEO Yến', wish: 'Cầu bình an', cost: 28, imgKey: 'leNguQua' },
+            { icon: '🍵', label: 'Oản Ngọc Trà', fullName: 'Oản Ngọc Trà Sen', giver: 'Chị An KD', wish: 'Cầu chốt đơn lớn', cost: 38, imgKey: 'leTraOan' },
+            { icon: '👑', label: 'Đại Lễ Chay', fullName: 'Đại Lễ Cỗ Chay Bát Trân', giver: 'Trinh Kế Toán', wish: 'Cầu thu hồi nợ', cost: 95, imgKey: 'leDaiLe' },
+            { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Hoa Sen Bách Diệp', giver: 'A. Trung Kho HN', wish: 'Cầu xuất kho suôn sẻ', cost: 18, imgKey: 'leHoaSen' }
+          ];
+          incenseCeremony = {
+            active: true,
+            timer: 110,
+            maxTimer: 135,
+            wing: 0,
+            mult: 3,
+            rateLabel: '8%',
+            pts: 9,
+            zoneName: 'Ban Tam Bảo',
+            giver: 'Sếp Thành'
+          };
         } else if (dm === "brawl") {
           toggleNpcInteractBar(true);
           selectHallNpcFromDropdown("KH Hoàng Hỏi 100 Mẫu");
