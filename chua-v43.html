@@ -3520,11 +3520,11 @@
     const visitorPrayersByWing = {
       '0': [
         "Nam Mô A Di Đà Phật 🙏",
-        "Cầu gia đạo bình an, tâm thanh tịnh 🪷"
+        "Cầu bình an, tâm thanh tịnh 🪷"
       ],
       '1': [
-        "Cầu Thần Tài độ lộc buôn may bán đắt 💰",
-        "Xin vía công việc hanh thông, đắc tài lộc ✨"
+        "Cầu Thần Tài độ lộc buôn may 💰",
+        "Xin vía chốt đơn, đắc tài lộc ✨"
       ]
     };
 
@@ -5671,7 +5671,7 @@
             ctx.restore();
           }
 
-          if (d.chat && d.chatTimer > 0) {
+          if (d.wing === player.wing && d.chat && d.chatTimer > 0) {
             drawDarkChatBubble(sx, headY - 14, d.chat);
           }
         }
