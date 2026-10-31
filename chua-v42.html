@@ -217,21 +217,39 @@
        ===================================================================== */
     #centerStageOverlay {
       position: fixed;
-      top: 50%;
+      top: 52%;
       left: 50%;
-      transform: translate(-50%, -52%) scale(0.92);
-      z-index: 52;
-      width: min(270px, 88vw);
-      background: radial-gradient(circle at 50% 35%, rgba(72, 28, 8, 0.96) 0%, rgba(22, 9, 3, 0.98) 100%);
-      border: 2.5px solid #ffd56b;
-      border-radius: 22px;
-      padding: 14px 16px 16px;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.88), 0 0 35px rgba(255, 195, 65, 0.35);
-      color: #fff4d6;
-      text-align: center;
+      transform: translate(-50%, -50%);
+      z-index: 55;
+      width: auto;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      color: #fff5dc;
       display: none;
-      opacity: 0;
-      transition: opacity 0.18s ease, transform 0.18s ease;
+      text-align: center;
+    }
+    #centerStageOverlay .cs-header {
+      justify-content: flex-start !important;
+      border-bottom: none !important;
+      margin-bottom: -18px !important;
+      padding-bottom: 0 !important;
+      position: relative;
+      z-index: 5;
+    }
+    #centerStageOverlay #csStageTitle,
+    #centerStageOverlay #csTapInstruction,
+    #centerStageOverlay #csHitStats,
+    #centerStageOverlay #csAutoBtn {
+      display: none !important;
+    }
+    #centerStageOverlay .cs-target-wrap {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      width: 210px !important;
+      height: 210px !important;
     }
     #centerStageOverlay.open {
       display: block;
@@ -416,16 +434,18 @@
        ===================================================================== */
     #activeScrollBanner {
       position: fixed;
-      top: 52px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 82px;
+      left: 10px;
+      transform: none;
       z-index: 45;
-      width: min(440px, 94vw);
-      background: linear-gradient(180deg, rgba(64, 22, 8, 0.95), rgba(28, 9, 3, 0.97));
-      border: 2px solid #f0be59;
-      border-radius: 14px;
-      padding: 10px 13px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      width: min(300px, 38vw);
+      max-height: 54vh;
+      overflow-y: auto;
+      background: linear-gradient(180deg, rgba(52, 18, 6, 0.90), rgba(22, 7, 2, 0.92));
+      border: 1.5px solid #f0be59;
+      border-radius: 12px;
+      padding: 8px 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.75);
       color: #fff3d1;
       display: none;
     }
@@ -953,11 +973,13 @@
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH TRỰC TIẾP TẠI SẢNH CHÍNH (Không che màn hình · Giá ≤100💎 · Có Lễ Chay, Heo Quay, Xôi Gà, Vàng Mã · Đặt sai ban Phật bị phạt!) -->
   <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:48; width:min(96vw, 720px); background:rgba(24,10,3,0.92); border:1.5px solid #ffd54f; border-radius:12px; padding:6px 9px; box-shadow:0 8px 24px rgba(0,0,0,0.85); ">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;">
-      <span style="font-size:10.3px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ & HẠ LỄ TẠI SẢNH (<span id="stripRoomRuleHint" style="color:#69f0ae;">Ban Phật: Chỉ nhận Lễ Chay · Cấm Heo Quay/Xôi Gà/Vàng Mã!</span>)</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <button type="button" onclick="toggleHallOfferingStrip(false)" title="Đóng thanh đặt lễ" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:6px; padding:3px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">✕</button>
+        <span style="font-size:10.3px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ & HẠ LỄ (<span id="stripRoomRuleHint" style="color:#ffab40;">Ban Tam Bảo: CHỈ đặt Lễ Chay</span>)</span>
+      </div>
       <div style="display:flex; gap:4px; align-items:center;">
-        <input id="quickOfferWishInput" type="text" value="Cầu đạt KPI 1.5 tỷ & bình an" placeholder="Nhập lời cầu..." style="width:155px; background:rgba(12,5,1,0.95); border:1px solid #ffd54f; border-radius:6px; padding:2px 6px; color:#fff8e1; font-size:9.8px;" />
-        <button type="button" onclick="manualTakeDownOffering()" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #80d8ff; border-radius:6px; padding:2px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ Thụ Lộc (X2·X3·X10 Chi Phí Lễ)</button>
-        <button type="button" onclick="toggleHallOfferingStrip(false)" style="background:#b71c1c; color:#fff; border:none; border-radius:5px; padding:2px 6px; font-size:9.8px; cursor:pointer;">✕</button>
+        <input id="quickOfferWishInput" type="text" value="Cầu đạt KPI 1.5 tỷ & bình an" placeholder="Nhập lời cầu..." style="width:136px; background:rgba(12,5,2,0.95); border:1px solid rgba(255,213,79,0.65); border-radius:6px; padding:3px 6px; color:#fff; font-size:10px;" />
+        <button type="button" onclick="manualTakeDownOffering()" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #81d4fa; border-radius:6px; padding:3px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ Thụ Lộc (X2·X3·X5·X10)</button>
       </div>
     </div>
     <div style="display:flex; gap:4px; overflow-x:auto; padding-bottom:2px; scrollbar-width:thin;">
@@ -976,13 +998,15 @@
   <!-- 3D. THANH TƯƠNG TÁC NHÂN VẬT & NHẮN TIN HỘI THOẠI HỎI HAN / ĐẤM TÁT TRỰC TIẾP TẠI SẢNH CHÍNH -->
   <div id="npcInteractBar" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:49; width:min(96vw, 680px); background:rgba(16,22,28,0.94); border:1.5px solid #80deea; border-radius:12px; padding:6px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.88); ">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap;">
-      <span style="font-size:10.5px; font-weight:900; color:#80deea;">🤝💬 TƯƠNG TÁC VỚI: <b id="selectedNpcNameLabel" style="color:#ffd740;">Chị Thu Trang</b> <span style="font-size:9.4px; color:#b2ebf2;">(Chạm vào bất kỳ ai trong sảnh để đổi người)</span></span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <button type="button" onclick="toggleNpcInteractBar(false)" title="Đóng thanh tương tác" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:7px; padding:3px 8px; font-size:11px; font-weight:900; cursor:pointer;">✕</button>
+        <span style="font-size:10.5px; font-weight:900; color:#80deea;">🤝💬 TƯƠNG TÁC: <b id="selectedNpcNameLabel" style="color:#ffd740;">Phật Tử Thu Trang</b></span>
+      </div>
       <div style="display:flex; gap:4px; flex-wrap:wrap;">
-        <button type="button" onclick="interactWithHallNpc('greet')" style="background:linear-gradient(135deg,#2e7d32,#1b5e20); color:#fff; border:1px solid #a5d6a7; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">🙏 Chắp Tay Cúi Chào (+1💎)</button>
-        <button type="button" onclick="interactWithHallNpc('ask_kpi')" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #80d8ff; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">💬 Hỏi Thăm Công Việc</button>
-        <button type="button" onclick="interactWithHallNpc('punch')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1px solid #ff8a80; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">🥊 Đấm (-1💎)</button>
-        <button type="button" onclick="interactWithHallNpc('slap')" style="background:linear-gradient(135deg,#c62828,#4a148c); color:#fff; border:1px solid #ff80ab; border-radius:6px; padding:3px 8px; font-size:9.8px; font-weight:800; cursor:pointer;">🖐️ Vả / Tát (-1💎)</button>
-        <button type="button" onclick="toggleNpcInteractBar(false)" style="background:#b71c1c; color:#fff; border:none; border-radius:5px; padding:2px 6px; font-size:9.8px; cursor:pointer;">✕</button>
+        <button type="button" onclick="interactWithHallNpc('greet')" style="background:linear-gradient(135deg,#2e7d32,#1b5e20); color:#fff; border:1px solid #a5d6a7; border-radius:7px; padding:4px 8px; font-size:10px; font-weight:800; cursor:pointer;">🙏 Chắp Tay Chào (+1💎)</button>
+        <button type="button" onclick="interactWithHallNpc('ask_kpi')" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #81d4fa; border-radius:7px; padding:4px 8px; font-size:10px; font-weight:800; cursor:pointer;">💬 Hỏi Chuyện</button>
+        <button type="button" onclick="interactWithHallNpc('punch')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1px solid #ff8a80; border-radius:7px; padding:4px 8px; font-size:10px; font-weight:800; cursor:pointer;">🥊 Đấm (-1💎)</button>
+        <button type="button" onclick="interactWithHallNpc('slap')" style="background:linear-gradient(135deg,#c62828,#4a148c); color:#fff; border:1px solid #ff80ab; border-radius:7px; padding:4px 8px; font-size:10px; font-weight:800; cursor:pointer;">🖐️ Vả / Tát (-1💎)</button>
       </div>
     </div>
     <div style="display:flex; gap:5px; align-items:center;">
@@ -1048,13 +1072,15 @@
       <div style="font-size:11.5px; color:#ffd740; font-weight:900; margin-bottom:6px;">
         1️⃣ Chạm Chọn Bài Khấn Bạn Muốn Dâng Lên:
       </div>
-      <div class="prayer-topic-grid" id="topicGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:10px;">
-        <button class="topic-btn selected" style="padding:9px 8px; font-size:11.2px;" onclick="selectPrayerTopic('thieu_so', this)">🎯 1. Khấn Chạy Số Bù Đủ KPI Tháng</button>
-        <button class="topic-btn" style="padding:9px 8px; font-size:11.2px;" onclick="selectPrayerTopic('muc_tieu_quy', this)">🚀 2. Khấn Mục Tiêu Doanh Số Quý</button>
-        <button class="topic-btn" style="padding:9px 8px; font-size:11.2px;" onclick="selectPrayerTopic('khach_hang', this)">💰 3. Khấn Khách Hàng Chốt Đơn Lớn</button>
-        <button class="topic-btn" style="padding:9px 8px; font-size:11.2px;" onclick="selectPrayerTopic('tai_loc', this)">💳 4. Khấn Tài Lộc & Thu Hồi Công Nợ</button>
-        <button class="topic-btn" style="padding:9px 8px; font-size:11.2px;" onclick="selectPrayerTopic('binh_an', this)">🕊️ 5. Khấn Bình An Gia Đạo & Sức Khỏe</button>
-        <button class="topic-btn" style="padding:9px 8px; font-size:11.2px;" onclick="selectPrayerTopic('giam_stress', this)">🧘 6. Khấn Tịnh Tâm · Giải Tỏa Áp Lực</button>
+      <div class="prayer-topic-grid" id="topicGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px;">
+        <button class="topic-btn selected" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('thieu_so', this)">🎯 1. Sớ Cầu Chạy Số & Bù Đủ KPI Tháng</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('muc_tieu_quy', this)">🚀 2. Sớ Khấn Đặt Mục Tiêu Doanh Số Quý</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('khach_hang', this)">💰 3. Khấn Khách Chốt Đơn Lớn & Đại Lý Sỉ</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('tai_loc', this)">💳 4. Khấn Tài Lộc & Thu Hồi Công Nợ</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('binh_an', this)">🕊️ 5. Khấn Bình An Gia Đạo & Sức Khỏe</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px;" onclick="selectPrayerTopic('giam_stress', this)">🧘 6. Khấn Tịnh Tâm & Giải Tỏa Áp Lực</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px; border-color:#ffb74d; color:#ffe082;" onclick="selectPrayerTopic('sam_hoi', this)">🙏 7. Kinh Từ Bi Sám Hối (Tiêu Trừ Nghiệp Chướng)</button>
+        <button class="topic-btn" style="padding:8px 7px; font-size:10.8px; border-color:#81c784; color:#e8f5e9;" onclick="selectPrayerTopic('hoi_huong', this)">🪷 8. Kinh Hồi Hướng Công Đức (Phước Báu Viên Thành)</button>
       </div>
 
       <!-- 2. TỜ SỚ ĐIỆP VÀNG (Hiển thị 100% khớp với Bài Khấn vừa chọn!) -->
@@ -1119,7 +1145,7 @@
   <div class="modal-backdrop" id="fortuneStickModal" onclick="if(event.target===this) closeFortuneStickModal()">
     <div class="so-khan-box" style="max-width:540px; text-align:left;">
       <div class="sk-top-row">
-        <span class="sk-title">🎋 QUAN ÂM LINH XĂM CỔ TRUYỀN & LUẬN GIẢI NGÀNH NGHỀ THỰC TẾ</span>
+        <span class="sk-title">🎋 QUAN ÂM LINH XĂM CÁ NHÂN (TÀI LỘC · CÔNG DANH · TÌNH DUYÊN · BÌNH AN)</span>
         <button class="btn-modal-x" onclick="closeFortuneStickModal()">✕ Đóng</button>
       </div>
 
@@ -1129,15 +1155,15 @@
         <span style="color:#ffab40; font-weight:800;">🎫 Thỉnh 1 Thẻ Xăm: <b style="color:#ff5252;">-5 💎 Phước</b> (Có cả Quẻ Tốt & Quẻ Xấu như thật!)</span>
       </div>
 
-      <!-- Chọn Ngành Nghề / Vai Trò Thực Tế để Luận Giải Quẻ Sát Nghiệp Vụ -->
+      <!-- Chọn Khía Cạnh Cá Nhân để Luận Giải Quẻ Xăm Cá Nhân -->
       <div class="sk-field" style="margin-bottom:7px;">
-        <label style="font-size:10.8px; color:#ffd740;">🏢 Chọn Ngành Nghề / Công Việc Của Bạn Để Luận Giải Quẻ Sát Thực Tế Nhất:</label>
+        <label style="font-size:10.8px; color:#ffd740;">🪷 Chọn Việc Cá Nhân Bạn Đang Cầu Xin Quẻ Xăm:</label>
         <select id="fortuneCareerSelect" onchange="updateFortuneCardDisplay()" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 9px; color:#fff8e1; font-size:11.2px; font-weight:800; outline:none;">
-          <option value="tongkho" selected>🏢 1. Tổng Kho & Phân Phối Vật Liệu Nội Thất (Tấm Ốp Nano, Lam Sóng, Nhôm, Sàn)</option>
-          <option value="sale">💼 2. Kinh Doanh / Sale Chốt Đơn · Chạy KPI Doanh Số & Mở Đại Lý</option>
-          <option value="thau">👷 3. Chủ Thầu Thi Công · Kiến Trúc Sư · Đội Thợ Công Trình Nội Thất</option>
-          <option value="congno">💰 4. Tài Chính · Thu Hồi Công Nợ · Đầu Tư & Quản Trị Dòng Tiền</option>
-          <option value="buonban">🏪 5. Cửa Hàng Đại Lý · Buôn Bán Thương Mại & Khởi Nghiệp</option>
+          <option value="tongkho" selected>💰 1. Tài Lộc Cá Nhân · Tiền Bạc & Thu Nhập Riêng</option>
+          <option value="sale">🌟 2. Công Danh Sự Nghiệp Cá Nhân & Thăng Tiến</option>
+          <option value="thau">❤️ 3. Tình Duyên · Gia Đạo & Nhân Duyên Hòa Hợp</option>
+          <option value="congno">🧘 4. Sức Khỏe · Bình An Bản Mệnh & Tâm An</option>
+          <option value="buonban">🍀 5. Cầu May Mắn · Xuất Hành & Mưu Sự Cá Nhân</option>
         </select>
       </div>
 
@@ -1226,10 +1252,13 @@
         <!-- Chân Sân Đấm Gọn Thoáng: Chỉ Chọn Nhanh Đối Tượng + 5 Nút Vũ Khí To Rõ -->
         <div style="padding:10px 12px; background:#160404; flex-shrink:0;">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; margin-bottom:8px; flex-wrap:wrap;">
-            <div style="display:flex; gap:5px; flex-wrap:wrap;">
-              <button type="button" style="background:rgba(183,28,28,0.75); border:1px solid #ff8a65; color:#fff; border-radius:999px; padding:4px 9px; font-size:10.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'hứa hẹn đủ điều rồi lật lọng tráo trở')">📦 Hứa Lèo</button>
-              <button type="button" style="background:rgba(183,28,28,0.75); border:1px solid #ff8a65; color:#fff; border-radius:999px; padding:4px 9px; font-size:10.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Con Nợ Chây Ì', 'lấy vật tư công trình xong khất lần trốn nợ')">💸 Chây Ì Nợ</button>
-              <button type="button" style="background:rgba(183,28,28,0.75); border:1px solid #ff8a65; color:#fff; border-radius:999px; padding:4px 9px; font-size:10.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Đối Thủ Chơi Bẩn', 'bán hàng giả kém chất lượng phá giá')">🐍 Chơi Bẩn</button>
+            <div style="display:flex; gap:5px; flex-wrap:wrap; align-items:center;">
+              <label for="karmaPhotoUploadInput" style="background:linear-gradient(135deg,#ffd54f,#ff8f00); border:1.5px solid #fff; color:#1a0500; border-radius:999px; padding:4px 10px; font-size:10.8px; font-weight:900; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 8px rgba(255,193,7,0.45);">
+                📷 Gửi Ảnh Lên Để Đấm / Chửi
+              </label>
+              <input id="karmaPhotoUploadInput" type="file" accept="image/*" style="display:none;" onchange="handleKarmaPhotoUpload(event)" />
+              <button type="button" style="background:rgba(183,28,28,0.75); border:1px solid #ff8a65; color:#fff; border-radius:999px; padding:4px 8px; font-size:10.5px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Hứa Lèo', 'hứa hẹn đủ điều rồi lật lọng tráo trở')">📦 Hứa Lèo</button>
+              <button type="button" style="background:rgba(183,28,28,0.75); border:1px solid #ff8a65; color:#fff; border-radius:999px; padding:4px 8px; font-size:10.5px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Con Nợ Chây Ì', 'khất lần trốn nợ')">💸 Chây Ì Nợ</button>
             </div>
             <span style="font-size:10.8px; color:#ffeb3b; font-weight:900; flex-shrink:0;">Mất: <b id="karmaLostMeritCounter">0 💎</b> (<span id="karmaVentCounter">0</span> phát)</span>
           </div>
@@ -1898,7 +1927,27 @@
         audioNu: 'audio/khan_6_nu.mp3',
         getWish: () => `Giữa bộn bề công việc và áp lực doanh số, cúi xin ánh sáng từ bi của Phật soi rọi giúp con buông bỏ mọi căng thẳng, nóng giận và muộn phiền, đêm ngủ ngon giấc, ngày làm việc với trí tuệ sáng suốt và niềm vui trọn vẹn.`,
         buildFullText: (name, addr, m, g, wish) =>
-          `Nam mô A Di Đà Phật! Kính lạy Đức Phật A Di Đà cùng Đức Quán Thế Âm Bồ Tát. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tịnh Tâm An Lạc Và Giải Tỏa Áp Lực. ${wish} Nam mô A Di Đà Phật!`
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm dâng Sớ Cầu Tịnh Tâm An Lạc Và Giải Tỏa Áp Lực. ${wish} Nam mô A Di Đà Phật!`
+      },
+      sam_hoi: {
+        idx: 7,
+        title: '🙏 BÀI KHẤN 7: KINH TỪ BI SÁM HỐI (TIÊU TRỪ NGHIỆP CHƯỚNG)',
+        showKpi: false,
+        audioNam: 'audio/body_7_nam.mp3',
+        audioNu: 'audio/body_7_nu.mp3',
+        getWish: () => `Đệ tử con từ vô thỉ kiếp đến nay, hoặc vì vô minh, hoặc vì nóng vội trong công việc và cuộc sống mà lỡ tạo các lỗi lầm qua thân, khẩu, ý. Hôm nay trước tôn tượng Chư Phật, con xin chí thành cúi đầu sám hối, nguyện đem tâm từ bi hỷ xả đối đãi với đồng nghiệp và khách hàng, dứt trừ phiền não, thân tâm thanh tịnh.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm tụng Kinh Từ Bi Sám Hối trước đài sen. ${wish} Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát!`
+      },
+      hoi_huong: {
+        idx: 8,
+        title: '🪷 BÀI KHẤN 8: KINH HỒI HƯỚNG CÔNG ĐỨC (PHƯỚC BÁU VIÊN THÀNH)',
+        showKpi: false,
+        audioNam: 'audio/body_8_nam.mp3',
+        audioNu: 'audio/body_8_nu.mp3',
+        getWish: () => `Nguyện đem công đức lành tu tập, dâng hương lễ Phật và làm việc thiện lành hôm nay, trang nghiêm Phật Tịnh Độ, trên đền bốn ơn nặng, dưới cứu khổ ba đường. Nguyện hồi hướng phước báu cho gia quyến bình an, tập thể Kho Tấm Ốp Trường Yến đoàn kết vững mạnh, tài lộc viên thành.`,
+        buildFullText: (name, addr, m, g, wish) =>
+          `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${name} tại ${addr}, thành tâm tụng Kinh Hồi Hướng Công Đức. ${wish} Nam mô A Di Đà Phật!`
       }
     };
 
@@ -1990,6 +2039,21 @@
       }
     }
 
+    function resolveCharacterIntroSlug(nameStr, gender) {
+      const s = String(nameStr || '').toLowerCase();
+      if (s.includes('thế anh')) return 'the_anh';
+      if (s.includes('đức đoàn')) return 'duc_doan';
+      if (s.includes('minh anh')) return 'minh_anh';
+      if (s.includes('kiều trang')) return 'kieu_trang';
+      if (s.includes('huế')) return 'sale_hue';
+      if (s.includes('bích thủy') || s.includes('bích thuỷ')) return 'bich_thuy';
+      if (s.includes('ánh nguyệt')) return 'anh_nguyet';
+      if (s.includes('thu trang')) return 'thu_trang';
+      if (s.includes('mai lan')) return 'mai_lan';
+      if (s.includes('sếp thành') || s.includes('thành')) return 'sep_thanh';
+      return (gender === 'F') ? 'minh_anh' : 'sep_thanh';
+    }
+
     function playFullSoKhanVoice(fullText, gender, fallbackMp3Url, onDoneCallback) {
       const cleanText = String(fullText || '').replace(/["«»]/g, '').trim();
       const g = (gender === 'F') ? 'F' : 'M';
@@ -1997,32 +2061,52 @@
       const ttsApiBase = isLocalOrigin ? '' : 'http://192.168.1.13:8899';
       const dynamicUrl = `${ttsApiBase}/api/tts?gender=${g}&text=${encodeURIComponent(cleanText)}`;
 
-      localPrayerMp3.onended = () => {
-        isVoiceSpeaking = false;
-        if (typeof onDoneCallback === 'function') onDoneCallback();
-        else resumeZenMusicIfIdle();
-      };
+      const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
+      const topicIdx = cfg.idx || 1;
+      const activeName = (currentCustomer && currentCustomer.name) ? currentCustomer.name : (player.name || 'Sếp Thành');
+      const charSlug = resolveCharacterIntroSlug(activeName, g);
+      const introUrl = `audio/intro_${charSlug}.mp3?v=47`;
+      const bodyUrl = `audio/body_${topicIdx}_${g === 'F' ? 'nu' : 'nam'}.mp3?v=47`;
 
-      const playStaticFallback = () => {
+      // Phát nối tiếp: Phần 1 đọc ĐÚNG TÊN NHÂN VẬT (intro_<slug>.mp3) -> Phần 2 đọc ĐẦY ĐỦ NỘI DUNG BÀI KHẤN (body_<idx>_<nam|nu>.mp3)
+      const playTwoPartExactCharacterStatic = () => {
         localPrayerMp3.onerror = null;
-        localPrayerMp3.src = fallbackMp3Url + '?v=46';
+        localPrayerMp3.src = introUrl;
         localPrayerMp3.currentTime = 0;
         localPrayerMp3.volume = 1.0;
+        localPrayerMp3.onended = () => {
+          localPrayerMp3.onended = () => {
+            isVoiceSpeaking = false;
+            if (typeof onDoneCallback === 'function') onDoneCallback();
+            else resumeZenMusicIfIdle();
+          };
+          localPrayerMp3.src = bodyUrl;
+          localPrayerMp3.currentTime = 0;
+          localPrayerMp3.volume = 1.0;
+          localPrayerMp3.play().catch(() => {
+            isVoiceSpeaking = false;
+            if (typeof onDoneCallback === 'function') onDoneCallback();
+          });
+        };
         localPrayerMp3.play().catch(() => {
           isVoiceSpeaking = false;
           if (typeof onDoneCallback === 'function') onDoneCallback();
         });
       };
 
-      // Nếu đang kết nối LAN Server (hoặc người dùng sửa tên/số KPI khác mặc định), ưu tiên đọc chính xác từng chữ qua /api/tts, fallback sang file thu sẵn Nam/Nữ đầy đủ 100%!
       if (isLocalOrigin || lanConnected) {
-        localPrayerMp3.onerror = playStaticFallback;
+        localPrayerMp3.onended = () => {
+          isVoiceSpeaking = false;
+          if (typeof onDoneCallback === 'function') onDoneCallback();
+          else resumeZenMusicIfIdle();
+        };
+        localPrayerMp3.onerror = playTwoPartExactCharacterStatic;
         localPrayerMp3.src = dynamicUrl;
         localPrayerMp3.currentTime = 0;
         localPrayerMp3.volume = 1.0;
-        localPrayerMp3.play().catch(playStaticFallback);
+        localPrayerMp3.play().catch(playTwoPartExactCharacterStatic);
       } else {
-        playStaticFallback();
+        playTwoPartExactCharacterStatic();
       }
     }
 
@@ -2182,6 +2266,23 @@
       '⚡ "Á á sét đánh cháy đen đầu em rồi, em biết lỗi rồi tha mạng!"',
       '🧎‍♂️ "Em quỳ xuống xin chừa thói ăn cháo đá bát, đừng đập nữa hu hu!"'
     ];
+
+    function handleKarmaPhotoUpload(ev) {
+      const file = ev && ev.target && ev.target.files && ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          window.customKarmaTargetImg = img;
+          resetPunchBagTarget();
+          punchBagState.cryText = '📸 Đã gắn ảnh lên bao cát! Chạm vào mặt ảnh để Đấm · Vả · Chửi xả nghiệp!';
+          showToast('📷 Đã tải ảnh lên Phòng Xả Nghiệp! Bấm Đấm, Vả hoặc Chửi ngay!');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
 
     function resetPunchBagTarget() {
       punchBagState.hp = 100;
@@ -2353,7 +2454,27 @@
           const breatheScale = 1.0 + Math.sin(tick * 0.08) * 0.012 + (punchBagState.flashTimer > 0 ? 0.045 : 0);
           pctx.scale(breatheScale, breatheScale);
 
-          if (images.sanDamRoom && images.sanDamRoom.complete && images.sanDamRoom.naturalWidth > 0) {
+          if (window.customKarmaTargetImg && window.customKarmaTargetImg.complete && window.customKarmaTargetImg.naturalWidth > 0) {
+            // Vẽ ảnh do người dùng gửi lên làm mục tiêu chính giữa Sân Đấm!
+            const uw = window.customKarmaTargetImg.naturalWidth;
+            const uh = window.customKarmaTargetImg.naturalHeight;
+            const scale = Math.min((W * 0.88) / uw, (H * 0.78) / uh);
+            const dw = uw * scale;
+            const dh = uh * scale;
+            pctx.fillStyle = '#1b0505';
+            pctx.fillRect(-W * 0.5, -H * 0.5, W, H);
+            pctx.save();
+            pctx.beginPath();
+            pctx.roundRect(-dw * 0.5, -dh * 0.5 - 10, dw, dh, 18);
+            pctx.clip();
+            pctx.drawImage(window.customKarmaTargetImg, -dw * 0.5, -dh * 0.5 - 10, dw, dh);
+            pctx.restore();
+            pctx.strokeStyle = '#ff5252';
+            pctx.lineWidth = 3.5;
+            pctx.beginPath();
+            pctx.roundRect(-dw * 0.5, -dh * 0.5 - 10, dw, dh, 18);
+            pctx.stroke();
+          } else if (images.sanDamRoom && images.sanDamRoom.complete && images.sanDamRoom.naturalWidth > 0) {
             // Cắt lấy phần trung tâm Nhân Vật Bị Đấm To Ngang Màn Hình trong Phòng Võ Đài (9:16 -> 540x480)
             const sw = images.sanDamRoom.naturalWidth;
             const sh = images.sanDamRoom.naturalHeight;
@@ -3009,22 +3130,108 @@
       }, 135);
     }
 
+    // Chuyển toàn bộ nội dung 6 Quẻ Xăm sang LUẬN GIẢI CÁ NHÂN (Tài lộc cá nhân, Công danh, Tình duyên, Gia đạo, Sức khỏe) & đọc bằng Giọng Neural Truyền Cảm (xam_1..6.mp3)!
+    fortuneSticksPool.forEach((st, idx) => {
+      st.audioFile = `audio/xam_${idx + 1}.mp3`;
+      if (idx === 0) {
+        st.poem = 'Rồng vàng gặp hội mây xanh,<br/>Thần Tài mở cửa phúc lành ban trao.<br/>Đường đời tài lộc dồi dào,<br/>Gia môn hưng thịnh bước vào vinh hoa.';
+        st.aspects = [
+          '💰 <b>Tài Lộc Cá Nhân:</b> Đại vượng, lộc riêng về bất ngờ',
+          '🌟 <b>Công Danh:</b> Thuận lợi, cấp trên & quý nhân nâng đỡ',
+          '❤️ <b>Tình Duyên:</b> Nhân duyên tốt đẹp, hòa hợp ấm êm',
+          '🏡 <b>Gia Đạo:</b> Trong ấm ngoài êm, tin vui đưa tới',
+          '🧘 <b>Sức Khỏe:</b> Thân khỏe tâm an, tinh thần phấn chấn',
+          '🍀 <b>Mưu Sự:</b> Cầu tài đắc tài, việc riêng thành tựu'
+        ];
+        st.careerAdvice = {
+          tongkho: '💰 <b>Luận Giải Tài Lộc Cá Nhân:</b> Thời vận cá nhân của bạn đang bừng sáng! Tiền bạc riêng rủng rỉnh, làm việc gì cũng gặp may mắn, có khoản thu nhập hoặc lộc thưởng bất ngờ tìm đến với bạn.',
+          sale: '🌟 <b>Luận Giải Công Danh & Sự Nghiệp:</b> Công việc của riêng bạn hanh thông vượt bậc, nói lời nào khách hàng và đồng nghiệp đều quý mến tin tưởng, dễ đạt thành tích cao.',
+          thau: '❤️ <b>Luận Giải Tình Duyên & Gia Đạo:</b> Gia đình êm ấm thuận hòa, người độc thân dễ gặp nhân duyên hiền lành chân thành, người có gia đình thêm gắn kết yêu thương.',
+          congno: '🧘 <b>Luận Giải Sức Khỏe & Bản Mệnh:</b> Sinh khí dồi dào, ngủ ngon giấc, mọi căng thẳng mệt mỏi đều tiêu tan.',
+          buonban: '🍀 <b>Luận Giải Mưu Sự Cá Nhân:</b> Những dự định riêng bạn đang ấp ủ rất thuận lợi để bắt đầu ngay trong tuần này.'
+        };
+      } else if (idx === 1) {
+        st.poem = 'Mây mù che khuất ánh trăng trong,<br/>Ngoài mặt cười vui dạ chẳng đồng.<br/>Tiền bạc trao tay coi kẻo lỡ,<br/>Giữ mình cẩn trọng mới yên lòng.';
+        st.aspects = [
+          '💰 <b>Tài Lộc Cá Nhân:</b> Giữ chặt ví tiền, tránh cho vay mượn',
+          '🌟 <b>Công Danh:</b> Làm chắc từng việc, tránh vội vàng',
+          '❤️ <b>Tình Duyên:</b> Nhường nhịn lời nói kẻo hiểu lầm nhỏ',
+          '🏡 <b>Gia Đạo:</b> Cần lắng nghe và chia sẻ nhiều hơn',
+          '⚠️ <b>Giao Tiếp:</b> Tránh chuyện thị phi lời qua tiếng lại',
+          '🧘 <b>Sức Khỏe:</b> Nghỉ ngơi điều độ, tránh thức khuya'
+        ];
+        const personalMsg2 = '🛡️ <b>Luận Giải Cá Nhân:</b> Giai đoạn này bản thân bạn không nên cho vay mượn tiền bạc hay cả tin lời hứa miệng. Trong công việc và cuộc sống riêng, hãy giữ tâm điềm tĩnh, nói ít làm nhiều, cẩn trọng lời ăn tiếng nói thì mọi sự đều bình an.';
+        st.careerAdvice = { tongkho: personalMsg2, sale: personalMsg2, thau: personalMsg2, congno: personalMsg2, buonban: personalMsg2 };
+      } else if (idx === 2) {
+        st.poem = 'Lộc xuân nở rộ cành vàng,<br/>Người hiền gặp gỡ rộn ràng niềm vui.<br/>Việc mình làm cứ tiến xuôi,<br/>Kim ngân đầy túi nụ cười nở hoa.';
+        st.aspects = [
+          '💰 <b>Tài Lộc Cá Nhân:</b> Thu nhập tăng đều, lộc từ người quen',
+          '🌟 <b>Công Danh:</b> Quý nhân xuất hiện giúp đỡ đúng lúc',
+          '❤️ <b>Tình Duyên:</b> Duyên lành nở rộ, tình cảm ngọt ngào',
+          '🏡 <b>Gia Đạo:</b> Phúc khí đầy nhà, cha mẹ an vui',
+          '🤝 <b>Bạn Bè:</b> Gặp người tri kỷ, hợp tác ăn ý',
+          '🧘 <b>Sức Khỏe:</b> Tinh thần thư thái, tràn đầy năng lượng'
+        ];
+        const personalMsg3 = '🌸 <b>Luận Giải Cá Nhân:</b> Vận trình cá nhân của bạn rất vượng về nhân duyên! Những người bạn cũ hoặc người quen tốt bụng sẽ mang đến cơ hội quý giúp thu nhập và công việc riêng của bạn bứt phá.';
+        st.careerAdvice = { tongkho: personalMsg3, sale: personalMsg3, thau: personalMsg3, congno: personalMsg3, buonban: personalMsg3 };
+      } else if (idx === 3) {
+        st.poem = 'Đường xa mưa gió ngập ghềnh,<br/>Thuyền nan chở nặng chông chênh giữa dòng.<br/>Đừng tham mối lợi viển vông,<br/>Giữ tâm tĩnh lặng kẻo không kịp lường.';
+        st.aspects = [
+          '💰 <b>Tài Lộc Cá Nhân:</b> Không nên đầu tư mạo hiểm lúc này',
+          '🌟 <b>Công Danh:</b> Chậm mà chắc, kiểm tra kỹ từng việc',
+          '❤️ <b>Tình Duyên:</b> Đừng mang áp lực công việc về nhà',
+          '🏡 <b>Gia Đạo:</b> Giữ hòa khí, một điều nhịn chín điều lành',
+          '🧘 <b>Sức Khỏe:</b> Chú ý giấc ngủ, tránh tự gây áp lực',
+          '🍀 <b>Hóa Giải:</b> Hít thở sâu, dâng hương lễ Phật tịnh tâm'
+        ];
+        const personalMsg4 = '🧘 <b>Luận Giải Cá Nhân:</b> Hiện tại bạn đang tự tạo áp lực lớn cho bản thân, dễ mệt mỏi hoặc quyết định nóng vội. Hãy chậm lại một nhịp, giữ chặt tiền bạc cá nhân và dành thời gian nghỉ ngơi chăm sóc bản thân.';
+        st.careerAdvice = { tongkho: personalMsg4, sale: personalMsg4, thau: personalMsg4, congno: personalMsg4, buonban: personalMsg4 };
+      } else if (idx === 4) {
+        st.poem = 'Cây thông đứng vững giữa sương mờ,<br/>Đợi nắng xuân sang lộc bất ngờ.<br/>Chớ thấy đường xa mà nản chí,<br/>Bền lòng tu dưỡng ắt nên cơ.';
+        st.aspects = [
+          '💰 <b>Tài Lộc Cá Nhân:</b> Tích tiểu thành đại, vững vàng bền bỉ',
+          '🌟 <b>Công Danh:</b> Kiên trì nỗ lực sẽ hái quả ngọt',
+          '❤️ <b>Tình Duyên:</b> Chân thành bền chặt qua thử thách',
+          '🏡 <b>Gia Đạo:</b> Bình yên, trên thuận dưới hòa',
+          '🧘 <b>Sức Khỏe:</b> Dẻo dai, bình ổn',
+          '🍀 <b>Mưu Sự:</b> Nửa cuối tháng đón tin vui bất ngờ'
+        ];
+        const personalMsg5 = '🌱 <b>Luận Giải Cá Nhân:</b> Công việc và tài chính riêng của bạn đang tích lũy đều đặn. Chỉ cần bạn kiên nhẫn, chăm chỉ từng việc nhỏ mỗi ngày thì sắp tới sẽ gặt hái thành quả xứng đáng.';
+        st.careerAdvice = { tongkho: personalMsg5, sale: personalMsg5, thau: personalMsg5, congno: personalMsg5, buonban: personalMsg5 };
+      } else if (idx === 5) {
+        st.poem = 'Thần Tài gõ cửa ban mai,<br/>Vàng ròng ngọc quý trải dài trước sân.<br/>Sống ngay chữ tín mười phân,<br/>Phúc dày đức trọng muôn phần hiển vinh.';
+        st.aspects = [
+          '💰 <b>Tài Lộc Cá Nhân:</b> Tiền vào như nước, đại cát đại lợi',
+          '🌟 <b>Công Danh:</b> Thăng hoa rực rỡ, vạn sự như ý',
+          '❤️ <b>Tình Duyên:</b> Viên mãn hạnh phúc, tràn ngập tiếng cười',
+          '🏡 <b>Gia Đạo:</b> Phúc lộc song toàn, con cháu hiếu thuận',
+          '🧘 <b>Sức Khỏe:</b> Khỏe mạnh bình an suốt bốn mùa',
+          '🍀 <b>Mưu Sự:</b> Cầu gì được nấy, tâm nguyện viên thành'
+        ];
+        const personalMsg6 = '🌟 <b>Luận Giải Cá Nhân:</b> Bản mệnh của bạn đang đón vận đỏ rực rỡ! Công danh sự nghiệp thăng tiến, tài lộc cá nhân dồi dào, cầu tài đắc tài, cầu bình an đắc bình an.';
+        st.careerAdvice = { tongkho: personalMsg6, sale: personalMsg6, thau: personalMsg6, congno: personalMsg6, buonban: personalMsg6 };
+      }
+    });
+
     function speakCurrentFortuneStick() {
       unlockAndStartAudio();
-      const careerSel = document.getElementById('fortuneCareerSelect');
-      const careerKey = (careerSel && careerSel.value) ? careerSel.value : 'tongkho';
-      const st = currentFortuneStick;
-      const rawCareer = (st.careerAdvice[careerKey] || st.careerAdvice.tongkho).replace(/<[^>]+>/g, '');
-      const rawRemedy = (st.remedy || '').replace(/<[^>]+>/g, '');
-      const rawPoem = (st.poem || '').replace(/<br\s*\/?>/gi, ', ');
-
-      const chunks = [
-        `Nam Mô A Di Đà Phật. Tín chủ vừa thỉnh được ${st.num}, phẩm cấp ${st.rank}. Điển tích cổ truyền: ${st.legend}. Quẻ Dịch: ${st.hexagram}.`,
-        `Thơ xăm có câu: ${rawPoem}.`,
-        `${rawCareer}`,
-        `${rawRemedy}`
-      ];
-      playMultiChunksSequential(chunks, 'fcMeaning', `🔊 <b>Đang Đọc Luận Giải Ngành Nghề:</b>`, null, 'normal');
+      stopAllVoices(true);
+      const st = currentFortuneStick || fortuneSticksPool[0];
+      const audioSrc = (st.audioFile || 'audio/xam_1.mp3') + '?v=47';
+      isVoiceSpeaking = true;
+      localPrayerMp3.onerror = null;
+      localPrayerMp3.src = audioSrc;
+      localPrayerMp3.currentTime = 0;
+      localPrayerMp3.volume = 1.0;
+      localPrayerMp3.onended = () => {
+        playBellSound();
+        isVoiceSpeaking = false;
+        resumeZenMusicIfIdle();
+      };
+      localPrayerMp3.play().catch(() => {
+        isVoiceSpeaking = false;
+        resumeZenMusicIfIdle();
+      });
     }
 
     // =========================================================================
@@ -3544,6 +3751,16 @@
     }
 
     // Mỗi gian chỉ có 1 khách vãng lai yên tĩnh, mặc định KHÔNG tự bật khung chat liên tục (chỉ khi người chơi tương tác hoặc thỉnh thoảng 30s mới niệm 1 câu ngắn!)
+    const visitorNamesPool = [
+      { name: 'Phật Tử Thu Trang', avatar: '👩🏻', gender: 'F' },
+      { name: 'Phật Tử Mai Lan', avatar: '🪷', gender: 'F' },
+      { name: 'Cư Sĩ Đức Đoàn', avatar: '🧔🏻', gender: 'M' },
+      { name: 'Phật Tử Ánh Nguyệt', avatar: '🌸', gender: 'F' },
+      { name: 'Phật Tử Bích Thủy', avatar: '🙏', gender: 'F' },
+      { name: 'Cư Sĩ Thế Anh', avatar: '🧑🏻', gender: 'M' }
+    ];
+    let nextVisitorPoolIdx = 0;
+
     const visitingGuests = [
       {
         id: 'guest_tb1',
@@ -3552,15 +3769,38 @@
         name: 'Phật Tử Thu Trang',
         avatar: '👩🏻',
         gender: 'F',
-        u: 0.18,
-        v: 0.66,
-        targetU: 0.18,
+        u: 0.22,
+        v: 0.68,
+        targetU: 0.22,
         targetV: 0.66,
         state: 'kneel',
-        bowTimer: 0,
+        phase: 'praying', // 'entering' -> 'praying' -> 'leaving'
+        phaseTick: 160,
+        bowTimer: 50,
         sentenceIdx: 0,
         chat: visitorPrayersByWing['0'][0],
-        chatTimer: 260,
+        chatTimer: 200,
+        pauseTimer: 0,
+        waitOutsideTimer: 0
+      },
+      {
+        id: 'guest_tb2',
+        homeWing: 0,
+        wing: 0,
+        name: 'Cư Sĩ Đức Đoàn',
+        avatar: '🧔🏻',
+        gender: 'M',
+        u: 0.84,
+        v: 0.90,
+        targetU: 0.78,
+        targetV: 0.68,
+        state: 'walk',
+        phase: 'entering',
+        phaseTick: 0,
+        bowTimer: 0,
+        sentenceIdx: 1,
+        chat: '',
+        chatTimer: 0,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -3571,15 +3811,38 @@
         name: 'Phật Tử Mai Lan',
         avatar: '🪷',
         gender: 'F',
-        u: 0.82,
+        u: 0.80,
         v: 0.66,
-        targetU: 0.82,
+        targetU: 0.80,
         targetV: 0.66,
         state: 'kneel',
-        bowTimer: 0,
+        phase: 'praying',
+        phaseTick: 180,
+        bowTimer: 50,
         sentenceIdx: 0,
         chat: visitorPrayersByWing['1'][0],
-        chatTimer: 260,
+        chatTimer: 200,
+        pauseTimer: 0,
+        waitOutsideTimer: 0
+      },
+      {
+        id: 'guest_tt2',
+        homeWing: 1,
+        wing: 1,
+        name: 'Phật Tử Ánh Nguyệt',
+        avatar: '🌸',
+        gender: 'F',
+        u: 0.18,
+        v: 0.90,
+        targetU: 0.24,
+        targetV: 0.68,
+        state: 'walk',
+        phase: 'entering',
+        phaseTick: 0,
+        bowTimer: 0,
+        sentenceIdx: 1,
+        chat: '',
+        chatTimer: 0,
         pauseTimer: 0,
         waitOutsideTimer: 0
       }
@@ -3619,7 +3882,7 @@
         localStorage.setItem('ty_custom_char_gender', player.gender);
       } catch (err) {}
       const skName = document.getElementById('skInputName');
-      setSoKhanVoiceGender(player.gender); if (skName) { skName.value = player.name; updateLiveSoPreview(); }
+      setSoKhanVoiceGender(player.gender); currentCustomer.name = player.name; currentCustomer.voiceGender = player.gender; delete currentCustomer.fullText; if (skName) { skName.value = player.name; } updateLiveSoPreview(); if (document.getElementById('activeScrollBanner')?.classList.contains('open')) { readCurrentCustomerPrayer(); }
       showToast(`🟢 Đã đăng nhập Online nhân vật: ${player.name}`);
       broadcastMyPresence();
     });
@@ -4090,16 +4353,41 @@
         return;
       }
 
-      // ĐẤM HOẶC VẢ/TÁT NHÂN VẬT NGAY TẠI SẢNH CHÍNH -> MỖI CÁI ĐẤM, CÁI VẢ, CÁI TÁT ĐỀU TRỪ -1 💎 PHƯỚC!
+      // ĐẤM HOẶC VẢ/TÁT NHÂN VẬT NGAY TẠI SẢNH CHÍNH (#2386):
+      // Nhân vật của mình lao tới sát mục tiêu, vung đòn Đấm/Vả nổ hiệu ứng 🥊💥 / 🖐️💥, mục tiêu văng lùi và la lên rõ ràng!
       const isSlap = (actionType === 'slap');
       playHeavyPunchSfx(isSlap ? 'slipper' : 'punch');
       addMerit(-1, `${isSlap ? 'Vả / Tát' : 'Đấm'} nhân vật ${target.name} ngay tại sảnh (-1 💎 Phước)`);
 
-      player.state = 'walk';
-      target.u = Math.max(0.12, Math.min(0.88, target.u + (target.u >= player.u ? 0.06 : -0.06)));
+      player.wing = target.wing;
+      player.targetWing = target.wing;
+      player.u = Math.max(0.12, Math.min(0.88, target.u + (player.u <= target.u ? -0.04 : 0.04)));
+      player.v = target.v;
+      player.targetU = player.u;
+      player.targetV = player.v;
+      player.state = 'vai';
+      player.vaiTimer = 45;
+      player.chat = isSlap ? `🖐️💥 CHÁT! Vả ${target.name}! (-1💎)` : `🥊💥 BỐP! Đấm ${target.name}! (-1💎)`;
+      player.chatTimer = 180;
+
+      const pushDir = (target.u >= player.u) ? 0.07 : -0.07;
+      target.u = Math.max(0.10, Math.min(0.90, target.u + pushDir));
       target.targetU = target.u;
       target.state = 'bow';
-      target.bowTimer = 90;
+      target.bowTimer = 110;
+      target.chat = isSlap ? `😵‍💫 Á đau quá! Sao ${player.name} lại vả tôi?!` : `🤕 Ui da! Sao ${player.name} lại đấm tôi?!`;
+      target.chatTimer = 220;
+
+      const fxX = target._screenX || (window.innerWidth * 0.5);
+      const fxY = (target._screenY || (window.innerHeight * 0.65)) - 55;
+      floatingHits.push({
+        x: fxX,
+        y: fxY,
+        text: isSlap ? `🖐️💥 VẢ BỐP! (-1💎)` : `🥊💥 ĐẤM BỐP! (-1💎)`,
+        color: '#ff5252',
+        life: 1.35
+      });
+      showToast(`${isSlap ? '🖐️💥 Đã vả' : '🥊💥 Đã đấm'} ${target.name}! (-1 💎 Phước)`);
     }
 
     function sendDirectNpcDialog() {
@@ -4323,33 +4611,20 @@
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo';
         const totalNow = burningIncenseCount[String(player.wing)];
         if (!silentMerit) {
-          const rollBanner = document.getElementById('csLastRollBanner');
-          const chance = 0.25 * meritRateMultiplier;
-          const pctLabel = Math.round(chance * 100);
-          const pts = 3 * meritRateMultiplier;
-          const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
-          if (Math.random() < chance) {
-            lastIncenseMeritAt = now;
-            addMerit(pts, `Dâng 3 nén tâm hương cắm vào Lư Hương ${zoneName} (Trúng ${pctLabel}%${buffSuffix})`);
-            csLuckyCount++;
-            csMeritSession += pts;
-            const luckyEl = document.getElementById('csLuckyCounter');
-            if (luckyEl) luckyEl.textContent = csLuckyCount;
-            const mEl = document.getElementById('csMeritEarned');
-            if (mEl) mEl.textContent = `+${csMeritSession} 💎`;
-            if (rollBanner) {
-              rollBanner.style.color = '#69f0ae';
-              rollBanner.style.borderColor = '#69f0ae';
-              rollBanner.innerHTML = `✨♨️ <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> Đã cắm 3 nén hương vào Lư Hương — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
-            }
-            
+          // THẮP HƯƠNG XÁC SUẤT NHÂN X2 · X3 · X5 · X10 THEO TỈ LỆ CÀNG CAO CÀNG KHÓ (#mvvsw2jr3y & #mvvswa9j3z):
+          // Tỉ lệ: X1 (50%) · X2 (30%) · X3 (12%) · X5 (6%) · X10 (2% - Cực khó!)
+          const rInc = Math.random();
+          const incMult = (rInc < 0.02) ? 10 : ((rInc < 0.08) ? 5 : ((rInc < 0.20) ? 3 : ((rInc < 0.50) ? 2 : 1)));
+          const incRateLabel = { 1: '50%', 2: '30%', 3: '12%', 5: '6%', 10: '2%' }[incMult];
+          const baseIncPts = 3;
+          const pts = baseIncPts * incMult;
+          lastIncenseMeritAt = now;
+          addMerit(pts, `Thắp 3 nén tâm hương tại ${zoneName} ➔ Trúng X${incMult} (Tỉ lệ ${incRateLabel}): +${pts} 💎`);
+          if (incMult > 1) {
+            appendMeritLog(`♨️🌟 <b>${player.name}</b>: Thắp Hương tại <b>${zoneName}</b> nổ Lộc <b style="color:#ffd740;">X${incMult} (Tỉ lệ khó ${incRateLabel})</b> → Nhận <b>+${pts} 💎 Phước Đức</b>!`);
+            showToast(`♨️🌟 Thắp Hương nổ Lộc X${incMult} (Tỉ lệ ${incRateLabel} · Càng cao càng khó) ➔ +${pts} 💎 Phước!`);
           } else {
-            if (rollBanner) {
-              rollBanner.style.color = '#ffe082';
-              rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-              rollBanner.innerHTML = `♨️🙏 <i>Đã dâng 3 nén tâm hương & cắm vào Lư Hương Đồng (${totalNow} nén đang cháy · Xác suất ${pctLabel}%/lần${buffSuffix})</i>`;
-            }
-            
+            showToast(`♨️🙏 Đã thắp 3 nén hương tại ${zoneName} (X1 · Tỉ lệ 50%: +${pts} 💎 · Có cơ hội nổ X2 30%, X3 12%, X5 6%, X10 2%)`);
           }
         }
       } else if (type === 'pray') {
@@ -4417,15 +4692,17 @@
       altarOfferings[wKey] = [];
 
       takeDownCeremony = null;
-      // HẠ LỄ THỤ LỘC: Xác suất nhận GẤP ĐÔI (X2), GẤP BA (X3) hoặc GẤP MƯỜI (X10) chi phí lễ Phật!
+      // HÀM QUAY XÁC SUẤT THEO TỈ LỆ CÀNG CAO CÀNG KHÓ:
+      // X1 (50% - Cơ bản) · X2 (30% - Vừa) · X3 (12% - Khá khó) · X5 (6% - Rất khó) · X10 (2% - Cực hiếm!)
+      const rollTier = Math.random();
+      const locMult = (rollTier < 0.02) ? 10 : ((rollTier < 0.08) ? 5 : ((rollTier < 0.20) ? 3 : ((rollTier < 0.50) ? 2 : 1)));
+      const ratePctMap = { 1: '50%', 2: '30%', 3: '12%', 5: '6%', 10: '2%' };
       const totalOfferCost = list.reduce((sum, it) => sum + (Number(it.cost) || 20), 0);
-      const rollLoc = Math.random();
-      const locMult = (rollLoc < 0.15) ? 10 : ((rollLoc < 0.48) ? 3 : 2);
       const locReward = totalOfferCost * locMult;
       const offerNames = countRemoved > 1 ? `${countRemoved} mâm lễ (${item.fullName || item.label}...)` : (item.fullName || item.label);
-      addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames} · Chi phí lễ ${totalOfferCost}💎) ➔ Nổ Lộc GẤP ${locMult} LẦN (X${locMult}): +${locReward} 💎`);
-      appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> (Chi phí lễ <b>${totalOfferCost}💎</b>) trúng xác suất <b style="color:#ffd740;">GẤP ${locMult} LẦN (X${locMult})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
-      showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" (Chi phí lễ ${totalOfferCost}💎) ➔ Trúng Lộc GẤP ${locMult} LẦN (X${locMult}): +${locReward} 💎 Phước!`);
+      addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames} · Chi phí ${totalOfferCost}💎) ➔ Trúng X${locMult} (Tỉ lệ ${ratePctMap[locMult]}): +${locReward} 💎`);
+      appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> (Chi phí <b>${totalOfferCost}💎</b>) trúng mốc <b style="color:#ffd740;">X${locMult} (Tỉ lệ ${ratePctMap[locMult]})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
+      showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" ➔ Trúng X${locMult} (Tỉ lệ ${ratePctMap[locMult]}): +${locReward} 💎 Phước!`);
       renderCenterOfferingInspector();
       publishMqtt({ type: 'takedown', wing: player.wing, clearAll: true, name: player.name });
     }
@@ -5479,38 +5756,75 @@
 
       // Nhân vật vãng lai ngồi lễ tĩnh lặng, chỉ thỉnh thoảng (~35 giây/lần) mới niệm 1 câu ngắn 4-6 chữ trong 3 giây, không lặp lại liên tục!
       const renderables = [];
+      // KHÁCH VÃNG LAI ĐI RA ĐI VÀO LIÊN TỤC (#2380 & #2385):
+      // Bước từ cửa vào bồ đoàn -> Quỳ lễ & khấn 1 câu ngắn gọn -> Đứng dậy đi ra cửa -> Đổi lượt khách mới bước vào!
       for (const g of visitingGuests) {
         if (g.waitOutsideTimer > 0) {
           g.waitOutsideTimer--;
+          if (g.waitOutsideTimer === 0) {
+            const nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
+            nextVisitorPoolIdx++;
+            g.name = nextProfile.name;
+            g.avatar = nextProfile.avatar;
+            g.gender = nextProfile.gender;
+            const sideLeft = (g.id.endsWith('1'));
+            g.u = sideLeft ? 0.12 : 0.88;
+            g.v = 0.94;
+            g.targetU = sideLeft ? (0.18 + Math.random() * 0.10) : (0.72 + Math.random() * 0.10);
+            g.targetV = 0.64 + Math.random() * 0.08;
+            g.phase = 'entering';
+            g.state = 'walk';
+            g.chat = '';
+            g.chatTimer = 0;
+          }
           continue;
         }
+
         const gdu = g.targetU - g.u;
         const gdv = g.targetV - g.v;
-        if (Math.hypot(gdu, gdv) > 0.003) {
-          g.u += gdu * 0.028;
-          g.v += gdv * 0.028;
-          g.state = 'walk';
-        } else {
-          g.state = (g.bowTimer > 0) ? 'bow' : 'kneel';
-        }
-        if (g.bowTimer > 0) {
-          g.bowTimer--;
-        }
-        if (g.chatTimer > 0) {
-          g.chatTimer--;
-          if (g.chatTimer === 0) {
-            g.pauseTimer = 110; // Nghỉ ~1.8 giây giữa 2 câu để không lặp liên tục dồn dập
-          }
-        } else {
-          if (g.pauseTimer > 0) {
-            g.pauseTimer--;
+        const dist = Math.hypot(gdu, gdv);
+
+        if (g.phase === 'entering') {
+          if (dist > 0.008) {
+            g.u += gdu * 0.032;
+            g.v += gdv * 0.032;
+            g.state = 'walk';
           } else {
+            g.phase = 'praying';
+            g.state = 'kneel';
+            g.phaseTick = 320; // Quỳ lễ ~5.3 giây rồi đi ra
+            g.bowTimer = 90;
             const list = visitorPrayersByWing[String(g.wing === 1 ? 1 : 0)] || visitorPrayersByWing['0'];
             g.sentenceIdx = ((g.sentenceIdx || 0) + 1) % list.length;
             g.chat = list[g.sentenceIdx];
-            g.chatTimer = 260; // Hiện rõ câu nói trong ~4.3 giây
-            g.bowTimer = 70;
+            g.chatTimer = 240;
           }
+        } else if (g.phase === 'praying') {
+          if (g.bowTimer > 0) g.bowTimer--;
+          if (g.chatTimer > 0) g.chatTimer--;
+          g.phaseTick--;
+          if (g.phaseTick <= 0) {
+            g.phase = 'leaving';
+            g.state = 'walk';
+            g.chat = '';
+            g.chatTimer = 0;
+            g.targetU = (g.u < 0.5) ? 0.08 : 0.92;
+            g.targetV = 0.95;
+          }
+        } else if (g.phase === 'leaving') {
+          if (dist > 0.012) {
+            g.u += gdu * 0.036;
+            g.v += gdv * 0.036;
+            g.state = 'walk';
+          } else {
+            g.waitOutsideTimer = 55; // Nghỉ ~0.9s ngoài cửa rồi có khách vãng lai mới đi vào
+          }
+        }
+
+        if (g.vaiTimer && g.vaiTimer > 0) {
+          g.vaiTimer--;
+          g.state = 'vai';
+          if (g.vaiTimer === 0) g.state = (g.phase === 'praying') ? 'kneel' : 'walk';
         }
         renderables.push({ type: 'visitor', data: g, v: g.v });
       }
