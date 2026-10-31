@@ -221,7 +221,7 @@
       left: 50%;
       transform: translate(-50%, -52%) scale(0.92);
       z-index: 52;
-      width: min(390px, 92vw);
+      width: min(270px, 88vw);
       background: radial-gradient(circle at 50% 35%, rgba(72, 28, 8, 0.96) 0%, rgba(22, 9, 3, 0.98) 100%);
       border: 2.5px solid #ffd56b;
       border-radius: 22px;
@@ -819,19 +819,16 @@
         <div id="csMalletIcon" class="cs-mallet">🥢</div>
       </div>
 
-      <div id="csTapInstruction" style="font-size:12px; font-weight:800; color:#ffd740; margin-bottom:4px;">
-        👆 Chạm vào Mõ Gỗ để gõ (Quy chuẩn Tích Phước khó: Xác suất 10% mỗi nhịp nhận +1 💎)
+      <div id="csTapInstruction" style="font-size:11.5px; font-weight:800; color:#ffd740; margin-bottom:6px;">
+        👆 Click vào hình để gõ
       </div>
-      <div id="csLastRollBanner" style="font-size:11.2px; font-weight:800; color:#ffe082; background:rgba(25,10,3,0.88); border:1px solid rgba(255,213,79,0.5); border-radius:8px; padding:4px 10px; margin-bottom:6px;">
-        🪷 Hãy thành tâm gõ Mõ — Kiên trì tu tập (Xác suất 10% kết tụ +1 💎 Phước Đức)
-      </div>
+      <div id="csLastRollBanner" style="display:none;"></div>
       <div id="csHitStats" style="font-size:11.5px; color:#ffe7b3; margin-bottom:10px;">
         Đã gõ: <b id="csHitCounter" style="color:#ffd740;">0</b> nhịp · Trúng Phước: <b id="csLuckyCounter" style="color:#a5d6a7;">0</b> lần (<b id="csMeritEarned" style="color:#80d8ff;">+0 💎</b>)
       </div>
 
-      <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-        <button id="csAutoBtn" class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px;" onclick="toggleCenterStageAuto()">▶ Tự động: Tắt</button>
-        <button class="cm-auto-pill" style="padding:6px 14px; font-size:11.5px; background:rgba(68,28,8,0.92); color:#ffe596; border-color:#ffd54f;" onclick="switchCenterStageMode()">🔄 Đổi Mõ / Chuông / Hương / Lạy / Vái</button>
+      <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap;">
+        <button id="csAutoBtn" class="cm-auto-pill" style="padding:5px 12px; font-size:11px;" onclick="toggleCenterStageAuto()">▶ Tự động: Tắt</button>
       </div>
     </div>
 
@@ -1004,11 +1001,11 @@
   <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
   <div class="bottom-dock-wrap">
     <div class="bottom-dock">
-      <button class="dock-item active-ritual" onclick="performDirectHallAction('mo')">
+      <button class="dock-item active-ritual" onclick="openCenterStage('mo')">
         <span class="dock-icon">🪵</span>
         <span class="dock-label">Gõ Mõ (Thật)</span>
       </button>
-      <button class="dock-item active-ritual" onclick="performDirectHallAction('bell')">
+      <button class="dock-item active-ritual" onclick="openCenterStage('bell')">
         <span class="dock-icon">🔔</span>
         <span class="dock-label">Thỉnh Chuông</span>
       </button>
@@ -3220,23 +3217,21 @@
 
       const buffTag = meritRateMultiplier > 1 ? ` · 🔥 BUFF X${meritRateMultiplier}` : '';
       if (mode === 'mo') {
-        const pct = 10 * meritRateMultiplier;
-        titleEl.textContent = `🪵 GÕ MÕ TỊNH TÂM (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
+        titleEl.textContent = '🪵 GÕ MÕ';
         imgEl.style.display = 'block';
         imgEl.src = 'assets/mo_go.png';
         emojiEl.style.display = 'none';
         malletEl.style.display = 'block';
         malletEl.textContent = '🥢';
-        instrEl.textContent = `👆 Chạm vào Mõ Gỗ để gõ (Xác suất hiện tại: ${pct}% mỗi nhịp được +${1 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
+        instrEl.textContent = '👆 Click vào Cái Mõ để gõ';
       } else if (mode === 'bell') {
-        const pct = 20 * meritRateMultiplier;
-        titleEl.textContent = `🔔 THỈNH ĐẠI HỒNG CHUÔNG (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
+        titleEl.textContent = '🔔 THỈNH CHUÔNG';
         imgEl.style.display = 'block';
         imgEl.src = 'assets/chuong_dong.png';
         emojiEl.style.display = 'none';
         malletEl.style.display = 'block';
         malletEl.textContent = '🪵';
-        instrEl.textContent = `👆 Chạm vào Chuông Đồng để thỉnh (Xác suất hiện tại: ${pct}% được +${2 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
+        instrEl.textContent = '👆 Click vào Cái Chuông để thỉnh';
       } else if (mode === 'incense') {
         const pct = 25 * meritRateMultiplier;
         titleEl.textContent = `♨️🙏 DÂNG 3 NÉN HƯƠNG & CẮM VÀO LƯ HƯƠNG (${pct}% TÍCH PHƯỚC${buffTag})`;
@@ -3309,7 +3304,6 @@
       const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
       if (centerStageMode === 'mo') {
         playMoSound();
-        player.state = 'kneel';
         const chance = 0.10 * meritRateMultiplier;
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
@@ -3337,8 +3331,6 @@
         }
       } else if (centerStageMode === 'bell') {
         playBellSound();
-        player.state = 'bow';
-        player.bowTimer = 60;
         const chance = 0.20 * meritRateMultiplier;
         const pctLabel = Math.round(chance * 100);
         const pts = 2 * meritRateMultiplier;
@@ -3448,13 +3440,7 @@
       if (luckyEl) luckyEl.textContent = csLuckyCount;
       document.getElementById('csMeritEarned').textContent = `+${csMeritSession} 💎`;
 
-      floatingHits.push({
-        x: window.innerWidth * 0.5,
-        y: window.innerHeight * 0.36,
-        text: hitMsg,
-        color: hitColor,
-        life: 1.15
-      });
+
     }
 
     function toggleCenterStageAuto() {
@@ -3562,9 +3548,10 @@
         targetV: 0.66,
         state: 'kneel',
         bowTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        phaseTimer: 1200,
+        sentenceIdx: 0,
+        chat: visitorPrayersByWing['0'][0],
+        chatTimer: 260,
+        pauseTimer: 0,
         waitOutsideTimer: 0
       },
       {
@@ -3580,9 +3567,10 @@
         targetV: 0.66,
         state: 'kneel',
         bowTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        phaseTimer: 1400,
+        sentenceIdx: 0,
+        chat: visitorPrayersByWing['1'][0],
+        chatTimer: 260,
+        pauseTimer: 0,
         waitOutsideTimer: 0
       }
     ];
@@ -4141,19 +4129,8 @@
       closeCenterStage();
       const roomName = (player.wing === 0) ? 'Ban Tam Bảo' : 'Ban Thần Tài';
 
-      if (mode === 'mo') {
-        playMoSound();
-        if (Math.random() < 0.10 * meritRateMultiplier) {
-          addMerit(1 * meritRateMultiplier, `Gõ Mõ tại ${roomName}`);
-        }
-        return;
-      }
-
-      if (mode === 'bell') {
-        playBellSound();
-        if (Math.random() < 0.20 * meritRateMultiplier) {
-          addMerit(2 * meritRateMultiplier, `Thỉnh Chuông tại ${roomName}`);
-        }
+      if (mode === 'mo' || mode === 'bell') {
+        openCenterStage(mode);
         return;
       }
 
@@ -5497,12 +5474,23 @@
         }
         if (g.bowTimer > 0) {
           g.bowTimer--;
-        } else if (g.state === 'kneel' && g.chatTimer === 0 && Math.random() < 0.0005) {
-          g.bowTimer = 95;
-          g.chat = pickRandomVisitorPrayer(g.wing);
-          g.chatTimer = 180; // Chỉ hiện 3 giây rồi tắt hẳn
         }
-        if (g.chatTimer > 0) g.chatTimer--;
+        if (g.chatTimer > 0) {
+          g.chatTimer--;
+          if (g.chatTimer === 0) {
+            g.pauseTimer = 110; // Nghỉ ~1.8 giây giữa 2 câu để không lặp liên tục dồn dập
+          }
+        } else {
+          if (g.pauseTimer > 0) {
+            g.pauseTimer--;
+          } else {
+            const list = visitorPrayersByWing[String(g.wing === 1 ? 1 : 0)] || visitorPrayersByWing['0'];
+            g.sentenceIdx = ((g.sentenceIdx || 0) + 1) % list.length;
+            g.chat = list[g.sentenceIdx];
+            g.chatTimer = 260; // Hiện rõ câu nói trong ~4.3 giây
+            g.bowTimer = 70;
+          }
+        }
         renderables.push({ type: 'visitor', data: g, v: g.v });
       }
 
@@ -5683,7 +5671,7 @@
             ctx.restore();
           }
 
-          if (d === activeBubbleOwner && d.chat && d.chatTimer > 0) {
+          if (d.chat && d.chatTimer > 0) {
             drawDarkChatBubble(sx, headY - 14, d.chat);
           }
         }
