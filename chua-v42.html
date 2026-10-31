@@ -3603,8 +3603,8 @@
       targetV: 0.76,
       state: 'walk',
       bowTimer: 0,
-      chat: 'Nam Mô A Di Đà Phật 🙏',
-      chatTimer: 220,
+      chat: '',
+      chatTimer: 0,
       merit: 35 // Khởi đầu chuẩn mực 35 💎 (Không dễ kiếm dễ mua, phải tu tập tích phước theo đúng Quy Chuẩn!)
     };
 
@@ -4036,16 +4036,9 @@
       player.state = 'vai';
       player.bowTimer = 0;
       player.vaiTimer = 220;
-      const pair = greetingsPool[Math.floor(Math.random() * greetingsPool.length)](target.name);
-      player.chat = pair[0];
-      player.chatTimer = 420;
       target.state = 'vai';
       target.bowTimer = 0;
-      target.vaiTimer = 220;
-      target.chat = pair[1];
-      target.chatTimer = 460;
-      playMoSound();
-      showToast(`🙏 ${player.name} và ${target.name} đang đứng chắp tay cúi vái chào nhau!`);
+      target.vaiTimer = 180;
       const now = Date.now();
       if (now - lastGreetMeritTime > 4000) {
         lastGreetMeritTime = now;
@@ -4103,32 +4096,10 @@
       addMerit(-1, `${isSlap ? 'Vả / Tát' : 'Đấm'} nhân vật ${target.name} ngay tại sảnh (-1 💎 Phước)`);
 
       player.state = 'walk';
-      player.chat = isSlap
-        ? `🖐️💥 CHÁT! Vả cho ${target.name} tỉnh ngộ bớt sân si phá giá vật liệu này! (-1 💎 Phước)`
-        : `🥊💥 BỐP! Đấm cho ${target.name} một phát chừa thói chen lấn khất nợ công trình này! (-1 💎 Phước)`;
-      player.chatTimer = 420;
-
-      // Hiệu ứng nhân vật bị đấm/tát văng lùi và la oái oái
       target.u = Math.max(0.12, Math.min(0.88, target.u + (target.u >= player.u ? 0.06 : -0.06)));
       target.targetU = target.u;
       target.state = 'bow';
-      target.bowTimer = 110;
-      const cryReplies = [
-        `😵‍💫 Á á ối giời ơi! Sao ${player.name} lại ${isSlap ? 'tát lệch má' : 'đấm'} tôi giữa cửa chùa thế này?!`,
-        `🤕 Ui da đau quá! Đánh người nơi cửa Phật là bị trừ -1 💎 Phước đấy ${player.name} ơi!`,
-        `😭 Hu hu sưng vù mặt em rồi, em đi xin vía chốt đơn Tấm Ốp mà sao ${player.name} đấm tát em thế!`
-      ];
-      target.chat = cryReplies[Math.floor(Math.random() * cryReplies.length)];
-      target.chatTimer = 460;
-
-      floatingHits.push({
-        x: target._screenX || window.innerWidth * 0.5,
-        y: (target._screenY || window.innerHeight * 0.65) - 65,
-        text: isSlap ? `🖐️💥 TÁT BỐP! (-1 💎 Phước)` : `🥊💥 ĐẤM BỐP! (-1 💎 Phước)`,
-        color: '#ff5252',
-        life: 1.35
-      });
-      showToast(`${isSlap ? '🖐️💥 Đã vả/tát' : '🥊💥 Đã đấm'} ${target.name} tại sảnh! (Trừ -1 💎 Phước Đức)`);
+      target.bowTimer = 90;
     }
 
     function sendDirectNpcDialog() {
@@ -4167,42 +4138,22 @@
     // HÀNH ĐỘNG QUỲ LẠY · VÁI KHẤN · THẮP HƯƠNG · GÕ MÕ · THỈNH CHUÔNG TRỰC TIẾP TẠI SẢNH CHÍNH (KHÔNG HIỆN Ô TO CHE MÀN HÌNH!)
     function performDirectHallAction(mode) {
       unlockAndStartAudio();
-      closeCenterStage(); // Đảm bảo không có ô to nào che sảnh chính!
-      const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
-      const sx = player._screenX || (window.innerWidth * 0.5);
-      const sy = (player._screenY || (window.innerHeight * 0.68)) - 85;
-      const roomName = (player.wing === 0) ? 'Ban Tam Bảo (Phật)' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Thần Tài');
+      closeCenterStage();
+      const roomName = (player.wing === 0) ? 'Ban Tam Bảo' : 'Ban Thần Tài';
 
       if (mode === 'mo') {
         playMoSound();
-        player.state = 'kneel';
-        const chance = 0.10 * meritRateMultiplier;
-        const pts = 1 * meritRateMultiplier;
-        const hit = Math.random() < chance;
-        if (hit) addMerit(pts, `Gõ Mõ Tịnh Tâm tại ${roomName}`);
-        floatingHits.push({
-          x: sx, y: sy,
-          text: hit ? `✨🪵 CỐC! +${pts} 💎 Phước${buffSuffix}` : `🪵 Cốc... Tịnh tâm (${Math.round(chance * 100)}%${buffSuffix})`,
-          color: hit ? '#69f0ae' : '#ffe082',
-          life: 1.25
-        });
+        if (Math.random() < 0.10 * meritRateMultiplier) {
+          addMerit(1 * meritRateMultiplier, `Gõ Mõ tại ${roomName}`);
+        }
         return;
       }
 
       if (mode === 'bell') {
         playBellSound();
-        player.state = 'bow';
-        player.bowTimer = 70;
-        const chance = 0.20 * meritRateMultiplier;
-        const pts = 2 * meritRateMultiplier;
-        const hit = Math.random() < chance;
-        if (hit) addMerit(pts, `Thỉnh Đại Hồng Chuông tại ${roomName}`);
-        floatingHits.push({
-          x: sx, y: sy,
-          text: hit ? `✨🔔 BOONG! +${pts} 💎 Phước${buffSuffix}` : `🔔 Boong... Chuông ngân (${Math.round(chance * 100)}%${buffSuffix})`,
-          color: hit ? '#69f0ae' : '#ffd54f',
-          life: 1.25
-        });
+        if (Math.random() < 0.20 * meritRateMultiplier) {
+          addMerit(2 * meritRateMultiplier, `Thỉnh Chuông tại ${roomName}`);
+        }
         return;
       }
 
@@ -4212,68 +4163,25 @@
       }
 
       if (mode === 'bow') {
-        playMoSound();
-        setTimeout(playMoSound, 360);
-        player.targetU = 0.50;
-        player.targetV = 0.77;
-        // QUỲ LẠY LIÊN TỤC: Đứng thẳng chắp tay ➔ Hạ gối quỳ xuống ➔ Cúi lạy sát đất ➔ Ngẩng lên đứng dậy lặp lại liên tục!
+        // CHỈ thực hiện động tác Quỳ Lạy tại chỗ, không tự bật chat, không tự di chuyển, không kèm hiệu ứng phụ
         player.state = 'bow_cycle';
         player.vaiTimer = 0;
         player.bowCycleTick = 0;
-        player.bowTimer = 680; // Thực hiện chuỗi Đứng lên - Quỳ xuống - Cúi lạy liên tục nhiều nhịp!
-        player.bowCountSession = (player.bowCountSession || 0) + 1;
-        const bowLines = {
-          '0': `🙇 [Đứng Lên · Quỳ Xuống Liên Tục]: ${player.name} chí thành lễ lạy Đức Phật Tam Bảo (Nhịp lạy #${player.bowCountSession})!`,
-          '-1': `🙇 [Đứng Lên · Quỳ Xuống Liên Tục]: ${player.name} thành tâm quỳ lạy Đức Ông Cấp Cô Độc & Thánh Hiền (Nhịp lạy #${player.bowCountSession})!`,
-          '1': `🙇 [Đứng Lên · Quỳ Xuống Liên Tục]: ${player.name} cúi đầu lễ lạy Thần Tài Vị Tiền – Thổ Địa cầu đạt số KPI (Nhịp lạy #${player.bowCountSession})!`
-        };
-        player.chat = bowLines[String(player.wing)] || bowLines['0'];
-        player.chatTimer = 480;
-        const chance = 0.15 * meritRateMultiplier;
-        const pts = 1 * meritRateMultiplier;
-        const hit = Math.random() < chance;
-        if (hit) {
-          addMerit(pts, `Quỳ lạy đứng lên - quỳ xuống chí thành tại ${roomName}`);
-          floatingHits.push({
-            x: sx, y: sy - 50,
-            text: `✨🙇 ĐẢNH LỄ CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}`,
-            color: '#69f0ae',
-            life: 1.4
-          });
+        player.bowTimer = 300;
+        if (Math.random() < 0.15 * meritRateMultiplier) {
+          addMerit(1 * meritRateMultiplier, `Quỳ lạy tại ${roomName}`);
         }
         broadcastMyPresence();
         return;
       }
 
       if (mode === 'pray') {
-        playBellSound();
-        player.targetU = 0.50;
-        player.targetV = 0.77;
-        // VÁI KHẤN: ĐỨNG CHẮP TAY CÚI VÁI LIÊN TỤC (Không ngồi/quỳ xuống bồ đoàn!)
+        // CHỈ thực hiện động tác Đứng Chắp Tay Vái tại chỗ, không tự bật chat, không tự đọc giọng nói, không kèm hiệu ứng phụ
         player.state = 'vai';
         player.bowTimer = 0;
-        player.vaiTimer = 520;
-        // Ở phòng nào chỉ được khấn đúng vị ở phòng đó + phát giọng đọc truyền cảm chân thật!
-        const roomPrayers = {
-          '0': `🙏 [Đứng Chắp Tay Cúi Vái · Ban Tam Bảo]: Nam mô Bổn Sư Thích Ca Mâu Ni Phật, Nam mô Quán Thế Âm Bồ Tát! Con là ${player.name} đứng chắp tay vái khấn Phật, cầu gia đạo bình an, đại lý Tấm Ốp Trường Yến hưng thịnh!`,
-          '-1': `🙏 [Đứng Chắp Tay Cúi Vái · Ban Đức Ông]: Kính lạy Đức Ông Tu Đạt Đa Cấp Cô Độc Tôn Giả! Xin Ngài che chở giữ kho Tấm Ốp Trường Yến vững vàng, thu hồi công nợ suôn sẻ, hoàn thành mục tiêu quý!`,
-          '1': `🙏 [Đứng Chắp Tay Cúi Vái · Ban Thần Tài]: Kính lạy Ngài Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần! Cúi xin khai mở cung tài lộc, độ trì chốt đơn Tấm Ốp Nano & Trần Nhôm liên tiếp, vượt chỉ tiêu KPI!`
-        };
-        player.chat = roomPrayers[String(player.wing)] || roomPrayers['0'];
-        player.chatTimer = 520;
-        speakVietnameseText(player.chat);
-
-        const chance = 0.15 * meritRateMultiplier;
-        const pts = 1 * meritRateMultiplier;
-        const hit = Math.random() < chance;
-        if (hit) {
-          addMerit(pts, `Đứng chắp tay cúi vái đúng nghi lễ tại ${roomName}`);
-          floatingHits.push({
-            x: sx, y: sy - 50,
-            text: `✨🙏 ĐỨNG VÁI CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}`,
-            color: '#69f0ae',
-            life: 1.4
-          });
+        player.vaiTimer = 240;
+        if (Math.random() < 0.15 * meritRateMultiplier) {
+          addMerit(1 * meritRateMultiplier, `Vái khấn tại ${roomName}`);
         }
         broadcastMyPresence();
       }
@@ -4421,17 +4329,10 @@
       unlockAndStartAudio();
       const now = Date.now();
       if (type === 'incense') {
-        player.targetU = 0.50;
-        player.targetV = 0.57;
-        player.state = 'bow';
-        player.bowTimer = 140;
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
-        incenseCeremony = { active: true, timer: 140, maxTimer: 140, wing: player.wing };
-        const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : (player.wing === -1 ? 'Ban Đức Ông' : 'Ban Tam Bảo');
+        incenseCeremony = { active: true, timer: 90, maxTimer: 90, wing: player.wing };
+        const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo';
         const totalNow = burningIncenseCount[String(player.wing)];
-        player.chat = `♨️🙏 Con (${player.name}) thành tâm dâng 3 nén tâm hương chân đỏ cắm vào Lư Hương Đồng ${zoneName} (${totalNow} nén đang cháy)!`;
-        player.chatTimer = 420;
-        playBellSound();
         if (!silentMerit) {
           const rollBanner = document.getElementById('csLastRollBanner');
           const chance = 0.25 * meritRateMultiplier;
@@ -4452,14 +4353,14 @@
               rollBanner.style.borderColor = '#69f0ae';
               rollBanner.innerHTML = `✨♨️ <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> Đã cắm 3 nén hương vào Lư Hương — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
             }
-            showToast(`✨♨️ Đã cắm 3 nén tâm hương vào Lư Hương (Trúng ${pctLabel}%${buffSuffix}) → +${pts} 💎 Phước Đức!`);
+            
           } else {
             if (rollBanner) {
               rollBanner.style.color = '#ffe082';
               rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
               rollBanner.innerHTML = `♨️🙏 <i>Đã dâng 3 nén tâm hương & cắm vào Lư Hương Đồng (${totalNow} nén đang cháy · Xác suất ${pctLabel}%/lần${buffSuffix})</i>`;
             }
-            showToast(`♨️🙏 Đã cắm 3 nén hương vào Lư Hương ${zoneName} (Xác suất tích phước ${pctLabel}%${buffSuffix})`);
+            
           }
         }
       } else if (type === 'pray') {
@@ -4526,24 +4427,10 @@
       const item = list[list.length - 1];
       altarOfferings[wKey] = [];
 
-      takeDownCeremony = {
-        active: true,
-        timer: 115,
-        maxTimer: 115,
-        wing: player.wing,
-        icon: item.icon,
-        imgKey: item.imgKey,
-        name: countRemoved > 1 ? `${countRemoved} mâm lễ (${item.fullName || item.label}...)` : (item.fullName || item.label),
-        giver: item.giver,
-        wish: item.wish || 'Thụ lộc cát tường'
-      };
-      playBellSound();
-      addMerit(3, `Hạ lễ thụ lộc trên bàn thờ (${item.fullName || item.label})`);
-      player.chat = `📤🙏 Con xin Hạ Lễ Thụ Lộc (+3 💎 Phước)!`;
-      player.chatTimer = 240;
+      takeDownCeremony = null;
+      addMerit(3, `Hạ lễ trên bàn thờ (${item.fullName || item.label})`);
       renderCenterOfferingInspector();
       publishMqtt({ type: 'takedown', wing: player.wing, clearAll: true, name: player.name });
-      showToast(`📤✨ Đã Hạ Lễ thành công! Lễ vật trên bàn thờ đã được hạ xuống hoàn toàn (+3 💎 Phước)!`);
     }
 
     function computeSpiritualRank(totalPts) {
@@ -4728,27 +4615,7 @@
       appendMeritLog(`🎁 <b>${player.name}</b> đã Đặt Lễ <b>${icon} ${itemName}</b> (-${cost} 💎) lên <b>${zoneName}</b> · Cầu: <i>"${userWish}"</i>${bonusTxt}!`);
 
       closeMeritShopModal();
-      playBellSound();
-      setTimeout(playMoSound, 350);
-
-      player.targetU = 0.50;
-      player.targetV = 0.57;
-      player.state = 'bow';
-      player.bowTimer = 160;
-      player.chat = `📥🙏 Con (${player.name}) thành tâm Đặt Lễ ${icon} ${itemName} lên ${zoneName} — Nguyện cầu: "${userWish}"!`;
-      player.chatTimer = 460;
-
-      offeringCeremony = {
-        active: true,
-        timer: 140,
-        maxTimer: 140,
-        wing: player.wing,
-        icon,
-        imgKey,
-        name: itemName,
-        giver: player.name,
-        wish: userWish
-      };
+      offeringCeremony = null;
 
       for (let i = 0; i < 20; i++) {
         lotusPetals.push({
@@ -4770,7 +4637,7 @@
       activateMeritRateBuff(offerMult, `Đặt Lễ ${itemName}`);
       appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ đúng phép cảm ứng <b>HỒNG ÂN X${offerMult}</b>: Tăng <b>GẤP ${offerMult} LẦN (X${offerMult})</b> xác suất tích phước & nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
-      showToast(`📥🌟 Đã Đặt Lễ "${itemName}" (${player.name}: ${userWish}) lên ${zoneName}! Nổ Lộc X${offerMult} (+${bonusReturnMerit} 💎)!`);
+      
       publishMqtt({ type: 'offering', name: player.name, icon, itemName, wish: userWish, wing: player.wing, imgKey, imgSrc });
     }
 
@@ -5694,7 +5561,7 @@
         const isVaiState = (d.state === 'vai' || (d.vaiTimer && d.vaiTimer > 0));
         const isBowCycleState = (!isVaiState) && (d.state === 'bow_cycle' || d.state === 'bow' || (d.bowTimer && d.bowTimer > 0));
 
-        if (isVaiState) {
+        if (false && isVaiState) {
           if (d.vaiTimer && d.vaiTimer > 0 && !isPlayer) d.vaiTimer--;
           // VÁI KHẤN / CHẮP TAY VÁI CHÀO: ĐỨNG THẲNG CHẮP TAY CÚI VÁI LIÊN TỤC (Không ngồi hay quỳ xuống bồ đoàn!)
           spr = (d.gender === 'M') ? images.walkM : images.walkF;
@@ -5731,7 +5598,7 @@
             poseStatusText = '🙇 [Quỳ Lạy 3/4]: Cúi Lạy Sát Đất';
             poseStatusColor = '#69f0ae';
             // Mỗi lần cúi lạy chạm đất (cycleTick === 45) của người chơi -> Gõ tiếng Mõ + tính nhịp lạy!
-            if (isPlayer && cycleTick === 45) {
+            if (false && isPlayer && cycleTick === 45) {
               player.bowCountSession = (player.bowCountSession || 1) + 1;
               playMoSound();
               const chance = 0.15 * meritRateMultiplier;
@@ -5784,7 +5651,7 @@
           ctx.drawImage(spr, sx - sw / 2, sy - sh - bob + poseOffsetY, sw, sh);
 
           // Nếu đang Đứng Chắp Tay Cúi Vái -> Vẽ thêm biểu tượng đôi bàn tay chắp vái 🙏 nhấp nhô nhịp nhàng trước ngực/trán!
-          if (isVaiState) {
+          if (false && isVaiState) {
             const handBob = Math.sin(frameCount * 0.26) * 6;
             ctx.save();
             ctx.font = `${Math.round(18 * scale)}px sans-serif`;
@@ -5798,7 +5665,7 @@
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
 
           // Hiển thị băng trạng thái động tác trực quan (Đứng Chắp Tay Cúi Vái / Đứng Lên Quỳ Xuống 1/4..4/4) cho người chơi!
-          if (isPlayer && poseStatusText) {
+          if (false && isPlayer && poseStatusText) {
             ctx.save();
             ctx.font = 'bold 9.5px sans-serif';
             const pw = ctx.measureText(poseStatusText).width + 14;
