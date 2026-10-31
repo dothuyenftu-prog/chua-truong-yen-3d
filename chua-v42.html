@@ -952,12 +952,14 @@
       <div>
         <div style="font-size:10.5px; color:#80d8ff; font-weight:800; margin-bottom:3px;">📿 2. Chọn Bài Tụng Kinh Đầy Đủ (Giọng Sư Thầy + Nhịp Mõ + Karaoke Khớp 100%):</div>
         <select id="sutraChantSelect" class="top-select" style="width:100%; border-color:#40c4ff; color:#e1f5fe; background:rgba(1,67,125,0.92);" onchange="selectAndChantFullSutra(this.value)">
-          <option value="off" selected>📿 Chọn Bài Kinh Để Sư Thầy Tụng & Học Theo Karaoke...</option>
-          <option value="chu_dai_bi">📿 1. Kinh Chú Đại Bi Đầy Đủ 84 Câu (Sư Thầy + Nhịp Mõ + Karaoke)</option>
-          <option value="sam_hoi">🙏 2. Kinh Từ Bi Sám Hối Đầy Đủ (Sư Thầy + Nhịp Mõ + Karaoke)</option>
-          <option value="hoi_huong">🪷 3. Kinh Hồi Hướng Công Đức Đầy Đủ (Sư Thầy + Nhịp Mõ + Karaoke)</option>
-          <option value="bat_nha">🧘 4. Bát Nhã Tâm Kinh Đầy Đủ (Sư Thầy + Nhịp Mõ + Karaoke)</option>
-          <option value="duoc_su">👑 5. Chú Dược Sư Lưu Ly Đầy Đủ (Sư Thầy + Nhịp Mõ + Karaoke)</option>
+          <option value="off" selected>📿 Chọn Bài Kinh Thầy Chùa Tụng Thật...</option>
+          <option value="chu_dai_bi">📿 1. Chú Đại Bi 84 Câu (Thầy Thích Trí Thoát Tụng)</option>
+          <option value="bat_nha">🧘 2. Bát Nhã Tâm Kinh (Thầy Thích Trí Thoát Tụng)</option>
+          <option value="chu_vang_sanh">🪷 3. Chú Vãng Sanh Tịnh Độ (Thầy Thích Trí Thoát Tụng)</option>
+          <option value="niem_phat">🙏 4. Niệm Phật A Di Đà (Thầy Thích Trí Thoát Tụng)</option>
+          <option value="hoi_huong">✨ 5. Kệ Hồi Hướng Công Đức (Thầy Chùa Tụng)</option>
+          <option value="sam_hoi">🙇 6. Kinh Sám Hối Hồng Danh (Thầy Thích Trí Thoát Tụng)</option>
+          <option value="duoc_su">👑 7. Chú Dược Sư Lưu Ly (Thầy Thích Trí Thoát Tụng)</option>
         </select>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:6px; padding-top:4px;">
@@ -1182,16 +1184,16 @@
 
   <!-- 3B. ON-SCREEN DIRECT HALL ACTIONS (Thực hiện trực tiếp tại Sảnh Chính, KHÔNG hiện ô to che màn hình!) -->
   <div class="quick-offering-bar">
-    <button id="btnGlobalAutoFarm" class="qo-btn" style="background:linear-gradient(135deg,#00c853,#1b5e20);color:#fff;border-color:#ffd740;font-weight:900;" onclick="toggleGlobalAutoFarmMerit()">⚡ Tự Động Cày Phước: TẮT</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="performDirectHallAction('bow')">🙇 Quỳ Lạy Tại Sảnh</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="performDirectHallAction('pray')">🙏 Vái Khấn Theo Gian</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;" onclick="toggleHallOfferingStrip()">🎁 Đặt Lễ Lên Bàn</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ Thụ Lộc (X2·X3·X10)</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼🥊 Đấm Túi Bụi · Vái Nhau · Quỳ Lạy Nhau</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜✍️ Viết Sớ Số KPI</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm (-5💎)</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🤬🥊 Xả Nghiệp</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Đốt Vàng Mã</button>
+    <button id="btnGlobalAutoFarm" class="qo-btn" style="background:linear-gradient(135deg,#00c853,#1b5e20);color:#fff;border-color:#ffd740;font-weight:900;" onclick="toggleGlobalAutoFarmMerit()">⚡ Tự Cày: TẮT</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="performDirectHallAction('bow')">🙇 Quỳ Lạy</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="performDirectHallAction('pray')">🙏 Vái Khấn</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;" onclick="toggleHallOfferingStrip()">🎁 Đặt Lễ</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼 Tương Tác</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜 Viết Sớ</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">🎋 Xin Xăm</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🥊 Xả Nghiệp</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
   </div>
 
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH TRỰC TIẾP TẠI SẢNH CHÍNH (Không che màn hình · Giá ≤100💎 · Có Lễ Chay, Heo Quay, Xôi Gà, Vàng Mã · Đặt sai ban Phật bị phạt!) -->
@@ -1639,44 +1641,78 @@
   </div>
 
 
-  <!-- 5E. BẢNG CHỮ CHẠY KINH KARAOKE TRÊN MÀN HÌNH ĐỂ ĐỌC THEO (#2437: "Kinh tự đọc thì nó hiện chữ trên màn hình như karaoke để đọc theo nhé") -->
-  <div id="karaokeSutraOverlay" style="display:none; position:fixed; left:50%; bottom:84px; transform:translateX(-50%); z-index:72; width:min(680px, 96vw); background:linear-gradient(180deg, rgba(22,9,3,0.95) 0%, rgba(12,4,2,0.97) 100%); border:2px solid #ffd740; border-radius:16px; padding:10px 14px; box-shadow:0 12px 36px rgba(0,0,0,0.92), 0 0 24px rgba(255,215,64,0.28);">
-    <!-- Hàng Đỉnh: Nút ✕ Đóng góc trái + Chọn 3 Bài Kinh + Chế độ Tự Đọc / Máy Đọc -->
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:7px; flex-wrap:wrap; border-bottom:1px solid rgba(255,213,79,0.3); padding-bottom:6px;">
-      <div style="display:flex; align-items:center; gap:6px;">
-        <button type="button" onclick="closeKaraokeSutraOverlay()" title="Đóng bảng Kinh Karaoke" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:8px; padding:3px 9px; font-size:11px; font-weight:900; cursor:pointer;">✕</button>
-        <span id="karaokeSutraTitle" style="font-size:12px; font-weight:900; color:#ffd740;">📿🎤 KINH CHÚ ĐẠI BI (CHỮ CHẠY KARAOKE)</span>
+  <!-- 5E. GIAO DIỆN TỤNG KINH CHUẨN MẪU (GIỌNG THẦY CHÙA TỤNG THẬT YOUTUBE/TIKTOK + 7 DÒNG CHỮ CUỘN + GÕ MÕ GIỮA MÀN HÌNH) -->
+  <div id="karaokeSutraOverlay" style="display:none; position:fixed; inset:46px 0 132px 0; z-index:72; background:radial-gradient(ellipse at center, rgba(14,8,3,0.84) 0%, rgba(10,5,2,0.68) 65%, rgba(6,3,1,0.35) 100%); pointer-events:auto; flex-direction:column; align-items:center; justify-content:space-between; padding:14px 16px 8px; user-select:none;">
+    <!-- Nút Đóng Góc Trên Phải -->
+    <button type="button" onclick="closeKaraokeSutraOverlay()" title="Đóng giao diện Tụng Kinh" style="position:absolute; top:12px; right:18px; background:rgba(30,14,6,0.85); color:#ffe082; border:1px solid rgba(255,213,79,0.5); border-radius:999px; padding:5px 13px; font-size:12px; font-weight:800; cursor:pointer; z-index:5;">✕ Đóng Kinh</button>
+
+    <!-- Hàng Pill Chọn Bài Kinh + Tiêu Đề Phụ (Giống Hệt Mẫu 100%) -->
+    <div style="display:flex; flex-direction:column; align-items:center; width:100%; max-width:780px; margin-top:4px;">
+      <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:10px;">
+        <button type="button" id="krBtn_niem_phat" onclick="switchKaraokeSutra('niem_phat')" style="border-radius:999px; padding:7px 18px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s;">Niệm Phật</button>
+        <button type="button" id="krBtn_bat_nha" onclick="switchKaraokeSutra('bat_nha')" style="border-radius:999px; padding:7px 18px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s;">Bát Nhã Tâm Kinh</button>
+        <button type="button" id="krBtn_chu_vang_sanh" onclick="switchKaraokeSutra('chu_vang_sanh')" style="border-radius:999px; padding:7px 18px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s;">Chú Vãng Sanh</button>
+        <button type="button" id="krBtn_chu_dai_bi" onclick="switchKaraokeSutra('chu_dai_bi')" style="border-radius:999px; padding:7px 18px; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.2s;">Chú Đại Bi</button>
+        <button type="button" id="krBtn_hoi_huong" onclick="switchKaraokeSutra('hoi_huong')" style="border-radius:999px; padding:7px 18px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s;">Kệ Hồi Hướng</button>
+        <button type="button" id="krBtn_sam_hoi" onclick="switchKaraokeSutra('sam_hoi')" style="border-radius:999px; padding:7px 18px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s;">Kinh Sám Hối</button>
       </div>
-      <div style="display:flex; gap:4px; flex-wrap:wrap;">
-        <button type="button" id="krBtn_chu_dai_bi" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px; background:linear-gradient(135deg,#0288d1,#01579b); color:#fff; border-color:#80d8ff;" onclick="switchKaraokeSutra('chu_dai_bi')">📿 1. Chú Đại Bi (84 Câu)</button>
-        <button type="button" id="krBtn_sam_hoi" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('sam_hoi')">🙏 2. Kinh Sám Hối</button>
-        <button type="button" id="krBtn_hoi_huong" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('hoi_huong')">🪷 3. Kinh Hồi Hướng</button>
-        <button type="button" id="krBtn_bat_nha" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('bat_nha')">🧘 4. Bát Nhã Tâm Kinh</button>
-        <button type="button" id="krBtn_duoc_su" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('duoc_su')">👑 5. Chú Dược Sư</button>
+      <div id="karaokeSutraTitle" style="font-size:13px; color:rgba(255,245,230,0.92); font-weight:600; text-align:center; letter-spacing:0.2px; text-shadow:0 2px 6px rgba(0,0,0,0.9);">
+        Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni, 84 câu (Giọng Thầy Chùa Tụng Thật)
       </div>
     </div>
 
-    <!-- Khung Chữ Chạy Karaoke Từng Từ Sáng Vàng Kim / Xanh Ngọc -->
-    <div id="karaokeLyricsBox" style="background:rgba(8,3,1,0.92); border:1.5px solid rgba(255,215,64,0.45); border-radius:12px; padding:10px 12px; min-height:78px; max-height:130px; overflow-y:auto; text-align:center; line-height:1.75; font-size:15px; font-weight:800; margin-bottom:8px;">
+    <!-- 7 Dòng Kinh Cuộn Dọc Ở Giữa Màn Hình (Dòng đang tụng sáng trắng nổi bật ở chính giữa!) -->
+    <div id="karaokeLyricsBox" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; width:100%; max-width:760px; min-height:250px; text-align:center; padding:10px 16px; pointer-events:auto;">
     </div>
 
-    <!-- Thanh Tiến Độ & Điều Khiển Karaoke (Tự Đọc Theo Nhịp Mõ / Bật Giọng Máy Tụng Mẫu) -->
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
-      <div style="display:flex; gap:5px; align-items:center; flex-wrap:wrap;">
-        <button type="button" id="krVoiceToggleBtn" class="cm-auto-pill" style="padding:4px 10px; font-size:10.5px; background:linear-gradient(135deg,#00897b,#004d40); color:#fff; border-color:#80cbc4; font-weight:900;" onclick="toggleKaraokeVoiceGuide()">
-          🎤 Chế độ: Tự Đọc Theo Karaoke (Gõ Mõ Nhịp)
-        </button>
-        <button type="button" class="cm-auto-pill" style="padding:4px 9px; font-size:10.2px;" onclick="cycleKaraokeSpeed()">
-          ⚡ Tốc độ chữ: <span id="krSpeedLabel">Vừa</span>
-        </button>
-        <button type="button" class="cm-auto-pill" style="padding:4px 9px; font-size:10.2px;" onclick="restartKaraokeSutra()">
-          🔄 Đọc Lại Từ Đầu
-        </button>
+    <!-- Khu Vực Đáy: Cái Mõ Tròn Giữa Màn Hình + Cụm Mõ Tự Động & Thanh Nhịp Góc Phải -->
+    <div style="position:relative; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:96px;">
+      <!-- Cái Mõ Tròn Giữa Màn Hình (Bấm tay trực tiếp hoặc tự động nảy theo nhịp tụng của Thầy Chùa!) -->
+      <div id="sutraCenterMoBtn" onclick="manualStrikeSutraMo()" title="Bấm vào Cái Mõ để gõ theo câu kinh (+1 💎 Phước Đức)" style="cursor:pointer; width:82px; height:72px; display:flex; align-items:center; justify-content:center; transition:transform 0.1s ease-out; filter:drop-shadow(0 8px 18px rgba(0,0,0,0.85));">
+        <svg viewBox="0 0 120 100" width="82" height="70">
+          <defs>
+            <radialGradient id="moGradV58" cx="48%" cy="35%" r="58%">
+              <stop offset="0%" stop-color="#d98c46"/>
+              <stop offset="55%" stop-color="#9c561e"/>
+              <stop offset="100%" stop-color="#5c2d09"/>
+            </radialGradient>
+          </defs>
+          <!-- Núm đỉnh mõ -->
+          <ellipse cx="60" cy="15" rx="7" ry="6" fill="#b86b2b"/>
+          <!-- Thân mõ tròn -->
+          <ellipse cx="60" cy="54" rx="46" ry="36" fill="url(#moGradV58)" stroke="#3e1b04" stroke-width="2"/>
+          <!-- Khe rãnh miệng mõ -->
+          <path d="M 20 60 Q 60 74 100 60" fill="none" stroke="#240d01" stroke-width="5.5" stroke-linecap="round"/>
+          <ellipse cx="23" cy="59" rx="4.5" ry="4.5" fill="#240d01"/>
+          <ellipse cx="97" cy="59" rx="4.5" ry="4.5" fill="#240d01"/>
+        </svg>
       </div>
-      <span id="krProgressText" style="font-size:10.5px; color:#80d8ff; font-weight:900;">Tiến độ: 0% (+5💎 khi tụng xong)</span>
+      <div id="krProgressText" style="font-size:11px; color:rgba(255,230,175,0.78); margin-top:4px; font-weight:600;">
+        🔊 Đang phát Giọng Thầy Chùa Tụng Kinh Thật · Bấm vào dòng kinh bất kỳ để tua
+      </div>
+
+      <!-- Góc Dưới Phải: Checkbox Mõ Tự Động + Thanh Kéo Nhịp + Ghi Chú (Giống Hệt Mẫu 100%) -->
+      <div style="position:absolute; right:12px; bottom:2px; display:flex; flex-direction:column; align-items:flex-end; gap:5px; background:rgba(12,6,2,0.68); padding:8px 12px; border-radius:12px; border:1px solid rgba(255,215,120,0.22);">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <label style="display:flex; align-items:center; gap:5px; font-size:12px; color:#fff; font-weight:700; cursor:pointer;">
+            <input type="checkbox" id="sutraVoiceRealCheckbox" checked onchange="toggleSutraRealMonkVoice(this.checked)" style="accent-color:#ffd54f; width:15px; height:15px; cursor:pointer;" />
+            🔊 Giọng Thầy Tụng
+          </label>
+          <label style="display:flex; align-items:center; gap:5px; font-size:12px; color:#fff; font-weight:700; cursor:pointer;">
+            <input type="checkbox" id="sutraAutoMoCheckbox" checked onchange="toggleSutraAutoMo(this.checked)" style="accent-color:#2196f3; width:15px; height:15px; cursor:pointer;" />
+            Mõ tự động
+          </label>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:12px; color:#e0e0e0; font-weight:600;">Nhịp</span>
+          <input type="range" id="sutraRhythmSlider" min="0.65" max="1.65" step="0.05" value="1.0" oninput="changeSutraRhythmSpeed(this.value)" style="width:105px; accent-color:#42a5f5; cursor:pointer;" />
+        </div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.68);">
+          Tự tay gõ mới có phước đức từng tiếng
+        </div>
+      </div>
     </div>
   </div>
-
   <!-- 6. MODAL BẢNG TOP PHƯỚC ĐỨC CỦA CÁC NHÂN VẬT & CỬA HÀNG THỈNH LỄ -->
   <div class="modal-backdrop" id="meritShopModal" onclick="if(event.target===this) closeMeritShopModal()">
     <div class="so-khan-box" style="max-width:580px;">
@@ -2096,40 +2132,268 @@
     //      3) TỰ ĐỘNG CÀY PHƯỚC (GÕ MÕ · THỈNH CHUÔNG · LỄ LẠY)
     // =========================================================================
     const KARAOKE_SUTRAS_DATA = {
-      chu_dai_bi: {
-        title: '📿🎤 KINH CHÚ ĐẠI BI ĐẦY ĐỦ 84 CÂU (VOICE + KARAOKE)',
-        audioNam: 'audio/kinh_chu_dai_bi_nam.mp3',
-        audioNu: 'audio/kinh_chu_dai_bi_nu.mp3',
-        text: 'Nam mô Đại Bi Hội Thượng Phật Bồ Tát. Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni. Nam mô hắc ra đát na đa ra dạ da. Nam mô a rị da, bà lô yết đế thước bát ra da, bồ đề tát đỏa bà da, ma ha tát đỏa bà da, ma ha ca lô ni ca da. Án, tát bàn ra phạt duệ, số đát na đát tỏa. Nam mô tất kiết lật đỏa y mông a rị da, bà lô kiết đế thất Phật ra lăng đà bà. Nam mô na ra cẩn trì hê rị ma ha bàn đa sa mế, tát bà a tha đậu du bằng, a thệ dựng, tát bà tát đa, na ma bà tát đa, na ma bà già, ma phạt đạt đậu, đát điệt tha. Án, a bà lô hê, lô ca đế, ca ra đế, di hê rị, ma ha bồ đề tát đỏa, tát bà tát bà, ma ra ma ra, ma hê ma hê rị đà dựng, cu lô cu lô kiết mông. Độ lô độ lô phạt xà da đế, ma ha phạt xà da đế, đà ra đà ra, địa rị ni, thất Phật ra da, giá ra giá ra. Mạ mạ phạt ma ra, mục đế lệ. Y hê y hê, thất na thất na, a ra sâm Phật ra xá lợi, phạt sa phạt sâm, Phật ra xá da, hô lô hô lô ma ra, hô lô hô lô hê rị. Ta ra ta ra, tất rị tất rị, tô rô tô rô, bồ đề dạ bồ đề dạ, bồ đà dạ bồ đà dạ, di đế rị dạ, na ra cẩn trì, địa rị sắc ni na, ba dạ ma na, ta bà ha. Tất đà dạ, ta bà ha. Ma ha tất đà dạ, ta bà ha. Tất đà du nghệ, thất bàn ra dạ, ta bà ha. Na ra cẩn trì, ta bà ha. Ma ra na ra, ta bà ha. Tất ra tăng a mục khê da, ta bà ha. Ta bà ma ha a tất đà dạ, ta bà ha. Giả kiết ra a tất đà dạ, ta bà ha. Ba đà ma yết tất đà dạ, ta bà ha. Na ra cẩn trì bàn đà ra dạ, ta bà ha. Ma bà lợi thắng yết ra dạ, ta bà ha. Nam mô hắc ra đát na đa ra dạ da. Nam mô a rị da, bà lô kiết đế, thước bàn ra dạ, ta bà ha. Án, tất điện đô, mạn đa ra, bạt đà dạ, ta bà ha. Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát Ma Ha Tát.'
-      },
-      sam_hoi: {
-        title: '🙏🎤 KINH TỪ BI SÁM HỐI BẢN ĐẦY ĐỦ (VOICE + KARAOKE)',
-        audioNam: 'audio/kinh_sam_hoi_nam.mp3',
-        audioNu: 'audio/kinh_sam_hoi_nu.mp3',
-        text: 'Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát! Đệ tử chúng con từ vô thỉ kiếp đến nay, bỏ mất bản tâm, không biết đạo lành, vọng tình tạo lập bao nhiêu tội lỗi. Hoặc vì tham lam, sân giận, si mê, kiêu mạn, hoặc vì nóng vội trong công việc và cuộc sống mà thân, khẩu, ý lỡ gây điều lầm lỗi với cha mẹ, đồng nghiệp, đối tác và chúng sanh. Xưa kia đã tạo bao ác nghiệp, đều bởi vô thỉ tham sân si, từ thân miệng ý mà sinh ra, hết thảy chúng con xin chí thành cúi đầu sám hối. Bao nhiêu tội chướng sâu nặng như sương mai gặp ánh mặt trời trí tuệ đều tan biến. Nguyện từ nay giữ tâm từ bi hỷ xả, nói lời hòa ái chân thành, làm việc thiện lành chính trực. Tội từ tâm khởi đem tâm sám, tâm nếu diệt rồi tội cũng tiêu, tội tiêu tâm tịnh cả hai không, ấy mới thật là chân sám hối. Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát!'
-      },
-      hoi_huong: {
-        title: '🪷🎤 KINH HỒI HƯỚNG CÔNG ĐỨC BẢN ĐẦY ĐỦ (VOICE + KARAOKE)',
-        audioNam: 'audio/kinh_hoi_huong_nam.mp3',
-        audioNu: 'audio/kinh_hoi_huong_nu.mp3',
-        text: 'Nam mô A Di Đà Phật! Phúng kinh công đức thù thắng hạnh, vô biên thắng phước giai hồi hướng, phổ nguyện trầm nịch chư chúng sanh, tốc vãng vô lượng quang Phật sát. Nguyện tiêu tam chướng trừ phiền não, nguyện đắc trí tuệ chân minh liễu, phổ nguyện tội chướng tất tiêu trừ, thế thế thường hành Bồ Tát đạo. Nguyện sanh Tây Phương Tịnh Độ trung, cửu phẩm liên hoa vi phụ mẫu, hoa khai kiến Phật ngộ vô sanh, bất thối Bồ Tát vi bạn lữ. Nguyện đem công đức lành tu tập, tụng kinh, gõ mõ, dâng hương lễ Phật hôm nay, trang nghiêm Phật Tịnh Độ, trên đền bốn ơn nặng, dưới cứu khổ ba đường. Nếu có ai thấy nghe, đều phát tâm Bồ Đề, hết một báo thân này, đồng sanh Cực Lạc quốc. Nguyện hồi hướng phước báu cho cha mẹ, gia quyến bốn mùa bình an, tập thể Kho Tấm Ốp Trường Yến đoàn kết vững mạnh, công việc hanh thông, tài lộc viên thành. Nam mô A Di Đà Phật!'
+      niem_phat: {
+        title: 'Chuyên tâm trì niệm danh hiệu Đức Phật A Di Đà — TT. Thích Trí Thoát tụng',
+        audioReal: 'audio/thay_tung_niem_phat.mp3',
+        secPerLine: 4.2,
+        lines: [
+          'Nam mô A Di Đà Phật',
+          'Nam mô Đại Bi Quán Thế Âm Bồ Tát',
+          'Nam mô Đại Thế Chí Bồ Tát',
+          'Nam mô Địa Tạng Vương Bồ Tát',
+          'Nam mô Thanh Tịnh Đại Hải Chúng Bồ Tát',
+          'Phật A Di Đà thân kim sắc',
+          'Tướng tốt quang minh tự trang nghiêm',
+          'Năm Tu Di uyển chuyển bạch hào',
+          'Bốn biển lớn trong ngần mắt biếc',
+          'Trong hào quang hóa vô số Phật',
+          'Vô số Bồ Tát hiện ở trong',
+          'Bốn mươi tám nguyện độ chúng sanh',
+          'Chín phẩm sen vàng lên giải thoát',
+          'Quy mạng lễ A Di Đà Phật',
+          'Ở phương Tây thế giới an lành',
+          'Con nay xin phát nguyện vãng sanh',
+          'Cúi xin Đức Từ Bi nhiếp受',
+          'Nam mô Tây Phương Cực Lạc Thế Giới',
+          'Đại Từ Đại Bi A Di Đà Phật',
+          'Nam mô A Di Đà Phật',
+          'Nam mô A Di Đà Phật',
+          'Nam mô A Di Đà Phật'
+        ]
       },
       bat_nha: {
-        title: '🧘🎤 MA HA BÁT NHÃ BA LA MẬT ĐA TÂM KINH ĐẦY ĐỦ (VOICE + KARAOKE)',
-        audioNam: 'audio/kinh_bat_nha_nam.mp3',
-        audioNu: 'audio/kinh_bat_nha_nu.mp3',
-        text: 'Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh. Quán Tự Tại Bồ Tát hành thâm Bát Nhã Ba La Mật Đa thời, chiếu kiến ngũ uẩn giai không, độ nhất thiết khổ ách. Xá Lợi Tử, sắc bất dị không, không bất dị sắc, sắc tức thị không, không tức thị sắc, thọ tưởng hành thức diệc phục như thị. Xá Lợi Tử, thị chư pháp không tướng, bất sanh bất diệt, bất cấu bất tịnh, bất tăng bất giảm. Thị cố không trung vô sắc, vô thọ tưởng hành thức, vô nhãn nhĩ tỷ thiệt thân ý, vô sắc thanh hương vị xúc pháp, vô nhãn giới nãi chí vô ý thức giới, vô vô minh diệc vô vô minh tận, nãi chí vô lão tử, diệc vô lão tử tận. Vô khổ tập diệt đạo, vô trí diệc vô đắc. Dĩ vô sở đắc cố, Bồ Đề Tát Đỏa y Bát Nhã Ba La Mật Đa cố, tâm vô quái ngại, vô quái ngại cố, vô hữu khủng bố, viễn ly điên đảo mộng tưởng, cứu cánh Niết Bàn. Tam thế chư Phật y Bát Nhã Ba La Mật Đa cố, đắc A Nậu Đa La Tam Miệu Tam Bồ Đề. Cố tri Bát Nhã Ba La Mật Đa, thị đại thần chú, thị đại minh chú, thị vô thượng chú, thị vô đẳng đẳng chú, năng trừ nhất thiết khổ, chân thật bất hư. Cố thuyết Bát Nhã Ba La Mật Đa chú, tức thuyết chú viết: Yết đế yết đế, ba la yết đế, ba la tăng yết đế, Bồ đề tát bà ha.'
+        title: 'Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh — TT. Thích Trí Thoát trì tụng',
+        audioReal: 'audio/thay_tung_bat_nha.mp3',
+        secPerLine: 3.1,
+        lines: [
+          'Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh',
+          'Quán Tự Tại Bồ Tát',
+          'Hành thâm Bát Nhã Ba La Mật Đa thời',
+          'Chiếu kiến ngũ uẩn giai không',
+          'Độ nhất thiết khổ ách',
+          'Xá Lợi Tử',
+          'Sắc bất dị không, không bất dị sắc',
+          'Sắc tức thị không, không tức thị sắc',
+          'Thọ tưởng hành thức diệc phục như thị',
+          'Xá Lợi Tử',
+          'Thị chư pháp không tướng',
+          'Bất sanh bất diệt, bất cấu bất tịnh',
+          'Bất tăng bất giảm',
+          'Thị cố không trung vô sắc',
+          'Vô thọ tưởng hành thức',
+          'Vô nhãn nhĩ tỷ thiệt thân ý',
+          'Vô sắc thanh hương vị xúc pháp',
+          'Vô nhãn giới nãi chí vô ý thức giới',
+          'Vô vô minh diệc vô vô minh tận',
+          'Nãi chí vô lão tử, diệc vô lão tử tận',
+          'Vô khổ tập diệt đạo',
+          'Vô trí diệc vô đắc, dĩ vô sở đắc cố',
+          'Bồ Đề Tát Đỏa y Bát Nhã Ba La Mật Đa cố',
+          'Tâm vô quái ngại, vô quái ngại cố',
+          'Vô hữu khủng bố',
+          'Viễn ly điên đảo mộng tưởng',
+          'Cứu cánh Niết Bàn',
+          'Tam thế chư Phật y Bát Nhã Ba La Mật Đa cố',
+          'Đắc A Nậu Đa La Tam Miệu Tam Bồ Đề',
+          'Cố tri Bát Nhã Ba La Mật Đa',
+          'Thị đại thần chú, thị đại minh chú',
+          'Thị vô thượng chú, thị vô đẳng đẳng chú',
+          'Năng trừ nhất thiết khổ, chân thật bất hư',
+          'Cố thuyết Bát Nhã Ba La Mật Đa chú',
+          'Tức thuyết chú viết:',
+          'Yết đế yết đế, ba la yết đế',
+          'Ba la tăng yết đế',
+          'Bồ đề tát bà ha'
+        ]
+      },
+      chu_vang_sanh: {
+        title: 'Bạt Nhất Thiết Nghiệp Chướng Căn Bản Đắc Sinh Tịnh Độ Đà La Ni — TT. Thích Trí Thoát',
+        audioReal: 'audio/thay_tung_chu_vang_sanh.mp3',
+        secPerLine: 2.8,
+        lines: [
+          'Nam mô A Di Đa Bà Dạ',
+          'Đa tha già đa dạ',
+          'Đa địa dạ tha',
+          'A di rị đô bà tỳ',
+          'A di rị đa tất đam bà tỳ',
+          'A di rị đa tỳ ca lan đế',
+          'A di rị đa tỳ ca lan đa',
+          'Già di nị già già na',
+          'Chỉ đa ca lệ ta bà ha',
+          'Nam mô A Di Đa Bà Dạ',
+          'Đa tha già đa dạ',
+          'Đa địa dạ tha',
+          'A di rị đô bà tỳ',
+          'A di rị đa tất đam bà tỳ',
+          'A di rị đa tỳ ca lan đế',
+          'A di rị đa tỳ ca lan đa',
+          'Già di nị già già na',
+          'Chỉ đa ca lệ ta bà ha'
+        ]
+      },
+      chu_dai_bi: {
+        title: 'Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni, 84 câu',
+        audioReal: 'audio/thay_tung_chu_dai_bi.mp3',
+        secPerLine: 2.0,
+        lines: [
+          'Nam mô Đại Bi Hội Thượng Phật Bồ Tát',
+          'Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni',
+          'Nam mô hắc ra đát na đa ra dạ da',
+          'Nam mô a rị da',
+          'Bà lô yết đế thước bát ra da',
+          'Bồ đề tát đỏa bà da',
+          'Ma ha tát đỏa bà da',
+          'Ma ha ca lô ni ca da',
+          'Án',
+          'Tát bàn ra phạt duệ',
+          'Số đát na đát tỏa',
+          'Nam mô tất kiết lật đỏa y mông a rị da',
+          'Bà lô kiết đế thất Phật ra lăng đà bà',
+          'Nam mô na ra cẩn trì',
+          'Hê rị ma ha bàn đa sa mế',
+          'Tát bà a tha đậu du bằng',
+          'A thệ dựng',
+          'Tát bà tát đa na ma bà tát đa',
+          'Na ma bà già',
+          'Ma phạt đạt đậu',
+          'Đát điệt tha',
+          'Án a bà lô hê',
+          'Lô ca đế',
+          'Ca ra đế',
+          'Di hê rị',
+          'Ma ha bồ đề tát đỏa',
+          'Tát bà tát bà',
+          'Ma ra ma ra',
+          'Ma hê ma hê rị đà dựng',
+          'Cu lô cu lô kiết mông',
+          'Độ lô độ lô phạt xà da đế',
+          'Ma ha phạt xà da đế',
+          'Đà ra đà ra',
+          'Địa rị ni',
+          'Thất Phật ra da',
+          'Giá ra giá ra',
+          'Mạ mạ phạt ma ra',
+          'Mục đế lệ',
+          'Y hê y hê',
+          'Thất na thất na',
+          'A ra sâm Phật ra xá lợi',
+          'Phạt sa phạt sâm',
+          'Phật ra xá da',
+          'Hô lô hô lô ma ra',
+          'Hô lô hô lô hê rị',
+          'Ta ra ta ra',
+          'Tất rị tất rị',
+          'Tô rô tô rô',
+          'Bồ đề dạ bồ đề dạ',
+          'Bồ đà dạ bồ đà dạ',
+          'Di đế rị dạ',
+          'Na ra cẩn trì',
+          'Địa rị sắc ni na',
+          'Ba dạ ma na',
+          'Ta bà ha',
+          'Tất đà dạ',
+          'Ta bà ha',
+          'Ma ha tất đà dạ',
+          'Ta bà ha',
+          'Tất đà du nghệ',
+          'Thất bàn ra dạ',
+          'Ta bà ha',
+          'Na ra cẩn trì',
+          'Ta bà ha',
+          'Ma ra na ra',
+          'Ta bà ha',
+          'Tất ra tăng a mục khê da',
+          'Ta bà ha',
+          'Ta bà ma ha a tất đà dạ',
+          'Ta bà ha',
+          'Giả kiết ra a tất đà dạ',
+          'Ta bà ha',
+          'Ba đà ma yết tất đà dạ',
+          'Ta bà ha',
+          'Na ra cẩn trì bàn đà ra dạ',
+          'Ta bà ha',
+          'Ma bà lợi thắng yết ra dạ',
+          'Ta bà ha',
+          'Nam mô hắc ra đát na đa ra dạ da',
+          'Nam mô a rị da',
+          'Bà lô kiết đế',
+          'Thước bàn ra dạ',
+          'Ta bà ha',
+          'Án tất điện đô',
+          'Mạn đa ra',
+          'Bạt đà dạ',
+          'Ta bà ha'
+        ]
+      },
+      hoi_huong: {
+        title: 'Kệ Hồi Hướng Công Đức Viên Mãn — Giọng Thầy Chùa Tụng Thật',
+        audioReal: 'audio/thay_tung_hoi_huong.mp3',
+        secPerLine: 3.8,
+        lines: [
+          'Phúng kinh công đức thù thắng hạnh',
+          'Vô biên thắng phước giai hồi hướng',
+          'Phổ nguyện trầm nịch chư chúng sanh',
+          'Tốc vãng vô lượng quang Phật sát',
+          'Nguyện tiêu tam chướng trừ phiền não',
+          'Nguyện đắc trí tuệ chân minh liễu',
+          'Phổ nguyện tội chướng tất tiêu trừ',
+          'Thế thế thường hành Bồ Tát đạo',
+          'Nguyện sanh Tây Phương Tịnh Độ trung',
+          'Cửu phẩm liên hoa vi phụ mẫu',
+          'Hoa khai kiến Phật ngộ vô sanh',
+          'Bất thối Bồ Tát vi bạn lữ',
+          'Nguyện đem công đức hiện tiền này',
+          'Hướng về khắp tất cả đệ tử và chúng sanh',
+          'Đều trọn thành Phật đạo',
+          'Nam mô A Di Đà Phật'
+        ]
+      },
+      sam_hoi: {
+        title: 'Kinh Sám Hối Hồng Danh (88 Đức Phật) — TT. Thích Trí Thoát trì tụng',
+        audioReal: 'audio/thay_tung_sam_hoi.mp3',
+        secPerLine: 3.6,
+        lines: [
+          'Nam mô Bổn Sư Thích Ca Mâu Ni Phật',
+          'Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát',
+          'Đệ tử chúng con từ vô thỉ kiếp đến nay',
+          'Bỏ mất bản tâm, không biết đạo lành',
+          'Xưa kia đã tạo bao ác nghiệp',
+          'Đều bởi vô thỉ tham sân si',
+          'Từ thân miệng ý mà sinh ra',
+          'Hết thảy chúng con xin chí thành sám hối',
+          'Tội từ tâm khởi đem tâm sám',
+          'Tâm nếu diệt rồi tội cũng tiêu',
+          'Tội tiêu tâm tịnh cả hai không',
+          'Ấy mới thật là chân sám hối',
+          'Nam mô Phổ Quang Phật',
+          'Nam mô Phổ Minh Phật',
+          'Nam mô Phổ Tịnh Phật',
+          'Nam mô Đa Ma La Bạt Chiên Đàn Hương Phật',
+          'Nam mô Chiên Đàn Quang Phật',
+          'Nam mô Ma Ni Tràng Phật',
+          'Nam mô Hoan Hỷ Tạng Ma Ni Bảo Tích Phật',
+          'Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát'
+        ]
       },
       duoc_su: {
-        title: '👑🎤 CHÚ DƯỢC SƯ LƯU LY QUANG VƯƠNG PHẬT ĐẦY ĐỦ (VOICE + KARAOKE)',
-        audioNam: 'audio/kinh_duoc_su_nam.mp3',
-        audioNu: 'audio/kinh_duoc_su_nu.mp3',
-        text: 'Nam mô Dược Sư Lưu Ly Quang Vương Phật! Nam mô Bạc già phạt đế, bệ sát xã, lũ rô thích lưu ly, bát lạt bà, hắc ra xà dã, đát tha yết đa da, a ra hắc đế, tam miệu tam bột đà da. Đát điệt tha: Án, bệ sát thệ, bệ sát thệ, bệ sát xã, tam một yết đế toả ha. Án, bệ sát thệ, bệ sát thệ, bệ sát xã, tam một yết đế toả ha. Nguyện nhờ oai lực Chú Dược Sư Lưu Ly Quang Vương Phật gia hộ tiêu trừ bách bệnh, giải trừ tai ách, thân khỏe tâm an, trí tuệ sáng suốt, vạn sự cát tường như ý. Nam mô Dược Sư Lưu Ly Quang Vương Phật!'
+        title: 'Chú Dược Sư Lưu Ly Quang Vương Phật — TT. Thích Trí Thoát trì tụng',
+        audioReal: 'audio/thay_tung_duoc_su.mp3',
+        secPerLine: 3.0,
+        lines: [
+          'Nam mô Dược Sư Lưu Ly Quang Vương Phật',
+          'Nam mô Bạc già phạt đế',
+          'Bệ sát xã, lũ rô thích lưu ly',
+          'Bát lạt bà, hắc ra xà dã',
+          'Đát tha yết đa da',
+          'A ra hắc đế, tam miệu tam bột đà da',
+          'Đát điệt tha',
+          'Án, bệ sát thệ, bệ sát thệ',
+          'Bệ sát xã, tam một yết đế toả ha',
+          'Án, bệ sát thệ, bệ sát thệ',
+          'Bệ sát xã, tam một yết đế toả ha'
+        ]
       }
     };
-
-    // BẢNG TIMESTAMPS CHính XÁC TỪNG MILI-GIÂY CỦA TỪNG CHỮ TRONG 5 BÀI KINH ĐẦY ĐỦ (V53)
-    const KARAOKE_TIMINGS_V53 = {"chu_dai_bi": {"text": "Nam mô Đại Bi, Hội Thượng Phật Bồ Tát. Thiên thủ thiên nhãn, vô ngại đại bi, tâm đà la ni. Nam mô hắc ra, đát na đa ra dạ da. Nam mô a rị da, bà lô yết đế, thước bát ra da. Bồ đề tát đỏa bà da, ma ha tát đỏa bà da, ma ha ca lô ni ca da. Án, tát bàn ra phạt duệ, số đát na đát tỏa. Nam mô tất kiết lật đỏa, y mông a rị da, bà lô kiết đế, thất Phật ra lăng đà bà. Nam mô na ra cẩn trì, hê rị ma ha, bàn đa sa mế. Tát bà a tha đậu du bằng, a thệ dựng. Tát bà tát đa, na ma bà tát đa, na ma bà già, ma phạt đạt đậu, đát điệt tha. Án, a bà lô hê, lô ca đế, ca ra đế, di hê rị. Ma ha bồ đề tát đỏa, tát bà tát bà, ma ra ma ra. Ma hê ma hê rị đà dựng, cu lô cu lô kiết mông. Độ lô độ lô phạt xà da đế, ma ha phạt xà da đế. Đà ra đà ra, địa rị ni, thất Phật ra da, giá ra giá ra. Mạ mạ phạt ma ra, mục đế lệ. Y hê y hê, thất na thất na, a ra sâm Phật ra xá lợi. Phạt sa phạt sâm, Phật ra xá da, hô lô hô lô ma ra, hô lô hô lô hê rị. Ta ra ta ra, tất rị tất rị, tô rô tô rô. Bồ đề dạ bồ đề dạ, bồ đà dạ bồ đà dạ, di đế rị dạ. Na ra cẩn trì, địa rị sắc ni na, ba dạ ma na, ta bà ha. Tất đà dạ, ta bà ha. Ma ha tất đà dạ, ta bà ha. Tất đà du nghệ, thất bàn ra dạ, ta bà ha. Na ra cẩn trì, ta bà ha. Ma ra na ra, ta bà ha. Tất ra tăng a mục khê da, ta bà ha. Ta bà ma ha a tất đà dạ, ta bà ha. Giả kiết ra a tất đà dạ, ta bà ha. Ba đà ma yết tất đà dạ, ta bà ha. Na ra cẩn trì bàn đà ra dạ, ta bà ha. Ma bà lợi thắng yết ra dạ, ta bà ha. Nam mô hắc ra, đát na đa ra dạ da. Nam mô a rị da, bà lô kiết đế, thước bàn ra dạ, ta bà ha. Án, tất điện đô, mạn đa ra, bạt đà dạ, ta bà ha. Nam mô Đại Từ Đại Bi, Quán Thế Âm Bồ Tát, Ma Ha Tát.", "words": ["Nam", "mô", "Đại", "Bi,", "Hội", "Thượng", "Phật", "Bồ", "Tát.", "Thiên", "thủ", "thiên", "nhãn,", "vô", "ngại", "đại", "bi,", "tâm", "đà", "la", "ni.", "Nam", "mô", "hắc", "ra,", "đát", "na", "đa", "ra", "dạ", "da.", "Nam", "mô", "a", "rị", "da,", "bà", "lô", "yết", "đế,", "thước", "bát", "ra", "da.", "Bồ", "đề", "tát", "đỏa", "bà", "da,", "ma", "ha", "tát", "đỏa", "bà", "da,", "ma", "ha", "ca", "lô", "ni", "ca", "da.", "Án,", "tát", "bàn", "ra", "phạt", "duệ,", "số", "đát", "na", "đát", "tỏa.", "Nam", "mô", "tất", "kiết", "lật", "đỏa,", "y", "mông", "a", "rị", "da,", "bà", "lô", "kiết", "đế,", "thất", "Phật", "ra", "lăng", "đà", "bà.", "Nam", "mô", "na", "ra", "cẩn", "trì,", "hê", "rị", "ma", "ha,", "bàn", "đa", "sa", "mế.", "Tát", "bà", "a", "tha", "đậu", "du", "bằng,", "a", "thệ", "dựng.", "Tát", "bà", "tát", "đa,", "na", "ma", "bà", "tát", "đa,", "na", "ma", "bà", "già,", "ma", "phạt", "đạt", "đậu,", "đát", "điệt", "tha.", "Án,", "a", "bà", "lô", "hê,", "lô", "ca", "đế,", "ca", "ra", "đế,", "di", "hê", "rị.", "Ma", "ha", "bồ", "đề", "tát", "đỏa,", "tát", "bà", "tát", "bà,", "ma", "ra", "ma", "ra.", "Ma", "hê", "ma", "hê", "rị", "đà", "dựng,", "cu", "lô", "cu", "lô", "kiết", "mông.", "Độ", "lô", "độ", "lô", "phạt", "xà", "da", "đế,", "ma", "ha", "phạt", "xà", "da", "đế.", "Đà", "ra", "đà", "ra,", "địa", "rị", "ni,", "thất", "Phật", "ra", "da,", "giá", "ra", "giá", "ra.", "Mạ", "mạ", "phạt", "ma", "ra,", "mục", "đế", "lệ.", "Y", "hê", "y", "hê,", "thất", "na", "thất", "na,", "a", "ra", "sâm", "Phật", "ra", "xá", "lợi.", "Phạt", "sa", "phạt", "sâm,", "Phật", "ra", "xá", "da,", "hô", "lô", "hô", "lô", "ma", "ra,", "hô", "lô", "hô", "lô", "hê", "rị.", "Ta", "ra", "ta", "ra,", "tất", "rị", "tất", "rị,", "tô", "rô", "tô", "rô.", "Bồ", "đề", "dạ", "bồ", "đề", "dạ,", "bồ", "đà", "dạ", "bồ", "đà", "dạ,", "di", "đế", "rị", "dạ.", "Na", "ra", "cẩn", "trì,", "địa", "rị", "sắc", "ni", "na,", "ba", "dạ", "ma", "na,", "ta", "bà", "ha.", "Tất", "đà", "dạ,", "ta", "bà", "ha.", "Ma", "ha", "tất", "đà", "dạ,", "ta", "bà", "ha.", "Tất", "đà", "du", "nghệ,", "thất", "bàn", "ra", "dạ,", "ta", "bà", "ha.", "Na", "ra", "cẩn", "trì,", "ta", "bà", "ha.", "Ma", "ra", "na", "ra,", "ta", "bà", "ha.", "Tất", "ra", "tăng", "a", "mục", "khê", "da,", "ta", "bà", "ha.", "Ta", "bà", "ma", "ha", "a", "tất", "đà", "dạ,", "ta", "bà", "ha.", "Giả", "kiết", "ra", "a", "tất", "đà", "dạ,", "ta", "bà", "ha.", "Ba", "đà", "ma", "yết", "tất", "đà", "dạ,", "ta", "bà", "ha.", "Na", "ra", "cẩn", "trì", "bàn", "đà", "ra", "dạ,", "ta", "bà", "ha.", "Ma", "bà", "lợi", "thắng", "yết", "ra", "dạ,", "ta", "bà", "ha.", "Nam", "mô", "hắc", "ra,", "đát", "na", "đa", "ra", "dạ", "da.", "Nam", "mô", "a", "rị", "da,", "bà", "lô", "kiết", "đế,", "thước", "bàn", "ra", "dạ,", "ta", "bà", "ha.", "Án,", "tất", "điện", "đô,", "mạn", "đa", "ra,", "bạt", "đà", "dạ,", "ta", "bà", "ha.", "Nam", "mô", "Đại", "Từ", "Đại", "Bi,", "Quán", "Thế", "Âm", "Bồ", "Tát,", "Ma", "Ha", "Tát."], "nam": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 4170], [4170, 4555], [4555, 4940], [4940, 5325], [5325, 5855], [5855, 6240], [6240, 6625], [6625, 7010], [7010, 7540], [7540, 7925], [7925, 8310], [8310, 8695], [8695, 9460], [9460, 9845], [9845, 10230], [10230, 10615], [10615, 11145], [11145, 11530], [11530, 11915], [11915, 12300], [12300, 12685], [12685, 13070], [13070, 13835], [13835, 14220], [14220, 14605], [14605, 14990], [14990, 15375], [15375, 15905], [15905, 16290], [16290, 16675], [16675, 17060], [17060, 17590], [17590, 17975], [17975, 18360], [18360, 18745], [18745, 19510], [19510, 19895], [19895, 20280], [20280, 20665], [20665, 21050], [21050, 21435], [21435, 21965], [21965, 22350], [22350, 22735], [22735, 23120], [23120, 23505], [23505, 23890], [23890, 24420], [24420, 24805], [24805, 25190], [25190, 25575], [25575, 25960], [25960, 26345], [26345, 26730], [26730, 27495], [27495, 28025], [28025, 28410], [28410, 28795], [28795, 29180], [29180, 29565], [29565, 30095], [30095, 30480], [30480, 30865], [30865, 31250], [31250, 31635], [31635, 32400], [32400, 32785], [32785, 33170], [33170, 33555], [33555, 33940], [33940, 34325], [34325, 34855], [34855, 35240], [35240, 35625], [35625, 36010], [36010, 36395], [36395, 36924], [36924, 37310], [37310, 37694], [37694, 38080], [38080, 38609], [38609, 38994], [38994, 39379], [39379, 39764], [39764, 40149], [40149, 40534], [40534, 41299], [41299, 41684], [41684, 42069], [42069, 42454], [42454, 42839], [42839, 43224], [43224, 43754], [43754, 44139], [44139, 44524], [44524, 44909], [44909, 45439], [45439, 45824], [45824, 46209], [46209, 46594], [46594, 47359], [47359, 47744], [47744, 48129], [48129, 48514], [48514, 48899], [48899, 49284], [49284, 49669], [49669, 50199], [50199, 50584], [50584, 50969], [50969, 51734], [51734, 52119], [52119, 52504], [52504, 52889], [52889, 53419], [53419, 53804], [53804, 54189], [54189, 54574], [54574, 54959], [54959, 55489], [55489, 55874], [55874, 56259], [56259, 56644], [56644, 57174], [57174, 57559], [57559, 57944], [57944, 58329], [58329, 58859], [58859, 59244], [59244, 59629], [59629, 60394], [60394, 60924], [60924, 61309], [61309, 61694], [61694, 62079], [62079, 62609], [62609, 62994], [62994, 63379], [63379, 63909], [63909, 64294], [64294, 64679], [64679, 65209], [65209, 65594], [65594, 65979], [65979, 66744], [66744, 67129], [67129, 67514], [67514, 67899], [67899, 68284], [68284, 68669], [68669, 69199], [69199, 69584], [69584, 69969], [69969, 70354], [70354, 70884], [70884, 71269], [71269, 71654], [71654, 72039], [72039, 72804], [72804, 73189], [73189, 73574], [73574, 73959], [73959, 74344], [74344, 74729], [74729, 75114], [75114, 75644], [75644, 76029], [76029, 76414], [76414, 76799], [76799, 77184], [77184, 77569], [77569, 78334], [78334, 78719], [78719, 79104], [79104, 79489], [79489, 79874], [79874, 80259], [80259, 80644], [80644, 81029], [81029, 81559], [81559, 81944], [81944, 82329], [82329, 82714], [82714, 83099], [83099, 83484], [83484, 84249], [84249, 84634], [84634, 85019], [85019, 85404], [85404, 85934], [85934, 86319], [86319, 86704], [86704, 87234], [87234, 87619], [87619, 88004], [88004, 88389], [88389, 88919], [88919, 89304], [89304, 89689], [89689, 90074], [90074, 90839], [90839, 91224], [91224, 91609], [91609, 91994], [91994, 92379], [92379, 92909], [92909, 93294], [93294, 93679], [93679, 94444], [94444, 94829], [94829, 95214], [95214, 95599], [95599, 96129], [96129, 96514], [96514, 96899], [96899, 97284], [97284, 97814], [97814, 98199], [98199, 98584], [98584, 98969], [98969, 99354], [99354, 99739], [99739, 100124], [100124, 100889], [100889, 101274], [101274, 101659], [101659, 102044], [102044, 102574], [102574, 102959], [102959, 103344], [103344, 103729], [103729, 104258], [104258, 104644], [104644, 105028], [105028, 105414], [105414, 105798], [105798, 106184], [106184, 106713], [106713, 107098], [107098, 107483], [107483, 107868], [107868, 108253], [108253, 108638], [108638, 109403], [109403, 109788], [109788, 110173], [110173, 110558], [110558, 111088], [111088, 111473], [111473, 111858], [111858, 112243], [112243, 112773], [112773, 113158], [113158, 113543], [113543, 113928], [113928, 114693], [114693, 115078], [115078, 115463], [115463, 115848], [115848, 116233], [116233, 116618], [116618, 117148], [117148, 117533], [117533, 117918], [117918, 118303], [118303, 118688], [118688, 119073], [119073, 119603], [119603, 119988], [119988, 120373], [120373, 120758], [120758, 121523], [121523, 121908], [121908, 122293], [122293, 122678], [122678, 123208], [123208, 123593], [123593, 123978], [123978, 124363], [124363, 124748], [124748, 125278], [125278, 125663], [125663, 126048], [126048, 126433], [126433, 126963], [126963, 127348], [127348, 127733], [127733, 128498], [128498, 128883], [128883, 129268], [129268, 129798], [129798, 130183], [130183, 130568], [130568, 131333], [131333, 131718], [131718, 132103], [132103, 132488], [132488, 132873], [132873, 133403], [133403, 133788], [133788, 134173], [134173, 134938], [134938, 135323], [135323, 135708], [135708, 136093], [136093, 136623], [136623, 137008], [137008, 137393], [137393, 137778], [137778, 138308], [138308, 138693], [138693, 139078], [139078, 139843], [139843, 140228], [140228, 140613], [140613, 140998], [140998, 141528], [141528, 141913], [141913, 142298], [142298, 143063], [143063, 143448], [143448, 143833], [143833, 144218], [144218, 144748], [144748, 145133], [145133, 145518], [145518, 146283], [146283, 146668], [146668, 147053], [147053, 147438], [147438, 147823], [147823, 148208], [148208, 148593], [148593, 149123], [149123, 149508], [149508, 149893], [149893, 150658], [150658, 151043], [151043, 151428], [151428, 151813], [151813, 152198], [152198, 152583], [152583, 152968], [152968, 153353], [153353, 153883], [153883, 154268], [154268, 154653], [154653, 155418], [155418, 155803], [155803, 156188], [156188, 156573], [156573, 156958], [156958, 157343], [157343, 157728], [157728, 158258], [158258, 158643], [158643, 159028], [159028, 159793], [159793, 160178], [160178, 160563], [160563, 160948], [160948, 161333], [161333, 161718], [161718, 162103], [162103, 162633], [162633, 163018], [163018, 163403], [163403, 164168], [164168, 164553], [164553, 164938], [164938, 165323], [165323, 165708], [165708, 166093], [166093, 166478], [166478, 166863], [166863, 167393], [167393, 167778], [167778, 168163], [168163, 168928], [168928, 169313], [169313, 169698], [169698, 170083], [170083, 170468], [170468, 170853], [170853, 171238], [171238, 171768], [171768, 172153], [172153, 172538], [172538, 173303], [173303, 173688], [173688, 174073], [174073, 174458], [174458, 174988], [174988, 175373], [175373, 175758], [175758, 176143], [176143, 176528], [176528, 176913], [176913, 177678], [177678, 178063], [178063, 178448], [178448, 178833], [178833, 179218], [179218, 179748], [179748, 180133], [180133, 180518], [180518, 180903], [180903, 181433], [181433, 181818], [181818, 182203], [182203, 182588], [182588, 183118], [183118, 183502], [183502, 183888], [183888, 184652], [184652, 185182], [185182, 185567], [185567, 185952], [185952, 186482], [186482, 186867], [186867, 187252], [187252, 187782], [187782, 188167], [188167, 188552], [188552, 189082], [189082, 189467], [189467, 189852], [189852, 190617], [190617, 191002], [191002, 191387], [191387, 191772], [191772, 192157], [192157, 192542], [192542, 193072], [193072, 193457], [193457, 193842], [193842, 194227], [194227, 194612], [194612, 195142], [195142, 195527], [195527, 195912], [195912, 196677]], "nu": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 4170], [4170, 4555], [4555, 4940], [4940, 5325], [5325, 5855], [5855, 6240], [6240, 6625], [6625, 7010], [7010, 7540], [7540, 7925], [7925, 8310], [8310, 8695], [8695, 9460], [9460, 9845], [9845, 10230], [10230, 10615], [10615, 11145], [11145, 11530], [11530, 11915], [11915, 12300], [12300, 12685], [12685, 13070], [13070, 13835], [13835, 14220], [14220, 14605], [14605, 14990], [14990, 15375], [15375, 15905], [15905, 16290], [16290, 16675], [16675, 17060], [17060, 17590], [17590, 17975], [17975, 18360], [18360, 18745], [18745, 19510], [19510, 19895], [19895, 20280], [20280, 20665], [20665, 21050], [21050, 21435], [21435, 21965], [21965, 22350], [22350, 22735], [22735, 23120], [23120, 23505], [23505, 23890], [23890, 24420], [24420, 24805], [24805, 25190], [25190, 25575], [25575, 25960], [25960, 26345], [26345, 26730], [26730, 27495], [27495, 28025], [28025, 28410], [28410, 28795], [28795, 29180], [29180, 29565], [29565, 30095], [30095, 30480], [30480, 30865], [30865, 31250], [31250, 31635], [31635, 32400], [32400, 32785], [32785, 33170], [33170, 33555], [33555, 33940], [33940, 34325], [34325, 34855], [34855, 35240], [35240, 35625], [35625, 36010], [36010, 36395], [36395, 36924], [36924, 37310], [37310, 37694], [37694, 38080], [38080, 38609], [38609, 38994], [38994, 39379], [39379, 39764], [39764, 40149], [40149, 40534], [40534, 41299], [41299, 41684], [41684, 42069], [42069, 42454], [42454, 42839], [42839, 43224], [43224, 43754], [43754, 44139], [44139, 44524], [44524, 44909], [44909, 45439], [45439, 45824], [45824, 46209], [46209, 46594], [46594, 47359], [47359, 47744], [47744, 48129], [48129, 48514], [48514, 48899], [48899, 49284], [49284, 49669], [49669, 50199], [50199, 50584], [50584, 50969], [50969, 51734], [51734, 52119], [52119, 52504], [52504, 52889], [52889, 53419], [53419, 53804], [53804, 54189], [54189, 54574], [54574, 54959], [54959, 55489], [55489, 55874], [55874, 56259], [56259, 56644], [56644, 57174], [57174, 57559], [57559, 57944], [57944, 58329], [58329, 58859], [58859, 59244], [59244, 59629], [59629, 60394], [60394, 60924], [60924, 61309], [61309, 61694], [61694, 62079], [62079, 62609], [62609, 62994], [62994, 63379], [63379, 63909], [63909, 64294], [64294, 64679], [64679, 65209], [65209, 65594], [65594, 65979], [65979, 66744], [66744, 67129], [67129, 67514], [67514, 67899], [67899, 68284], [68284, 68669], [68669, 69199], [69199, 69584], [69584, 69969], [69969, 70354], [70354, 70884], [70884, 71269], [71269, 71654], [71654, 72039], [72039, 72804], [72804, 73189], [73189, 73574], [73574, 73959], [73959, 74344], [74344, 74729], [74729, 75114], [75114, 75644], [75644, 76029], [76029, 76414], [76414, 76799], [76799, 77184], [77184, 77569], [77569, 78334], [78334, 78719], [78719, 79104], [79104, 79489], [79489, 79874], [79874, 80259], [80259, 80644], [80644, 81029], [81029, 81559], [81559, 81944], [81944, 82329], [82329, 82714], [82714, 83099], [83099, 83484], [83484, 84249], [84249, 84634], [84634, 85019], [85019, 85404], [85404, 85934], [85934, 86319], [86319, 86704], [86704, 87234], [87234, 87619], [87619, 88004], [88004, 88389], [88389, 88919], [88919, 89304], [89304, 89689], [89689, 90074], [90074, 90839], [90839, 91224], [91224, 91609], [91609, 91994], [91994, 92379], [92379, 92909], [92909, 93294], [93294, 93679], [93679, 94444], [94444, 94829], [94829, 95214], [95214, 95599], [95599, 96129], [96129, 96514], [96514, 96899], [96899, 97284], [97284, 97814], [97814, 98199], [98199, 98584], [98584, 98969], [98969, 99354], [99354, 99739], [99739, 100124], [100124, 100889], [100889, 101274], [101274, 101659], [101659, 102044], [102044, 102574], [102574, 102959], [102959, 103344], [103344, 103729], [103729, 104258], [104258, 104644], [104644, 105028], [105028, 105414], [105414, 105798], [105798, 106184], [106184, 106713], [106713, 107098], [107098, 107483], [107483, 107868], [107868, 108253], [108253, 108638], [108638, 109403], [109403, 109788], [109788, 110173], [110173, 110558], [110558, 111088], [111088, 111473], [111473, 111858], [111858, 112243], [112243, 112773], [112773, 113158], [113158, 113543], [113543, 113928], [113928, 114693], [114693, 115078], [115078, 115463], [115463, 115848], [115848, 116233], [116233, 116618], [116618, 117148], [117148, 117533], [117533, 117918], [117918, 118303], [118303, 118688], [118688, 119073], [119073, 119603], [119603, 119988], [119988, 120373], [120373, 120758], [120758, 121523], [121523, 121908], [121908, 122293], [122293, 122678], [122678, 123208], [123208, 123593], [123593, 123978], [123978, 124363], [124363, 124748], [124748, 125278], [125278, 125663], [125663, 126048], [126048, 126433], [126433, 126963], [126963, 127348], [127348, 127733], [127733, 128498], [128498, 128883], [128883, 129268], [129268, 129798], [129798, 130183], [130183, 130568], [130568, 131333], [131333, 131718], [131718, 132103], [132103, 132488], [132488, 132873], [132873, 133403], [133403, 133788], [133788, 134173], [134173, 134938], [134938, 135323], [135323, 135708], [135708, 136093], [136093, 136623], [136623, 137008], [137008, 137393], [137393, 137778], [137778, 138308], [138308, 138693], [138693, 139078], [139078, 139843], [139843, 140228], [140228, 140613], [140613, 140998], [140998, 141528], [141528, 141913], [141913, 142298], [142298, 143063], [143063, 143448], [143448, 143833], [143833, 144218], [144218, 144748], [144748, 145133], [145133, 145518], [145518, 146283], [146283, 146668], [146668, 147053], [147053, 147438], [147438, 147823], [147823, 148208], [148208, 148593], [148593, 149123], [149123, 149508], [149508, 149893], [149893, 150658], [150658, 151043], [151043, 151428], [151428, 151813], [151813, 152198], [152198, 152583], [152583, 152968], [152968, 153353], [153353, 153883], [153883, 154268], [154268, 154653], [154653, 155418], [155418, 155803], [155803, 156188], [156188, 156573], [156573, 156958], [156958, 157343], [157343, 157728], [157728, 158258], [158258, 158643], [158643, 159028], [159028, 159793], [159793, 160178], [160178, 160563], [160563, 160948], [160948, 161333], [161333, 161718], [161718, 162103], [162103, 162633], [162633, 163018], [163018, 163403], [163403, 164168], [164168, 164553], [164553, 164938], [164938, 165323], [165323, 165708], [165708, 166093], [166093, 166478], [166478, 166863], [166863, 167393], [167393, 167778], [167778, 168163], [168163, 168928], [168928, 169313], [169313, 169698], [169698, 170083], [170083, 170468], [170468, 170853], [170853, 171238], [171238, 171768], [171768, 172153], [172153, 172538], [172538, 173303], [173303, 173688], [173688, 174073], [174073, 174458], [174458, 174988], [174988, 175373], [175373, 175758], [175758, 176143], [176143, 176528], [176528, 176913], [176913, 177678], [177678, 178063], [178063, 178448], [178448, 178833], [178833, 179218], [179218, 179748], [179748, 180133], [180133, 180518], [180518, 180903], [180903, 181433], [181433, 181818], [181818, 182203], [182203, 182588], [182588, 183118], [183118, 183502], [183502, 183888], [183888, 184652], [184652, 185182], [185182, 185567], [185567, 185952], [185952, 186482], [186482, 186867], [186867, 187252], [187252, 187782], [187782, 188167], [188167, 188552], [188552, 189082], [189082, 189467], [189467, 189852], [189852, 190617], [190617, 191002], [191002, 191387], [191387, 191772], [191772, 192157], [192157, 192542], [192542, 193072], [193072, 193457], [193457, 193842], [193842, 194227], [194227, 194612], [194612, 195142], [195142, 195527], [195527, 195912], [195912, 196677]]}, "sam_hoi": {"text": "Nam mô Bổn Sư, Thích Ca Mâu Ni Phật. Nam mô Cầu Sám Hối, Bồ Tát Ma Ha Tát. Đệ tử chúng con, từ vô thỉ kiếp đến nay, bỏ mất bản tâm, không biết đạo lành, vọng tình tạo lập, bao nhiêu tội lỗi. Hoặc vì tham lam, sân giận, si mê, kiêu mạn, hoặc vì nóng vội, trong công việc và cuộc sống. Mà thân, khẩu, ý, lỡ gây điều lầm lỗi, với cha mẹ, đồng nghiệp, đối tác và chúng sanh. Xưa kia đã tạo bao ác nghiệp, đều bởi vô thỉ tham sân si, từ thân miệng ý mà sinh ra, hết thảy chúng con, xin chí thành cúi đầu sám hối. Bao nhiêu tội chướng sâu nặng, như sương mai gặp ánh mặt trời, trí tuệ đều tan biến. Nguyện từ nay giữ tâm từ bi hỷ xả, nói lời hòa ái chân thành, làm việc thiện lành chính trực. Tội từ tâm khởi đem tâm sám, tâm nếu diệt rồi tội cũng tiêu. Tội tiêu tâm tịnh cả hai không, ấy mới thật là chân sám hối. Nam mô Cầu Sám Hối, Bồ Tát Ma Ha Tát.", "words": ["Nam", "mô", "Bổn", "Sư,", "Thích", "Ca", "Mâu", "Ni", "Phật.", "Nam", "mô", "Cầu", "Sám", "Hối,", "Bồ", "Tát", "Ma", "Ha", "Tát.", "Đệ", "tử", "chúng", "con,", "từ", "vô", "thỉ", "kiếp", "đến", "nay,", "bỏ", "mất", "bản", "tâm,", "không", "biết", "đạo", "lành,", "vọng", "tình", "tạo", "lập,", "bao", "nhiêu", "tội", "lỗi.", "Hoặc", "vì", "tham", "lam,", "sân", "giận,", "si", "mê,", "kiêu", "mạn,", "hoặc", "vì", "nóng", "vội,", "trong", "công", "việc", "và", "cuộc", "sống.", "Mà", "thân,", "khẩu,", "ý,", "lỡ", "gây", "điều", "lầm", "lỗi,", "với", "cha", "mẹ,", "đồng", "nghiệp,", "đối", "tác", "và", "chúng", "sanh.", "Xưa", "kia", "đã", "tạo", "bao", "ác", "nghiệp,", "đều", "bởi", "vô", "thỉ", "tham", "sân", "si,", "từ", "thân", "miệng", "ý", "mà", "sinh", "ra,", "hết", "thảy", "chúng", "con,", "xin", "chí", "thành", "cúi", "đầu", "sám", "hối.", "Bao", "nhiêu", "tội", "chướng", "sâu", "nặng,", "như", "sương", "mai", "gặp", "ánh", "mặt", "trời,", "trí", "tuệ", "đều", "tan", "biến.", "Nguyện", "từ", "nay", "giữ", "tâm", "từ", "bi", "hỷ", "xả,", "nói", "lời", "hòa", "ái", "chân", "thành,", "làm", "việc", "thiện", "lành", "chính", "trực.", "Tội", "từ", "tâm", "khởi", "đem", "tâm", "sám,", "tâm", "nếu", "diệt", "rồi", "tội", "cũng", "tiêu.", "Tội", "tiêu", "tâm", "tịnh", "cả", "hai", "không,", "ấy", "mới", "thật", "là", "chân", "sám", "hối.", "Nam", "mô", "Cầu", "Sám", "Hối,", "Bồ", "Tát", "Ma", "Ha", "Tát."], "nam": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 4170], [4170, 4555], [4555, 4940], [4940, 5325], [5325, 5710], [5710, 6240], [6240, 6625], [6625, 7010], [7010, 7395], [7395, 7780], [7780, 8545], [8545, 8930], [8930, 9315], [9315, 9700], [9700, 10230], [10230, 10615], [10615, 11000], [11000, 11385], [11385, 11770], [11770, 12155], [12155, 12685], [12685, 13070], [13070, 13455], [13455, 13840], [13840, 14370], [14370, 14755], [14755, 15140], [15140, 15525], [15525, 16055], [16055, 16440], [16440, 16825], [16825, 17210], [17210, 17740], [17740, 18125], [18125, 18510], [18510, 18895], [18895, 19660], [19660, 20045], [20045, 20430], [20430, 20815], [20815, 21345], [21345, 21730], [21730, 22260], [22260, 22645], [22645, 23175], [23175, 23560], [23560, 24090], [24090, 24475], [24475, 24860], [24860, 25245], [25245, 25774], [25774, 26160], [26160, 26544], [26544, 26930], [26930, 27314], [27314, 27700], [27700, 28464], [28464, 28850], [28850, 29379], [29379, 29909], [29909, 30439], [30439, 30824], [30824, 31209], [31209, 31594], [31594, 31979], [31979, 32509], [32509, 32894], [32894, 33279], [33279, 33809], [33809, 34194], [34194, 34724], [34724, 35109], [35109, 35494], [35494, 35879], [35879, 36264], [36264, 37029], [37029, 37414], [37414, 37799], [37799, 38184], [38184, 38569], [38569, 38954], [38954, 39339], [39339, 39869], [39869, 40254], [40254, 40639], [40639, 41024], [41024, 41409], [41409, 41794], [41794, 42179], [42179, 42709], [42709, 43094], [43094, 43479], [43479, 43864], [43864, 44249], [44249, 44634], [44634, 45019], [45019, 45549], [45549, 45934], [45934, 46319], [46319, 46704], [46704, 47234], [47234, 47619], [47619, 48004], [48004, 48389], [48389, 48774], [48774, 49159], [49159, 49544], [49544, 50309], [50309, 50694], [50694, 51079], [51079, 51464], [51464, 51849], [51849, 52234], [52234, 52764], [52764, 53149], [53149, 53534], [53534, 53919], [53919, 54304], [54304, 54689], [54689, 55074], [55074, 55604], [55604, 55989], [55989, 56374], [56374, 56759], [56759, 57144], [57144, 57909], [57909, 58294], [58294, 58679], [58679, 59064], [59064, 59449], [59449, 59834], [59834, 60219], [60219, 60604], [60604, 60989], [60989, 61519], [61519, 61904], [61904, 62289], [62289, 62674], [62674, 63059], [63059, 63444], [63444, 63974], [63974, 64359], [64359, 64744], [64744, 65129], [65129, 65514], [65514, 65899], [65899, 66664], [66664, 67049], [67049, 67434], [67434, 67819], [67819, 68204], [68204, 68589], [68589, 68974], [68974, 69504], [69504, 69889], [69889, 70274], [70274, 70659], [70659, 71044], [71044, 71429], [71429, 71814], [71814, 72579], [72579, 72964], [72964, 73349], [73349, 73734], [73734, 74119], [74119, 74504], [74504, 74889], [74889, 75419], [75419, 75804], [75804, 76189], [76189, 76574], [76574, 76959], [76959, 77344], [77344, 77729], [77729, 78494], [78494, 78879], [78879, 79264], [79264, 79649], [79649, 80034], [80034, 80564], [80564, 80949], [80949, 81334], [81334, 81719], [81719, 82104], [82104, 82869]], "nu": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 4170], [4170, 4555], [4555, 4940], [4940, 5325], [5325, 5710], [5710, 6240], [6240, 6625], [6625, 7010], [7010, 7395], [7395, 7780], [7780, 8545], [8545, 8930], [8930, 9315], [9315, 9700], [9700, 10230], [10230, 10615], [10615, 11000], [11000, 11385], [11385, 11770], [11770, 12155], [12155, 12685], [12685, 13070], [13070, 13455], [13455, 13840], [13840, 14370], [14370, 14755], [14755, 15140], [15140, 15525], [15525, 16055], [16055, 16440], [16440, 16825], [16825, 17210], [17210, 17740], [17740, 18125], [18125, 18510], [18510, 18895], [18895, 19660], [19660, 20045], [20045, 20430], [20430, 20815], [20815, 21345], [21345, 21730], [21730, 22260], [22260, 22645], [22645, 23175], [23175, 23560], [23560, 24090], [24090, 24475], [24475, 24860], [24860, 25245], [25245, 25774], [25774, 26160], [26160, 26544], [26544, 26930], [26930, 27314], [27314, 27700], [27700, 28464], [28464, 28850], [28850, 29379], [29379, 29909], [29909, 30439], [30439, 30824], [30824, 31209], [31209, 31594], [31594, 31979], [31979, 32509], [32509, 32894], [32894, 33279], [33279, 33809], [33809, 34194], [34194, 34724], [34724, 35109], [35109, 35494], [35494, 35879], [35879, 36264], [36264, 37029], [37029, 37414], [37414, 37799], [37799, 38184], [38184, 38569], [38569, 38954], [38954, 39339], [39339, 39869], [39869, 40254], [40254, 40639], [40639, 41024], [41024, 41409], [41409, 41794], [41794, 42179], [42179, 42709], [42709, 43094], [43094, 43479], [43479, 43864], [43864, 44249], [44249, 44634], [44634, 45019], [45019, 45549], [45549, 45934], [45934, 46319], [46319, 46704], [46704, 47234], [47234, 47619], [47619, 48004], [48004, 48389], [48389, 48774], [48774, 49159], [49159, 49544], [49544, 50309], [50309, 50694], [50694, 51079], [51079, 51464], [51464, 51849], [51849, 52234], [52234, 52764], [52764, 53149], [53149, 53534], [53534, 53919], [53919, 54304], [54304, 54689], [54689, 55074], [55074, 55604], [55604, 55989], [55989, 56374], [56374, 56759], [56759, 57144], [57144, 57909], [57909, 58294], [58294, 58679], [58679, 59064], [59064, 59449], [59449, 59834], [59834, 60219], [60219, 60604], [60604, 60989], [60989, 61519], [61519, 61904], [61904, 62289], [62289, 62674], [62674, 63059], [63059, 63444], [63444, 63974], [63974, 64359], [64359, 64744], [64744, 65129], [65129, 65514], [65514, 65899], [65899, 66664], [66664, 67049], [67049, 67434], [67434, 67819], [67819, 68204], [68204, 68589], [68589, 68974], [68974, 69504], [69504, 69889], [69889, 70274], [70274, 70659], [70659, 71044], [71044, 71429], [71429, 71814], [71814, 72579], [72579, 72964], [72964, 73349], [73349, 73734], [73734, 74119], [74119, 74504], [74504, 74889], [74889, 75419], [75419, 75804], [75804, 76189], [76189, 76574], [76574, 76959], [76959, 77344], [77344, 77729], [77729, 78494], [78494, 78879], [78879, 79264], [79264, 79649], [79649, 80034], [80034, 80564], [80564, 80949], [80949, 81334], [81334, 81719], [81719, 82104], [82104, 82869]]}, "hoi_huong": {"text": "Nam mô A Di Đà Phật. Phúng kinh công đức thù thắng hạnh, vô biên thắng phước giai hồi hướng. Phổ nguyện trầm nịch chư chúng sanh, tốc vãng vô lượng quang Phật sát. Nguyện tiêu tam chướng trừ phiền não, nguyện đắc trí tuệ chân minh liễu. Phổ nguyện tội chướng tất tiêu trừ, thế thế thường hành Bồ Tát đạo. Nguyện sanh Tây Phương Tịnh Độ trung, cửu phẩm liên hoa vi phụ mẫu. Hoa khai kiến Phật ngộ vô sanh, bất thối Bồ Tát vi bạn lữ. Nguyện đem công đức lành tu tập, tụng kinh, gõ mõ, dâng hương lễ Phật hôm nay. Trang nghiêm Phật Tịnh Độ, trên đền bốn ơn nặng, dưới cứu khổ ba đường. Nếu có ai thấy nghe, đều phát tâm Bồ Đề, hết một báo thân này, đồng sanh Cực Lạc quốc. Nguyện hồi hướng phước báu, cho cha mẹ gia quyến bốn mùa bình an, tập thể Kho Tấm Ốp Trường Yến, đoàn kết vững mạnh, công việc hanh thông, tài lộc viên thành. Nam mô A Di Đà Phật.", "words": ["Nam", "mô", "A", "Di", "Đà", "Phật.", "Phúng", "kinh", "công", "đức", "thù", "thắng", "hạnh,", "vô", "biên", "thắng", "phước", "giai", "hồi", "hướng.", "Phổ", "nguyện", "trầm", "nịch", "chư", "chúng", "sanh,", "tốc", "vãng", "vô", "lượng", "quang", "Phật", "sát.", "Nguyện", "tiêu", "tam", "chướng", "trừ", "phiền", "não,", "nguyện", "đắc", "trí", "tuệ", "chân", "minh", "liễu.", "Phổ", "nguyện", "tội", "chướng", "tất", "tiêu", "trừ,", "thế", "thế", "thường", "hành", "Bồ", "Tát", "đạo.", "Nguyện", "sanh", "Tây", "Phương", "Tịnh", "Độ", "trung,", "cửu", "phẩm", "liên", "hoa", "vi", "phụ", "mẫu.", "Hoa", "khai", "kiến", "Phật", "ngộ", "vô", "sanh,", "bất", "thối", "Bồ", "Tát", "vi", "bạn", "lữ.", "Nguyện", "đem", "công", "đức", "lành", "tu", "tập,", "tụng", "kinh,", "gõ", "mõ,", "dâng", "hương", "lễ", "Phật", "hôm", "nay.", "Trang", "nghiêm", "Phật", "Tịnh", "Độ,", "trên", "đền", "bốn", "ơn", "nặng,", "dưới", "cứu", "khổ", "ba", "đường.", "Nếu", "có", "ai", "thấy", "nghe,", "đều", "phát", "tâm", "Bồ", "Đề,", "hết", "một", "báo", "thân", "này,", "đồng", "sanh", "Cực", "Lạc", "quốc.", "Nguyện", "hồi", "hướng", "phước", "báu,", "cho", "cha", "mẹ", "gia", "quyến", "bốn", "mùa", "bình", "an,", "tập", "thể", "Kho", "Tấm", "Ốp", "Trường", "Yến,", "đoàn", "kết", "vững", "mạnh,", "công", "việc", "hanh", "thông,", "tài", "lộc", "viên", "thành.", "Nam", "mô", "A", "Di", "Đà", "Phật."], "nam": [[180, 565], [565, 950], [950, 1335], [1335, 1720], [1720, 2105], [2105, 2870], [2870, 3255], [3255, 3640], [3640, 4025], [4025, 4410], [4410, 4795], [4795, 5180], [5180, 5710], [5710, 6095], [6095, 6480], [6480, 6865], [6865, 7250], [7250, 7635], [7635, 8020], [8020, 8785], [8785, 9170], [9170, 9555], [9555, 9940], [9940, 10325], [10325, 10710], [10710, 11095], [11095, 11625], [11625, 12010], [12010, 12395], [12395, 12780], [12780, 13165], [13165, 13550], [13550, 13935], [13935, 14700], [14700, 15085], [15085, 15470], [15470, 15855], [15855, 16240], [16240, 16625], [16625, 17010], [17010, 17540], [17540, 17925], [17925, 18310], [18310, 18695], [18695, 19080], [19080, 19465], [19465, 19850], [19850, 20615], [20615, 21000], [21000, 21385], [21385, 21770], [21770, 22155], [22155, 22540], [22540, 22925], [22925, 23455], [23455, 23840], [23840, 24225], [24225, 24610], [24610, 24995], [24995, 25380], [25380, 25765], [25765, 26530], [26530, 26915], [26915, 27300], [27300, 27685], [27685, 28070], [28070, 28455], [28455, 28840], [28840, 29370], [29370, 29755], [29755, 30140], [30140, 30525], [30525, 30910], [30910, 31295], [31295, 31680], [31680, 32445], [32445, 32830], [32830, 33215], [33215, 33600], [33600, 33985], [33985, 34370], [34370, 34755], [34755, 35285], [35285, 35670], [35670, 36055], [36055, 36440], [36440, 36825], [36825, 37210], [37210, 37595], [37595, 38360], [38360, 38745], [38745, 39130], [39130, 39515], [39515, 39900], [39900, 40285], [40285, 40670], [40670, 41200], [41200, 41585], [41585, 42115], [42115, 42500], [42500, 43030], [43030, 43415], [43415, 43800], [43800, 44185], [44185, 44570], [44570, 44955], [44955, 45720], [45720, 46105], [46105, 46490], [46490, 46875], [46875, 47260], [47260, 47790], [47790, 48175], [48175, 48560], [48560, 48945], [48945, 49330], [49330, 49860], [49860, 50245], [50245, 50630], [50630, 51015], [51015, 51400], [51400, 52165], [52165, 52550], [52550, 52935], [52935, 53320], [53320, 53705], [53705, 54234], [54234, 54620], [54620, 55004], [55004, 55390], [55390, 55774], [55774, 56304], [56304, 56689], [56689, 57074], [57074, 57459], [57459, 57844], [57844, 58374], [58374, 58759], [58759, 59144], [59144, 59529], [59529, 59914], [59914, 60679], [60679, 61064], [61064, 61449], [61449, 61834], [61834, 62219], [62219, 62749], [62749, 63134], [63134, 63519], [63519, 63904], [63904, 64289], [64289, 64674], [64674, 65059], [65059, 65444], [65444, 65829], [65829, 66359], [66359, 66744], [66744, 67129], [67129, 67514], [67514, 67899], [67899, 68284], [68284, 68669], [68669, 69199], [69199, 69584], [69584, 69969], [69969, 70354], [70354, 70884], [70884, 71269], [71269, 71654], [71654, 72039], [72039, 72569], [72569, 72954], [72954, 73339], [73339, 73724], [73724, 74489], [74489, 74874], [74874, 75259], [75259, 75644], [75644, 76029], [76029, 76414], [76414, 77179]], "nu": [[180, 565], [565, 950], [950, 1335], [1335, 1720], [1720, 2105], [2105, 2870], [2870, 3255], [3255, 3640], [3640, 4025], [4025, 4410], [4410, 4795], [4795, 5180], [5180, 5710], [5710, 6095], [6095, 6480], [6480, 6865], [6865, 7250], [7250, 7635], [7635, 8020], [8020, 8785], [8785, 9170], [9170, 9555], [9555, 9940], [9940, 10325], [10325, 10710], [10710, 11095], [11095, 11625], [11625, 12010], [12010, 12395], [12395, 12780], [12780, 13165], [13165, 13550], [13550, 13935], [13935, 14700], [14700, 15085], [15085, 15470], [15470, 15855], [15855, 16240], [16240, 16625], [16625, 17010], [17010, 17540], [17540, 17925], [17925, 18310], [18310, 18695], [18695, 19080], [19080, 19465], [19465, 19850], [19850, 20615], [20615, 21000], [21000, 21385], [21385, 21770], [21770, 22155], [22155, 22540], [22540, 22925], [22925, 23455], [23455, 23840], [23840, 24225], [24225, 24610], [24610, 24995], [24995, 25380], [25380, 25765], [25765, 26530], [26530, 26915], [26915, 27300], [27300, 27685], [27685, 28070], [28070, 28455], [28455, 28840], [28840, 29370], [29370, 29755], [29755, 30140], [30140, 30525], [30525, 30910], [30910, 31295], [31295, 31680], [31680, 32445], [32445, 32830], [32830, 33215], [33215, 33600], [33600, 33985], [33985, 34370], [34370, 34755], [34755, 35285], [35285, 35670], [35670, 36055], [36055, 36440], [36440, 36825], [36825, 37210], [37210, 37595], [37595, 38360], [38360, 38745], [38745, 39130], [39130, 39515], [39515, 39900], [39900, 40285], [40285, 40670], [40670, 41200], [41200, 41585], [41585, 42115], [42115, 42500], [42500, 43030], [43030, 43415], [43415, 43800], [43800, 44185], [44185, 44570], [44570, 44955], [44955, 45720], [45720, 46105], [46105, 46490], [46490, 46875], [46875, 47260], [47260, 47790], [47790, 48175], [48175, 48560], [48560, 48945], [48945, 49330], [49330, 49860], [49860, 50245], [50245, 50630], [50630, 51015], [51015, 51400], [51400, 52165], [52165, 52550], [52550, 52935], [52935, 53320], [53320, 53705], [53705, 54234], [54234, 54620], [54620, 55004], [55004, 55390], [55390, 55774], [55774, 56304], [56304, 56689], [56689, 57074], [57074, 57459], [57459, 57844], [57844, 58374], [58374, 58759], [58759, 59144], [59144, 59529], [59529, 59914], [59914, 60679], [60679, 61064], [61064, 61449], [61449, 61834], [61834, 62219], [62219, 62749], [62749, 63134], [63134, 63519], [63519, 63904], [63904, 64289], [64289, 64674], [64674, 65059], [65059, 65444], [65444, 65829], [65829, 66359], [66359, 66744], [66744, 67129], [67129, 67514], [67514, 67899], [67899, 68284], [68284, 68669], [68669, 69199], [69199, 69584], [69584, 69969], [69969, 70354], [70354, 70884], [70884, 71269], [71269, 71654], [71654, 72039], [72039, 72569], [72569, 72954], [72954, 73339], [73339, 73724], [73724, 74489], [74489, 74874], [74874, 75259], [75259, 75644], [75644, 76029], [76029, 76414], [76414, 77179]]}, "bat_nha": {"text": "Ma Ha Bát Nhã, Ba La Mật Đa Tâm Kinh. Quán Tự Tại Bồ Tát, hành thâm Bát Nhã Ba La Mật Đa thời, chiếu kiến ngũ uẩn giai không, độ nhất thiết khổ ách. Xá Lợi Tử, sắc bất dị không, không bất dị sắc, sắc tức thị không, không tức thị sắc, thọ tưởng hành thức, diệc phục như thị. Xá Lợi Tử, thị chư pháp không tướng, bất sanh bất diệt, bất cấu bất tịnh, bất tăng bất giảm. Thị cố không trung vô sắc, vô thọ tưởng hành thức, vô nhãn nhĩ tỷ thiệt thân ý, vô sắc thanh hương vị xúc pháp. Vô nhãn giới, nãi chí vô ý thức giới, vô vô minh, diệc vô vô minh tận, nãi chí vô lão tử, diệc vô lão tử tận. Vô khổ tập diệt đạo, vô trí diệc vô đắc. Dĩ vô sở đắc cố, Bồ Đề Tát Đỏa, y Bát Nhã Ba La Mật Đa cố, tâm vô quái ngại. Vô quái ngại cố, vô hữu khủng bố, viễn ly điên đảo mộng tưởng, cứu cánh Niết Bàn. Tam thế chư Phật, y Bát Nhã Ba La Mật Đa cố, đắc A Nậu Đa La, Tam Miệu Tam Bồ Đề. Cố tri Bát Nhã Ba La Mật Đa, thị đại thần chú, thị đại minh chú, thị vô thượng chú, thị vô đẳng đẳng chú. Năng trừ nhất thiết khổ, chân thật bất hư. Cố thuyết Bát Nhã Ba La Mật Đa chú, tức thuyết chú viết. Yết đế yết đế, ba la yết đế, ba la tăng yết đế, Bồ đề tát bà ha.", "words": ["Ma", "Ha", "Bát", "Nhã,", "Ba", "La", "Mật", "Đa", "Tâm", "Kinh.", "Quán", "Tự", "Tại", "Bồ", "Tát,", "hành", "thâm", "Bát", "Nhã", "Ba", "La", "Mật", "Đa", "thời,", "chiếu", "kiến", "ngũ", "uẩn", "giai", "không,", "độ", "nhất", "thiết", "khổ", "ách.", "Xá", "Lợi", "Tử,", "sắc", "bất", "dị", "không,", "không", "bất", "dị", "sắc,", "sắc", "tức", "thị", "không,", "không", "tức", "thị", "sắc,", "thọ", "tưởng", "hành", "thức,", "diệc", "phục", "như", "thị.", "Xá", "Lợi", "Tử,", "thị", "chư", "pháp", "không", "tướng,", "bất", "sanh", "bất", "diệt,", "bất", "cấu", "bất", "tịnh,", "bất", "tăng", "bất", "giảm.", "Thị", "cố", "không", "trung", "vô", "sắc,", "vô", "thọ", "tưởng", "hành", "thức,", "vô", "nhãn", "nhĩ", "tỷ", "thiệt", "thân", "ý,", "vô", "sắc", "thanh", "hương", "vị", "xúc", "pháp.", "Vô", "nhãn", "giới,", "nãi", "chí", "vô", "ý", "thức", "giới,", "vô", "vô", "minh,", "diệc", "vô", "vô", "minh", "tận,", "nãi", "chí", "vô", "lão", "tử,", "diệc", "vô", "lão", "tử", "tận.", "Vô", "khổ", "tập", "diệt", "đạo,", "vô", "trí", "diệc", "vô", "đắc.", "Dĩ", "vô", "sở", "đắc", "cố,", "Bồ", "Đề", "Tát", "Đỏa,", "y", "Bát", "Nhã", "Ba", "La", "Mật", "Đa", "cố,", "tâm", "vô", "quái", "ngại.", "Vô", "quái", "ngại", "cố,", "vô", "hữu", "khủng", "bố,", "viễn", "ly", "điên", "đảo", "mộng", "tưởng,", "cứu", "cánh", "Niết", "Bàn.", "Tam", "thế", "chư", "Phật,", "y", "Bát", "Nhã", "Ba", "La", "Mật", "Đa", "cố,", "đắc", "A", "Nậu", "Đa", "La,", "Tam", "Miệu", "Tam", "Bồ", "Đề.", "Cố", "tri", "Bát", "Nhã", "Ba", "La", "Mật", "Đa,", "thị", "đại", "thần", "chú,", "thị", "đại", "minh", "chú,", "thị", "vô", "thượng", "chú,", "thị", "vô", "đẳng", "đẳng", "chú.", "Năng", "trừ", "nhất", "thiết", "khổ,", "chân", "thật", "bất", "hư.", "Cố", "thuyết", "Bát", "Nhã", "Ba", "La", "Mật", "Đa", "chú,", "tức", "thuyết", "chú", "viết.", "Yết", "đế", "yết", "đế,", "ba", "la", "yết", "đế,", "ba", "la", "tăng", "yết", "đế,", "Bồ", "đề", "tát", "bà", "ha."], "nam": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 3790], [3790, 4555], [4555, 4940], [4940, 5325], [5325, 5710], [5710, 6095], [6095, 6625], [6625, 7010], [7010, 7395], [7395, 7780], [7780, 8165], [8165, 8550], [8550, 8935], [8935, 9320], [9320, 9705], [9705, 10235], [10235, 10620], [10620, 11005], [11005, 11390], [11390, 11775], [11775, 12160], [12160, 12690], [12690, 13075], [13075, 13460], [13460, 13845], [13845, 14230], [14230, 14995], [14995, 15380], [15380, 15765], [15765, 16295], [16295, 16680], [16680, 17065], [17065, 17450], [17450, 17980], [17980, 18365], [18365, 18750], [18750, 19135], [19135, 19665], [19665, 20050], [20050, 20435], [20435, 20820], [20820, 21350], [21350, 21735], [21735, 22120], [22120, 22505], [22505, 23035], [23035, 23420], [23420, 23805], [23805, 24190], [24190, 24720], [24720, 25105], [25105, 25490], [25490, 25875], [25875, 26640], [26640, 27025], [27025, 27410], [27410, 27940], [27940, 28325], [28325, 28710], [28710, 29095], [29095, 29480], [29480, 30010], [30010, 30394], [30394, 30780], [30780, 31164], [31164, 31694], [31694, 32079], [32079, 32464], [32464, 32849], [32849, 33379], [33379, 33764], [33764, 34149], [34149, 34534], [34534, 35299], [35299, 35684], [35684, 36069], [36069, 36454], [36454, 36839], [36839, 37224], [37224, 37754], [37754, 38139], [38139, 38524], [38524, 38909], [38909, 39294], [39294, 39824], [39824, 40209], [40209, 40594], [40594, 40979], [40979, 41364], [41364, 41749], [41749, 42134], [42134, 42664], [42664, 43049], [43049, 43434], [43434, 43819], [43819, 44204], [44204, 44589], [44589, 44974], [44974, 45739], [45739, 46124], [46124, 46509], [46509, 47039], [47039, 47424], [47424, 47809], [47809, 48194], [48194, 48579], [48579, 48964], [48964, 49494], [49494, 49879], [49879, 50264], [50264, 50794], [50794, 51179], [51179, 51564], [51564, 51949], [51949, 52334], [52334, 52864], [52864, 53249], [53249, 53634], [53634, 54019], [54019, 54404], [54404, 54934], [54934, 55319], [55319, 55704], [55704, 56089], [56089, 56474], [56474, 57239], [57239, 57624], [57624, 58009], [58009, 58394], [58394, 58779], [58779, 59309], [59309, 59694], [59694, 60079], [60079, 60464], [60464, 60849], [60849, 61614], [61614, 61999], [61999, 62384], [62384, 62769], [62769, 63154], [63154, 63684], [63684, 64069], [64069, 64454], [64454, 64839], [64839, 65369], [65369, 65754], [65754, 66139], [66139, 66524], [66524, 66909], [66909, 67294], [67294, 67679], [67679, 68064], [68064, 68594], [68594, 68979], [68979, 69364], [69364, 69749], [69749, 70514], [70514, 70899], [70899, 71284], [71284, 71669], [71669, 72199], [72199, 72584], [72584, 72969], [72969, 73354], [73354, 73884], [73884, 74269], [74269, 74654], [74654, 75039], [75039, 75424], [75424, 75809], [75809, 76339], [76339, 76724], [76724, 77109], [77109, 77494], [77494, 78259], [78259, 78644], [78644, 79029], [79029, 79414], [79414, 79944], [79944, 80329], [80329, 80714], [80714, 81099], [81099, 81484], [81484, 81869], [81869, 82254], [82254, 82639], [82639, 83169], [83169, 83554], [83554, 83939], [83939, 84324], [84324, 84709], [84709, 85239], [85239, 85624], [85624, 86009], [86009, 86394], [86394, 86779], [86779, 87544], [87544, 87929], [87929, 88314], [88314, 88699], [88699, 89084], [89084, 89469], [89469, 89854], [89854, 90239], [90239, 90769], [90769, 91154], [91154, 91539], [91539, 91924], [91924, 92454], [92454, 92839], [92839, 93224], [93224, 93609], [93609, 94139], [94139, 94524], [94524, 94909], [94909, 95294], [95294, 95824], [95824, 96208], [96208, 96594], [96594, 96978], [96978, 97364], [97364, 98128], [98128, 98514], [98514, 98898], [98898, 99284], [99284, 99668], [99668, 100198], [100198, 100583], [100583, 100968], [100968, 101353], [101353, 102118], [102118, 102503], [102503, 102888], [102888, 103273], [103273, 103658], [103658, 104043], [104043, 104428], [104428, 104813], [104813, 105198], [105198, 105728], [105728, 106113], [106113, 106498], [106498, 106883], [106883, 107648], [107648, 108033], [108033, 108418], [108418, 108803], [108803, 109333], [109333, 109718], [109718, 110103], [110103, 110488], [110488, 111018], [111018, 111403], [111403, 111788], [111788, 112173], [112173, 112558], [112558, 113088], [113088, 113473], [113473, 113858], [113858, 114243], [114243, 114628], [114628, 115393]], "nu": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 3790], [3790, 4555], [4555, 4940], [4940, 5325], [5325, 5710], [5710, 6095], [6095, 6625], [6625, 7010], [7010, 7395], [7395, 7780], [7780, 8165], [8165, 8550], [8550, 8935], [8935, 9320], [9320, 9705], [9705, 10235], [10235, 10620], [10620, 11005], [11005, 11390], [11390, 11775], [11775, 12160], [12160, 12690], [12690, 13075], [13075, 13460], [13460, 13845], [13845, 14230], [14230, 14995], [14995, 15380], [15380, 15765], [15765, 16295], [16295, 16680], [16680, 17065], [17065, 17450], [17450, 17980], [17980, 18365], [18365, 18750], [18750, 19135], [19135, 19665], [19665, 20050], [20050, 20435], [20435, 20820], [20820, 21350], [21350, 21735], [21735, 22120], [22120, 22505], [22505, 23035], [23035, 23420], [23420, 23805], [23805, 24190], [24190, 24720], [24720, 25105], [25105, 25490], [25490, 25875], [25875, 26640], [26640, 27025], [27025, 27410], [27410, 27940], [27940, 28325], [28325, 28710], [28710, 29095], [29095, 29480], [29480, 30010], [30010, 30394], [30394, 30780], [30780, 31164], [31164, 31694], [31694, 32079], [32079, 32464], [32464, 32849], [32849, 33379], [33379, 33764], [33764, 34149], [34149, 34534], [34534, 35299], [35299, 35684], [35684, 36069], [36069, 36454], [36454, 36839], [36839, 37224], [37224, 37754], [37754, 38139], [38139, 38524], [38524, 38909], [38909, 39294], [39294, 39824], [39824, 40209], [40209, 40594], [40594, 40979], [40979, 41364], [41364, 41749], [41749, 42134], [42134, 42664], [42664, 43049], [43049, 43434], [43434, 43819], [43819, 44204], [44204, 44589], [44589, 44974], [44974, 45739], [45739, 46124], [46124, 46509], [46509, 47039], [47039, 47424], [47424, 47809], [47809, 48194], [48194, 48579], [48579, 48964], [48964, 49494], [49494, 49879], [49879, 50264], [50264, 50794], [50794, 51179], [51179, 51564], [51564, 51949], [51949, 52334], [52334, 52864], [52864, 53249], [53249, 53634], [53634, 54019], [54019, 54404], [54404, 54934], [54934, 55319], [55319, 55704], [55704, 56089], [56089, 56474], [56474, 57239], [57239, 57624], [57624, 58009], [58009, 58394], [58394, 58779], [58779, 59309], [59309, 59694], [59694, 60079], [60079, 60464], [60464, 60849], [60849, 61614], [61614, 61999], [61999, 62384], [62384, 62769], [62769, 63154], [63154, 63684], [63684, 64069], [64069, 64454], [64454, 64839], [64839, 65369], [65369, 65754], [65754, 66139], [66139, 66524], [66524, 66909], [66909, 67294], [67294, 67679], [67679, 68064], [68064, 68594], [68594, 68979], [68979, 69364], [69364, 69749], [69749, 70514], [70514, 70899], [70899, 71284], [71284, 71669], [71669, 72199], [72199, 72584], [72584, 72969], [72969, 73354], [73354, 73884], [73884, 74269], [74269, 74654], [74654, 75039], [75039, 75424], [75424, 75809], [75809, 76339], [76339, 76724], [76724, 77109], [77109, 77494], [77494, 78259], [78259, 78644], [78644, 79029], [79029, 79414], [79414, 79944], [79944, 80329], [80329, 80714], [80714, 81099], [81099, 81484], [81484, 81869], [81869, 82254], [82254, 82639], [82639, 83169], [83169, 83554], [83554, 83939], [83939, 84324], [84324, 84709], [84709, 85239], [85239, 85624], [85624, 86009], [86009, 86394], [86394, 86779], [86779, 87544], [87544, 87929], [87929, 88314], [88314, 88699], [88699, 89084], [89084, 89469], [89469, 89854], [89854, 90239], [90239, 90769], [90769, 91154], [91154, 91539], [91539, 91924], [91924, 92454], [92454, 92839], [92839, 93224], [93224, 93609], [93609, 94139], [94139, 94524], [94524, 94909], [94909, 95294], [95294, 95824], [95824, 96208], [96208, 96594], [96594, 96978], [96978, 97364], [97364, 98128], [98128, 98514], [98514, 98898], [98898, 99284], [99284, 99668], [99668, 100198], [100198, 100583], [100583, 100968], [100968, 101353], [101353, 102118], [102118, 102503], [102503, 102888], [102888, 103273], [103273, 103658], [103658, 104043], [104043, 104428], [104428, 104813], [104813, 105198], [105198, 105728], [105728, 106113], [106113, 106498], [106498, 106883], [106883, 107648], [107648, 108033], [108033, 108418], [108418, 108803], [108803, 109333], [109333, 109718], [109718, 110103], [110103, 110488], [110488, 111018], [111018, 111403], [111403, 111788], [111788, 112173], [112173, 112558], [112558, 113088], [113088, 113473], [113473, 113858], [113858, 114243], [114243, 114628], [114628, 115393]]}, "duoc_su": {"text": "Nam mô Dược Sư, Lưu Ly Quang Vương Phật. Nam mô Bạc già phạt đế, bệ sát xã, lũ rô thích lưu ly, bát lạt bà, hắc ra xà dã. Đát tha yết đa da, a ra hắc đế, tam miệu tam bột đà da. Đát điệt tha: Án, bệ sát thệ, bệ sát thệ, bệ sát xã, tam một yết đế toả ha. Án, bệ sát thệ, bệ sát thệ, bệ sát xã, tam một yết đế toả ha. Nguyện nhờ oai lực, Chú Dược Sư Lưu Ly Quang Vương Phật, gia hộ tiêu trừ bách bệnh, giải trừ tai ách, thân khỏe tâm an, vạn sự cát tường như ý. Nam mô Dược Sư, Lưu Ly Quang Vương Phật.", "words": ["Nam", "mô", "Dược", "Sư,", "Lưu", "Ly", "Quang", "Vương", "Phật.", "Nam", "mô", "Bạc", "già", "phạt", "đế,", "bệ", "sát", "xã,", "lũ", "rô", "thích", "lưu", "ly,", "bát", "lạt", "bà,", "hắc", "ra", "xà", "dã.", "Đát", "tha", "yết", "đa", "da,", "a", "ra", "hắc", "đế,", "tam", "miệu", "tam", "bột", "đà", "da.", "Đát", "điệt", "tha:", "Án,", "bệ", "sát", "thệ,", "bệ", "sát", "thệ,", "bệ", "sát", "xã,", "tam", "một", "yết", "đế", "toả", "ha.", "Án,", "bệ", "sát", "thệ,", "bệ", "sát", "thệ,", "bệ", "sát", "xã,", "tam", "một", "yết", "đế", "toả", "ha.", "Nguyện", "nhờ", "oai", "lực,", "Chú", "Dược", "Sư", "Lưu", "Ly", "Quang", "Vương", "Phật,", "gia", "hộ", "tiêu", "trừ", "bách", "bệnh,", "giải", "trừ", "tai", "ách,", "thân", "khỏe", "tâm", "an,", "vạn", "sự", "cát", "tường", "như", "ý.", "Nam", "mô", "Dược", "Sư,", "Lưu", "Ly", "Quang", "Vương", "Phật."], "nam": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 4170], [4170, 4555], [4555, 4940], [4940, 5325], [5325, 5710], [5710, 6095], [6095, 6625], [6625, 7010], [7010, 7395], [7395, 7925], [7925, 8310], [8310, 8695], [8695, 9080], [9080, 9465], [9465, 9995], [9995, 10380], [10380, 10765], [10765, 11295], [11295, 11680], [11680, 12065], [12065, 12450], [12450, 13215], [13215, 13600], [13600, 13985], [13985, 14370], [14370, 14755], [14755, 15285], [15285, 15670], [15670, 16055], [16055, 16440], [16440, 16970], [16970, 17355], [17355, 17740], [17740, 18125], [18125, 18510], [18510, 18895], [18895, 19660], [19660, 20045], [20045, 20430], [20430, 21195], [21195, 21725], [21725, 22110], [22110, 22495], [22495, 23025], [23025, 23410], [23410, 23795], [23795, 24325], [24325, 24710], [24710, 25095], [25095, 25625], [25625, 26010], [26010, 26395], [26395, 26780], [26780, 27165], [27165, 27550], [27550, 28315], [28315, 28844], [28844, 29230], [29230, 29614], [29614, 30144], [30144, 30529], [30529, 30914], [30914, 31444], [31444, 31829], [31829, 32214], [32214, 32744], [32744, 33129], [33129, 33514], [33514, 33899], [33899, 34284], [34284, 34669], [34669, 35434], [35434, 35819], [35819, 36204], [36204, 36589], [36589, 37119], [37119, 37504], [37504, 37889], [37889, 38274], [38274, 38659], [38659, 39044], [39044, 39429], [39429, 39814], [39814, 40344], [40344, 40729], [40729, 41114], [41114, 41499], [41499, 41884], [41884, 42269], [42269, 42799], [42799, 43184], [43184, 43569], [43569, 43954], [43954, 44484], [44484, 44869], [44869, 45254], [45254, 45639], [45639, 46169], [46169, 46554], [46554, 46939], [46939, 47324], [47324, 47709], [47709, 48094], [48094, 48859], [48859, 49244], [49244, 49629], [49629, 50014], [50014, 50544], [50544, 50929], [50929, 51314], [51314, 51699], [51699, 52084], [52084, 52849]], "nu": [[180, 565], [565, 950], [950, 1335], [1335, 1865], [1865, 2250], [2250, 2635], [2635, 3020], [3020, 3405], [3405, 4170], [4170, 4555], [4555, 4940], [4940, 5325], [5325, 5710], [5710, 6095], [6095, 6625], [6625, 7010], [7010, 7395], [7395, 7925], [7925, 8310], [8310, 8695], [8695, 9080], [9080, 9465], [9465, 9995], [9995, 10380], [10380, 10765], [10765, 11295], [11295, 11680], [11680, 12065], [12065, 12450], [12450, 13215], [13215, 13600], [13600, 13985], [13985, 14370], [14370, 14755], [14755, 15285], [15285, 15670], [15670, 16055], [16055, 16440], [16440, 16970], [16970, 17355], [17355, 17740], [17740, 18125], [18125, 18510], [18510, 18895], [18895, 19660], [19660, 20045], [20045, 20430], [20430, 21195], [21195, 21725], [21725, 22110], [22110, 22495], [22495, 23025], [23025, 23410], [23410, 23795], [23795, 24325], [24325, 24710], [24710, 25095], [25095, 25625], [25625, 26010], [26010, 26395], [26395, 26780], [26780, 27165], [27165, 27550], [27550, 28315], [28315, 28844], [28844, 29230], [29230, 29614], [29614, 30144], [30144, 30529], [30529, 30914], [30914, 31444], [31444, 31829], [31829, 32214], [32214, 32744], [32744, 33129], [33129, 33514], [33514, 33899], [33899, 34284], [34284, 34669], [34669, 35434], [35434, 35819], [35819, 36204], [36204, 36589], [36589, 37119], [37119, 37504], [37504, 37889], [37889, 38274], [38274, 38659], [38659, 39044], [39044, 39429], [39429, 39814], [39814, 40344], [40344, 40729], [40729, 41114], [41114, 41499], [41499, 41884], [41884, 42269], [42269, 42799], [42799, 43184], [43184, 43569], [43569, 43954], [43954, 44484], [44484, 44869], [44869, 45254], [45254, 45639], [45639, 46169], [46169, 46554], [46554, 46939], [46939, 47324], [47324, 47709], [47709, 48094], [48094, 48859], [48859, 49244], [49244, 49629], [49629, 50014], [50014, 50544], [50544, 50929], [50929, 51314], [51314, 51699], [51699, 52084], [52084, 52849]]}};
 
     function toggleTopUtilityMenu() {
       const p = document.getElementById('topUtilityMenuPanel');
@@ -2149,79 +2413,119 @@
       const dockLbl = document.getElementById('dockChantLabel');
       if (dockBtn) dockBtn.classList.add('active-ritual');
       if (dockLbl) dockLbl.textContent = 'Tụng Kinh: BẬT';
-      startKaraokeSutraOverlay(val, true, 'M');
+      startKaraokeSutraOverlay(val, true);
     }
 
     let currentKaraokeKey = 'chu_dai_bi';
-    let karaokeWords = [];
-    let karaokeWordIdx = -1;
+    let sutraLines = [];
+    let currentSutraLineIdx = 0;
     let karaokeTimer = null;
-    let karaokeVoiceGuide = true; // Mặc định BẬT Giọng Sư Thầy Tụng Chuẩn + Nhịp Mõ + Chữ Karaoke Khớp 100%
-    let karaokeVoiceGender = 'M'; // 'M' = Sư Thầy Trầm Hùng (mặc định), 'F' = Sư Cô Trang Nghiêm
-    let karaokePlaybackRate = 1.0; // 0.82 (Chậm để học), 1.0 (Chuẩn nhịp chùa), 1.18 (Nhanh)
-    let karaokeSilentStartMs = 0;
+    let sutraAutoMoTimer = null;
+    let karaokeVoiceGuide = true; // Mặc định BẬT Giọng Thầy Chùa Tụng Thật (YouTube/TikTok)
+    let sutraAutoMoEnabled = true; // Mặc định BẬT Mõ tự động
+    let karaokePlaybackRate = 1.0;
+    let sutraStartTimeMs = 0;
 
     function openKaraokeSutraFromModal() {
       const cfg = prayerTopicsConfig[selectedTopic];
       const sKey = (cfg && cfg.sutraKey) ? cfg.sutraKey : 'chu_dai_bi';
       closeSoKhanModal();
-      startKaraokeSutraOverlay(sKey, true, 'M');
+      startKaraokeSutraOverlay(sKey, true);
     }
 
-    function startKaraokeSutraOverlay(sutraKey = 'chu_dai_bi', withVoice = true, voiceGender = 'M') {
+    function pulseSutraMoVisual() {
+      const moBtn = document.getElementById('sutraCenterMoBtn');
+      if (!moBtn) return;
+      moBtn.style.transform = 'scale(0.86)';
+      setTimeout(() => {
+        if (moBtn) moBtn.style.transform = 'scale(1.0)';
+      }, 110);
+    }
+
+    function renderKaraokeSutraView() {
+      const box = document.getElementById('karaokeLyricsBox');
+      if (!box || !sutraLines.length) return;
+      const activeIdx = Math.max(0, Math.min(sutraLines.length - 1, window._karaokeLineIdx !== undefined ? window._karaokeLineIdx : currentSutraLineIdx));
+
+      // Hiển thị đúng 7 dòng cuộn dọc (3 dòng trên + 1 dòng chính giữa sáng trắng + 3 dòng dưới) giống hệt ảnh mẫu!
+      const rowsHtml = [];
+      for (let offset = -3; offset <= 3; offset++) {
+        const idx = activeIdx + offset;
+        if (idx < 0 || idx >= sutraLines.length) {
+          rowsHtml.push(`<div style="height:24px;">&nbsp;</div>`);
+          continue;
+        }
+        const lineText = sutraLines[idx];
+        if (offset === 0) {
+          // Dòng đang tụng ở chính giữa: chữ trắng sáng, đậm, rõ nét
+          rowsHtml.push(`
+            <div onclick="seekSutraToLine(${idx})" style="cursor:pointer; color:#ffffff; font-size:20px; font-weight:800; line-height:1.35; text-shadow:0 2px 12px rgba(255,255,255,0.45), 0 2px 6px rgba(0,0,0,0.95); transform:scale(1.04); transition:all 0.18s ease;">
+              ${lineText}
+            </div>
+          `);
+        } else {
+          const dist = Math.abs(offset);
+          const alpha = dist === 1 ? 0.62 : (dist === 2 ? 0.44 : 0.28);
+          const fSize = dist === 1 ? 16.5 : (dist === 2 ? 15.2 : 14.2);
+          rowsHtml.push(`
+            <div onclick="seekSutraToLine(${idx})" style="cursor:pointer; color:rgba(255,248,235,${alpha}); font-size:${fSize}px; font-weight:600; line-height:1.32; text-shadow:0 1px 4px rgba(0,0,0,0.85); transition:all 0.18s ease;">
+              ${lineText}
+            </div>
+          `);
+        }
+      }
+      box.innerHTML = rowsHtml.join('');
+    }
+
+    function startKaraokeSutraOverlay(sutraKey = 'chu_dai_bi', withVoice = true) {
       unlockAndStartAudio();
+      delete window._karaokeLineIdx;
       currentKaraokeKey = KARAOKE_SUTRAS_DATA[sutraKey] ? sutraKey : 'chu_dai_bi';
-      karaokeVoiceGuide = (withVoice !== undefined && withVoice !== null) ? Boolean(withVoice) : true;
-      if (voiceGender === 'M' || voiceGender === 'F') karaokeVoiceGender = voiceGender;
+      if (withVoice !== undefined && withVoice !== null) karaokeVoiceGuide = Boolean(withVoice);
 
       const data = KARAOKE_SUTRAS_DATA[currentKaraokeKey];
-      const tData = KARAOKE_TIMINGS_V53[currentKaraokeKey];
+      sutraLines = data.lines || [];
+      currentSutraLineIdx = 0;
 
       const overlay = document.getElementById('karaokeSutraOverlay');
-      if (overlay) overlay.style.display = 'block';
+      if (overlay) overlay.style.display = 'flex';
 
       const titleEl = document.getElementById('karaokeSutraTitle');
       if (titleEl) titleEl.textContent = data.title;
 
-      ['chu_dai_bi', 'sam_hoi', 'hoi_huong', 'bat_nha', 'duoc_su'].forEach(k => {
+      // Cập nhật trạng thái nút Pill giống hệt ảnh mẫu (Nút đang chọn nền vàng cam, các nút khác nền tối viền mảnh)
+      ['niem_phat', 'bat_nha', 'chu_vang_sanh', 'chu_dai_bi', 'hoi_huong', 'sam_hoi', 'duoc_su'].forEach(k => {
         const b = document.getElementById('krBtn_' + k);
-        if (b) {
-          if (k === currentKaraokeKey) {
-            b.style.background = 'linear-gradient(135deg,#ffd54f,#ff8f00)';
-            b.style.color = '#1a0500';
-            b.style.fontWeight = '900';
-          } else {
-            b.style.background = 'rgba(255,255,255,0.12)';
-            b.style.color = '#ffe082';
-            b.style.fontWeight = '700';
-          }
+        if (!b) return;
+        if (k === currentKaraokeKey) {
+          b.style.background = 'linear-gradient(180deg, #e8be63 0%, #c49234 100%)';
+          b.style.color = '#1a0c02';
+          b.style.border = '1px solid #ffe082';
+          b.style.fontWeight = '800';
+          b.style.boxShadow = '0 2px 12px rgba(232,190,99,0.45)';
+        } else {
+          b.style.background = 'rgba(26, 18, 12, 0.72)';
+          b.style.color = 'rgba(255, 240, 215, 0.88)';
+          b.style.border = '1px solid rgba(255, 220, 150, 0.35)';
+          b.style.fontWeight = '600';
+          b.style.boxShadow = 'none';
         }
       });
 
-      const vBtn = document.getElementById('krVoiceToggleBtn');
-      if (vBtn) {
-        if (!karaokeVoiceGuide) {
-          vBtn.textContent = '🥁 Chế độ: Tự Đọc Theo Nhịp Mõ Chuẩn (Tắt Giọng Thầy)';
-        } else if (karaokeVoiceGender === 'M') {
-          vBtn.textContent = '🧘‍♂️🔊 Giọng Sư Thầy Tụng Chuẩn + Nhịp Mõ (Khớp 100%)';
-        } else {
-          vBtn.textContent = '🪷🔊 Giọng Sư Cô Tụng Chuẩn + Nhịp Mõ (Khớp 100%)';
-        }
-      }
+      const voiceChk = document.getElementById('sutraVoiceRealCheckbox');
+      if (voiceChk) voiceChk.checked = karaokeVoiceGuide;
+      const autoMoChk = document.getElementById('sutraAutoMoCheckbox');
+      if (autoMoChk) autoMoChk.checked = sutraAutoMoEnabled;
 
-      karaokeWords = (tData && tData.words) ? tData.words : data.text.split(/\s+/).filter(Boolean);
-      karaokeWordIdx = -1;
-      const box = document.getElementById('karaokeLyricsBox');
-      if (box) {
-        box.innerHTML = karaokeWords.map((w, i) => `<span class="kr-word" id="krw_${i}" onclick="seekKaraokeToWord(${i})" style="cursor:pointer;" title="Bấm vào chữ này để đọc/tụng từ câu này">${w}</span>`).join(' ');
-      }
+      renderKaraokeSutraView();
 
       if (karaokeTimer) { clearInterval(karaokeTimer); karaokeTimer = null; }
+      if (sutraAutoMoTimer) { clearInterval(sutraAutoMoTimer); sutraAutoMoTimer = null; }
 
       if (karaokeVoiceGuide) {
-        const mp3Url = ((karaokeVoiceGender === 'F') ? data.audioNu : data.audioNam) + '?v=56';
+        // Phát bản thu âm Thầy Chùa Tụng Thật từ YouTube/TikTok đã lưu trong audio/
         bgMusicPlayer.pause();
-        localPrayerMp3.src = mp3Url;
+        localPrayerMp3.src = data.audioReal + '?v=58';
         localPrayerMp3.currentTime = 0;
         localPrayerMp3.playbackRate = karaokePlaybackRate;
         if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
@@ -2229,170 +2533,145 @@
         localPrayerMp3.play().catch(() => {});
       } else {
         localPrayerMp3.pause();
-        karaokeSilentStartMs = performance.now();
       }
 
-      karaokeTimer = setInterval(syncKaraokeWithAudioClock, 30);
-      syncKaraokeWithAudioClock();
+      sutraStartTimeMs = performance.now();
+      karaokeTimer = setInterval(syncSutraScrollTick, 80);
+      restartSutraAutoMoLoop();
     }
 
-    function highlightKaraokeWordAtIndex(newIdx) {
-      if (newIdx === karaokeWordIdx || !karaokeWords.length) return;
-      karaokeWordIdx = newIdx;
-      for (let i = 0; i < karaokeWords.length; i++) {
-        const el = document.getElementById('krw_' + i);
-        if (!el) continue;
-        if (i < karaokeWordIdx) {
-          el.className = 'kr-word passed';
-        } else if (i === karaokeWordIdx) {
-          el.className = 'kr-word active';
-          const box = document.getElementById('karaokeLyricsBox');
-          if (box) {
-            const elTop = el.offsetTop - box.offsetTop;
-            const targetScroll = Math.max(0, elTop - box.clientHeight * 0.38);
-            if (Math.abs(box.scrollTop - targetScroll) > 18) {
-              box.scrollTo({ top: targetScroll, behavior: 'smooth' });
-            }
-          }
-        } else {
-          el.className = 'kr-word';
-        }
-      }
-      const pct = Math.min(100, Math.round(((karaokeWordIdx + 1) / karaokeWords.length) * 100));
-      const prog = document.getElementById('krProgressText');
-      if (prog) prog.textContent = `Tiến độ: ${pct}% (${karaokeWordIdx + 1}/${karaokeWords.length} chữ · Bấm chữ bất kỳ để tua)`;
-    }
-
-    function syncKaraokeWithAudioClock() {
-      if (!karaokeWords.length) return;
-      const tData = KARAOKE_TIMINGS_V53[currentKaraokeKey];
-      const spans = (tData && ((karaokeVoiceGender === 'F') ? tData.nu : tData.nam)) || [];
-      if (!spans.length) return;
-
-      let curMs = 0;
-      if (karaokeVoiceGuide) {
-        curMs = (localPrayerMp3.currentTime || 0) * 1000.0;
-        if (localPrayerMp3.ended || (curMs > spans[spans.length - 1][1] + 300 && karaokeWordIdx >= spans.length - 1)) {
-          if (karaokeTimer) { clearInterval(karaokeTimer); karaokeTimer = null; }
-          playBellSound();
-          addMerit(5, `Thành tâm tụng viên mãn bài kinh (${KARAOKE_SUTRAS_DATA[currentKaraokeKey].title})`);
-          const prog = document.getElementById('krProgressText');
-          if (prog) prog.textContent = '✨ Đã tụng viên mãn 100%! (+5 💎 Phước Đức)';
-          if (window._globalAutoFarmActive) {
-            setTimeout(() => restartKaraokeSutra(), 1200);
-          }
-          return;
-        }
-      } else {
-        curMs = (performance.now() - karaokeSilentStartMs) * karaokePlaybackRate;
-        if (curMs > spans[spans.length - 1][1] + 400) {
-          if (karaokeTimer) { clearInterval(karaokeTimer); karaokeTimer = null; }
-          playBellSound();
-          addMerit(5, `Tự tụng viên mãn bài kinh (${KARAOKE_SUTRAS_DATA[currentKaraokeKey].title})`);
-          const prog = document.getElementById('krProgressText');
-          if (prog) prog.textContent = '✨ Đã tự tụng viên mãn 100%! (+5 💎 Phước Đức)';
-          return;
-        }
-      }
-
-      // Tìm chính xác chữ đang được Sư Thầy đọc tại mili-giây curMs
-      let foundIdx = 0;
-      for (let i = 0; i < spans.length; i++) {
-        if (curMs >= spans[i][0]) {
-          foundIdx = i;
-        } else {
-          break;
-        }
-      }
-
-      if (foundIdx !== karaokeWordIdx) {
-        const wStr = karaokeWords[foundIdx] || '';
-        const isSentenceEnd = wStr.endsWith('.') || wStr.endsWith('!');
+    function restartSutraAutoMoLoop() {
+      if (sutraAutoMoTimer) { clearInterval(sutraAutoMoTimer); sutraAutoMoTimer = null; }
+      if (!sutraAutoMoEnabled) return;
+      const intervalMs = Math.max(320, Math.round(720 / karaokePlaybackRate));
+      sutraAutoMoTimer = setInterval(() => {
+        const overlay = document.getElementById('karaokeSutraOverlay');
+        if (!overlay || overlay.style.display === 'none') return;
+        pulseSutraMoVisual();
+        // Nếu người dùng TẮT Giọng Thầy Tụng (chỉ bật Mõ tự động), gõ tiếng Mõ thật mỗi nhịp!
+        // Còn khi đang BẬT Giọng Thầy Chùa Tụng Thật, trong bản thu âm của Thầy đã có sẵn tiếng mõ & chuông chùa thật rất đều!
         if (!karaokeVoiceGuide) {
-          // Chế độ Tự Đọc: gõ tiếng Mõ chuẩn mỗi chữ, cuối câu điểm tiếng Chuông Chùa!
           playMoSound();
-          if (isSentenceEnd) {
-            setTimeout(() => playBellSound(), 180);
-          }
-        } else if (window._globalAutoFarmActive) {
-          // Khi đang BẬT Tự Động Cày Phước + Sư Thầy Tụng Kinh:
-          // Nhịp Mõ & Chuông đã nằm sẵn 100% chuẩn xác trong file thu âm của Sư Thầy, chỉ cộng Phước & nháy biểu tượng theo đúng nhịp chữ!
-          if (foundIdx % 4 === 0 && Math.random() < 0.25) {
-            addMerit(1, isSentenceEnd ? 'Thỉnh Chuông cuối câu kinh' : 'Gõ Mõ theo nhịp tụng kinh');
-          }
         }
-        highlightKaraokeWordAtIndex(foundIdx);
+      }, intervalMs);
+    }
+
+    function syncSutraScrollTick() {
+      if (!sutraLines.length) return;
+      const data = KARAOKE_SUTRAS_DATA[currentKaraokeKey];
+      const secPerLine = (data && data.secPerLine) ? data.secPerLine : 2.2;
+
+      let elapsedSec = 0;
+      if (karaokeVoiceGuide && !localPrayerMp3.paused && localPrayerMp3.currentTime > 0) {
+        elapsedSec = localPrayerMp3.currentTime;
+        if (localPrayerMp3.ended) {
+          playBellSound();
+          addMerit(5, `Thành tâm trì tụng viên mãn (${data.title})`);
+          startKaraokeSutraOverlay(currentKaraokeKey, karaokeVoiceGuide);
+          return;
+        }
+      } else {
+        elapsedSec = ((performance.now() - sutraStartTimeMs) / 1000.0) * karaokePlaybackRate;
+      }
+
+      const newLineIdx = Math.floor(elapsedSec / secPerLine) % sutraLines.length;
+      if (newLineIdx !== currentSutraLineIdx) {
+        currentSutraLineIdx = newLineIdx;
+        renderKaraokeSutraView();
+        const prog = document.getElementById('krProgressText');
+        if (prog) {
+          prog.textContent = `📿 Câu ${currentSutraLineIdx + 1}/${sutraLines.length} · ${karaokeVoiceGuide ? '🔊 Giọng Thầy Chùa Tụng Thật' : '🥁 Tự Đọc Theo Nhịp Mõ'}`;
+        }
       }
     }
 
-    function seekKaraokeToWord(wordIndex) {
-      const tData = KARAOKE_TIMINGS_V53[currentKaraokeKey];
-      const spans = (tData && ((karaokeVoiceGender === 'F') ? tData.nu : tData.nam)) || [];
-      if (!spans[wordIndex]) return;
-      const targetMs = spans[wordIndex][0];
-      if (karaokeVoiceGuide) {
-        localPrayerMp3.currentTime = targetMs / 1000.0;
-        if (localPrayerMp3.paused) localPrayerMp3.play().catch(() => {});
-      } else {
-        karaokeSilentStartMs = performance.now() - (targetMs / karaokePlaybackRate);
+    function seekSutraToLine(lineIdx) {
+      if (!sutraLines.length) return;
+      delete window._karaokeLineIdx;
+      currentSutraLineIdx = Math.max(0, Math.min(sutraLines.length - 1, lineIdx));
+      const data = KARAOKE_SUTRAS_DATA[currentKaraokeKey];
+      const secPerLine = (data && data.secPerLine) ? data.secPerLine : 2.2;
+      const targetSec = currentSutraLineIdx * secPerLine;
+      if (karaokeVoiceGuide && localPrayerMp3) {
+        try {
+          localPrayerMp3.currentTime = targetSec;
+          if (localPrayerMp3.paused) localPrayerMp3.play().catch(() => {});
+        } catch (e) {}
       }
-      highlightKaraokeWordAtIndex(wordIndex);
+      sutraStartTimeMs = performance.now() - (targetSec * 1000.0 / karaokePlaybackRate);
+      renderKaraokeSutraView();
+    }
+
+    function seekKaraokeToWord(idx) {
+      seekSutraToLine(idx);
+    }
+
+    function manualStrikeSutraMo() {
+      unlockAndStartAudio();
+      pulseSutraMoVisual();
+      playMoSound();
+      addMerit(1, `Tự tay gõ mõ trì kinh (${KARAOKE_SUTRAS_DATA[currentKaraokeKey]?.title || 'Tụng Kinh'})`);
+      // Khi tự tay gõ mõ ở chế độ tắt giọng thầy, mỗi lần gõ tiến 1 câu kinh!
+      if (!karaokeVoiceGuide) {
+        seekSutraToLine((currentSutraLineIdx + 1) % sutraLines.length);
+      }
+      const moBtn = document.getElementById('sutraCenterMoBtn');
+      const rect = moBtn ? moBtn.getBoundingClientRect() : { left: window.innerWidth * 0.5, top: window.innerHeight * 0.78 };
+      floatingHits.push({
+        x: rect.left + 40,
+        y: rect.top - 10,
+        text: '🪵 Phước Đức +1 💎',
+        color: '#ffd740',
+        life: 1.1
+      });
+    }
+
+    function toggleSutraRealMonkVoice(checked) {
+      karaokeVoiceGuide = Boolean(checked);
+      if (karaokeVoiceGuide) {
+        const data = KARAOKE_SUTRAS_DATA[currentKaraokeKey];
+        bgMusicPlayer.pause();
+        localPrayerMp3.src = data.audioReal + '?v=58';
+        localPrayerMp3.currentTime = currentSutraLineIdx * (data.secPerLine || 2.2);
+        localPrayerMp3.playbackRate = karaokePlaybackRate;
+        localPrayerMp3.play().catch(() => {});
+        showToast('🔊 Đã BẬT Giọng Thầy Chùa Tụng Kinh Thật!');
+      } else {
+        localPrayerMp3.pause();
+        showToast('🥁 Đã chuyển sang Tự Gõ Mõ Đọc Kinh!');
+      }
+    }
+
+    function toggleSutraAutoMo(checked) {
+      sutraAutoMoEnabled = Boolean(checked);
+      restartSutraAutoMoLoop();
+      showToast(sutraAutoMoEnabled ? '🪵 Đã BẬT Mõ tự động!' : '👆 Đã TẮT Mõ tự động — Tự tay gõ mõ để nhận Phước Đức từng tiếng!');
+    }
+
+    function changeSutraRhythmSpeed(val) {
+      const rate = parseFloat(val) || 1.0;
+      karaokePlaybackRate = rate;
+      if (karaokeVoiceGuide && localPrayerMp3) {
+        localPrayerMp3.playbackRate = karaokePlaybackRate;
+        if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
+      }
+      restartSutraAutoMoLoop();
     }
 
     function switchKaraokeSutra(sKey) {
       stopAllVoices(karaokeVoiceGuide);
-      startKaraokeSutraOverlay(sKey, karaokeVoiceGuide, karaokeVoiceGender);
-    }
-
-    function toggleKaraokeVoiceGuide() {
-      // Xoay vòng 3 chế độ: [1. Giọng Sư Thầy + Nhịp Mõ] -> [2. Giọng Sư Cô + Nhịp Mõ] -> [3. Chỉ Gõ Nhịp Mõ Tự Đọc]
-      if (karaokeVoiceGuide && karaokeVoiceGender === 'M') {
-        karaokeVoiceGender = 'F';
-        karaokeVoiceGuide = true;
-      } else if (karaokeVoiceGuide && karaokeVoiceGender === 'F') {
-        karaokeVoiceGuide = false;
-      } else {
-        karaokeVoiceGuide = true;
-        karaokeVoiceGender = 'M';
-      }
-      if (!karaokeVoiceGuide) {
-        stopAllVoices(false);
-      }
-      startKaraokeSutraOverlay(currentKaraokeKey, karaokeVoiceGuide, karaokeVoiceGender);
-    }
-
-    function cycleKaraokeSpeed() {
-      const speeds = [
-        { rate: 0.82, label: 'Chậm (0.8x Để Học)' },
-        { rate: 1.0,  label: 'Chuẩn (1.0x Nhịp Chùa)' },
-        { rate: 1.18, label: 'Nhanh (1.2x)' }
-      ];
-      const curIdx = speeds.findIndex(s => Math.abs(s.rate - karaokePlaybackRate) < 0.05);
-      const next = speeds[(curIdx + 1) % speeds.length];
-      karaokePlaybackRate = next.rate;
-      const lbl = document.getElementById('krSpeedLabel');
-      if (lbl) lbl.textContent = next.label;
-      if (karaokeVoiceGuide && localPrayerMp3) {
-        localPrayerMp3.playbackRate = karaokePlaybackRate;
-        if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
-      } else {
-        // Giữ nguyên vị trí chữ hiện tại khi đổi tốc độ ở chế độ Tự Đọc
-        const tData = KARAOKE_TIMINGS_V53[currentKaraokeKey];
-        const spans = (tData && tData.nam) || [];
-        const curWordMs = spans[Math.max(0, karaokeWordIdx)] ? spans[Math.max(0, karaokeWordIdx)][0] : 0;
-        karaokeSilentStartMs = performance.now() - (curWordMs / karaokePlaybackRate);
-      }
-      showToast(`⚡ Đã chỉnh tốc độ tụng kinh & chữ Karaoke: ${next.label} (Khớp 100% giọng đọc & ô chữ!)`);
+      startKaraokeSutraOverlay(sKey, karaokeVoiceGuide);
     }
 
     function restartKaraokeSutra() {
-      startKaraokeSutraOverlay(currentKaraokeKey, karaokeVoiceGuide, karaokeVoiceGender);
+      startKaraokeSutraOverlay(currentKaraokeKey, karaokeVoiceGuide);
     }
 
     function closeKaraokeSutraOverlay() {
       const overlay = document.getElementById('karaokeSutraOverlay');
       if (overlay) overlay.style.display = 'none';
       if (karaokeTimer) { clearInterval(karaokeTimer); karaokeTimer = null; }
+      if (sutraAutoMoTimer) { clearInterval(sutraAutoMoTimer); sutraAutoMoTimer = null; }
       isChanting = false;
       const dockBtn = document.getElementById('dockChantBtn');
       const dockLbl = document.getElementById('dockChantLabel');
@@ -2626,7 +2905,7 @@
         window._globalAutoFarmActive = false;
         if (btn) {
           btn.style.background = 'linear-gradient(135deg,#00c853,#1b5e20)';
-          btn.textContent = '⚡ Tự Động Cày Phước: TẮT';
+          btn.textContent = '⚡ Tự Cày: TẮT';
         }
         showToast('⏸ Đã tắt chế độ Tự Động Cày Phước');
         return;
@@ -9028,13 +9307,15 @@
         const wm = document.getElementById("welcomeModal");
         if (wm) wm.style.display = "none";
         if (dm === "karaoke") {
-          if (typeof toggleGlobalAutoFarmMerit === "function" && !window._globalAutoFarmActive) toggleGlobalAutoFarmMerit();
           if (typeof startKaraokeSutraOverlay === "function") {
-            startKaraokeSutraOverlay("chu_dai_bi", true, "M"); seekKaraokeToWord(6);
-            window._karaokeLineIdx = 2;
-            window._karaokeWordIdx = 5;
+            startKaraokeSutraOverlay("chu_dai_bi", true, "M");
+            if (karaokeTimer) { clearInterval(karaokeTimer); karaokeTimer = null; }
+            currentSutraLineIdx = 6;
+            window._karaokeLineIdx = 6;
             if (typeof renderKaraokeSutraView === "function") renderKaraokeSutraView();
           }
+        } else if (dm === "main") {
+          // Clean main hall view with shortened buttons
         } else if (dm === "scold") {
           if (typeof openKarmaReleaseModal === "function") openKarmaReleaseModal();
           if (typeof selectKarmaChar === "function") selectKarmaChar("anh_hai");
