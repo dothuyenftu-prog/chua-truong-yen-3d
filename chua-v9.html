@@ -3512,10 +3512,10 @@
         name: 'Chị Thu Trang (Đại Lý Tấm Ốp HP)',
         avatar: '👩🏻',
         gender: 'F',
-        u: 0.28,
-        v: 0.731,
-        targetU: 0.28,
-        targetV: 0.731,
+        u: 0.16,
+        v: 0.65,
+        targetU: 0.16,
+        targetV: 0.65,
         state: 'bow',
         bowTimer: 160,
         chat: '🙇‍♀️ Phật Tổ ơi! Tháng này đại lý con nhập 3 xe Tấm Ốp Nano với Lam Sóng Trường Yến, xin Phật độ cho chủ nhà nhìn mẫu nào ưng luôn mẫu đấy, chuyển khoản cái rụp không mặc cả đồng nào ạ hihi! 🪷',
@@ -3530,10 +3530,10 @@
         name: 'Chị Hương (Chủ Nhà Ốp Biệt Thự)',
         avatar: '👩🏻',
         gender: 'F',
-        u: 0.72,
-        v: 0.783,
-        targetU: 0.72,
-        targetV: 0.783,
+        u: 0.84,
+        v: 0.68,
+        targetU: 0.84,
+        targetV: 0.68,
         state: 'kneel',
         bowTimer: 0,
         chat: '🙏 Nhà con vừa cải tạo tường ẩm mốc bằng Tấm Ốp Nano Cốt Nguyên Sinh Trường Yến đẹp như khách sạn 5 sao, xin Phật độ cho gia đạo bình an, hàng xóm sang chơi ai cũng xin số kho ạ!',
@@ -3549,10 +3549,10 @@
         name: 'Cô Mai Lan (Showroom Nội Thất QN)',
         avatar: '🪷',
         gender: 'F',
-        u: 0.28,
-        v: 0.731,
-        targetU: 0.28,
-        targetV: 0.731,
+        u: 0.16,
+        v: 0.65,
+        targetU: 0.16,
+        targetV: 0.65,
         state: 'bow',
         bowTimer: 155,
         chat: '💰🙇‍♀️ Ông Thần Tài ơi! Khách xem mẫu Tấm Ốp Nano với Lam Sóng 3 ngày rồi chưa cọc, xin Ông tác ý cho khách ting ting đặt cọc 50 triệu ngay chiều nay đi ạ!',
@@ -3567,10 +3567,10 @@
         name: 'Anh Đức Đoàn (Cai Thầu Thi Công)',
         avatar: '👨🏻',
         gender: 'M',
-        u: 0.72,
-        v: 0.783,
-        targetU: 0.72,
-        targetV: 0.783,
+        u: 0.84,
+        v: 0.68,
+        targetU: 0.84,
+        targetV: 0.68,
         state: 'kneel',
         bowTimer: 0,
         chat: '💰🙏 Xin Ông Thần Tài đẩy nhẹ 1 đơn ốp full biệt phủ Tấm Than Tre Tráng Gương & Trần Nhôm Tổ Ong 126VD vào tay đội thợ con hôm nay nhé ạ!',
@@ -3586,10 +3586,10 @@
         name: 'Chị Ngọc Anh (KTS Thiết Kế 3D)',
         avatar: '👩🏻',
         gender: 'F',
-        u: 0.28,
-        v: 0.731,
-        targetU: 0.28,
-        targetV: 0.731,
+        u: 0.16,
+        v: 0.65,
+        targetU: 0.16,
+        targetV: 0.65,
         state: 'bow',
         bowTimer: 165,
         chat: '🙇‍♀️ Cụ Đức Ông ơi! Ông chủ thầu lấy 200m2 Tấm Ốp Nano với Phào Chỉ từ tháng trước cứ khất lần, xin Cụ nhắc nhẹ cho ổng tối nay tự giác ting ting trả đủ công nợ ạ!',
@@ -3604,10 +3604,10 @@
         name: 'Chị Phương (Đại Lý Trần Nhôm 130)',
         avatar: '👩🏻',
         gender: 'F',
-        u: 0.72,
-        v: 0.783,
-        targetU: 0.72,
-        targetV: 0.783,
+        u: 0.84,
+        v: 0.68,
+        targetU: 0.84,
+        targetV: 0.68,
         state: 'kneel',
         bowTimer: 0,
         chat: '🙏 Bạch Đức Ông giữ kho! Xin Ngài canh giữ Tổng Kho Tấm Ốp Trường Yến xe nâng xe tải vào ra tấp nập, xuất hàng đi khắp các tỉnh như nước chảy ạ!',
@@ -4058,21 +4058,24 @@
       targetWingX = target.wing;
       player.targetU = Math.min(0.78, Math.max(0.22, target.u + (target.u < 0.5 ? 0.08 : -0.08)));
       player.targetV = Math.max(0.58, target.v + 0.01);
-      player.state = 'bow';
-      player.bowTimer = 135;
+      // Vái chào nhau: Đứng chắp tay cúi vái liên tục!
+      player.state = 'vai';
+      player.bowTimer = 0;
+      player.vaiTimer = 220;
       const pair = greetingsPool[Math.floor(Math.random() * greetingsPool.length)](target.name);
       player.chat = pair[0];
       player.chatTimer = 420;
-      target.state = 'bow';
-      target.bowTimer = 135;
+      target.state = 'vai';
+      target.bowTimer = 0;
+      target.vaiTimer = 220;
       target.chat = pair[1];
       target.chatTimer = 460;
       playMoSound();
-      showToast(`🙏 ${player.name} và ${target.name} vừa chắp tay cúi chào nhau!`);
+      showToast(`🙏 ${player.name} và ${target.name} đang đứng chắp tay cúi vái chào nhau!`);
       const now = Date.now();
       if (now - lastGreetMeritTime > 4000) {
         lastGreetMeritTime = now;
-        addMerit(1, `Chắp tay cúi chào đạo hữu ${target.name} tại sảnh`);
+        addMerit(1, `Đứng chắp tay cúi vái chào đạo hữu ${target.name} tại sảnh`);
       }
       publishMqtt({ type: 'chat', name: player.name, text: player.chat, wing: player.wing });
     }
@@ -4238,25 +4241,29 @@
         playMoSound();
         setTimeout(playMoSound, 360);
         player.targetU = 0.50;
-        player.targetV = 0.62;
-        player.state = 'bow';
-        player.bowTimer = 145;
+        player.targetV = 0.77;
+        // QUỲ LẠY LIÊN TỤC: Đứng thẳng chắp tay ➔ Hạ gối quỳ xuống ➔ Cúi lạy sát đất ➔ Ngẩng lên đứng dậy lặp lại liên tục!
+        player.state = 'bow_cycle';
+        player.vaiTimer = 0;
+        player.bowCycleTick = 0;
+        player.bowTimer = 680; // Thực hiện chuỗi Đứng lên - Quỳ xuống - Cúi lạy liên tục nhiều nhịp!
+        player.bowCountSession = (player.bowCountSession || 0) + 1;
         const bowLines = {
-          '0': `🙇 ${player.name} năm vóc sát đất, chí thành đảnh lễ Đức Phật Tam Bảo!`,
-          '-1': `🙇 ${player.name} thành tâm quỳ lạy Đức Ông Cấp Cô Độc & Đức Thánh Hiền!`,
-          '1': `🙇 ${player.name} cúi đầu đảnh lễ Thần Tài Vị Tiền – Thổ Địa cầu đạt số KPI!`
+          '0': `🙇 [Đứng Lên · Quỳ Xuống Liên Tục]: ${player.name} chí thành lễ lạy Đức Phật Tam Bảo (Nhịp lạy #${player.bowCountSession})!`,
+          '-1': `🙇 [Đứng Lên · Quỳ Xuống Liên Tục]: ${player.name} thành tâm quỳ lạy Đức Ông Cấp Cô Độc & Thánh Hiền (Nhịp lạy #${player.bowCountSession})!`,
+          '1': `🙇 [Đứng Lên · Quỳ Xuống Liên Tục]: ${player.name} cúi đầu lễ lạy Thần Tài Vị Tiền – Thổ Địa cầu đạt số KPI (Nhịp lạy #${player.bowCountSession})!`
         };
         player.chat = bowLines[String(player.wing)] || bowLines['0'];
-        player.chatTimer = 420;
+        player.chatTimer = 480;
         const chance = 0.15 * meritRateMultiplier;
         const pts = 1 * meritRateMultiplier;
         const hit = Math.random() < chance;
-        if (hit) addMerit(pts, `Quỳ lạy chí thành tại ${roomName}`);
+        if (hit) addMerit(pts, `Quỳ lạy đứng lên - quỳ xuống chí thành tại ${roomName}`);
         floatingHits.push({
           x: sx, y: sy,
-          text: hit ? `✨🙇 ĐẢNH LỄ CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}` : `🙇 Quỳ lạy tại ${roomName} (${Math.round(chance * 100)}%${buffSuffix})`,
+          text: hit ? `✨🙇 ĐẢNH LỄ CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}` : `🙇 Đang Đứng Lên · Quỳ Xuống Lễ Lạy Liên Tục tại ${roomName}`,
           color: hit ? '#69f0ae' : '#ffd740',
-          life: 1.3
+          life: 1.4
         });
         broadcastMyPresence();
         return;
@@ -4265,28 +4272,30 @@
       if (mode === 'pray') {
         playBellSound();
         player.targetU = 0.50;
-        player.targetV = 0.61;
-        player.state = 'bow';
-        player.bowTimer = 160;
+        player.targetV = 0.77;
+        // VÁI KHẤN: ĐỨNG CHẮP TAY CÚI VÁI LIÊN TỤC (Không ngồi/quỳ xuống bồ đoàn!)
+        player.state = 'vai';
+        player.bowTimer = 0;
+        player.vaiTimer = 520;
         // Ở phòng nào chỉ được khấn đúng vị ở phòng đó + phát giọng đọc truyền cảm chân thật!
         const roomPrayers = {
-          '0': `🙏 [Văn Khấn Phật Ban Tam Bảo]: Nam mô Bổn Sư Thích Ca Mâu Ni Phật, Nam mô Quán Thế Âm Bồ Tát! Con là ${player.name} thành tâm kính lễ Phật, cầu gia đạo bình an, tâm trí sáng suốt, tiêu trừ nghiệp chướng!`,
-          '-1': `🙏 [Văn Khấn Ban Đức Ông]: Kính lạy Đức Ông Tu Đạt Đa Cấp Cô Độc Tôn Giả! Xin Ngài che chở bảo hộ công việc vững vàng, giữ của giữ kho, dẹp trừ tiểu nhân, hoàn thành mục tiêu quý!`,
-          '1': `🙏 [Văn Khấn Ban Thần Tài]: Kính lạy Ngài Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần! Cúi xin khai mở cung tài lộc, độ trì chốt đơn liên tiếp, hoàn thành vượt chỉ tiêu doanh số!`
+          '0': `🙏 [Đứng Chắp Tay Cúi Vái · Ban Tam Bảo]: Nam mô Bổn Sư Thích Ca Mâu Ni Phật, Nam mô Quán Thế Âm Bồ Tát! Con là ${player.name} đứng chắp tay vái khấn Phật, cầu gia đạo bình an, đại lý Tấm Ốp Trường Yến hưng thịnh!`,
+          '-1': `🙏 [Đứng Chắp Tay Cúi Vái · Ban Đức Ông]: Kính lạy Đức Ông Tu Đạt Đa Cấp Cô Độc Tôn Giả! Xin Ngài che chở giữ kho Tấm Ốp Trường Yến vững vàng, thu hồi công nợ suôn sẻ, hoàn thành mục tiêu quý!`,
+          '1': `🙏 [Đứng Chắp Tay Cúi Vái · Ban Thần Tài]: Kính lạy Ngài Thần Tài Vị Tiền, Tiền Hậu Địa Chủ Tài Thần! Cúi xin khai mở cung tài lộc, độ trì chốt đơn Tấm Ốp Nano & Trần Nhôm liên tiếp, vượt chỉ tiêu KPI!`
         };
         player.chat = roomPrayers[String(player.wing)] || roomPrayers['0'];
-        player.chatTimer = 480;
+        player.chatTimer = 520;
         speakVietnameseText(player.chat);
 
         const chance = 0.15 * meritRateMultiplier;
         const pts = 1 * meritRateMultiplier;
         const hit = Math.random() < chance;
-        if (hit) addMerit(pts, `Chắp tay vái khấn đúng nghi lễ tại ${roomName}`);
+        if (hit) addMerit(pts, `Đứng chắp tay cúi vái đúng nghi lễ tại ${roomName}`);
         floatingHits.push({
           x: sx, y: sy,
-          text: hit ? `✨🙏 VÁI KHẤN CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}` : `🙏 Đang đọc Văn Khấn tại ${roomName} 🔊`,
+          text: hit ? `✨🙏 ĐỨNG VÁI CẢM ỨNG! +${pts} 💎 Phước${buffSuffix}` : `🙏 Đang Đứng Chắp Tay Cúi Vái tại ${roomName} 🔊`,
           color: hit ? '#69f0ae' : '#80d8ff',
-          life: 1.35
+          life: 1.4
         });
         broadcastMyPresence();
       }
@@ -5156,6 +5165,8 @@
         player.targetU += holdDir.dx * 0.0115;
         player.targetV = Math.max(0.56, Math.min(0.93, player.targetV + holdDir.dy * 0.0095));
         player.state = 'walk';
+        player.bowTimer = 0;
+        player.vaiTimer = 0;
       }
 
       if (player.wing !== player.targetWing) player.wing = player.targetWing;
@@ -5164,7 +5175,7 @@
       if (Math.hypot(du, dv) > 0.002) {
         player.u += du * 0.16;
         player.v += dv * 0.16;
-      } else if (player.state === 'walk' && player.v < 0.62) {
+      } else if (player.state === 'walk' && player.v < 0.62 && (!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
         player.state = 'kneel';
       }
 
@@ -5198,9 +5209,14 @@
         player.u = Math.max(0.05, Math.min(0.95, player.u));
       }
 
-      if (player.bowTimer > 0) {
+      if (player.vaiTimer && player.vaiTimer > 0) {
+        player.vaiTimer--;
+        player.state = 'vai';
+        if (player.vaiTimer === 0) player.state = 'walk';
+      } else if (player.bowTimer > 0) {
         player.bowTimer--;
-        if (player.bowTimer === 0) player.state = (player.v < 0.62) ? 'kneel' : 'walk';
+        player.bowCycleTick = (player.bowCycleTick || 0) + 1;
+        if (player.bowTimer === 0) player.state = 'walk';
       }
       if (player.chatTimer > 0) player.chatTimer--;
 
@@ -5612,10 +5628,86 @@
           continue; // In 1st-person POV, we render First-Person Hands at bottom instead of back sprite
         }
 
-        let spr = images.walkF;
-        if (d.state === 'bow' || d.bowTimer > 0) spr = images.bow;
-        else if (d.state === 'kneel') spr = images.kneel;
-        else spr = (d.gender === 'M') ? images.walkM : images.walkF;
+        let spr = (d.gender === 'M') ? images.walkM : images.walkF;
+        let poseScaleY = 1.0;
+        let poseOffsetY = 0;
+        let poseStatusText = '';
+        let poseStatusColor = '#ffd740';
+
+        const isVaiState = (d.state === 'vai' || (d.vaiTimer && d.vaiTimer > 0));
+        const isBowCycleState = (!isVaiState) && (d.state === 'bow_cycle' || d.state === 'bow' || (d.bowTimer && d.bowTimer > 0));
+
+        if (isVaiState) {
+          if (d.vaiTimer && d.vaiTimer > 0 && !isPlayer) d.vaiTimer--;
+          // VÁI KHẤN / CHẮP TAY VÁI CHÀO: ĐỨNG THẲNG CHẮP TAY CÚI VÁI LIÊN TỤC (Không ngồi hay quỳ xuống bồ đoàn!)
+          spr = (d.gender === 'M') ? images.walkM : images.walkF;
+          const vaiDip = Math.pow(Math.sin(frameCount * 0.13 + (isPlayer ? 0 : 1.2)), 2); // Nhịp cúi vái 2.5 lần/giây
+          poseScaleY = 1.0 - vaiDip * 0.17; // Gập người cúi vái xuống từ thắt lưng trong khi chân vẫn đứng thẳng!
+          poseOffsetY = vaiDip * 6;
+          poseStatusText = vaiDip > 0.45 ? '🙏 Đang Đứng Chắp Tay Cúi Vái Xuống' : '🙏 Đang Đứng Chắp Tay Vái Khấn';
+          poseStatusColor = '#80d8ff';
+        } else if (isBowCycleState) {
+          // QUỲ LẠY LIÊN TỤC: ĐỨNG LÊN ➔ QUỲ XUỐNG ➔ CÚI LẠY SÁT ĐẤT ➔ ĐỨNG DẬY LẶP LẠI LIÊN TỤC!
+          const seedOffset = isPlayer ? 0 : ((d.id ? d.id.charCodeAt(d.id.length - 1) * 17 : 23));
+          const cycleTick = ((isPlayer ? (d.bowCycleTick || frameCount) : (frameCount + seedOffset))) % 76;
+          if (cycleTick < 18) {
+            // Pha 1: Đứng thẳng chắp tay trước ngực
+            spr = (d.gender === 'M') ? images.walkM : images.walkF;
+            const prepDip = Math.sin((cycleTick / 18) * Math.PI) * 0.05;
+            poseScaleY = 1.0 - prepDip;
+            poseStatusText = '🙇 [Quỳ Lạy 1/4]: Đứng Thẳng Chắp Tay';
+            poseStatusColor = '#ffe082';
+          } else if (cycleTick < 34) {
+            // Pha 2: Từ từ hạ gối Quỳ Xuống bồ đoàn
+            spr = images.kneel;
+            const dropFrac = (cycleTick - 18) / 16;
+            poseScaleY = 1.04 - dropFrac * 0.06;
+            poseOffsetY = dropFrac * 5;
+            poseStatusText = '🙇 [Quỳ Lạy 2/4]: Hạ Gối Quỳ Xuống';
+            poseStatusColor = '#ffd54f';
+          } else if (cycleTick < 58) {
+            // Pha 3: Cúi rập đầu Năm Vóc Sát Đất trên bồ đoàn
+            spr = images.bow;
+            const bowFrac = Math.sin(((cycleTick - 34) / 24) * Math.PI);
+            poseScaleY = 1.0 - bowFrac * 0.11;
+            poseOffsetY = bowFrac * 7;
+            poseStatusText = '🙇 [Quỳ Lạy 3/4]: Cúi Lạy Sát Đất';
+            poseStatusColor = '#69f0ae';
+            // Mỗi lần cúi lạy chạm đất (cycleTick === 45) của người chơi -> Gõ tiếng Mõ + tính nhịp lạy!
+            if (isPlayer && cycleTick === 45) {
+              player.bowCountSession = (player.bowCountSession || 1) + 1;
+              playMoSound();
+              const chance = 0.15 * meritRateMultiplier;
+              const pts = 1 * meritRateMultiplier;
+              const hit = Math.random() < chance;
+              if (hit) addMerit(pts, `Quỳ lạy nhịp #${player.bowCountSession} (Đứng lên - Quỳ xuống liên tục)`);
+              floatingHits.push({
+                x: sx,
+                y: sy - 95,
+                text: hit ? `✨🙇 LẠY THỨ #${player.bowCountSession}: +${pts} 💎 PHƯỚC!` : `🙇 Lạy thứ #${player.bowCountSession} (Đứng lên · Quỳ xuống)`,
+                color: hit ? '#69f0ae' : '#ffd740',
+                life: 1.15
+              });
+            }
+          } else if (cycleTick < 67) {
+            // Pha 4A: Ngẩng đầu lên tư thế quỳ thẳng
+            spr = images.kneel;
+            poseScaleY = 1.0;
+            poseStatusText = '🙇 [Quỳ Lạy 4/4]: Ngẩng Lên Từ Bồ Đoàn';
+            poseStatusColor = '#ffd54f';
+          } else {
+            // Pha 4B: Đứng thẳng dậy chắp tay chuẩn bị nhịp lạy tiếp theo
+            spr = (d.gender === 'M') ? images.walkM : images.walkF;
+            const riseFrac = (cycleTick - 67) / 9;
+            poseScaleY = 0.92 + riseFrac * 0.08;
+            poseStatusText = '🙇 [Quỳ Lạy 4/4]: Đứng Thẳng Dậy';
+            poseStatusColor = '#ffe082';
+          }
+        } else if (d.state === 'kneel') {
+          spr = images.kneel;
+        } else {
+          spr = (d.gender === 'M') ? images.walkM : images.walkF;
+        }
 
         if (isPlayer || item.type === 'online_peer') {
           ctx.save();
@@ -5630,13 +5722,43 @@
         if (spr.complete && spr.naturalWidth > 0) {
           const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
           const sw = spr.naturalWidth * scale * mult;
-          const sh = spr.naturalHeight * scale * mult;
-          const bob = (d.state === 'walk') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
-          ctx.drawImage(spr, sx - sw / 2, sy - sh - bob, sw, sh);
+          const sh = spr.naturalHeight * scale * mult * poseScaleY;
+          const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState) ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
+          ctx.drawImage(spr, sx - sw / 2, sy - sh - bob + poseOffsetY, sw, sh);
 
-          const headY = sy - sh - bob - 8;
+          // Nếu đang Đứng Chắp Tay Cúi Vái -> Vẽ thêm biểu tượng đôi bàn tay chắp vái 🙏 nhấp nhô nhịp nhàng trước ngực/trán!
+          if (isVaiState) {
+            const handBob = Math.sin(frameCount * 0.26) * 6;
+            ctx.save();
+            ctx.font = `${Math.round(18 * scale)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText('🙏', sx, sy - sh * 0.68 + handBob);
+            ctx.restore();
+          }
+
+          const headY = sy - sh - bob + poseOffsetY - 8;
           const badgeLabel = (item.type === 'online_peer') ? `🟢 ${d.name}` : d.name;
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
+
+          // Hiển thị băng trạng thái động tác trực quan (Đứng Chắp Tay Cúi Vái / Đứng Lên Quỳ Xuống 1/4..4/4) cho người chơi!
+          if (isPlayer && poseStatusText) {
+            ctx.save();
+            ctx.font = 'bold 9.5px sans-serif';
+            const pw = ctx.measureText(poseStatusText).width + 14;
+            ctx.fillStyle = 'rgba(18, 8, 2, 0.92)';
+            ctx.strokeStyle = poseStatusColor;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.roundRect(sx - pw / 2, sy + 4, pw, 16, 8);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = poseStatusColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(poseStatusText, sx, sy + 12);
+            ctx.restore();
+          }
+
           if (d.chat && d.chatTimer > 0) {
             drawDarkChatBubble(sx, headY - 14, d.chat);
           }
@@ -6441,8 +6563,8 @@
     if (location.search.includes('mo=1')) setTimeout(() => openCenterStage('mo'), 80);
     if (location.search.includes('bell=1')) setTimeout(() => openCenterStage('bell'), 80);
     if (location.search.includes('incense=1')) setTimeout(() => openCenterStage('incense'), 80);
-    if (location.search.includes('bow=1')) setTimeout(() => openCenterStage('bow'), 80);
-    if (location.search.includes('pray=1')) setTimeout(() => openCenterStage('pray'), 80);
+    if (location.search.includes('bow=1')) setTimeout(() => performDirectHallAction('bow'), 80);
+    if (location.search.includes('pray=1')) setTimeout(() => performDirectHallAction('pray'), 80);
     if (location.search.includes('rename=1')) setTimeout(() => openRenameCharModal(), 80);
     if (location.search.includes('table=1')) setTimeout(() => openCenterStage('table_inspect'), 80);
     if (location.search.includes('shop=1')) setTimeout(openMeritShopModal, 100);
