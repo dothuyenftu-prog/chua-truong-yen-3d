@@ -863,16 +863,23 @@
     </div>
 
     <div class="top-group">
-      <select id="bgMusicSelect" class="top-select" onchange="changeBgMusicTrack(this.value)" title="Mặc định: Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não (Ai có nhu cầu đổi nhạc thì chọn tại đây)">
-        <option value="audio/tk2_chua.mp3" selected>🌿 1. Nhạc Thiền Thanh Tịnh Giải Trừ Phiền Não (Mặc Định)</option>
-        <option value="audio/nhac_nen_chua.mp3">🪷 2. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
-        <option value="audio/lien_hoa.mp3">🎵 3. Liên Hoa · Diệu Pháp Liên Hoa (Thiền)</option>
-        <option value="audio/do_ta_khong_do_nang.mp3">🎵 4. Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
-        <option value="audio/chu_dai_bi.mp3">📿 5. Chú Đại Bi · Dưới Tòa Sen Đài</option>
-        <option value="audio/tk4_duoi_toa_sen_vang.mp3">📿 6. Chú Dược Sư (Tiếng Phạn)</option>
-        <option value="audio/tk1_om_mani.mp3">📿 7. Thần Chú Om Mani Padme Hum</option>
-        <option value="audio/tk3_chua.mp3">🎵 8. Vũ Khúc Thiên Đình (Tây Du)</option>
+      <select id="bgMusicSelect" class="top-select" onchange="changeBgMusicTrack(this.value)" title="Chọn Nhạc Nền Chùa (Tách riêng với Voice Tụng Kinh)">
+        <option value="audio/tk2_chua.mp3" selected>🎵 Nhạc Nền 1: Nhạc Thiền Thanh Tịnh (Mặc Định)</option>
+        <option value="audio/chu_dai_bi_84cau_tiktok.mp3">🎵 Nhạc Nền 2: Chú Đại Bi 84 Câu (TikTok Mới)</option>
+        <option value="audio/nhac_nen_chua.mp3">🎵 Nhạc Nền 3: Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
+        <option value="audio/lien_hoa.mp3">🎵 Nhạc Nền 4: Liên Hoa · Diệu Pháp Liên Hoa</option>
+        <option value="audio/do_ta_khong_do_nang.mp3">🎵 Nhạc Nền 5: Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
+        <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 Nhạc Nền 6: Dưới Tòa Sen Vàng</option>
+        <option value="audio/tk3_chua.mp3">🎵 Nhạc Nền 7: Vũ Khúc Thiên Đình (Tây Du)</option>
         <option value="off">🔇 Tắt Nhạc Nền</option>
+      </select>
+      <select id="sutraChantSelect" class="top-select" style="border-color:#40c4ff; color:#e1f5fe; background:rgba(1,67,125,0.92);" onchange="selectAndChantFullSutra(this.value)" title="Chọn Bài Tụng Kinh Đầy Đủ (Có Voice Tụng Kinh + Chữ Chạy Karaoke Để Đọc Theo)">
+        <option value="off" selected>📿 Tụng Kinh: Chọn Bài Kinh Đầy Đủ...</option>
+        <option value="chu_dai_bi">📿 1. Kinh Chú Đại Bi Đầy Đủ 84 Câu (Voice + Karaoke)</option>
+        <option value="sam_hoi">🙏 2. Kinh Từ Bi Sám Hối Đầy Đủ (Voice + Karaoke)</option>
+        <option value="hoi_huong">🪷 3. Kinh Hồi Hướng Công Đức Đầy Đủ (Voice + Karaoke)</option>
+        <option value="bat_nha">🧘 4. Bát Nhã Tâm Kinh Đầy Đủ (Voice + Karaoke)</option>
+        <option value="duoc_su">👑 5. Chú Dược Sư Lưu Ly Đầy Đủ (Voice + Karaoke)</option>
       </select>
       <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
       <button class="chip-btn active" onclick="openMeritShopModal()">🏛️ Công Đức (<span id="congDucCountHud">5</span>) · 💎 Phước (<span id="meritScore">35</span>)</button>
@@ -1482,9 +1489,11 @@
         <span id="karaokeSutraTitle" style="font-size:12px; font-weight:900; color:#ffd740;">📿🎤 KINH CHÚ ĐẠI BI (CHỮ CHẠY KARAOKE)</span>
       </div>
       <div style="display:flex; gap:4px; flex-wrap:wrap;">
-        <button type="button" id="krBtn_chu_dai_bi" class="cm-auto-pill" style="padding:3px 8px; font-size:10px; background:linear-gradient(135deg,#0288d1,#01579b); color:#fff; border-color:#80d8ff;" onclick="switchKaraokeSutra('chu_dai_bi')">📿 Chú Đại Bi</button>
-        <button type="button" id="krBtn_sam_hoi" class="cm-auto-pill" style="padding:3px 8px; font-size:10px;" onclick="switchKaraokeSutra('sam_hoi')">🙏 Kinh Sám Hối</button>
-        <button type="button" id="krBtn_hoi_huong" class="cm-auto-pill" style="padding:3px 8px; font-size:10px;" onclick="switchKaraokeSutra('hoi_huong')">🪷 Kinh Hồi Hướng</button>
+        <button type="button" id="krBtn_chu_dai_bi" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px; background:linear-gradient(135deg,#0288d1,#01579b); color:#fff; border-color:#80d8ff;" onclick="switchKaraokeSutra('chu_dai_bi')">📿 1. Chú Đại Bi (84 Câu)</button>
+        <button type="button" id="krBtn_sam_hoi" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('sam_hoi')">🙏 2. Kinh Sám Hối</button>
+        <button type="button" id="krBtn_hoi_huong" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('hoi_huong')">🪷 3. Kinh Hồi Hướng</button>
+        <button type="button" id="krBtn_bat_nha" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('bat_nha')">🧘 4. Bát Nhã Tâm Kinh</button>
+        <button type="button" id="krBtn_duoc_su" class="cm-auto-pill" style="padding:3px 7px; font-size:9.8px;" onclick="switchKaraokeSutra('duoc_su')">👑 5. Chú Dược Sư</button>
       </div>
     </div>
 
@@ -1858,44 +1867,45 @@
     let autoMoInterval = null;
     let autoMoSec = 0;   // 0 = off, 1 = 1s, 2 = 2s, 3 = 3s
 
+    // XÁC SUẤT 6 BẬC CHUẨN (#mvvudkh24k): Không có gì (X0: 55%) · X1 (25%) · X2 (11%) · X3 (5%) · X5 (3%) · X10 (1%) — Tỉ lệ càng cao càng khó!
+    function rollSixTierMultiplier() {
+      const r = Math.random();
+      if (r < 0.01) return { mult: 10, rate: '1%', label: '👑 ĐẠI HỒNG ÂN X10 (Tỉ lệ 1% cực hiếm!)' };
+      if (r < 0.04) return { mult: 5, rate: '3%', label: '💎 ĐẠI CÁT X5 (Tỉ lệ 3%)' };
+      if (r < 0.09) return { mult: 3, rate: '5%', label: '🔥 TAM BẢO X3 (Tỉ lệ 5%)' };
+      if (r < 0.20) return { mult: 2, rate: '11%', label: '✨ SONG HỶ X2 (Tỉ lệ 11%)' };
+      if (r < 0.45) return { mult: 1, rate: '25%', label: '🪷 LỘC X1 (Tỉ lệ 25%)' };
+      return { mult: 0, rate: '55%', label: '💨 X0 · Không có gì (Tỉ lệ 55%)' };
+    }
+
     function strikeVisualBell() {
       unlockAndStartAudio();
       playBellSound();
-      const btn = document.getElementById('btnVisualBell');
-      btn.classList.remove('struck');
-      void btn.offsetWidth;
-      btn.classList.add('struck');
-      setTimeout(() => btn.classList.remove('struck'), 200);
-      const rect = btn.getBoundingClientRect();
-      const hit = Math.random() < 0.20;
+      const tier = rollSixTierMultiplier();
+      const pts = 2 * tier.mult * meritRateMultiplier;
       floatingHits.push({
-        x: rect.left + rect.width / 2,
-        y: rect.top,
-        text: hit ? '✨🔔 Trúng 20%! +2 💎 Phước' : '🔔 Boong... (Xác suất 20%)',
-        color: hit ? '#69f0ae' : '#ffd54f',
-        life: 1.0
+        x: window.innerWidth * 0.52,
+        y: window.innerHeight * 0.44,
+        text: tier.mult > 0 ? `🔔 ${tier.label} → +${pts} 💎` : `🔔 Boong... (${tier.label})`,
+        color: tier.mult >= 3 ? '#ffd740' : (tier.mult > 0 ? '#69f0ae' : '#ffe082'),
+        life: 1.15
       });
-      if (hit) addMerit(2);
+      if (pts > 0) addMerit(pts, `Thỉnh Chuông nổ ${tier.label} (+${pts} 💎)`);
     }
 
     function strikeVisualMo() {
       unlockAndStartAudio();
       playMoSound();
-      const btn = document.getElementById('btnVisualMo');
-      btn.classList.remove('struck');
-      void btn.offsetWidth;
-      btn.classList.add('struck');
-      setTimeout(() => btn.classList.remove('struck'), 160);
-      const rect = btn.getBoundingClientRect();
-      const hit = Math.random() < 0.10;
+      const tier = rollSixTierMultiplier();
+      const pts = 1 * tier.mult * meritRateMultiplier;
       floatingHits.push({
-        x: rect.left + rect.width / 2,
-        y: rect.top,
-        text: hit ? '✨🪵 Trúng 10%! +1 💎 Phước' : '🪵 Cốc... (Xác suất 10%)',
-        color: hit ? '#69f0ae' : '#ffe082',
-        life: 1.0
+        x: window.innerWidth * 0.48,
+        y: window.innerHeight * 0.46,
+        text: tier.mult > 0 ? `🪵 ${tier.label} → +${pts} 💎` : `🪵 Cốc... (${tier.label})`,
+        color: tier.mult >= 3 ? '#ffd740' : (tier.mult > 0 ? '#69f0ae' : '#ffe082'),
+        life: 1.15
       });
-      if (hit) addMerit(1);
+      if (pts > 0) addMerit(pts, `Gõ Mõ nổ ${tier.label} (+${pts} 💎)`);
     }
 
     function cycleAutoBell() {
@@ -1958,24 +1968,49 @@
     // =========================================================================
     const KARAOKE_SUTRAS_DATA = {
       chu_dai_bi: {
-        title: '📿🎤 KINH CHÚ ĐẠI BI (CHỮ CHẠY KARAOKE ĐỌC THEO)',
+        title: '📿🎤 KINH CHÚ ĐẠI BI ĐẦY ĐỦ 84 CÂU (VOICE + KARAOKE)',
         audioNam: 'audio/kinh_chu_dai_bi_nam.mp3',
         audioNu: 'audio/kinh_chu_dai_bi_nu.mp3',
-        text: 'Nam mô Đại Bi Hội Thượng Phật Bồ Tát. Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni. Nam mô hắc ra đát na đa ra dạ da. Nam mô a rị da, bà lô yết đế thước bát ra da, bồ đề tát đỏa bà da, ma ha tát đỏa bà da, ma ha ca lô ni ca da. Án, tát bàn ra phạt duệ, số đát na đát tỏa. Nam mô tất kiết lật đỏa y mông a rị da, bà lô kiết đế thất Phật ra lăng đà bà. Nam mô na ra cẩn trì hê rị ma ha bàn đa sa mế, tát bà a tha đậu du bằng, a thệ dựng, tát bà tát đa, na ma bà tát đa, na ma bà già, ma phạt đạt đậu, đát điệt tha. Án, a bà lô hê, lô ca đế, ca ra đế, di hê rị, ma ha bồ đề tát đỏa, tát bà tát bà, ma ra ma ra, ma hê ma hê rị đà dựng, cu lô cu lô kiết mông, độ lô độ lô phạt xà da đế, ma ha phạt xà da đế, đà ra đà ra, địa rị ni, thất Phật ra da, giá ra giá ra. Tất đà dạ, ta bà ha. Ma ha tất đà dạ, ta bà ha. Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát!'
+        text: 'Nam mô Đại Bi Hội Thượng Phật Bồ Tát. Thiên thủ thiên nhãn vô ngại đại bi tâm đà la ni. Nam mô hắc ra đát na đa ra dạ da. Nam mô a rị da, bà lô yết đế thước bát ra da, bồ đề tát đỏa bà da, ma ha tát đỏa bà da, ma ha ca lô ni ca da. Án, tát bàn ra phạt duệ, số đát na đát tỏa. Nam mô tất kiết lật đỏa y mông a rị da, bà lô kiết đế thất Phật ra lăng đà bà. Nam mô na ra cẩn trì hê rị ma ha bàn đa sa mế, tát bà a tha đậu du bằng, a thệ dựng, tát bà tát đa, na ma bà tát đa, na ma bà già, ma phạt đạt đậu, đát điệt tha. Án, a bà lô hê, lô ca đế, ca ra đế, di hê rị, ma ha bồ đề tát đỏa, tát bà tát bà, ma ra ma ra, ma hê ma hê rị đà dựng, cu lô cu lô kiết mông. Độ lô độ lô phạt xà da đế, ma ha phạt xà da đế, đà ra đà ra, địa rị ni, thất Phật ra da, giá ra giá ra. Mạ mạ phạt ma ra, mục đế lệ. Y hê y hê, thất na thất na, a ra sâm Phật ra xá lợi, phạt sa phạt sâm, Phật ra xá da, hô lô hô lô ma ra, hô lô hô lô hê rị. Ta ra ta ra, tất rị tất rị, tô rô tô rô, bồ đề dạ bồ đề dạ, bồ đà dạ bồ đà dạ, di đế rị dạ, na ra cẩn trì, địa rị sắc ni na, ba dạ ma na, ta bà ha. Tất đà dạ, ta bà ha. Ma ha tất đà dạ, ta bà ha. Tất đà du nghệ, thất bàn ra dạ, ta bà ha. Na ra cẩn trì, ta bà ha. Ma ra na ra, ta bà ha. Tất ra tăng a mục khê da, ta bà ha. Ta bà ma ha a tất đà dạ, ta bà ha. Giả kiết ra a tất đà dạ, ta bà ha. Ba đà ma yết tất đà dạ, ta bà ha. Na ra cẩn trì bàn đà ra dạ, ta bà ha. Ma bà lợi thắng yết ra dạ, ta bà ha. Nam mô hắc ra đát na đa ra dạ da. Nam mô a rị da, bà lô kiết đế, thước bàn ra dạ, ta bà ha. Án, tất điện đô, mạn đa ra, bạt đà dạ, ta bà ha. Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát Ma Ha Tát.'
       },
       sam_hoi: {
-        title: '🙏🎤 KINH TỪ BI SÁM HỐI (CHỮ CHẠY KARAOKE ĐỌC THEO)',
+        title: '🙏🎤 KINH TỪ BI SÁM HỐI BẢN ĐẦY ĐỦ (VOICE + KARAOKE)',
         audioNam: 'audio/kinh_sam_hoi_nam.mp3',
         audioNu: 'audio/kinh_sam_hoi_nu.mp3',
-        text: 'Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát! Đệ tử chúng con từ vô thỉ kiếp đến nay, bỏ mất bản tâm, không biết đạo lành, hoặc vì tham lam, sân giận, si mê, hoặc vì nóng vội trong công việc và cuộc sống mà thân, khẩu, ý lỡ gây điều lầm lỗi. Xưa kia đã tạo bao ác nghiệp, đều bởi vô thỉ tham sân si, từ thân miệng ý mà sinh ra, hết thảy chúng con xin chí thành sám hối. Tội từ tâm khởi đem tâm sám, tâm nếu diệt rồi tội cũng tiêu, tội tiêu tâm tịnh cả hai không, ấy mới thật là chân sám hối. Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát!'
+        text: 'Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát! Đệ tử chúng con từ vô thỉ kiếp đến nay, bỏ mất bản tâm, không biết đạo lành, vọng tình tạo lập bao nhiêu tội lỗi. Hoặc vì tham lam, sân giận, si mê, kiêu mạn, hoặc vì nóng vội trong công việc và cuộc sống mà thân, khẩu, ý lỡ gây điều lầm lỗi với cha mẹ, đồng nghiệp, đối tác và chúng sanh. Xưa kia đã tạo bao ác nghiệp, đều bởi vô thỉ tham sân si, từ thân miệng ý mà sinh ra, hết thảy chúng con xin chí thành cúi đầu sám hối. Bao nhiêu tội chướng sâu nặng như sương mai gặp ánh mặt trời trí tuệ đều tan biến. Nguyện từ nay giữ tâm từ bi hỷ xả, nói lời hòa ái chân thành, làm việc thiện lành chính trực. Tội từ tâm khởi đem tâm sám, tâm nếu diệt rồi tội cũng tiêu, tội tiêu tâm tịnh cả hai không, ấy mới thật là chân sám hối. Nam mô Cầu Sám Hối Bồ Tát Ma Ha Tát!'
       },
       hoi_huong: {
-        title: '🪷🎤 KINH HỒI HƯỚNG CÔNG ĐỨC (CHỮ CHẠY KARAOKE ĐỌC THEO)',
+        title: '🪷🎤 KINH HỒI HƯỚNG CÔNG ĐỨC BẢN ĐẦY ĐỦ (VOICE + KARAOKE)',
         audioNam: 'audio/kinh_hoi_huong_nam.mp3',
         audioNu: 'audio/kinh_hoi_huong_nu.mp3',
-        text: 'Nam mô A Di Đà Phật! Phúng kinh công đức thù thắng hạnh, vô biên thắng phước giai hồi hướng, phổ nguyện trầm nịch chư chúng sanh, tốc vãng vô lượng quang Phật sát. Nguyện đem công đức lành tu tập, tụng kinh, gõ mõ, dâng hương lễ Phật hôm nay, trang nghiêm Phật Tịnh Độ, trên đền bốn ơn nặng, dưới cứu khổ ba đường. Nếu có ai thấy nghe, đều phát tâm Bồ Đề, hết một báo thân này, đồng sanh Cực Lạc quốc. Nguyện hồi hướng phước báu cho cha mẹ, gia quyến bốn mùa bình an, tập thể Kho Tấm Ốp Trường Yến đoàn kết vững mạnh, công việc hanh thông, tài lộc viên thành. Nam mô A Di Đà Phật!'
+        text: 'Nam mô A Di Đà Phật! Phúng kinh công đức thù thắng hạnh, vô biên thắng phước giai hồi hướng, phổ nguyện trầm nịch chư chúng sanh, tốc vãng vô lượng quang Phật sát. Nguyện tiêu tam chướng trừ phiền não, nguyện đắc trí tuệ chân minh liễu, phổ nguyện tội chướng tất tiêu trừ, thế thế thường hành Bồ Tát đạo. Nguyện sanh Tây Phương Tịnh Độ trung, cửu phẩm liên hoa vi phụ mẫu, hoa khai kiến Phật ngộ vô sanh, bất thối Bồ Tát vi bạn lữ. Nguyện đem công đức lành tu tập, tụng kinh, gõ mõ, dâng hương lễ Phật hôm nay, trang nghiêm Phật Tịnh Độ, trên đền bốn ơn nặng, dưới cứu khổ ba đường. Nếu có ai thấy nghe, đều phát tâm Bồ Đề, hết một báo thân này, đồng sanh Cực Lạc quốc. Nguyện hồi hướng phước báu cho cha mẹ, gia quyến bốn mùa bình an, tập thể Kho Tấm Ốp Trường Yến đoàn kết vững mạnh, công việc hanh thông, tài lộc viên thành. Nam mô A Di Đà Phật!'
+      },
+      bat_nha: {
+        title: '🧘🎤 MA HA BÁT NHÃ BA LA MẬT ĐA TÂM KINH ĐẦY ĐỦ (VOICE + KARAOKE)',
+        audioNam: 'audio/kinh_bat_nha_nam.mp3',
+        audioNu: 'audio/kinh_bat_nha_nu.mp3',
+        text: 'Ma Ha Bát Nhã Ba La Mật Đa Tâm Kinh. Quán Tự Tại Bồ Tát hành thâm Bát Nhã Ba La Mật Đa thời, chiếu kiến ngũ uẩn giai không, độ nhất thiết khổ ách. Xá Lợi Tử, sắc bất dị không, không bất dị sắc, sắc tức thị không, không tức thị sắc, thọ tưởng hành thức diệc phục như thị. Xá Lợi Tử, thị chư pháp không tướng, bất sanh bất diệt, bất cấu bất tịnh, bất tăng bất giảm. Thị cố không trung vô sắc, vô thọ tưởng hành thức, vô nhãn nhĩ tỷ thiệt thân ý, vô sắc thanh hương vị xúc pháp, vô nhãn giới nãi chí vô ý thức giới, vô vô minh diệc vô vô minh tận, nãi chí vô lão tử, diệc vô lão tử tận. Vô khổ tập diệt đạo, vô trí diệc vô đắc. Dĩ vô sở đắc cố, Bồ Đề Tát Đỏa y Bát Nhã Ba La Mật Đa cố, tâm vô quái ngại, vô quái ngại cố, vô hữu khủng bố, viễn ly điên đảo mộng tưởng, cứu cánh Niết Bàn. Tam thế chư Phật y Bát Nhã Ba La Mật Đa cố, đắc A Nậu Đa La Tam Miệu Tam Bồ Đề. Cố tri Bát Nhã Ba La Mật Đa, thị đại thần chú, thị đại minh chú, thị vô thượng chú, thị vô đẳng đẳng chú, năng trừ nhất thiết khổ, chân thật bất hư. Cố thuyết Bát Nhã Ba La Mật Đa chú, tức thuyết chú viết: Yết đế yết đế, ba la yết đế, ba la tăng yết đế, Bồ đề tát bà ha.'
+      },
+      duoc_su: {
+        title: '👑🎤 CHÚ DƯỢC SƯ LƯU LY QUANG VƯƠNG PHẬT ĐẦY ĐỦ (VOICE + KARAOKE)',
+        audioNam: 'audio/kinh_duoc_su_nam.mp3',
+        audioNu: 'audio/kinh_duoc_su_nu.mp3',
+        text: 'Nam mô Dược Sư Lưu Ly Quang Vương Phật! Nam mô Bạc già phạt đế, bệ sát xã, lũ rô thích lưu ly, bát lạt bà, hắc ra xà dã, đát tha yết đa da, a ra hắc đế, tam miệu tam bột đà da. Đát điệt tha: Án, bệ sát thệ, bệ sát thệ, bệ sát xã, tam một yết đế toả ha. Án, bệ sát thệ, bệ sát thệ, bệ sát xã, tam một yết đế toả ha. Nguyện nhờ oai lực Chú Dược Sư Lưu Ly Quang Vương Phật gia hộ tiêu trừ bách bệnh, giải trừ tai ách, thân khỏe tâm an, trí tuệ sáng suốt, vạn sự cát tường như ý. Nam mô Dược Sư Lưu Ly Quang Vương Phật!'
       }
     };
+
+    function selectAndChantFullSutra(val) {
+      if (!val || val === 'off') {
+        closeKaraokeSutraOverlay();
+        return;
+      }
+      isChanting = true;
+      const dockBtn = document.getElementById('dockChantBtn');
+      const dockLbl = document.getElementById('dockChantLabel');
+      if (dockBtn) dockBtn.classList.add('active-ritual');
+      if (dockLbl) dockLbl.textContent = 'Tụng Kinh: BẬT';
+      startKaraokeSutraOverlay(val, true);
+    }
 
     let currentKaraokeKey = 'chu_dai_bi';
     let karaokeWords = [];
@@ -2003,7 +2038,7 @@
       const titleEl = document.getElementById('karaokeSutraTitle');
       if (titleEl) titleEl.textContent = data.title;
 
-      ['chu_dai_bi', 'sam_hoi', 'hoi_huong'].forEach(k => {
+      ['chu_dai_bi', 'sam_hoi', 'hoi_huong', 'bat_nha', 'duoc_su'].forEach(k => {
         const b = document.getElementById('krBtn_' + k);
         if (b) {
           if (k === currentKaraokeKey) {
@@ -2125,7 +2160,7 @@
       const dockBtn = document.getElementById('dockChantBtn');
       const dockLbl = document.getElementById('dockChantLabel');
       if (dockBtn) dockBtn.classList.remove('active-ritual');
-      if (dockLbl) dockLbl.textContent = 'Tụng Kinh: TẮT';
+      if (dockLbl) dockLbl.textContent = 'Tụng Kinh: TẮT'; const sSel = document.getElementById('sutraChantSelect'); if (sSel) sSel.value = 'off';
       stopAllVoices(false);
     }
 
@@ -5286,18 +5321,18 @@
         if (!silentMerit) {
           // THẮP HƯƠNG XÁC SUẤT NHÂN X2 · X3 · X5 · X10 THEO TỈ LỆ CÀNG CAO CÀNG KHÓ (#mvvsw2jr3y & #mvvswa9j3z):
           // Tỉ lệ: X1 (50%) · X2 (30%) · X3 (12%) · X5 (6%) · X10 (2% - Cực khó!)
-          const rInc = Math.random();
-          const incMult = (rInc < 0.02) ? 10 : ((rInc < 0.08) ? 5 : ((rInc < 0.20) ? 3 : ((rInc < 0.50) ? 2 : 1)));
-          const incRateLabel = { 1: '50%', 2: '30%', 3: '12%', 5: '6%', 10: '2%' }[incMult];
+          const tier = rollSixTierMultiplier();
+          const incMult = tier.mult;
+          const incRateLabel = tier.rate;
           const baseIncPts = 3;
-          const pts = baseIncPts * incMult;
+          const pts = baseIncPts * incMult * meritRateMultiplier;
           lastIncenseMeritAt = now;
-          addMerit(pts, `Thắp 3 nén tâm hương tại ${zoneName} ➔ Trúng X${incMult} (Tỉ lệ ${incRateLabel}): +${pts} 💎`);
-          if (incMult > 1) {
-            appendMeritLog(`♨️🌟 <b>${player.name}</b>: Thắp Hương tại <b>${zoneName}</b> nổ Lộc <b style="color:#ffd740;">X${incMult} (Tỉ lệ khó ${incRateLabel})</b> → Nhận <b>+${pts} 💎 Phước Đức</b>!`);
-            showToast(`♨️🌟 Thắp Hương nổ Lộc X${incMult} (Tỉ lệ ${incRateLabel} · Càng cao càng khó) ➔ +${pts} 💎 Phước!`);
+          if (pts > 0) {
+            addMerit(pts, `Thắp 3 nén tâm hương tại ${zoneName} ➔ Trúng X${incMult} (Tỉ lệ ${incRateLabel}): +${pts} 💎`);
+            appendMeritLog(`♨️🌟 <b>${player.name}</b>: Thắp Hương tại <b>${zoneName}</b> trúng <b style="color:#ffd740;">X${incMult} (Tỉ lệ ${incRateLabel})</b> → Nhận <b>+${pts} 💎 Phước Đức</b>!`);
+            showToast(`♨️🌟 Thắp Hương trúng X${incMult} (Tỉ lệ ${incRateLabel} · Càng cao càng khó) ➔ +${pts} 💎 Phước!`);
           } else {
-            showToast(`♨️🙏 Đã thắp 3 nén hương tại ${zoneName} (X1 · Tỉ lệ 50%: +${pts} 💎 · Có cơ hội nổ X2 30%, X3 12%, X5 6%, X10 2%)`);
+            showToast(`♨️💨 Đã thắp 3 nén hương tại ${zoneName} ➔ Trúng X0 (Không có gì · Tỉ lệ 55% · Hãy thắp tiếp săn X1·X2·X3·X5·X10!)`);
           }
         }
       } else if (type === 'pray') {
@@ -5367,15 +5402,19 @@
       takeDownCeremony = null;
       // HÀM QUAY XÁC SUẤT THEO TỈ LỆ CÀNG CAO CÀNG KHÓ:
       // X1 (50% - Cơ bản) · X2 (30% - Vừa) · X3 (12% - Khá khó) · X5 (6% - Rất khó) · X10 (2% - Cực hiếm!)
-      const rollTier = Math.random();
-      const locMult = (rollTier < 0.02) ? 10 : ((rollTier < 0.08) ? 5 : ((rollTier < 0.20) ? 3 : ((rollTier < 0.50) ? 2 : 1)));
-      const ratePctMap = { 1: '50%', 2: '30%', 3: '12%', 5: '6%', 10: '2%' };
+      const tier = rollSixTierMultiplier();
+      const locMult = tier.mult;
       const totalOfferCost = list.reduce((sum, it) => sum + (Number(it.cost) || 20), 0);
-      const locReward = totalOfferCost * locMult;
+      const locReward = totalOfferCost * locMult * meritRateMultiplier;
       const offerNames = countRemoved > 1 ? `${countRemoved} mâm lễ (${item.fullName || item.label}...)` : (item.fullName || item.label);
-      addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames} · Chi phí ${totalOfferCost}💎) ➔ Trúng X${locMult} (Tỉ lệ ${ratePctMap[locMult]}): +${locReward} 💎`);
-      appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> (Chi phí <b>${totalOfferCost}💎</b>) trúng mốc <b style="color:#ffd740;">X${locMult} (Tỉ lệ ${ratePctMap[locMult]})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
-      showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" ➔ Trúng X${locMult} (Tỉ lệ ${ratePctMap[locMult]}): +${locReward} 💎 Phước!`);
+      if (locReward > 0) {
+        addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames}) ➔ Trúng X${locMult} (Tỉ lệ ${tier.rate}): +${locReward} 💎`);
+        appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> trúng mốc <b style="color:#ffd740;">X${locMult} (Tỉ lệ ${tier.rate})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
+        showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" ➔ Trúng X${locMult} (Tỉ lệ ${tier.rate}): +${locReward} 💎 Phước!`);
+      } else {
+        appendMeritLog(`📤💨 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> trúng <b>X0 (Không có gì · Tỉ lệ 55%)</b>`);
+        showToast(`📤💨 Hạ Lễ "${offerNames}" ➔ Trúng X0 (Không có gì · 55% · Càng cao càng khó: X1 25%, X2 11%, X3 5%, X5 3%, X10 1%)!`);
+      }
       renderCenterOfferingInspector();
       publishMqtt({ type: 'takedown', wing: player.wing, clearAll: true, name: player.name });
     }
@@ -6012,8 +6051,8 @@
     function drawDarkChatBubble(x, y, text) {
       if (!text) return;
       ctx.save();
-      ctx.font = '600 11.2px system-ui, -apple-system, sans-serif';
-      const maxLinePx = Math.min(220, window.innerWidth - 44);
+      ctx.font = '600 11px system-ui, -apple-system, sans-serif';
+      const maxLinePx = Math.min(285, window.innerWidth - 32);
       const rawText = String(text).replace(/\s+/g, ' ').trim();
       const words = rawText.split(' ');
       const lines = [];
@@ -6024,7 +6063,7 @@
         const test = cur ? (cur + ' ' + w) : w;
         if (ctx.measureText(test).width > maxLinePx && cur) {
           lines.push(cur);
-          if (lines.length >= 2) {
+          if (lines.length >= 4) {
             cur = '';
             break;
           }
@@ -6033,7 +6072,7 @@
           cur = test;
         }
       }
-      if (cur && lines.length < 2) {
+      if (cur && lines.length < 4) {
         lines.push(cur);
       }
 
