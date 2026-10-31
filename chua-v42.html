@@ -1207,51 +1207,48 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
   </div>
 
-  <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH TRỰC TIẾP TẠI SẢNH CHÍNH (Không che màn hình · Giá ≤100💎 · Có Lễ Chay, Heo Quay, Xôi Gà, Vàng Mã · Đặt sai ban Phật bị phạt!) -->
-  <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:48; width:min(96vw, 720px); background:rgba(24,10,3,0.92); border:1.5px solid #ffd54f; border-radius:12px; padding:6px 9px; box-shadow:0 8px 24px rgba(0,0,0,0.85); ">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:4px; flex-wrap:wrap;">
+  <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH NEO GỌN Ở GÓC TRÊN TRÁI (Không bao giờ đè lên nhân vật hay tượng Phật!) -->
+  <div id="hallQuickOfferingStrip" style="display:none; position:fixed; left:10px; top:44px; z-index:66; width:min(94vw, 375px); background:rgba(24,10,3,0.94); border:1.5px solid #ffd54f; border-radius:12px; padding:8px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.88);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
       <div style="display:flex; align-items:center; gap:6px;">
-        <button type="button" onclick="toggleHallOfferingStrip(false)" title="Đóng thanh đặt lễ" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:6px; padding:3px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">✕</button>
-        <span style="font-size:10.3px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ & HẠ LỄ (<span id="stripRoomRuleHint" style="color:#ffab40;">Ban Tam Bảo: CHỈ đặt Lễ Chay</span>)</span>
+        <button type="button" onclick="toggleHallOfferingStrip(false)" title="Đóng thanh đặt lễ" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:6px; padding:2px 7px; font-size:10.5px; font-weight:900; cursor:pointer;">✕</button>
+        <span style="font-size:10.5px; font-weight:900; color:#ffd740;">🎁 ĐẶT LỄ (<span id="stripRoomRuleHint" style="color:#ffab40;">Ban Tam Bảo: Lễ Chay</span>)</span>
       </div>
-      <div style="display:flex; gap:4px; align-items:center;">
-        <input id="quickOfferWishInput" type="text" value="Cầu đạt KPI 1.5 tỷ & bình an" placeholder="Nhập lời cầu..." style="width:136px; background:rgba(12,5,2,0.95); border:1px solid rgba(255,213,79,0.65); border-radius:6px; padding:3px 6px; color:#fff; font-size:10px;" />
-        <button type="button" onclick="manualTakeDownOffering()" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #81d4fa; border-radius:6px; padding:3px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ Thụ Lộc (X2·X3·X5·X10)</button>
-      </div>
+      <button type="button" onclick="toggleHallOfferingStrip(false); manualTakeDownOffering();" style="background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; border:1px solid #81d4fa; border-radius:6px; padding:3px 7px; font-size:9.8px; font-weight:800; cursor:pointer;">📤 Hạ Lễ</button>
     </div>
-    <div style="display:flex; gap:4px; overflow-x:auto; padding-bottom:2px; scrollbar-width:thin;">
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('lotus_tray','🪷','Hoa Sen Chay',18,'assets/le_hoasen.jpg',0,0,'chay')">🪷 Hoa Sen Chay (18💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('five_fruits','🍎','Mâm Ngũ Quả Chay',28,'assets/le_nguqua.jpg',0,0,'chay')">🍎 Ngũ Quả Chay (28💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('tea_oan','🍵','Oản Ngọc Trà Sen',38,'assets/le_traoan.jpg',0,0,'chay')">🍵 Oản Trà Chay (38💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('grand_offering','👑','Đại Lễ Cỗ Chay',95,'assets/le_daile.jpg',0,2,'chay')">👑 Đại Lễ Cỗ Chay (95💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('mam_ga_xoi','🐓','Xôi Gà Luộc (Lễ Mặn)',55,'assets/vangma_mamdaydu.jpg',0,1,'man')">🐓 Xôi Gà Mặn (55💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/le_heoquay.jpg',0,2,'man')">🐷 Heo Quay Mặn (85💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_dinh','🧧','Đinh Tiền Vàng Mã',15,'assets/vangma_dinh.jpg',0,2,'vang_ma')">🧧 Đinh Vàng Mã (15💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_le10','💴','Tháp Vàng Mã Đỏ',40,'assets/vangma_le10.jpg',0,3,'vang_ma')">💴 Tháp Vàng Mã (40💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_tiendola','💵','Mâm Tiền Vàng 500k',65,'assets/vangma_tiendola.jpg',0,4,'vang_ma')">💵 Tiền Vàng 500k (65💎)</button>
+    <input id="quickOfferWishInput" type="text" value="Cầu đạt KPI 1.5 tỷ & bình an" placeholder="Nhập lời cầu..." style="width:100%; box-sizing:border-box; margin-bottom:6px; background:rgba(12,5,2,0.95); border:1px solid rgba(255,213,79,0.65); border-radius:6px; padding:4px 7px; color:#fff; font-size:10.5px;" />
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('lotus_tray','🪷','Hoa Sen Chay',18,'assets/le_hoasen.jpg',0,0,'chay')">🪷 Hoa Sen Chay (18💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('five_fruits','🍎','Mâm Ngũ Quả Chay',28,'assets/le_nguqua.jpg',0,0,'chay')">🍎 Ngũ Quả Chay (28💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('tea_oan','🍵','Oản Ngọc Trà Sen',38,'assets/le_traoan.jpg',0,0,'chay')">🍵 Oản Trà Chay (38💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('grand_offering','👑','Đại Lễ Cỗ Chay',95,'assets/le_daile.jpg',0,2,'chay')">👑 Đại Lễ Cỗ Chay (95💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('mam_ga_xoi','🐓','Xôi Gà Luộc (Lễ Mặn)',55,'assets/vangma_mamdaydu.jpg',0,1,'man')">🐓 Xôi Gà Mặn (55💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/le_heoquay.jpg',0,2,'man')">🐷 Heo Quay Mặn (85💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_dinh','🧧','Đinh Tiền Vàng Mã',15,'assets/vangma_dinh.jpg',0,2,'vang_ma')">🧧 Đinh Vàng Mã (15💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.8px; padding:4px 6px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_le10','💴','Tháp Vàng Mã Đỏ',40,'assets/vangma_le10.jpg',0,3,'vang_ma')">💴 Tháp Vàng Mã (40💎)</button>
     </div>
   </div>
 
-  <!-- 3D. THANH TƯƠNG TÁC NHÂN VẬT: ĐẤM NHAU TÚI BỤI · XOAY NGƯỜI VÁI NHAU · XOAY NGƯỜI QUỲ LẠY NHAU · ĐẤU KHẨU CAY CÚ -->
-  <div id="npcInteractBar" style="display:none; position:fixed; left:50%; bottom:108px; transform:translateX(-50%); z-index:49; width:min(96vw, 760px); background:rgba(16,12,24,0.96); border:2px solid #ffd54f; border-radius:14px; padding:8px 11px; box-shadow:0 10px 28px rgba(0,0,0,0.92);">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">
-      <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-        <button type="button" onclick="toggleNpcInteractBar(false)" title="Đóng thanh tương tác" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:7px; padding:3px 8px; font-size:11px; font-weight:900; cursor:pointer;">✕</button>
-        <span style="font-size:10.8px; font-weight:900; color:#ffd740;">🤼 TƯƠNG TÁC VỚI:</span>
-        <select id="hallNpcTargetSelect" onchange="selectHallNpcFromDropdown(this.value)" style="background:rgba(36,16,4,0.95); color:#ffe082; border:1.5px solid #ffd54f; border-radius:7px; padding:3px 7px; font-size:10.8px; font-weight:800; outline:none; max-width:210px;">
+  <!-- 3D. BẢNG TƯƠNG TÁC NHÂN VẬT NEO GỌN Ở GÓC TRÊN TRÁI + TỰ ĐÓNG NGAY KHI BẤM ĐỂ LỘ 100% HÀNH ĐỘNG TRÊN THẢM ĐỎ! -->
+  <div id="npcInteractBar" style="display:none; position:fixed; left:10px; top:44px; z-index:67; width:min(94vw, 375px); background:rgba(16,12,24,0.95); border:2px solid #ffd54f; border-radius:14px; padding:9px 11px; box-shadow:0 10px 28px rgba(0,0,0,0.92);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:7px;">
+      <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:0;">
+        <span style="font-size:11px; font-weight:900; color:#ffd740; white-space:nowrap;">🤼 Chọn Người:</span>
+        <select id="hallNpcTargetSelect" onchange="selectHallNpcFromDropdown(this.value)" style="flex:1; min-width:0; background:rgba(36,16,4,0.95); color:#ffe082; border:1.5px solid #ffd54f; border-radius:7px; padding:4px 7px; font-size:11px; font-weight:800; outline:none;">
         </select>
         <span id="selectedNpcNameLabel" style="display:none;"></span>
       </div>
-      <div style="display:flex; gap:5px; flex-wrap:wrap;">
-        <button type="button" onclick="interactWithHallNpc('brawl')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1.5px solid #ff8a80; border-radius:8px; padding:5px 9px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.5);">🥊💥 Xông Vào Đấm Nhau Túi Bụi (-1💎)</button>
-        <button type="button" onclick="interactWithHallNpc('mutual_vai')" style="background:linear-gradient(135deg,#1565c0,#0d47a1); color:#fff; border:1.5px solid #80d8ff; border-radius:8px; padding:5px 9px; font-size:10.5px; font-weight:900; cursor:pointer;">🙏🔄 Xoay Người Vái Lạy Nhau (+1💎)</button>
-        <button type="button" onclick="interactWithHallNpc('mutual_kneel')" style="background:linear-gradient(135deg,#ef6c00,#b71c1c); color:#fff; border:1.5px solid #ffd54f; border-radius:8px; padding:5px 9px; font-size:10.5px; font-weight:900; cursor:pointer;">🙇🔄 Xoay Người Quỳ Lạy Nhau (+1💎)</button>
-        <button type="button" onclick="interactWithHallNpc('salty_chat')" style="background:linear-gradient(135deg,#4a148c,#311b92); color:#ffeb3b; border:1.5px solid #ea80fc; border-radius:8px; padding:5px 9px; font-size:10.5px; font-weight:900; cursor:pointer;">🤬💬 Cà Khịa / Than Cay Cú</button>
-      </div>
+      <button type="button" onclick="toggleNpcInteractBar(false)" title="Đóng bảng tương tác" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:7px; padding:3px 8px; font-size:11px; font-weight:900; cursor:pointer;">✕</button>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:7px;">
+      <button type="button" onclick="interactWithHallNpc('brawl')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1.5px solid #ff8a80; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.5);">🥊💥 Đấm Nhau (-1💎)</button>
+      <button type="button" onclick="interactWithHallNpc('mutual_vai')" style="background:linear-gradient(135deg,#1565c0,#0d47a1); color:#fff; border:1.5px solid #80d8ff; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🙏🔄 Vái Lạy Nhau (+1💎)</button>
+      <button type="button" onclick="interactWithHallNpc('mutual_kneel')" style="background:linear-gradient(135deg,#ef6c00,#b71c1c); color:#fff; border:1.5px solid #ffd54f; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🙇🔄 Quỳ Lạy Nhau (+1💎)</button>
+      <button type="button" onclick="interactWithHallNpc('salty_chat')" style="background:linear-gradient(135deg,#4a148c,#311b92); color:#ffeb3b; border:1.5px solid #ea80fc; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🤬💬 Cà Khịa Cay Cú</button>
     </div>
     <div style="display:flex; gap:5px; align-items:center;">
-      <input id="npcDialogInput" type="text" placeholder="💬 Nhập lời nói cay cú, bực bội hoặc hài hước gửi thẳng cho nhân vật này..." style="flex:1; background:rgba(6,10,14,0.95); border:1px solid #ffd54f; border-radius:7px; padding:4px 8px; color:#fff; font-size:10.3px;" onkeydown="if(event.key==='Enter') sendDirectNpcDialog()" />
-      <button type="button" onclick="sendDirectNpcDialog()" style="background:linear-gradient(135deg,#00acc1,#006064); color:#fff; border:1px solid #80deea; border-radius:7px; padding:4px 10px; font-size:10.2px; font-weight:800; cursor:pointer;">Gửi Lời Nói 💬</button>
+      <input id="npcDialogInput" type="text" placeholder="💬 Nhập lời nói gửi cho nhân vật này..." style="flex:1; background:rgba(6,10,14,0.95); border:1px solid #ffd54f; border-radius:7px; padding:5px 8px; color:#fff; font-size:10.5px;" onkeydown="if(event.key==='Enter') sendDirectNpcDialog()" />
+      <button type="button" onclick="sendDirectNpcDialog()" style="background:linear-gradient(135deg,#00acc1,#006064); color:#fff; border:1px solid #80deea; border-radius:7px; padding:5px 10px; font-size:10.5px; font-weight:800; cursor:pointer;">Gửi 💬</button>
     </div>
   </div>
   <!-- Collapsible Chat Input Drawer -->
@@ -6557,7 +6554,7 @@
       };
     }
 
-    // TƯƠNG TÁC NHÂN VẬT ĐỒNG BỘ 2 NGƯỜI TẠI SẢNH CHÍNH (V57)
+    // TƯƠNG TÁC NHÂN VẬT ĐỒNG BỘ 2 NGƯỜI TẠI SẢNH CHÍNH (V61: Tự động ẩn bảng Tương Tác ngay khi bấm để nhìn rõ 100% hành động!)
     function interactWithHallNpc(actionType) {
       unlockAndStartAudio();
       const sel = document.getElementById('hallNpcTargetSelect');
@@ -6566,14 +6563,17 @@
       if (!target) return;
       selectedHallNpc = target;
 
-      // Đưa 2 nhân vật về cùng gian, tính tâm điểm midU & midV để đứng đối diện nhau
+      // Đóng ngay bảng tương tác để KHÔNG CHE KHUẤT 2 nhân vật đang hành động trên thảm đỏ!
+      toggleNpcInteractBar(false);
+
+      // Đưa 2 nhân vật về chính giữa thảm đỏ (midU = 0.50, midV = 0.66) để nhìn rõ toàn thân 100%!
       target.wing = player.wing;
       target.waitOutsideTimer = 0;
       target.phase = 'praying';
       target.phaseTick = Math.max(target.phaseTick || 300, 420);
 
-      const midU = Math.max(0.28, Math.min(0.72, (player.u + target.u) * 0.5));
-      const midV = 0.615;
+      const midU = 0.50;
+      const midV = 0.66;
 
       let mode = actionType;
       if (mode === 'punch' || mode === 'slap') mode = 'brawl';
@@ -6755,6 +6755,7 @@
       const chosenName = (sel && sel.value) ? sel.value : (selectedHallNpc ? selectedHallNpc.name : '');
       const target = chosenName ? ensureTargetNpcInCurrentWing(chosenName) : (visitingGuests[0]);
       if (!target) return;
+      toggleNpcInteractBar(false);
 
       player.chat = `💬 [${player.name} ➔ ${target.name}]: "${txt}"`;
       player.chatTimer = 420;
@@ -7219,6 +7220,7 @@
     // DÂNG LỄ VẬT (GIÁ <= 100 💎 · ĐẶT SAI LỄ MẶN / VÀNG MÃ LÊN BAN PHẬT TAM BẢO BỊ PHẠT TRỪ PHƯỚC ĐỨC!)
     function redeemOfferingItem(itemId, icon, itemName, cost, imgSrc, minTotalMerit = 0, goldBagBonus = 0, category = 'chay') {
       unlockAndStartAudio();
+      toggleHallOfferingStrip(false);
       // Tự động nhận diện phân loại lễ nếu chưa truyền
       if (!category) {
         if (itemId.includes('ga') || itemId.includes('heo') || itemName.includes('Gà') || itemName.includes('Heo')) category = 'man';
@@ -8343,9 +8345,10 @@
 
         const sx = (wx + wingW * 0.5) + (d.u - 0.5) * visW;
         const sy = topScreenY + d.v * wingH;
-        const scale = Math.max(0.34, 0.35 + (d.v - 0.46) * 1.12) * (wingH / 960);
-
         const isPlayer = (item.type === 'player');
+        const inMutual = Boolean(activeMutualInteraction && activeMutualInteraction.active && (isPlayer || d === activeMutualInteraction.target));
+        const scale = Math.max(0.34, 0.35 + (d.v - 0.46) * 1.12) * (wingH / 960) * (inMutual ? 1.28 : 1.0);
+
         d._screenX = sx;
         d._screenY = sy;
 
@@ -8353,7 +8356,6 @@
           continue;
         }
 
-        const inMutual = Boolean(activeMutualInteraction && activeMutualInteraction.active && (isPlayer || d === activeMutualInteraction.target));
         const mutualMode = inMutual ? activeMutualInteraction.mode : null;
         const faceDir = inMutual ? (isPlayer ? 1 : -1) : 0; // +1: Xoay mặt sang phải, -1: Xoay mặt sang trái
 
@@ -8500,10 +8502,14 @@
           }
 
           if (d.wing === player.wing && d.chat && d.chatTimer > 0) {
-            // Khi 2 người đứng cạnh nhau đối thoại / đánh nhau / vái nhau, tách độ cao 2 khung thoại để hiển thị rõ cả 2 câu cùng lúc!
-            const bubbleOffsetX = inMutual ? (isPlayer ? -105 : 105) : 0;
-            const bubbleOffsetY = (inMutual && !isPlayer) ? -68 : -14;
-            drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
+            // Khi đang có tương tác đôi (Đấm nhau / Vái nhau / Quỳ lạy nhau), ẩn bớt bóng thoại của NPC phụ xung quanh để không che khuất 2 nhân vật chính!
+            if (activeMutualInteraction && activeMutualInteraction.active && !inMutual) {
+              // Không vẽ bóng thoại phụ gây rối mắt lúc đang tương tác đôi
+            } else {
+              const bubbleOffsetX = inMutual ? (isPlayer ? -145 : 145) : 0;
+              const bubbleOffsetY = inMutual ? -22 : -14;
+              drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
+            }
           }
         }
       }
