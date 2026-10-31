@@ -458,9 +458,10 @@
         justify-content: center !important;
         gap: 3px !important;
       }
-      .chip-btn { padding: 3.5px 6px !important; font-size: 9.8px !important; }
-      select.top-select { padding: 3.5px 6px !important; font-size: 9.8px !important; max-width: 128px; }
+      .chip-btn { padding: 3.5px 6px !important; font-size: 9.6px !important; }
+      select.top-select { display: none !important; }
       #btnDesktopRightMerit { display: none !important; }
+      #toastBanner { top: 62px !important; font-size: 10px !important; padding: 3px 10px !important; }
       .bottom-dock {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -1199,7 +1200,7 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼 Tương Tác</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜 Viết Sớ</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">☯️ Xăm · Dịch · Tử Vi · Số</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">☯️ Xăm · Tử Vi</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🥊 Xả Nghiệp</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
   </div>
@@ -8524,8 +8525,10 @@
     function drawDarkChatBubble(x, y, text) {
       if (!text) return;
       ctx.save();
-      ctx.font = '600 11px system-ui, -apple-system, sans-serif';
-      const maxLinePx = Math.min(285, window.innerWidth - 32);
+      const isNarrowMobile = window.innerWidth <= 520;
+      ctx.font = isNarrowMobile ? '600 9.8px system-ui, -apple-system, sans-serif' : '600 11px system-ui, -apple-system, sans-serif';
+      const maxLinePx = isNarrowMobile ? Math.min(168, Math.floor(window.innerWidth * 0.44)) : Math.min(285, window.innerWidth - 32);
+      const maxBubbleLines = isNarrowMobile ? 3 : 4;
       const rawText = String(text).replace(/\s+/g, ' ').trim();
       const words = rawText.split(' ');
       const lines = [];
@@ -8536,7 +8539,7 @@
         const test = cur ? (cur + ' ' + w) : w;
         if (ctx.measureText(test).width > maxLinePx && cur) {
           lines.push(cur);
-          if (lines.length >= 4) {
+          if (lines.length >= maxBubbleLines) {
             cur = '';
             break;
           }
@@ -8545,7 +8548,7 @@
           cur = test;
         }
       }
-      if (cur && lines.length < 4) {
+      if (cur && lines.length < maxBubbleLines) {
         lines.push(cur);
       }
 
@@ -9534,13 +9537,23 @@
             // Khi đang có tương tác đôi (Đấm nhau / Vái nhau / Quỳ lạy nhau), ẩn bớt bóng thoại của NPC phụ xung quanh để không che khuất 2 nhân vật chính!
             if (activeMutualInteraction && activeMutualInteraction.active && !inMutual) {
               // Không vẽ bóng thoại phụ gây rối mắt lúc đang tương tác đôi
+            } else if (!isPlayer && !inMutual && W <= 560 && window._mobileNpcChatDrawnThisFrame) {
+              // Trên màn hình dọc điện thoại, chỉ hiển thị tối đa 1 bóng thoại NPC phụ cùng lúc để không đè chồng lên nhau!
             } else {
-              const bubbleOffsetX = inMutual ? (isPlayer ? -145 : 145) : 0;
+              if (!isPlayer && !inMutual && W <= 560) window._mobileNpcChatDrawnThisFrame = true;
+              const bubbleOffsetX = inMutual ? (isPlayer ? -Math.min(145, W * 0.24) : Math.min(145, W * 0.24)) : (W <= 560 && !isPlayer ? (sx < W * 0.5 ? -18 : 18) : 0);
               const bubbleOffsetY = inMutual ? -22 : -14;
               drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
             }
           }
+          if (isPlayer) {
+            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel };
+          }
         }
+      }
+      window._mobileNpcChatDrawnThisFrame = false;
+      if (window._lastPlayerBadgePos && !(cameraPovMode === 'first')) {
+        drawRoundedBadge(window._lastPlayerBadgePos.sx, window._lastPlayerBadgePos.headY, window._lastPlayerBadgePos.avatar, window._lastPlayerBadgePos.badgeLabel, true);
       }
 
       // HIỆU ỨNG ĐÁM MÂY KHÓI BỤI & NỔ ĐÒN "ĐÁNH NHAU TÚI BỤI" HOẶC HÀO QUANG "VÁI / QUỲ LẠY NHAU" GIỮA 2 NHÂN VẬT
