@@ -4166,7 +4166,7 @@
         // CHỈ thực hiện động tác Quỳ Lạy tại chỗ, không tự bật chat, không tự di chuyển, không kèm hiệu ứng phụ
         player.state = 'bow_cycle';
         player.vaiTimer = 0;
-        player.bowCycleTick = 0;
+        player.bowCycleTick = 24;
         player.bowTimer = 300;
         if (Math.random() < 0.15 * meritRateMultiplier) {
           addMerit(1 * meritRateMultiplier, `Quỳ lạy tại ${roomName}`);
