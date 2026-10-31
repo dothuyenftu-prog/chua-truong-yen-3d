@@ -910,7 +910,7 @@
       </select>
       <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
       <button class="chip-btn active" onclick="openMeritShopModal()">🏛️ Công Đức (<span id="congDucCountHud">5</span>) · 💎 Phước (<span id="meritScore">35</span>)</button>
-      <button id="meritBuffBadge" class="chip-btn active" style="background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;border-color:#ffd740;" onclick="openGoldFurnaceRoom()" title="Đốt Vàng Mã hoặc Dâng Lễ để tăng Gấp Đôi (X2) hoặc Gấp 3 (X3) xác suất nhận Phước Đức!">🔥 Lộc Lễ/Vàng: Xác Suất X2·X3</button>
+      <button id="meritBuffBadge" class="chip-btn active" style="background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;border-color:#ffd740;" onclick="openGoldFurnaceRoom()" title="Đốt Vàng Mã hoặc Dâng Lễ để tăng Gấp Đôi (X2) hoặc Gấp 3 (X3) xác suất nhận Phước Đức!">🔥 Xác Suất Phước: X0·X1·X2·X3·X5·X10</button>
     </div>
   </div>
 
@@ -4762,18 +4762,8 @@
     // =========================================================================
     // 4. ATMOSPHERIC EFFECTS: LOTUS PETALS, INCENSE SMOKE, BURNING INCENSE
     // =========================================================================
+    // Đã xoá hiệu ứng lá hồng rơi xuống theo yêu cầu Admin (#mvvv047b4r)
     const lotusPetals = [];
-    for (let i = 0; i < 32; i++) {
-      lotusPetals.push({
-        x: Math.random(),
-        y: Math.random(),
-        size: 6 + Math.random() * 9,
-        speedY: 0.0006 + Math.random() * 0.001,
-        speedX: (Math.random() - 0.5) * 0.0005,
-        rot: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.03
-      });
-    }
 
     const smokeParticles = [];
     for (let i = 0; i < 36; i++) {
@@ -5634,25 +5624,15 @@
       closeMeritShopModal();
       offeringCeremony = null;
 
-      for (let i = 0; i < 20; i++) {
-        lotusPetals.push({
-          x: Math.random(),
-          y: -0.05 - Math.random() * 0.2,
-          size: 8 + Math.random() * 11,
-          speedY: 0.0014 + Math.random() * 0.0016,
-          speedX: (Math.random() - 0.5) * 0.001,
-          rot: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.04
-        });
-      }
+      // Không sinh lá hồng rơi khi đặt lễ (#mvvv047b4r)
 
-      // KHI DÂNG ĐÚNG LỄ LÊN BÀN THỜ → XÁC SUẤT TĂNG GẤP ĐÔI (X2) HOẶC GẤP BA (X3) PHƯỚC ĐỨC!
-      const rollOfferMult = Math.random();
-      const offerMult = (rollOfferMult < 0.38 || cost >= 80) ? 3 : 2;
+      // KHI DÂNG LỄ LÊN BÀN THỜ → QUAY XÁC SUẤT 6 BẬC (X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%)
+      const rOffer = rollSixTierMultiplier();
+      const offerMult = rOffer.mult;
       const bonusReturnMerit = Math.max(4, Math.round(cost * 0.25)) * offerMult;
-      addMerit(bonusReturnMerit);
-      activateMeritRateBuff(offerMult, `Đặt Lễ ${itemName}`);
-      appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ đúng phép cảm ứng <b>HỒNG ÂN X${offerMult}</b>: Tăng <b>GẤP ${offerMult} LẦN (X${offerMult})</b> xác suất tích phước & nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
+      if (bonusReturnMerit > 0) addMerit(bonusReturnMerit);
+      if (offerMult >= 2) activateMeritRateBuff(offerMult, `Đặt Lễ ${itemName}`);
+      appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ <b>${itemName}</b> quay trúng <b>${rOffer.label} (${rOffer.probText})</b> → Nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
       
       publishMqtt({ type: 'offering', name: player.name, icon, itemName, wish: userWish, wing: player.wing, imgKey, imgSrc });
@@ -5679,13 +5659,14 @@
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
 
-      // Xác suất nổ Gấp Đôi (X2) hoặc Gấp Ba (X3) Phước Đức khi Đốt Vàng Mã
-      const mult = (Math.random() < 0.38) ? 3 : 2;
+      // Xác suất 6 bậc (X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%) khi Đốt Vàng Mã
+      const rBurn = rollSixTierMultiplier();
+      const mult = rBurn.mult;
       const pts = 12 * mult;
-      addMerit(pts);
+      if (pts > 0) addMerit(pts);
       const label = customTitle || '🔥🧧 Lễ Vàng Mã Truyền Thống';
-      activateMeritRateBuff(mult, `Đốt Vàng Mã (${label})`);
-      appendMeritLog(`🔥🧧 <b>${player.name}</b>: Hóa <b>${label}</b> nổ Lộc <b>X${mult} (Gấp ${mult})</b> → <b>+${pts} 💎 Phước Hồi Hướng</b> & Buff X${mult} Xác Suất Phước!`);
+      if (mult >= 2) activateMeritRateBuff(mult, `Đốt Vàng Mã (${label})`);
+      appendMeritLog(`🔥🧧 <b>${player.name}</b>: Hóa <b>${label}</b> quay trúng <b>${rBurn.label} (${rBurn.probText})</b> → <b>+${pts} 💎 Phước Hồi Hướng</b>!`);
 
       goldBurnCeremony = {
         active: true,
@@ -6754,23 +6735,7 @@
         }
       }
 
-      for (const p of lotusPetals) {
-        p.y += p.speedY;
-        p.x += p.speedX + Math.sin(frameCount * 0.02 + p.rot) * 0.0003;
-        p.rot += p.rotSpeed;
-        if (p.y > 1.05) { p.y = -0.05; p.x = Math.random(); }
-
-        const px = p.x * W;
-        const py = p.y * H;
-        ctx.save();
-        ctx.translate(px, py);
-        ctx.rotate(p.rot);
-        ctx.fillStyle = 'rgba(247, 131, 172, 0.78)';
-        ctx.beginPath();
-        ctx.ellipse(0, 0, p.size * 0.85, p.size * 0.50, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
+      // Đã tắt vẽ lá hồng rơi (#mvvv047b4r)
 
       if (incenseCeremony && incenseCeremony.active && incenseCeremony.timer > 0) {
         incenseCeremony.timer--;
@@ -7644,8 +7609,8 @@
         if (wm) wm.style.display = "none";
         if (dm === "karaoke") {
           if (typeof toggleGlobalAutoFarmMerit === "function" && !window._globalAutoFarmActive) toggleGlobalAutoFarmMerit();
-          if (typeof openKaraokeSutraOverlay === "function") {
-            openKaraokeSutraOverlay("chu_dai_bi");
+          if (typeof startKaraokeSutraOverlay === "function") {
+            startKaraokeSutraOverlay("chu_dai_bi", false);
             window._karaokeLineIdx = 2;
             window._karaokeWordIdx = 5;
             if (typeof renderKaraokeSutraView === "function") renderKaraokeSutraView();
