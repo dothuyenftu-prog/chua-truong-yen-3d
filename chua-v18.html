@@ -933,7 +933,7 @@
       <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('tea_oan','🍵','Oản Ngọc Trà Sen',38,'assets/le_traoan.jpg',0,0,'chay')">🍵 Oản Trà Chay (38💎)</button>
       <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(27,94,32,0.9); color:#e8f5e9; border-color:#81c784;" onclick="redeemOfferingItem('grand_offering','👑','Đại Lễ Cỗ Chay',95,'assets/le_daile.jpg',0,2,'chay')">👑 Đại Lễ Cỗ Chay (95💎)</button>
       <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('mam_ga_xoi','🐓','Xôi Gà Luộc (Lễ Mặn)',55,'assets/vangma_mamdaydu.jpg',0,1,'man')">🐓 Xôi Gà Mặn (55💎)</button>
-      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/vangma_mamdaydu.jpg',0,2,'man')">🐷 Heo Quay Mặn (85💎)</button>
+      <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(183,28,28,0.92); color:#fff; border-color:#ffab40;" onclick="redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/le_heoquay.jpg',0,2,'man')">🐷 Heo Quay Mặn (85💎)</button>
       <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_dinh','🧧','Đinh Tiền Vàng Mã',15,'assets/vangma_dinh.jpg',0,2,'vang_ma')">🧧 Đinh Vàng Mã (15💎)</button>
       <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_le10','💴','Tháp Vàng Mã Đỏ',40,'assets/vangma_le10.jpg',0,3,'vang_ma')">💴 Tháp Vàng Mã (40💎)</button>
       <button type="button" class="qo-btn" style="font-size:9.6px; padding:3px 7px; background:rgba(140,68,6,0.92); color:#ffe082; border-color:#ffd54f;" onclick="redeemOfferingItem('vang_tiendola','💵','Mâm Tiền Vàng 500k',65,'assets/vangma_tiendola.jpg',0,4,'vang_ma')">💵 Tiền Vàng 500k (65💎)</button>
@@ -1186,112 +1186,79 @@
     </div>
   </div>
 
-  <!-- 5D. MODAL PHÒNG XẢ NGHIỆP: KHẨU NGHIỆP (VOICE MẮNG CHỬI CỰC GẮT · TRỪ PHƯỚC ĐỨC) & NGHE TRỤ TRÌ GIỌNG NAM TRẦM PHẬT PHÁP -->
-  <div class="modal-backdrop" id="karmaReleaseModal" onclick="if(event.target===this) closeKarmaReleaseModal()">
-    <div class="so-khan-box" style="max-width:490px; border:2px solid #ff7043; box-shadow:0 16px 48px rgba(0,0,0,0.92), 0 0 28px rgba(255,87,34,0.35);">
-      <div class="sk-top-row" style="border-bottom:1px solid rgba(255,138,101,0.35); padding-bottom:6px;">
-        <span class="sk-title" style="color:#ffab40; font-size:13px;">🤬🔥 Phòng Khẩu Nghiệp (Chửi Cực Gắt · Mất Phước) & 🧘‍♂️ Giọng Nam Trầm Trụ Trì</span>
-        <button class="btn-modal-x" onclick="closeKarmaReleaseModal()">✕ Đóng</button>
+  <!-- 5D. PHÒNG VÕ ĐÀI SÂN ĐẤM XẢ NGHIỆP RIÊNG BIỆT TOÀN MÀN HÌNH (Sang hẳn phòng khác · Có người bị đấm TO NGANG MÀN HÌNH · Mỗi cái đấm/vả/tát trừ -1 💎 Phước!) -->
+  <div class="modal-backdrop" id="karmaReleaseModal" style="padding:0; background:#0d0303;">
+    <div style="width:100vw; height:100vh; display:flex; flex-direction:column; background:#0d0303; overflow:hidden;">
+      <!-- Thanh Tiêu Đề Phòng Sân Đấm Toàn Màn Hình -->
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 12px; background:linear-gradient(90deg,#3e0707,#7f0000,#3e0707); border-bottom:2px solid #ffd54f; flex-shrink:0; gap:6px;">
+        <div style="display:flex; align-items:center; gap:7px; flex-wrap:wrap;">
+          <span style="font-size:12.5px; font-weight:900; color:#ffd740;">🥊🔥 PHÒNG VÕ ĐÀI SÂN ĐẤM XẢ NGHIỆP (MỖI PHÁT ĐẤM/VẢ/TÁT TRỪ -1 💎 PHƯỚC)</span>
+          <span id="punchComboBadge" style="font-size:10.5px; font-weight:900; background:#ff3d00; color:#fff; padding:2px 8px; border-radius:999px; border:1px solid #ffd54f;">COMBO x0 · HP: 100%</span>
+          <span style="font-size:10px; background:rgba(0,0,0,0.65); color:#ffcdd2; padding:2px 8px; border-radius:999px; border:1px solid #ff5252;">Đã đấm/xả: <b id="karmaVentCounter">0</b> lần · Mất: <b id="karmaLostMeritCounter" style="color:#ffeb3b;">0 💎</b></span>
+        </div>
+        <button class="btn-modal-x" style="padding:5px 12px; font-size:11.5px; font-weight:900; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1.5px solid #a5d6a7;" onclick="closeKarmaReleaseModal()">🏛️⬅️ Về Chánh Điện</button>
       </div>
 
-      <!-- PHẦN 1: CHIA RÕ 2 CHẾ ĐỘ: [1A. MẮNG & CÀ KHỊA] vs [1B. CHỬI THẬM TỆ TỚI BẾN] (BỊ TRỪ PHƯỚC ĐỨC!) -->
-      <div style="background:linear-gradient(180deg,rgba(88,12,6,0.96),rgba(38,6,3,0.98)); border:1.5px solid #ff5252; border-radius:12px; padding:9px 11px; margin-bottom:9px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-          <span style="font-size:11.5px; font-weight:900; color:#ff8a80;">🤬🔥 1. Tách Bạch Rõ: MẮNG (Cà Khịa) & CHỬI (Thậm Tệ Xối Xả)</span>
-          <span style="font-size:9.8px; background:rgba(213,0,0,0.55); color:#ffcdd2; padding:2px 7px; border-radius:999px; border:1px solid #ff5252;">Đã xả: <b id="karmaVentCounter">0</b> lần · Mất: <b id="karmaLostMeritCounter" style="color:#ffeb3b;">0 💎</b></span>
-        </div>
-        <div style="font-size:9.8px; color:#ffab91; margin-bottom:5px; line-height:1.35;">
-          ⚠️ <b>Phân Chia 2 Cấp Độ Rõ Ràng:</b> <b>[MẮNG]</b> là nói lý lẽ, đá xéo, cà khịa sâu cay (-10💎) · <b>[CHỬI]</b> là dùng từ ngữ thậm tệ, cay nghiệt, mắng nhiếc xối xả tới bến để trút sạch cơn điên tiết (-25💎 đến -40💎)!
-        </div>
-
-        <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
-          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng', 'đặt hàng xong tắt máy trốn biệt, hẹn lần hẹn lữa lật lọng vô trách nhiệm')">📦 Kẻ Hứa Lèo Bom Hàng</button>
-          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Đối Thủ Chơi Bẩn', 'bán hàng giả kém chất lượng phá giá, lén lút đâm sau lưng nói xấu tiểu nhân')">🐍 Đối Thủ Chơi Bẩn</button>
-          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Con Nợ Chây Ì Quỵt Tiền', 'lúc khó khăn van xin lấy hàng, đến hạn thanh toán thì trốn chui trốn lủi không trả')">💸 Con Nợ Quỵt Tiền</button>
-          <button type="button" style="background:rgba(183,28,28,0.45); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:3px 9px; font-size:10.2px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Ăn Cháo Đá Bát', 'được giúp đỡ tận tình nhưng quay lưng phản bội, đâm bị thóc chọc bị gạo')">😤 Kẻ Vô Ơn Phản Bội</button>
-        </div>
-
-        <div class="sk-field" style="margin-bottom:5px;">
-          <label style="color:#ffab91;">👤 Tên kẻ làm sai / gây ức chế (Để Đấm Đập Hình Nhân & Lôi Tên Ra Mắng/Chửi):</label>
-          <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" oninput="resetPunchBagTarget()" placeholder="Nhập tên kẻ làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
-        </div>
-        <div class="sk-field" style="margin-bottom:7px;">
-          <label style="color:#ffab91;">💢 Tội lỗi kẻ đó gây ra:</label>
-          <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng tráo trở, sống thiếu chữ tín làm người khác điên tiết" placeholder="Nhập việc kẻ đó làm sai..." style="border-color:rgba(255,82,82,0.75); background:rgba(22,4,3,0.95);" />
-        </div>
-
-        <!-- KHU VỰC MỚI: SÂN ĐẤM ĐẬP HÌNH NHÂN TRÚT GIẬN TƯƠNG TÁC TRỰC TIẾP! -->
-        <div style="background:linear-gradient(180deg,rgba(42,6,6,0.98),rgba(20,3,3,0.98)); border:1.5px solid #ff9100; border-radius:10px; padding:7px 8px; margin-bottom:7px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span style="font-size:10.5px; font-weight:900; color:#ffd740;">🥊💥 SÂN ĐẤM · VẢ · TÁT HÌNH NHÂN (Mỗi cái Đấm/Vả/Tát đều trừ -1 💎 Phước!)</span>
-            <span id="punchComboBadge" style="font-size:9.8px; font-weight:900; background:#ff3d00; color:#fff; padding:1.5px 7px; border-radius:999px;">COMBO x0 · HP: 100%</span>
-          </div>
-          <canvas id="karmaPunchCanvas" width="440" height="138" onclick="hitKarmaCharacterCanvas(event)" style="width:100%; height:132px; border-radius:8px; border:1px solid rgba(255,145,0,0.55); cursor:crosshair; display:block; margin-bottom:5px; background:#160404;"></canvas>
-          <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:4px; margin-bottom:4px;">
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); font-size:9.2px; padding:5px 2px; border:1px solid #ffd54f;" onclick="selectAndHitWeapon('punch')">🥊 Đấm Móc<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ad1457,#6a1b9a); font-size:9.2px; padding:5px 2px; border:1px solid #ff80ab;" onclick="selectAndHitWeapon('slipper')">🩴 Vả Dép<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#c62828,#880e4f); font-size:9.2px; padding:5px 2px; border:1px solid #ff8a80;" onclick="selectAndHitWeapon('slap')">🖐️ Tát Lật Mặt<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#4e342e,#271815); font-size:9.2px; padding:5px 2px; border:1px solid #ffcc80;" onclick="selectAndHitWeapon('club')">🪵 Phang Gậy<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#1565c0,#0d47a1); font-size:9.2px; padding:5px 2px; border:1px solid #80d8ff;" onclick="selectAndHitWeapon('lightning')">⚡ Sét Quật<br/><span style="color:#ffeb3b;">(-1 💎)</span></button>
-          </div>
-          <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff6d00,#d50000); font-size:10.2px; padding:5px 8px; border:1px solid #fff59d;" onclick="triggerAutoBeatdownCombo()">
-            💥🥊 LIÊN HOÀN ĐẤM · VẢ · TÁT 15 PHÁT (Mỗi phát -1 💎 = Trừ -15 💎 Phước)
-          </button>
-        </div>
-
-        <!-- NHÓM 1: MẮNG & CÀ KHỊA (Câu bình thường, đá xéo, mỉa mai sâu cay) -->
-        <div style="background:rgba(48,22,4,0.92); border:1px solid #ffb74d; border-radius:9px; padding:6px 8px; margin-bottom:6px;">
-          <div style="font-size:10.4px; font-weight:900; color:#ffd54f; margin-bottom:4px;">
-            😏🌶️ CẤP ĐỘ 1 — MẮNG & CÀ KHỊA (Mắng bình thường · Đá xéo · Mỉa mai thâm thúy):
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#bf360c); font-size:10.4px; padding:6px 5px; border:1px solid #ffd54f;" onclick="triggerKarmaScoldVoice('mang_khia')">
-              😏🔊 Mắng Cà Khịa · Đá Xéo<br/><span style="font-size:9.2px; color:#fff59d;">(6 câu khịa cực thâm · Trừ -10 💎)</span>
-            </button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#f57f17,#e65100); font-size:10.4px; padding:6px 5px; border:1px solid #ffe082;" onclick="triggerKarmaScoldVoice('mang_thang')">
-              🗣️🔊 Mắng Thẳng Mặt Dạy Đời<br/><span style="font-size:9.2px; color:#fff59d;">(6 câu mắng rõ lý lẽ · Trừ -12 💎)</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- NHÓM 2: CHỬI THẬM TỆ TỚI BẾN (Dùng từ ngữ thậm tệ, cay độc, chửi xối xả) -->
-        <div style="background:rgba(58,4,8,0.95); border:1.5px solid #ff1744; border-radius:9px; padding:6px 8px; margin-bottom:6px;">
-          <div style="font-size:10.4px; font-weight:900; color:#ff8a80; margin-bottom:4px;">
-            🤬🌋 CẤP ĐỘ 2 — CHỬI THẬM TỆ XỐI XẢ (Dùng từ ngữ thậm tệ · Cay nghiệt · Trút sạch cơn điên):
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:5px;">
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#d50000,#7f0000); font-size:10.4px; padding:6px 5px; border:1px solid #ff8a80;" onclick="triggerKarmaScoldVoice('chui_tham_te')">
-              🤬🔊 Chửi Thậm Tệ Vô Liêm Sỉ<br/><span style="font-size:9.2px; color:#ffeb3b;">(8 đoạn chửi cay độc · Trừ -25 💎)</span>
-            </button>
-            <button class="btn-sk-submit" style="background:linear-gradient(135deg,#aa00ff,#4a0072); font-size:10.4px; padding:6px 5px; border:1px solid #ea80fc;" onclick="triggerKarmaScoldVoice('chui_nghiep_quat')">
-              ⚡🔊 Chửi Rủa Nghiệp Quật<br/><span style="font-size:9.2px; color:#ffeb3b;">(9 đoạn rủa thẳng tay · Trừ -30 💎)</span>
-            </button>
-          </div>
-          <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff1744,#880e4f); font-size:10.9px; padding:7px; border:1.5px solid #ffd740;" onclick="triggerKarmaScoldVoice('chui_tan_oc')">
-            🌋🤬 ĐẠI NỘ CHỬI TẬN ÓC · THẬM TỆ NHẤT (12 Đoạn Chửi Xối Xả Không Kiêng Nể · Trừ -40 💎 Phước)
-          </button>
-        </div>
-
-        <div id="karmaVoiceLiveText" style="margin-top:6px; background:rgba(18,4,2,0.95); border:1px dashed rgba(255,82,82,0.65); border-radius:8px; padding:6px 8px; font-size:10.6px; color:#ffe0b2; line-height:1.42;">
-          🗣️🤬 <b>Lời Voice Đang Phát:</b> Chọn <b>[MẮNG & CÀ KHỊA]</b> để đá xéo mỉa mai nhẹ nhàng, hoặc chọn <b>[CHỬI THẬM TỆ]</b> để dùng từ ngữ nặng nề nhất chửi xối xả vào mặt kẻ làm sai!
-        </div>
+      <!-- KHU VỰC SÂN ĐẤM CHÍNH: NGƯỜI BỊ ĐẤM TO NGANG MÀN HÌNH (Chiếm trọn bề ngang màn hình!) -->
+      <div style="position:relative; width:100%; height:53vh; min-height:280px; background:#140404; border-bottom:2px solid #ff9100; flex-shrink:0; overflow:hidden;">
+        <canvas id="karmaPunchCanvas" width="540" height="480" onclick="hitKarmaCharacterCanvas(event)" style="width:100%; height:100%; display:block; cursor:crosshair;"></canvas>
       </div>
 
-      <!-- PHẦN 2: NGHE SƯ THẦY TRỤ TRÌ (GIỌNG NAM TRẦM ẤM GIỐNG VIDEO PHẬT PHÁP) GIẢNG GIẢI HẠ HỎA · TÂM AN -->
-      <div style="background:linear-gradient(180deg,rgba(20,56,36,0.96),rgba(10,30,18,0.98)); border:1.5px solid #81c784; border-radius:12px; padding:9px 11px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-          <span style="font-size:11.5px; font-weight:900; color:#a5d6a7;">🧘‍♂️🪷 2. SƯ THẦY TRỤ TRÌ (GIỌNG NAM TRẦM PHẬT PHÁP) KHAI THỊ</span>
-          <span style="font-size:9.8px; background:rgba(46,125,50,0.55); color:#e8f5e9; padding:2px 7px; border-radius:999px; border:1px solid #81c784;">Giọng Nam Trầm Ấm</span>
+      <!-- BẢNG ĐIỀU KHIỂN ĐÒN ĐÁNH (-1💎/PHÁT) + ĐỔI TÊN KẺ BỊ ĐẤM + VOICE MẮNG / CHỬI / TRỤ TRÌ KHAI THỊ -->
+      <div style="flex:1; overflow-y:auto; padding:7px 10px; background:linear-gradient(180deg,#1f0505,#0d0202);">
+        <!-- Hàng Vũ Khí Đấm · Vả Dép · Tát Lật Mặt · Phang Gậy · Sét Quật (-1 💎 Phước mỗi phát!) -->
+        <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:5px; margin-bottom:6px;">
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); font-size:10px; padding:6px 2px; border:1.5px solid #ffd54f;" onclick="selectAndHitWeapon('punch')">🥊 Đấm Móc<br/><span style="color:#ffeb3b; font-size:9.2px;">(-1 💎)</span></button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ad1457,#6a1b9a); font-size:10px; padding:6px 2px; border:1.5px solid #ff80ab;" onclick="selectAndHitWeapon('slipper')">🩴 Vả Dép<br/><span style="color:#ffeb3b; font-size:9.2px;">(-1 💎)</span></button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#c62828,#880e4f); font-size:10px; padding:6px 2px; border:1.5px solid #ff8a80;" onclick="selectAndHitWeapon('slap')">🖐️ Tát Lật Mặt<br/><span style="color:#ffeb3b; font-size:9.2px;">(-1 💎)</span></button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#4e342e,#271815); font-size:10px; padding:6px 2px; border:1.5px solid #ffcc80;" onclick="selectAndHitWeapon('club')">🪵 Phang Gậy<br/><span style="color:#ffeb3b; font-size:9.2px;">(-1 💎)</span></button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#1565c0,#0d47a1); font-size:10px; padding:6px 2px; border:1.5px solid #80d8ff;" onclick="selectAndHitWeapon('lightning')">⚡ Sét Quật<br/><span style="color:#ffeb3b; font-size:9.2px;">(-1 💎)</span></button>
         </div>
-
-        <div id="abbotAdviceBox" style="background:rgba(8,24,14,0.92); border:1px solid rgba(129,199,132,0.45); border-radius:9px; padding:7px 9px; font-size:11px; color:#e8f5e9; line-height:1.45; margin-bottom:7px;">
-          🙏 <b>Giọng Nam Trầm Sư Thầy Trụ Trì Chùa Trường Yến:</b><br/>
-          <i>"Nam mô A Di Đà Phật! Bạch tín chủ, ai sống giả dối bội tín thì luật nhân quả tự khắc vận hành. Con hãy hít một hơi thật sâu, buông xả cơn sân hận để tâm an trí sáng, hòa khí sinh đại tài!"</i>
-        </div>
-
-        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7; font-size:11.5px; padding:9px;" onclick="triggerAbbotDharmaVoice()">
-          🧘‍♂️🔊 Nghe Giọng Nam Trầm Trụ Trì Khai Thị Hạ Hỏa (Chuẩn Video Phật Pháp)
+        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff6d00,#d50000); font-size:10.8px; padding:6px 8px; border:1.5px solid #fff59d; margin-bottom:7px;" onclick="triggerAutoBeatdownCombo()">
+          💥🥊 LIÊN HOÀN ĐẤM · VẢ · TÁT 15 PHÁT VÀO MẶT (Mỗi phát -1 💎 = Trừ -15 💎 Phước)
         </button>
+
+        <!-- Chọn nhanh đối tượng & Nhập tên người bị đấm trên màn hình -->
+        <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:5px;">
+          <button type="button" style="background:rgba(183,28,28,0.55); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:2px 8px; font-size:9.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Hứa Lèo Bom Hàng Tấm Ốp', 'đặt cắt Tấm Ốp Nano xong tắt máy trốn biệt, hẹn lần hẹn lữa vô trách nhiệm')">📦 Kẻ Hứa Lèo Bom Hàng</button>
+          <button type="button" style="background:rgba(183,28,28,0.55); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:2px 8px; font-size:9.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Xưởng Cốt Tái Sinh Phá Giá', 'bán hàng giả cốt tái sinh kém chất lượng phá giá, lén lút nói xấu Trường Yến')">🐍 Đối Thủ Phá Giá</button>
+          <button type="button" style="background:rgba(183,28,28,0.55); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:2px 8px; font-size:9.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Chủ Thầu Chây Ì Quỵt Nợ', 'lúc khó khăn van xin lấy 200m2 Tấm Ốp chịu, đến hạn thanh toán thì trốn chui trốn lủi')">💸 Con Nợ Quỵt Tiền</button>
+          <button type="button" style="background:rgba(183,28,28,0.55); border:1px solid #ff8a65; color:#ffccbc; border-radius:999px; padding:2px 8px; font-size:9.8px; font-weight:800; cursor:pointer;" onclick="fillKarmaPreset('Kẻ Ăn Cháo Đá Bát', 'được hỗ trợ mẫu mã giá sỉ tận tình nhưng quay lưng phản bội')">😤 Kẻ Vô Ơn Phản Bội</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:5px; margin-bottom:6px;">
+          <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" oninput="resetPunchBagTarget()" placeholder="Tên kẻ bị đấm..." style="background:rgba(22,4,3,0.95); border:1px solid #ff5252; border-radius:7px; padding:5px 8px; color:#ffd740; font-size:10.5px; font-weight:800;" />
+          <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng tráo trở, sống thiếu chữ tín" placeholder="Tội lỗi kẻ đó gây ra..." style="background:rgba(22,4,3,0.95); border:1px solid rgba(255,82,82,0.75); border-radius:7px; padding:5px 8px; color:#fff; font-size:10.2px;" />
+        </div>
+
+        <!-- CẤP ĐỘ 1 (MẮNG CÀ KHỊA) & CẤP ĐỘ 2 (CHỬI THẬM TỆ XỐI XẢ) -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:5px;">
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#bf360c); font-size:9.8px; padding:5px 4px; border:1px solid #ffd54f;" onclick="triggerKarmaScoldVoice('mang_khia')">
+            😏🔊 Mắng Cà Khịa (-10💎)
+          </button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#f57f17,#e65100); font-size:9.8px; padding:5px 4px; border:1px solid #ffe082;" onclick="triggerKarmaScoldVoice('mang_thang')">
+            🗣️🔊 Mắng Thẳng Mặt (-12💎)
+          </button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#d50000,#7f0000); font-size:9.8px; padding:5px 4px; border:1px solid #ff8a80;" onclick="triggerKarmaScoldVoice('chui_tham_te')">
+            🤬🔊 Chửi Thậm Tệ (-25💎)
+          </button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#aa00ff,#4a0072); font-size:9.8px; padding:5px 4px; border:1px solid #ea80fc;" onclick="triggerKarmaScoldVoice('chui_nghiep_quat')">
+            ⚡🔊 Chửi Nghiệp Quật (-30💎)
+          </button>
+        </div>
+        <div style="display:grid; grid-template-columns:1.15fr 0.85fr; gap:5px; margin-bottom:5px;">
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#ff1744,#880e4f); font-size:9.8px; padding:6px 4px; border:1.5px solid #ffd740;" onclick="triggerKarmaScoldVoice('chui_tan_oc')">
+            🌋🤬 Đại Nộ Chửi Tận Óc (-40💎)
+          </button>
+          <button class="btn-sk-submit" style="background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7; font-size:9.8px; padding:6px 4px;" onclick="triggerAbbotDharmaVoice()">
+            🧘‍♂️🔊 Sư Thầy Khai Thị Hạ Hỏa
+          </button>
+        </div>
+
+        <div id="karmaVoiceLiveText" style="background:rgba(18,4,2,0.95); border:1px dashed rgba(255,82,82,0.65); border-radius:7px; padding:4px 8px; font-size:9.8px; color:#ffe0b2; line-height:1.35;">
+          🗣️🤬 <b>Lời Voice Đang Phát:</b> Chạm thẳng vào <b>Người Bị Đấm To Ngang Màn Hình</b> ở trên để Đấm / Vả / Tát (-1💎/phát), hoặc bấm Mắng / Chửi!
+        </div>
+        <div id="abbotAdviceBox" style="display:none;"></div>
       </div>
     </div>
   </div>
@@ -1437,13 +1404,13 @@
 
         <div class="shop-card" style="border-color:#ff5252; background:rgba(76,12,8,0.96);">
           <div class="shop-item-head">
-            <img src="assets/vangma_mamdaydu.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ff5252;" alt="Heo Quay Da Giòn Nguyên Con" />
+            <img src="assets/le_heoquay.jpg" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1.5px solid #ff5252;" alt="Heo Quay Da Giòn Nguyên Con" />
             <div>
               <div class="shop-name">🐷 Heo Quay Nguyên Con (Mặn)</div>
               <div class="shop-desc">Dâng Đức Ông/Thần Tài · ⚠️ Đặt Ban Phật phạt -20💎!</div>
             </div>
           </div>
-          <button class="btn-redeem" style="background:linear-gradient(135deg,#c62828,#7f0000);" onclick="redeemOfferingItem('heo_quay', '🐷', 'Heo Quay Da Giòn Nguyên Con (Lễ Mặn)', 85, 'assets/vangma_mamdaydu.jpg', 0, 3, 'man')">🐷 Thỉnh Heo Quay (85 💎)</button>
+          <button class="btn-redeem" style="background:linear-gradient(135deg,#c62828,#7f0000);" onclick="redeemOfferingItem('heo_quay', '🐷', 'Heo Quay Da Giòn Nguyên Con (Lễ Mặn)', 85, 'assets/le_heoquay.jpg', 0, 3, 'man')">🐷 Thỉnh Heo Quay (85 💎)</button>
         </div>
 
         <!-- 3. Tiền Vàng & Vàng Mã (Dâng Đức Ông/Thần Tài & Hóa Vàng · Đặt lên Ban Phật bị phạt -15💎!) -->
@@ -2202,7 +2169,7 @@
 
     function selectAndHitWeapon(wType) {
       punchBagState.weapon = wType;
-      executeKarmaHit(220 + (Math.random() - 0.5) * 40, 68 + (Math.random() - 0.5) * 30);
+      executeKarmaHit(270 + (Math.random() - 0.5) * 140, 210 + (Math.random() - 0.5) * 90);
     }
 
     function hitKarmaCharacterCanvas(ev) {
@@ -2227,23 +2194,31 @@
         setTimeout(() => { punchBagState.hp = 100; updatePunchComboBadge(); }, 1200);
       }
 
-      punchBagState.shakeX = (Math.random() > 0.5 ? 1 : -1) * (12 + Math.random() * 10);
-      punchBagState.shakeY = -6 + Math.random() * 12;
-      punchBagState.tilt = (Math.random() - 0.5) * 0.75;
-      punchBagState.flashTimer = 6;
+      punchBagState.shakeX = (Math.random() > 0.5 ? 1 : -1) * (22 + Math.random() * 18);
+      punchBagState.shakeY = -12 + Math.random() * 24;
+      punchBagState.tilt = (Math.random() - 0.5) * 0.24;
+      punchBagState.flashTimer = 7;
       punchBagState.cryText = punchBeggingLines[punchBagState.combo % punchBeggingLines.length];
 
       const icons = {
-        punch: '🥊💥 ĐẤM! (-1💎)',
-        slipper: '🩴💥 VẢ DÉP! (-1💎)',
-        slap: '🖐️💥 TÁT! (-1💎)',
-        club: '🪵💥 PHANG! (-1💎)',
-        lightning: '⚡💥 SÉT QUẬT! (-1💎)'
+        punch: '🥊💥 BỐP! ĐẤM THẲNG MẶT! (-1💎)',
+        slipper: '🩴💥 CHÁT! VẢ DÉP TỔ ONG! (-1💎)',
+        slap: '🖐️💥 BỐP! TÁT LẬT MẶT! (-1💎)',
+        club: '🪵💥 BỤP! PHANG GẬY GỖ! (-1💎)',
+        lightning: '⚡💥 ĐÙNG! SÉT QUẬT Tơi Tả! (-1💎)'
+      };
+      const bigEmojis = {
+        punch: '🥊💥',
+        slipper: '🩴💥',
+        slap: '🖐️💥',
+        club: '🪵💥',
+        lightning: '⚡💥'
       };
       punchBagState.fxList.push({
         x: hitX,
         y: hitY,
         label: icons[wType] || '🥊💥 ĐẤM! (-1💎)',
+        bigEmoji: bigEmojis[wType] || '🥊💥',
         life: 1.0
       });
       if (punchBagState.fxList.length > 8) punchBagState.fxList.shift();
@@ -2264,14 +2239,14 @@
     function triggerAutoBeatdownCombo() {
       unlockAndStartAudio();
       const targetName = (document.getElementById('karmaTargetName')?.value || '').trim() || 'Kẻ Làm Sai';
-      appendMeritLog(`🥊💥 <b>[Xả Nghiệp Đấm · Vả · Tát] ${player.name}</b>: Tung liên hoàn 15 đòn đấm vả tát lên <b>${targetName}</b> (<b style="color:#ff5252;">Mỗi phát -1 💎 = -15 💎 Phước</b>)`);
+      appendMeritLog(`🥊💥 <b>[Phòng Sân Đấm Riêng] ${player.name}</b>: Tung liên hoàn 15 đòn đấm vả tát lên <b>${targetName}</b> (<b style="color:#ff5252;">Mỗi phát -1 💎 = -15 💎 Phước</b>)`);
 
       const weapons = ['punch', 'slipper', 'slap', 'club', 'lightning'];
       let step = 0;
       const timer = setInterval(() => {
         step++;
         punchBagState.weapon = weapons[step % weapons.length];
-        executeKarmaHit(220 + (Math.random() - 0.5) * 65, 65 + (Math.random() - 0.5) * 35, true);
+        executeKarmaHit(270 + (Math.random() - 0.5) * 180, 210 + (Math.random() - 0.5) * 110, true);
         if (step >= 15) {
           clearInterval(timer);
           punchBagState.hp = 0;
@@ -2296,137 +2271,171 @@
           const H = c.height;
           pctx.clearRect(0, 0, W, H);
 
-          // Nền võ đài xả nghiệp rực lửa
-          const bg = pctx.createRadialGradient(W * 0.5, H * 0.58, 10, W * 0.5, H * 0.58, W * 0.55);
-          bg.addColorStop(0, punchBagState.flashTimer > 0 ? 'rgba(255, 60, 0, 0.55)' : 'rgba(95, 14, 8, 0.85)');
-          bg.addColorStop(1, '#120303');
-          pctx.fillStyle = bg;
+          if (punchBagState.flashTimer > 0) punchBagState.flashTimer--;
+          punchBagState.shakeX *= 0.78;
+          punchBagState.shakeY *= 0.78;
+          punchBagState.tilt *= 0.80;
+
+          const targetName = (document.getElementById('karmaTargetName')?.value || 'Kẻ Hứa Lèo / Chây Ì Nợ').trim();
+
+          // Nền phòng Sân Đấm Võ Đài tối + ánh lửa
+          pctx.fillStyle = '#140303';
           pctx.fillRect(0, 0, W, H);
 
-          if (punchBagState.flashTimer > 0) punchBagState.flashTimer--;
-          punchBagState.shakeX *= 0.76;
-          punchBagState.shakeY *= 0.76;
-          punchBagState.tilt *= 0.78;
-
-          const targetName = (document.getElementById('karmaTargetName')?.value || 'Kẻ Hứa Lèo').trim();
-
-          // Thanh máu (HP Bar) của Hình Nhân
-          const barW = 160;
-          const barX = W - barW - 10;
-          const barY = 8;
-          pctx.fillStyle = 'rgba(0,0,0,0.75)';
-          pctx.strokeStyle = '#ffd54f';
-          pctx.lineWidth = 1.2;
-          pctx.fillRect(barX, barY, barW, 11);
-          pctx.strokeRect(barX, barY, barW, 11);
-          pctx.fillStyle = punchBagState.hp > 40 ? '#ff9100' : '#ff1744';
-          pctx.fillRect(barX + 1, barY + 1, Math.max(0, (barW - 2) * (punchBagState.hp / 100)), 9);
-
-          // Vẽ Hình Nhân Bị Đấm Đập ở giữa
-          const cx = W * 0.5 + punchBagState.shakeX;
-          const cy = H * 0.68 + punchBagState.shakeY;
-
+          // VẼ PHÒNG SÂN ĐẤM RIÊNG BIỆT VỚI NGƯỜI BỊ ĐẤM TO NGANG MÀN HÌNH!
           pctx.save();
-          pctx.translate(cx, cy);
-          const koAngle = punchBagState.hp <= 0 ? -Math.PI * 0.38 : punchBagState.tilt;
+          pctx.translate(W * 0.5 + punchBagState.shakeX, H * 0.52 + punchBagState.shakeY);
+          const koAngle = punchBagState.hp <= 0 ? -0.18 : punchBagState.tilt;
           pctx.rotate(koAngle);
+          const breatheScale = 1.0 + Math.sin(tick * 0.08) * 0.012 + (punchBagState.flashTimer > 0 ? 0.045 : 0);
+          pctx.scale(breatheScale, breatheScale);
 
-          // Bóng dưới chân
-          pctx.fillStyle = 'rgba(0,0,0,0.55)';
-          pctx.beginPath();
-          pctx.ellipse(0, 28, 34, 8, 0, 0, Math.PI * 2);
-          pctx.fill();
-
-          // Thân hình nhân (Áo xám rách te tua khi bị đập)
-          pctx.fillStyle = punchBagState.bruises > 5 ? '#4a1414' : '#37474f';
-          pctx.strokeStyle = '#ffab91';
-          pctx.lineWidth = 2;
-          pctx.beginPath();
-          pctx.roundRect(-20, -14, 40, 40, 10);
-          pctx.fill();
-          pctx.stroke();
-
-          // Hai tay giơ lên đỡ đòn
-          pctx.strokeStyle = '#ffccbc';
-          pctx.lineWidth = 5;
-          pctx.beginPath();
-          pctx.moveTo(-20, -4);
-          pctx.lineTo(-34, -18 + Math.sin(tick * 0.25) * 4);
-          pctx.moveTo(20, -4);
-          pctx.lineTo(34, -18 - Math.sin(tick * 0.25) * 4);
-          pctx.stroke();
-
-          // Đầu Hình Nhân + Biểu cảm sưng vù / băng cá nhân / sao quay quanh đầu
-          pctx.fillStyle = punchBagState.bruises > 3 ? '#ff8a80' : '#ffe0b2';
-          pctx.strokeStyle = '#ff5252';
-          pctx.lineWidth = 2;
-          pctx.beginPath();
-          pctx.arc(0, -32, 19, 0, Math.PI * 2);
-          pctx.fill();
-          pctx.stroke();
-
-          let faceEmoji = '😏';
-          if (punchBagState.hp <= 0) faceEmoji = '😵';
-          else if (punchBagState.bruises >= 6) faceEmoji = '🤕';
-          else if (punchBagState.bruises >= 2) faceEmoji = '😵‍💫';
-          pctx.font = '24px sans-serif';
-          pctx.textAlign = 'center';
-          pctx.textBaseline = 'middle';
-          pctx.fillText(faceEmoji, 0, -31);
-
-          // Sao choáng váng & băng cá nhân khi bị đấm
-          if (punchBagState.bruises > 0) {
-            pctx.font = '13px sans-serif';
-            const starAng = tick * 0.14;
-            pctx.fillText('💫', Math.cos(starAng) * 24, -50 + Math.sin(starAng) * 5);
-            if (punchBagState.bruises >= 3) pctx.fillText('🩹', 14, -42);
-            if (punchBagState.bruises >= 7) pctx.fillText('🦷', -18, -22);
+          if (images.sanDamRoom && images.sanDamRoom.complete && images.sanDamRoom.naturalWidth > 0) {
+            // Cắt lấy phần trung tâm Nhân Vật Bị Đấm To Ngang Màn Hình trong Phòng Võ Đài (9:16 -> 540x480)
+            const sw = images.sanDamRoom.naturalWidth;
+            const sh = images.sanDamRoom.naturalHeight;
+            pctx.drawImage(images.sanDamRoom, 0, sh * 0.06, sw, sh * 0.78, -W * 0.52, -H * 0.54, W * 1.04, H * 1.08);
+          } else {
+            const bg = pctx.createRadialGradient(0, 0, 20, 0, 0, W * 0.6);
+            bg.addColorStop(0, '#5f0e08');
+            bg.addColorStop(1, '#120303');
+            pctx.fillStyle = bg;
+            pctx.fillRect(-W * 0.5, -H * 0.5, W, H);
           }
 
-          // Bảng tên Hình Nhân gắn trước ngực
-          pctx.fillStyle = 'rgba(183, 28, 28, 0.95)';
+          // Hiệu ứng chớp đỏ mặt mũi khi trúng đòn Đấm / Vả / Tát
+          if (punchBagState.flashTimer > 0) {
+            pctx.fillStyle = `rgba(255, 23, 68, ${punchBagState.flashTimer * 0.055})`;
+            pctx.fillRect(-W * 0.52, -H * 0.54, W * 1.04, H * 1.08);
+          }
+
+          // Vẽ các vết sưng vù, băng cá nhân (🩹), sao quay cuồng (💫), răng bay (🦷) TO RÕ ngay trên mặt Người Bị Đấm!
+          if (punchBagState.bruises > 0) {
+            const starAng = tick * 0.14;
+            pctx.font = '34px sans-serif';
+            pctx.textAlign = 'center';
+            pctx.textBaseline = 'middle';
+            pctx.fillText('💫', Math.cos(starAng) * 85, -145 + Math.sin(starAng) * 18);
+            pctx.fillText('💫', Math.cos(starAng + Math.PI) * 85, -145 + Math.sin(starAng + Math.PI) * 18);
+
+            if (punchBagState.bruises >= 2) {
+              pctx.font = '36px sans-serif';
+              pctx.fillText('🩹', -52, -82);
+            }
+            if (punchBagState.bruises >= 4) {
+              pctx.font = '38px sans-serif';
+              pctx.fillText('🩹', 58, -68);
+              pctx.fillText('💢', -68, -125);
+            }
+            if (punchBagState.bruises >= 6) {
+              pctx.font = '40px sans-serif';
+              pctx.fillText('🤕', 0, -162);
+              pctx.fillText('🦷', 44, -22);
+            }
+          }
+
+          // BẢNG TÊN KẺ BỊ ĐẤM TO NGANG NGỰC (Cập nhật trực tiếp theo ô nhập tên!)
+          pctx.fillStyle = 'rgba(183, 28, 28, 0.94)';
           pctx.strokeStyle = '#ffd740';
-          pctx.lineWidth = 1.2;
+          pctx.lineWidth = 3;
           pctx.beginPath();
-          pctx.roundRect(-56, 4, 112, 17, 6);
+          pctx.roundRect(-185, 88, 370, 44, 12);
           pctx.fill();
           pctx.stroke();
-          pctx.font = 'bold 9.5px sans-serif';
-          pctx.fillStyle = '#fff';
-          pctx.fillText(`🎯 ${targetName.slice(0, 18)}`, 0, 13);
+
+          pctx.font = '900 18px sans-serif';
+          pctx.fillStyle = '#ffffff';
+          pctx.textAlign = 'center';
+          pctx.textBaseline = 'middle';
+          pctx.fillText(`🎯 ${targetName.slice(0, 26).toUpperCase()}`, 0, 110);
 
           pctx.restore();
 
-          // Bong bóng lời van xin của Hình Nhân ở góc trên
-          pctx.font = 'bold 10.5px sans-serif';
-          pctx.fillStyle = '#fff59d';
-          pctx.textAlign = 'left';
-          pctx.fillText(punchBagState.cryText.slice(0, 56), 10, 16);
+          // Thanh máu (HP Bar) lớn trên đỉnh Phòng Sân Đấm
+          const barW = W - 28;
+          const barX = 14;
+          const barY = 10;
+          pctx.fillStyle = 'rgba(0,0,0,0.82)';
+          pctx.strokeStyle = '#ffd54f';
+          pctx.lineWidth = 2;
+          pctx.beginPath();
+          pctx.roundRect(barX, barY, barW, 20, 8);
+          pctx.fill();
+          pctx.stroke();
 
-          // Hiệu ứng đòn đánh (🥊💥 BỐP! / 🩴 CHÁT! / ⚡ ĐÙNG!)
+          const hpRatio = Math.max(0, Math.min(1, punchBagState.hp / 100));
+          const hpGrad = pctx.createLinearGradient(barX, 0, barX + barW, 0);
+          hpGrad.addColorStop(0, '#ff1744');
+          hpGrad.addColorStop(0.5, '#ff9100');
+          hpGrad.addColorStop(1, '#00e676');
+          pctx.fillStyle = hpGrad;
+          pctx.beginPath();
+          pctx.roundRect(barX + 2, barY + 2, Math.max(0, (barW - 4) * hpRatio), 16, 6);
+          pctx.fill();
+
+          pctx.font = 'bold 11.5px sans-serif';
+          pctx.fillStyle = '#fff';
+          pctx.textAlign = 'center';
+          pctx.textBaseline = 'middle';
+          pctx.fillText(`🥊 MỤC TIÊU BỊ ĐẤM: ${targetName.slice(0, 22)} · HP: ${punchBagState.hp}% (Đã đấm ${punchBagState.combo} phát)`, W * 0.5, barY + 10);
+
+          // Bong bóng lời van xin khóc lóc của Kẻ Bị Đấm
+          pctx.fillStyle = 'rgba(20, 4, 4, 0.90)';
+          pctx.strokeStyle = '#ff8a80';
+          pctx.lineWidth = 1.8;
+          pctx.beginPath();
+          pctx.roundRect(14, 36, W - 28, 30, 10);
+          pctx.fill();
+          pctx.stroke();
+
+          pctx.font = 'bold 12.5px sans-serif';
+          pctx.fillStyle = '#fff59d';
+          pctx.textAlign = 'center';
+          pctx.textBaseline = 'middle';
+          pctx.fillText(punchBagState.cryText.slice(0, 58), W * 0.5, 51);
+
+          // Hiệu ứng Vũ Khí Đấm · Vả Dép · Tát · Phang Gậy · Giật Sét TO NỔ TUNG TRÊN MẶT KẺ BỊ ĐẤM!
           for (let i = punchBagState.fxList.length - 1; i >= 0; i--) {
             const fx = punchBagState.fxList[i];
-            fx.life -= 0.045;
-            fx.y -= 0.9;
+            fx.life -= 0.042;
+            fx.y -= 1.2;
             if (fx.life <= 0) {
               punchBagState.fxList.splice(i, 1);
               continue;
             }
             pctx.save();
-            pctx.globalAlpha = Math.min(1, fx.life * 1.4);
-            pctx.font = 'bold 15px sans-serif';
-            pctx.fillStyle = '#ffd740';
-            pctx.shadowColor = '#d50000';
-            pctx.shadowBlur = 6;
+            pctx.globalAlpha = Math.min(1, fx.life * 1.5);
+            const popScale = 0.85 + (1.0 - fx.life) * 0.55;
+            pctx.translate(fx.x, fx.y);
+            pctx.scale(popScale, popScale);
+
+            pctx.font = '56px sans-serif';
             pctx.textAlign = 'center';
-            pctx.fillText(fx.label, fx.x, fx.y);
+            pctx.textBaseline = 'middle';
+            pctx.fillText(fx.bigEmoji || '🥊💥', 0, -18);
+
+            pctx.fillStyle = 'rgba(183, 28, 28, 0.92)';
+            pctx.strokeStyle = '#ffd740';
+            pctx.lineWidth = 2;
+            pctx.beginPath();
+            pctx.roundRect(-130, 12, 260, 26, 8);
+            pctx.fill();
+            pctx.stroke();
+
+            pctx.font = '900 13.5px sans-serif';
+            pctx.fillStyle = '#ffd740';
+            pctx.fillText(fx.label, 0, 25);
             pctx.restore();
           }
 
-          pctx.font = 'bold 9.8px sans-serif';
+          // Thanh hướng dẫn chân phòng đấm
+          pctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
+          pctx.fillRect(0, H - 24, W, 24);
+          pctx.font = 'bold 11.5px sans-serif';
           pctx.fillStyle = '#ffccbc';
           pctx.textAlign = 'center';
-          pctx.fillText('👆 Chạm liên tục vào Hình Nhân để Đấm · Vả Dép · Phang Gậy · Giật Sét trút giận!', W * 0.5, H - 6);
+          pctx.textBaseline = 'middle';
+          pctx.fillText('👆 CHẠM TRỰC TIẾP VÀO MẶT NGƯỜI BỊ ĐẤM ĐỂ ĐẤM · VẢ DÉP · TÁT · PHANG GẬY!', W * 0.5, H - 12);
         }
         requestAnimationFrame(renderLoop);
       }
@@ -2970,12 +2979,14 @@
       vangLe10: new Image(),
       vangTienDola: new Image(),
       vangMamDayDu: new Image(),
+      leHeoQuay: new Image(),
       leHoaSen: new Image(),
       leNguQua: new Image(),
       leTraOan: new Image(),
       leDaiLe: new Image(),
       furnaceReal: new Image(),
-      luHuongReal: new Image()
+      luHuongReal: new Image(),
+      sanDamRoom: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
@@ -2988,12 +2999,14 @@
     images.vangLe10.src = 'assets/vangma_le10.png';
     images.vangTienDola.src = 'assets/vangma_tiendola.png';
     images.vangMamDayDu.src = 'assets/vangma_mamdaydu.png';
+    images.leHeoQuay.src = 'assets/le_heoquay.png';
     images.leHoaSen.src = 'assets/le_hoasen.png';
     images.leNguQua.src = 'assets/le_nguqua.png';
     images.leTraOan.src = 'assets/le_traoan.png';
     images.leDaiLe.src = 'assets/le_daile.png';
     images.furnaceReal.src = 'assets/furnace_real.jpg';
     images.luHuongReal.src = 'assets/lu_huong_3nen.jpg';
+    images.sanDamRoom.src = 'assets/san_dam_room.jpg';
 
     const urlParams = new URLSearchParams(window.location.search);
     let currentZone = urlParams.get('zone') || 'tambao';
@@ -3306,10 +3319,12 @@
         return;
       } else if (centerStageMode === 'bow') {
         playMoSound();
-        player.state = 'bow';
-        player.bowTimer = 95;
-        player.chat = `🙇 ${player.name} chí thành đảnh lễ Tam Bảo!`;
-        player.chatTimer = 150;
+        player.state = 'bow_cycle';
+        player.bowTimer = 320;
+        player.vaiTimer = 0;
+        player.bowCycleTick = 0;
+        player.chat = `🙇 ${player.name} chí thành đứng lên quỳ xuống đảnh lễ Tam Bảo liên tục!`;
+        player.chatTimer = 180;
         broadcastMyPresence();
         const chance = 0.15 * meritRateMultiplier;
         const pctLabel = Math.round(chance * 100);
@@ -3322,25 +3337,26 @@
           if (rollBanner) {
             rollBanner.style.color = '#69f0ae';
             rollBanner.style.borderColor = '#69f0ae';
-            rollBanner.innerHTML = `✨🙇 <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> <b>${player.name}</b> quỳ lạy chí thành — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
+            rollBanner.innerHTML = `✨🙇 <b>TRÚNG XÁC SUẤT ${pctLabel}%${buffSuffix}!</b> <b>${player.name}</b> đứng lên quỳ xuống lạy chí thành — Kết tụ <b>+${pts} 💎 Phước Đức</b>!`;
           }
           appendMeritLog(`✨🙇 <b>${player.name}</b>: Quỳ Lạy Tam Bảo trúng xác suất ${pctLabel}%${buffSuffix} (+${pts} 💎 Phước Đức)`);
         } else {
           earned = 0;
-          hitMsg = `🙇 Chí thành quỳ lạy... (Xác suất ${pctLabel}%${buffSuffix})`;
+          hitMsg = `🙇 Đứng lên quỳ xuống lạy liên tục... (Xác suất ${pctLabel}%${buffSuffix})`;
           hitColor = '#ffe082';
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🙇 <i>${player.name} đang cúi đầu đảnh lễ Tam Bảo... (Xác suất ${pctLabel}%/lạy nhận +${pts} 💎 Phước Đức${buffSuffix})</i>`;
+            rollBanner.innerHTML = `🙇 <i>${player.name} đang đứng lên quỳ xuống đảnh lễ Tam Bảo... (Xác suất ${pctLabel}%/lạy nhận +${pts} 💎 Phước Đức${buffSuffix})</i>`;
           }
         }
       } else if (centerStageMode === 'pray') {
         playBellSound();
-        player.state = 'bow';
-        player.bowTimer = 85;
-        player.chat = `🙏 ${player.name} chắp tay vái khấn nguyện cầu bình an, đạt KPI!`;
-        player.chatTimer = 150;
+        player.state = 'vai';
+        player.vaiTimer = 300;
+        player.bowTimer = 0;
+        player.chat = `🙏 ${player.name} đứng thẳng chắp tay cúi vái khấn nguyện cầu bình an, đạt KPI!`;
+        player.chatTimer = 180;
         broadcastMyPresence();
         const chance = 0.15 * meritRateMultiplier;
         const pctLabel = Math.round(chance * 100);
@@ -4527,11 +4543,11 @@
       if (badge) badge.textContent = `Quỹ Chùa: ${totalTempleBuildCongDuc}🏛️`;
     }
 
-    // MÂM LỄ TRÊN BÀN THỜ CÓ LÚC ĐẶT LỄ · LÚC HẠ LỄ LIÊN TỤC · RÕ TÊN NGƯỜI ĐẶT LỄ & CẦU GÌ!
+    // MÂM LỄ TRÊN BÀN THỜ CÓ LÚC ĐẶT LỄ · LÚC HẠ LỄ LIÊN TỤC · RÕ TÊN NGƯỜI ĐẶT LỄ & CẦU GÌ & 100% KHỚP HÌNH ẢNH THẬT!
     // Ban Tam Bảo (wing=0) CHỈ bày Lễ Chay thanh tịnh!
     const altarOfferings = {
       '-1': [
-        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu giữ kho Tấm Ốp an toàn, đạt 15 tỷ', remainSec: 52, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu giữ kho Tấm Ốp an toàn, đạt 15 tỷ', remainSec: 52, imgKey: 'leHeoQuay', imgSrc: 'assets/le_heoquay.jpg' },
         { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Chị Ngọc Anh (KTS)', wish: 'Cầu thu hồi nợ vật tư 300tr êm đẹp', remainSec: 38, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
         { icon: '🍎', label: 'Mâm Ngũ Quả', fullName: 'Mâm Ngũ Quả Phật Thủ Chuối Bưởi', giver: 'Sale Minh Anh', wish: 'Cầu xuất 3 xe Tấm Nano bù đủ KPI', remainSec: 64, imgKey: 'leNguQua', imgSrc: 'assets/le_nguqua.jpg' },
         { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ Truyền Thống', giver: 'Chị Phương (Đại Lý)', wish: 'Cầu xuất kho Trần Nhôm 130 thuận lợi', remainSec: 27, imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' }
@@ -4543,7 +4559,7 @@
         { icon: '👑', label: 'Đại Lễ Cỗ Chay', fullName: 'Đại Lễ Cỗ Chay Bát Trân Thượng Phẩm', giver: 'Chị Thu Trang (Đại Lý)', wish: 'Cầu đại lý Tấm Ốp Hải Phòng bình an', remainSec: 75, imgKey: 'leDaiLe', imgSrc: 'assets/le_daile.jpg' }
       ],
       '1':  [
-        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu bùng nổ doanh số Tấm Ốp 15 tỷ', remainSec: 58, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Sếp Thành', wish: 'Cầu bùng nổ doanh số Tấm Ốp 15 tỷ', remainSec: 58, imgKey: 'leHeoQuay', imgSrc: 'assets/le_heoquay.jpg' },
         { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Mâm Gà Luộc Ngậm Hoa Hồng & Xôi Gấc', giver: 'Anh Đức Đoàn (Cai Thầu)', wish: 'Cầu trúng thầu ốp 5 căn biệt phủ', remainSec: 41, imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
         { icon: '💵', label: 'Tiền Vàng 500k', fullName: 'Mâm Tiền Vàng Mã 500k & Đĩnh Vàng', giver: 'Cô Mai Lan (Showroom)', wish: 'Cầu khách cọc đơn Lam Sóng chiều nay', remainSec: 29, imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' },
         { icon: '💴', label: 'Tháp Vàng Mã', fullName: 'Tháp Vàng Mã Sen Đỏ 10 Lễ', giver: 'Sale Bích Thủy', wish: 'Cầu vượt KPI Trần Nhôm 1 tỷ 200tr', remainSec: 67, imgKey: 'vangLe10', imgSrc: 'assets/vangma_le10.jpg' }
@@ -4561,12 +4577,12 @@
         { icon: '👑', label: 'Cỗ Chay Bát Trân', fullName: 'Đại Lễ Cỗ Chay Bát Trân', giver: 'Chị Thu Trang (Đại Lý)', wish: 'Cầu showroom nội thất thuận hòa phát đạt', imgKey: 'leDaiLe', imgSrc: 'assets/le_daile.jpg' }
       ],
       '-1': [
-        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Chị Ngọc Anh (KTS)', wish: 'Cầu đòi được nợ vật tư 250tr chiều nay', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Chị Ngọc Anh (KTS)', wish: 'Cầu đòi được nợ vật tư 250tr chiều nay', imgKey: 'leHeoQuay', imgSrc: 'assets/le_heoquay.jpg' },
         { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Sale Minh Anh', wish: 'Cầu xuất kho Tấm Nano bù đủ 120tr KPI', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
         { icon: '🧧', label: 'Đinh Vàng Lá', fullName: 'Đinh Tiền Vàng Lá Đỏ', giver: 'Chị Phương (Đại Lý)', wish: 'Cầu giữ kho vững bền, xuất Trần Nhôm lớn', imgKey: 'vangDinh', imgSrc: 'assets/vangma_dinh.jpg' }
       ],
       '1': [
-        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Anh Đức Đoàn (Cai Thầu)', wish: 'Cầu trúng hợp đồng ốp biệt phủ Tấm Nano', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
+        { icon: '🐷', label: 'Heo Quay Giòn', fullName: 'Heo Quay Da Giòn Nguyên Con', giver: 'Anh Đức Đoàn (Cai Thầu)', wish: 'Cầu trúng hợp đồng ốp biệt phủ Tấm Nano', imgKey: 'leHeoQuay', imgSrc: 'assets/le_heoquay.jpg' },
         { icon: '🐓', label: 'Xôi Gà Ngậm Hoa', fullName: 'Xôi Gà Luộc Ngậm Hoa Hồng', giver: 'Cô Mai Lan (Showroom)', wish: 'Cầu khách ting ting cọc Lam Sóng ngay', imgKey: 'vangMamDayDu', imgSrc: 'assets/vangma_mamdaydu.jpg' },
         { icon: '💵', label: 'Tiền Vàng 500k', fullName: 'Mâm Tiền Vàng Mã 500k', giver: 'Sale Huế', wish: 'Cầu đạt mục tiêu xuất kho 900 triệu quý này', imgKey: 'vangTienDola', imgSrc: 'assets/vangma_tiendola.jpg' }
       ]
@@ -4586,6 +4602,7 @@
                 maxTimer: 115,
                 wing: Number(wKey),
                 icon: finished.icon,
+                imgKey: finished.imgKey,
                 name: finished.fullName || finished.label,
                 giver: finished.giver,
                 wish: finished.wish || 'Thụ lộc bình an'
@@ -4607,6 +4624,7 @@
                   maxTimer: 115,
                   wing: Number(wKey),
                   icon: nextOff.icon,
+                  imgKey: nextOff.imgKey,
                   name: nextOff.fullName,
                   giver: nextOff.giver,
                   wish: nextOff.wish
@@ -4634,6 +4652,7 @@
         maxTimer: 125,
         wing: player.wing,
         icon: item.icon,
+        imgKey: item.imgKey,
         name: item.fullName || item.label,
         giver: item.giver,
         wish: item.wish || 'Thụ lộc cát tường'
@@ -4748,6 +4767,7 @@
 
     function resolveImgKeyFromSrc(imgSrc) {
       if (!imgSrc) return 'vangDinh';
+      if (imgSrc.includes('le_heoquay')) return 'leHeoQuay';
       if (imgSrc.includes('vangma_dinh')) return 'vangDinh';
       if (imgSrc.includes('vangma_le10')) return 'vangLe10';
       if (imgSrc.includes('vangma_tiendola')) return 'vangTienDola';
@@ -4842,6 +4862,7 @@
         maxTimer: 140,
         wing: player.wing,
         icon,
+        imgKey,
         name: itemName,
         giver: player.name,
         wish: userWish
@@ -5871,31 +5892,36 @@
         ctx.strokeStyle = '#ffd740';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(-114, -28, 228, 56, 14);
+        ctx.roundRect(-118, -30, 236, 60, 14);
         ctx.fill();
         ctx.stroke();
 
-        ctx.font = '24px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(offeringCeremony.icon, -86, 0);
+        const offTex = offeringCeremony.imgKey ? images[offeringCeremony.imgKey] : null;
+        if (offTex && offTex.complete && offTex.naturalWidth > 0) {
+          ctx.drawImage(offTex, -110, -24, 48, 48);
+        } else {
+          ctx.font = '24px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(offeringCeremony.icon, -86, 0);
+        }
 
         ctx.font = 'bold 9.8px sans-serif';
         ctx.fillStyle = '#69f0ae';
         ctx.textAlign = 'left';
-        ctx.fillText(`📥 ĐẶT LỄ: ${(offeringCeremony.name || '').slice(0, 22)}`, -62, -13);
+        ctx.fillText(`📥 ĐẶT LỄ: ${(offeringCeremony.name || '').slice(0, 22)}`, -56, -13);
         ctx.font = 'bold 9.8px sans-serif';
         ctx.fillStyle = '#80d8ff';
-        ctx.fillText(`👤 Người đặt: ${offeringCeremony.giver || player.name}`, -62, 1);
+        ctx.fillText(`👤 Người đặt: ${offeringCeremony.giver || player.name}`, -56, 1);
         ctx.font = 'bold 9.4px sans-serif';
         ctx.fillStyle = '#ffe082';
-        ctx.fillText(`🙏 Cầu: ${(offeringCeremony.wish || 'Đạt KPI & bình an').slice(0, 24)}`, -62, 15);
+        ctx.fillText(`🙏 Cầu: ${(offeringCeremony.wish || 'Đạt KPI & bình an').slice(0, 24)}`, -56, 15);
         ctx.restore();
 
         if (offeringCeremony.timer === 0) offeringCeremony.active = false;
       }
 
-      // 📤 HẠ LỄ THỤ LỘC TỪ BÀN THỜ (Hiển thị rõ Tên Người Hạ Lễ & Lời Cầu Đã Chứng Giám)
+      // 📤 HẠ LỄ THỤ LỘC TỪ BÀN THỜ (Hiển thị rõ Tên Người Hạ Lễ & Lời Cầu Đã Chứng Giám & Hình Ảnh Khớp 100%)
       if (takeDownCeremony && takeDownCeremony.active && takeDownCeremony.timer > 0) {
         takeDownCeremony.timer--;
         const prog = 1.0 - (takeDownCeremony.timer / takeDownCeremony.maxTimer);
@@ -5917,25 +5943,30 @@
         ctx.strokeStyle = '#69f0ae';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(-114, -26, 228, 52, 14);
+        ctx.roundRect(-118, -28, 236, 56, 14);
         ctx.fill();
         ctx.stroke();
 
-        ctx.font = '23px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(takeDownCeremony.icon || '📤', -86, 0);
+        const tdTex = takeDownCeremony.imgKey ? images[takeDownCeremony.imgKey] : null;
+        if (tdTex && tdTex.complete && tdTex.naturalWidth > 0) {
+          ctx.drawImage(tdTex, -110, -23, 46, 46);
+        } else {
+          ctx.font = '23px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(takeDownCeremony.icon || '📤', -86, 0);
+        }
 
         ctx.font = 'bold 9.8px sans-serif';
         ctx.fillStyle = '#69f0ae';
         ctx.textAlign = 'left';
-        ctx.fillText(`📤 HẠ LỄ THỤ LỘC: ${(takeDownCeremony.name || '').slice(0, 18)}`, -62, -11);
+        ctx.fillText(`📤 HẠ LỄ THỤ LỘC: ${(takeDownCeremony.name || '').slice(0, 18)}`, -56, -11);
         ctx.font = 'bold 9.5px sans-serif';
         ctx.fillStyle = '#fff';
-        ctx.fillText(`👤 Của: ${takeDownCeremony.giver || player.name}`, -62, 2);
+        ctx.fillText(`👤 Của: ${takeDownCeremony.giver || player.name}`, -56, 2);
         ctx.font = 'bold 9.2px sans-serif';
         ctx.fillStyle = '#ffd54f';
-        ctx.fillText(`🙏 Đã chứng: ${(takeDownCeremony.wish || 'Đắc lộc bình an').slice(0, 22)}`, -62, 15);
+        ctx.fillText(`🙏 Đã chứng: ${(takeDownCeremony.wish || 'Đắc lộc bình an').slice(0, 22)}`, -56, 15);
         ctx.restore();
 
         if (takeDownCeremony.timer === 0) takeDownCeremony.active = false;
@@ -6585,7 +6616,7 @@
     if (location.search.includes('taboo=1')) {
       setTimeout(() => {
         toggleHallOfferingStrip(true);
-        redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/vangma_mamdaydu.jpg',0,2,'man');
+        redeemOfferingItem('heo_quay','🐷','Heo Quay Nguyên Con (Lễ Mặn)',85,'assets/le_heoquay.jpg',0,2,'man');
       }, 90);
     }
     if (location.search.includes('npcbar=1')) {
@@ -6597,7 +6628,7 @@
     if (location.search.includes('karma=1')) {
       setTimeout(() => {
         openKarmaReleaseModal();
-        executeKarmaHit(145, 62);
+        executeKarmaHit(270, 200);
         setTimeout(() => selectAndHitWeapon('slipper'), 70);
         setTimeout(() => selectAndHitWeapon('slap'), 140);
       }, 100);
