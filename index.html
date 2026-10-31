@@ -8638,8 +8638,8 @@
       ctx.save();
       const isNarrowMobile = window.innerWidth <= 520;
       ctx.font = isNarrowMobile ? '600 9.8px system-ui, -apple-system, sans-serif' : '600 11px system-ui, -apple-system, sans-serif';
-      const maxLinePx = isNarrowMobile ? Math.min(168, Math.floor(window.innerWidth * 0.44)) : Math.min(285, window.innerWidth - 32);
-      const maxBubbleLines = isNarrowMobile ? 3 : 4;
+      const maxLinePx = isNarrowMobile ? Math.min(210, Math.floor(window.innerWidth * 0.55)) : Math.min(285, window.innerWidth - 32);
+      const maxBubbleLines = 6;
       const rawText = String(text).replace(/\s+/g, ' ').trim();
       const words = rawText.split(' ');
       const lines = [];
@@ -10743,6 +10743,14 @@
         } else if (dm === "click_npc_menu") {
           const tNpc = visitingGuests.find(g => g.wing === player.wing && g.waitOutsideTimer === 0) || visitingGuests[0];
           if (tNpc) openNpcInteractChoiceMenu(tNpc);
+        } else if (dm === "v72_bow") {
+          performDirectHallAction("bow");
+        } else if (dm === "v72_abbot") {
+          donateTempleMeritCongDuc();
+          openFortuneStickModal('xam');
+          setTimeout(() => {
+            if (typeof drawFortuneStickNow === 'function') drawFortuneStickNow();
+          }, 150);
         }
       }, 300);
     });
