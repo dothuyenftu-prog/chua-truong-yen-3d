@@ -4165,7 +4165,7 @@
           liveBox.innerHTML = `${prefixHtml} <span style="color:#ffeb3b;font-size:10px;">(Đoạn ${idx}/${chunks.length})</span><br/><span style="color:#fff;font-weight:800;">"${part}"</span>`;
         }
         player.chat = part;
-        player.chatTimer = 115; // Giữ lời nói 1.8s - 2s rõ ràng rồi tự tắt (#mvwcw2aw6p)
+        player.chatTimer = 180; // Giữ lời nói 3.0s thực tế (chuẩn 60Hz/120Hz) rồi tự tắt (#mvwe9kpj6t)
         if (voiceStyle === 'scold_fierce') {
           playMoSound();
           setTimeout(playMoSound, 110);
@@ -4186,7 +4186,7 @@
           ttsEl.playbackRate = 1.0;
         }
         ttsEl.onended = () => {
-          player.chatTimer = 105; // Giữ lại ~1.75s sau khi nói xong rồi mới tắt (#mvwcw2aw6p)
+          player.chatTimer = 165; // Giữ lại ~2.75s thực tế sau khi nói xong rồi mới tắt (#mvwe9kpj6t)
           setTimeout(nextChunk, voiceStyle === 'scold_fierce' ? 75 : 180);
         };
         ttsEl.onerror = () => {
@@ -6360,11 +6360,12 @@
         targetV: 0.66,
         state: 'kneel',
         phase: 'praying',
-        phaseTick: 160,
+        phaseTick: 360,
         bowTimer: 50,
         sentenceIdx: 0,
         chat: ROLE_SPEECH_DB.sale[0],
-        chatTimer: 105,
+        chatTimer: 180,
+        pendingSpeech: false,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -6381,11 +6382,12 @@
         targetV: 0.68,
         state: 'kneel',
         phase: 'praying',
-        phaseTick: 210,
+        phaseTick: 480,
         bowTimer: 40,
         sentenceIdx: 1,
         chat: ROLE_SPEECH_DB.kho[0],
-        chatTimer: 110,
+        chatTimer: 0,
+        pendingSpeech: true,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -6402,11 +6404,12 @@
         targetV: 0.66,
         state: 'kneel',
         phase: 'praying',
-        phaseTick: 180,
+        phaseTick: 360,
         bowTimer: 50,
         sentenceIdx: 0,
         chat: ROLE_SPEECH_DB.ketoan[0],
-        chatTimer: 105,
+        chatTimer: 180,
+        pendingSpeech: false,
         pauseTimer: 0,
         waitOutsideTimer: 0
       },
@@ -6423,11 +6426,12 @@
         targetV: 0.68,
         state: 'kneel',
         phase: 'praying',
-        phaseTick: 200,
+        phaseTick: 480,
         bowTimer: 30,
         sentenceIdx: 1,
         chat: ROLE_SPEECH_DB.khach[1],
-        chatTimer: 105,
+        chatTimer: 0,
+        pendingSpeech: true,
         pauseTimer: 0,
         waitOutsideTimer: 0
       }
@@ -6847,7 +6851,7 @@
       } catch (err) {}
 
       player.chat = `🙏 ${player.name} đã đăng nhập vào Chánh Điện Chùa Trường Yến!`;
-      player.chatTimer = 110; // Giữ lời nói ~1.8s rồi tự tắt (#mvwcw2aw6p)
+      player.chatTimer = 180; // Giữ lời nói 3.0s thực tế rồi tự tắt (#mvwe9kpj6t)
       closeRenameCharModal();
       showToast(`🔑 Đã đăng nhập Tài Khoản "${player.name}" (Phước Đức: ${player.merit} 💎)!`);
       broadcastMyPresence();
@@ -7372,9 +7376,9 @@
         target.targetV = midV;
 
         player.chat = dlg.pLine;
-        player.chatTimer = 115;
+        player.chatTimer = 180;
         target.chat = dlg.tLine;
-        target.chatTimer = 115;
+        target.chatTimer = 180;
 
         activeMutualInteraction = {
           active: true,
@@ -7418,9 +7422,9 @@
         target.bowTimer = 0;
 
         player.chat = dlg.pLine;
-        player.chatTimer = 115;
+        player.chatTimer = 180;
         target.chat = dlg.tLine;
-        target.chatTimer = 115;
+        target.chatTimer = 180;
 
         activeMutualInteraction = {
           active: true,
@@ -7467,9 +7471,9 @@
         target.bowCycleTick = 20;
 
         player.chat = dlg.pLine;
-        player.chatTimer = 115;
+        player.chatTimer = 180;
         target.chat = dlg.tLine;
-        target.chatTimer = 115;
+        target.chatTimer = 180;
 
         activeMutualInteraction = {
           active: true,
@@ -7498,9 +7502,9 @@
       target.targetV = midV;
 
       player.chat = dlg.pLine;
-      player.chatTimer = 115;
+      player.chatTimer = 180;
       target.chat = dlg.tLine;
-      target.chatTimer = 115;
+      target.chatTimer = 180;
 
       activeMutualInteraction = {
         active: true,
@@ -7528,11 +7532,11 @@
       toggleNpcInteractBar(false);
 
       player.chat = `💬 [${player.name} ➔ ${target.name}]: "${txt}"`;
-      player.chatTimer = 115;
+      player.chatTimer = 180;
       const reply = pickRandomSpeechForChar(target.name, player.wing);
       setTimeout(() => {
         target.chat = reply;
-        target.chatTimer = 120;
+        target.chatTimer = 180;
         playMoSound();
       }, 280);
       showToast(`💬 Đã gửi lời nói tới ${target.name}!`);
@@ -8441,7 +8445,7 @@
         if (data.state) existing.state = data.state;
         if (data.text || data.chat) {
           existing.chat = (data.text || data.chat).slice(0, 60);
-          existing.chatTimer = 110; // Giữ lời nói ~1.8s rồi tự tắt (#mvwcw2aw6p)
+          existing.chatTimer = 180; // Giữ lời nói 3.0s thực tế rồi tự tắt (#mvwe9kpj6t)
         }
         if (data.ritual === 'bow') {
           existing.state = 'bow_cycle';
@@ -9127,6 +9131,9 @@
     }
 
     function render() {
+      const nowFrameMs = performance.now();
+      const dt60 = Math.min(1.5, Math.max(0.25, (nowFrameMs - (window._lastRenderFrameMs || (nowFrameMs - 16.667))) / 16.667));
+      window._lastRenderFrameMs = nowFrameMs;
       frameCount++;
       // Khi đang mở Phòng Đốt Vàng Mã, Sân Đấm, Sớ Khấn hoặc Cửa Hàng, tạm dừng vẽ canvas 3D nền để chạy siêu mượt 60FPS không lag!
       if (isAnyOverlayModalOpen()) {
@@ -9137,8 +9144,8 @@
       const H = window.innerHeight;
 
       if (holdDir.dx !== 0 || holdDir.dy !== 0) {
-        player.targetU += holdDir.dx * 0.0115;
-        player.targetV = Math.max(0.56, Math.min(0.93, player.targetV + holdDir.dy * 0.0095));
+        player.targetU += holdDir.dx * 0.0115 * dt60;
+        player.targetV = Math.max(0.56, Math.min(0.93, player.targetV + holdDir.dy * 0.0095 * dt60));
         player.state = 'walk';
         player.bowTimer = 0;
         player.vaiTimer = 0;
@@ -9148,8 +9155,8 @@
       const du = player.targetU - player.u;
       const dv = player.targetV - player.v;
       if (Math.hypot(du, dv) > 0.002) {
-        player.u += du * 0.16;
-        player.v += dv * 0.16;
+        player.u += du * 0.16 * dt60;
+        player.v += dv * 0.16 * dt60;
       } else if (player.state === 'walk' && player.v < 0.62 && (!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
         player.state = 'kneel';
       }
@@ -9185,15 +9192,15 @@
       }
 
       if (player.vaiTimer && player.vaiTimer > 0) {
-        player.vaiTimer--;
+        player.vaiTimer = Math.max(0, player.vaiTimer - dt60);
         player.state = 'vai';
         if (player.vaiTimer === 0) player.state = 'walk';
       } else if (player.bowTimer > 0) {
-        player.bowTimer--;
-        player.bowCycleTick = (player.bowCycleTick || 0) + 1;
+        player.bowTimer = Math.max(0, player.bowTimer - dt60);
+        player.bowCycleTick = (player.bowCycleTick || 0) + dt60;
         if (player.bowTimer === 0) player.state = 'walk';
       }
-      if (player.chatTimer > 0) player.chatTimer--;
+      if (player.chatTimer > 0) player.chatTimer = Math.max(0, player.chatTimer - dt60);
 
       if (!isDragging) {
         targetWingX = player.wing;
@@ -9384,7 +9391,7 @@
           }
         }
         if (g.waitOutsideTimer > 0) {
-          g.waitOutsideTimer--;
+          g.waitOutsideTimer = Math.max(0, g.waitOutsideTimer - dt60);
           if (g.waitOutsideTimer === 0) {
             let nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
             nextVisitorPoolIdx++;
@@ -9407,6 +9414,7 @@
             g.state = 'walk';
             g.chat = '';
             g.chatTimer = 0;
+            g.pendingSpeech = false;
           }
           continue;
         }
@@ -9417,33 +9425,51 @@
 
         if (g.phase === 'entering') {
           if (dist > 0.008) {
-            g.u += gdu * 0.032;
-            g.v += gdv * 0.032;
+            g.u += gdu * 0.032 * dt60;
+            g.v += gdv * 0.032 * dt60;
             g.state = 'walk';
           } else {
             g.phase = 'praying';
             g.state = 'kneel';
-            g.phaseTick = 280; // Quỳ lễ ~4.6 giây rồi đi ra
+            g.phaseTick = 420; // Quỳ lễ ~7.0 giây thực tế
             g.bowTimer = 90;
             g.chat = pickRandomSpeechForChar(g.name, g.wing);
-            g.chatTimer = 108; // Giữ lời nói của nhân vật đúng ~1.8s (1-2s) rồi tự tắt (#mvwcw2aw6p)
+            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
+            if (otherSpeaking) {
+              g.chatTimer = 0;
+              g.pendingSpeech = true;
+            } else {
+              g.chatTimer = 180; // Giữ lời nói của nhân vật đúng 3.0 giây thực tế (kể cả màn 120Hz) rồi mới tắt (#mvwe9kpj6t)
+              g.pendingSpeech = false;
+            }
           }
         } else if (g.phase === 'praying') {
-          if (g.bowTimer > 0) g.bowTimer--;
-          if (g.chatTimer > 0) g.chatTimer--;
-          g.phaseTick--;
-          if (g.phaseTick <= 0) {
+          if (g.bowTimer > 0) g.bowTimer = Math.max(0, g.bowTimer - dt60);
+          if (g.pendingSpeech) {
+            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
+            if (!otherSpeaking) {
+              g.chat = g.chat || pickRandomSpeechForChar(g.name, g.wing);
+              g.chatTimer = 180; // Đến lượt nói: giữ 3.0 giây thực tế (#mvwe9kpj6t)
+              g.pendingSpeech = false;
+              g.phaseTick = Math.max(g.phaseTick, 240);
+            }
+          } else if (g.chatTimer > 0) {
+            g.chatTimer = Math.max(0, g.chatTimer - dt60);
+          }
+          g.phaseTick -= dt60;
+          if (g.phaseTick <= 0 && g.chatTimer <= 0) {
             g.phase = 'leaving';
             g.state = 'walk';
             g.chat = '';
             g.chatTimer = 0;
+            g.pendingSpeech = false;
             g.targetU = (g.u < 0.5) ? 0.08 : 0.92;
             g.targetV = 0.95;
           }
         } else if (g.phase === 'leaving') {
           if (dist > 0.012) {
-            g.u += gdu * 0.036;
-            g.v += gdv * 0.036;
+            g.u += gdu * 0.036 * dt60;
+            g.v += gdv * 0.036 * dt60;
             g.state = 'walk';
           } else {
             g.waitOutsideTimer = 55; // Nghỉ ~0.9s ngoài cửa rồi có khách vãng lai mới đi vào
@@ -9451,7 +9477,7 @@
         }
 
         if (g.vaiTimer && g.vaiTimer > 0) {
-          g.vaiTimer--;
+          g.vaiTimer = Math.max(0, g.vaiTimer - dt60);
           g.state = 'vai';
           if (g.vaiTimer === 0) g.state = (g.phase === 'praying') ? 'kneel' : 'walk';
         }
@@ -9466,11 +9492,11 @@
             delete onlineCompanyPeers[peerId];
             continue;
           }
-          if (typeof peer.targetU === 'number') peer.u += (peer.targetU - peer.u) * 0.15;
-          if (typeof peer.targetV === 'number') peer.v += (peer.targetV - peer.v) * 0.15;
-          if (peer.vaiTimer && peer.vaiTimer > 0) peer.vaiTimer--;
-          if (peer.bowTimer > 0) peer.bowTimer--;
-          if (peer.chatTimer > 0) peer.chatTimer--;
+          if (typeof peer.targetU === 'number') peer.u += (peer.targetU - peer.u) * 0.15 * dt60;
+          if (typeof peer.targetV === 'number') peer.v += (peer.targetV - peer.v) * 0.15 * dt60;
+          if (peer.vaiTimer && peer.vaiTimer > 0) peer.vaiTimer = Math.max(0, peer.vaiTimer - dt60);
+          if (peer.bowTimer > 0) peer.bowTimer = Math.max(0, peer.bowTimer - dt60);
+          if (peer.chatTimer > 0) peer.chatTimer = Math.max(0, peer.chatTimer - dt60);
           renderables.push({ type: 'online_peer', data: peer, v: peer.v });
         }
       }
@@ -9478,7 +9504,7 @@
       // CẬP NHẬT CHUYỂN ĐỘNG TƯƠNG TÁC ĐÔI (ĐẤM NHAU TÚI BỤI · XOAY NGƯỜI VÁI NHAU · XOAY NGƯỜI QUỲ LẠY NHAU)
       if (activeMutualInteraction && activeMutualInteraction.active) {
         const mi = activeMutualInteraction;
-        mi.timer--;
+        mi.timer -= dt60;
         const tgt = mi.target;
         if (holdDir.dx !== 0 || holdDir.dy !== 0 || !tgt || mi.timer <= 0) {
           activeMutualInteraction = null;
@@ -9752,10 +9778,7 @@
             // Khi đang có tương tác đôi (Đấm nhau / Vái nhau / Quỳ lạy nhau), ẩn bớt bóng thoại của NPC phụ xung quanh để không che khuất 2 nhân vật chính!
             if (activeMutualInteraction && activeMutualInteraction.active && !inMutual) {
               // Không vẽ bóng thoại phụ gây rối mắt lúc đang tương tác đôi
-            } else if (!isPlayer && !inMutual && W <= 560 && window._mobileNpcChatDrawnThisFrame) {
-              // Trên màn hình dọc điện thoại, chỉ hiển thị tối đa 1 bóng thoại NPC phụ cùng lúc để không đè chồng lên nhau!
             } else {
-              if (!isPlayer && !inMutual && W <= 560) window._mobileNpcChatDrawnThisFrame = true;
               const bubbleOffsetX = inMutual ? (isPlayer ? -Math.min(145, W * 0.24) : Math.min(145, W * 0.24)) : (W <= 560 && !isPlayer ? (sx < W * 0.5 ? -18 : 18) : 0);
               const bubbleOffsetY = inMutual ? -22 : -14;
               drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
@@ -9766,7 +9789,6 @@
           }
         }
       }
-      window._mobileNpcChatDrawnThisFrame = false;
       if (window._lastPlayerBadgePos && !(cameraPovMode === 'first')) {
         drawRoundedBadge(window._lastPlayerBadgePos.sx, window._lastPlayerBadgePos.headY, window._lastPlayerBadgePos.avatar, window._lastPlayerBadgePos.badgeLabel, true);
       }
