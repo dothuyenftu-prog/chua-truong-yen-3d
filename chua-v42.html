@@ -1836,12 +1836,12 @@
     }
 
     // 6 BÀI KHẤN CHUẨN CHỈNH — HIỂN THỊ & ĐỌC NGUYÊN VĂN ĐẦY ĐỦ 100% TỪ ĐẦU ĐẾN CUỐI (NAM ĐỌC GIỌNG NAM · NỮ ĐỌC GIỌNG NỮ!)
-    let soKhanVoiceGender = 'M';
+    var soKhanVoiceGender = 'M';
 
     function inferGenderFromName(nameStr, fallbackGender) {
-      const s = String(nameStr || '').toLowerCase();
-      if (s.includes('sếp thành') || s.includes('thế anh') || s.includes('đức đoàn') || s.includes('cư sĩ') || s.startsWith('anh ')) return 'M';
-      if (s.includes('minh anh') || s.includes('kiều trang') || s.includes('sale huế') || s.includes('bích thủy') || s.includes('ánh nguyệt') || s.includes('thu trang') || s.includes('mai lan') || s.includes('phật tử') || s.startsWith('chị ') || s.startsWith('cô ')) return 'F';
+      const s = String(nameStr || '').toLowerCase().trim();
+      if (s.includes('minh anh') || s.includes('kiều trang') || s.includes('huế') || s.includes('bích thủy') || s.includes('bích thuỷ') || s.includes('ánh nguyệt') || s.includes('thu trang') || s.includes('mai lan') || s.startsWith('sale ') || s.startsWith('chị ') || s.startsWith('cô ')) return 'F';
+      if (s.includes('sếp thành') || s.includes('thế anh') || s.includes('đức đoàn') || s.includes('anh phú') || s.includes('cư sĩ') || s.startsWith('anh ') || s.startsWith('chú ')) return 'M';
       return (fallbackGender === 'F') ? 'F' : 'M';
     }
 
@@ -2043,6 +2043,7 @@
       const s = String(nameStr || '').toLowerCase();
       if (s.includes('thế anh')) return 'the_anh';
       if (s.includes('đức đoàn')) return 'duc_doan';
+      if (s.includes('phú')) return 'anh_phu';
       if (s.includes('minh anh')) return 'minh_anh';
       if (s.includes('kiều trang')) return 'kieu_trang';
       if (s.includes('huế')) return 'sale_hue';
@@ -2051,7 +2052,7 @@
       if (s.includes('thu trang')) return 'thu_trang';
       if (s.includes('mai lan')) return 'mai_lan';
       if (s.includes('sếp thành') || s.includes('thành')) return 'sep_thanh';
-      return (gender === 'F') ? 'minh_anh' : 'sep_thanh';
+      return null;
     }
 
     function playFullSoKhanVoice(fullText, gender, fallbackMp3Url, onDoneCallback) {
@@ -2065,7 +2066,8 @@
       const topicIdx = cfg.idx || 1;
       const activeName = (currentCustomer && currentCustomer.name) ? currentCustomer.name : (player.name || 'Sếp Thành');
       const charSlug = resolveCharacterIntroSlug(activeName, g);
-      const introUrl = `audio/intro_${charSlug}.mp3?v=47`;
+      const introText = `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật cùng Chư Vị Tôn Thần. Hôm nay tín chủ con là ${activeName} tại Kho Trường Yến,`;
+      const introUrl = charSlug ? `audio/intro_${charSlug}.mp3?v=48` : (`https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=` + encodeURIComponent(introText));
       const bodyUrl = `audio/body_${topicIdx}_${g === 'F' ? 'nu' : 'nam'}.mp3?v=47`;
 
       // Phát nối tiếp: Phần 1 đọc ĐÚNG TÊN NHÂN VẬT (intro_<slug>.mp3) -> Phần 2 đọc ĐẦY ĐỦ NỘI DUNG BÀI KHẤN (body_<idx>_<nam|nu>.mp3)
@@ -3875,7 +3877,7 @@
         return;
       }
       player.name = e.target.value;
-      player.gender = (player.name.includes('Sếp') || player.name.includes('Anh')) ? 'M' : 'F';
+      player.gender = inferGenderFromName(player.name, 'F');
       player.avatar = player.name.includes('Sếp') ? '🧘‍♂️' : (player.gender === 'F' ? '🪷' : '🙏');
       try {
         localStorage.setItem('ty_custom_char_name', player.name);
@@ -3976,7 +3978,7 @@
       const skName = document.getElementById('skInputName');
       if (skName) {
         skName.value = raw;
-        if (typeof updatePetitionPreview === 'function') updatePetitionPreview();
+        if (typeof currentCustomer === 'object' && currentCustomer) { currentCustomer.name = raw; currentCustomer.voiceGender = player.gender; delete currentCustomer.fullText; } if (typeof updateLiveSoPreview === 'function') updateLiveSoPreview();
       }
 
       try {
