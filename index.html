@@ -919,7 +919,7 @@
     <!-- Cụm Góc Trái Gọn Gàng -->
     <div class="top-group">
       <select id="charSelect" class="top-select" title="Tài khoản đang đăng nhập của bạn (Gói gọn: Ai đăng nhập tài khoản nào chỉ hiện đúng tài khoản đó)">
-        <option id="customUserCharOption" value="Thành">👤 Thành · 💎 1.380 Phước</option>
+        <option id="customUserCharOption" value="Thành">👤 Thành</option>
         <option value="__custom__">🔑 Đổi / Đăng Nhập Tài Khoản Khác...</option>
       </select>
       <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đăng nhập Tài Khoản Riêng (Tên + Mã PIN 4 số), tạo nick mới hoặc đổi nhân vật">🔑 Tài Khoản</button>
@@ -6606,7 +6606,7 @@
       const myOpt = document.createElement('option');
       myOpt.id = 'customUserCharOption';
       myOpt.value = player.name;
-      myOpt.textContent = `👤 ${player.name} · 💎 ${(player.merit || 0).toLocaleString('vi-VN')} Phước`;
+      myOpt.textContent = `👤 ${player.name}`;
       sel.appendChild(myOpt);
 
       const switchOpt = document.createElement('option');
@@ -8664,12 +8664,65 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
+    const _origCanvasFillText = CanvasRenderingContext2D.prototype.fillText;
+    const _origCanvasMeasureText = CanvasRenderingContext2D.prototype.measureText;
+
     function sanitizeEmojiForCanvas(str) {
       return String(str || '')
         .replace(/\u200d[\u2640\u2642\u2695\u2696\u2708\u{1F300}-\u{1FAFF}]*\ufe0f?/gu, '')
-        .replace(/[\u200d\ufe0f\u{1F3FB}-\u{1F3FF}]/gu, '')
-        .trim();
+        .replace(/[\u200d\ufe0f\u{1F3FB}-\u{1F3FF}]/gu, '');
     }
+
+    function splitEmojiAndTextSegments(rawStr) {
+      const clean = sanitizeEmojiForCanvas(rawStr);
+      const re = /([\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+)/gu;
+      const parts = clean.split(re).filter(Boolean);
+      return parts.map(p => ({
+        text: p,
+        isEmoji: /^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]+$/u.test(p)
+      }));
+    }
+
+    // V73.1 (#mvwe8gl36q): Vá toàn cục lỗi CoreText trên iOS Safari / TikTok WebView
+    // Tự động tách các đoạn Emoji và đoạn chữ Tiếng Việt thành các lần vẽ textAlign='left' độc lập
+    // để không bao giờ bị lệch phải hoặc mất chữ cuối ("DÂNG 3 NÉN TÂM HƯƠ" -> "DÂNG 3 NÉN TÂM HƯƠNG")!
+    CanvasRenderingContext2D.prototype.measureText = function(text) {
+      const segs = splitEmojiAndTextSegments(text);
+      if (segs.length <= 1) {
+        return _origCanvasMeasureText.call(this, sanitizeEmojiForCanvas(text));
+      }
+      let totalW = 0;
+      for (const s of segs) {
+        totalW += _origCanvasMeasureText.call(this, s.text).width;
+      }
+      return { width: totalW };
+    };
+
+    CanvasRenderingContext2D.prototype.fillText = function(text, x, y, maxWidth) {
+      const clean = sanitizeEmojiForCanvas(text);
+      const segs = splitEmojiAndTextSegments(clean);
+      const prevAlign = this.textAlign || 'left';
+      if (segs.length <= 1 && prevAlign === 'left') {
+        return maxWidth !== undefined
+          ? _origCanvasFillText.call(this, clean, x, y, maxWidth)
+          : _origCanvasFillText.call(this, clean, x, y);
+      }
+      let totalW = 0;
+      const widths = segs.map(s => {
+        const w = _origCanvasMeasureText.call(this, s.text).width;
+        totalW += w;
+        return w;
+      });
+      let curX = x;
+      if (prevAlign === 'center') curX = x - totalW / 2;
+      else if (prevAlign === 'right' || prevAlign === 'end') curX = x - totalW;
+      this.textAlign = 'left';
+      for (let i = 0; i < segs.length; i++) {
+        _origCanvasFillText.call(this, segs[i].text, curX, y);
+        curX += widths[i];
+      }
+      this.textAlign = prevAlign;
+    };
 
     function drawRoundedBadge(x, y, avatar, name, isPlayer = false) {
       if (!isPlayer && (x < 12 || x > window.innerWidth - 12)) return;
@@ -8779,18 +8832,13 @@
       ctx.closePath();
       ctx.fill();
 
-      // Clip 100% bên trong khung hộp thoại để chữ KHÔNG BAO GIỜ tràn ra ngoài!
-      ctx.save();
-      ctx.beginPath();
-      ctx.roundRect(bx + 3, by + 2, boxW - 6, boxH - 4, 7);
-      ctx.clip();
+      // Chữ trong hộp thoại đã được tự động ngắt dòng & tách Emoji an toàn trên iOS
       ctx.fillStyle = '#fff5dc';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       lines.forEach((line, idx) => {
         ctx.fillText(line, textCenterX, by + 13 + idx * 16);
       });
-      ctx.restore();
       ctx.restore();
     }
 
@@ -9784,19 +9832,19 @@
         const targetX = wx + wingW * 0.50;
         const targetY = topScreenY + wingH * ((incenseCeremony.wing === 0) ? 0.392 : 0.415);
 
-        let curX = W * 0.5;
-        let curY = H * 0.66;
-        let scale = 1.0;
-        if (prog < 0.65) {
-          const bowCycle = Math.sin((prog / 0.65) * Math.PI * 3);
-          curY = H * 0.66 - Math.abs(bowCycle) * 32;
-          scale = 1.0;
-        } else {
-          const flyT = (prog - 0.65) / 0.35;
+        let curX = targetX;
+        let curY = targetY + 18;
+        let scale = 0.42;
+        if (prog < 0.55) {
+          const flyT = prog / 0.55;
           const ease = flyT * flyT * (3 - 2 * flyT);
-          curX = W * 0.5 + (targetX - W * 0.5) * ease;
-          curY = H * 0.66 + (targetY - H * 0.66) * ease;
-          scale = 1.0 - ease * 0.65;
+          curX = targetX;
+          curY = (targetY + 52) - ease * 50;
+          scale = 0.52 - ease * 0.14;
+        } else {
+          curX = targetX;
+          curY = targetY + 2;
+          scale = 0.38;
         }
 
         ctx.save();
@@ -9804,62 +9852,60 @@
         ctx.scale(scale, scale);
         for (const offset of [-1, 0, 1]) {
           ctx.save();
-          ctx.rotate(offset * 0.11);
+          ctx.rotate(offset * 0.09);
           ctx.strokeStyle = '#c91c1c';
-          ctx.lineWidth = 3.2;
+          ctx.lineWidth = 3.0;
           ctx.beginPath();
-          ctx.moveTo(0, 20);
-          ctx.lineTo(0, -15);
+          ctx.moveTo(0, 14);
+          ctx.lineTo(0, -10);
           ctx.stroke();
           ctx.strokeStyle = '#d8b374';
-          ctx.lineWidth = 3.8;
+          ctx.lineWidth = 3.4;
           ctx.beginPath();
-          ctx.moveTo(0, -15);
-          ctx.lineTo(0, -88);
+          ctx.moveTo(0, -10);
+          ctx.lineTo(0, -68);
           ctx.stroke();
           ctx.fillStyle = '#ff3b00';
           ctx.beginPath();
-          ctx.arc(0, -90, 5.0, 0, Math.PI * 2);
+          ctx.arc(0, -70, 4.5, 0, Math.PI * 2);
           ctx.fill();
           ctx.fillStyle = '#fff3a1';
           ctx.beginPath();
-          ctx.arc(0, -90, 2.2, 0, Math.PI * 2);
+          ctx.arc(0, -70, 2.0, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
         }
         ctx.restore();
 
-        // V63 (#mvw5crbq5t): Hiển thị nghi thức Dâng 3 Nén Tâm Hương trang nghiêm (Đo chiều rộng tự động + Clip chống tràn ô chữ)
+        // V73.1 (#mvwe8gl36q): Bảng nghi thức Dâng 3 Nén Tâm Hương gọn gàng phía trên Lư Hương, hiển thị trọn vẹn 100% chữ trên iOS!
         ctx.save();
-        const incLine1 = `♨️🙏 DÂNG 3 NÉN TÂM HƯƠNG CẮM VÀO LƯ HƯƠNG`;
-        const incLine2 = `👤 Tín chủ: ${incenseCeremony.giver || player.name} · Kính lễ ${incenseCeremony.zoneName || 'Tam Bảo'}`;
-        ctx.font = 'bold 10px system-ui, -apple-system, sans-serif';
-        const cardW = Math.min(W - 16, Math.max(276, Math.ceil(Math.max(ctx.measureText(incLine1).width, ctx.measureText(incLine2).width)) + 28));
-        const cardH = 44;
+        const incLine1 = `🙏 DÂNG 3 NÉN TÂM HƯƠNG LÊN LƯ HƯƠNG`;
+        const incLine2 = `Tín chủ: ${incenseCeremony.giver || player.name} · Kính lễ ${incenseCeremony.zoneName || 'Ban Tam Bảo'}`;
+        ctx.font = 'bold 10.2px system-ui, -apple-system, sans-serif';
+        const w1 = Math.ceil(ctx.measureText(incLine1).width);
+        ctx.font = 'bold 9.5px system-ui, -apple-system, sans-serif';
+        const w2 = Math.ceil(ctx.measureText(incLine2).width);
+        const cardW = Math.min(W - 16, Math.max(248, Math.max(w1, w2) + 32));
+        const cardH = 42;
         const cardX = W * 0.5;
-        const cardY = Math.min(H - 210, Math.max(H * 0.55, targetY + 125));
-        ctx.fillStyle = 'rgba(36, 14, 4, 0.95)';
+        const cardY = Math.max(76, Math.min(H * 0.48, targetY + 42));
+        ctx.fillStyle = 'rgba(36, 14, 4, 0.94)';
         ctx.strokeStyle = '#ffd54f';
-        ctx.lineWidth = 1.8;
+        ctx.lineWidth = 1.6;
         ctx.beginPath();
         ctx.roundRect(cardX - cardW / 2, cardY - cardH / 2, cardW, cardH, 12);
         ctx.fill();
         ctx.stroke();
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.roundRect(cardX - cardW / 2 + 3, cardY - cardH / 2 + 2, cardW - 6, cardH - 4, 10);
-        ctx.clip();
-        ctx.font = 'bold 10px system-ui, -apple-system, sans-serif';
+        ctx.font = 'bold 10.2px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#ffd740';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(incLine1, cardX, cardY - 8);
 
-        ctx.font = 'bold 9.3px system-ui, -apple-system, sans-serif';
+        ctx.font = 'bold 9.5px system-ui, -apple-system, sans-serif';
         ctx.fillStyle = '#ffe082';
         ctx.fillText(incLine2, cardX, cardY + 9);
-        ctx.restore();
         ctx.restore();
 
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
