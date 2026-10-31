@@ -862,51 +862,9 @@
   <div class="top-bar" style="flex-wrap:nowrap; align-items:flex-start; justify-content:space-between; pointer-events:none;">
     <!-- Cụm Góc Trái Gọn Gàng (Không bao giờ tràn ra giữa che mặt tượng Phật!) -->
     <div class="top-group" style="max-width:44vw;">
-      <select id="charSelect" class="top-select" title="Chọn Nhân Vật (Đầy đủ Bộ Phận Công Ty · Khách Hàng · Xã Hội — Lưu điểm Phước Đức riêng biệt!)">
-        <optgroup label="🏢 Ban Giám Đốc & Quản Lý">
-          <option value="Sếp Thành">🧘‍♂️ Sếp Thành (Giám Đốc)</option>
-          <option value="CEO Yến">👑 CEO Yến (Tổng GĐ)</option>
-          <option value="Chị An Trưởng Phòng">🌸 C. An (Trưởng Phòng KD)</option>
-        </optgroup>
-        <optgroup label="💼 Bộ Phận Kế Toán · Nhân Sự (HR)">
-          <option value="Trinh Kế Toán Trưởng">💼 Trinh (Kế Toán Trưởng)</option>
-          <option value="Hải Yến Kế Toán">📊 Hải Yến (KT Công Nợ)</option>
-          <option value="HR Kế Toán">📋 HR Kế Toán (Hành Chính)</option>
-          <option value="Hùng HR">🧑🏻 Hùng HR (Nhân Sự)</option>
-        </optgroup>
-        <optgroup label="🪷 Bộ Phận Sale · Kinh Doanh · Marketing">
-          <option value="Sale Minh Anh">🪷 Sale Minh Anh</option>
-          <option value="Sale Huế">🌺 Sale Huế</option>
-          <option value="Sale Kiều Trang">🪷 Sale Kiều Trang</option>
-          <option value="Sale Bích Thủy">🌸 Sale Bích Thủy</option>
-          <option value="Sale Ánh Nguyệt">🪷 Sale Ánh Nguyệt</option>
-          <option value="Thu Trang">👩🏻 Thu Trang (CSKH)</option>
-          <option value="Bích Ngọc">🎬 Bích Ngọc (Marketing)</option>
-        </optgroup>
-        <optgroup label="📦 Bộ Phận Kho Vận · Tài Xế · Thi Công">
-          <option value="Anh Trung QL Kho HN">📦 A. Trung (QL Kho HN)</option>
-          <option value="Anh Tâm Kho HP">⚓ A. Tâm (QL Kho HP)</option>
-          <option value="Thế Anh Kho HN">🙏 Thế Anh (Điều Phối Kho)</option>
-          <option value="Anh Hải Thi Công">👷 A. Hải (Đội Trưởng Thi Công)</option>
-          <option value="Anh Long Tài Xế">🚚 A. Long (Tài Xế Giao Hàng)</option>
-          <option value="Anh Cường Bốc Xếp">💪 A. Cường (Bốc Xếp Kho)</option>
-        </optgroup>
-        <optgroup label="🏡 Khách Hàng (Đại Lý · Chủ Thầu · Chủ Nhà)">
-          <option value="Anh Đức Đoàn (KH)">🧔🏻 KH A. Đức Đoàn (Đại Lý)</option>
-          <option value="Anh Phú (CT Trần Hoàn)">🙏 KH A. Phú (Trần Hoàn)</option>
-          <option value="Chị Lan Biệt Thự (KH)">🏡 KH C. Lan (Chủ Nhà Kỹ Tính)</option>
-          <option value="Anh Tuấn Chủ Thầu (KH)">🏗️ KH A. Tuấn (Chủ Thầu Nợ Dai)</option>
-          <option value="KH Hoàng Hỏi 100 Mẫu">🧐 KH Hoàng (Hỏi 100 Mẫu Ko Chốt)</option>
-          <option value="KH Hùng Khất Nợ">💸 KH Hùng (Hẹn Thứ 2 Chuyển Khoản)</option>
-        </optgroup>
-        <optgroup label="🌍 Nhân Vật Xã Hội (Hàng Xóm · Giang Hồ · Shipper)">
-          <option value="Bà Hàng Xóm Soi Mói">👵 Bà Hàng Xóm (Camera Chạy Cơm)</option>
-          <option value="Anh Shipper Ba Gác">🛵 Anh Shipper Ba Gác (Hay Kêu Tắc Đường)</option>
-          <option value="Anh Khá Bảnh Đi Lễ">😎 Anh Khá Bảnh (Giang Hồ Mạng)</option>
-          <option value="Cô Chủ Quán Trà Đá">🧋 Cô Chủ Trà Đá (Thông Tấn Xã)</option>
-          <option value="Chủ Nợ Cuối Tháng">💰 Chủ Nợ Cuối Tháng (Đi Đòi Nợ)</option>
-        </optgroup>
-        <option value="__custom__">✏️ Tự Đặt / Đổi Tên Nhân Vật...</option>
+      <select id="charSelect" class="top-select" title="Tài khoản đang đăng nhập của bạn (Gói gọn: Ai đăng nhập tài khoản nào chỉ hiện đúng tài khoản đó)">
+        <option id="customUserCharOption" value="Thành">👤 Thành (Tài khoản của bạn)</option>
+        <option value="__custom__">🔑 Đổi / Đăng Nhập Tài Khoản Khác...</option>
       </select>
       <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đăng nhập Tài Khoản Riêng (Tên + Mã PIN 4 số), tạo nick mới hoặc đổi nhân vật">🔑 Tài Khoản</button>
       <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
@@ -1067,7 +1025,7 @@
         <button class="btn-modal-x" onclick="closeRenameCharModal()">✕ Đóng</button>
       </div>
       <div id="accountCurrentStatusBox" style="background:rgba(46,125,50,0.22); border:1px solid #81c784; border-radius:10px; padding:7px 10px; margin-bottom:8px; font-size:11.5px; color:#e8f5e9; display:flex; justify-content:space-between; align-items:center;">
-        <span>🟢 Đang đăng nhập: <b id="accModalCurrentName" style="color:#ffd54f;">Sếp Thành</b> (<b id="accModalCurrentMerit">120</b> 💎)</span>
+        <span>🟢 Đang đăng nhập: <b id="accModalCurrentName" style="color:#ffd54f;">Thành</b> (<b id="accModalCurrentMerit">120</b> 💎)</span>
         <span style="font-size:10.5px; color:#a5d6a7;">🔒 Đã đồng bộ</span>
       </div>
       <div style="font-size:11.2px; color:#ffe596; margin-bottom:8px; line-height:1.4;">
@@ -1075,7 +1033,7 @@
       </div>
       <div class="sk-field">
         <label>👤 Tên Tài Khoản / Nhân Vật Của Bạn:</label>
-        <input id="customCharNameInput" type="text" value="Sếp Thành" maxlength="32" placeholder="Nhập tên của bạn (VD: Sếp Thành, Sale Minh Anh...)" style="font-size:13px; font-weight:800; padding:8px 10px;" />
+        <input id="customCharNameInput" type="text" value="Thành" maxlength="32" placeholder="Nhập tên của bạn (VD: Sếp Thành, Sale Minh Anh...)" style="font-size:13px; font-weight:800; padding:8px 10px;" />
       </div>
       <div class="sk-field">
         <label>🔢 Mã PIN Bảo Vệ Nick (4 chữ số — Chống người khác vào nhầm nick):</label>
@@ -1326,7 +1284,7 @@
           📜 BÀI KHẤN 1: SỚ CẦU CHẠY SỐ & BÙ ĐỦ KPI THÁNG
         </div>
         <div style="font-size:11.5px; line-height:1.5; color:#4a0d00; font-weight:700;">
-          • <b>Tín chủ dâng sớ:</b> <span id="soPreviewName" style="color:#b71c1c;font-weight:900;">Sếp Thành & Kho Trường Yến</span> (<span id="soPreviewAddr" style="color:#b71c1c;">Kho Trường Yến</span>)<br/>
+          • <b>Tín chủ dâng sớ:</b> <span id="soPreviewName" style="color:#b71c1c;font-weight:900;">Thành</span> (<span id="soPreviewAddr" style="color:#b71c1c;">Kho Trường Yến</span>)<br/>
           <span id="soPreviewKpiRow">• <b>Mục tiêu chạy số:</b> Còn thiếu <b id="soPreviewMissing" style="color:#d50000;text-decoration:underline;">120 triệu</b> · Mục tiêu Quý <b id="soPreviewGoal" style="color:#b71c1c;text-decoration:underline;">1 tỷ 500 triệu</b><br/></span>
           • <b>Nội dung Bài Khấn & Sớ:</b><br/>
           <div id="soPreviewWish" style="color:#6a0000; font-style:italic; background:rgba(255,255,255,0.48); border-radius:8px; padding:7px 9px; margin-top:4px; font-size:11.4px; line-height:1.48;">
@@ -1339,7 +1297,7 @@
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
         <div class="sk-field" style="margin-bottom:0;">
           <label>👤 Họ Tên Tín Chủ:</label>
-          <input id="skInputName" type="text" value="Sếp Thành" oninput="updateLiveSoPreview()" placeholder="Nhập tên..." />
+          <input id="skInputName" type="text" value="Thành" oninput="updateLiveSoPreview()" placeholder="Nhập tên..." />
         </div>
         <div class="sk-field" style="margin-bottom:0;">
           <label>📍 Đơn Vị / Địa Chỉ:</label>
@@ -3183,9 +3141,18 @@
       const fullText = cfg.buildFullText(name, addr, missingAmt, quarterGoal, wish);
       if (pWish) pWish.textContent = `"${fullText}"`;
 
-      // Tự động đồng bộ giọng Nam / Nữ khi gõ hoặc đổi tên Tín Chủ
+      // Tự động đồng bộ giọng Nam / Nữ & cập nhật ngay currentCustomer.name để đọc Sớ đúng 100% tên nhân vật!
       const autoG = inferGenderFromName(name, player.gender);
       setSoKhanVoiceGender(autoG);
+      if (typeof currentCustomer === 'object' && currentCustomer) {
+        currentCustomer.name = name;
+        currentCustomer.addr = addr;
+        currentCustomer.missingAmt = missingAmt;
+        currentCustomer.quarterGoal = quarterGoal;
+        currentCustomer.wish = wish;
+        currentCustomer.fullText = fullText;
+        currentCustomer.voiceGender = autoG;
+      }
     }
 
     function syncKpiNumbersToWish() {
@@ -3230,45 +3197,118 @@
       return '';
     }
 
-    function speakVietnameseText(text) {
+    function speakVietnameseText(text, forceGender) {
       try {
         stopAllVoices(true);
-        const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
-        const g = soKhanVoiceGender || inferGenderFromName(player.name, player.gender);
-        const fallbackFile = (g === 'F') ? cfg.audioNu : cfg.audioNam;
-        playFullSoKhanVoice(text, g, fallbackFile);
+        const clean = String(text || '').replace(/<[^>]*>/g, ' ').replace(/["«»]/g, '').replace(/\s+/g, ' ').trim();
+        if (!clean) return;
+        const g = forceGender || soKhanVoiceGender || inferGenderFromName(player.name, player.gender);
+        const isLocalOrigin = (window.location.port === '8899');
+        if (isLocalOrigin || lanConnected) {
+          const ttsApiBase = isLocalOrigin ? '' : 'http://192.168.1.13:8899';
+          const dynamicUrl = `${ttsApiBase}/api/tts?gender=${g}&text=${encodeURIComponent(clean.slice(0, 900))}`;
+          localPrayerMp3.onended = () => {
+            isVoiceSpeaking = false;
+            resumeZenMusicIfIdle();
+          };
+          localPrayerMp3.onerror = () => speakTextViaGtxChunks(clean, g);
+          localPrayerMp3.src = dynamicUrl;
+          localPrayerMp3.currentTime = 0;
+          localPrayerMp3.volume = 1.0;
+          localPrayerMp3.play().catch(() => speakTextViaGtxChunks(clean, g));
+          return;
+        }
+        speakTextViaGtxChunks(clean, g);
       } catch (e) {
         isVoiceSpeaking = false;
         resumeZenMusicIfIdle();
       }
     }
 
-    function resolveCharacterIntroSlug(nameStr, gender) {
+    function speakTextViaGtxChunks(cleanText, g, onDoneCallback) {
+      const sentences = cleanText.split(/(?<=[.!?।;:])\s+/);
+      const chunks = [];
+      let cur = '';
+      for (const s of sentences) {
+        if ((cur + ' ' + s).trim().length <= 175) {
+          cur = (cur + ' ' + s).trim();
+        } else {
+          if (cur) chunks.push(cur);
+          if (s.length <= 175) {
+            cur = s;
+          } else {
+            const words = s.split(' ');
+            cur = '';
+            for (const w of words) {
+              if ((cur + ' ' + w).trim().length <= 175) {
+                cur = (cur + ' ' + w).trim();
+              } else {
+                if (cur) chunks.push(cur);
+                cur = w;
+              }
+            }
+          }
+        }
+      }
+      if (cur) chunks.push(cur);
+      const ttsEl = document.getElementById('ttsVoicePlayer');
+      if (!ttsEl || chunks.length === 0) {
+        isVoiceSpeaking = false;
+        if (typeof onDoneCallback === 'function') onDoneCallback();
+        else resumeZenMusicIfIdle();
+        return;
+      }
+      let idx = 0;
+      const playNext = () => {
+        if (idx >= chunks.length) {
+          isVoiceSpeaking = false;
+          if (typeof onDoneCallback === 'function') onDoneCallback();
+          else resumeZenMusicIfIdle();
+          return;
+        }
+        const part = chunks[idx++];
+        ttsEl.src = 'https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=' + encodeURIComponent(part);
+        ttsEl.volume = 1.0;
+        ttsEl.preservesPitch = true;
+        ttsEl.playbackRate = 1.0;
+        ttsEl.onended = () => setTimeout(playNext, 90);
+        ttsEl.onerror = () => {
+          isVoiceSpeaking = false;
+          if (typeof onDoneCallback === 'function') onDoneCallback();
+          else resumeZenMusicIfIdle();
+        };
+        ttsEl.play().catch(() => ttsEl.onerror());
+      };
+      playNext();
+    }
+
+    // V66 (#mvw70wg764): CHỈ khớp file intro thu sẵn khi tên Tín Chủ trùng KHỚP 100% TỪNG CHỮ!
+    // Tuyệt đối KHÔNG dùng .includes('thành') -> 'sep_thanh' khiến nhân vật tên "Thành" hoặc tên khác bị đọc nhầm thành "Sếp Thành"!
+    function resolveCharacterIntroSlug(nameStr, gender, addrStr) {
       const s = String(nameStr || '').toLowerCase().trim();
-      if (s.includes('car money') || s.includes('thích car') || s.includes('thich car')) return 'thich_car_money';
-      if (s.includes('ceo yến') || (s.includes('yến') && !s.includes('hải yến'))) return 'ceo_yen';
-      if (s.includes('hải yến')) return 'hai_yen';
-      if (s.includes('chị an') || s.includes('c an') || s.includes('c. an') || s.includes('trưởng phòng')) return 'chi_an';
-      if (s.includes('anh hải') || s.includes('hải thi công')) return 'anh_hai';
-      if (s.includes('anh trung') || s.includes('a. trung') || s.includes('trung quản lý') || s.includes('trung ql')) return 'anh_trung';
-      if (s.includes('hr kế toán')) return 'hr_ketoan';
-      if (s.includes('hùng hr') || s.includes('hùng')) return 'hung_hr';
-      if (s.includes('anh tâm') || s.includes('a tâm') || s.includes('a. tâm') || s.includes('tâm kho')) return 'anh_tam';
-      if (s.includes('thế anh')) return 'the_anh';
-      if (s.includes('trinh')) return 'trinh_ktt';
-      if (s.includes('bích ngọc')) return 'bich_ngoc';
-      if (s.includes('thu trang')) return 'thu_trang';
-      if (s.includes('minh anh')) return 'minh_anh';
-      if (s.includes('kiều trang')) return 'kieu_trang';
-      if (s.includes('huế')) return 'sale_hue';
-      if (s.includes('bích thủy') || s.includes('bích thuỷ')) return 'bich_thuy';
-      if (s.includes('ánh nguyệt')) return 'anh_nguyet';
-      if (s.includes('mai lan')) return 'mai_lan';
-      if (s.includes('đức đoàn')) return 'duc_doan';
-      if (s.includes('phú')) return 'anh_phu';
-      if (s.includes('chị lan')) return 'chi_lan_kh';
-      if (s.includes('anh tuấn') || s.includes('chủ thầu')) return 'anh_tuan_kh';
-      if (s.includes('sếp thành') || s === 'thành' || s.includes('anh thành')) return 'sep_thanh';
+      const a = String(addrStr || 'Kho Trường Yến').toLowerCase().trim();
+      if (a && a !== 'kho trường yến') return '__custom__';
+      if (s === 'thành') return 'thanh';
+      if (s === 'sếp thành') return 'sep_thanh';
+      if (s === 'ceo yến') return 'ceo_yen';
+      if (s === 'hải yến kế toán') return 'hai_yen';
+      if (s === 'chị an trưởng phòng') return 'chi_an';
+      if (s === 'anh hải thi công') return 'anh_hai';
+      if (s === 'anh trung ql kho hn') return 'anh_trung';
+      if (s === 'hr kế toán') return 'hr_ketoan';
+      if (s === 'hùng hr') return 'hung_hr';
+      if (s === 'anh tâm kho hp') return 'anh_tam';
+      if (s === 'thế anh' || s === 'thế anh kho hn') return 'the_anh';
+      if (s === 'trinh kế toán trưởng') return 'trinh_ktt';
+      if (s === 'bích ngọc') return 'bich_ngoc';
+      if (s === 'phật tử thu trang') return 'thu_trang';
+      if (s === 'sale minh anh') return 'minh_anh';
+      if (s === 'sale kiều trang') return 'kieu_trang';
+      if (s === 'sale huế') return 'sale_hue';
+      if (s === 'sale bích thủy' || s === 'sale bích thuỷ') return 'bich_thuy';
+      if (s === 'sale ánh nguyệt') return 'anh_nguyet';
+      if (s === 'phật tử mai lan') return 'mai_lan';
+      if (s === 'cư sĩ đức đoàn') return 'duc_doan';
       return '__custom__';
     }
 
@@ -3289,11 +3329,12 @@
       const dynamicUrl = `${ttsApiBase}/api/tts?gender=${g}&text=${encodeURIComponent(cleanText)}`;
 
       const topicIdx = cfg.idx || 1;
-      const activeName = (currentCustomer && currentCustomer.name) ? currentCustomer.name : (player.name || 'Sếp Thành');
-      const activeAddr = (currentCustomer && currentCustomer.addr) ? currentCustomer.addr : 'Kho Trường Yến';
-      const charSlug = resolveCharacterIntroSlug(activeName, g);
-      const bodyUrl = `audio/body_${topicIdx}_${g === 'F' ? 'nu' : 'nam'}.mp3?v=56`;
-      const genericCustomIntroUrl = `audio/intro_custom_${g === 'F' ? 'nu' : 'nam'}.mp3?v=56`;
+      const skNameVal = document.getElementById('skInputName')?.value.trim();
+      const activeName = (currentCustomer && currentCustomer.name) ? currentCustomer.name : (skNameVal || player.name || 'Thành');
+      const activeAddr = (currentCustomer && currentCustomer.addr) ? currentCustomer.addr : (document.getElementById('skInputAddr')?.value.trim() || 'Kho Trường Yến');
+      const charSlug = resolveCharacterIntroSlug(activeName, g, activeAddr);
+      const bodyUrl = `audio/body_${topicIdx}_${g === 'F' ? 'nu' : 'nam'}.mp3?v=66`;
+      const genericCustomIntroUrl = `audio/intro_custom_${g === 'F' ? 'nu' : 'nam'}.mp3?v=66`;
 
       const playBodyPart = () => {
         localPrayerMp3.onerror = null;
@@ -3314,8 +3355,8 @@
 
       const playTwoPartExactCharacterStatic = () => {
         if (charSlug === '__custom__') {
-          // Tên nhân vật tự đặt mới: Dùng #ttsVoicePlayer (có referrerpolicy="no-referrer") để đọc chính xác tên nhân vật mới trên cả GitHub Pages & LAN!
-          const shortCustomIntroText = `Nam mô A Di Đà Phật! Kính lạy Mười Phương Chư Phật. Hôm nay tín chủ con là ${activeName.slice(0, 48)} tại ${activeAddr.slice(0, 36)} thành tâm dâng sớ:`;
+          // Đọc CHÍNH XÁC 100% tên nhân vật tự đặt (activeName) và địa chỉ (activeAddr) qua #ttsVoicePlayer, sau đó nối mượt vào phần thân bài Sớ!
+          const shortCustomIntroText = `Nam mô Bổn Sư Thích Ca Mâu Ni Phật! Hôm nay tín chủ con là ${activeName.slice(0, 48)} tại ${activeAddr.slice(0, 36)},`;
           const customTtsIntroUrl = `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=vi&q=${encodeURIComponent(shortCustomIntroText)}`;
           const ttsEl = document.getElementById('ttsVoicePlayer');
           const fallbackGenericCustomIntro = () => {
@@ -3335,15 +3376,8 @@
             };
             ttsEl.src = customTtsIntroUrl;
             ttsEl.volume = 1.0;
-            if (g === 'M') {
-              ttsEl.preservesPitch = false;
-              ttsEl.mozPreservesPitch = false;
-              ttsEl.webkitPreservesPitch = false;
-              ttsEl.playbackRate = 0.84;
-            } else {
-              ttsEl.preservesPitch = true;
-              ttsEl.playbackRate = 1.02;
-            }
+            ttsEl.preservesPitch = true;
+            ttsEl.playbackRate = 1.0;
             ttsEl.play().catch(fallbackGenericCustomIntro);
             return;
           }
@@ -3351,7 +3385,7 @@
           return;
         }
 
-        const introUrl = `audio/intro_${charSlug}.mp3?v=56`;
+        const introUrl = `audio/intro_${charSlug}.mp3?v=66`;
         localPrayerMp3.onerror = playBodyPart;
         localPrayerMp3.onended = playBodyPart;
         localPrayerMp3.src = introUrl;
@@ -6217,7 +6251,7 @@
     const vipCharacters = visitingGuests;
 
     const player = {
-      name: 'Sếp Thành',
+      name: 'Thành',
       avatar: '🧘‍♂️',
       gender: 'M',
       wing: (currentZone === 'thantai') ? 1 : 0,
@@ -6324,6 +6358,23 @@
       syncAccountMeritToServer();
     }
 
+    function syncTopAccountSelectDropdown() {
+      const sel = document.getElementById('charSelect');
+      if (!sel || !player || !player.name) return;
+      sel.innerHTML = '';
+      const myOpt = document.createElement('option');
+      myOpt.id = 'customUserCharOption';
+      myOpt.value = player.name;
+      myOpt.textContent = `👤 ${player.name} (Tài khoản của bạn)`;
+      sel.appendChild(myOpt);
+
+      const switchOpt = document.createElement('option');
+      switchOpt.value = '__custom__';
+      switchOpt.textContent = '🔑 Đổi / Đăng Nhập Tài Khoản Khác...';
+      sel.appendChild(switchOpt);
+      sel.value = player.name;
+    }
+
     function switchActiveCharacterProfile(charName) {
       // Lưu điểm của nhân vật cũ trước khi chuyển
       saveCurrentCharProfile();
@@ -6359,7 +6410,8 @@
       if (document.getElementById('activeScrollBanner')?.classList.contains('open')) {
         readCurrentCustomerPrayer();
       }
-      showToast(`💾 Đã chuyển sang nhân vật [${player.name} · ${getCharDeptName(player.name)}] — Phước Đức: ${player.merit} 💎!`);
+      syncTopAccountSelectDropdown();
+      showToast(`💾 Đã chuyển sang tài khoản [${player.name}] — Phước Đức: ${player.merit} 💎!`);
       broadcastMyPresence();
     }
 
@@ -6512,29 +6564,8 @@
       const skInp = document.getElementById('skInputName'); if (skInp) skInp.value = player.name;
       player.avatar = (selectedCustomGender === 'M') ? '🧘‍♂️' : '🪷';
 
-      // Cập nhật dropdown #charSelect để hiển thị tên mới
-      const sel = document.getElementById('charSelect');
-      if (sel) {
-        let found = false;
-        for (let i = 0; i < sel.options.length; i++) {
-          if (sel.options[i].value === raw) {
-            sel.selectedIndex = i;
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          let customOpt = document.getElementById('customUserCharOption');
-          if (!customOpt) {
-            customOpt = document.createElement('option');
-            customOpt.id = 'customUserCharOption';
-            sel.insertBefore(customOpt, sel.firstChild);
-          }
-          customOpt.value = raw;
-          customOpt.textContent = `👤 ${raw} (Tài khoản của bạn)`;
-          sel.value = raw;
-        }
-      }
+      // V66 (#mvw6xcd363): Gói gọn #charSelect — Ai đăng nhập tài khoản nào thì chỉ hiện đúng tài khoản đó!
+      syncTopAccountSelectDropdown();
 
       // Đồng bộ sang Sớ Khấn Vàng
       const skName = document.getElementById('skInputName');
@@ -6570,6 +6601,13 @@
           const pinInput = document.getElementById('accountPinInput');
           if (pinInput && savedPin) pinInput.value = savedPin;
           saveCustomCharName();
+        } else {
+          syncTopAccountSelectDropdown();
+          const skName = document.getElementById('skInputName');
+          if (skName) skName.value = player.name;
+          if (typeof currentCustomer === 'object' && currentCustomer) {
+            currentCustomer.name = player.name;
+          }
         }
       } catch (err) {}
     })();
@@ -10333,6 +10371,13 @@
           openFortuneStickModal('tuvi');
         } else if (dm === "so_may_man") {
           openFortuneStickModal('soloc');
+        } else if (dm === "v66_so") {
+          selectedTopic = "binh_an";
+          const skName = document.getElementById("skInputName");
+          if (skName) skName.value = "Thành";
+          currentCustomer.name = "Thành";
+          currentCustomer.addr = "Kho Trường Yến";
+          submitAndReadSoKhan();
         }
       }, 300);
     });

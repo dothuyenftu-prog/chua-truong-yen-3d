@@ -10371,6 +10371,13 @@
           openFortuneStickModal('tuvi');
         } else if (dm === "so_may_man") {
           openFortuneStickModal('soloc');
+        } else if (dm === "v66_so") {
+          selectedTopic = "binh_an";
+          const skName = document.getElementById("skInputName");
+          if (skName) skName.value = "Thành";
+          currentCustomer.name = "Thành";
+          currentCustomer.addr = "Kho Trường Yến";
+          submitAndReadSoKhan();
         }
       }, 300);
     });
