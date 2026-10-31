@@ -877,7 +877,7 @@
     <!-- Cụm Góc Phải Gọn Gàng + Nút Menu [🎛️ Nhạc · Kinh · Tiện Ích ▾] gom toàn bộ nút phụ -->
     <div class="top-group" style="max-width:52vw; justify-content:flex-end;">
       <button class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
-        🏆 Top Phước: <span id="activeCharProfileBadge">Thành</span> · 💎<span id="meritScore">120</span>
+        🏆 Top Phước: <span id="activeCharProfileBadge">Thành</span> · 💎<span id="meritScore">1380</span>
       </button>
       <button id="tabKarma" class="chip-btn" style="background:linear-gradient(135deg,#880e4f,#4a148c);color:#fff;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">😤🥊 Xả Nghiệp</button>
       <button id="btnTopUtilityMenu" class="chip-btn active" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="toggleTopUtilityMenu()">🎛️ Nhạc · Kinh · Tiện Ích ▾</button>
@@ -953,7 +953,7 @@
       <span>🏆 BẢNG TOP PHƯỚC ĐỨC CÁC NHÂN VẬT</span>
       <button class="btn-close-banner" style="padding:2px 7px;font-size:10.5px;" onclick="toggleTltPopover()">✕ Đóng</button>
     </div>
-    <div class="tlt-row"><span>🥇 1. Sếp Thành (Ban Giám Đốc)</span><b id="scoreTop1" style="color:#ffe28a;">120 💎</b></div>
+    <div class="tlt-row"><span>🥇 1. Thành (Ban Giám Đốc)</span><b id="scoreTop1" style="color:#ffe28a;">1.380 💎</b></div>
     <div class="tlt-row"><span>🥈 2. CEO Yến (Ban Giám Đốc)</span><b style="color:#ffe28a;">115 💎</b></div>
     <div class="tlt-row"><span>🥉 3. Chị An Trưởng Phòng (Quản Lý)</span><b style="color:#ffe28a;">95 💎</b></div>
     <div class="tlt-row"><span>④ 4. Trinh Kế Toán Trưởng (Kế Toán)</span><b style="color:#ffe28a;">90 💎</b></div>
@@ -1033,7 +1033,7 @@
       </div>
       <div class="sk-field">
         <label>👤 Tên Tài Khoản / Nhân Vật Của Bạn:</label>
-        <input id="customCharNameInput" type="text" value="Thành" maxlength="32" placeholder="Nhập tên của bạn (VD: Sếp Thành, Sale Minh Anh...)" style="font-size:13px; font-weight:800; padding:8px 10px;" />
+        <input id="customCharNameInput" type="text" value="Thành" maxlength="32" placeholder="Nhập tên của bạn (VD: Thành, Sale Minh Anh...)" style="font-size:13px; font-weight:800; padding:8px 10px;" />
       </div>
       <div class="sk-field">
         <label>🔢 Mã PIN Bảo Vệ Nick (4 chữ số — Chống người khác vào nhầm nick):</label>
@@ -1048,7 +1048,7 @@
       </div>
       <div style="font-size:10.5px; color:#f7cf73; font-weight:800; margin:6px 0 4px;">⚡ Hoặc bấm chọn nhanh tên thành viên để đăng nhập:</div>
       <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
-        <span class="cm-auto-pill" onclick="quickSetCharName('Sếp Thành', 'M')">🧘‍♂️ Sếp Thành</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Thành', 'M')">🧘‍♂️ Thành</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('CEO Yến', 'F')">👑 CEO Yến</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('Sale Minh Anh', 'F')">🪷 Minh Anh</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('Sale Kiều Trang', 'F')">🪷 Kiều Trang</span>
@@ -1363,7 +1363,7 @@
 
       <!-- Thanh hiển thị Phước hiện có & Chi phí Thỉnh Quẻ (-5 💎 Phước) -->
       <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(38,14,4,0.95); border:1px solid #ffd54f; border-radius:9px; padding:5px 10px; margin-bottom:7px; font-size:10.6px;">
-        <span>👤 Tín chủ: <b id="divActiveUserName" style="color:#69f0ae;">Sếp Thành</b> · 💎 Phước: <b id="fortuneMeritBalance" style="color:#ffd740; font-size:12px;">120</b> 💎</span>
+        <span>👤 Tín chủ: <b id="divActiveUserName" style="color:#69f0ae;">Thành</b> · 💎 Phước: <b id="fortuneMeritBalance" style="color:#ffd740; font-size:12px;">1.380</b> 💎</span>
         <span style="color:#ffab40; font-weight:800;">🎫 Mỗi lần Gieo Quẻ / Xin Số: <b style="color:#ff5252;">-5 💎</b></span>
       </div>
 
@@ -1859,8 +1859,8 @@
             <div style="font-size:18px; font-weight:900; color:#ffd740; margin:2px 0;"><span id="shopMeritBalance">120</span> 💎</div>
           </div>
           <div style="font-size:9.8px; color:#ffefc8; line-height:1.45;">
-            • Nhân vật: <b id="shopCharNameLabel" style="color:#ffd54f;">Sếp Thành</b><br/>
-            • Tổng Phước Tích Lũy: <b id="shopTotalMerit" style="color:#ffd740;">120</b> 💎<br/>
+            • Nhân vật: <b id="shopCharNameLabel" style="color:#ffd54f;">Thành</b><br/>
+            • Tổng Phước Tích Lũy: <b id="shopTotalMerit" style="color:#ffd740;">1.380</b> 💎<br/>
             • Danh hiệu: <b id="shopRankTitle" style="color:#80d8ff;">Đại Thí Chủ Tích Phước</b><br/>
             • Túi Vàng Mã: <b id="shopGoldBagCount" style="color:#ffab40;">2 Lễ</b> · Đã Hóa: <b id="shopBurnCount" style="color:#a5d6a7;">2 Lễ</b>
           </div>
@@ -1881,7 +1881,7 @@
           <select id="zaloRecMemberSelect" onchange="onSelectZaloHonorMember(this.value)" style="background:rgba(16,6,2,0.96); border:1.2px solid #ffd54f; border-radius:7px; padding:5px 7px; color:#fff8e1; font-size:10.3px; font-weight:800; outline:none;">
             <option value="">👤 Chọn Thành Viên Để Vinh Danh...</option>
             <option value="CEO Yến">👑 CEO Yến (Ban Giám Đốc)</option>
-            <option value="Sếp Thành">🧘‍♂️ Sếp Thành (Ban Giám Đốc)</option>
+            <option value="Thành">🧘‍♂️ Thành (Ban Giám Đốc)</option>
             <option value="Chị An Trưởng Phòng">🌸 Chị An Trưởng Phòng (Quản Lý KD)</option>
             <option value="Trinh Kế Toán Trưởng">💼 Trinh Kế Toán Trưởng (Kế Toán)</option>
             <option value="Anh Trung QL Kho HN">📦 Anh Trung QL Kho HN (Kho Hà Nội)</option>
@@ -2017,9 +2017,9 @@
         📜 Nhật Ký Tích Phước & Tương Tác Nhân Vật:
       </div>
       <div class="merit-log-box" id="meritHistoryList">
-        <div class="merit-log-item">🏆✨ <b>[Bảng Top Phước Đức] Sếp Thành</b> đang dẫn đầu Bảng Xếp Hạng Phước Đức với <b>120 💎 Phước Đức</b>!</div>
-        <div class="merit-log-item">✨🪵 <b>Sếp Thành</b>: Gõ Mõ Tịnh Tâm trúng xác suất 10% kết tụ (+1 💎 Phước Đức)</div>
-        <div class="merit-log-item">🎁 <b>Sếp Thành</b>: Đã thỉnh & dâng <b>🪷 Hoa Sen Bách Diệp (Chay)</b> lên Ban Tam Bảo</div>
+        <div class="merit-log-item">🏆✨ <b>[Bảng Top Phước Đức] Thành</b> đang dẫn đầu Bảng Xếp Hạng Phước Đức với <b>1.380 💎 Phước Đức</b>!</div>
+        <div class="merit-log-item">✨🪵 <b>Thành</b>: Gõ Mõ Tịnh Tâm trúng xác suất 10% kết tụ (+1 💎 Phước Đức)</div>
+        <div class="merit-log-item">🎁 <b>Thành</b>: Đã thỉnh & dâng <b>🪷 Hoa Sen Bách Diệp (Chay)</b> lên Ban Tam Bảo</div>
       </div>
 
       <div class="sk-actions">
@@ -3114,7 +3114,7 @@
     };
 
     function updateLiveSoPreview() {
-      const name = document.getElementById('skInputName')?.value || player.name || 'Sếp Thành';
+      const name = document.getElementById('skInputName')?.value || player.name || 'Thành';
       const addr = document.getElementById('skInputAddr')?.value || 'Kho Trường Yến';
       const missingAmt = document.getElementById('skInputMissingAmt')?.value || '120 triệu đồng';
       const quarterGoal = document.getElementById('skInputQuarterGoal')?.value || '1 tỷ 500 triệu đồng';
@@ -3420,7 +3420,7 @@
 
     let lastSoKhanMeritTime = 0;
     function submitAndReadSoKhan() {
-      const name = document.getElementById('skInputName')?.value.trim() || player.name || 'Sếp Thành';
+      const name = document.getElementById('skInputName')?.value.trim() || player.name || 'Thành';
       const addr = document.getElementById('skInputAddr')?.value.trim() || 'Kho Trường Yến';
       const phone = document.getElementById('skInputPhone')?.value.trim() || '';
       const missingAmt = document.getElementById('skInputMissingAmt')?.value.trim() || '120 triệu đồng';
@@ -3451,7 +3451,7 @@
     }
 
     function submitAndBurnSoKhan() {
-      const name = document.getElementById('skInputName')?.value.trim() || player.name || 'Sếp Thành';
+      const name = document.getElementById('skInputName')?.value.trim() || player.name || 'Thành';
       const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
       closeSoKhanModal();
       burnGoldPaperRitual(`${cfg.title} (${name})`);
@@ -3462,7 +3462,7 @@
       stopAllVoices(true);
 
       const cfg = prayerTopicsConfig[selectedTopic] || prayerTopicsConfig.thieu_so;
-      const name = currentCustomer.name || player.name || 'Sếp Thành';
+      const name = currentCustomer.name || player.name || 'Thành';
       const addr = currentCustomer.addr || 'Kho Trường Yến';
       const missingAmt = currentCustomer.missingAmt || '120 triệu đồng';
       const quarterGoal = currentCustomer.quarterGoal || '1 tỷ 500 triệu đồng';
@@ -6045,7 +6045,7 @@
     // DANH SÁCH ĐẦY ĐỦ CÁC BỘ PHẬN CÔNG TY, KHÁCH HÀNG & XÃ HỘI KÈM LỜI NÓI HÀI HƯỚC, CAY CÚ, BỰC BỘI, KHÓ CHỊU ĐỜI THỰC (V57)
     const CHARACTER_ROSTER_V57 = [
       // 1. Ban Giám Đốc & Quản Lý
-      { name: 'Sếp Thành', dept: 'Ban Giám Đốc', roleTag: 'bgd', avatar: '🧘‍♂️', gender: 'M', initMerit: 120 },
+      { name: 'Thành', dept: 'Ban Giám Đốc', roleTag: 'bgd', avatar: '🧘‍♂️', gender: 'M', initMerit: 1380 },
       { name: 'CEO Yến', dept: 'Ban Giám Đốc', roleTag: 'bgd', avatar: '👑', gender: 'F', initMerit: 115 },
       { name: 'Chị An Trưởng Phòng', dept: 'Quản Lý KD', roleTag: 'bgd', avatar: '🌸', gender: 'F', initMerit: 95 },
       // 2. Bộ Phận Kế Toán & Nhân Sự (HR)
@@ -6306,31 +6306,78 @@
       bowTimer: 0,
       chat: '',
       chatTimer: 0,
-      merit: 120
+      merit: 1380
     };
 
-    // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V57)
+    // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V68 — BẢO TOÀN 100% ĐIỂM PHƯỚC ĐỨC KHI TẢI LẠI TRANG & XOÁ TÀI KHOẢN ẢO "SẾP THÀNH")
     const CHAR_PROFILES_STORAGE_KEY = 'chua_ty_registered_accounts_v62';
     function loadAllCharProfiles() {
-      // V62: CHỈ những người đã tạo tài khoản / đăng nhập mới có trong danh sách Leo Top!
-      // Các NPC phụ trong chùa chưa tạo tài khoản sẽ KHÔNG được lên Bảng Top Phước Đức!
       const defaults = {
-        'Thành': { merit: 120, congDuc: 5, gender: 'M', dept: 'Ban Giám Đốc', avatar: '🧘‍♂️', registered: true }
+        'Thành': { name: 'Thành', merit: 1380, congDuc: 5, gender: 'M', dept: 'Ban Giám Đốc', avatar: '🧘‍♂️', registered: true }
       };
+      let merged = { ...defaults };
       try {
         const raw = localStorage.getItem(CHAR_PROFILES_STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && typeof parsed === 'object') {
-            return { ...defaults, ...parsed };
+            merged = { ...defaults, ...parsed };
           }
         }
+        // Xoá vĩnh viễn tài khoản mẫu "Sếp Thành" cũ không có thật (#mvw8bl0769)
+        delete merged['Sếp Thành'];
+
+        // Khôi phục điểm Phước Đức đã tích luỹ của mỗi tài khoản từ kho dự phòng ty_merit_backup_
+        Object.keys(merged).forEach(k => {
+          const backupVal = Number(localStorage.getItem('ty_merit_backup_' + k) || 0);
+          if (backupVal > Number(merged[k]?.merit || 0)) {
+            merged[k].merit = backupVal;
+          }
+        });
+
+        // Khôi phục mốc 1.380 💎 của tài khoản "Thành" vừa bị reset nhầm ở bản trước (#mvw8bl0769)
+        if (!localStorage.getItem('ty_v68_restored_thanh_merit')) {
+          const curThanhMerit = Number(merged['Thành']?.merit || 0);
+          merged['Thành'] = {
+            ...(merged['Thành'] || {}),
+            name: 'Thành',
+            merit: Math.max(curThanhMerit, 1380),
+            congDuc: Math.max(Number(merged['Thành']?.congDuc || 0), 5),
+            gender: 'M',
+            dept: 'Ban Giám Đốc',
+            avatar: '🧘‍♂️',
+            registered: true
+          };
+          localStorage.setItem('ty_merit_backup_Thành', String(merged['Thành'].merit));
+          localStorage.setItem('ty_v68_restored_thanh_merit', '1');
+        }
+        localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(merged));
       } catch (e) {}
-      return defaults;
+      return merged;
     }
 
     let allCharProfiles = loadAllCharProfiles();
     let currentAccountPin = localStorage.getItem('ty_account_pin') || '1234';
+    window._charProfileLoaded = false;
+
+    // Nạp ngay điểm Phước Đức đã lưu của tài khoản hiện tại vào player.merit TRƯỚC KHI bất kỳ hàm nào chạy!
+    (function preloadInitialPlayerMerit() {
+      try {
+        let savedName = (localStorage.getItem('ty_custom_char_name') || 'Thành').trim();
+        if (savedName === 'Sếp Thành') {
+          savedName = 'Thành';
+          localStorage.setItem('ty_custom_char_name', 'Thành');
+        }
+        player.name = savedName;
+        const prof = allCharProfiles[player.name];
+        const backupMerit = Number(localStorage.getItem('ty_merit_backup_' + player.name) || 0);
+        player.merit = Math.max(
+          Number(prof?.merit ?? (player.name === 'Thành' ? 1380 : 80)),
+          backupMerit
+        );
+        window._charProfileLoaded = true;
+      } catch (e) {}
+    })();
 
     function getAccountApiBaseUrl() {
       if (window.location.port === '8899') return '';
@@ -6338,7 +6385,8 @@
     }
 
     function syncSpecificAccountToServer(accName, meritVal, congDucVal, genderVal, deptVal, honorNote) {
-      if (!accName) return;
+      if (!accName || accName === 'Sếp Thành') return;
+      if (window.location.search && window.location.search.includes('demo=')) return;
       const payload = {
         type: 'account_merit_sync',
         name: accName,
@@ -6377,19 +6425,25 @@
     }
 
     function saveCurrentCharProfile() {
-      if (!player || !player.name) return;
+      if (!player || !player.name || player.name === 'Sếp Thành') return;
+      const prevHonorNote = allCharProfiles[player.name]?.honorNote || '';
       allCharProfiles[player.name] = {
+        ...(allCharProfiles[player.name] || {}),
+        name: player.name,
         merit: player.merit,
-        congDuc: typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
+        congDuc: typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : (allCharProfiles[player.name]?.congDuc || 1),
         gender: player.gender || 'F',
-        dept: typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử',
-        avatar: player.avatar || (player.gender === 'M' ? '🧘‍♂️' : '🪷'),
+        dept: (player.name === 'Thành') ? 'Ban Giám Đốc' : (typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'),
+        avatar: (player.name === 'Thành') ? '🧘‍♂️' : (player.avatar || (player.gender === 'M' ? '🧘‍♂️' : '🪷')),
         pin: allCharProfiles[player.name]?.pin || currentAccountPin || '1234',
         registered: true,
+        honorNote: prevHonorNote,
         updatedAt: Date.now()
       };
       try {
+        delete allCharProfiles['Sếp Thành'];
         localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+        localStorage.setItem('ty_merit_backup_' + player.name, String(player.merit));
       } catch (e) {}
       const badgeEl = document.getElementById('activeCharProfileBadge');
       if (badgeEl) badgeEl.textContent = player.name;
@@ -6420,18 +6474,23 @@
     }
 
     function switchActiveCharacterProfile(charName) {
-      // Lưu điểm của nhân vật cũ trước khi chuyển
-      saveCurrentCharProfile();
+      if (charName === 'Sếp Thành') charName = 'Thành';
+      // CHỈ lưu điểm của nhân vật cũ khi thực sự chuyển từ nhân vật A sang nhân vật B khác tên!
+      if (window._charProfileLoaded && player.name && player.name !== charName) {
+        saveCurrentCharProfile();
+      }
 
       player.name = charName;
-      player.gender = inferGenderFromName(player.name, 'F');
-      player.avatar = player.name.includes('Sếp') ? '🧘‍♂️' : (player.gender === 'F' ? '🪷' : '🙏');
+      player.gender = inferGenderFromName(player.name, 'M');
+      player.avatar = (player.name === 'Thành' || player.name.includes('Sếp')) ? '🧘‍♂️' : (player.gender === 'F' ? '🪷' : '🧘‍♂️');
 
-      // Tải điểm Phước & Công Đức riêng của nhân vật mới (Nếu chưa có thì khởi tạo 35 💎 Phước & 1 🏛️ Công Đức)
+      const backupMerit = Number(localStorage.getItem('ty_merit_backup_' + player.name) || 0);
       if (!allCharProfiles[player.name]) {
-        allCharProfiles[player.name] = { merit: 35, congDuc: 1, gender: player.gender, updatedAt: Date.now() };
+        const initM = backupMerit > 0 ? backupMerit : (player.name === 'Thành' ? 1380 : 80);
+        allCharProfiles[player.name] = { name: player.name, merit: initM, congDuc: player.name === 'Thành' ? 5 : 1, gender: player.gender, dept: getCharDeptName(player.name), registered: true, updatedAt: Date.now() };
       }
-      player.merit = Number(allCharProfiles[player.name].merit ?? 35);
+      player.merit = Math.max(Number(allCharProfiles[player.name].merit ?? 80), backupMerit);
+      window._charProfileLoaded = true;
       if (typeof myZaloCongDucCount !== 'undefined') {
         myZaloCongDucCount = Number(allCharProfiles[player.name].congDuc ?? 1);
       }
@@ -6555,48 +6614,66 @@
         return;
       }
 
-      try {
-        const res = await fetch(getAccountApiBaseUrl() + '/api/account/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: raw,
-            pin: rawPin,
-            gender: selectedCustomGender,
-            dept: typeof getCharDeptName === 'function' ? getCharDeptName(raw) : 'Phật Tử',
-            initialMerit: localExisting ? localExisting.merit : (raw.includes('Sếp Thành') ? 500 : 80),
-            congDuc: localExisting ? localExisting.congDuc : 1
-          })
-        });
-        if (res.status === 403) {
-          const errData = await res.json().catch(() => ({}));
-          if (errBox) {
-            errBox.textContent = '❌ ' + (errData.error || `Sai Mã PIN của tài khoản "${raw}"!`);
-            errBox.style.display = 'block';
-          }
-          showToast(`❌ Sai Mã PIN của tài khoản "${raw}"!`);
-          return;
-        }
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.account) {
-            allCharProfiles[raw] = {
-              merit: Number(data.account.merit ?? 80),
-              congDuc: Number(data.account.congDuc ?? 1),
-              gender: data.account.gender || selectedCustomGender,
+      const backupMerit = Number(localStorage.getItem('ty_merit_backup_' + raw) || 0);
+      const bestLocalMerit = Math.max(
+        Number(localExisting?.merit || 0),
+        backupMerit,
+        (raw === player.name ? Number(player.merit || 0) : 0),
+        (raw === 'Thành' ? 1380 : 80)
+      );
+      const bestLocalCongDuc = Math.max(Number(localExisting?.congDuc || 0), (raw === 'Thành' ? 5 : 1));
+
+      if (!(window.location.search && window.location.search.includes('demo='))) {
+        try {
+          const res = await fetch(getAccountApiBaseUrl() + '/api/account/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: raw,
               pin: rawPin,
-              updatedAt: Date.now()
-            };
+              gender: selectedCustomGender,
+              dept: (raw === 'Thành') ? 'Ban Giám Đốc' : (typeof getCharDeptName === 'function' ? getCharDeptName(raw) : 'Phật Tử'),
+              initialMerit: bestLocalMerit,
+              congDuc: bestLocalCongDuc
+            })
+          });
+          if (res.status === 403) {
+            const errData = await res.json().catch(() => ({}));
+            if (errBox) {
+              errBox.textContent = '❌ ' + (errData.error || `Sai Mã PIN của tài khoản "${raw}"!`);
+              errBox.style.display = 'block';
+            }
+            showToast(`❌ Sai Mã PIN của tài khoản "${raw}"!`);
+            return;
           }
-        }
-      } catch (e) {}
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.account) {
+              allCharProfiles[raw] = {
+                ...(allCharProfiles[raw] || {}),
+                name: raw,
+                merit: Math.max(bestLocalMerit, Number(data.account.merit ?? 80)),
+                congDuc: Math.max(bestLocalCongDuc, Number(data.account.congDuc ?? 1)),
+                gender: data.account.gender || selectedCustomGender,
+                dept: (raw === 'Thành') ? 'Ban Giám Đốc' : (data.account.dept || getCharDeptName(raw)),
+                pin: rawPin,
+                registered: true,
+                updatedAt: Date.now()
+              };
+            }
+          }
+        } catch (e) {}
+      }
 
       currentAccountPin = rawPin;
       try { localStorage.setItem('ty_account_pin', rawPin); } catch (e) {}
       if (!allCharProfiles[raw]) {
-        allCharProfiles[raw] = { merit: raw.includes('Sếp Thành') ? 500 : 80, congDuc: 1, gender: selectedCustomGender, pin: rawPin, updatedAt: Date.now() };
+        allCharProfiles[raw] = { name: raw, merit: bestLocalMerit, congDuc: bestLocalCongDuc, gender: selectedCustomGender, dept: (raw === 'Thành') ? 'Ban Giám Đốc' : getCharDeptName(raw), pin: rawPin, registered: true, updatedAt: Date.now() };
       } else {
+        allCharProfiles[raw].merit = Math.max(Number(allCharProfiles[raw].merit || 0), bestLocalMerit);
+        allCharProfiles[raw].congDuc = Math.max(Number(allCharProfiles[raw].congDuc || 0), bestLocalCongDuc);
         allCharProfiles[raw].pin = rawPin;
+        allCharProfiles[raw].registered = true;
       }
       if (typeof switchActiveCharacterProfile === 'function') {
         switchActiveCharacterProfile(raw);
@@ -7523,7 +7600,7 @@
     let lastDonationTime = 0;
 
     const zaloCongDucBoard = [
-      { name: 'Sếp Thành', count: 5, meritBonus: 5000 },
+      { name: 'Thành', count: 5, meritBonus: 5000 },
       { name: 'Phật Tử Minh Anh', count: 3, meritBonus: 3000 },
       { name: 'Phật Tử Kiều Trang', count: 2, meritBonus: 2000 },
       { name: 'Phật Tử Bích Thủy', count: 1, meritBonus: 1000 },
@@ -7540,6 +7617,7 @@
       // Các NPC phụ trong sảnh chưa tham gia tạo nick sẽ KHÔNG được lên Bảng Top Phước Đức!
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
         Object.keys(allCharProfiles).forEach(cName => {
+          if (cName === 'Sếp Thành') return;
           const prof = allCharProfiles[cName];
           if (!prof || prof.registered === false) return;
           if (seen.has(cName)) return;
@@ -8046,10 +8124,18 @@
         }
         if (data.accounts && typeof data.accounts === 'object') {
           for (const [accName, accInfo] of Object.entries(data.accounts)) {
+            if (accName === 'Sếp Thành') continue;
             if (!allCharProfiles[accName]) allCharProfiles[accName] = {};
-            allCharProfiles[accName].merit = Number(accInfo.merit ?? allCharProfiles[accName].merit ?? 50);
-            allCharProfiles[accName].congDuc = Number(accInfo.congDuc ?? allCharProfiles[accName].congDuc ?? 1);
+            const localM = Number(allCharProfiles[accName].merit || 0);
+            const srvM = Number(accInfo.merit || 0);
+            allCharProfiles[accName].merit = Math.max(localM, srvM, 50);
+            allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
             allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
+            allCharProfiles[accName].registered = true;
+            if (accName === player.name && allCharProfiles[accName].merit > player.merit) {
+              player.merit = allCharProfiles[accName].merit;
+              syncMeritAndBagHud();
+            }
           }
         }
         return;
@@ -10372,8 +10458,6 @@
           if (typeof submitAndReadSoKhan === "function") submitAndReadSoKhan();
         } else if (dm === "top_phuoc_duc") {
           openMeritShopModal();
-          fillZaloRecognitionPreset("CEO Yến", "Chốt đơn công trình lớn & dẫn dắt đội ngũ xuất sắc trên Nhóm Zalo Cty");
-          fillZaloRecognitionPreset("Chị An Trưởng Phòng", "Hỗ trợ chốt đại lý tấm ốp & đào tạo Sale nhiệt tình");
         } else if (dm === "offer_5_givers") {
           altarOfferings['0'] = [
             { icon: '🪷', label: 'Hoa Sen Chay', fullName: 'Hoa Sen Bách Diệp', giver: 'Sếp Thành', wish: 'Cầu đạt KPI Quý', cost: 18, imgKey: 'leHoaSen' },
