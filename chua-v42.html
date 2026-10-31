@@ -1187,16 +1187,18 @@
     </div>
   </div>
 
-  <!-- 3D. BẢNG TƯƠNG TÁC NHÂN VẬT NEO GỌN Ở GÓC TRÊN TRÁI + TỰ ĐÓNG NGAY KHI BẤM ĐỂ LỘ 100% HÀNH ĐỘNG TRÊN THẢM ĐỎ! -->
-  <div id="npcInteractBar" style="display:none; position:fixed; left:10px; top:44px; z-index:67; width:min(94vw, 375px); background:rgba(16,12,24,0.95); border:2px solid #ffd54f; border-radius:14px; padding:9px 11px; box-shadow:0 10px 28px rgba(0,0,0,0.92);">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:7px;">
-      <div style="display:flex; align-items:center; gap:6px; flex:1; min-width:0;">
-        <span style="font-size:11px; font-weight:900; color:#ffd740; white-space:nowrap;">🤼 Chọn Người:</span>
-        <select id="hallNpcTargetSelect" onchange="selectHallNpcFromDropdown(this.value)" style="flex:1; min-width:0; background:rgba(36,16,4,0.95); color:#ffe082; border:1.5px solid #ffd54f; border-radius:7px; padding:4px 7px; font-size:11px; font-weight:800; outline:none;">
-        </select>
-        <span id="selectedNpcNameLabel" style="display:none;"></span>
+  <!-- 3D. BẢNG TƯƠNG TÁC NHÂN VẬT NEO GỌN Ở GÓC TRÊN TRÁI + CHỌN TƯƠNG TÁC RỒI MỚI HÀNH ĐỘNG (KHÔNG MẶC ĐỊNH LẠY NHAU!) -->
+  <div id="npcInteractBar" style="display:none; position:fixed; left:10px; top:44px; z-index:67; width:min(94vw, 385px); background:rgba(16,12,24,0.96); border:2px solid #ffd54f; border-radius:14px; padding:10px 12px; box-shadow:0 10px 28px rgba(0,0,0,0.92);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:5px;">
+      <div style="font-size:11px; font-weight:900; color:#69f0ae;">
+        🎯 Đã chọn: <span id="selectedNpcNameLabel" style="color:#ffd740; text-decoration:underline;">CEO Yến</span> — <span style="color:#ffe082; font-weight:700;">Chọn hành động bên dưới:</span>
       </div>
-      <button type="button" onclick="toggleNpcInteractBar(false)" title="Đóng bảng tương tác" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:7px; padding:3px 8px; font-size:11px; font-weight:900; cursor:pointer;">✕</button>
+      <button type="button" onclick="toggleNpcInteractBar(false)" title="Đóng bảng tương tác" style="background:#d32f2f; color:#fff; border:1.5px solid #ffcdd2; border-radius:7px; padding:2px 8px; font-size:11px; font-weight:900; cursor:pointer;">✕</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; margin-bottom:7px;">
+      <span style="font-size:10.5px; font-weight:800; color:#ffd740; white-space:nowrap;">🤼 Đổi người:</span>
+      <select id="hallNpcTargetSelect" onchange="selectHallNpcFromDropdown(this.value)" style="flex:1; min-width:0; background:rgba(36,16,4,0.95); color:#ffe082; border:1.5px solid #ffd54f; border-radius:7px; padding:4px 7px; font-size:11px; font-weight:800; outline:none;">
+      </select>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:7px;">
       <button type="button" onclick="interactWithHallNpc('brawl')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1.5px solid #ff8a80; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.5);">🥊💥 Đấm Nhau (-1💎)</button>
@@ -6911,11 +6913,8 @@
         if (npc._screenX !== undefined && npc._screenY !== undefined) {
           const dist = Math.hypot(clientX - npc._screenX, clientY - (npc._screenY - 35));
           if (dist < 48) {
-            selectedHallNpc = npc;
-            const lbl = document.getElementById('selectedNpcNameLabel');
-            if (lbl) lbl.textContent = npc.name;
-            toggleNpcInteractBar(true);
-            greetSpecificNpc(npc);
+            // V69 (#mvw8lkkn6b): Khi click vào nhau, CHỈ mở Bảng Chọn Tương Tác (#npcInteractBar), TUYỆT ĐỐI KHÔNG mặc định lạy nhau!
+            openNpcInteractChoiceMenu(npc);
             return;
           }
         }
@@ -6993,9 +6992,10 @@
     function populateHallNpcTargetSelect() {
       const sel = document.getElementById('hallNpcTargetSelect');
       if (!sel) return;
-      const curVal = sel.value || (selectedHallNpc && selectedHallNpc.name) || '';
+      const curVal = (selectedHallNpc && selectedHallNpc.name) || sel.value || '';
+      const presentChars = [...Object.values(onlineCompanyPeers), ...visitingGuests].filter(g => g && g.wing === player.wing && g.name !== player.name);
       const groups = [
-        { label: '👥 Đang Có Mặt Tại Sảnh', items: visitingGuests.filter(g => g.wing === player.wing).map(g => ({ name: g.name, dept: getCharDeptName(g.name), avatar: g.avatar || '🙏' })) },
+        { label: '👥 Đang Có Mặt Tại Sảnh', items: presentChars.map(g => ({ name: g.name, dept: getCharDeptName(g.name), avatar: g.avatar || '🙏' })) },
         { label: '🏢 Ban Giám Đốc & Quản Lý', items: CHARACTER_ROSTER_V57.filter(c => c.roleTag === 'bgd') },
         { label: '💼 Kế Toán & Nhân Sự (HR)', items: CHARACTER_ROSTER_V57.filter(c => c.roleTag === 'ketoan' || c.roleTag === 'hr') },
         { label: '🪷 Sale · Kinh Doanh · Marketing', items: CHARACTER_ROSTER_V57.filter(c => c.roleTag === 'sale' || c.roleTag === 'mkt') },
@@ -7024,7 +7024,7 @@
     }
 
     function ensureTargetNpcInCurrentWing(charName) {
-      let target = visitingGuests.find(g => g.name === charName && g.wing === player.wing && g.waitOutsideTimer === 0);
+      let target = [...Object.values(onlineCompanyPeers), ...visitingGuests].find(g => g && g.name === charName && g.wing === player.wing && (g.waitOutsideTimer === undefined || g.waitOutsideTimer === 0));
       if (!target) {
         // Triệu hồi nhân vật được chọn vào ngay sảnh hiện tại để tương tác!
         const sameWingGuests = visitingGuests.filter(g => g.wing === player.wing);
@@ -7056,7 +7056,7 @@
     function selectHallNpcFromDropdown(charName) {
       if (!charName) return;
       const target = ensureTargetNpcInCurrentWing(charName);
-      showToast(`🎯 Đã chọn tương tác với [${target.name} · ${getCharDeptName(target.name)}]!`);
+      showToast(`🎯 Đã chọn tương tác với [${target.name} · ${getCharDeptName(target.name)}] — Hãy chọn hành động bên dưới!`);
     }
 
     function toggleNpcInteractBar(forceState) {
@@ -7066,24 +7066,32 @@
       const show = (typeof forceState === 'boolean') ? forceState : (npcBar.style.display === 'none');
       if (show && strip) strip.style.display = 'none';
       if (show) {
-        const sameWing = visitingGuests.filter(g => g.wing === player.wing && g.waitOutsideTimer === 0);
+        const sameWing = [...Object.values(onlineCompanyPeers), ...visitingGuests].filter(g => g && g.wing === player.wing && (g.waitOutsideTimer === undefined || g.waitOutsideTimer === 0));
         if (!selectedHallNpc || selectedHallNpc.wing !== player.wing) {
           selectedHallNpc = sameWing[0] || visitingGuests[0];
         }
         populateHallNpcTargetSelect();
         const lbl = document.getElementById('selectedNpcNameLabel');
         if (lbl && selectedHallNpc) lbl.textContent = selectedHallNpc.name;
+        const sel = document.getElementById('hallNpcTargetSelect');
+        if (sel && selectedHallNpc) sel.value = selectedHallNpc.name;
       }
       npcBar.style.display = show ? 'block' : 'none';
     }
 
-    function greetSpecificNpc(target) {
+    function openNpcInteractChoiceMenu(target) {
       if (!target) return;
       selectedHallNpc = target;
-      populateHallNpcTargetSelect();
+      toggleNpcInteractBar(true);
+      const lbl = document.getElementById('selectedNpcNameLabel');
+      if (lbl) lbl.textContent = target.name;
       const sel = document.getElementById('hallNpcTargetSelect');
       if (sel) sel.value = target.name;
-      interactWithHallNpc('mutual_vai');
+      showToast(`🎯 Đã chọn [${target.name}] — Mời bạn chọn hành động (Đấm nhau / Vái nhau / Quỳ lạy / Cà khịa / Chat)!`);
+    }
+
+    function greetSpecificNpc(target) {
+      openNpcInteractChoiceMenu(target);
     }
 
     // KỊCH BẢN LỜI THOẠI TƯƠNG TÁC ĐA DẠNG, HÀI HƯỚC, CAY CÚ, BỰC BỘI GIỮA CÁC BỘ PHẬN / KHÁCH HÀNG / XÃ HỘI
@@ -10504,6 +10512,9 @@
           if (skName) skName.value = "Thành";
           selectPrayerTopic("binh_an");
           submitAndReadSoKhan();
+        } else if (dm === "click_npc_menu") {
+          const tNpc = visitingGuests.find(g => g.wing === player.wing && g.waitOutsideTimer === 0) || visitingGuests[0];
+          if (tNpc) openNpcInteractChoiceMenu(tNpc);
         }
       }, 300);
     });
