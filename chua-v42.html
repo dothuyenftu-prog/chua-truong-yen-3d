@@ -6763,35 +6763,23 @@
       unlockAndStartAudio();
       const now = Date.now();
       if (type === 'incense') {
+        // V63 (#mvw5crbq5t): Thắp hương KHÔNG CÓ xác suất may rủi — Thành tâm dâng 3 nén tâm hương cắm vào lư hương đồng!
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
         const zoneName = (player.wing === 1) ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo';
         const totalNow = burningIncenseCount[String(player.wing)];
-        const tier = rollSixTierMultiplier();
-        const incMult = tier.mult;
-        const incRateLabel = tier.rate;
-        const baseIncPts = 3;
-        const pts = baseIncPts * incMult * meritRateMultiplier;
         incenseCeremony = {
           active: true,
-          timer: 135,
-          maxTimer: 135,
+          timer: 110,
+          maxTimer: 110,
           wing: player.wing,
-          mult: incMult,
-          rateLabel: incRateLabel,
-          pts: pts,
           zoneName: zoneName,
-          giver: player.name
+          giver: player.name,
+          totalNow: totalNow
         };
         if (!silentMerit) {
           lastIncenseMeritAt = now;
-          if (pts > 0) {
-            addMerit(pts, `Thắp 3 nén tâm hương tại ${zoneName} ➔ Trúng X${incMult} (Tỉ lệ ${incRateLabel}): +${pts} 💎`);
-            appendMeritLog(`♨️🌟 <b>${player.name}</b>: Thắp Hương tại <b>${zoneName}</b> trúng <b style="color:#ffd740;">X${incMult} (Tỉ lệ ${incRateLabel})</b> → Nhận <b>+${pts} 💎 Phước Đức</b>!`);
-            showToast(`♨️🌟 Thắp Hương trúng X${incMult} (Tỉ lệ ${incRateLabel} · Càng cao càng khó) ➔ +${pts} 💎 Phước!`);
-          } else {
-            appendMeritLog(`♨️💨 <b>${player.name}</b>: Thắp 3 nén hương tại <b>${zoneName}</b> trúng <b>X0 (Không có gì · Tỉ lệ ${incRateLabel})</b> — Hãy thắp tiếp săn X1·X2·X3·X5·X10!`);
-            showToast(`♨️💨 Đã thắp 3 nén hương tại ${zoneName} ➔ Trúng X0 (Không có gì · Tỉ lệ ${incRateLabel} · Hãy thắp tiếp săn X1·X2·X3·X5·X10!)`);
-          }
+          appendMeritLog(`♨️🙏 <b>${player.name}</b>: Đã thành tâm dâng 3 nén hương cắm vào Lư Hương tại <b>${zoneName}</b> (Tổng: ${totalNow} nén hương đang cháy).`);
+          showToast(`♨️🙏 ${player.name} đã thành tâm dâng 3 nén hương lên Lư Hương ${zoneName}!`);
         }
       } else if (type === 'pray') {
         performDirectHallAction('pray');
@@ -7925,18 +7913,14 @@
           ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 10, -w * 0.48, -upperH, w, upperH + 5);
           ctx.restore();
         } else {
-          // Tư thế cúi gập người vái sâu 3D (pose_vai_bow) với nhịp nhún kính cẩn ở đỉnh cúi
+          // Tư thế cúi gập người vái sâu 3D (pose_vai_bow) liền mạch 100% không gãy vạt áo, nhịp cúi mượt quanh khớp cổ chân & thắt lưng
           const deepT = (bowWave - 0.42) / 0.58;
-          const h = baseH * 0.96;
+          const h = baseH * (0.97 - deepT * 0.02);
           const w = h * (vaiBow.naturalWidth / vaiBow.naturalHeight);
-          const splitY = Math.round(vaiBow.naturalHeight * 0.54);
-          const lowerH = h * 0.46;
-          const upperH = h * 0.54;
-          ctx.drawImage(vaiBow, 0, splitY, vaiBow.naturalWidth, vaiBow.naturalHeight - splitY, -w * 0.34, -lowerH, w, lowerH);
           ctx.save();
-          ctx.translate(-w * 0.05, -lowerH + 5);
-          ctx.rotate((deepT - 0.35) * 0.18);
-          ctx.drawImage(vaiBow, 0, 0, vaiBow.naturalWidth, splitY + 10, -w * 0.29, -upperH, w, upperH + 5);
+          ctx.translate(-w * 0.08, -4);
+          ctx.rotate((deepT - 0.3) * 0.09);
+          ctx.drawImage(vaiBow, -w * 0.26, -h + 4, w, h);
           ctx.restore();
         }
         ctx.restore();
@@ -8728,37 +8712,29 @@
         }
         ctx.restore();
 
-        // V63: HIỂN THỊ BẢNG QUAY XÁC SUẤT THẮP HƯƠNG 6 BẬC (X0·X1·X2·X3·X5·X10) NỔI RÕ RÀNG TRÊN MÀN HÌNH SẢNH CHÍNH!
+        // V63 (#mvw5crbq5t): Hiển thị nghi thức Dâng 3 Nén Tâm Hương trang nghiêm (Không tính xác suất may rủi khi thắp hương)
         ctx.save();
         const cardX = W * 0.5;
-        const cardY = Math.max(105, targetY - 62);
-        const cardW = 330;
-        const cardH = 66;
-        const isWin = (incenseCeremony.pts || 0) > 0;
-        ctx.fillStyle = isWin ? 'rgba(38, 16, 4, 0.96)' : 'rgba(24, 18, 14, 0.95)';
-        ctx.strokeStyle = isWin ? '#ffd740' : '#ffab40';
-        ctx.lineWidth = 2.2;
+        const cardY = Math.max(102, targetY - 58);
+        const cardW = 296;
+        const cardH = 44;
+        ctx.fillStyle = 'rgba(36, 14, 4, 0.94)';
+        ctx.strokeStyle = '#ffd54f';
+        ctx.lineWidth = 1.8;
         ctx.beginPath();
-        ctx.roundRect(cardX - cardW / 2, cardY - cardH / 2, cardW, cardH, 14);
+        ctx.roundRect(cardX - cardW / 2, cardY - cardH / 2, cardW, cardH, 12);
         ctx.fill();
         ctx.stroke();
 
         ctx.font = 'bold 10.5px sans-serif';
-        ctx.fillStyle = '#ffd54f';
+        ctx.fillStyle = '#ffd740';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`♨️ THẮP 3 NÉN TÂM HƯƠNG · QUAY XÁC SUẤT 6 BẬC`, cardX, cardY - 19);
+        ctx.fillText(`♨️🙏 DÂNG 3 NÉN TÂM HƯƠNG CẮM VÀO LƯ HƯƠNG`, cardX, cardY - 8);
 
-        ctx.font = 'bold 9.2px sans-serif';
+        ctx.font = 'bold 9.5px sans-serif';
         ctx.fillStyle = '#ffe082';
-        ctx.fillText(`Tỉ lệ: X0(40%) · X1(32%) · X2(15%) · X3(8%) · X5(4%) · X10(1%)`, cardX, cardY - 3);
-
-        ctx.font = 'bold 11.5px sans-serif';
-        ctx.fillStyle = isWin ? '#69f0ae' : '#ffab91';
-        const resTxt = isWin
-          ? `🎯 KẾT QUẢ: TRÚNG X${incenseCeremony.mult} (${incenseCeremony.rateLabel}) ➔ +${incenseCeremony.pts} 💎 PHƯỚC!`
-          : `💨 KẾT QUẢ: TRÚNG X0 (Không có gì · ${incenseCeremony.rateLabel}) · Thắp tiếp săn X10!`;
-        ctx.fillText(resTxt, cardX, cardY + 16);
+        ctx.fillText(`👤 Tín chủ: ${incenseCeremony.giver || player.name} · Thành tâm kính lễ ${incenseCeremony.zoneName || 'Tam Bảo'}`, cardX, cardY + 9);
         ctx.restore();
 
         if (incenseCeremony.timer === 0) incenseCeremony.active = false;
