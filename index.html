@@ -908,7 +908,7 @@
         </optgroup>
         <option value="__custom__">✏️ Tự Đặt / Đổi Tên Nhân Vật...</option>
       </select>
-      <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đổi tên nhân vật hoặc tạo tài khoản mới">✏️ Đổi Tên</button>
+      <button class="chip-btn active" style="background:linear-gradient(135deg,#f57f17,#e65100);color:#fff;border-color:#ffd54f;" onclick="openRenameCharModal()" title="Đăng nhập Tài Khoản Riêng (Tên + Mã PIN 4 số), tạo nick mới hoặc đổi nhân vật">🔑 Tài Khoản</button>
       <button id="tabTamBao" class="chip-btn active" onclick="switchZone('tambao')">🏛️ Tam Bảo</button>
       <button id="tabThanTai" class="chip-btn" onclick="switchZone('thantai')">💰 Thần Tài</button>
     </div>
@@ -1059,19 +1059,27 @@
     </div>
   </div>
 
-  <!-- 2B. MODAL ĐỔI TÊN NHÂN VẬT & CHỌN TRANG PHỤC ÁO LAM -->
+  <!-- 2B. MODAL ĐĂNG NHẬP / TẠO TÀI KHOẢN RIÊNG (MÃ PIN 4 SỐ + LƯU PHƯỚC ĐỨC ĐA THIẾT BỊ) -->
   <div class="modal-backdrop" id="renameCharModal" onclick="if(event.target===this) closeRenameCharModal()">
-    <div class="so-khan-box" style="max-width:410px;">
+    <div class="so-khan-box" style="max-width:445px;">
       <div class="sk-top-row">
-        <span class="sk-title">✏️👤 ĐỔI TÊN NHÂN VẬT & TRANG PHỤC ÁO LAM</span>
+        <span class="sk-title">🔑👤 TÀI KHOẢN RIÊNG · ĐĂNG NHẬP & BẢO VỆ NICK</span>
         <button class="btn-modal-x" onclick="closeRenameCharModal()">✕ Đóng</button>
       </div>
+      <div id="accountCurrentStatusBox" style="background:rgba(46,125,50,0.22); border:1px solid #81c784; border-radius:10px; padding:7px 10px; margin-bottom:8px; font-size:11.5px; color:#e8f5e9; display:flex; justify-content:space-between; align-items:center;">
+        <span>🟢 Đang đăng nhập: <b id="accModalCurrentName" style="color:#ffd54f;">Sếp Thành</b> (<b id="accModalCurrentMerit">120</b> 💎)</span>
+        <span style="font-size:10.5px; color:#a5d6a7;">🔒 Đã đồng bộ</span>
+      </div>
       <div style="font-size:11.2px; color:#ffe596; margin-bottom:8px; line-height:1.4;">
-        Nhập tên bạn muốn hiển thị trên đầu nhân vật trong Chánh Điện, trên Sớ Điệp Vàng và trên Bảng Top Phước Đức:
+        Mỗi người có <b>1 Tài Khoản & Mã PIN 4 Số riêng</b>. Điểm Phước Đức 💎, Lễ Vật và thứ hạng Top Phước Đức được lưu riêng biệt và tự động đồng bộ khi đăng nhập trên Điện thoại hoặc Máy tính:
       </div>
       <div class="sk-field">
-        <label>👤 Tên Nhân Vật Mới:</label>
-        <input id="customCharNameInput" type="text" value="Sếp Thành" maxlength="32" placeholder="Nhập tên nhân vật của bạn..." style="font-size:13px; font-weight:800; padding:8px 10px;" />
+        <label>👤 Tên Tài Khoản / Nhân Vật Của Bạn:</label>
+        <input id="customCharNameInput" type="text" value="Sếp Thành" maxlength="32" placeholder="Nhập tên của bạn (VD: Sếp Thành, Sale Minh Anh...)" style="font-size:13px; font-weight:800; padding:8px 10px;" />
+      </div>
+      <div class="sk-field">
+        <label>🔢 Mã PIN Bảo Vệ Nick (4 chữ số — Chống người khác vào nhầm nick):</label>
+        <input id="accountPinInput" type="password" inputmode="numeric" value="1234" maxlength="8" placeholder="Nhập Mã PIN 4 số riêng (VD: 1234, 6868...)" style="font-size:13px; font-weight:800; padding:8px 10px; letter-spacing:3px; color:#ffd740;" />
       </div>
       <div class="sk-field">
         <label>👘 Chọn Hình Dáng Nhân Vật Áo Lam:</label>
@@ -1080,18 +1088,21 @@
           <button id="btnGenderM" class="topic-btn selected" style="text-align:center; padding:8px;" onclick="selectCharGender('M')">👨🏻🧘‍♂️ Cư Sĩ Nam (Áo Lam)</button>
         </div>
       </div>
-      <div style="font-size:10.5px; color:#f7cf73; font-weight:800; margin:6px 0 4px;">⚡ Hoặc chọn nhanh tên thành viên:</div>
+      <div style="font-size:10.5px; color:#f7cf73; font-weight:800; margin:6px 0 4px;">⚡ Hoặc bấm chọn nhanh tên thành viên để đăng nhập:</div>
       <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
         <span class="cm-auto-pill" onclick="quickSetCharName('Sếp Thành', 'M')">🧘‍♂️ Sếp Thành</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('CEO Yến', 'F')">👑 CEO Yến</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('Sale Minh Anh', 'F')">🪷 Minh Anh</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('Sale Kiều Trang', 'F')">🪷 Kiều Trang</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('Sale Huế', 'F')">🪷 Sale Huế</span>
         <span class="cm-auto-pill" onclick="quickSetCharName('Sale Bích Thủy', 'F')">🪷 Bích Thủy</span>
-        <span class="cm-auto-pill" onclick="quickSetCharName('Sale Ánh Nguyệt', 'F')">🪷 Ánh Nguyệt</span>
-        <span class="cm-auto-pill" onclick="quickSetCharName('Thế Anh', 'M')">🙏 Thế Anh</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Anh Trung QL Kho HN', 'M')">📦 Anh Trung</span>
+        <span class="cm-auto-pill" onclick="quickSetCharName('Thế Anh Kho HN', 'M')">🙏 Thế Anh</span>
       </div>
-      <div class="sk-actions">
-        <button class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName()">✅ Lưu Tên Nhân Vật Mới</button>
+      <div id="accountLoginErrorMsg" style="display:none; background:rgba(183,28,28,0.28); border:1px solid #ff8a80; border-radius:8px; padding:6px 10px; margin-bottom:8px; font-size:11.5px; color:#ffcdd2; font-weight:700;"></div>
+      <div class="sk-actions" style="display:flex; gap:8px;">
+        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName()">🔑 Đăng Nhập / Lưu Tài Khoản</button>
+        <button class="btn-sk-submit" style="background:linear-gradient(135deg,#455a64,#263238); padding:10px 12px;" onclick="logoutCurrentAccount()">🚪 Đổi Nick</button>
       </div>
     </div>
   </div>
@@ -5811,6 +5822,35 @@
     }
 
     let allCharProfiles = loadAllCharProfiles();
+    let currentAccountPin = localStorage.getItem('ty_account_pin') || '1234';
+
+    function getAccountApiBaseUrl() {
+      if (window.location.port === '8899') return '';
+      return 'http://192.168.1.13:8899';
+    }
+
+    function syncAccountMeritToServer() {
+      if (!player || !player.name) return;
+      const payload = {
+        type: 'account_merit_sync',
+        name: player.name,
+        pin: currentAccountPin || '1234',
+        merit: player.merit,
+        congDuc: typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
+        gender: player.gender || 'F',
+        dept: typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'
+      };
+      if (typeof lanWsSocket !== 'undefined' && lanWsSocket && lanWsSocket.readyState === 1) {
+        try { lanWsSocket.send(JSON.stringify(payload)); } catch (e) {}
+      }
+      try {
+        fetch(getAccountApiBaseUrl() + '/api/account/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (e) {}
+    }
 
     function saveCurrentCharProfile() {
       if (!player || !player.name) return;
@@ -5818,6 +5858,7 @@
         merit: player.merit,
         congDuc: typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
         gender: player.gender || 'F',
+        pin: allCharProfiles[player.name]?.pin || currentAccountPin || '1234',
         updatedAt: Date.now()
       };
       try {
@@ -5825,6 +5866,11 @@
       } catch (e) {}
       const badgeEl = document.getElementById('activeCharProfileBadge');
       if (badgeEl) badgeEl.textContent = player.name;
+      const accNameEl = document.getElementById('accModalCurrentName');
+      if (accNameEl) accNameEl.textContent = player.name;
+      const accMeritEl = document.getElementById('accModalCurrentMerit');
+      if (accMeritEl) accMeritEl.textContent = player.merit;
+      syncAccountMeritToServer();
     }
 
     function switchActiveCharacterProfile(charName) {
@@ -5882,10 +5928,28 @@
     function openRenameCharModal() {
       const modal = document.getElementById('renameCharModal');
       const input = document.getElementById('customCharNameInput');
+      const pinInput = document.getElementById('accountPinInput');
+      const errBox = document.getElementById('accountLoginErrorMsg');
+      if (errBox) errBox.style.display = 'none';
       if (input) input.value = player.name || '';
+      if (pinInput) pinInput.value = currentAccountPin || '1234';
+      const accNameEl = document.getElementById('accModalCurrentName');
+      if (accNameEl) accNameEl.textContent = player.name;
+      const accMeritEl = document.getElementById('accModalCurrentMerit');
+      if (accMeritEl) accMeritEl.textContent = player.merit;
       selectCharGender(player.gender || 'F');
       if (modal) modal.classList.add('open');
       setTimeout(() => { if (input) input.focus(); }, 60);
+    }
+
+    function logoutCurrentAccount() {
+      const input = document.getElementById('customCharNameInput');
+      const pinInput = document.getElementById('accountPinInput');
+      const errBox = document.getElementById('accountLoginErrorMsg');
+      if (errBox) errBox.style.display = 'none';
+      if (input) { input.value = ''; input.focus(); }
+      if (pinInput) pinInput.value = '';
+      showToast('🔑 Nhập Tên Tài Khoản mới và Mã PIN 4 số để đăng nhập nick khác!');
     }
 
     function closeRenameCharModal() {
@@ -5922,12 +5986,70 @@
       selectCharGender(g || 'F');
     }
 
-    function saveCustomCharName() {
+    async function saveCustomCharName() {
       const input = document.getElementById('customCharNameInput');
+      const pinInput = document.getElementById('accountPinInput');
+      const errBox = document.getElementById('accountLoginErrorMsg');
+      if (errBox) errBox.style.display = 'none';
       const raw = input ? input.value.trim() : '';
+      const rawPin = (pinInput && pinInput.value.trim()) ? pinInput.value.trim() : '1234';
       if (!raw) {
-        showToast('⚠️ Vui lòng nhập tên nhân vật của bạn!');
+        showToast('⚠️ Vui lòng nhập Tên Tài Khoản / Nhân Vật của bạn!');
         return;
+      }
+      // Kiểm tra Mã PIN cục bộ hoặc trên Server LAN
+      const localExisting = allCharProfiles[raw];
+      if (localExisting && localExisting.pin && localExisting.pin !== rawPin) {
+        if (errBox) {
+          errBox.textContent = `❌ Tài khoản "${raw}" đã có Mã PIN bảo vệ riêng! Vui lòng nhập đúng Mã PIN của tài khoản này.`;
+          errBox.style.display = 'block';
+        }
+        showToast(`❌ Sai Mã PIN của tài khoản "${raw}"!`);
+        return;
+      }
+
+      try {
+        const res = await fetch(getAccountApiBaseUrl() + '/api/account/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: raw,
+            pin: rawPin,
+            gender: selectedCustomGender,
+            dept: typeof getCharDeptName === 'function' ? getCharDeptName(raw) : 'Phật Tử',
+            initialMerit: localExisting ? localExisting.merit : (raw.includes('Sếp Thành') ? 500 : 80),
+            congDuc: localExisting ? localExisting.congDuc : 1
+          })
+        });
+        if (res.status === 403) {
+          const errData = await res.json().catch(() => ({}));
+          if (errBox) {
+            errBox.textContent = '❌ ' + (errData.error || `Sai Mã PIN của tài khoản "${raw}"!`);
+            errBox.style.display = 'block';
+          }
+          showToast(`❌ Sai Mã PIN của tài khoản "${raw}"!`);
+          return;
+        }
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.account) {
+            allCharProfiles[raw] = {
+              merit: Number(data.account.merit ?? 80),
+              congDuc: Number(data.account.congDuc ?? 1),
+              gender: data.account.gender || selectedCustomGender,
+              pin: rawPin,
+              updatedAt: Date.now()
+            };
+          }
+        }
+      } catch (e) {}
+
+      currentAccountPin = rawPin;
+      try { localStorage.setItem('ty_account_pin', rawPin); } catch (e) {}
+      if (!allCharProfiles[raw]) {
+        allCharProfiles[raw] = { merit: raw.includes('Sếp Thành') ? 500 : 80, congDuc: 1, gender: selectedCustomGender, pin: rawPin, updatedAt: Date.now() };
+      } else {
+        allCharProfiles[raw].pin = rawPin;
       }
       if (typeof switchActiveCharacterProfile === 'function') {
         switchActiveCharacterProfile(raw);
@@ -5958,7 +6080,7 @@
             sel.insertBefore(customOpt, sel.firstChild);
           }
           customOpt.value = raw;
-          customOpt.textContent = `👤 ${raw} (Nhân vật của bạn)`;
+          customOpt.textContent = `👤 ${raw} (Tài khoản của bạn)`;
           sel.value = raw;
         }
       }
@@ -5973,25 +6095,32 @@
       try {
         localStorage.setItem('ty_custom_char_name', raw);
         localStorage.setItem('ty_custom_char_gender', selectedCustomGender);
+        localStorage.setItem('ty_logged_in_account', raw);
       } catch (err) {}
 
-      player.chat = `🙏 ${player.name} xin kính chào đại chúng Chùa Trường Yến!`;
+      player.chat = `🙏 ${player.name} đã đăng nhập vào Chánh Điện Chùa Trường Yến!`;
       player.chatTimer = 220;
       closeRenameCharModal();
-      showToast(`✅ Đã đổi tên nhân vật thành: "${player.name}"!`);
+      showToast(`🔑 Đã đăng nhập Tài Khoản "${player.name}" (Phước Đức: ${player.merit} 💎)!`);
       broadcastMyPresence();
     }
 
-    // Khôi phục tên nhân vật đã lưu từ localStorage (nếu có)
+    // Khôi phục tên nhân vật đã lưu từ localStorage (nếu có), hoặc mở bảng Đăng Nhập Tài Khoản cho người mới
     (function restoreSavedCharName() {
       try {
         const savedName = localStorage.getItem('ty_custom_char_name');
         const savedGender = localStorage.getItem('ty_custom_char_gender');
+        const savedPin = localStorage.getItem('ty_account_pin');
+        if (savedPin) currentAccountPin = savedPin;
         if (savedName && savedName.trim()) {
           selectedCustomGender = (savedGender === 'M') ? 'M' : 'F';
           const input = document.getElementById('customCharNameInput');
           if (input) input.value = savedName.trim();
+          const pinInput = document.getElementById('accountPinInput');
+          if (pinInput && savedPin) pinInput.value = savedPin;
           saveCustomCharName();
+        } else if (!location.search.includes('demo=')) {
+          setTimeout(() => openRenameCharModal(), 180);
         }
       } catch (err) {}
     })();
@@ -7302,6 +7431,21 @@
             altarOfferings['1'] = data.altarOfferings['1'];
           }
         }
+        if (data.accounts && typeof data.accounts === 'object') {
+          for (const [accName, accInfo] of Object.entries(data.accounts)) {
+            if (!allCharProfiles[accName]) allCharProfiles[accName] = {};
+            allCharProfiles[accName].merit = Number(accInfo.merit ?? allCharProfiles[accName].merit ?? 50);
+            allCharProfiles[accName].congDuc = Number(accInfo.congDuc ?? allCharProfiles[accName].congDuc ?? 1);
+            allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
+          }
+        }
+        return;
+      }
+      if (data.type === 'account_merit_sync' && data.name) {
+        if (!allCharProfiles[data.name]) allCharProfiles[data.name] = {};
+        allCharProfiles[data.name].merit = Number(data.merit ?? 50);
+        allCharProfiles[data.name].congDuc = Number(data.congDuc ?? 1);
+        if (data.gender) allCharProfiles[data.name].gender = data.gender;
         return;
       }
       if (data.sender === clientId) return;
