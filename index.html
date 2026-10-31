@@ -8522,6 +8522,16 @@
           if (typeof openKarmaReleaseModal === "function") openKarmaReleaseModal();
           if (typeof selectKarmaChar === "function") selectKarmaChar("anh_hai");
           if (typeof triggerDirectAbbotOnCanvas === "function") triggerDirectAbbotOnCanvas(1);
+        } else if (dm === "karma_renamed") {
+          if (typeof openKarmaReleaseModal === "function") openKarmaReleaseModal('punch');
+          if (typeof setKarmaTargetNameEverywhere === "function") setKarmaTargetNameEverywhere("Ông Khách Hứa Lèo Trốn Nợ", false);
+          if (typeof executeKarmaHit === "function") executeKarmaHit(270, 210, false);
+        } else if (dm === "custom_char") {
+          const inp = document.getElementById("customCharNameInput");
+          if (inp) inp.value = "Thích Car Money";
+          if (typeof selectCharGender === "function") selectCharGender("M");
+          if (typeof saveCustomCharName === "function") saveCustomCharName();
+          if (typeof submitAndReadSoKhan === "function") submitAndReadSoKhan();
         }
       }, 300);
     });
