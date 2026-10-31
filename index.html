@@ -434,8 +434,33 @@
     .dock-label { font-size: 10.5px; font-weight: 700; white-space: nowrap; color: #ffefc8; }
 
     @media (max-width: 680px) {
-      .chip-btn { padding: 4px 7px; font-size: 10.5px; }
-      select.top-select { padding: 4px 6px; font-size: 10.5px; max-width: 130px; }
+      .top-bar {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 3px !important;
+        top: 4px !important;
+        left: 4px !important;
+        right: 4px !important;
+      }
+      .top-merit-hero {
+        order: -1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      .top-merit-hero button {
+        padding: 3px 11px !important;
+        font-size: 11px !important;
+      }
+      .top-group {
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 3px !important;
+      }
+      .chip-btn { padding: 3.5px 6px !important; font-size: 9.8px !important; }
+      select.top-select { padding: 3.5px 6px !important; font-size: 9.8px !important; max-width: 128px; }
+      #btnDesktopRightMerit { display: none !important; }
       .bottom-dock {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -443,13 +468,21 @@
         gap: 4px;
         padding: 5px;
       }
-      .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; }
+      .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; overflow: hidden; }
       .dock-icon { font-size: 16px; }
-      .dock-label { font-size: 9.6px; }
-      #joystick360 { bottom: 142px; right: 10px; width: 104px; height: 104px; }
+      .dock-label { font-size: 8.8px; letter-spacing: -0.2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+      #joystick360 { bottom: 156px; right: 8px; width: 92px; height: 92px; }
       .chuong-mo-panel { display: none !important; }
-      .quick-offering-bar { bottom: 106px; padding: 3px 6px; }
-      .qo-btn { font-size: 9.6px; padding: 2.5px 6px; }
+      .quick-offering-bar {
+        bottom: 104px;
+        padding: 4px 5px;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        border-radius: 12px !important;
+        width: 96vw;
+        gap: 3px !important;
+      }
+      .qo-btn { font-size: 9.2px; padding: 2.5px 5.5px; }
     }
 
     /* =====================================================================
@@ -859,9 +892,9 @@
   <canvas id="gameCanvas"></canvas>
 
   <!-- 1. TOP BAR: ROLE + ĐIỂM TÍCH PHƯỚC TRÊN CÙNG + 3 BAN THỜ + BẢNG CÔNG ĐỨC -->
-  <div class="top-bar" style="flex-wrap:nowrap; align-items:flex-start; justify-content:space-between; pointer-events:none;">
+  <div class="top-bar" style="align-items:center; justify-content:space-between; pointer-events:none;">
     <!-- Cụm Góc Trái Gọn Gàng -->
-    <div class="top-group" style="max-width:42vw;">
+    <div class="top-group">
       <select id="charSelect" class="top-select" title="Tài khoản đang đăng nhập của bạn (Gói gọn: Ai đăng nhập tài khoản nào chỉ hiện đúng tài khoản đó)">
         <option id="customUserCharOption" value="Thành">👤 Thành · 💎 1.380 Phước</option>
         <option value="__custom__">🔑 Đổi / Đăng Nhập Tài Khoản Khác...</option>
@@ -872,17 +905,17 @@
     </div>
 
     <!-- HUY HIỆU ĐIỂM TÍCH PHƯỚC NỔI BẬT Ở CHÍNH GIỮA TRÊN CÙNG MÀN HÌNH (#mvw8mq8n6c) -->
-    <div style="pointer-events:auto; display:flex; justify-content:center; align-items:center;">
-      <button type="button" onclick="openMeritShopModal()" title="Bấm để mở Bảng Top Phước Đức & Cửa Hàng Lễ Vật" style="background:linear-gradient(135deg,#4a1c03,#8d3b05,#4a1c03); color:#fff8e1; border:2px solid #ffd740; border-radius:999px; padding:5px 16px; font-size:12.5px; font-weight:900; cursor:pointer; box-shadow:0 4px 16px rgba(255,215,64,0.45), inset 0 1px 4px rgba(255,255,255,0.35); display:flex; align-items:center; gap:7px; white-space:nowrap;">
+    <div class="top-merit-hero" style="pointer-events:auto; display:flex; justify-content:center; align-items:center;">
+      <button type="button" onclick="openMeritShopModal()" title="Bấm để mở Bảng Top Phước Đức & Cửa Hàng Lễ Vật" style="background:linear-gradient(135deg,#4a1c03,#8d3b05,#4a1c03); color:#fff8e1; border:2px solid #ffd740; border-radius:999px; padding:5px 14px; font-size:12px; font-weight:900; cursor:pointer; box-shadow:0 4px 16px rgba(255,215,64,0.45), inset 0 1px 4px rgba(255,255,255,0.35); display:flex; align-items:center; gap:6px; white-space:nowrap;">
         <span>💎 ĐIỂM TÍCH PHƯỚC:</span>
-        <span id="topCenterMeritScore" style="color:#ffd740; font-size:14.5px; text-shadow:0 0 8px rgba(255,215,64,0.85);">1.380 💎</span>
-        <span style="background:rgba(255,215,64,0.22); color:#69f0ae; border:1px solid rgba(105,240,174,0.6); border-radius:999px; padding:1px 8px; font-size:10.5px;">🏆 Top #1 (<span id="activeCharProfileBadge">Thành</span>)</span>
+        <span id="topCenterMeritScore" style="color:#ffd740; font-size:14px; text-shadow:0 0 8px rgba(255,215,64,0.85);">1.380 💎</span>
+        <span style="background:rgba(255,215,64,0.22); color:#69f0ae; border:1px solid rgba(105,240,174,0.6); border-radius:999px; padding:1px 7px; font-size:10px;">🏆 Top #1 (<span id="activeCharProfileBadge">Thành</span>)</span>
       </button>
     </div>
 
     <!-- Cụm Góc Phải Gọn Gàng + Nút Menu [🎛️ Nhạc · Kinh · Tiện Ích ▾] gom toàn bộ nút phụ -->
-    <div class="top-group" style="max-width:42vw; justify-content:flex-end;">
-      <button class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
+    <div class="top-group" style="justify-content:flex-end;">
+      <button id="btnDesktopRightMerit" class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
         🏆 Bảng Top · 💎<span id="meritScore">1.380</span>
       </button>
       <button id="tabKarma" class="chip-btn" style="background:linear-gradient(135deg,#880e4f,#4a148c);color:#fff;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">😤🥊 Xả Nghiệp</button>
@@ -1216,9 +1249,9 @@
       </select>
     </div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:7px;">
-      <button type="button" onclick="interactWithHallNpc('brawl')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1.5px solid #ff8a80; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.5);">🥊💥 Đấm Nhau (-1💎)</button>
       <button type="button" onclick="interactWithHallNpc('mutual_vai')" style="background:linear-gradient(135deg,#1565c0,#0d47a1); color:#fff; border:1.5px solid #80d8ff; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🙏🔄 Vái Lạy Nhau (+1💎)</button>
       <button type="button" onclick="interactWithHallNpc('mutual_kneel')" style="background:linear-gradient(135deg,#ef6c00,#b71c1c); color:#fff; border:1.5px solid #ffd54f; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🙇🔄 Quỳ Lạy Nhau (+1💎)</button>
+      <button type="button" onclick="interactWithHallNpc('brawl')" style="background:linear-gradient(135deg,#d50000,#880e4f); color:#fff; border:1.5px solid #ff8a80; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.5);">🥊💥 Đấm Nhau (-1💎)</button>
       <button type="button" onclick="interactWithHallNpc('salty_chat')" style="background:linear-gradient(135deg,#4a148c,#311b92); color:#ffeb3b; border:1.5px solid #ea80fc; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🤬💬 Cà Khịa Cay Cú</button>
     </div>
     <div style="display:flex; gap:5px; align-items:center;">
@@ -1254,7 +1287,7 @@
       </button>
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(142,24,68,0.95),rgba(74,12,36,0.96));border-color:#ffd54f;" onclick="openFortuneStickModal()">
         <span class="dock-icon">🎋</span>
-        <span class="dock-label">Xăm · Dịch · Tử Vi · Số</span>
+        <span class="dock-label">Xăm · Dịch · Tử Vi</span>
       </button>
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,rgba(136,14,79,0.96),rgba(49,27,146,0.96));border-color:#ff80ab;" onclick="openKarmaReleaseModal()">
         <span class="dock-icon">🤬🥊</span>
@@ -1262,7 +1295,7 @@
       </button>
       <button class="dock-item active-ritual" onclick="openMeritShopModal()">
         <span class="dock-icon">🎁</span>
-        <span class="dock-label">Cửa Hàng Lễ (≤100💎)</span>
+        <span class="dock-label">Cửa Hàng Lễ (💎)</span>
       </button>
       <button id="dockChantBtn" class="dock-item" onclick="toggleRealChanting()">
         <span class="dock-icon">📿</span>
@@ -5650,14 +5683,21 @@
         wideOverviewMode = false;
         targetZoom = 1.0;
       }
+      isDragging = false;
+      player.u = 0.50;
+      player.targetU = 0.50;
+      player.v = 0.72;
+      player.targetV = 0.72;
       if (currentZone === 'thantai') {
         targetWingX = 1;
+        camWingX = 1;
         player.targetWing = 1;
         player.wing = 1;
         showToast('💰 Ban Thờ Thần Tài Vị Tiền – Thổ Địa');
         playMoSound();
       } else {
         targetWingX = 0;
+        camWingX = 0;
         player.targetWing = 0;
         player.wing = 0;
         showToast('🏛️ Đại Hùng Bảo Điện – Ban Tam Bảo');
@@ -6881,15 +6921,15 @@
     window.addEventListener('pointermove', (e) => {
       if (!isDragging) return;
       const dx = e.clientX - dragStartX;
-      if (Math.abs(dx) > 8) {
+      if (Math.abs(dx) > 14) {
         pointerMoved = true;
-        targetWingX = Math.max(-0.12, Math.min(1.12, dragStartCamWing - dx / (window.innerWidth * 0.65)));
+        targetWingX = Math.max(0, Math.min(1, dragStartCamWing - dx / (window.innerWidth * 0.65)));
       }
     });
-    window.addEventListener('pointerup', (e) => {
+    function finishCanvasDrag(e) {
       if (!isDragging) return;
       isDragging = false;
-      if (!pointerMoved) {
+      if (!pointerMoved && e && typeof e.clientX === 'number') {
         handleCanvasTap(e.clientX, e.clientY);
       } else {
         if (targetWingX > 0.48) {
@@ -6901,10 +6941,17 @@
           player.targetWing = 0;
           player.wing = 0;
         }
+        player.u = 0.50;
+        player.targetU = 0.50;
         targetWingX = player.wing;
+        camWingX = player.wing;
         updateZoneTabs();
       }
-    });
+    }
+    window.addEventListener('pointerup', finishCanvasDrag);
+    window.addEventListener('pointercancel', finishCanvasDrag);
+    window.addEventListener('touchend', () => { if (isDragging) finishCanvasDrag(null); }, { passive: true });
+    window.addEventListener('touchcancel', () => { if (isDragging) finishCanvasDrag(null); }, { passive: true });
 
     function handleCanvasTap(clientX, clientY) {
       // Chạm vào Bàn Lễ Cúng Dường tại Sảnh Chính -> Mở ngay thanh Đặt Lễ & Hạ Lễ Nhanh tại Sảnh Chính (KHÔNG hiện ô to che màn hình!)
@@ -8444,6 +8491,7 @@
     resizeCanvas();
 
     function drawRoundedBadge(x, y, avatar, name, isPlayer = false) {
+      if (!isPlayer && (x < 12 || x > window.innerWidth - 12)) return;
       ctx.save();
       ctx.font = isPlayer ? 'bold 11.5px sans-serif' : '600 10.5px sans-serif';
       const textW = ctx.measureText(name).width;
@@ -8900,9 +8948,10 @@
       if (player.u < 0.15 && player.wing > 0) {
         player.targetWing = 0;
         player.wing = 0;
-        player.targetU = 0.78;
-        player.u = 0.80;
+        player.targetU = 0.50;
+        player.u = 0.50;
         targetWingX = 0;
+        camWingX = 0;
         currentZone = 'tambao';
         showToast('🚪 Đã chuyển sang 🏛️ Ban Tam Bảo');
         playBellSound();
@@ -8911,9 +8960,10 @@
       } else if (player.u > 0.85 && player.wing < 1) {
         player.targetWing = 1;
         player.wing = 1;
-        player.targetU = 0.22;
-        player.u = 0.20;
+        player.targetU = 0.50;
+        player.u = 0.50;
         targetWingX = 1;
+        camWingX = 1;
         currentZone = 'thantai';
         showToast('🚪 Đã chuyển sang 💰 Ban Thần Tài Vị Tiền');
         playMoSound();
@@ -8936,7 +8986,7 @@
       if (player.chatTimer > 0) player.chatTimer--;
 
       if (!isDragging) {
-        targetWingX = player.wing + (player.u - 0.5) * 0.22;
+        targetWingX = player.wing;
       }
       camWingX += (targetWingX - camWingX) * 0.12;
       camZoom += (targetZoom - camZoom) * 0.10;
