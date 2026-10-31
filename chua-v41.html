@@ -7541,7 +7541,7 @@
     // V72 (#mvwbbcmu6i & #mvwbbzs76j):
     // 1. Khi Khấn / Vái / Quỳ Lạy / Dâng Hương -> Phát âm thanh giọng Sư Thầy niệm "Nam Mô A Di Đà Phật" trang nghiêm!
     // 2. Khi Dâng Lễ / Công Đức / Hóa Vàng -> Giọng Sư Trụ Trì đọc lời cảm tạ thí chủ truyền cảm như thật!
-    const namMoRitualAudio = new Audio('audio/nam_mo_a_di_da_phat.mp3?v=73');
+    const namMoRitualAudio = new Audio('audio/nam_mo_a_di_da_phat.mp3?v=733');
     namMoRitualAudio.preload = 'auto';
     let lastNamMoPlayedAt = 0;
 
@@ -7551,7 +7551,7 @@
         if (now - lastNamMoPlayedAt < 650) return;
         lastNamMoPlayedAt = now;
         if ('preservesPitch' in namMoRitualAudio) namMoRitualAudio.preservesPitch = true;
-        namMoRitualAudio.playbackRate = 1.25;
+        namMoRitualAudio.playbackRate = 0.95;
         namMoRitualAudio.currentTime = 0;
         namMoRitualAudio.volume = 0.98;
         namMoRitualAudio.play().catch(() => {});
