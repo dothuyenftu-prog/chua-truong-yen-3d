@@ -915,13 +915,16 @@
       <div>
         <div style="font-size:10.5px; color:#ffe082; font-weight:800; margin-bottom:3px;">🎵 1. Chọn Nhạc Nền Chùa (Đầy Đủ · Tách Riêng Với Tụng Kinh):</div>
         <select id="bgMusicSelect" class="top-select" style="width:100%;" onchange="changeBgMusicTrack(this.value)">
-          <option value="audio/tk2_chua.mp3" selected>🎵 Nhạc Nền 1: Nhạc Thiền Thanh Tịnh Cổ Tự (Mặc Định)</option>
-          <option value="audio/chu_dai_bi_84cau_tiktok.mp3">🎵 Nhạc Nền 2: Chú Đại Bi 84 Câu (Bản Nhạc TikTok Mới)</option>
-          <option value="audio/nhac_nen_chua.mp3">🎵 Nhạc Nền 3: Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
-          <option value="audio/lien_hoa.mp3">🎵 Nhạc Nền 4: Liên Hoa · Diệu Pháp Liên Hoa</option>
-          <option value="audio/do_ta_khong_do_nang.mp3">🎵 Nhạc Nền 5: Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
-          <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 Nhạc Nền 6: Dưới Tòa Sen Vàng</option>
-          <option value="audio/tk3_chua.mp3">🎵 Nhạc Nền 7: Vũ Khúc Thiên Đình (Tây Du)</option>
+          <option value="audio/nhac_bi_ngan_remix.mp3" selected>🌺 1. Bỉ Ngạn Nở Hoa Người Chẳng Về (Remix Mới)</option>
+          <option value="audio/nhac_tam_mer.mp3">🧘 2. Tâm — Mer (Nhạc Tịnh Tâm)</option>
+          <option value="audio/nhac_lien_hoa_pmc.mp3">🪷 3. Liên Hoa — Phương Mỹ Chi</option>
+          <option value="audio/tk2_chua.mp3">🎵 4. Nhạc Thiền Thanh Tịnh Cổ Tự</option>
+          <option value="audio/chu_dai_bi_84cau_tiktok.mp3">🎵 5. Chú Đại Bi 84 Câu (Bản Nhạc TikTok)</option>
+          <option value="audio/nhac_nen_chua.mp3">🎵 6. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
+          <option value="audio/lien_hoa.mp3">🎵 7. Diệu Pháp Liên Hoa</option>
+          <option value="audio/do_ta_khong_do_nang.mp3">🎵 8. Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
+          <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 9. Dưới Tòa Sen Vàng</option>
+          <option value="audio/tk3_chua.mp3">🎵 10. Vũ Khúc Thiên Đình (Tây Du)</option>
           <option value="off">🔇 Tắt Nhạc Nền</option>
         </select>
       </div>
@@ -1326,39 +1329,58 @@
         <span style="color:#ffab40; font-weight:800;">🎫 Thỉnh 1 Thẻ Xăm: <b style="color:#ff5252;">-5 💎 Phước</b> (Có cả Quẻ Tốt & Quẻ Xấu như thật!)</span>
       </div>
 
-      <!-- Chọn Khía Cạnh Cá Nhân để Luận Giải Quẻ Xăm Cá Nhân -->
-      <div class="sk-field" style="margin-bottom:7px;">
-        <label style="font-size:10.8px; color:#ffd740;">🪷 Chọn Việc Cá Nhân Bạn Đang Cầu Xin Quẻ Xăm:</label>
-        <select id="fortuneCareerSelect" onchange="updateFortuneCardDisplay()" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 9px; color:#fff8e1; font-size:11.2px; font-weight:800; outline:none;">
-          <option value="tongkho" selected>💰 1. Tài Lộc Cá Nhân · Tiền Bạc & Thu Nhập Riêng</option>
-          <option value="sale">🌟 2. Công Danh Sự Nghiệp Cá Nhân & Thăng Tiến</option>
-          <option value="thau">❤️ 3. Tình Duyên · Gia Đạo & Nhân Duyên Hòa Hợp</option>
-          <option value="congno">🧘 4. Sức Khỏe · Bình An Bản Mệnh & Tâm An</option>
-          <option value="buonban">🍀 5. Cầu May Mắn · Xuất Hành & Mưu Sự Cá Nhân</option>
+      <!-- Chọn Nhanh Hoặc Tra Cứu Trực Tiếp Bộ 24 Thẻ Xăm (6 Đại Cát · 6 Trung Bình · 6 Tiểu Hung · 6 Đại Hung) -->
+      <div class="sk-field" style="margin-bottom:6px;">
+        <label style="font-size:10.6px; color:#ffd740;">📜 Bộ 24 Thẻ Xăm Cổ Truyền (12 Quẻ Cảnh Báo/Xấu · 6 Trung Bình · 6 Đại Cát — Chọn xem hoặc rút ngẫu nhiên):</label>
+        <select id="fortuneDirectSelect" onchange="selectFortuneStickByIndex(this.value)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 9px; color:#fff8e1; font-size:10.8px; font-weight:800; outline:none;">
+          <option value="0">🌟 [ĐẠI CÁT] THẺ SỐ 01 — QUẺ THƯỢNG THƯỢNG CÁT — KHAI THIÊN LẬP ĐỊA · ĐẠI CÁT</option>
+          <option value="1">🌟 [ĐẠI CÁT] THẺ SỐ 08 — QUẺ THƯỢNG CÁT — THUẬN BUỒM XUÔI GIÓ</option>
+          <option value="2">🌟 [ĐẠI CÁT] THẺ SỐ 18 — QUẺ THƯỢNG CÁT — QUÝ NHÂN ĐƯA ĐƯỜNG</option>
+          <option value="3">🌟 [ĐẠI CÁT] THẺ SỐ 36 — QUẺ THƯỢNG CÁT — HOA NỞ MÙA XUÂN · NHÂN DUYÊN VƯỢNG</option>
+          <option value="4">🌟 [ĐẠI CÁT] THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT — RỒNG VÀNG GẶP HỘI · ĐẠI PHÁT TÀI LỘC</option>
+          <option value="5">🌟 [ĐẠI CÁT] THẺ SỐ 88 — QUẺ THƯỢNG THƯỢNG CÁT — KIM NGÂN ĐẦY KHO · PHÚC LỘC VIÊN MÃN</option>
+          <option value="6">🟡 [TRUNG BÌNH] THẺ SỐ 12 — QUẺ TRUNG BÌNH — CHẬM MÀ CHẮC · TÍCH TIỂU THÀNH ĐẠI</option>
+          <option value="7">🟡 [TRUNG BÌNH] THẺ SỐ 27 — QUẺ TRUNG BÌNH — ẨN NHẪN ĐỢI THỜI · CHỜ CƠ HỘI CHÍN MUỒI</option>
+          <option value="8">🟡 [TRUNG BÌNH] THẺ SỐ 42 — QUẺ TRUNG BÌNH — GIỮ VỮNG BẢN NGÃ · ĐỪNG ĐỨNG NÚI NÀY TRÔNG NÚI NỌ</option>
+          <option value="9">🟡 [TRUNG BÌNH] THẺ SỐ 55 — QUẺ TRUNG BÌNH — TIỀN KHỔ HẬU CAM · VƯỢT KHÓ THÀNH CÔNG</option>
+          <option value="10">🟡 [TRUNG BÌNH] THẺ SỐ 72 — QUẺ TRUNG BÌNH — TỰ LỰC CÁNH SINH · DỰA VÀO CHÍNH MÌNH</option>
+          <option value="11">🟡 [TRUNG BÌNH] THẺ SỐ 91 — QUẺ TRUNG BÌNH — BIẾT ĐỦ LÀ VUI · GIA ĐẠO BÌNH AN</option>
+          <option value="12">⚠️ [TIỂU HUNG - XẤU] THẺ SỐ 04 — QUẺ HẠ TRUNG (TIỂU HUNG) — ⚠️ CẢNH BÁO CHO VAY MẤT TIỀN · CÔNG NỢ DÂY DƯA</option>
+          <option value="13">⚠️ [TIỂU HUNG - XẤU] THẺ SỐ 19 — QUẺ HẠ TRUNG (TIỂU HUNG) — ⚠️ CẢNH BÁO TIỂU NHÂN NÓI XẤU · THỊ PHI KHẨU THIỆT</option>
+          <option value="14">⚠️ [TIỂU HUNG - XẤU] THẺ SỐ 24 — QUẺ HẠ TRUNG (TIỂU HUNG) — ⚠️ CẢNH BÁO KHÁCH HỨA HÃO · BOM HÀNG ĐỔI Ý</option>
+          <option value="15">⚠️ [TIỂU HUNG - XẤU] THẺ SỐ 39 — QUẺ HẠ TRUNG (TIỂU HUNG) — ⚠️ CẢNH BÁO NÓNG GIẬN MẤT KHÔN · XUNG ĐỘT LỜI NÓI</option>
+          <option value="16">⚠️ [TIỂU HUNG - XẤU] THẺ SỐ 53 — QUẺ HẠ TRUNG (TIỂU HUNG) — ⚠️ CẢNH BÁO HAO TÀI VẶT · RÒ RỈ TIỀN BẠC</option>
+          <option value="17">⚠️ [TIỂU HUNG - XẤU] THẺ SỐ 77 — QUẺ HẠ TRUNG (TIỂU HUNG) — ⚠️ CẢNH BÁO KIỆT SỨC SUY NHƯỢC · TÂM TRÍ RỐI BỜI</option>
+          <option value="18">🚨 [ĐẠI HUNG - RẤT XẤU] THẺ SỐ 07 — QUẺ HẠ HẠ ĐẠI HUNG — 🚨 ĐẠI KỴ ĐẦU TƯ MẠO HIỂM · CẢNH BÁO LỪA ĐẢO MẤT VỐN</option>
+          <option value="19">🚨 [ĐẠI HUNG - RẤT XẤU] THẺ SỐ 13 — QUẺ HẠ HẠ ĐẠI HUNG — 🚨 CẢNH BÁO KIỆN TỤNG TRANH CHẤP · BẪY HỢP ĐỒNG GIẤY TỜ</option>
+          <option value="20">🚨 [ĐẠI HUNG - RẤT XẤU] THẺ SỐ 31 — QUẺ HẠ HẠ ĐẠI HUNG — 🚨 ĐẠI KỴ ĐỨNG RA BẢO LÃNH NỢ · CẢNH BÁO PHẢN BỘI LÒNG TIN</option>
+          <option value="21">🚨 [ĐẠI HUNG - RẤT XẤU] THẺ SỐ 49 — QUẺ HẠ HẠ ĐẠI HUNG — 🚨 HẠN KHẨU THIỆT TAI BAY VẠ GIÓ · CẨN TRỌNG ĐI LẠI XE CỘ</option>
+          <option value="22">🚨 [ĐẠI HUNG - RẤT XẤU] THẺ SỐ 64 — QUẺ HẠ HẠ ĐẠI HUNG — 🚨 VẬN KHÍ ĐANG TẮC NGHẼN · TUYỆT ĐỐI KHÔNG VAY NÓNG ĐẢO NỢ</option>
+          <option value="23">🚨 [ĐẠI HUNG - RẤT XẤU] THẺ SỐ 99 — QUẺ HẠ HẠ ĐẠI HUNG — 🚨 CẢNH BÁO ĐỔ VỠ UY TÍN & MỐI QUAN HỆ · CẦN SÁM HỐI HÓA GIẢI</option>
         </select>
       </div>
 
-      <!-- Khu vực Ống Xăm Tre Sơn Son Thếp Vàng & Nút Mua/Thỉnh Thẻ -->
-      <div style="display:grid; grid-template-columns: 0.95fr 1.05fr; gap:8px; align-items:center; margin-bottom:8px;">
-        <div id="bambooCylinderWrap" onclick="shakeAndDrawFortuneStick(false)" style="cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 10px; border-radius:14px; background:radial-gradient(circle, rgba(255,193,7,0.28) 0%, rgba(45,16,4,0.92) 74%); border:2px solid #ffd54f; box-shadow:0 6px 18px rgba(0,0,0,0.7); text-align:center; transition:transform 0.15s;">
-          <div id="bambooCylinderGraphic" style="font-size:48px; line-height:1.05; filter:drop-shadow(0 4px 10px rgba(255,200,50,0.65));">🎋🏺</div>
-          <div id="fortuneShakeStatus" style="font-size:10.8px; font-weight:900; color:#ffd740; margin-top:4px;">
-            👆 Chạm Ống Xăm Để Rút Thẻ (-5 💎)
+      <!-- Khu vực Ống Xăm Tre Sơn Son Thếp Vàng & Nút Rút Thẻ (Đủ cả Quẻ Tốt, Trung Bình, Tiểu Hung, Đại Hung) -->
+      <div style="display:grid; grid-template-columns: 0.92fr 1.08fr; gap:8px; align-items:center; margin-bottom:8px;">
+        <div id="bambooCylinderWrap" onclick="shakeAndDrawFortuneStick('all')" style="cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 10px; border-radius:14px; background:radial-gradient(circle, rgba(255,193,7,0.28) 0%, rgba(45,16,4,0.92) 74%); border:2px solid #ffd54f; box-shadow:0 6px 18px rgba(0,0,0,0.7); text-align:center; transition:transform 0.15s;">
+          <div id="bambooCylinderGraphic" style="font-size:46px; line-height:1.05; filter:drop-shadow(0 4px 10px rgba(255,200,50,0.65));">🎋🏺</div>
+          <div id="fortuneShakeStatus" style="font-size:10.5px; font-weight:900; color:#ffd740; margin-top:4px;">
+            👆 Chạm Ống Xăm Rút Ngẫu Nhiên 24 Thẻ (-5 💎)
           </div>
-          <div style="font-size:9.5px; color:#ffe082; margin-top:2px;">
-            (Ngẫu nhiên: Thượng Cát · Trung Bình · Hạ Hung)
+          <div style="font-size:9.3px; color:#ffcdd2; margin-top:2px; font-weight:700;">
+            (50% Quẻ Xấu Hạ Hung · 25% Trung Bình · 25% Thượng Cát)
           </div>
         </div>
 
         <div style="display:flex; flex-direction:column; gap:5px;">
-          <button class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:11px; background:linear-gradient(135deg,#d84315,#9a1b06); border:1px solid #ffd54f;" onclick="shakeAndDrawFortuneStick(false)">
-            🎋 Thỉnh & Rút 1 Thẻ Xăm Ngẫu Nhiên (-5 💎 Phước)
+          <button class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:10.8px; background:linear-gradient(135deg,#d84315,#9a1b06); border:1px solid #ffd54f;" onclick="shakeAndDrawFortuneStick('all')">
+            🎋 Rút Ngẫu Nhiên 1/24 Thẻ Xăm (-5 💎 · Đủ Tốt & Xấu)
           </button>
-          <button class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:10.8px; background:linear-gradient(135deg,#f57f17,#b71c1c); border:1px solid #fff;" onclick="shakeAndDrawFortuneStick(true)">
-            🌟 Thỉnh Thẻ Đại Cát Cầu May Đổi Vận (-15 💎 Phước)
+          <button class="btn-sk-submit" style="width:100%; padding:7px 8px; font-size:10.5px; background:linear-gradient(135deg,#b71c1c,#4a0000); border:1px solid #ff8a80;" onclick="shakeAndDrawFortuneStick('bad_only')">
+            🚨 Rút Soi Hạn Quẻ Xấu (Tiểu Hung & Đại Hung · -5 💎)
           </button>
-          <button class="btn-sk-submit" style="width:100%; padding:6px 8px; font-size:10.6px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentFortuneStick()">
-            🔊 Nghe Đọc Luận Giải Chi Tiết Quẻ Này
+          <button class="btn-sk-submit" style="width:100%; padding:6px 8px; font-size:10.5px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentFortuneStick()">
+            🔊 Nghe Đọc Đầy Đủ Toàn Bộ Luận Giải Quẻ Này
           </button>
         </div>
       </div>
@@ -3813,154 +3835,644 @@
     // (MUA/THỈNH THẺ TỐN PHƯỚC ĐỨC · ĐỦ QUẺ TỐT & QUẺ XẤU · ĐIỂN TÍCH · QUẺ DỊCH · THÁNH Ý 6 MỤC)
     // =========================================================================
     const fortuneSticksPool = [
-      {
-        num: 'THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT',
-        rank: 'ĐẠI PHÁT TÀI LỘC',
-        tier: 'good',
-        legend: 'Lưu Bị Tam Cố Thảo Lư (Ba lần đến lều tranh rước Gia Cát Lượng)',
-        hexagram: 'Hỏa Thiên Đại Hữu (Hành Hỏa — Mặt trời chiếu sáng giữa trời cao)',
-        poem: 'Rồng vàng gặp hội mây xanh,<br/>Thần Tài mở cửa phúc lành ban trao.<br/>Công trình đơn lớn dồi dào,<br/>Gia môn hưng thịnh bước vào vinh hoa.',
-        aspects: [
-          '💰 <b>Tài Lộc:</b> Đại vượng, lộc về bất ngờ',
-          '🎯 <b>KPI / Mưu Sự:</b> Đạt và vượt mục tiêu sớm',
-          '📑 <b>Hợp Đồng:</b> Ký kết thuận lợi, đơn lớn',
-          '💳 <b>Công Nợ:</b> Thu hồi nhanh, khách sòng phẳng',
-          '🤝 <b>Quý Nhân:</b> Khách sỉ / Chủ thầu lớn tìm đến',
-          '🚚 <b>Xuất Kho:</b> Thượng lộ bình an, hàng đi thông suốt'
-        ],
-        careerAdvice: {
-          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu (Tấm Ốp · Lam Sóng · Nhôm):</b> Thời vận đại cát! Các đại lý tuyến tỉnh và đội thợ thi công chủ động nhập sỉ số lượng lớn. Những mã hàng chủ lực (Tấm Ốp Nano, Nhôm 130, Lam Sóng) xoay vòng vốn cực nhanh, xuất kho liên tục từ sáng tới tối.',
-          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Đây là quẻ "Chốt Đơn Bùng Nổ"! Khách hàng đang nét và thiện chí cao, chỉ cần gửi báo giá kèm hình ảnh thực tế công trình là khách xuống tiền đặt cọc ngay. Phần KPI còn thiếu sẽ được lấp đầy nhờ 1–2 đơn sỉ lớn trong tuần này.',
-          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Chủ nhà cực kỳ ưng ý tay nghề và tiến độ. Nghiệm thu công trình suôn sẻ, được thanh toán dứt điểm 100% không bị giữ lại tiền bảo hành vô lý, chủ nhà còn giới thiệu thêm 2–3 công trình mới.',
-          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Dòng tiền dương dồi dào. Những khoản công nợ tồn đọng từ tháng trước nếu nhắc khéo trong 3 ngày tới sẽ thu hồi được trên 85%.',
-          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Lộc khách vãng lai và khách quen đều vượng. Có thể mạnh dạn nhập thêm mẫu mới trưng bày vì nhu cầu hoàn thiện nhà cửa đang tăng mạnh.'
-        },
-        remedy: '🌟 <b>Lời Khuyên Đón Lộc:</b> Khi vận đang lên, hãy giữ chữ Tín hàng đầu, kiểm kỹ chất lượng từng kiện hàng trước khi xuất kho và trích một phần lợi nhuận làm việc thiện, dâng hương cảm tạ để phúc lộc bền lâu.'
-      },
-      {
-        num: 'THẺ SỐ 24 — QUẺ HẠ TRUNG (CẢNH BÁO TIỂU HUNG)',
-        rank: 'CẨN TRỌNG CÔNG NỢ & TIỂU NHÂN',
-        tier: 'bad',
-        legend: 'Quan Vũ Mất Kinh Châu Vì Chủ Quan (Đắc thắng mà lơ là phòng bị)',
-        hexagram: 'Thiên Thủy Tụng (Hành Kim Thủy — Đề phòng bất đồng, tranh chấp lời nói)',
-        poem: 'Mây mù che khuất ánh trăng trong,<br/>Ngoài mặt cười vui dạ chẳng đồng.<br/>Bán chịu giao hàng coi kẻo lỡ,<br/>Giữ chặt tiền cọc mới yên lòng.',
-        aspects: [
-          '💰 <b>Tài Lộc:</b> Dễ hao hụt nếu cho nợ tràn lan',
-          '🎯 <b>KPI / Mưu Sự:</b> Bị trì hoãn, cần nỗ lực gấp đôi',
-          '📑 <b>Hợp Đồng:</b> Phải ghi rõ điều khoản thanh toán',
-          '💳 <b>Công Nợ:</b> Cảnh báo khách khất lần, dây dưa',
-          '⚠️ <b>Tiểu Nhân:</b> Có kẻ phá giá ngầm hoặc nói xấu',
-          '🚚 <b>Xuất Kho:</b> Kiểm đếm kỹ số lượng & chụp ảnh biên bản'
-        ],
-        careerAdvice: {
-          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu (Cảnh Báo Thực Tế):</b> Quẻ nhắc nhở Tổng Kho tuyệt đối KHÔNG vì nể nang hay chạy doanh số ảo mà xuất hàng công nợ lớn cho khách mới chưa rõ uy tín! Trước khi xe lăn bánh khỏi kho, bắt buộc phải nhận đủ tiền cọc hoặc thanh toán 100%.',
-          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Đề phòng gặp khách "hỏi dạo khảo giá" hoặc hứa hẹn lấy số lượng lớn để ép giảm giá sâu rồi lặn mất. Đừng bỏ thời gian đeo bám 1 khách dây dưa, hãy tập trung gọi lại tệp đại lý ruột có tỷ lệ chốt thật.',
-          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Khi nhận công trình phải ký hợp đồng ứng tiền theo từng giai đoạn (tập kết vật tư ứng 50%, lắp đặt xong ứng 40%). Tránh tự bỏ tiền túi ứng trước 100% vật tư cho chủ nhà mới quen.',
-          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Tạm dừng mọi khoản cho vay hoặc giãn nợ mới. Cần rà soát ngay danh sách công nợ quá hạn trên 15 ngày để thu hồi quyết liệt trước khi khách lấy lý do kẹt vốn.',
-          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Cẩn trọng với đối thủ cạnh tranh không lành mạnh (báo giá hàng mỏng kém chất lượng để dìm giá hàng chuẩn). Hãy tư vấn rõ độ dày, cốt nhựa nguyên sinh để khách hiểu giá trị thật.'
-        },
-        remedy: '🛡️ <b>Phương Pháp Hóa Giải (Chuyển Hung Thành Cát):</b> Thực tế: Áp dụng kỷ luật thép "Tiền trao cháo múc - Có cọc mới xuất hàng", chụp xác nhận đơn hàng rõ ràng. Tâm linh: Hãy ra Chánh Điện dâng 3 nén tâm hương hoặc vào Phòng Hóa Vàng đốt lễ giải trừ tiểu nhân, giữ tâm bình tĩnh không nóng giận.'
-      },
-      {
-        num: 'THẺ SỐ 88 — QUẺ THƯỢNG CÁT',
-        rank: 'CHỐT ĐƠN BÙNG NỔ · QUÝ NHÂN ĐỘ',
-        tier: 'good',
-        legend: 'Khương Tử Nha Câu Cá Sông Vị (Kiên tâm chờ thời, gặp Chu Văn Vương)',
-        hexagram: 'Phong Hỏa Gia Nhân (Hành Mộc Hỏa — Trong ấm ngoài êm, khách hàng gắn bó)',
-        poem: 'Lộc xuân nở rộ cành vàng,<br/>Khách gần khách xa rộn ràng tìm sang.<br/>Kho đầy hàng xuất thênh thang,<br/>Kim ngân mãn trạch giàu sang vững bền.',
-        aspects: [
-          '💰 <b>Tài Lộc:</b> Thuận buồm xuôi gió, lợi nhuận tốt',
-          '🎯 <b>KPI / Mưu Sự:</b> Chốt liên tiếp các đơn hàng vừa & lớn',
-          '📑 <b>Hợp Đồng:</b> Khách cũ quay lại đặt hàng',
-          '💳 <b>Công Nợ:</b> Dòng tiền luân chuyển đều đặn',
-          '🤝 <b>Quý Nhân:</b> Đồng nghiệp & Sếp hỗ trợ hết mình',
-          '🚚 <b>Xuất Kho:</b> Xe ghép chuyến thuận lợi, tiết kiệm cước'
-        ],
-        careerAdvice: {
-          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu:</b> Sự phối hợp giữa bộ phận Sale, Kế Toán và Kho Vận đang rất ăn ý. Các đơn hàng đi tỉnh ghép xe cực kỳ thuận lợi, giảm chi phí vận chuyển, khách nhận hàng khen tấm ốp sắc nét, đóng gói cẩn thận.',
-          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Lộc nằm ở chính tệp "Khách Hàng Cũ & Đại Lý Đã Từng Lấy Hàng"! Hôm nay hãy chủ động nhắn tin hỏi thăm và gửi mẫu mã mới cho 10 khách cũ, xác suất nổ 3–4 đơn hàng ngay trong ngày là rất cao.',
-          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Công trình thi công tấm ốp, lam sóng lên hình cực đẹp. Hãy quay video thực tế lúc hoàn thiện để đăng lên Zalo/TikTok, sẽ thu hút ngay chủ nhà mới đặt lịch khảo sát.',
-          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Tài chính ổn định, cân đối thu chi hợp lý. Thích hợp để chốt sổ công nợ tuần và thưởng nóng khích lệ tinh thần anh chị em.',
-          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Uy tín truyền miệng đang phát huy tác dụng. Khách mua rồi giới thiệu hàng xóm và người thân đến làm nội thất.'
-        },
-        remedy: '🌟 <b>Lời Khuyên Đón Lộc:</b> Chăm sóc thật kỹ khách hàng cũ, gửi lời cảm ơn sau mỗi chuyến giao hàng và gõ Mõ / dâng lời khấn nguyện để giữ vững trường năng lượng tích cực.'
-      },
-      {
-        num: 'THẺ SỐ 49 — QUẺ HẠ HẠ HUNG (CẢNH BÁO ĐẠI KỴ)',
-        rank: 'ĐỀ PHÒNG HAO TÀI · BOM HÀNG · NHẦM MÃ',
-        tier: 'bad',
-        legend: 'Bá Nha Đứt Dây Đàn (Gặp người không hiểu chuyện, uổng phí công sức)',
-        hexagram: 'Thủy Sơn Kiển (Hành Thủy Thổ — Đường núi gập ghềnh, nên chậm mà chắc)',
-        poem: 'Đường xa mưa gió ngập ghềnh,<br/>Thuyền nan chở nặng chông chênh giữa dòng.<br/>Đừng tham mối lợi viển vông,<br/>Giữ kho giữ vốn kẻo không kịp lường.',
-        aspects: [
-          '💰 <b>Tài Lộc:</b> Cảnh báo hao tài vì sai sót chủ quan',
-          '🎯 <b>KPI / Mưu Sự:</b> Đang gặp nút thắt, chớ nóng vội ép số',
-          '📑 <b>Hợp Đồng:</b> Dễ phát sinh đổi trả nếu không chốt kỹ mã',
-          '💳 <b>Công Nợ:</b> Tuyệt đối không bán chịu cho khách lạ',
-          '⚠️ <b>Rủi Ro:</b> Dễ nhầm mã màu, kích thước hoặc trễ xe',
-          '🚚 <b>Xuất Kho:</b> Phải đối chiếu 2 lần trước khi bốc hàng'
-        ],
-        careerAdvice: {
-          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu (Cảnh Báo Quan Trọng):</b> Quẻ Hạ Hạ cảnh báo rủi ro thực tế trong khâu lên đơn và xuất kho: Rất dễ xảy ra nhầm mã màu vân gỗ, nhầm kích thước phào chỉ hoặc trễ giờ xe tải! Hôm nay bắt buộc phải chụp ảnh mã hàng gửi khách xác nhận "OK" bằng tin nhắn trước khi bốc lên xe.',
-          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Cẩn thận với những đơn hàng khách giục giao gấp trong đêm nhưng mập mờ chuyện chuyển khoản! Thà chậm 15 phút để kế toán kiểm tra tiền nổi trong tài khoản còn hơn bị hoàn đơn mất cước vận chuyển 2 chiều.',
-          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Đo đạc kích thước tường/trần phải thật chính xác trước khi cắt tấm ốp và khung nhôm. Tránh nghe chủ nhà đổi ý miệng mà không xác nhận lại, kẻo cắt xong lại phải đền vật tư.',
-          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Giữ chặt tiền mặt, không đầu tư mạo hiểm hay ôm hàng tồn quá khả năng thanh khoản trong tuần này.',
-          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Kiểm tra kỹ chất lượng hàng hóa khi giao nhận, làm việc gì cũng phải có giấy trắng mực đen.'
-        },
-        remedy: '🔥 <b>Phương Pháp Hóa Giải Cấp Tốc (Chuyển Hung Hóa Cát):</b> 1. Trong công việc: Kiểm tra chéo 2 lớp (Sale & Kho) mọi đơn hàng xuất đi hôm nay. 2. Tại Chùa: Hãy vào Phòng Xả Nghiệp nghe giọng Nam Trầm Sư Thầy Trụ Trì khai thị hạ hỏa, hoặc vào Phòng Hóa Vàng đốt vàng mã để giải xui và kích hoạt lại vận may!'
-      },
-      {
-        num: 'THẺ SỐ 15 — QUẺ TRUNG BÌNH (TRUNG CÁT THỦ THƯỜNG)',
-        rank: 'KIÊN TRÌ BỀN BỈ · TÍCH TIỂU THÀNH ĐẠI',
-        tier: 'neutral',
-        legend: 'Hàn Tín Chịu Luồn Trôn (Nhẫn nại vượt qua thử thách nhỏ để làm nghiệp lớn)',
-        hexagram: 'Địa Sơn Khiêm (Hành Thổ — Khiêm tốn cầu thị, lấy nhu thắng cương)',
-        poem: 'Cây thông đứng vững giữa sương mờ,<br/>Đợi nắng xuân sang lộc bất ngờ.<br/>Chớ thấy đường xa mà nản chí,<br/>Bền lòng chăm khách ắt nên cơ.',
-        aspects: [
-          '💰 <b>Tài Lộc:</b> Đều đặn, tích tiểu thành đại',
-          '🎯 <b>KPI / Mưu Sự:</b> Đầu tháng chậm, cuối tháng bứt phá',
-          '📑 <b>Hợp Đồng:</b> Cần kiên nhẫn tư vấn 2–3 lần mới chốt',
-          '💳 <b>Công Nợ:</b> Thu hồi từng phần chắc chắn',
-          '🤝 <b>Quý Nhân:</b> Tự lực cánh sinh kết hợp đồng đội',
-          '🚚 <b>Xuất Kho:</b> An toàn, bình ổn'
-        ],
-        careerAdvice: {
-          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu:</b> Giai đoạn này thị trường đi vào nhịp sàng lọc, những đơn nhỏ và vừa tuy lợi nhuận mỗi đơn không đột biến nhưng cộng dồn lại sẽ giữ vững doanh số nền tảng cho toàn kho.',
-          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Đừng chê đơn nhỏ! Chính sự nhiệt tình khi tư vấn cho khách mua vài chục mét tấm ốp hôm nay sẽ khiến khách cảm kích và đặt toàn bộ vật tư cho công trình lớn vào tuần tới.',
-          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Làm kỹ từng đường keo, góc phào chỉ. Sự tỉ mỉ lúc này chính là khoản đầu tư thương hiệu tốt nhất.',
-          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Với khách đang kẹt vốn thật sự, có thể chia nhỏ lộ trình thanh toán theo từng tuần để thu hồi dần thay vì ép gắt khiến khách buông xuôi.',
-          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Giữ thái độ niềm nở, kiên nhẫn giải đáp thắc mắc của khách hàng, lộc sẽ đến vào nửa cuối tuần.'
-        },
-        remedy: '🪷 <b>Lời Khuyên Hành Động:</b> Kiên trì chăm sóc từng khách hàng nhỏ, viết Sớ Khấn KPI để củng cố mục tiêu và giữ tâm thái điềm tĩnh, chắc chắn sẽ cán đích!'
-      },
-      {
-        num: 'THẺ SỐ 39 — QUẺ THƯỢNG THƯỢNG CÁT',
-        rank: 'THẦN TÀI ĐỘ MỆNH · KIM NGÂN MÃN ĐƯỜNG',
-        tier: 'good',
-        legend: 'Phạm Lãi Buôn Bán Thành Đào Chu Công (Kinh thương đại tài, phú quý tột bậc)',
-        hexagram: 'Thuần Càn (Hành Kim — Sức mạnh sáng tạo, dẫn đầu thị trường)',
-        poem: 'Thần Tài gõ cửa ban mai,<br/>Vàng ròng ngọc quý trải dài trước sân.<br/>Làm ăn chữ tín mười phân,<br/>Phúc dày đức trọng muôn phần hiển vinh.',
-        aspects: [
-          '💰 <b>Tài Lộc:</b> Tiền vào như nước, đại lợi kinh doanh',
-          '🎯 <b>KPI / Mưu Sự:</b> Vượt chỉ tiêu quý rực rỡ',
-          '📑 <b>Hợp Đồng:</b> Mở mới hàng loạt đại lý & nhà thầu',
-          '💳 <b>Công Nợ:</b> Khách thanh toán tiền mặt ngay khi nhận hàng',
-          '🤝 <b>Quý Nhân:</b> Ban Thần Tài Vị Tiền gia hộ',
-          '🚚 <b>Xuất Kho:</b> Hàng đi tấp nập khắp các tỉnh thành'
-        ],
-        careerAdvice: {
-          tongkho: '🏢 <b>Luận Giải Ngành Tổng Kho Vật Liệu:</b> Quẻ đại cát của bậc thương gia! Thương hiệu Kho Tấm Ốp Trường Yến ngày càng vang xa nhờ hàng sẵn kho lớn, giá tốt và giao hàng thần tốc. Quý này tổng kho sẽ lập kỷ lục mới về sản lượng xuất kho.',
-          sale: '💼 <b>Luận Giải Nghề Sale & Chạy KPI:</b> Vận may tài lộc đang ở đỉnh cao! Hãy mạnh dạn chào các dòng sản phẩm cao cấp, biên lợi nhuận tốt và đề xuất các gói combo trọn bộ vật tư để nhân đôi giá trị đơn hàng.',
-          thau: '👷 <b>Luận Giải Chủ Thầu & Đội Thợ Thi Công:</b> Nhận liên tiếp các dự án biệt thự, văn phòng, showroom lớn. Đội thợ làm việc hết công suất, thu nhập tăng vọt.',
-          congno: '💰 <b>Luận Giải Tài Chính & Thu Hồi Công Nợ:</b> Tài chính vững mạnh, dòng tiền về tài khoản liên tục, tin nhắn báo có "ting ting" suốt ngày.',
-          buonban: '🏪 <b>Luận Giải Cửa Hàng Đại Lý & Buôn Bán:</b> Thời điểm vàng để đẩy mạnh quảng bá hình ảnh, đăng video xuất kho thực tế lên mạng xã hội để hút khách bốn phương.'
-        },
-        remedy: '🌟 <b>Lời Khuyên Đón Lộc:</b> Sang ngay Gian Phải (Ban Thần Tài Vị Tiền) dâng lễ hoặc hóa vàng để nhân đôi, nhân ba (X2 · X3) vận khí tài lộc đang vượng!'
-      }
-    ];
+  {
+    "num": "THẺ SỐ 01 — QUẺ THƯỢNG THƯỢNG CÁT",
+    "rank": "KHAI THIÊN LẬP ĐỊA · ĐẠI CÁT",
+    "tier": "good",
+    "legend": "Hán Cao Tổ Lưu Bang Nhập Quan Trung (Khởi đầu đại nghiệp thành công rực rỡ)",
+    "hexagram": "Thuần Càn (Hành Kim — Rồng bay trên trời, vạn vật hanh thông)",
+    "poem": "Trời đất giao hòa vạn vật sinh,<br/>Rồng bay phượng múa rạng công danh.<br/>Mưu cầu việc lớn đều như ý,<br/>Phúc lộc tràn đầy khắp gia đình.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Đại phát, tiền tài đổ về từ nhiều nguồn",
+      "🌟 <b>Công Danh:</b> Thăng tiến vượt bậc, mở rộng quy mô lớn",
+      "❤️ <b>Tình Duyên:</b> Lương duyên trời định, viên mãn ngập tràn",
+      "🏡 <b>Gia Đạo:</b> Hưng vượng, đón tin vui lớn trong nhà",
+      "🧘 <b>Sức Khỏe:</b> Sinh lực dồi dào, bách bệnh tiêu tan",
+      "🍀 <b>Mưu Sự:</b> Khởi sự việc mới trăm trận trăm thắng"
+    ],
+    "meaning": "💰 <b>Luận Giải Chi Tiết:</b> Đây là quẻ đứng đầu trong bộ Xăm Quan Âm! Vận trình của bạn đang bước vào chu kỳ cực thịnh. Mọi dự định lớn về kinh doanh, mở rộng kho bãi, ký kết hợp đồng hay đầu tư cá nhân đều gặp thiên thời địa lợi nhân hòa. Những bế tắc cũ hoàn toàn khép lại để nhường chỗ cho tài lộc và danh tiếng vang xa.",
+    "remedy": "🌟 <b>Lời Khuyên Đón Lộc:</b> Khi đứng ở đỉnh cao vận may, càng phải giữ tâm khiêm cung, đối đãi tử tế với anh em cộng sự và khách hàng. Hãy thành tâm dâng hương cảm tạ Tam Bảo và chia sẻ phúc lành cho người khó khăn để đại vận kéo dài bền vững.",
+    "audioFile": "audio/xam_full_1.mp3",
+    "careerAdvice": {
+      "tongkho": "💰 <b>Luận Giải Chi Tiết:</b> Đây là quẻ đứng đầu trong bộ Xăm Quan Âm! Vận trình của bạn đang bước vào chu kỳ cực thịnh. Mọi dự định lớn về kinh doanh, mở rộng kho bãi, ký kết hợp đồng hay đầu tư cá nhân đều gặp thiên thời địa lợi nhân hòa. Những bế tắc cũ hoàn toàn khép lại để nhường chỗ cho tài lộc và danh tiếng vang xa.",
+      "sale": "💰 <b>Luận Giải Chi Tiết:</b> Đây là quẻ đứng đầu trong bộ Xăm Quan Âm! Vận trình của bạn đang bước vào chu kỳ cực thịnh. Mọi dự định lớn về kinh doanh, mở rộng kho bãi, ký kết hợp đồng hay đầu tư cá nhân đều gặp thiên thời địa lợi nhân hòa. Những bế tắc cũ hoàn toàn khép lại để nhường chỗ cho tài lộc và danh tiếng vang xa.",
+      "thau": "💰 <b>Luận Giải Chi Tiết:</b> Đây là quẻ đứng đầu trong bộ Xăm Quan Âm! Vận trình của bạn đang bước vào chu kỳ cực thịnh. Mọi dự định lớn về kinh doanh, mở rộng kho bãi, ký kết hợp đồng hay đầu tư cá nhân đều gặp thiên thời địa lợi nhân hòa. Những bế tắc cũ hoàn toàn khép lại để nhường chỗ cho tài lộc và danh tiếng vang xa.",
+      "congno": "💰 <b>Luận Giải Chi Tiết:</b> Đây là quẻ đứng đầu trong bộ Xăm Quan Âm! Vận trình của bạn đang bước vào chu kỳ cực thịnh. Mọi dự định lớn về kinh doanh, mở rộng kho bãi, ký kết hợp đồng hay đầu tư cá nhân đều gặp thiên thời địa lợi nhân hòa. Những bế tắc cũ hoàn toàn khép lại để nhường chỗ cho tài lộc và danh tiếng vang xa.",
+      "buonban": "💰 <b>Luận Giải Chi Tiết:</b> Đây là quẻ đứng đầu trong bộ Xăm Quan Âm! Vận trình của bạn đang bước vào chu kỳ cực thịnh. Mọi dự định lớn về kinh doanh, mở rộng kho bãi, ký kết hợp đồng hay đầu tư cá nhân đều gặp thiên thời địa lợi nhân hòa. Những bế tắc cũ hoàn toàn khép lại để nhường chỗ cho tài lộc và danh tiếng vang xa."
+    }
+  },
+  {
+    "num": "THẺ SỐ 08 — QUẺ THƯỢNG CÁT",
+    "rank": "THUẬN BUỒM XUÔI GIÓ",
+    "tier": "good",
+    "legend": "Khổng Minh Mượn Gió Đông (Gặp đúng thời cơ, việc khó hóa dễ)",
+    "hexagram": "Phong Hỏa Gia Nhân (Hành Mộc Hỏa — Gió thổi lửa bùng, trong ngoài đồng lòng)",
+    "poem": "Thuyền lớn ra khơi gặp gió lành,<br/>Sóng êm biển lặng lướt nhanh nhanh.<br/>Hàng đi tiền về không ngơi nghỉ,<br/>Chữ tín giữ trọn ắt thành danh.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Dòng tiền xoay vòng nhanh, lợi nhuận tăng cao",
+      "🌟 <b>Công Danh:</b> Đồng nghiệp hỗ trợ, khách hàng tín nhiệm",
+      "❤️ <b>Tình Duyên:</b> Êm đềm thuận hòa, thấu hiểu sẻ chia",
+      "🏡 <b>Gia Đạo:</b> Trên thuận dưới hòa, tiếng cười rộn rã",
+      "🧘 <b>Sức Khỏe:</b> Tinh thần sảng khoái, ăn ngon ngủ yên",
+      "🍀 <b>Mưu Sự:</b> Xuất hành, giao thương, xuất kho đại lợi"
+    ],
+    "meaning": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu ngọn gió đông thuận lợi đã tới! Những đơn hàng, kế hoạch từng bị trì hoãn nay bỗng nhiên thông suốt lạ thường. Khách hàng cũ quay lại đặt số lượng lớn, khách hàng mới chốt nhanh gọn không kỳ kèo, xe cộ xuất nhập hàng hóa thượng lộ bình an.",
+    "remedy": "🌟 <b>Lời Khuyên Đón Lộc:</b> Hãy tận dụng ngay thời điểm vàng này để đẩy mạnh tiến độ công việc và chăm sóc kỹ tệp khách hàng thân thiết. Giữ đúng cam kết về chất lượng và giờ giấc giao nhận sẽ giúp bạn nhân đôi uy tín.",
+    "audioFile": "audio/xam_full_2.mp3",
+    "careerAdvice": {
+      "tongkho": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu ngọn gió đông thuận lợi đã tới! Những đơn hàng, kế hoạch từng bị trì hoãn nay bỗng nhiên thông suốt lạ thường. Khách hàng cũ quay lại đặt số lượng lớn, khách hàng mới chốt nhanh gọn không kỳ kèo, xe cộ xuất nhập hàng hóa thượng lộ bình an.",
+      "sale": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu ngọn gió đông thuận lợi đã tới! Những đơn hàng, kế hoạch từng bị trì hoãn nay bỗng nhiên thông suốt lạ thường. Khách hàng cũ quay lại đặt số lượng lớn, khách hàng mới chốt nhanh gọn không kỳ kèo, xe cộ xuất nhập hàng hóa thượng lộ bình an.",
+      "thau": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu ngọn gió đông thuận lợi đã tới! Những đơn hàng, kế hoạch từng bị trì hoãn nay bỗng nhiên thông suốt lạ thường. Khách hàng cũ quay lại đặt số lượng lớn, khách hàng mới chốt nhanh gọn không kỳ kèo, xe cộ xuất nhập hàng hóa thượng lộ bình an.",
+      "congno": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu ngọn gió đông thuận lợi đã tới! Những đơn hàng, kế hoạch từng bị trì hoãn nay bỗng nhiên thông suốt lạ thường. Khách hàng cũ quay lại đặt số lượng lớn, khách hàng mới chốt nhanh gọn không kỳ kèo, xe cộ xuất nhập hàng hóa thượng lộ bình an.",
+      "buonban": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu ngọn gió đông thuận lợi đã tới! Những đơn hàng, kế hoạch từng bị trì hoãn nay bỗng nhiên thông suốt lạ thường. Khách hàng cũ quay lại đặt số lượng lớn, khách hàng mới chốt nhanh gọn không kỳ kèo, xe cộ xuất nhập hàng hóa thượng lộ bình an."
+    }
+  },
+  {
+    "num": "THẺ SỐ 18 — QUẺ THƯỢNG CÁT",
+    "rank": "QUÝ NHÂN ĐƯA ĐƯỜNG",
+    "tier": "good",
+    "legend": "Tôn Ngộ Không Gặp Bồ Tát Quan Âm Chỉ Lối (Gặp người hiền tài gỡ rối)",
+    "hexagram": "Thiên Hỏa Đồng Nhân (Hành Hỏa — Người cùng chí hướng hợp sức thành công)",
+    "poem": "Đường xa đang bước gặp người hiền,<br/>Chỉ lối đưa đường tới phúc duyên.<br/>Bao nhiêu khúc mắc đều tháo gỡ,<br/>Từ nay sự nghiệp vững vàng lên.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Có quý nhân giới thiệu mối làm ăn lớn",
+      "🌟 <b>Công Danh:</b> Được cấp trên trọng dụng, nâng đỡ tận tình",
+      "❤️ <b>Tình Duyên:</b> Nhờ người mai mối hoặc bạn bè mà nên duyên",
+      "🏡 <b>Gia Đạo:</b> Có khách quý đến nhà mang theo tin tốt",
+      "🧘 <b>Sức Khỏe:</b> Gặp thầy gặp thuốc, cơ thể hồi phục nhanh",
+      "🍀 <b>Mưu Sự:</b> Hợp tác làm ăn cực kỳ ăn ý và sinh lời"
+    ],
+    "meaning": "💰 <b>Luận Giải Chi Tiết:</b> Vận quý nhân của bạn đang sáng rực! Dù bạn đang gặp vướng mắc về doanh số, nguồn hàng hay thủ tục giấy tờ thì ngay trong những ngày tới sẽ có người giàu kinh nghiệm chủ động đứng ra giúp đỡ, kết nối cho bạn những đối tác và khách sỉ cực kỳ chất lượng.",
+    "remedy": "🌟 <b>Lời Khuyên Đón Lộc:</b> Hãy mở lòng giao lưu, niềm nở với mọi người xung quanh vì quý nhân có thể chính là một khách hàng quen hoặc đồng nghiệp cạnh bạn. Khi thành công nhớ tri ân người đã nâng đỡ mình.",
+    "audioFile": "audio/xam_full_3.mp3",
+    "careerAdvice": {
+      "tongkho": "💰 <b>Luận Giải Chi Tiết:</b> Vận quý nhân của bạn đang sáng rực! Dù bạn đang gặp vướng mắc về doanh số, nguồn hàng hay thủ tục giấy tờ thì ngay trong những ngày tới sẽ có người giàu kinh nghiệm chủ động đứng ra giúp đỡ, kết nối cho bạn những đối tác và khách sỉ cực kỳ chất lượng.",
+      "sale": "💰 <b>Luận Giải Chi Tiết:</b> Vận quý nhân của bạn đang sáng rực! Dù bạn đang gặp vướng mắc về doanh số, nguồn hàng hay thủ tục giấy tờ thì ngay trong những ngày tới sẽ có người giàu kinh nghiệm chủ động đứng ra giúp đỡ, kết nối cho bạn những đối tác và khách sỉ cực kỳ chất lượng.",
+      "thau": "💰 <b>Luận Giải Chi Tiết:</b> Vận quý nhân của bạn đang sáng rực! Dù bạn đang gặp vướng mắc về doanh số, nguồn hàng hay thủ tục giấy tờ thì ngay trong những ngày tới sẽ có người giàu kinh nghiệm chủ động đứng ra giúp đỡ, kết nối cho bạn những đối tác và khách sỉ cực kỳ chất lượng.",
+      "congno": "💰 <b>Luận Giải Chi Tiết:</b> Vận quý nhân của bạn đang sáng rực! Dù bạn đang gặp vướng mắc về doanh số, nguồn hàng hay thủ tục giấy tờ thì ngay trong những ngày tới sẽ có người giàu kinh nghiệm chủ động đứng ra giúp đỡ, kết nối cho bạn những đối tác và khách sỉ cực kỳ chất lượng.",
+      "buonban": "💰 <b>Luận Giải Chi Tiết:</b> Vận quý nhân của bạn đang sáng rực! Dù bạn đang gặp vướng mắc về doanh số, nguồn hàng hay thủ tục giấy tờ thì ngay trong những ngày tới sẽ có người giàu kinh nghiệm chủ động đứng ra giúp đỡ, kết nối cho bạn những đối tác và khách sỉ cực kỳ chất lượng."
+    }
+  },
+  {
+    "num": "THẺ SỐ 36 — QUẺ THƯỢNG CÁT",
+    "rank": "HOA NỞ MÙA XUÂN · NHÂN DUYÊN VƯỢNG",
+    "tier": "good",
+    "legend": "Lưu Thần Nguyễn Triệu Nhập Thiên Thai (Duyên lành hội ngộ, tâm đầu ý hợp)",
+    "hexagram": "Trạch Sơn Hàm (Hành Kim — Cảm ứng chân thành, đôi bên cùng mến)",
+    "poem": "Lộc xuân nở rộ khắp cành vàng,<br/>Người hiền gặp gỡ dạ hân hoan.<br/>Lời nói có duyên ai cũng mến,<br/>Tài lộc tình duyên trọn vẹn toàn.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Lộc từ ăn nói, giao tiếp khéo léo đắc tài",
+      "🌟 <b>Công Danh:</b> Đàm phán thương lượng đâu thắng đó",
+      "❤️ <b>Tình Duyên:</b> Đào hoa nở rộ, tình cảm thăng hoa ngọt ngào",
+      "🏡 <b>Gia Đạo:</b> Hạnh phúc đầm ấm, con cái ngoan ngoãn",
+      "🧘 <b>Sức Khỏe:</b> Tâm hồn tươi trẻ, khí sắc hồng hào",
+      "🍀 <b>Mưu Sự:</b> Ký kết hợp đồng, mở hàng buôn bán đại cát"
+    ],
+    "meaning": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại cát về nhân duyên và tài ăn nói! Giai đoạn này bạn đi đến đâu cũng tạo được thiện cảm sâu sắc. Khách hàng vì quý cái tâm và sự nhiệt tình của bạn mà chốt đơn nhanh chóng, thậm chí còn giới thiệu thêm bạn bè, đối tác mới tìm đến bạn.",
+    "remedy": "🌟 <b>Lời Khuyên Đón Lộc:</b> Luôn giữ nụ cười tươi tắn và thái độ chân thành, nhiệt huyết. Một lời hỏi thăm đúng lúc tới khách hàng và người thân sẽ mang lại phúc lộc lớn ngoài mong đợi.",
+    "audioFile": "audio/xam_full_4.mp3",
+    "careerAdvice": {
+      "tongkho": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại cát về nhân duyên và tài ăn nói! Giai đoạn này bạn đi đến đâu cũng tạo được thiện cảm sâu sắc. Khách hàng vì quý cái tâm và sự nhiệt tình của bạn mà chốt đơn nhanh chóng, thậm chí còn giới thiệu thêm bạn bè, đối tác mới tìm đến bạn.",
+      "sale": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại cát về nhân duyên và tài ăn nói! Giai đoạn này bạn đi đến đâu cũng tạo được thiện cảm sâu sắc. Khách hàng vì quý cái tâm và sự nhiệt tình của bạn mà chốt đơn nhanh chóng, thậm chí còn giới thiệu thêm bạn bè, đối tác mới tìm đến bạn.",
+      "thau": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại cát về nhân duyên và tài ăn nói! Giai đoạn này bạn đi đến đâu cũng tạo được thiện cảm sâu sắc. Khách hàng vì quý cái tâm và sự nhiệt tình của bạn mà chốt đơn nhanh chóng, thậm chí còn giới thiệu thêm bạn bè, đối tác mới tìm đến bạn.",
+      "congno": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại cát về nhân duyên và tài ăn nói! Giai đoạn này bạn đi đến đâu cũng tạo được thiện cảm sâu sắc. Khách hàng vì quý cái tâm và sự nhiệt tình của bạn mà chốt đơn nhanh chóng, thậm chí còn giới thiệu thêm bạn bè, đối tác mới tìm đến bạn.",
+      "buonban": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại cát về nhân duyên và tài ăn nói! Giai đoạn này bạn đi đến đâu cũng tạo được thiện cảm sâu sắc. Khách hàng vì quý cái tâm và sự nhiệt tình của bạn mà chốt đơn nhanh chóng, thậm chí còn giới thiệu thêm bạn bè, đối tác mới tìm đến bạn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 68 — QUẺ THƯỢNG THƯỢNG CÁT",
+    "rank": "RỒNG VÀNG GẶP HỘI · ĐẠI PHÁT TÀI LỘC",
+    "tier": "good",
+    "legend": "Lưu Bị Tam Cố Thảo Lư (Ba lần đến lều tranh rước Gia Cát Lượng)",
+    "hexagram": "Hỏa Thiên Đại Hữu (Hành Hỏa — Mặt trời chiếu sáng giữa trời cao)",
+    "poem": "Rồng vàng gặp hội mây xanh,<br/>Thần Tài mở cửa phúc lành ban trao.<br/>Đường đời tài lộc dồi dào,<br/>Gia môn hưng thịnh bước vào vinh hoa.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Đại vượng, lộc riêng và thưởng lớn về bất ngờ",
+      "🌟 <b>Công Danh:</b> Đạt và vượt xa mục tiêu KPI, uy tín vang dội",
+      "❤️ <b>Tình Duyên:</b> Nhân duyên tốt đẹp, hòa hợp ấm êm",
+      "🏡 <b>Gia Đạo:</b> Trong ấm ngoài êm, tài sản tích lũy tăng mạnh",
+      "🧘 <b>Sức Khỏe:</b> Thân khỏe tâm an, tinh thần phấn chấn",
+      "🍀 <b>Mưu Sự:</b> Cầu tài đắc tài, việc lớn việc nhỏ đều thành"
+    ],
+    "meaning": "💰 <b>Luận Giải Chi Tiết:</b> Thời vận cá nhân và công việc của bạn đang bừng sáng như mặt trời giữa trưa! Tiền bạc rủng rỉnh, công nợ thu hồi suôn sẻ, các đơn hàng lớn liên tiếp đổ về giúp bạn hoàn thành xuất sắc mục tiêu tháng và quý.",
+    "remedy": "🌟 <b>Lời Khuyên Đón Lộc:</b> Khi vận đang lên, hãy giữ chữ Tín hàng đầu, kiểm kỹ chất lượng từng kiện hàng trước khi xuất kho và trích một phần lợi nhuận làm việc thiện, dâng hương cảm tạ để phúc lộc bền lâu.",
+    "audioFile": "audio/xam_full_5.mp3",
+    "careerAdvice": {
+      "tongkho": "💰 <b>Luận Giải Chi Tiết:</b> Thời vận cá nhân và công việc của bạn đang bừng sáng như mặt trời giữa trưa! Tiền bạc rủng rỉnh, công nợ thu hồi suôn sẻ, các đơn hàng lớn liên tiếp đổ về giúp bạn hoàn thành xuất sắc mục tiêu tháng và quý.",
+      "sale": "💰 <b>Luận Giải Chi Tiết:</b> Thời vận cá nhân và công việc của bạn đang bừng sáng như mặt trời giữa trưa! Tiền bạc rủng rỉnh, công nợ thu hồi suôn sẻ, các đơn hàng lớn liên tiếp đổ về giúp bạn hoàn thành xuất sắc mục tiêu tháng và quý.",
+      "thau": "💰 <b>Luận Giải Chi Tiết:</b> Thời vận cá nhân và công việc của bạn đang bừng sáng như mặt trời giữa trưa! Tiền bạc rủng rỉnh, công nợ thu hồi suôn sẻ, các đơn hàng lớn liên tiếp đổ về giúp bạn hoàn thành xuất sắc mục tiêu tháng và quý.",
+      "congno": "💰 <b>Luận Giải Chi Tiết:</b> Thời vận cá nhân và công việc của bạn đang bừng sáng như mặt trời giữa trưa! Tiền bạc rủng rỉnh, công nợ thu hồi suôn sẻ, các đơn hàng lớn liên tiếp đổ về giúp bạn hoàn thành xuất sắc mục tiêu tháng và quý.",
+      "buonban": "💰 <b>Luận Giải Chi Tiết:</b> Thời vận cá nhân và công việc của bạn đang bừng sáng như mặt trời giữa trưa! Tiền bạc rủng rỉnh, công nợ thu hồi suôn sẻ, các đơn hàng lớn liên tiếp đổ về giúp bạn hoàn thành xuất sắc mục tiêu tháng và quý."
+    }
+  },
+  {
+    "num": "THẺ SỐ 88 — QUẺ THƯỢNG THƯỢNG CÁT",
+    "rank": "KIM NGÂN ĐẦY KHO · PHÚC LỘC VIÊN MÃN",
+    "tier": "good",
+    "legend": "Phạm Lãi Buôn Bán Thành Đào Chu Công (Kinh doanh đại phát, giàu sang phú quý)",
+    "hexagram": "Địa Phong Thăng (Hành Mộc — Cây vươn lên cao, tích lũy thành đại nghiệp)",
+    "poem": "Thần Tài gõ cửa sáng ban mai,<br/>Vàng ròng ngọc quý trải tiền tài.<br/>Sống ngay chữ tín mười phân vẹn,<br/>Phúc dày đức trọng hưởng lâu dài.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Tiền vào như nước, tích lũy tài sản lớn",
+      "🌟 <b>Công Danh:</b> Vươn lên vị trí dẫn đầu, doanh số kỷ lục",
+      "❤️ <b>Tình Duyên:</b> Chung thủy sắt son, vợ chồng đồng tâm hiệp lực",
+      "🏡 <b>Gia Đạo:</b> Phúc lộc song toàn, mua sắm thêm tài sản",
+      "🧘 <b>Sức Khỏe:</b> Trường thọ, dẻo dai suốt bốn mùa",
+      "🍀 <b>Mưu Sự:</b> Mở rộng kho hàng, nhập hàng, chốt đơn đại thắng"
+    ],
+    "meaning": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại phú quý! Những nỗ lực bền bỉ và chữ Tín của bạn bấy lâu nay đã kết trái ngọt. Nguồn thu nhập chính và phụ đều tăng trưởng mạnh mẽ, có cơ hội mua sắm xe cộ, nhà cửa hoặc tích lũy được khoản tiết kiệm lớn.",
+    "remedy": "🌟 <b>Lời Khuyên Đón Lộc:</b> Giữ vững đạo đức kinh doanh, bán hàng chuẩn chất lượng, trọng chữ Tín hơn vàng thì kho lộc sẽ mãi mãi đầy ắp.",
+    "audioFile": "audio/xam_full_6.mp3",
+    "careerAdvice": {
+      "tongkho": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại phú quý! Những nỗ lực bền bỉ và chữ Tín của bạn bấy lâu nay đã kết trái ngọt. Nguồn thu nhập chính và phụ đều tăng trưởng mạnh mẽ, có cơ hội mua sắm xe cộ, nhà cửa hoặc tích lũy được khoản tiết kiệm lớn.",
+      "sale": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại phú quý! Những nỗ lực bền bỉ và chữ Tín của bạn bấy lâu nay đã kết trái ngọt. Nguồn thu nhập chính và phụ đều tăng trưởng mạnh mẽ, có cơ hội mua sắm xe cộ, nhà cửa hoặc tích lũy được khoản tiết kiệm lớn.",
+      "thau": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại phú quý! Những nỗ lực bền bỉ và chữ Tín của bạn bấy lâu nay đã kết trái ngọt. Nguồn thu nhập chính và phụ đều tăng trưởng mạnh mẽ, có cơ hội mua sắm xe cộ, nhà cửa hoặc tích lũy được khoản tiết kiệm lớn.",
+      "congno": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại phú quý! Những nỗ lực bền bỉ và chữ Tín của bạn bấy lâu nay đã kết trái ngọt. Nguồn thu nhập chính và phụ đều tăng trưởng mạnh mẽ, có cơ hội mua sắm xe cộ, nhà cửa hoặc tích lũy được khoản tiết kiệm lớn.",
+      "buonban": "💰 <b>Luận Giải Chi Tiết:</b> Quẻ đại phú quý! Những nỗ lực bền bỉ và chữ Tín của bạn bấy lâu nay đã kết trái ngọt. Nguồn thu nhập chính và phụ đều tăng trưởng mạnh mẽ, có cơ hội mua sắm xe cộ, nhà cửa hoặc tích lũy được khoản tiết kiệm lớn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 12 — QUẺ TRUNG BÌNH",
+    "rank": "CHẬM MÀ CHẮC · TÍCH TIỂU THÀNH ĐẠI",
+    "tier": "neutral",
+    "legend": "Ngu Công Dời Núi (Kiên trì bền bỉ từng bước ắt thành đại sự)",
+    "hexagram": "Thuần Cấn (Hành Thổ — Núi đứng vững chãi, biết dừng đúng lúc)",
+    "poem": "Cây thông đứng vững giữa sương mờ,<br/>Đợi nắng xuân sang lộc bất ngờ.<br/>Chớ thấy đường xa mà nản chí,<br/>Bền lòng tu dưỡng ắt nên cơ.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Đều đặn ổn định, tích tiểu thành đại",
+      "🌟 <b>Công Danh:</b> Tiến từng bước vững chắc, chớ nóng vội",
+      "❤️ <b>Tình Duyên:</b> Chân thành bền chặt qua thời gian",
+      "🏡 <b>Gia Đạo:</b> Bình yên giản dị, không có biến động",
+      "🧘 <b>Sức Khỏe:</b> Bình ổn, cần tập thể dục đều đặn",
+      "🍀 <b>Mưu Sự:</b> Nửa đầu hơi chậm, nửa cuối tháng sẽ hanh thông"
+    ],
+    "meaning": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ Trung Bình nhắc bạn rằng giai đoạn này không phải lúc ăn xổi hay đốt cháy giai đoạn. Công việc và tài chính đang ở mức ổn định, cần chăm chỉ gom nhặt từng đơn hàng nhỏ, chăm sóc kỹ từng khách hàng thì cuối tháng sẽ gom thành kết quả lớn.",
+    "remedy": "🌱 <b>Lời Khuyên Hành Động:</b> Kiên nhẫn rà soát lại quy trình làm việc, tránh tâm lý sốt ruột đứng núi này trông núi nọ. Cứ làm tốt việc trước mắt, lộc sẽ tự khắc tìm về.",
+    "audioFile": "audio/xam_full_7.mp3",
+    "careerAdvice": {
+      "tongkho": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ Trung Bình nhắc bạn rằng giai đoạn này không phải lúc ăn xổi hay đốt cháy giai đoạn. Công việc và tài chính đang ở mức ổn định, cần chăm chỉ gom nhặt từng đơn hàng nhỏ, chăm sóc kỹ từng khách hàng thì cuối tháng sẽ gom thành kết quả lớn.",
+      "sale": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ Trung Bình nhắc bạn rằng giai đoạn này không phải lúc ăn xổi hay đốt cháy giai đoạn. Công việc và tài chính đang ở mức ổn định, cần chăm chỉ gom nhặt từng đơn hàng nhỏ, chăm sóc kỹ từng khách hàng thì cuối tháng sẽ gom thành kết quả lớn.",
+      "thau": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ Trung Bình nhắc bạn rằng giai đoạn này không phải lúc ăn xổi hay đốt cháy giai đoạn. Công việc và tài chính đang ở mức ổn định, cần chăm chỉ gom nhặt từng đơn hàng nhỏ, chăm sóc kỹ từng khách hàng thì cuối tháng sẽ gom thành kết quả lớn.",
+      "congno": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ Trung Bình nhắc bạn rằng giai đoạn này không phải lúc ăn xổi hay đốt cháy giai đoạn. Công việc và tài chính đang ở mức ổn định, cần chăm chỉ gom nhặt từng đơn hàng nhỏ, chăm sóc kỹ từng khách hàng thì cuối tháng sẽ gom thành kết quả lớn.",
+      "buonban": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ Trung Bình nhắc bạn rằng giai đoạn này không phải lúc ăn xổi hay đốt cháy giai đoạn. Công việc và tài chính đang ở mức ổn định, cần chăm chỉ gom nhặt từng đơn hàng nhỏ, chăm sóc kỹ từng khách hàng thì cuối tháng sẽ gom thành kết quả lớn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 27 — QUẺ TRUNG BÌNH",
+    "rank": "ẨN NHẪN ĐỢI THỜI · CHỜ CƠ HỘI CHÍN MUỒI",
+    "tier": "neutral",
+    "legend": "Khương Tử Nha Câu Cá Sông Vị (Chờ đúng thời vận mới ra tay)",
+    "hexagram": "Thủy Thiên Nhu (Hành Thủy — Kiên nhẫn chờ đợi, nuôi dưỡng nội lực)",
+    "poem": "Bên dòng sông vắng thả cần câu,<br/>Chờ đợi thời cơ chớ ưu sầu.<br/>Mây tan trăng sáng rồi sẽ tới,<br/>Nóng vội ra tay hỏng việc mau.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Đủ chi tiêu, chưa nên tất tay mạo hiểm",
+      "🌟 <b>Công Danh:</b> Trau dồi kỹ năng, chuẩn bị cho bước tiến tới",
+      "❤️ <b>Tình Duyên:</b> Duyên chưa chín muồi, hãy cứ tự nhiên",
+      "🏡 <b>Gia Đạo:</b> Yên ổn, cần dành thêm thời gian cho người thân",
+      "🧘 <b>Sức Khỏe:</b> Tốt, nên giữ tinh thần thư thái",
+      "🍀 <b>Mưu Sự:</b> Chuẩn bị kỹ lưỡng trước khi xuất tiền"
+    ],
+    "meaning": "🟡 <b>Luận Giải Chi Tiết:</b> Thời cơ lớn của bạn đang ở phía trước nhưng hiện tại chưa thực sự chín muồi. Nếu khách hàng còn đang cân nhắc báo giá, đừng thúc ép quá gắt mà hãy kiên trì gửi thêm tư liệu thực tế để tạo niềm tin.",
+    "remedy": "🌱 <b>Lời Khuyên Hành Động:</b> Dùng thời gian này để học hỏi thêm kỹ năng mới, sắp xếp lại kho bãi, sổ sách và giữ tâm bình thản.",
+    "audioFile": "audio/xam_full_8.mp3",
+    "careerAdvice": {
+      "tongkho": "🟡 <b>Luận Giải Chi Tiết:</b> Thời cơ lớn của bạn đang ở phía trước nhưng hiện tại chưa thực sự chín muồi. Nếu khách hàng còn đang cân nhắc báo giá, đừng thúc ép quá gắt mà hãy kiên trì gửi thêm tư liệu thực tế để tạo niềm tin.",
+      "sale": "🟡 <b>Luận Giải Chi Tiết:</b> Thời cơ lớn của bạn đang ở phía trước nhưng hiện tại chưa thực sự chín muồi. Nếu khách hàng còn đang cân nhắc báo giá, đừng thúc ép quá gắt mà hãy kiên trì gửi thêm tư liệu thực tế để tạo niềm tin.",
+      "thau": "🟡 <b>Luận Giải Chi Tiết:</b> Thời cơ lớn của bạn đang ở phía trước nhưng hiện tại chưa thực sự chín muồi. Nếu khách hàng còn đang cân nhắc báo giá, đừng thúc ép quá gắt mà hãy kiên trì gửi thêm tư liệu thực tế để tạo niềm tin.",
+      "congno": "🟡 <b>Luận Giải Chi Tiết:</b> Thời cơ lớn của bạn đang ở phía trước nhưng hiện tại chưa thực sự chín muồi. Nếu khách hàng còn đang cân nhắc báo giá, đừng thúc ép quá gắt mà hãy kiên trì gửi thêm tư liệu thực tế để tạo niềm tin.",
+      "buonban": "🟡 <b>Luận Giải Chi Tiết:</b> Thời cơ lớn của bạn đang ở phía trước nhưng hiện tại chưa thực sự chín muồi. Nếu khách hàng còn đang cân nhắc báo giá, đừng thúc ép quá gắt mà hãy kiên trì gửi thêm tư liệu thực tế để tạo niềm tin."
+    }
+  },
+  {
+    "num": "THẺ SỐ 42 — QUẺ TRUNG BÌNH",
+    "rank": "GIỮ VỮNG BẢN NGÃ · ĐỪNG ĐỨNG NÚI NÀY TRÔNG NÚI NỌ",
+    "tier": "neutral",
+    "legend": "Thần Nông Nếm Trăm Loại Cỏ (Tập trung chuyên môn, không chạy theo hư danh)",
+    "hexagram": "Lôi Phong Hằng (Hành Mộc — Bền bỉ lâu dài, giữ đạo thường hằng)",
+    "poem": "Việc mình đang tốt cứ chuyên tâm,<br/>Chớ nghe lời dụ chạy xa xăm.<br/>Một nghề cho chín hơn chín nghề,<br/>Bền gan vững chí phúc trăm năm.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Giữ vững nguồn thu chính, tránh đầu tư dàn trải",
+      "🌟 <b>Công Danh:</b> Chuyên sâu vào thế mạnh của bản thân",
+      "❤️ <b>Tình Duyên:</b> Trân trọng người bên cạnh, tránh xao nhãng",
+      "🏡 <b>Gia Đạo:</b> Bình an, giữ nếp nhà êm ấm",
+      "🧘 <b>Sức Khỏe:</b> Ổn định, ăn uống đúng giờ",
+      "🍀 <b>Mưu Sự:</b> Làm việc quen thuộc sẽ an toàn và hiệu quả"
+    ],
+    "meaning": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ khuyên bạn nên tập trung 100% tâm sức vào công việc và lĩnh vực sở trường hiện tại. Đừng nghe lời rủ rê đầu tư sang những mảng xa lạ mà bạn chưa nắm rõ bản chất kẻo phân tán nguồn lực.",
+    "remedy": "🌱 <b>Lời Khuyên Hành Động:</b> Rèn luyện tay nghề và dịch vụ chăm sóc khách hàng hiện có thật xuất sắc, đó chính là mỏ vàng bền vững nhất của bạn.",
+    "audioFile": "audio/xam_full_9.mp3",
+    "careerAdvice": {
+      "tongkho": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ khuyên bạn nên tập trung 100% tâm sức vào công việc và lĩnh vực sở trường hiện tại. Đừng nghe lời rủ rê đầu tư sang những mảng xa lạ mà bạn chưa nắm rõ bản chất kẻo phân tán nguồn lực.",
+      "sale": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ khuyên bạn nên tập trung 100% tâm sức vào công việc và lĩnh vực sở trường hiện tại. Đừng nghe lời rủ rê đầu tư sang những mảng xa lạ mà bạn chưa nắm rõ bản chất kẻo phân tán nguồn lực.",
+      "thau": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ khuyên bạn nên tập trung 100% tâm sức vào công việc và lĩnh vực sở trường hiện tại. Đừng nghe lời rủ rê đầu tư sang những mảng xa lạ mà bạn chưa nắm rõ bản chất kẻo phân tán nguồn lực.",
+      "congno": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ khuyên bạn nên tập trung 100% tâm sức vào công việc và lĩnh vực sở trường hiện tại. Đừng nghe lời rủ rê đầu tư sang những mảng xa lạ mà bạn chưa nắm rõ bản chất kẻo phân tán nguồn lực.",
+      "buonban": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ khuyên bạn nên tập trung 100% tâm sức vào công việc và lĩnh vực sở trường hiện tại. Đừng nghe lời rủ rê đầu tư sang những mảng xa lạ mà bạn chưa nắm rõ bản chất kẻo phân tán nguồn lực."
+    }
+  },
+  {
+    "num": "THẺ SỐ 55 — QUẺ TRUNG BÌNH",
+    "rank": "TIỀN KHỔ HẬU CAM · VƯỢT KHÓ THÀNH CÔNG",
+    "tier": "neutral",
+    "legend": "Việt Vương Câu Tiễn Nếm Mật Nằm Gai (Khó khăn trước, vinh quang sau)",
+    "hexagram": "Thủy Sơn Kiển (Hành Thủy — Vượt qua chướng ngại bằng trí tuệ)",
+    "poem": "Đầu tháng gian nan lắm việc lo,<br/>Bền lòng vững dạ vượt qua đò.<br/>Qua cơn mưa lớn trời lại sáng,<br/>Cuối tháng lộc về cười thật to.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Đầu kỳ vất vả, cuối kỳ thu quả ngọt",
+      "🌟 <b>Công Danh:</b> Phải giải quyết vài việc khó mới được ghi nhận",
+      "❤️ <b>Tình Duyên:</b> Qua hiểu lầm nhỏ càng thêm thương nhau",
+      "🏡 <b>Gia Đạo:</b> Cùng nhau gánh vác vượt qua thử thách",
+      "🧘 <b>Sức Khỏe:</b> Hơi mỏi mệt, cần ngủ đủ giấc",
+      "🍀 <b>Mưu Sự:</b> Kiên trì theo đuổi đến cùng sẽ thành tựu"
+    ],
+    "meaning": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu «Tiền Khổ Hậu Cam» — bước đầu xử lý công việc hay đơn hàng có thể phát sinh một vài trục trặc về vận chuyển, mẫu mã hoặc khách hàng khó tính, nhưng chỉ cần bạn bình tĩnh tháo gỡ tận tâm thì kết quả cuối cùng lại rất tốt đẹp.",
+    "remedy": "🌱 <b>Lời Khuyên Hành Động:</b> Đừng nản lòng trước khó khăn ban đầu. Hãy coi mỗi khách hàng khó tính là một bài học giúp mình trưởng thành và chuyên nghiệp hơn.",
+    "audioFile": "audio/xam_full_10.mp3",
+    "careerAdvice": {
+      "tongkho": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu «Tiền Khổ Hậu Cam» — bước đầu xử lý công việc hay đơn hàng có thể phát sinh một vài trục trặc về vận chuyển, mẫu mã hoặc khách hàng khó tính, nhưng chỉ cần bạn bình tĩnh tháo gỡ tận tâm thì kết quả cuối cùng lại rất tốt đẹp.",
+      "sale": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu «Tiền Khổ Hậu Cam» — bước đầu xử lý công việc hay đơn hàng có thể phát sinh một vài trục trặc về vận chuyển, mẫu mã hoặc khách hàng khó tính, nhưng chỉ cần bạn bình tĩnh tháo gỡ tận tâm thì kết quả cuối cùng lại rất tốt đẹp.",
+      "thau": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu «Tiền Khổ Hậu Cam» — bước đầu xử lý công việc hay đơn hàng có thể phát sinh một vài trục trặc về vận chuyển, mẫu mã hoặc khách hàng khó tính, nhưng chỉ cần bạn bình tĩnh tháo gỡ tận tâm thì kết quả cuối cùng lại rất tốt đẹp.",
+      "congno": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu «Tiền Khổ Hậu Cam» — bước đầu xử lý công việc hay đơn hàng có thể phát sinh một vài trục trặc về vận chuyển, mẫu mã hoặc khách hàng khó tính, nhưng chỉ cần bạn bình tĩnh tháo gỡ tận tâm thì kết quả cuối cùng lại rất tốt đẹp.",
+      "buonban": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ báo hiệu «Tiền Khổ Hậu Cam» — bước đầu xử lý công việc hay đơn hàng có thể phát sinh một vài trục trặc về vận chuyển, mẫu mã hoặc khách hàng khó tính, nhưng chỉ cần bạn bình tĩnh tháo gỡ tận tâm thì kết quả cuối cùng lại rất tốt đẹp."
+    }
+  },
+  {
+    "num": "THẺ SỐ 72 — QUẺ TRUNG BÌNH",
+    "rank": "TỰ LỰC CÁNH SINH · DỰA VÀO CHÍNH MÌNH",
+    "tier": "neutral",
+    "legend": "Tô Tần Dùi Đâm Vào Đùi Đọc Sách (Nỗ lực tự thân làm nên nghiệp lớn)",
+    "hexagram": "Thuần Chấn (Hành Mộc — Sấm nổ vang rền, tự mình vươn lên)",
+    "poem": "Chớ trông chờ đợi ở người ngoài,<br/>Bàn tay khối óc tự miệt mài.<br/>Mồ hôi rơi xuống mầm xanh mọc,<br/>Thành quả tự làm chẳng kém ai.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Làm nhiều hưởng nhiều bằng chính sức mình",
+      "🌟 <b>Công Danh:</b> Tự chủ động tìm kiếm khách hàng và cơ hội",
+      "❤️ <b>Tình Duyên:</b> Chủ động bày tỏ chân thành mới có kết quả",
+      "🏡 <b>Gia Đạo:</b> Là trụ cột vững vàng cho người thân",
+      "🧘 <b>Sức Khỏe:</b> Dẻo dai, tràn đầy quyết tâm",
+      "🍀 <b>Mưu Sự:</b> Tự tay kiểm tra mọi khâu sẽ không sai sót"
+    ],
+    "meaning": "🟡 <b>Luận Giải Chi Tiết:</b> Trong giai đoạn này, đừng ỷ lại hay trông chờ vào sự may mắn ngẫu nhiên hay lời hứa giúp đỡ của người khác. Mọi đơn hàng và thu nhập của bạn đều đến từ chính sự chủ động gọi điện, tư vấn và bám sát công việc của bạn.",
+    "remedy": "🌱 <b>Lời Khuyên Hành Động:</b> Lập danh sách công việc rõ ràng mỗi sáng, tự mình kiểm tra kỹ đơn hàng và chủ động liên hệ khách hàng, bạn sẽ làm chủ hoàn toàn vận mệnh của mình.",
+    "audioFile": "audio/xam_full_11.mp3",
+    "careerAdvice": {
+      "tongkho": "🟡 <b>Luận Giải Chi Tiết:</b> Trong giai đoạn này, đừng ỷ lại hay trông chờ vào sự may mắn ngẫu nhiên hay lời hứa giúp đỡ của người khác. Mọi đơn hàng và thu nhập của bạn đều đến từ chính sự chủ động gọi điện, tư vấn và bám sát công việc của bạn.",
+      "sale": "🟡 <b>Luận Giải Chi Tiết:</b> Trong giai đoạn này, đừng ỷ lại hay trông chờ vào sự may mắn ngẫu nhiên hay lời hứa giúp đỡ của người khác. Mọi đơn hàng và thu nhập của bạn đều đến từ chính sự chủ động gọi điện, tư vấn và bám sát công việc của bạn.",
+      "thau": "🟡 <b>Luận Giải Chi Tiết:</b> Trong giai đoạn này, đừng ỷ lại hay trông chờ vào sự may mắn ngẫu nhiên hay lời hứa giúp đỡ của người khác. Mọi đơn hàng và thu nhập của bạn đều đến từ chính sự chủ động gọi điện, tư vấn và bám sát công việc của bạn.",
+      "congno": "🟡 <b>Luận Giải Chi Tiết:</b> Trong giai đoạn này, đừng ỷ lại hay trông chờ vào sự may mắn ngẫu nhiên hay lời hứa giúp đỡ của người khác. Mọi đơn hàng và thu nhập của bạn đều đến từ chính sự chủ động gọi điện, tư vấn và bám sát công việc của bạn.",
+      "buonban": "🟡 <b>Luận Giải Chi Tiết:</b> Trong giai đoạn này, đừng ỷ lại hay trông chờ vào sự may mắn ngẫu nhiên hay lời hứa giúp đỡ của người khác. Mọi đơn hàng và thu nhập của bạn đều đến từ chính sự chủ động gọi điện, tư vấn và bám sát công việc của bạn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 91 — QUẺ TRUNG BÌNH",
+    "rank": "BIẾT ĐỦ LÀ VUI · GIA ĐẠO BÌNH AN",
+    "tier": "neutral",
+    "legend": "Đào Uyên Minh Về Vườn Trồng Cúc (An nhiên tự tại, tâm tịnh phúc sinh)",
+    "hexagram": "Địa Sơn Khiêm (Hành Thổ — Khiêm nhường nhẫn nại, mọi sự bình hòa)",
+    "poem": "Cơm lành canh ngọt ấm mái nhà,<br/>Chẳng màng tranh đoạt chuyện gần xa.<br/>Làm ăn lương thiện tâm thanh thản,<br/>Phúc ấm con hiền cảnh thái hòa.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Thu chi cân đối, không lo thiếu thốn",
+      "🌟 <b>Công Danh:</b> Hòa đồng với đồng nghiệp, làm việc nhẹ nhàng",
+      "❤️ <b>Tình Duyên:</b> Bình dị ấm áp, tôn trọng lẫn nhau",
+      "🏡 <b>Gia Đạo:</b> Bình an vô sự, cha mẹ khỏe mạnh",
+      "🧘 <b>Sức Khỏe:</b> Tâm an nên thân khỏe, tinh thần nhẹ nhõm",
+      "🍀 <b>Mưu Sự:</b> Vừa sức mình thì mọi việc đều êm xuôi"
+    ],
+    "meaning": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ mang năng lượng bình hòa, nhắc nhở bạn biết trân trọng những gì mình đang có. Không cần quá bon chen hơn thua gay gắt, chỉ cần làm việc có trách nhiệm, giữ chữ Tín và sống hòa thuận thì cuộc sống luôn đủ đầy, bình an.",
+    "remedy": "🌱 <b>Lời Khuyên Hành Động:</b> Dành thời gian ăn cơm cùng gia đình, nói lời ái ngữ với đồng nghiệp và gõ mõ tịnh tâm mỗi ngày để nuôi dưỡng phước báu.",
+    "audioFile": "audio/xam_full_12.mp3",
+    "careerAdvice": {
+      "tongkho": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ mang năng lượng bình hòa, nhắc nhở bạn biết trân trọng những gì mình đang có. Không cần quá bon chen hơn thua gay gắt, chỉ cần làm việc có trách nhiệm, giữ chữ Tín và sống hòa thuận thì cuộc sống luôn đủ đầy, bình an.",
+      "sale": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ mang năng lượng bình hòa, nhắc nhở bạn biết trân trọng những gì mình đang có. Không cần quá bon chen hơn thua gay gắt, chỉ cần làm việc có trách nhiệm, giữ chữ Tín và sống hòa thuận thì cuộc sống luôn đủ đầy, bình an.",
+      "thau": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ mang năng lượng bình hòa, nhắc nhở bạn biết trân trọng những gì mình đang có. Không cần quá bon chen hơn thua gay gắt, chỉ cần làm việc có trách nhiệm, giữ chữ Tín và sống hòa thuận thì cuộc sống luôn đủ đầy, bình an.",
+      "congno": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ mang năng lượng bình hòa, nhắc nhở bạn biết trân trọng những gì mình đang có. Không cần quá bon chen hơn thua gay gắt, chỉ cần làm việc có trách nhiệm, giữ chữ Tín và sống hòa thuận thì cuộc sống luôn đủ đầy, bình an.",
+      "buonban": "🟡 <b>Luận Giải Chi Tiết:</b> Quẻ mang năng lượng bình hòa, nhắc nhở bạn biết trân trọng những gì mình đang có. Không cần quá bon chen hơn thua gay gắt, chỉ cần làm việc có trách nhiệm, giữ chữ Tín và sống hòa thuận thì cuộc sống luôn đủ đầy, bình an."
+    }
+  },
+  {
+    "num": "THẺ SỐ 04 — QUẺ HẠ TRUNG (TIỂU HUNG)",
+    "rank": "⚠️ CẢNH BÁO CHO VAY MẤT TIỀN · CÔNG NỢ DÂY DƯA",
+    "tier": "bad",
+    "legend": "Quan Vũ Mất Kinh Châu Vì Chủ Quan (Đắc thắng mà lơ là phòng bị)",
+    "hexagram": "Thiên Thủy Tụng (Hành Kim Thủy — Cảnh báo tranh chấp tiền bạc, giấy tờ)",
+    "poem": "Mây mù che khuất ánh trăng trong,<br/>Ngoài mặt cười vui dạ chẳng đồng.<br/>Bán chịu cho vay coi kẻo mất,<br/>Giữ chặt tiền cọc mới yên lòng.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Dễ hao hụt vì cho vay mượn hoặc bán chịu",
+      "🌟 <b>Công Danh:</b> Cẩn thận khách hứa suông làm lỡ kế hoạch",
+      "❤️ <b>Tình Duyên:</b> Tránh để chuyện tiền bạc làm sứt mẻ tình cảm",
+      "🏡 <b>Gia Đạo:</b> Quản lý chi tiêu chặt chẽ trong gia đình",
+      "⚠️ <b>Công Nợ:</b> Khách nợ cũ khất lần, tuyệt đối không phát sinh nợ mới",
+      "🧘 <b>Sức Khỏe:</b> Đau đầu suy nghĩ vì chuyện tiền nong"
+    ],
+    "meaning": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Hạ Trung cảnh báo nghiêm khắc về hạn hao tài do cả tin! Thời điểm này nếu ai hỏi vay tiền cá nhân hoặc khách hàng mới xin lấy hàng nợ không đặt cọc thì bạn PHẢI TỪ CHỐI NGAY. Nếu cả nể cho vay hoặc xuất hàng chịu, lúc đòi sẽ cực kỳ mệt mỏi, thậm chí mất cả tiền lẫn tình cảm.",
+    "remedy": "🛡️ <b>Cách Hóa Giải Vận Hạn:</b> Tuyệt đối tuân thủ nguyên tắc: Nhận đủ tiền cọc mới xuất hàng, ký xác nhận biên bản giao nhận rõ ràng. Nên dâng hương lễ Phật và trì tụng Kinh Sám Hối để tâm sáng suốt, tránh bị lời ngon ngọt làm mủi lòng.",
+    "audioFile": "audio/xam_full_13.mp3",
+    "careerAdvice": {
+      "tongkho": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Hạ Trung cảnh báo nghiêm khắc về hạn hao tài do cả tin! Thời điểm này nếu ai hỏi vay tiền cá nhân hoặc khách hàng mới xin lấy hàng nợ không đặt cọc thì bạn PHẢI TỪ CHỐI NGAY. Nếu cả nể cho vay hoặc xuất hàng chịu, lúc đòi sẽ cực kỳ mệt mỏi, thậm chí mất cả tiền lẫn tình cảm.",
+      "sale": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Hạ Trung cảnh báo nghiêm khắc về hạn hao tài do cả tin! Thời điểm này nếu ai hỏi vay tiền cá nhân hoặc khách hàng mới xin lấy hàng nợ không đặt cọc thì bạn PHẢI TỪ CHỐI NGAY. Nếu cả nể cho vay hoặc xuất hàng chịu, lúc đòi sẽ cực kỳ mệt mỏi, thậm chí mất cả tiền lẫn tình cảm.",
+      "thau": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Hạ Trung cảnh báo nghiêm khắc về hạn hao tài do cả tin! Thời điểm này nếu ai hỏi vay tiền cá nhân hoặc khách hàng mới xin lấy hàng nợ không đặt cọc thì bạn PHẢI TỪ CHỐI NGAY. Nếu cả nể cho vay hoặc xuất hàng chịu, lúc đòi sẽ cực kỳ mệt mỏi, thậm chí mất cả tiền lẫn tình cảm.",
+      "congno": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Hạ Trung cảnh báo nghiêm khắc về hạn hao tài do cả tin! Thời điểm này nếu ai hỏi vay tiền cá nhân hoặc khách hàng mới xin lấy hàng nợ không đặt cọc thì bạn PHẢI TỪ CHỐI NGAY. Nếu cả nể cho vay hoặc xuất hàng chịu, lúc đòi sẽ cực kỳ mệt mỏi, thậm chí mất cả tiền lẫn tình cảm.",
+      "buonban": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Hạ Trung cảnh báo nghiêm khắc về hạn hao tài do cả tin! Thời điểm này nếu ai hỏi vay tiền cá nhân hoặc khách hàng mới xin lấy hàng nợ không đặt cọc thì bạn PHẢI TỪ CHỐI NGAY. Nếu cả nể cho vay hoặc xuất hàng chịu, lúc đòi sẽ cực kỳ mệt mỏi, thậm chí mất cả tiền lẫn tình cảm."
+    }
+  },
+  {
+    "num": "THẺ SỐ 19 — QUẺ HẠ TRUNG (TIỂU HUNG)",
+    "rank": "⚠️ CẢNH BÁO TIỂU NHÂN NÓI XẤU · THỊ PHI KHẨU THIỆT",
+    "tier": "bad",
+    "legend": "Bàng Quyên Hãm Hại Tôn Tẫn (Đề phòng kẻ đố kỵ ngầm sau lưng)",
+    "hexagram": "Thiên Sơn Độn (Hành Kim — Tiểu nhân lấn lướt, quân tử nên lùi một bước)",
+    "poem": "Ngoài môi ngọt nhạt tựa đường phèn,<br/>Trong bụng ghen tuông dạ nhỏ nhen.<br/>Chuyện mình chớ kể người ngoài biết,<br/>Kín tiếng khiêm nhường khỏi lụy phiền.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Đề phòng kẻ phá giá ngầm hoặc cướp khách",
+      "🌟 <b>Công Danh:</b> Có người đố kỵ, đặt điều thị phi sau lưng",
+      "❤️ <b>Tình Duyên:</b> Đừng nghe lời người thứ ba đàm tiếu gây hiểu lầm",
+      "🏡 <b>Gia Đạo:</b> Chuyện trong nhà đóng cửa bảo nhau",
+      "⚠️ <b>Giao Tiếp:</b> Kỵ nhất tụ tập bàn tán chuyện người khác",
+      "🧘 <b>Sức Khỏe:</b> Dễ bực dọc, tức ngực vì chuyện không đâu"
+    ],
+    "meaning": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Xung quanh bạn đang có kẻ tiểu nhân ghen ghét với thành quả của bạn hoặc đối thủ cạnh tranh không lành mạnh tìm cách nói xấu, báo giá ảo để phá đơn. Ngoài ra, những lời nói vô tình của bạn rất dễ bị kẻ xấu thêu dệt thành chuyện thị phi.",
+    "remedy": "🛡️ <b>Cách Hóa Giải Vận Hạn:</b> Thực hành chữ NHẪN và KÍN TIẾNG! Không khoe khoang doanh số hay bí quyết khách hàng, không tham gia bàn tán chuyện thị phi. Dùng chất lượng hàng hóa thật và sự minh bạch để đập tan mọi lời gièm pha.",
+    "audioFile": "audio/xam_full_14.mp3",
+    "careerAdvice": {
+      "tongkho": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Xung quanh bạn đang có kẻ tiểu nhân ghen ghét với thành quả của bạn hoặc đối thủ cạnh tranh không lành mạnh tìm cách nói xấu, báo giá ảo để phá đơn. Ngoài ra, những lời nói vô tình của bạn rất dễ bị kẻ xấu thêu dệt thành chuyện thị phi.",
+      "sale": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Xung quanh bạn đang có kẻ tiểu nhân ghen ghét với thành quả của bạn hoặc đối thủ cạnh tranh không lành mạnh tìm cách nói xấu, báo giá ảo để phá đơn. Ngoài ra, những lời nói vô tình của bạn rất dễ bị kẻ xấu thêu dệt thành chuyện thị phi.",
+      "thau": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Xung quanh bạn đang có kẻ tiểu nhân ghen ghét với thành quả của bạn hoặc đối thủ cạnh tranh không lành mạnh tìm cách nói xấu, báo giá ảo để phá đơn. Ngoài ra, những lời nói vô tình của bạn rất dễ bị kẻ xấu thêu dệt thành chuyện thị phi.",
+      "congno": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Xung quanh bạn đang có kẻ tiểu nhân ghen ghét với thành quả của bạn hoặc đối thủ cạnh tranh không lành mạnh tìm cách nói xấu, báo giá ảo để phá đơn. Ngoài ra, những lời nói vô tình của bạn rất dễ bị kẻ xấu thêu dệt thành chuyện thị phi.",
+      "buonban": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Xung quanh bạn đang có kẻ tiểu nhân ghen ghét với thành quả của bạn hoặc đối thủ cạnh tranh không lành mạnh tìm cách nói xấu, báo giá ảo để phá đơn. Ngoài ra, những lời nói vô tình của bạn rất dễ bị kẻ xấu thêu dệt thành chuyện thị phi."
+    }
+  },
+  {
+    "num": "THẺ SỐ 24 — QUẺ HẠ TRUNG (TIỂU HUNG)",
+    "rank": "⚠️ CẢNH BÁO KHÁCH HỨA HÃO · BOM HÀNG ĐỔI Ý",
+    "tier": "bad",
+    "legend": "Tào Tháo Nghi Đa Ở Hoa Dung Đạo (Tin lời hứa miệng dễ rơi vào thế bị động)",
+    "hexagram": "Hỏa Trạch Khuê (Hành Hỏa — Lời nói và hành động trái ngược nhau)",
+    "poem": "Hứa hẹn trăm điều lúc mới sang,<br/>Đến khi chốt việc lại bẽ bàng.<br/>Đặt cọc giấy trắng cùng mực đỏ,<br/>Chớ tin lời gió thoảng mây ngàn.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Cẩn thận tốn công sức tư vấn mà không thu được tiền",
+      "🌟 <b>Công Danh:</b> Đơn hàng tưởng chắc ăn nhưng phút chót khách đổi ý",
+      "❤️ <b>Tình Duyên:</b> Đừng chỉ nghe lời hứa hẹn, hãy nhìn vào hành động",
+      "🏡 <b>Gia Đạo:</b> Thống nhất kỹ trước khi mua sắm đồ lớn",
+      "⚠️ <b>Vận Chuyển:</b> Kiểm tra kỹ kích thước, mã màu trước khi cắt hàng",
+      "🧘 <b>Sức Khỏe:</b> Mệt mỏi vì chạy đi chạy lại nhiều lần"
+    ],
+    "meaning": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hiện tượng «Khách Hứa Hão» hoặc nhầm lẫn quy cách đơn hàng! Dễ gặp khách hỏi dạo rất nhiệt tình, đòi giữ hàng hoặc cắt hàng theo kích thước riêng nhưng chưa chuyển cọc rồi bất ngờ hủy đơn.",
+    "remedy": "🛡️ <b>Cách Hóa Giải Vận Hạn:</b> Bắt buộc chốt lại mã màu, số lượng, địa chỉ qua tin nhắn văn bản và nhận tiền đặt cọc trước khi bốc hàng lên xe hoặc gia công cắt tấm.",
+    "audioFile": "audio/xam_full_15.mp3",
+    "careerAdvice": {
+      "tongkho": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hiện tượng «Khách Hứa Hão» hoặc nhầm lẫn quy cách đơn hàng! Dễ gặp khách hỏi dạo rất nhiệt tình, đòi giữ hàng hoặc cắt hàng theo kích thước riêng nhưng chưa chuyển cọc rồi bất ngờ hủy đơn.",
+      "sale": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hiện tượng «Khách Hứa Hão» hoặc nhầm lẫn quy cách đơn hàng! Dễ gặp khách hỏi dạo rất nhiệt tình, đòi giữ hàng hoặc cắt hàng theo kích thước riêng nhưng chưa chuyển cọc rồi bất ngờ hủy đơn.",
+      "thau": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hiện tượng «Khách Hứa Hão» hoặc nhầm lẫn quy cách đơn hàng! Dễ gặp khách hỏi dạo rất nhiệt tình, đòi giữ hàng hoặc cắt hàng theo kích thước riêng nhưng chưa chuyển cọc rồi bất ngờ hủy đơn.",
+      "congno": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hiện tượng «Khách Hứa Hão» hoặc nhầm lẫn quy cách đơn hàng! Dễ gặp khách hỏi dạo rất nhiệt tình, đòi giữ hàng hoặc cắt hàng theo kích thước riêng nhưng chưa chuyển cọc rồi bất ngờ hủy đơn.",
+      "buonban": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hiện tượng «Khách Hứa Hão» hoặc nhầm lẫn quy cách đơn hàng! Dễ gặp khách hỏi dạo rất nhiệt tình, đòi giữ hàng hoặc cắt hàng theo kích thước riêng nhưng chưa chuyển cọc rồi bất ngờ hủy đơn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 39 — QUẺ HẠ TRUNG (TIỂU HUNG)",
+    "rank": "⚠️ CẢNH BÁO NÓNG GIẬN MẤT KHÔN · XUNG ĐỘT LỜI NÓI",
+    "tier": "bad",
+    "legend": "Trương Phi Nóng Giận Đánh Quân Sĩ (Vì một cơn nóng giận mà hỏng đại sự)",
+    "hexagram": "Lôi Hỏa Phong (Hành Hỏa — Lửa gặp sấm sét, nóng nảy dễ bùng phát)",
+    "poem": "Lửa giận bừng lên đốt rụi rừng,<br/>Một lời buông xuống biết sao dừng.<br/>Khách hàng có gắt xin cười nhịn,<br/>Giữ được hòa khí lộc mớiưng.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Nóng nảy cãi tay đôi với khách là mất đơn ngay",
+      "🌟 <b>Công Danh:</b> Dễ bất đồng ý kiến với đồng nghiệp hoặc bộ phận kho/xe",
+      "❤️ <b>Tình Duyên:</b> Cảnh báo cãi vã vợ chồng, người yêu vì chuyện nhỏ",
+      "🏡 <b>Gia Đạo:</b> Không khí căng thẳng nếu không ai chịu nhường ai",
+      "⚠️ <b>Khẩu Nghiệp:</b> Một câu nói lúc nóng giận làm tổn thương người thân",
+      "🧘 <b>Sức Khỏe:</b> Nóng trong người, huyết áp tăng, mất ngủ"
+    ],
+    "meaning": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hỏa khí trong người bạn đang vượng, rất dễ nổi nóng khi gặp khách hàng khó tính, tài xế giao chậm hoặc người nhà cằn nhằn. Nếu không kiềm chế mà đôi co ngay lúc đó thì việc nhỏ sẽ xé ra to, mất cả khách hàng lẫn hòa khí.",
+    "remedy": "🛡️ <b>Cách Hóa Giải Vận Hạn:</b> Khi thấy cơn giận bốc lên, hãy vào ngay Phòng Xả Nghiệp nghe Sư Thầy Trụ Trì khuyên giải hoặc hít sâu 3 hơi, uống một ngụm nước mát trước khi trả lời. Một điều nhịn là chín điều lành!",
+    "audioFile": "audio/xam_full_16.mp3",
+    "careerAdvice": {
+      "tongkho": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hỏa khí trong người bạn đang vượng, rất dễ nổi nóng khi gặp khách hàng khó tính, tài xế giao chậm hoặc người nhà cằn nhằn. Nếu không kiềm chế mà đôi co ngay lúc đó thì việc nhỏ sẽ xé ra to, mất cả khách hàng lẫn hòa khí.",
+      "sale": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hỏa khí trong người bạn đang vượng, rất dễ nổi nóng khi gặp khách hàng khó tính, tài xế giao chậm hoặc người nhà cằn nhằn. Nếu không kiềm chế mà đôi co ngay lúc đó thì việc nhỏ sẽ xé ra to, mất cả khách hàng lẫn hòa khí.",
+      "thau": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hỏa khí trong người bạn đang vượng, rất dễ nổi nóng khi gặp khách hàng khó tính, tài xế giao chậm hoặc người nhà cằn nhằn. Nếu không kiềm chế mà đôi co ngay lúc đó thì việc nhỏ sẽ xé ra to, mất cả khách hàng lẫn hòa khí.",
+      "congno": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hỏa khí trong người bạn đang vượng, rất dễ nổi nóng khi gặp khách hàng khó tính, tài xế giao chậm hoặc người nhà cằn nhằn. Nếu không kiềm chế mà đôi co ngay lúc đó thì việc nhỏ sẽ xé ra to, mất cả khách hàng lẫn hòa khí.",
+      "buonban": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ cảnh báo hỏa khí trong người bạn đang vượng, rất dễ nổi nóng khi gặp khách hàng khó tính, tài xế giao chậm hoặc người nhà cằn nhằn. Nếu không kiềm chế mà đôi co ngay lúc đó thì việc nhỏ sẽ xé ra to, mất cả khách hàng lẫn hòa khí."
+    }
+  },
+  {
+    "num": "THẺ SỐ 53 — QUẺ HẠ TRUNG (TIỂU HUNG)",
+    "rank": "⚠️ CẢNH BÁO HAO TÀI VẶT · RÒ RỈ TIỀN BẠC",
+    "tier": "bad",
+    "legend": "Thạch Sùng Đua Giàu Vung Tay Quá Trán (Kiếm được nhiều nhưng không giữ được tiền)",
+    "hexagram": "Sơn Trạch Tổn (Hành Thổ — Hao tổn tiền của vì những khoản không đáng)",
+    "poem": "Kiếm tiền vất vả suốt tháng ngày,<br/>Phút chốc tiêu pha đã trắng tay.<br/>Gom góp từng đồng xin nhớ giữ,<br/>Đừng vung quá trán kẻo đi vay.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Tiền vào cửa trước dễ đi ra cửa sau",
+      "🌟 <b>Công Danh:</b> Cẩn thận phạt hành chính, đền bù hàng lỗi do bất cẩn",
+      "❤️ <b>Tình Duyên:</b> Tránh sĩ diện chi tiêu vượt khả năng tài chính",
+      "🏡 <b>Gia Đạo:</b> Phát sinh nhiều khoản chi phí sửa chữa, hiếu hỉ đột xuất",
+      "⚠️ <b>Kiểm Hàng:</b> Đếm thiếu kiện hoặc nhầm phụ kiện phải bù tiền túi",
+      "🧘 <b>Sức Khỏe:</b> Lo lắng vì thâm hụt ngân sách cuối tháng"
+    ],
+    "meaning": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Sơn Trạch Tổn báo hiệu bạn đang có vận hao tài lặt vặt! Tiền kiếm được nhưng liên tục phát sinh các khoản chi ngoài dự kiến, mua sắm bốc đồng trên mạng, hoặc do sơ suất khi kiểm đếm hàng hóa, giao nhận dẫn đến phải bỏ tiền túi đền bù.",
+    "remedy": "🛡️ <b>Cách Hóa Giải Vận Hạn:</b> Tắt ngay các giỏ hàng mua sắm không cần thiết, ghi chép lại mọi khoản chi tiêu trong tuần và kiểm tra biên bản xuất kho thật kỹ 2 lần trước khi ký xác nhận.",
+    "audioFile": "audio/xam_full_17.mp3",
+    "careerAdvice": {
+      "tongkho": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Sơn Trạch Tổn báo hiệu bạn đang có vận hao tài lặt vặt! Tiền kiếm được nhưng liên tục phát sinh các khoản chi ngoài dự kiến, mua sắm bốc đồng trên mạng, hoặc do sơ suất khi kiểm đếm hàng hóa, giao nhận dẫn đến phải bỏ tiền túi đền bù.",
+      "sale": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Sơn Trạch Tổn báo hiệu bạn đang có vận hao tài lặt vặt! Tiền kiếm được nhưng liên tục phát sinh các khoản chi ngoài dự kiến, mua sắm bốc đồng trên mạng, hoặc do sơ suất khi kiểm đếm hàng hóa, giao nhận dẫn đến phải bỏ tiền túi đền bù.",
+      "thau": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Sơn Trạch Tổn báo hiệu bạn đang có vận hao tài lặt vặt! Tiền kiếm được nhưng liên tục phát sinh các khoản chi ngoài dự kiến, mua sắm bốc đồng trên mạng, hoặc do sơ suất khi kiểm đếm hàng hóa, giao nhận dẫn đến phải bỏ tiền túi đền bù.",
+      "congno": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Sơn Trạch Tổn báo hiệu bạn đang có vận hao tài lặt vặt! Tiền kiếm được nhưng liên tục phát sinh các khoản chi ngoài dự kiến, mua sắm bốc đồng trên mạng, hoặc do sơ suất khi kiểm đếm hàng hóa, giao nhận dẫn đến phải bỏ tiền túi đền bù.",
+      "buonban": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Quẻ Sơn Trạch Tổn báo hiệu bạn đang có vận hao tài lặt vặt! Tiền kiếm được nhưng liên tục phát sinh các khoản chi ngoài dự kiến, mua sắm bốc đồng trên mạng, hoặc do sơ suất khi kiểm đếm hàng hóa, giao nhận dẫn đến phải bỏ tiền túi đền bù."
+    }
+  },
+  {
+    "num": "THẺ SỐ 77 — QUẺ HẠ TRUNG (TIỂU HUNG)",
+    "rank": "⚠️ CẢNH BÁO KIỆT SỨC SUY NHƯỢC · TÂM TRÍ RỐI BỜI",
+    "tier": "bad",
+    "legend": "Gia Cát Lượng Thức Đêm Ở Ngũ Trượng Nguyên (Ôm đồm quá sức hại bản thân)",
+    "hexagram": "Trạch Thủy Khốn (Hành Thủy — Mệt mỏi vây quanh, cần nghỉ ngơi hồi sức)",
+    "poem": "Đêm khuya trằn trọc chẳng thànhơi,<br/>Trăm việc đè vai sức rã rời.<br/>Thân có khỏe lành tâm mới sáng,<br/>Buông bớt âu lo mỉm miệng cười.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> Cẩn thận tốn tiền thuốc thang vì làm việc quá sức",
+      "🌟 <b>Công Danh:</b> Đầu óc mệt mỏi dễ nhớ nhầm đơn hoặc quên lịch hẹn",
+      "❤️ <b>Tình Duyên:</b> Lạnh nhạt vô tâm với người thương vì quá bận rộn",
+      "🏡 <b>Gia Đạo:</b> Người nhà lo lắng cho sức khỏe của bạn",
+      "⚠️ <b>Sức Khỏe:</b> Đau mỏi vai gáy, dạ dày, mất ngủ do thức khuya",
+      "🍀 <b>Hóa Giải:</b> Tắt điện thoại sớm, nghe nhạc thiền và ngủ đủ giấc"
+    ],
+    "meaning": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Đây là quẻ cảnh báo trực tiếp về Sức Khỏe và Tinh Thần của bạn! Bạn đang ôm đồm quá nhiều áp lực, thức khuya lướt điện thoại hoặc suy nghĩ miên man khiến cơ thể suy nhược, tinh thần uể oải, làm việc dễ nhầm lẫn.",
+    "remedy": "🛡️ <b>Cách Hóa Giải Vận Hạn:</b> Hãy thương lấy bản thân mình trước! Hôm nay hãy đi ngủ trước 23h, ăn uống đúng bữa, bật Nhạc Thiền Chùa Trường Yến để thư giãn thần kinh. Thân có khỏe thì tài lộc mới ở lại được!",
+    "audioFile": "audio/xam_full_18.mp3",
+    "careerAdvice": {
+      "tongkho": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Đây là quẻ cảnh báo trực tiếp về Sức Khỏe và Tinh Thần của bạn! Bạn đang ôm đồm quá nhiều áp lực, thức khuya lướt điện thoại hoặc suy nghĩ miên man khiến cơ thể suy nhược, tinh thần uể oải, làm việc dễ nhầm lẫn.",
+      "sale": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Đây là quẻ cảnh báo trực tiếp về Sức Khỏe và Tinh Thần của bạn! Bạn đang ôm đồm quá nhiều áp lực, thức khuya lướt điện thoại hoặc suy nghĩ miên man khiến cơ thể suy nhược, tinh thần uể oải, làm việc dễ nhầm lẫn.",
+      "thau": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Đây là quẻ cảnh báo trực tiếp về Sức Khỏe và Tinh Thần của bạn! Bạn đang ôm đồm quá nhiều áp lực, thức khuya lướt điện thoại hoặc suy nghĩ miên man khiến cơ thể suy nhược, tinh thần uể oải, làm việc dễ nhầm lẫn.",
+      "congno": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Đây là quẻ cảnh báo trực tiếp về Sức Khỏe và Tinh Thần của bạn! Bạn đang ôm đồm quá nhiều áp lực, thức khuya lướt điện thoại hoặc suy nghĩ miên man khiến cơ thể suy nhược, tinh thần uể oải, làm việc dễ nhầm lẫn.",
+      "buonban": "⚠️ <b>Luận Giải Cảnh Báo (Quẻ Xấu):</b> Đây là quẻ cảnh báo trực tiếp về Sức Khỏe và Tinh Thần của bạn! Bạn đang ôm đồm quá nhiều áp lực, thức khuya lướt điện thoại hoặc suy nghĩ miên man khiến cơ thể suy nhược, tinh thần uể oải, làm việc dễ nhầm lẫn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 07 — QUẺ HẠ HẠ ĐẠI HUNG",
+    "rank": "🚨 ĐẠI KỴ ĐẦU TƯ MẠO HIỂM · CẢNH BÁO LỪA ĐẢO MẤT VỐN",
+    "tier": "very_bad",
+    "legend": "Hạng Vũ Mắc Bẫy Thập Diện Mai Phục Ở Cai Hạ (Sa vào bẫy ngọt ngào mất hết cơ đồ)",
+    "hexagram": "Sơn Địa Bác (Hành Thổ — Nền móng bị bào mòn, đại kỵ động vốn lớn)",
+    "poem": "Mồi thơm giăng sẵn giữa rừng sâu,<br/>Lợi lớn bày ra chớ vội cầu.<br/>Một bước sẩy chân tiền mất trắng,<br/>Giữ nguyên vốn liếng khỏi thương đau.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> 🚨 ĐẠI KỴ góp vốn, chơi tiền ảo, đỏ đen, lãi suất cao",
+      "🌟 <b>Công Danh:</b> Cảnh giác với những đơn hàng lớn bất thường từ người lạ",
+      "❤️ <b>Tình Duyên:</b> Đề phòng kẻ lợi dụng tình cảm để trục lợi tiền bạc",
+      "🏡 <b>Gia Đạo:</b> Tuyệt đối không giấu gia đình đi vay mượn đầu tư",
+      "🚨 <b>Lừa Đảo:</b> Cảnh giác link lạ, cuộc gọi giả danh, chuyển khoản nhầm",
+      "🧘 <b>Sức Khỏe:</b> Nguy cơ suy sụp tinh thần nếu tham lợi trước mắt"
+    ],
+    "meaning": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Đại Hung gióng hồi chuông cảnh báo ĐỎ về tiền bạc! Trong thời gian này, bất kỳ lời mời gọi đầu tư lãi khủng, việc nhẹ lương cao, đặt cọc qua trung gian mập mờ hay cờ bạc đỏ đen đều là cái bẫy khiến bạn mất trắng mồ hôi nước mắt.",
+    "remedy": "🔥 <b>Pháp Hóa Giải Đại Hạn:</b> DỪNG NGAY mọi ý định đầu tư mạo hiểm hoặc chuyển tiền cho người chưa xác minh rõ! Giữ chặt tiền mặt trong tài khoản chính chủ. Hãy thành tâm lễ Phật, đọc Kinh Chú Đại Bi và làm việc thiện để tiêu trừ nghiệp chướng tham cầu.",
+    "audioFile": "audio/xam_full_19.mp3",
+    "careerAdvice": {
+      "tongkho": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Đại Hung gióng hồi chuông cảnh báo ĐỎ về tiền bạc! Trong thời gian này, bất kỳ lời mời gọi đầu tư lãi khủng, việc nhẹ lương cao, đặt cọc qua trung gian mập mờ hay cờ bạc đỏ đen đều là cái bẫy khiến bạn mất trắng mồ hôi nước mắt.",
+      "sale": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Đại Hung gióng hồi chuông cảnh báo ĐỎ về tiền bạc! Trong thời gian này, bất kỳ lời mời gọi đầu tư lãi khủng, việc nhẹ lương cao, đặt cọc qua trung gian mập mờ hay cờ bạc đỏ đen đều là cái bẫy khiến bạn mất trắng mồ hôi nước mắt.",
+      "thau": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Đại Hung gióng hồi chuông cảnh báo ĐỎ về tiền bạc! Trong thời gian này, bất kỳ lời mời gọi đầu tư lãi khủng, việc nhẹ lương cao, đặt cọc qua trung gian mập mờ hay cờ bạc đỏ đen đều là cái bẫy khiến bạn mất trắng mồ hôi nước mắt.",
+      "congno": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Đại Hung gióng hồi chuông cảnh báo ĐỎ về tiền bạc! Trong thời gian này, bất kỳ lời mời gọi đầu tư lãi khủng, việc nhẹ lương cao, đặt cọc qua trung gian mập mờ hay cờ bạc đỏ đen đều là cái bẫy khiến bạn mất trắng mồ hôi nước mắt.",
+      "buonban": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Đại Hung gióng hồi chuông cảnh báo ĐỎ về tiền bạc! Trong thời gian này, bất kỳ lời mời gọi đầu tư lãi khủng, việc nhẹ lương cao, đặt cọc qua trung gian mập mờ hay cờ bạc đỏ đen đều là cái bẫy khiến bạn mất trắng mồ hôi nước mắt."
+    }
+  },
+  {
+    "num": "THẺ SỐ 13 — QUẺ HẠ HẠ ĐẠI HUNG",
+    "rank": "🚨 CẢNH BÁO KIỆN TỤNG TRANH CHẤP · BẪY HỢP ĐỒNG GIẤY TỜ",
+    "tier": "very_bad",
+    "legend": "Kinh Kha Hành Thích Tần Vương Thất Bại (Sơ hở một chi tiết nhỏ dẫn đến đại họa)",
+    "hexagram": "Thiên Thủy Tụng Biến Khảm (Hành Thủy — Vực sâu hiểm trở, rắc rối pháp lý)",
+    "poem": "Giấy trắng mực đen chớ xem thường,<br/>Sai một chữ nhỏ họa trăm đường.<br/>Biên bản hợp đồng soi từng mục,<br/>Kẻo vướng tranh chấp khổ vấn vương.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> 🚨 Nguy cơ bị phạt hợp đồng hoặc quỵt tiền nghiệm thu",
+      "🌟 <b>Công Danh:</b> Rắc rối lớn nếu làm việc chỉ thỏa thuận bằng miệng",
+      "❤️ <b>Tình Duyên:</b> Tranh cãi gay gắt không ai nhường ai",
+      "🏡 <b>Gia Đạo:</b> Cẩn trọng giấy tờ nhà đất, xe cộ, hành chính",
+      "🚨 <b>Pháp Lý:</b> Đọc kỹ từng điều khoản phạt, bảo hành, công nợ trước khi ký",
+      "🧘 <b>Sức Khỏe:</b> Căng thẳng thần kinh cao độ"
+    ],
+    "meaning": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn nặng liên quan đến giấy tờ, hợp đồng, biên bản nghiệm thu và tranh chấp trách nhiệm! Nếu giao hàng không có chữ ký người nhận thực tế hoặc làm công trình không chốt rõ hạng mục phát sinh bằng văn bản, bạn rất dễ bị đẩy hết lỗi về phía mình.",
+    "remedy": "🔥 <b>Pháp Hóa Giải Đại Hạn:</b> Mọi giao dịch tiền bạc, xuất kho, báo giá đều phải có tin nhắn xác nhận, hình ảnh chụp tại hiện trường và chữ ký rõ ràng. Tuyệt đối không ký khống hay nhận trách nhiệm thay người khác.",
+    "audioFile": "audio/xam_full_20.mp3",
+    "careerAdvice": {
+      "tongkho": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn nặng liên quan đến giấy tờ, hợp đồng, biên bản nghiệm thu và tranh chấp trách nhiệm! Nếu giao hàng không có chữ ký người nhận thực tế hoặc làm công trình không chốt rõ hạng mục phát sinh bằng văn bản, bạn rất dễ bị đẩy hết lỗi về phía mình.",
+      "sale": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn nặng liên quan đến giấy tờ, hợp đồng, biên bản nghiệm thu và tranh chấp trách nhiệm! Nếu giao hàng không có chữ ký người nhận thực tế hoặc làm công trình không chốt rõ hạng mục phát sinh bằng văn bản, bạn rất dễ bị đẩy hết lỗi về phía mình.",
+      "thau": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn nặng liên quan đến giấy tờ, hợp đồng, biên bản nghiệm thu và tranh chấp trách nhiệm! Nếu giao hàng không có chữ ký người nhận thực tế hoặc làm công trình không chốt rõ hạng mục phát sinh bằng văn bản, bạn rất dễ bị đẩy hết lỗi về phía mình.",
+      "congno": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn nặng liên quan đến giấy tờ, hợp đồng, biên bản nghiệm thu và tranh chấp trách nhiệm! Nếu giao hàng không có chữ ký người nhận thực tế hoặc làm công trình không chốt rõ hạng mục phát sinh bằng văn bản, bạn rất dễ bị đẩy hết lỗi về phía mình.",
+      "buonban": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn nặng liên quan đến giấy tờ, hợp đồng, biên bản nghiệm thu và tranh chấp trách nhiệm! Nếu giao hàng không có chữ ký người nhận thực tế hoặc làm công trình không chốt rõ hạng mục phát sinh bằng văn bản, bạn rất dễ bị đẩy hết lỗi về phía mình."
+    }
+  },
+  {
+    "num": "THẺ SỐ 31 — QUẺ HẠ HẠ ĐẠI HUNG",
+    "rank": "🚨 ĐẠI KỴ ĐỨNG RA BẢO LÃNH NỢ · CẢNH BÁO PHẢN BỘI LÒNG TIN",
+    "tier": "very_bad",
+    "legend": "Lữ Bố Phản Đinh Nguyên Và Đổng Trác (Tin nhầm người vô tín rước họa vào thân)",
+    "hexagram": "Thuần Khảm (Hành Thủy — Hai tầng vực thẳm, hiểm nguy chồng chất)",
+    "poem": "Đứng ra bảo lãnh nợ cho người,<br/>Lúc vay họ khóc trả họ cười.<br/>Nợ người hóa nợ trên vai nặng,<br/>Tỉnh táo giữ mình chớ cả ngươi.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> 🚨 Tuyệt đối KHÔNG đứng tên vay hộ hay bảo lãnh công nợ",
+      "🌟 <b>Công Danh:</b> Không ký xác nhận hoặc bảo lãnh cho khách chưa trả tiền",
+      "❤️ <b>Tình Duyên:</b> Cảnh giác người nói lời đường mật nhưng sống thiếu trách nhiệm",
+      "🏡 <b>Gia Đạo:</b> Giữ an toàn tài chính cho vợ con, cha mẹ",
+      "🚨 <b>Tín Nhiệm:</b> Đừng giao mật khẩu, sổ sách hay tiền mặt cho người ngoài",
+      "🧘 <b>Sức Khỏe:</b> Mất ăn mất ngủ nếu gánh nợ thay người"
+    ],
+    "meaning": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Đây là quẻ cảnh báo cực nặng về việc «Làm ơn mắc oán, gánh nợ thay người»! Nếu bạn đứng ra bảo lãnh cho bạn bè vay tiền, hoặc lấy uy tín cá nhân bảo lãnh cho khách lấy hàng chịu tại công ty, người đó sẽ trốn tránh trách nhiệm và để lại toàn bộ khoản nợ lên vai bạn.",
+    "remedy": "🔥 <b>Pháp Hóa Giải Đại Hạn:</b> Kiên quyết nói KHÔNG với mọi lời nhờ vả đứng tên vay hộ, mua trả góp hộ hay bảo lãnh nợ! Thà mất lòng trước được lòng sau còn hơn rước họa phá tài.",
+    "audioFile": "audio/xam_full_21.mp3",
+    "careerAdvice": {
+      "tongkho": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Đây là quẻ cảnh báo cực nặng về việc «Làm ơn mắc oán, gánh nợ thay người»! Nếu bạn đứng ra bảo lãnh cho bạn bè vay tiền, hoặc lấy uy tín cá nhân bảo lãnh cho khách lấy hàng chịu tại công ty, người đó sẽ trốn tránh trách nhiệm và để lại toàn bộ khoản nợ lên vai bạn.",
+      "sale": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Đây là quẻ cảnh báo cực nặng về việc «Làm ơn mắc oán, gánh nợ thay người»! Nếu bạn đứng ra bảo lãnh cho bạn bè vay tiền, hoặc lấy uy tín cá nhân bảo lãnh cho khách lấy hàng chịu tại công ty, người đó sẽ trốn tránh trách nhiệm và để lại toàn bộ khoản nợ lên vai bạn.",
+      "thau": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Đây là quẻ cảnh báo cực nặng về việc «Làm ơn mắc oán, gánh nợ thay người»! Nếu bạn đứng ra bảo lãnh cho bạn bè vay tiền, hoặc lấy uy tín cá nhân bảo lãnh cho khách lấy hàng chịu tại công ty, người đó sẽ trốn tránh trách nhiệm và để lại toàn bộ khoản nợ lên vai bạn.",
+      "congno": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Đây là quẻ cảnh báo cực nặng về việc «Làm ơn mắc oán, gánh nợ thay người»! Nếu bạn đứng ra bảo lãnh cho bạn bè vay tiền, hoặc lấy uy tín cá nhân bảo lãnh cho khách lấy hàng chịu tại công ty, người đó sẽ trốn tránh trách nhiệm và để lại toàn bộ khoản nợ lên vai bạn.",
+      "buonban": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Đây là quẻ cảnh báo cực nặng về việc «Làm ơn mắc oán, gánh nợ thay người»! Nếu bạn đứng ra bảo lãnh cho bạn bè vay tiền, hoặc lấy uy tín cá nhân bảo lãnh cho khách lấy hàng chịu tại công ty, người đó sẽ trốn tránh trách nhiệm và để lại toàn bộ khoản nợ lên vai bạn."
+    }
+  },
+  {
+    "num": "THẺ SỐ 49 — QUẺ HẠ HẠ ĐẠI HUNG",
+    "rank": "🚨 HẠN KHẨU THIỆT TAI BAY VẠ GIÓ · CẨN TRỌNG ĐI LẠI XE CỘ",
+    "tier": "very_bad",
+    "legend": "Dương Tu Bị Xử Tử Vì Cậy Tài Nói Nhiều (Vạ từ miệng mà ra, đi đứng bất cẩn)",
+    "hexagram": "Lôi Thiên Đại Tráng Biến Chấn (Hành Mộc — Xung động mạnh, cần thắng gấp)",
+    "poem": "Tai bay vạ gió tự đâu đưa,<br/>Đi đứng xe cộ nhớ nắng mưa.<br/>Chuyện người chớ xía lời thêm bớt,<br/>Giữ miệng giữ thân sớm với trưa.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> 🚨 Đề phòng mất cắp đồ đạc, rơi ví, hỏng hóc xe cộ",
+      "🌟 <b>Công Danh:</b> Không xen vào chuyện tranh chấp của bộ phận khác",
+      "❤️ <b>Tình Duyên:</b> Nóng giận nói lời chia tay sẽ ân hận",
+      "🏡 <b>Gia Đạo:</b> Kiểm tra kỹ điện nước, khóa cửa cẩn thận",
+      "🚨 <b>Đi Lại:</b> Đi chậm quan sát kỹ, không vừa lái xe vừa nghe điện thoại",
+      "🧘 <b>Sức Khỏe:</b> Cẩn thận va chạm tay chân khi bốc xếp hàng hóa"
+    ],
+    "meaning": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn «Vạ Miệng» và sự bất cẩn khi đi lại, vận chuyển! Trong công việc và ngoài xã hội, tuyệt đối không đứng ra bình phẩm hay can dự vào chuyện cãi vã của người khác kẻo tai bay vạ gió vạ lây.",
+    "remedy": "🔥 <b>Pháp Hóa Giải Đại Hạn:</b> Khi đi đường hoặc bốc xếp hàng hóa phải tập trung 100%, không vừa đi xe vừa bấm điện thoại. Dâng hương tại Điện Đức Ông & trì tụng Chú Dược Sư để cầu bình an tai qua nạn khỏi.",
+    "audioFile": "audio/xam_full_22.mp3",
+    "careerAdvice": {
+      "tongkho": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn «Vạ Miệng» và sự bất cẩn khi đi lại, vận chuyển! Trong công việc và ngoài xã hội, tuyệt đối không đứng ra bình phẩm hay can dự vào chuyện cãi vã của người khác kẻo tai bay vạ gió vạ lây.",
+      "sale": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn «Vạ Miệng» và sự bất cẩn khi đi lại, vận chuyển! Trong công việc và ngoài xã hội, tuyệt đối không đứng ra bình phẩm hay can dự vào chuyện cãi vã của người khác kẻo tai bay vạ gió vạ lây.",
+      "thau": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn «Vạ Miệng» và sự bất cẩn khi đi lại, vận chuyển! Trong công việc và ngoài xã hội, tuyệt đối không đứng ra bình phẩm hay can dự vào chuyện cãi vã của người khác kẻo tai bay vạ gió vạ lây.",
+      "congno": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn «Vạ Miệng» và sự bất cẩn khi đi lại, vận chuyển! Trong công việc và ngoài xã hội, tuyệt đối không đứng ra bình phẩm hay can dự vào chuyện cãi vã của người khác kẻo tai bay vạ gió vạ lây.",
+      "buonban": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo hạn «Vạ Miệng» và sự bất cẩn khi đi lại, vận chuyển! Trong công việc và ngoài xã hội, tuyệt đối không đứng ra bình phẩm hay can dự vào chuyện cãi vã của người khác kẻo tai bay vạ gió vạ lây."
+    }
+  },
+  {
+    "num": "THẺ SỐ 64 — QUẺ HẠ HẠ ĐẠI HUNG",
+    "rank": "🚨 VẬN KHÍ ĐANG TẮC NGHẼN · TUYỆT ĐỐI KHÔNG VAY NÓNG ĐẢO NỢ",
+    "tier": "very_bad",
+    "legend": "Hàn Tín Chịu Nhục Chui Dưới Gầm Chợ (Gặp thời vận bế tắc phải biết cúi mình nhẫn nhịn)",
+    "hexagram": "Thiên Địa Bĩ (Hành Kim Thổ — Trời đất không giao nhau, vận trình bế tắc tạm thời)",
+    "poem": "Trời cao đất thấp chẳng giao hòa,<br/>Mọi việc mưu cầu hãy lùi xa.<br/>Nhẫn nhịn qua mùa đông giá lạnh,<br/>Đừng vay lãi nặng hại thân ta.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> 🚨 Thu hẹp chi tiêu tối đa, tuyệt đối không vay lãi cao",
+      "🌟 <b>Công Danh:</b> Chấp nhận lùi một bước, làm tốt phần việc cơ bản",
+      "❤️ <b>Tình Duyên:</b> Cần sự cảm thông, đừng trách móc nhau lúc khó khăn",
+      "🏡 <b>Gia Đạo:</b> Đồng cam cộng khổ, tiết kiệm từng đồng",
+      "🚨 <b>Tài Chính:</b> Cắt bỏ ngay mọi khoản chi tiêu xa xỉ, sĩ diện",
+      "🧘 <b>Sức Khỏe:</b> Giữ tinh thần kiên cường, không bi quan"
+    ],
+    "meaning": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Thiên Địa Bĩ cho thấy vận khí hiện tại đang ở đáy chu kỳ. Làm việc gì cũng cảm thấy nặng nề, cản trở. Sai lầm nguy hiểm nhất lúc này là nóng vội đi vay lãi nặng hoặc làm liều để gỡ gạc.",
+    "remedy": "🔥 <b>Pháp Hóa Giải Đại Hạn:</b> Hãy học chữ NHẪN của Hàn Tín! Khi thời chưa tới thì thu mình lại, làm việc chăm chỉ, sống tiết kiệm, tuyệt đối không vay nợ mới và tích cực gõ mõ, lạy Phật tích phước để chuyển vận.",
+    "audioFile": "audio/xam_full_23.mp3",
+    "careerAdvice": {
+      "tongkho": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Thiên Địa Bĩ cho thấy vận khí hiện tại đang ở đáy chu kỳ. Làm việc gì cũng cảm thấy nặng nề, cản trở. Sai lầm nguy hiểm nhất lúc này là nóng vội đi vay lãi nặng hoặc làm liều để gỡ gạc.",
+      "sale": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Thiên Địa Bĩ cho thấy vận khí hiện tại đang ở đáy chu kỳ. Làm việc gì cũng cảm thấy nặng nề, cản trở. Sai lầm nguy hiểm nhất lúc này là nóng vội đi vay lãi nặng hoặc làm liều để gỡ gạc.",
+      "thau": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Thiên Địa Bĩ cho thấy vận khí hiện tại đang ở đáy chu kỳ. Làm việc gì cũng cảm thấy nặng nề, cản trở. Sai lầm nguy hiểm nhất lúc này là nóng vội đi vay lãi nặng hoặc làm liều để gỡ gạc.",
+      "congno": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Thiên Địa Bĩ cho thấy vận khí hiện tại đang ở đáy chu kỳ. Làm việc gì cũng cảm thấy nặng nề, cản trở. Sai lầm nguy hiểm nhất lúc này là nóng vội đi vay lãi nặng hoặc làm liều để gỡ gạc.",
+      "buonban": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ Thiên Địa Bĩ cho thấy vận khí hiện tại đang ở đáy chu kỳ. Làm việc gì cũng cảm thấy nặng nề, cản trở. Sai lầm nguy hiểm nhất lúc này là nóng vội đi vay lãi nặng hoặc làm liều để gỡ gạc."
+    }
+  },
+  {
+    "num": "THẺ SỐ 99 — QUẺ HẠ HẠ ĐẠI HUNG",
+    "rank": "🚨 CẢNH BÁO ĐỔ VỠ UY TÍN & MỐI QUAN HỆ · CẦN SÁM HỐI HÓA GIẢI",
+    "tier": "very_bad",
+    "legend": "Trụ Vương Đắc Tội Với Trời Đất (Kiêu ngạo bất cẩn làm tan vỡ phúc báu)",
+    "hexagram": "Hỏa Sơn Lữ Biến Minh Di (Hành Hỏa — Ánh sáng bị che lấp, cô độc trên đường xa)",
+    "poem": "Chữ Tín ngàn vàng chớ đánh rơi,<br/>Một lần thất hứa mất lòng người.<br/>Quay đầu sám hối tu tâm đức,<br/>Mới mong chuyển họa hóa an vui.",
+    "aspects": [
+      "💰 <b>Tài Lộc Cá Nhân:</b> 🚨 Mất khách hàng lớn nếu làm ăn qua loa, trễ hẹn",
+      "🌟 <b>Công Danh:</b> Uy tín bị ảnh hưởng nghiêm trọng nếu đổ lỗi đùn đẩy",
+      "❤️ <b>Tình Duyên:</b> Nguy cơ rạn nứt lớn nếu thiếu sự tôn trọng và lắng nghe",
+      "🏡 <b>Gia Đạo:</b> Cần hạ cái tôi xuống để giữ gìn hạnh phúc gia đình",
+      "🚨 <b>Đạo Đức Nghề:</b> Tuyệt đối không giao hàng lỗi, hàng thiếu cho khách",
+      "🧘 <b>Tâm Linh:</b> Thành tâm sám hối để tiêu trừ chướng ngại"
+    ],
+    "meaning": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo nguy cơ đánh mất chữ Tín hoặc rạn nứt mối quan hệ quan trọng (với khách hàng ruột, cấp trên hoặc người bạn đời) chỉ vì sự chủ quan, thất hứa hoặc cái tôi quá lớn của bạn.",
+    "remedy": "🔥 <b>Pháp Hóa Giải Đại Hạn:</b> Nếu có việc gì trễ hẹn hoặc sai sót với khách hàng và người thân, hãy chủ động nhận lỗi chân thành và khắc phục ngay lập tức! Vào Chánh Điện thành tâm đọc Kinh Sám Hối và Kinh Hồi Hướng để chuyển hóa nghiệp lực thành bình an.",
+    "audioFile": "audio/xam_full_24.mp3",
+    "careerAdvice": {
+      "tongkho": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo nguy cơ đánh mất chữ Tín hoặc rạn nứt mối quan hệ quan trọng (với khách hàng ruột, cấp trên hoặc người bạn đời) chỉ vì sự chủ quan, thất hứa hoặc cái tôi quá lớn của bạn.",
+      "sale": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo nguy cơ đánh mất chữ Tín hoặc rạn nứt mối quan hệ quan trọng (với khách hàng ruột, cấp trên hoặc người bạn đời) chỉ vì sự chủ quan, thất hứa hoặc cái tôi quá lớn của bạn.",
+      "thau": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo nguy cơ đánh mất chữ Tín hoặc rạn nứt mối quan hệ quan trọng (với khách hàng ruột, cấp trên hoặc người bạn đời) chỉ vì sự chủ quan, thất hứa hoặc cái tôi quá lớn của bạn.",
+      "congno": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo nguy cơ đánh mất chữ Tín hoặc rạn nứt mối quan hệ quan trọng (với khách hàng ruột, cấp trên hoặc người bạn đời) chỉ vì sự chủ quan, thất hứa hoặc cái tôi quá lớn của bạn.",
+      "buonban": "🚨 <b>Luận Giải Nghiêm Trọng (Quẻ Hạ Hạ Đại Hung):</b> Quẻ cảnh báo nguy cơ đánh mất chữ Tín hoặc rạn nứt mối quan hệ quan trọng (với khách hàng ruột, cấp trên hoặc người bạn đời) chỉ vì sự chủ quan, thất hứa hoặc cái tôi quá lớn của bạn."
+    }
+  }
+];
 
-    let currentFortuneStick = fortuneSticksPool[0];
+    // Mặc định mở lên hiển thị 1 Quẻ Xấu Cảnh Báo (Thẻ số 04 - Tiểu Hung hoặc Thẻ số 07 - Đại Hung) để người chơi thấy rõ cả Quẻ Tốt & Quẻ Xấu!
+    let currentFortuneStick = fortuneSticksPool[12];
     let isDrawingStick = false;
+
+    function selectFortuneStickByIndex(idxStr) {
+      const idx = parseInt(idxStr, 10);
+      if (!isNaN(idx) && fortuneSticksPool[idx]) {
+        currentFortuneStick = fortuneSticksPool[idx];
+        updateFortuneCardDisplay();
+        speakCurrentFortuneStick();
+      }
+    }
 
     function updateFortuneCardDisplay() {
       const fBal = document.getElementById('fortuneMeritBalance');
@@ -3974,16 +4486,21 @@
       const aspEl = document.getElementById('fcSixAspects');
       const meanEl = document.getElementById('fcMeaning');
       const remEl = document.getElementById('fcRemedyBox');
-      const careerSel = document.getElementById('fortuneCareerSelect');
-      const careerKey = (careerSel && careerSel.value) ? careerSel.value : 'tongkho';
+      const dirSel = document.getElementById('fortuneDirectSelect');
 
-      const st = currentFortuneStick;
+      const st = currentFortuneStick || fortuneSticksPool[0];
+      const curIdx = fortuneSticksPool.indexOf(st);
+      if (dirSel && curIdx >= 0) dirSel.value = String(curIdx);
+
       if (numEl) numEl.textContent = `🎋 ${st.num}`;
       if (rankEl) {
         rankEl.textContent = st.rank;
-        if (st.tier === 'bad') {
+        if (st.tier === 'very_bad') {
+          rankEl.style.background = '#d50000';
+          rankEl.style.color = '#ffffff';
+        } else if (st.tier === 'bad') {
           rankEl.style.background = '#ff5252';
-          rankEl.style.color = '#fff';
+          rankEl.style.color = '#ffffff';
         } else if (st.tier === 'neutral') {
           rankEl.style.background = '#ffd54f';
           rankEl.style.color = '#3e1e04';
@@ -3993,7 +4510,10 @@
         }
       }
       if (cardEl) {
-        if (st.tier === 'bad') {
+        if (st.tier === 'very_bad') {
+          cardEl.style.background = 'linear-gradient(180deg,#2b0006 0%,#120002 100%)';
+          cardEl.style.borderColor = '#ff1744';
+        } else if (st.tier === 'bad') {
           cardEl.style.background = 'linear-gradient(180deg,#3e0a14 0%,#1a0307 100%)';
           cardEl.style.borderColor = '#ff5252';
         } else if (st.tier === 'neutral') {
@@ -4011,13 +4531,14 @@
       if (aspEl && st.aspects) {
         aspEl.innerHTML = st.aspects.map(a => `<div>${a}</div>`).join('');
       }
-      if (meanEl && st.careerAdvice) {
-        meanEl.innerHTML = st.careerAdvice[careerKey] || st.careerAdvice.tongkho;
+      if (meanEl) {
+        meanEl.innerHTML = st.meaning || (st.careerAdvice && st.careerAdvice.tongkho) || '';
       }
       if (remEl) {
         remEl.innerHTML = st.remedy;
-        remEl.style.borderColor = (st.tier === 'bad') ? '#ff8a80' : '#81c784';
-        remEl.style.background = (st.tier === 'bad') ? 'rgba(68,14,14,0.9)' : 'rgba(20,48,22,0.88)';
+        const isBad = (st.tier === 'bad' || st.tier === 'very_bad');
+        remEl.style.borderColor = isBad ? '#ff8a80' : '#81c784';
+        remEl.style.background = isBad ? 'rgba(68,14,14,0.92)' : 'rgba(20,48,22,0.88)';
       }
     }
 
@@ -4032,25 +4553,24 @@
       stopAllVoices(false);
     }
 
-    function shakeAndDrawFortuneStick(forceGood = false) {
+    function shakeAndDrawFortuneStick(drawMode = 'all') {
       unlockAndStartAudio();
       if (isDrawingStick) return;
 
-      const cost = forceGood ? 15 : 5;
+      const cost = 5;
       if (player.merit < cost) {
         showToast(`⚠️ Không đủ Phước Đức để thỉnh thẻ xăm! Cần ${cost} 💎 Phước (Hiện có ${player.merit} 💎). Hãy Gõ Mõ, Lạy Phật hoặc Dâng Hương tích phước trước!`);
         return;
       }
 
-      // Trừ Phước Đức khi mua/thỉnh thẻ xăm đúng quy chuẩn!
-      addMerit(-cost, forceGood ? 'Thỉnh Thẻ Xăm Đại Cát Cầu May Đổi Vận (-15 💎)' : 'Mua/Thỉnh 1 Thẻ Xăm Quan Âm Cổ Truyền (-5 💎)');
+      addMerit(-cost, drawMode === 'bad_only' ? 'Thỉnh Quẻ Xăm Soi Hạn & Cảnh Báo (-5 💎)' : 'Thỉnh 1 Thẻ Xăm Quan Âm Trong Bộ 24 Quẻ (-5 💎)');
       updateFortuneCardDisplay();
 
       isDrawingStick = true;
       stopAllVoices(true);
       const wrap = document.getElementById('bambooCylinderWrap');
       const statusEl = document.getElementById('fortuneShakeStatus');
-      if (statusEl) statusEl.textContent = `🎋 Đã dâng -${cost} 💎 Phước · Đang lắc ống xăm...`;
+      if (statusEl) statusEl.textContent = `🎋 Đã dâng -${cost} 💎 Phước · Đang lắc ống 24 thẻ xăm...`;
 
       let shakes = 0;
       const shakeTimer = setInterval(() => {
@@ -4065,116 +4585,38 @@
           if (wrap) wrap.style.transform = 'rotate(0deg) scale(1)';
 
           let pool = fortuneSticksPool;
-          if (forceGood) {
-            pool = fortuneSticksPool.filter(s => s.tier === 'good');
+          if (drawMode === 'bad_only' || drawMode === true) {
+            pool = fortuneSticksPool.filter(s => s.tier === 'bad' || s.tier === 'very_bad');
           }
-          currentFortuneStick = pool[Math.floor(Math.random() * pool.length)];
+          // Tránh rút trùng thẻ vừa rút
+          const candidates = pool.filter(s => s !== currentFortuneStick);
+          currentFortuneStick = (candidates.length > 0 ? candidates : pool)[Math.floor(Math.random() * (candidates.length > 0 ? candidates.length : pool.length))];
           updateFortuneCardDisplay();
 
-          const tierBadge = currentFortuneStick.tier === 'bad'
-            ? '⚠️ QUẺ CẢNH BÁO (Cần cẩn trọng & hóa giải)'
-            : (currentFortuneStick.tier === 'neutral' ? '🟡 QUẺ TRUNG BÌNH (Kiên trì bền bỉ)' : '🌟 QUẺ ĐẠI CÁT (Vận khí hanh thông)');
+          const tierBadge = currentFortuneStick.tier === 'very_bad'
+            ? '🚨 QUẺ HẠ HẠ ĐẠI HUNG (Cảnh báo nghiêm trọng!)'
+            : (currentFortuneStick.tier === 'bad'
+              ? '⚠️ QUẺ HẠ TRUNG TIỂU HUNG (Cần cẩn trọng & hóa giải)'
+              : (currentFortuneStick.tier === 'neutral' ? '🟡 QUẺ TRUNG BÌNH (Kiên trì bền bỉ)' : '🌟 QUẺ ĐẠI CÁT (Vận khí hanh thông)'));
           if (statusEl) statusEl.textContent = `🎋 Đã rút: ${currentFortuneStick.num} (-${cost} 💎)`;
           playBellSound();
-          showToast(`🎋 Đã thỉnh ${currentFortuneStick.num} (-${cost} 💎 Phước): ${tierBadge}`);
+          showToast(`🎋 Đã rút ${currentFortuneStick.num}: ${tierBadge}`);
 
-          player.chat = `🎋 Con vừa thỉnh ${currentFortuneStick.num} (${currentFortuneStick.rank})! 🙏`;
+          player.chat = `🎋 Con vừa rút ${currentFortuneStick.num} (${currentFortuneStick.rank})! 🙏`;
           player.chatTimer = 320;
           speakCurrentFortuneStick();
         }
       }, 135);
     }
 
-    // Chuyển toàn bộ nội dung 6 Quẻ Xăm sang LUẬN GIẢI CÁ NHÂN (Tài lộc cá nhân, Công danh, Tình duyên, Gia đạo, Sức khỏe) & đọc bằng Giọng Neural Truyền Cảm (xam_1..6.mp3)!
-    fortuneSticksPool.forEach((st, idx) => {
-      st.audioFile = `audio/xam_${idx + 1}.mp3`;
-      if (idx === 0) {
-        st.poem = 'Rồng vàng gặp hội mây xanh,<br/>Thần Tài mở cửa phúc lành ban trao.<br/>Đường đời tài lộc dồi dào,<br/>Gia môn hưng thịnh bước vào vinh hoa.';
-        st.aspects = [
-          '💰 <b>Tài Lộc Cá Nhân:</b> Đại vượng, lộc riêng về bất ngờ',
-          '🌟 <b>Công Danh:</b> Thuận lợi, cấp trên & quý nhân nâng đỡ',
-          '❤️ <b>Tình Duyên:</b> Nhân duyên tốt đẹp, hòa hợp ấm êm',
-          '🏡 <b>Gia Đạo:</b> Trong ấm ngoài êm, tin vui đưa tới',
-          '🧘 <b>Sức Khỏe:</b> Thân khỏe tâm an, tinh thần phấn chấn',
-          '🍀 <b>Mưu Sự:</b> Cầu tài đắc tài, việc riêng thành tựu'
-        ];
-        st.careerAdvice = {
-          tongkho: '💰 <b>Luận Giải Tài Lộc Cá Nhân:</b> Thời vận cá nhân của bạn đang bừng sáng! Tiền bạc riêng rủng rỉnh, làm việc gì cũng gặp may mắn, có khoản thu nhập hoặc lộc thưởng bất ngờ tìm đến với bạn.',
-          sale: '🌟 <b>Luận Giải Công Danh & Sự Nghiệp:</b> Công việc của riêng bạn hanh thông vượt bậc, nói lời nào khách hàng và đồng nghiệp đều quý mến tin tưởng, dễ đạt thành tích cao.',
-          thau: '❤️ <b>Luận Giải Tình Duyên & Gia Đạo:</b> Gia đình êm ấm thuận hòa, người độc thân dễ gặp nhân duyên hiền lành chân thành, người có gia đình thêm gắn kết yêu thương.',
-          congno: '🧘 <b>Luận Giải Sức Khỏe & Bản Mệnh:</b> Sinh khí dồi dào, ngủ ngon giấc, mọi căng thẳng mệt mỏi đều tiêu tan.',
-          buonban: '🍀 <b>Luận Giải Mưu Sự Cá Nhân:</b> Những dự định riêng bạn đang ấp ủ rất thuận lợi để bắt đầu ngay trong tuần này.'
-        };
-      } else if (idx === 1) {
-        st.poem = 'Mây mù che khuất ánh trăng trong,<br/>Ngoài mặt cười vui dạ chẳng đồng.<br/>Tiền bạc trao tay coi kẻo lỡ,<br/>Giữ mình cẩn trọng mới yên lòng.';
-        st.aspects = [
-          '💰 <b>Tài Lộc Cá Nhân:</b> Giữ chặt ví tiền, tránh cho vay mượn',
-          '🌟 <b>Công Danh:</b> Làm chắc từng việc, tránh vội vàng',
-          '❤️ <b>Tình Duyên:</b> Nhường nhịn lời nói kẻo hiểu lầm nhỏ',
-          '🏡 <b>Gia Đạo:</b> Cần lắng nghe và chia sẻ nhiều hơn',
-          '⚠️ <b>Giao Tiếp:</b> Tránh chuyện thị phi lời qua tiếng lại',
-          '🧘 <b>Sức Khỏe:</b> Nghỉ ngơi điều độ, tránh thức khuya'
-        ];
-        const personalMsg2 = '🛡️ <b>Luận Giải Cá Nhân:</b> Giai đoạn này bản thân bạn không nên cho vay mượn tiền bạc hay cả tin lời hứa miệng. Trong công việc và cuộc sống riêng, hãy giữ tâm điềm tĩnh, nói ít làm nhiều, cẩn trọng lời ăn tiếng nói thì mọi sự đều bình an.';
-        st.careerAdvice = { tongkho: personalMsg2, sale: personalMsg2, thau: personalMsg2, congno: personalMsg2, buonban: personalMsg2 };
-      } else if (idx === 2) {
-        st.poem = 'Lộc xuân nở rộ cành vàng,<br/>Người hiền gặp gỡ rộn ràng niềm vui.<br/>Việc mình làm cứ tiến xuôi,<br/>Kim ngân đầy túi nụ cười nở hoa.';
-        st.aspects = [
-          '💰 <b>Tài Lộc Cá Nhân:</b> Thu nhập tăng đều, lộc từ người quen',
-          '🌟 <b>Công Danh:</b> Quý nhân xuất hiện giúp đỡ đúng lúc',
-          '❤️ <b>Tình Duyên:</b> Duyên lành nở rộ, tình cảm ngọt ngào',
-          '🏡 <b>Gia Đạo:</b> Phúc khí đầy nhà, cha mẹ an vui',
-          '🤝 <b>Bạn Bè:</b> Gặp người tri kỷ, hợp tác ăn ý',
-          '🧘 <b>Sức Khỏe:</b> Tinh thần thư thái, tràn đầy năng lượng'
-        ];
-        const personalMsg3 = '🌸 <b>Luận Giải Cá Nhân:</b> Vận trình cá nhân của bạn rất vượng về nhân duyên! Những người bạn cũ hoặc người quen tốt bụng sẽ mang đến cơ hội quý giúp thu nhập và công việc riêng của bạn bứt phá.';
-        st.careerAdvice = { tongkho: personalMsg3, sale: personalMsg3, thau: personalMsg3, congno: personalMsg3, buonban: personalMsg3 };
-      } else if (idx === 3) {
-        st.poem = 'Đường xa mưa gió ngập ghềnh,<br/>Thuyền nan chở nặng chông chênh giữa dòng.<br/>Đừng tham mối lợi viển vông,<br/>Giữ tâm tĩnh lặng kẻo không kịp lường.';
-        st.aspects = [
-          '💰 <b>Tài Lộc Cá Nhân:</b> Không nên đầu tư mạo hiểm lúc này',
-          '🌟 <b>Công Danh:</b> Chậm mà chắc, kiểm tra kỹ từng việc',
-          '❤️ <b>Tình Duyên:</b> Đừng mang áp lực công việc về nhà',
-          '🏡 <b>Gia Đạo:</b> Giữ hòa khí, một điều nhịn chín điều lành',
-          '🧘 <b>Sức Khỏe:</b> Chú ý giấc ngủ, tránh tự gây áp lực',
-          '🍀 <b>Hóa Giải:</b> Hít thở sâu, dâng hương lễ Phật tịnh tâm'
-        ];
-        const personalMsg4 = '🧘 <b>Luận Giải Cá Nhân:</b> Hiện tại bạn đang tự tạo áp lực lớn cho bản thân, dễ mệt mỏi hoặc quyết định nóng vội. Hãy chậm lại một nhịp, giữ chặt tiền bạc cá nhân và dành thời gian nghỉ ngơi chăm sóc bản thân.';
-        st.careerAdvice = { tongkho: personalMsg4, sale: personalMsg4, thau: personalMsg4, congno: personalMsg4, buonban: personalMsg4 };
-      } else if (idx === 4) {
-        st.poem = 'Cây thông đứng vững giữa sương mờ,<br/>Đợi nắng xuân sang lộc bất ngờ.<br/>Chớ thấy đường xa mà nản chí,<br/>Bền lòng tu dưỡng ắt nên cơ.';
-        st.aspects = [
-          '💰 <b>Tài Lộc Cá Nhân:</b> Tích tiểu thành đại, vững vàng bền bỉ',
-          '🌟 <b>Công Danh:</b> Kiên trì nỗ lực sẽ hái quả ngọt',
-          '❤️ <b>Tình Duyên:</b> Chân thành bền chặt qua thử thách',
-          '🏡 <b>Gia Đạo:</b> Bình yên, trên thuận dưới hòa',
-          '🧘 <b>Sức Khỏe:</b> Dẻo dai, bình ổn',
-          '🍀 <b>Mưu Sự:</b> Nửa cuối tháng đón tin vui bất ngờ'
-        ];
-        const personalMsg5 = '🌱 <b>Luận Giải Cá Nhân:</b> Công việc và tài chính riêng của bạn đang tích lũy đều đặn. Chỉ cần bạn kiên nhẫn, chăm chỉ từng việc nhỏ mỗi ngày thì sắp tới sẽ gặt hái thành quả xứng đáng.';
-        st.careerAdvice = { tongkho: personalMsg5, sale: personalMsg5, thau: personalMsg5, congno: personalMsg5, buonban: personalMsg5 };
-      } else if (idx === 5) {
-        st.poem = 'Thần Tài gõ cửa ban mai,<br/>Vàng ròng ngọc quý trải dài trước sân.<br/>Sống ngay chữ tín mười phân,<br/>Phúc dày đức trọng muôn phần hiển vinh.';
-        st.aspects = [
-          '💰 <b>Tài Lộc Cá Nhân:</b> Tiền vào như nước, đại cát đại lợi',
-          '🌟 <b>Công Danh:</b> Thăng hoa rực rỡ, vạn sự như ý',
-          '❤️ <b>Tình Duyên:</b> Viên mãn hạnh phúc, tràn ngập tiếng cười',
-          '🏡 <b>Gia Đạo:</b> Phúc lộc song toàn, con cháu hiếu thuận',
-          '🧘 <b>Sức Khỏe:</b> Khỏe mạnh bình an suốt bốn mùa',
-          '🍀 <b>Mưu Sự:</b> Cầu gì được nấy, tâm nguyện viên thành'
-        ];
-        const personalMsg6 = '🌟 <b>Luận Giải Cá Nhân:</b> Bản mệnh của bạn đang đón vận đỏ rực rỡ! Công danh sự nghiệp thăng tiến, tài lộc cá nhân dồi dào, cầu tài đắc tài, cầu bình an đắc bình an.';
-        st.careerAdvice = { tongkho: personalMsg6, sale: personalMsg6, thau: personalMsg6, congno: personalMsg6, buonban: personalMsg6 };
-      }
-    });
-
     function speakCurrentFortuneStick() {
       unlockAndStartAudio();
       stopAllVoices(true);
       const st = currentFortuneStick || fortuneSticksPool[0];
-      const audioSrc = (st.audioFile || 'audio/xam_1.mp3') + '?v=47';
+      const audioSrc = (st.audioFile || 'audio/xam_full_1.mp3') + '?v=55';
       isVoiceSpeaking = true;
       localPrayerMp3.onerror = null;
+      localPrayerMp3.playbackRate = 1.0;
       localPrayerMp3.src = audioSrc;
       localPrayerMp3.currentTime = 0;
       localPrayerMp3.volume = 1.0;
