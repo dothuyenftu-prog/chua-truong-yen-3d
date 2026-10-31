@@ -33,14 +33,13 @@
        1. ULTRA-CLEAN TOP BAR (Zone Tabs + Music Picker + Merit Leaderboard)
        ===================================================================== */
     .top-bar {
-      position: fixed; top: 5px; left: 6px; right: 6px;
+      position: fixed; top: 3px; left: 4px; right: 4px;
       display: flex; align-items: center; justify-content: space-between;
-      z-index: 62; pointer-events: none; gap: 4px; flex-wrap: wrap;
-      background: rgba(16, 8, 3, 0.86);
-      border: 1.5px solid rgba(255, 213, 79, 0.55);
-      border-radius: 14px;
-      padding: 4px 8px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.72);
+      z-index: 62; pointer-events: none; gap: 3px; flex-wrap: wrap;
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
     }
     .top-group {
       display: flex; align-items: center; gap: 4px; pointer-events: auto;
@@ -81,19 +80,20 @@
       cursor: pointer;
     }
 
-    /* Compact Toast Notification */
+    /* Compact Toast Notification — Đặt ở thảm dưới, TUYỆT ĐỐI KHÔNG che Tượng Phật & Bàn Thờ! */
     #toastBanner {
       position: fixed;
-      top: 76px;
+      top: auto;
+      bottom: 162px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 25;
-      background: rgba(20, 12, 5, 0.85);
-      border: 1px solid rgba(245, 200, 98, 0.6);
+      background: rgba(20, 12, 5, 0.88);
+      border: 1px solid rgba(245, 200, 98, 0.65);
       color: #ffefc2;
-      padding: 4px 14px;
+      padding: 4px 12px;
       border-radius: 999px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 600;
       pointer-events: none;
       transition: opacity 0.3s ease;
@@ -442,43 +442,46 @@
       .top-bar {
         flex-wrap: wrap !important;
         justify-content: center !important;
-        gap: 3px !important;
-        top: 3px !important;
-        left: 3px !important;
-        right: 3px !important;
-        padding: 4px 5px !important;
-        border-radius: 11px !important;
+        gap: 2px !important;
+        top: 2px !important;
+        left: 2px !important;
+        right: 2px !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
       }
       .top-merit-hero {
-        order: -1;
-        width: 100%;
-        display: flex;
+        order: 0;
+        width: auto;
+        display: inline-flex;
         justify-content: center;
       }
       .top-merit-hero button {
-        padding: 3px 10px !important;
-        font-size: 10.5px !important;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        padding: 2.5px 7px !important;
+        font-size: 9.2px !important;
+        gap: 3px !important;
+      }
+      .top-merit-hero .merit-lbl-prefix {
+        display: none !important;
       }
       .top-group {
         max-width: 100% !important;
         flex-wrap: wrap !important;
         justify-content: center !important;
-        gap: 3px !important;
+        gap: 2.5px !important;
       }
-      .chip-btn { padding: 3px 5.5px !important; font-size: 9.3px !important; }
+      .chip-btn { padding: 2.5px 5.5px !important; font-size: 9px !important; }
       #charSelect.top-select {
         display: inline-block !important;
-        max-width: 124px !important;
-        padding: 3px 5px !important;
-        font-size: 9.3px !important;
+        max-width: 112px !important;
+        padding: 2.5px 5px !important;
+        font-size: 9px !important;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       #btnDesktopRightMerit { display: none !important; }
-      #toastBanner { top: 68px !important; font-size: 9.8px !important; padding: 3px 10px !important; }
+      #toastBanner { top: auto !important; bottom: 184px !important; font-size: 9.8px !important; padding: 3px 10px !important; }
       .bottom-dock {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -870,15 +873,15 @@
     @media (max-width: 768px) {
       /* Trên Điện Thoại: Tối ưu chiều cao 100dvh để cả Nhân Vật lẫn 3 hàng nút Đấm + Chửi + Khuyên hiện trọn vẹn không bị che! */
       .top-bar {
-        padding: 4px 6px !important;
-        gap: 4px !important;
+        padding: 0 !important;
+        gap: 2px !important;
       }
       .top-group {
-        gap: 3px !important;
+        gap: 2.5px !important;
       }
       .chip-btn, .top-select {
-        font-size: 10px !important;
-        padding: 3px 6px !important;
+        font-size: 9.2px !important;
+        padding: 2.5px 5.5px !important;
       }
       #karmaTabPunchRoom .karma-canvas-wrap {
         min-height: 190px !important;
@@ -926,10 +929,10 @@
 
     <!-- HUY HIỆU ĐIỂM TÍCH PHƯỚC NỔI BẬT Ở CHÍNH GIỮA TRÊN CÙNG MÀN HÌNH (#mvw8mq8n6c) -->
     <div class="top-merit-hero" style="pointer-events:auto; display:flex; justify-content:center; align-items:center;">
-      <button type="button" onclick="openMeritShopModal()" title="Bấm để mở Bảng Top Phước Đức & Cửa Hàng Lễ Vật" style="background:linear-gradient(135deg,#4a1c03,#8d3b05,#4a1c03); color:#fff8e1; border:2px solid #ffd740; border-radius:999px; padding:5px 14px; font-size:12px; font-weight:900; cursor:pointer; box-shadow:0 4px 16px rgba(255,215,64,0.45), inset 0 1px 4px rgba(255,255,255,0.35); display:flex; align-items:center; gap:6px; white-space:nowrap;">
-        <span>💎 ĐIỂM TÍCH PHƯỚC:</span>
-        <span id="topCenterMeritScore" style="color:#ffd740; font-size:14px; text-shadow:0 0 8px rgba(255,215,64,0.85);">1.380 💎</span>
-        <span style="background:rgba(255,215,64,0.22); color:#69f0ae; border:1px solid rgba(105,240,174,0.6); border-radius:999px; padding:1px 7px; font-size:10px;">🏆 Top #1 (<span id="activeCharProfileBadge">Thành</span>)</span>
+      <button type="button" onclick="openMeritShopModal()" title="Bấm để mở Bảng Top Phước Đức & Cửa Hàng Lễ Vật" style="background:linear-gradient(135deg,#4a1c03,#8d3b05,#4a1c03); color:#fff8e1; border:1.5px solid #ffd740; border-radius:999px; padding:3px 10px; font-size:10.5px; font-weight:900; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,0.55); display:flex; align-items:center; gap:4px; white-space:nowrap;">
+        <span class="merit-lbl-prefix">💎 ĐIỂM TÍCH PHƯỚC:</span>
+        <span id="topCenterMeritScore" style="color:#ffd740; font-size:11px; text-shadow:0 0 6px rgba(255,215,64,0.85);">1.380 💎</span>
+        <span style="background:rgba(255,215,64,0.22); color:#69f0ae; border:1px solid rgba(105,240,174,0.6); border-radius:999px; padding:1px 5px; font-size:9px;">🏆 Top #1 (<span id="activeCharProfileBadge">Thành</span>)</span>
       </button>
     </div>
 
@@ -8742,31 +8745,9 @@
       cctx.fillStyle = glowGrad;
       cctx.fillRect(0, 0, wingW, wingH * 0.65);
 
-      // 1. Visible burning incense sticks inside bronze censer
+      // 1. Giữ nguyên 100% ảnh chụp thật Lư Hương Đồng & Bàn Thờ Phật Chạm Rồng trong wd.img (KHÔNG vẽ đè khối 2D che bàn thờ Phật!)
       const censerX = wingCenterX;
       const censerY = wingH * ((wd.idx === 0) ? 0.382 : 0.402);
-      const stickCount = Math.min(21, burningIncenseCount[String(wd.idx)] || 9);
-      cctx.save();
-      for (let s = 0; s < stickCount; s++) {
-        const frac = (s / (stickCount - 1 || 1)) - 0.5;
-        const angle = frac * 0.42;
-        const stickLen = (25 + (s % 3) * 5) * (wingH / 960);
-        const bx = censerX + frac * 22 * (wingW / 1200);
-        const by = censerY;
-        const tx = bx + Math.sin(angle) * stickLen;
-        const ty = by - Math.cos(angle) * stickLen;
-        cctx.strokeStyle = '#b82828';
-        cctx.lineWidth = 1.5;
-        cctx.beginPath();
-        cctx.moveTo(bx, by);
-        cctx.lineTo(tx, ty);
-        cctx.stroke();
-        cctx.fillStyle = 'rgba(255, 95, 20, 0.9)';
-        cctx.beginPath();
-        cctx.arc(tx, ty, 2.3, 0, Math.PI * 2);
-        cctx.fill();
-      }
-      cctx.restore();
 
       // 2. Render ALL 20 Empty Red-and-Gold Meditation Cushions into static cache
       cctx.save();
@@ -8791,34 +8772,6 @@
         cctx.ellipse(cxPos, cyPos - 1.5, rx * 0.74, ry * 0.70, 0, 0, Math.PI * 2);
         cctx.fill();
       }
-      cctx.restore();
-
-      // 3. Carved Red & Gold Lacquered Wooden Table Top & Apron into static cache
-      cctx.save();
-      const tableY = censerY + 46 * (wingH / 960);
-      const tableW = Math.min(W - 14, Math.max(305, wingW * 0.64));
-      const tableH = 26 * (wingH / 960);
-      const tableX = censerX - tableW / 2;
-
-      const tblGrad = cctx.createLinearGradient(tableX, tableY - 6, tableX, tableY + tableH);
-      tblGrad.addColorStop(0, 'rgba(136, 32, 10, 0.97)');
-      tblGrad.addColorStop(0.25, 'rgba(92, 20, 6, 0.98)');
-      tblGrad.addColorStop(1, 'rgba(42, 10, 3, 0.99)');
-      cctx.fillStyle = tblGrad;
-      cctx.strokeStyle = '#ffd56b';
-      cctx.lineWidth = 2.0;
-      cctx.beginPath();
-      cctx.roundRect(tableX, tableY, tableW, tableH, 10);
-      cctx.fill();
-      cctx.stroke();
-
-      cctx.fillStyle = 'rgba(168, 42, 12, 0.96)';
-      cctx.strokeStyle = '#ffe082';
-      cctx.lineWidth = 1.4;
-      cctx.beginPath();
-      cctx.roundRect(tableX - 3, tableY - 7, tableW + 6, 9, 4);
-      cctx.fill();
-      cctx.stroke();
       cctx.restore();
     }
 
@@ -9201,35 +9154,18 @@
           ctx.restore();
         }
 
-        // 3. CHỈ VẼ LỄ VẬT TRÊN BÀN THỜ KHI CÓ NGƯỜI ĐẶT LỄ (Giới hạn tối đa 5 người để lễ · Hiện rõ Lễ Gì & Lễ Của Ai!)
+        // 3. CHỈ VẼ LỄ VẬT TRÊN BÀN THỜ KHI CÓ NGƯỜI ĐẶT LỄ (Đặt gọn dưới bậc tam cấp bàn thờ — TUYỆT ĐỐI KHÔNG che Tượng Phật & Lư Hương!)
         const wingOfferings = altarOfferings[String(wd.idx)] || [];
         if (wingOfferings.length > 0) {
           ctx.save();
-          const tableY = censerY + 46 * (wingH / 960);
-          const tableW = Math.min(W - 14, Math.max(325, wingW * 0.68));
+          const tableY = censerY + 60 * (wingH / 960);
+          const tableW = Math.min(W - 14, Math.max(300, wingW * 0.62));
           const count = Math.min(5, wingOfferings.length);
-          const cardW = Math.min(116, (tableW - 12) / count - 4);
-          const cardH = 29;
+          const cardW = Math.min(98, (tableW - 12) / count - 4);
+          const cardH = 24;
           const totalCardsW = count * cardW + (count - 1) * 5;
           const startCardX = censerX - totalCardsW / 2;
-          const traySize = Math.min(72, cardW * 0.78);
-
-          // Nhãn tổng số người để lễ trên bàn thờ (Tối đa 5/5)
-          const hdrTxt = `🎁 BÀN LỄ ĐANG DÂNG: ${count}/5 NGƯỜI ĐỂ LỄ`;
-          ctx.font = 'bold 9.2px system-ui, -apple-system, sans-serif';
-          const hdrW = Math.max(216, Math.ceil(ctx.measureText(hdrTxt).width) + 26);
-          const hdrH = 19;
-          ctx.fillStyle = 'rgba(38, 12, 3, 0.94)';
-          ctx.strokeStyle = '#ffd54f';
-          ctx.lineWidth = 1.2;
-          ctx.beginPath();
-          ctx.roundRect(censerX - hdrW / 2, tableY - traySize - 15, hdrW, hdrH, 9);
-          ctx.fill();
-          ctx.stroke();
-          ctx.fillStyle = '#ffe082';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(hdrTxt, censerX, tableY - traySize - 5.5);
+          const traySize = Math.min(34, cardW * 0.48);
 
           wingOfferings.slice(-5).forEach((off, idx) => {
             const cxCard = startCardX + idx * (cardW + 5);
@@ -9238,38 +9174,38 @@
 
             const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
             if (tex && tex.complete && tex.naturalWidth > 0) {
-              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 5, traySize, traySize);
+              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 4, traySize, traySize);
             } else {
-              ctx.font = '28px sans-serif';
+              ctx.font = '20px sans-serif';
               ctx.textAlign = 'center';
               ctx.textBaseline = 'middle';
               ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
             }
 
-            // Thẻ Bài 2 Dòng Dưới Mỗi Mâm Lễ: Clip 100% bên trong khung để chữ không bao giờ lệch ra ngoài ô
+            // Thẻ Bài Gọn Dưới Mỗi Mâm Lễ: Clip 100% bên trong khung
             const cyCard = tableY + 2;
-            ctx.fillStyle = 'rgba(20, 7, 2, 0.96)';
-            ctx.strokeStyle = '#ffd54f';
-            ctx.lineWidth = 1.25;
+            ctx.fillStyle = 'rgba(20, 7, 2, 0.90)';
+            ctx.strokeStyle = 'rgba(255, 213, 79, 0.8)';
+            ctx.lineWidth = 1.1;
             ctx.beginPath();
-            ctx.roundRect(cxCard, cyCard, cardW, cardH, 6);
+            ctx.roundRect(cxCard, cyCard, cardW, cardH, 5);
             ctx.fill();
             ctx.stroke();
 
             ctx.save();
             ctx.beginPath();
-            ctx.roundRect(cxCard + 2, cyCard + 1, cardW - 4, cardH - 2, 5);
+            ctx.roundRect(cxCard + 2, cyCard + 1, cardW - 4, cardH - 2, 4);
             ctx.clip();
-            ctx.font = 'bold 8.4px system-ui, -apple-system, sans-serif';
+            ctx.font = 'bold 7.8px system-ui, -apple-system, sans-serif';
             ctx.fillStyle = '#ffd740';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 12)}`, slotCenterX, cyCard + 8.5);
+            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 12)}`, slotCenterX, cyCard + 7);
 
-            ctx.font = 'bold 8.2px system-ui, -apple-system, sans-serif';
+            ctx.font = 'bold 7.6px system-ui, -apple-system, sans-serif';
             ctx.fillStyle = '#69f0ae';
             const giverName = (off.giver || 'Tín Chủ').replace(' (Giám Đốc)', '').replace(' (KH)', '').slice(0, 12);
-            ctx.fillText(`👤 Của: ${giverName}`, slotCenterX, cyCard + 20.5);
+            ctx.fillText(`👤 ${giverName}`, slotCenterX, cyCard + 17.5);
             ctx.restore();
           });
           ctx.restore();
@@ -9806,7 +9742,7 @@
         const cardW = Math.min(W - 16, Math.max(276, Math.ceil(Math.max(ctx.measureText(incLine1).width, ctx.measureText(incLine2).width)) + 28));
         const cardH = 44;
         const cardX = W * 0.5;
-        const cardY = Math.max(106, targetY - 58);
+        const cardY = Math.min(H - 210, Math.max(H * 0.55, targetY + 125));
         ctx.fillStyle = 'rgba(36, 14, 4, 0.95)';
         ctx.strokeStyle = '#ffd54f';
         ctx.lineWidth = 1.8;
@@ -9843,11 +9779,12 @@
         const targetY = topScreenY + wingH * ((offeringCeremony.wing === 0) ? 0.425 : 0.448);
 
         const startX = player._screenX || (W * 0.5);
-        const startY = (player._screenY || (H * 0.64)) - 56;
+        const startY = (player._screenY || (H * 0.64)) - 32;
         const ease = prog * prog * (3 - 2 * prog);
         const curX = Math.max(134, Math.min(W - 134, startX + (targetX - startX) * ease));
-        const curY = startY + (targetY - startY) * ease - Math.sin(prog * Math.PI) * 32;
-        const sc = 1.06 - ease * 0.18;
+        const safeTargetY = Math.max(H * 0.54, targetY + 115);
+        const curY = startY + (safeTargetY - startY) * ease - Math.sin(prog * Math.PI) * 18;
+        const sc = 1.04 - ease * 0.14;
 
         ctx.save();
         ctx.translate(curX, curY);
