@@ -1377,20 +1377,20 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- V81 (#mvyv4q78z): THANH ĐỔI NHANH 10 BỘ TRANG PHỤC TỪNG BẬC NGAY TRÊN SẢNH CHÙA (Bấm Bậc 1 -> Bậc 10 thấy ngay nhân vật thay đổi trang phục!) -->
-  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; bottom:76px; transform:translateX(-50%); z-index:44; display:flex; align-items:center; gap:3.5px; flex-wrap:wrap; justify-content:center; width:min(760px, 97vw); background:rgba(18,7,2,0.93); border:1.5px solid #ffd54f; border-radius:12px; padding:4px 7px; box-shadow:0 6px 20px rgba(0,0,0,0.85);">
-    <span style="font-size:9.8px; font-weight:900; color:#ffd740; margin-right:2px;">👘 Đổi Trang Phục 10 Bậc:</span>
-    <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#b0bec5; color:#eceff1;" onclick="previewCharacterRealmOutfit(1)">🌱1.Áo Lam</button>
-    <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#4fc3f7; color:#b3e5fc;" onclick="previewCharacterRealmOutfit(2)">🧹2.Chú Tiểu</button>
-    <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#d7a86e; color:#ffe0b2;" onclick="previewCharacterRealmOutfit(3)">📿3.Sa Di</button>
-    <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#ffd54f; color:#fff59d;" onclick="previewCharacterRealmOutfit(4)">🪷4.Tỳ Kheo</button>
-    <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#ff8a65; color:#ffccbc;" onclick="previewCharacterRealmOutfit(5)">🔔5.Đại Đức</button>
-    <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#ff5252; color:#ffcdd2;" onclick="previewCharacterRealmOutfit(6)">🏯6.Trụ Trì</button>
-    <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#e040fb; color:#f3e5f5;" onclick="previewCharacterRealmOutfit(7)">👑7.Hòa Thượng</button>
-    <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#ffd740; color:#fff59d;" onclick="previewCharacterRealmOutfit(8)">⚔️8.La Hán</button>
-    <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; border-color:#69f0ae; color:#b9f6ca;" onclick="previewCharacterRealmOutfit(9)">🌈9.Bồ Tát</button>
-    <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9.2px; padding:2.5px 7px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900;" onclick="previewCharacterRealmOutfit(10)">☀️10.Chính Quả</button>
-    <button type="button" class="qo-btn" style="font-size:9.2px; padding:2.5px 6px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="openQuestUpgradeModal('realms')">📋 Bảng Phước</button>
+  <!-- V83 (#mvyvyfn811): THANH ĐỔI NHANH 10 BỘ TRANG PHỤC ẢNH CHỤP STUDIO THẬT NGAY TRÊN SẢNH CHÙA -->
+  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; bottom:76px; transform:translateX(-50%); z-index:44; display:flex; align-items:center; gap:3.5px; flex-wrap:wrap; justify-content:center; width:min(820px, 98vw); background:rgba(18,7,2,0.95); border:1.5px solid #ffd54f; border-radius:12px; padding:4px 7px; box-shadow:0 6px 20px rgba(0,0,0,0.88);">
+    <span style="font-size:9.8px; font-weight:900; color:#ffd740; margin-right:2px;">👘 Pháp Phục 3D:</span>
+    <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#b0bec5; color:#eceff1; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(1)"><img src="assets/outfit_rank_1.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>1.Áo Lam</button>
+    <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#a1887f; color:#efebe9; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(2)"><img src="assets/outfit_rank_2.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>2.Chú Tiểu</button>
+    <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ffb74d; color:#ffe0b2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(3)"><img src="assets/outfit_rank_3.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>3.Sa Di</button>
+    <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ffa726; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(4)"><img src="assets/outfit_rank_4.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>4.Tỳ Kheo</button>
+    <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ff7043; color:#ffccbc; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(5)"><img src="assets/outfit_rank_5.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>5.Đại Đức</button>
+    <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ff5252; color:#ffcdd2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(6)"><img src="assets/outfit_rank_6.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>6.Trụ Trì</button>
+    <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#e040fb; color:#f3e5f5; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(7)"><img src="assets/outfit_rank_7.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>7.Hòa Thượng</button>
+    <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ffd740; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(8)"><img src="assets/outfit_rank_8.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>8.La Hán</button>
+    <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#69f0ae; color:#b9f6ca; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(9)"><img src="assets/outfit_rank_9.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>9.Bồ Tát</button>
+    <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9.1px; padding:2px 6px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(10)"><img src="assets/outfit_rank_10.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>10.Chính Quả</button>
+    <button type="button" class="qo-btn" style="font-size:9.1px; padding:2.5px 6px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="openQuestUpgradeModal('realms')">📋 Tủ Đồ</button>
   </div>
 
   <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
@@ -6335,22 +6335,22 @@
       },
       {
         lv: 2,
-        name: 'Chú Tiểu Quét Lá (Tập Sự Chấp Tác)',
-        shortTitle: '🧹 Bậc 2 · Chú Tiểu Quét Lá',
+        name: 'Chú Tiểu Tập Sự (Áo Nâu Sồng Thiền Tự)',
+        shortTitle: '🧹 Bậc 2 · Chú Tiểu Tập Sự',
         meritCost: 5000,
         meritCostText: '5.000 💎 Phước',
         expReq: 100,
         badge: '🧹 Bậc 2/10 · Tập Sự Chấp Tác',
-        outfitName: 'Áo Lam Xanh Thanh Tịnh & Đai Vải Lam',
-        outfitColorLabel: 'Xanh Lam Thanh Tịnh',
-        colorHex: '#4fc3f7',
-        borderHex: '#0288d1',
-        cssFilter: 'hue-rotate(185deg) saturate(1.45) brightness(1.04)',
-        kasayaColor: 'rgba(3, 169, 244, 0.55)',
+        outfitName: 'Áo Vạt Hò Nâu Sồng Cổ Tự & Quần Nâu Thiền Môn',
+        outfitColorLabel: 'Nâu Sồng Cổ Tự',
+        colorHex: '#d7ccc8',
+        borderHex: '#8d6e63',
+        cssFilter: 'sepia(0.85) hue-rotate(-18deg) saturate(1.6) brightness(0.92)',
+        kasayaColor: 'rgba(121, 85, 72, 0.78)',
         crownType: 'headband_blue',
         lotusType: 'ring_blue',
         haloType: 'soft_blue',
-        perk: 'Sớm khuya quét lá sân chùa, công đức thanh tịnh (+2% cơ hội nổ X).'
+        perk: 'Sớm khuya công quả sân chùa, khoác áo nâu sồng mộc mạc (+2% cơ hội nổ X).'
       },
       {
         lv: 3,
@@ -6360,16 +6360,16 @@
         meritCostText: '35.000 💎 Phước',
         expReq: 280,
         badge: '📿 Bậc 3/10 · Nhập Môn Xuất Gia',
-        outfitName: 'Áo Nâu Sồng Cổ Tự & Tràng Hạt Bồ Đề 108 Hạt',
-        outfitColorLabel: 'Nâu Sồng Đất Phật',
-        colorHex: '#d7a86e',
-        borderHex: '#8d6e63',
-        cssFilter: 'sepia(0.82) hue-rotate(-14deg) saturate(1.65) brightness(0.96)',
-        kasayaColor: 'rgba(121, 85, 72, 0.78)',
+        outfitName: 'Áo Tràng Vàng Nghệ Tay Rộng & Tràng Hạt Bồ Đề 108 Hạt',
+        outfitColorLabel: 'Vàng Nghệ Sa Di',
+        colorHex: '#ffcc80',
+        borderHex: '#ffa726',
+        cssFilter: 'sepia(0.9) hue-rotate(4deg) saturate(2.1) brightness(1.04)',
+        kasayaColor: 'rgba(218, 145, 32, 0.85)',
         crownType: 'mala_beads',
         lotusType: 'ring_amber',
         haloType: 'warm_amber',
-        perk: 'Thọ Mười Giới Sa Di, khoác áo nâu sồng trang nghiêm (+4% cơ hội nổ X).'
+        perk: 'Thọ Mười Giới Sa Di, khoác áo tràng vàng nghệ trang nghiêm (+4% cơ hội nổ X).'
       },
       {
         lv: 4,
@@ -6379,16 +6379,16 @@
         meritCostText: '250.000 💎 Phước',
         expReq: 600,
         badge: '🪷 Bậc 4/10 · Thọ Đại Giới Cụ Túc',
-        outfitName: 'Áo Nhật Bình Vàng Nghệ Nhà Phật & Y Ngũ Điều',
-        outfitColorLabel: 'Vàng Nghệ Từ Bi',
+        outfitName: 'Áo Tràng Vàng Nghệ Đắp Y Ngũ Điều Cam Đất Chéo Vai',
+        outfitColorLabel: 'Cam Đất Y Ngũ Điều',
         colorHex: '#ffd54f',
-        borderHex: '#fbc02d',
+        borderHex: '#fb8c00',
         cssFilter: 'sepia(0.95) hue-rotate(8deg) saturate(2.35) brightness(1.08)',
-        kasayaColor: 'rgba(230, 81, 0, 0.82)',
+        kasayaColor: 'rgba(230, 81, 0, 0.88)',
         crownType: 'mala_gold',
         lotusType: 'lotus_green',
         haloType: 'gold_single',
-        perk: 'Thọ 250 giới Tỳ Kheo, đắp Y Ngũ Điều vàng rực (+6% cơ hội nổ X).'
+        perk: 'Thọ 250 giới Tỳ Kheo, đắp Y Ngũ Điều phước điền (+6% cơ hội nổ X).'
       },
       {
         lv: 5,
@@ -6398,12 +6398,12 @@
         meritCostText: '1.500.000 💎 Phước (1,5 Triệu)',
         expReq: 1200,
         badge: '🔔 Bậc 5/10 · Hoằng Pháp Độ Sinh',
-        outfitName: 'Áo Hậu Vàng Kim Đắp Y Cà Sa Đỏ Cam Thất Điều',
-        outfitColorLabel: 'Đỏ Cam Cà Sa Thất Điều',
+        outfitName: 'Huỳnh Y Lụa Vàng Óng Đắp Y Thất Điều Cam Đỏ Viền Chỉ Vàng',
+        outfitColorLabel: 'Huỳnh Y Cà Sa Thất Điều',
         colorHex: '#ff8a65',
         borderHex: '#ff5722',
         cssFilter: 'sepia(0.9) hue-rotate(-22deg) saturate(2.85) brightness(1.08)',
-        kasayaColor: 'rgba(213, 0, 0, 0.88)',
+        kasayaColor: 'rgba(213, 45, 18, 0.92)',
         crownType: 'crown_abbot_red',
         lotusType: 'lotus_pink',
         haloType: 'gold_double',
@@ -6417,12 +6417,12 @@
         meritCostText: '10.000.000 💎 Phước (10 Triệu)',
         expReq: 2500,
         badge: '🏯 Bậc 6/10 · Bậc Thầy Đạo Tràng',
-        outfitName: 'Pháp Phục Cà Sa Đỏ Thẫm Thêu Chỉ Vàng & Mão Tỳ Lư',
-        outfitColorLabel: 'Đỏ Chu Sa Hoàng Kim',
+        outfitName: 'Pháp Y Cà Sa Cửu Điều Gấm Đỏ Thêu Kim Tuyến & Mão Tỳ Lư',
+        outfitColorLabel: 'Gấm Đỏ Thẫm Kim Tuyến',
         colorHex: '#ff5252',
         borderHex: '#d50000',
         cssFilter: 'sepia(0.95) hue-rotate(-38deg) saturate(3.4) brightness(1.05)',
-        kasayaColor: 'rgba(255, 215, 0, 0.92)',
+        kasayaColor: 'rgba(183, 28, 28, 0.94)',
         crownType: 'crown_ty_lu',
         lotusType: 'lotus_gold_small',
         haloType: 'crimson_gold',
@@ -6436,12 +6436,12 @@
         meritCostText: '80.000.000 💎 Phước (80 Triệu)',
         expReq: 5000,
         badge: '👑 Bậc 7/10 · Cao Tăng Đại Trưởng Lão',
-        outfitName: 'Cà Sa Cửu Điều Tử Kim (Tím Đế Vương Pha Vàng Ròng) & Đài Sen Bạch Ngọc',
+        outfitName: 'Tổ Y Cà Sa 25 Điều Tím Tử Kim Thêu Rồng Vàng & Mão Phương Trượng',
         outfitColorLabel: 'Tím Tử Kim Đế Vương',
         colorHex: '#e040fb',
         borderHex: '#aa00ff',
         cssFilter: 'hue-rotate(255deg) saturate(2.55) brightness(1.08)',
-        kasayaColor: 'rgba(255, 215, 64, 0.95)',
+        kasayaColor: 'rgba(123, 31, 162, 0.95)',
         crownType: 'crown_patriarch',
         lotusType: 'lotus_jade',
         haloType: 'violet_gold',
@@ -6455,12 +6455,12 @@
         meritCostText: '600.000.000 💎 Phước (600 Triệu)',
         expReq: 12000,
         badge: '⚔️ Bậc 8/10 · Chứng Quả A La Hán',
-        outfitName: 'Kim Thân La Hán Vàng Ròng & Vòng Lửa Tam Muội Kim Cang',
-        outfitColorLabel: 'Kim Thân Vàng Ròng Bất Hoại',
+        outfitName: 'Pháp Bào Đỏ Thẫm Giáp Vai Thêu Rồng Vàng Nổi & Pháp Luân Kim Cang',
+        outfitColorLabel: 'Đỏ Hoàng Kim Pháp Luân',
         colorHex: '#ffd740',
         borderHex: '#ffab00',
         cssFilter: 'sepia(1) hue-rotate(12deg) saturate(4.2) brightness(1.18) contrast(1.08)',
-        kasayaColor: 'rgba(255, 61, 0, 0.95)',
+        kasayaColor: 'rgba(198, 40, 40, 0.95)',
         crownType: 'arhat_usnisa',
         lotusType: 'lotus_fire_gold',
         haloType: 'arhat_fire_ring',
@@ -6474,12 +6474,12 @@
         meritCostText: '5.000.000.000 💎 Phước (5 Tỷ Phước)',
         expReq: 30000,
         badge: '🌈 Bậc 9/10 · Đại Bồ Tát Mười Phương',
-        outfitName: 'Thiên Y Ngũ Sắc Lưu Ly Ngọc Bích, Bảo Quán Bồ Tát & Hào Quang Cầu Vồng 7 Sắc',
-        outfitColorLabel: 'Ngọc Lưu Ly Ngũ Sắc Cầu Vồng',
+        outfitName: 'Thiên Y Ngọc Lưu Ly Bạch Ngọc Nhiều Tầng, Dải Tiên Đai & Bảo Quán Bồ Tát',
+        outfitColorLabel: 'Thiên Y Ngọc Lưu Ly',
         colorHex: '#69f0ae',
         borderHex: '#00e676',
         cssFilter: 'hue-rotate(135deg) saturate(2.6) brightness(1.16)',
-        kasayaColor: 'rgba(255, 235, 59, 0.96)',
+        kasayaColor: 'rgba(0, 150, 136, 0.96)',
         crownType: 'bodhisattva_crown',
         lotusType: 'lotus_rainbow',
         haloType: 'rainbow_halo',
@@ -6493,16 +6493,16 @@
         meritCostText: '99.999.999.999 💎 Phước (~100 Tỷ Phước)',
         expReq: 100000,
         badge: '☀️ Bậc 10/10 · TU THÀNH CHÍNH QUẢ VÔ THƯỢNG',
-        outfitName: 'Phật Y Vạn Tự 卍 Hoàng Kim Cửu Phẩm, Phật Quang Vạn Đượng 3 Tầng & Tòa Sen Vàng Chín Phẩm',
-        outfitColorLabel: 'Phật Quang Vạn Tự 卍 Hoàng Kim Tối Thượng',
+        outfitName: 'Phật Y Hoàng Kim 24K Cửu Phẩm Chạm Hoa Sen Nổi & Tòa Sen Vàng Chín Phẩm',
+        outfitColorLabel: 'Phật Y Hoàng Kim 24K Cửu Phẩm',
         colorHex: '#fff59d',
         borderHex: '#ffd700',
         cssFilter: 'sepia(1) hue-rotate(16deg) saturate(4.8) brightness(1.26) contrast(1.1)',
-        kasayaColor: 'rgba(255, 23, 68, 0.96)',
+        kasayaColor: 'rgba(255, 193, 7, 0.96)',
         crownType: 'buddha_supreme',
         lotusType: 'lotus_nine_tier_gold',
         haloType: 'buddha_supreme_halo',
-        perk: 'Đỉnh cao viên mãn Vô Thượng Chánh Đẳng Chánh Giác (+50% cơ hội nổ X & Hào Quang Vạn Tự 卍 chiếu rọi toàn điện).'
+        perk: 'Đỉnh cao viên mãn Vô Thượng Chánh Đẳng Chánh Giác (+50% cơ hội nổ X & Hào Quang Phật Đà chiếu rọi toàn điện).'
       }
     ];
 
@@ -6552,12 +6552,6 @@
       }
       if (devoteeObj && devoteeObj._realmLv) {
         return Math.max(1, Math.min(10, Number(devoteeObj._realmLv)));
-      }
-      // Cho các NPC / Phật tử mẫu trong chùa có trang phục đa dạng từ Bậc 1 đến Bậc 4 để sảnh chùa sinh động
-      if (devoteeObj && typeof devoteeObj.name === 'string') {
-        let h = 0;
-        for (let i = 0; i < devoteeObj.name.length; i++) h = (h * 31 + devoteeObj.name.charCodeAt(i)) % 997;
-        return (h % 4) + 1;
       }
       return 1;
     }
@@ -6799,51 +6793,11 @@
       renderQuestUpgradeModal();
     }
 
-    // V80 (#mvyv22isx): Hình Minh Họa Trực Quan Từng Bộ Trang Phục Nhân Vật (Bậc 1 -> Bậc 10)
+    // V83 (#mvyvyfn811): Hiển thị Ảnh Chụp Studio Thật 100% Của Từng Bộ Pháp Phục (assets/outfit_rank_1.png -> outfit_rank_10.png)
     function buildRealmOutfitVisualPortrait(r) {
-      const robeColors = {
-        1: ['#90a4ae', '#546e7a'],
-        2: ['#29b6f6', '#0277bd'],
-        3: ['#a1887f', '#5d4037'],
-        4: ['#ffd54f', '#f57f17'],
-        5: ['#ffb300', '#e65100'],
-        6: ['#ff5252', '#b71c1c'],
-        7: ['#ce93d8', '#6a1b9a'],
-        8: ['#ffd740', '#ff6f00'],
-        9: ['#69f0ae', '#00897b'],
-        10: ['#fff59d', '#ffab00']
-      };
-      const [c1, c2] = robeColors[r.lv] || ['#90a4ae', '#546e7a'];
-      const hasSash = r.lv >= 4;
-      const sashCol = r.kasayaColor || '#d50000';
-      const hasCrown = r.lv >= 6;
-      const hasLotus = r.lv >= 4;
-      const hasHalo = r.lv >= 3;
-      const hasSwastika = r.lv >= 8;
-
-      return `<div style="position:relative; width:64px; height:76px; border-radius:10px; background:radial-gradient(circle at 50% 35%, ${r.colorHex}44 0%, #160802 85%); border:2px solid ${r.colorHex}; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 12px ${r.colorHex}55; overflow:hidden;">
-        <svg viewBox="0 0 64 76" width="64" height="76">
-          ${hasHalo ? `<circle cx="32" cy="24" r="${14 + r.lv * 0.7}" fill="none" stroke="${r.lv === 10 ? '#ffd700' : r.colorHex}" stroke-width="${r.lv >= 8 ? 2.4 : 1.4}" stroke-dasharray="${r.lv === 10 ? 'none' : '3,2'}" opacity="0.92"/>` : ''}
-          ${r.lv >= 9 ? `<circle cx="32" cy="24" r="22" fill="none" stroke="#69f0ae" stroke-width="1.3" opacity="0.85"/>` : ''}
-          ${hasLotus ? `<ellipse cx="32" cy="68" rx="22" ry="5.5" fill="${r.lv === 10 ? '#ffd700' : r.colorHex}" stroke="#fff" stroke-width="1"/>` : `<ellipse cx="32" cy="69" rx="16" ry="3.5" fill="rgba(255,255,255,0.2)"/>`}
-          <!-- Thân Áo Pháp Phục -->
-          <path d="M16 66 L21 34 Q32 30 43 34 L48 66 Z" fill="${c1}" stroke="${c2}" stroke-width="1.6"/>
-          <!-- Tay Áo Rộng -->
-          <path d="M21 35 L11 50 L18 53 L23 42 Z" fill="${c2}" stroke="#fff" stroke-width="0.6"/>
-          <path d="M43 35 L53 50 L46 53 L41 42 Z" fill="${c2}" stroke="#fff" stroke-width="0.6"/>
-          <!-- Cổ Áo Chữ V Nhà Phật -->
-          <path d="M26 33 L32 42 L38 33" fill="none" stroke="#fff8e1" stroke-width="1.5"/>
-          <!-- Y Cà Sa Đắp Chéo Vai -->
-          ${hasSash ? `<path d="M20 36 L44 47 L42 63 L19 50 Z" fill="${sashCol}" stroke="#ffd700" stroke-width="1"/>` : ''}
-          <!-- Đầu Nhân Vật -->
-          <circle cx="32" cy="23" r="8.5" fill="#ffe0b2" stroke="#5d4037" stroke-width="1"/>
-          <!-- Mão Tỳ Lư / Bảo Quán -->
-          ${hasCrown ? `<polygon points="23,17 32,7 41,17" fill="${r.lv === 10 ? '#ffd700' : r.colorHex}" stroke="#fff" stroke-width="1"/>` : ''}
-          <!-- Hai Tay Chắp Búp Sen -->
-          <ellipse cx="32" cy="46" rx="4" ry="5.5" fill="#ffe0b2" stroke="#8d6e63" stroke-width="0.8"/>
-          ${hasSwastika ? `<text x="32" y="42" text-anchor="middle" fill="#fff59d" font-size="9" font-weight="900">卍</text>` : ''}
-        </svg>
-        <span style="position:absolute; bottom:1px; right:2px; background:rgba(0,0,0,0.82); color:${r.colorHex}; font-size:8.5px; font-weight:900; padding:0 4px; border-radius:4px; border:1px solid ${r.colorHex};">Bậc ${r.lv}</span>
+      return `<div style="position:relative; width:72px; height:96px; border-radius:11px; background:radial-gradient(circle at 50% 38%, ${r.colorHex}55 0%, #160802 88%); border:2px solid ${r.colorHex}; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 14px ${r.colorHex}66; overflow:hidden; padding:3px;">
+        <img src="assets/outfit_rank_${r.lv}.png?v=83" alt="${r.outfitName}" style="height:86px; width:auto; max-width:66px; object-fit:contain; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.85));" />
+        <span style="position:absolute; bottom:1px; right:2px; background:rgba(0,0,0,0.86); color:${r.colorHex}; font-size:8.5px; font-weight:900; padding:0 4px; border-radius:4px; border:1px solid ${r.colorHex};">Bậc ${r.lv}</span>
       </div>`;
     }
 
@@ -7003,11 +6957,23 @@
       ctx.restore();
     }
 
-    // V81 (#mvyv4q78z): Bộ nhớ đệm nhuộm màu áo trực tiếp lên điểm ảnh Sprite nhân vật (Giữ nguyên khuôn mặt/đầu, đổi màu toàn bộ quần áo — Chạy 100% trên iOS/Android/Zalo WebView)
+    // V83 (#mvyvyfn811): Hệ thống Trang Phục 10 Bậc Ảnh Chụp Studio Thật 100% (outfit_rank_1.png -> outfit_rank_10.png)
+    // Kết hợp Bộ Xử Lý Điểm Ảnh Nếp Vải Tự Nhiên (Per-Pixel Luminance-Preserving Cloth Shader) khi nhân vật Quỳ / Lạy nghiêng người (Không bao giờ lem vào mặt, tay hay đệm quỳ!)
     const _recoloredSpriteCache = {};
     function getRecoloredCharacterSprite(spr, lv) {
       if (!spr || !spr.complete || !spr.naturalWidth || !lv || lv <= 1) return spr;
-      const key = (spr.src || 'spr') + '__lv' + lv;
+
+      // 1. Khi nhân vật đang Đứng / Đi dạo (walkM / walkF): Dùng trực tiếp Ảnh Chụp Studio Thật 100% của Bậc đó!
+      if (typeof images === 'object' && (spr === images.walkM || spr === images.walkF)) {
+        const studioRankSpr = images['outfitRank' + lv];
+        if (studioRankSpr && studioRankSpr.complete && studioRankSpr.naturalWidth > 0) {
+          return studioRankSpr;
+        }
+      }
+
+      // 2. Khi nhân vật đang ở tư thế Quỳ / Vái nghiêng người (kneel, bow, pose_*):
+      // Chỉ đổi màu đúng các điểm ảnh vải Áo Lam (b >= r - 4), giữ nguyên 100% nếp gấp vải 3D, da mặt, bàn tay, tóc và đệm quỳ!
+      const key = (spr.src || 'spr') + '__v83_lv' + lv;
       if (_recoloredSpriteCache[key]) return _recoloredSpriteCache[key];
       try {
         const w = spr.naturalWidth;
@@ -7018,33 +6984,42 @@
         const octx = off.getContext('2d');
         octx.drawImage(spr, 0, 0, w, h);
 
-        // Tạo lớp màu Pháp Phục chỉ phủ lên vùng thân áo (y từ 25% đến 93% chiều cao), giữ nguyên khuôn mặt tự nhiên
-        const tintColors = {
-          2: 'rgba(3, 169, 244, 0.62)',    // Xanh Lam Chú Tiểu
-          3: 'rgba(121, 85, 72, 0.68)',    // Nâu Sồng Sa Di
-          4: 'rgba(255, 193, 7, 0.66)',    // Vàng Nghệ Tỳ Kheo
-          5: 'rgba(255, 111, 0, 0.68)',    // Đỏ Cam Đại Đức
-          6: 'rgba(213, 0, 0, 0.70)',      // Đỏ Chu Sa Thượng Tọa Trụ Trì
-          7: 'rgba(156, 39, 176, 0.70)',   // Tím Tử Kim Hòa Thượng
-          8: 'rgba(255, 214, 0, 0.76)',    // Kim Thân Vàng Ròng La Hán
-          9: 'rgba(0, 200, 83, 0.66)',     // Ngọc Lưu Ly Đại Bồ Tát
-          10: 'rgba(255, 215, 0, 0.82)'    // Hoàng Kim Phật Đà Chính Quả
+        const clothPalettes = {
+          2: [115, 72, 46],   // Nâu Sồng Chú Tiểu
+          3: [198, 138, 28],  // Vàng Nghệ Sa Di
+          4: [215, 95, 22],   // Cam Đất Y Ngũ Điều Tỳ Kheo
+          5: [218, 68, 18],   // Huỳnh Y Đỏ Cam Đại Đức
+          6: [186, 24, 28],   // Gấm Đỏ Thẫm Trụ Trì
+          7: [128, 34, 162],  // Tím Tử Kim Hòa Thượng
+          8: [198, 32, 22],   // Pháp Bào Đỏ Hoàng Kim La Hán
+          9: [38, 166, 142],  // Thiên Y Ngọc Lưu Ly Bồ Tát
+          10: [242, 188, 36]  // Phật Y Hoàng Kim 24K Chính Quả
         };
-        const tint = tintColors[lv];
-        if (tint) {
-          const robeLayer = document.createElement('canvas');
-          robeLayer.width = w;
-          robeLayer.height = h;
-          const rctx = robeLayer.getContext('2d');
-          rctx.drawImage(spr, 0, 0, w, h);
-          rctx.globalCompositeOperation = 'source-atop';
-          rctx.fillStyle = tint;
-          rctx.fillRect(0, Math.round(h * 0.25), w, Math.round(h * 0.69));
-
-          octx.save();
-          octx.globalAlpha = 0.88;
-          octx.drawImage(robeLayer, 0, 0);
-          octx.restore();
+        const targetRgb = clothPalettes[lv];
+        if (targetRgb) {
+          const imgData = octx.getImageData(0, 0, w, h);
+          const data = imgData.data;
+          const tr = targetRgb[0], tg = targetRgb[1], tb = targetRgb[2];
+          for (let i = 0; i < data.length; i += 4) {
+            const a = data[i + 3];
+            if (a < 25) continue;
+            const r = data[i], g = data[i + 1], b = data[i + 2];
+            const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+            // Vải Áo Lam có tông xanh xám lạnh (b >= r - 4) và độ sáng trung bình (luma từ 28 đến 232)
+            // Da mặt/tay và đệm quỳ đỏ có r > b + 12 nên hoàn toàn không bị chạm tới!
+            if (b >= r - 4 && luma > 28 && luma < 232) {
+              const shade = Math.min(1.62, Math.max(0.18, luma / 108.0));
+              const spec = luma > 150 ? (luma - 150) * 0.45 : 0;
+              const blend = Math.min(1.0, Math.max(0.0, (b - (r - 6)) / 14.0));
+              const nr = Math.min(255, tr * shade + spec);
+              const ng = Math.min(255, tg * shade + spec);
+              const nb = Math.min(255, tb * shade + spec);
+              data[i]     = Math.round(r * (1 - blend) + nr * blend);
+              data[i + 1] = Math.round(g * (1 - blend) + ng * blend);
+              data[i + 2] = Math.round(b * (1 - blend) + nb * blend);
+            }
+          }
+          octx.putImageData(imgData, 0, 0);
         }
         _recoloredSpriteCache[key] = off;
         return off;
@@ -7053,230 +7028,21 @@
       }
     }
 
-    // V81 (#mvyv4q78z): Vẽ 10 Bộ Trang Phục, Áo Choàng, Pháp Khí Cầm Tay, Mão/Bảo Quán & Dải Lụa Tiên Khác Biệt Hoàn Toàn Cho Từng Bậc (Bậc 1 -> Bậc 10)
+    // V83 (#mvyvyfn811): Bỏ toàn bộ các hình vẽ 2D thô cứng đè lên lưng nhân vật; chỉ giữ các hạt sáng kim quang thanh thoát bay quanh thân ở bậc cao
     function drawCharacterCultivationOverlay(ctx, sx, sy, sw, sh, scale, lv, frameCount) {
-      if (!lv || lv <= 1) return;
-      const cfg = getRealmConfigByLv(lv);
-      const t = frameCount * 0.06;
+      if (!lv || lv < 6) return;
+      const t = frameCount * 0.05;
       ctx.save();
-
-      const robePalette = {
-        2: { fill: 'rgba(41, 182, 246, 0.52)', trim: '#0288d1', cloak: null },
-        3: { fill: 'rgba(141, 110, 99, 0.58)', trim: '#4e342e', cloak: null },
-        4: { fill: 'rgba(255, 213, 79, 0.58)', trim: '#f57f17', cloak: null },
-        5: { fill: 'rgba(255, 143, 0, 0.60)', trim: '#ffd740', cloak: 'rgba(183, 28, 28, 0.55)' },
-        6: { fill: 'rgba(213, 0, 0, 0.64)', trim: '#ffd700', cloak: 'rgba(183, 28, 28, 0.78)' },
-        7: { fill: 'rgba(142, 36, 170, 0.66)', trim: '#ffd700', cloak: 'rgba(74, 20, 140, 0.82)' },
-        8: { fill: 'rgba(255, 215, 0, 0.72)', trim: '#ff3d00', cloak: 'rgba(230, 81, 0, 0.75)' },
-        9: { fill: 'rgba(0, 230, 118, 0.62)', trim: '#fff59d', cloak: 'rgba(0, 137, 123, 0.75)' },
-        10: { fill: 'rgba(255, 235, 59, 0.78)', trim: '#d50000', cloak: 'rgba(213, 0, 0, 0.88)' }
-      };
-      const pal = robePalette[lv] || { fill: 'rgba(255, 213, 79, 0.5)', trim: '#ffd54f', cloak: null };
-
-      const shoulderY = sy - sh * 0.68;
-      const hemY = sy - sh * 0.07;
-      const chestY = sy - sh * 0.54;
-      const headTopY = sy - sh * 0.92;
-
-      // 0A. Áo Choàng Pháp Sư / Phương Trượng / Phật Đà Rộng Hai Bên Vai (Bậc 5 -> Bậc 10)
-      if (pal.cloak) {
-        const wave = Math.sin(t) * 2.5 * scale;
-        ctx.fillStyle = pal.cloak;
-        ctx.strokeStyle = '#ffd700';
-        ctx.lineWidth = (lv >= 8 ? 1.8 : 1.2) * scale;
+      const orbCount = lv >= 9 ? 6 : 4;
+      for (let i = 0; i < orbCount; i++) {
+        const ang = t + (i * Math.PI * 2 / orbCount);
+        const ox = sx + Math.cos(ang) * (sw * 0.44);
+        const oy = sy - sh * (0.28 + 0.45 * ((i % 3) / 2)) + Math.sin(ang * 1.4) * 5 * scale;
+        ctx.fillStyle = (lv === 9 && i % 2 === 1) ? 'rgba(105, 240, 174, 0.85)' : 'rgba(255, 238, 130, 0.88)';
         ctx.beginPath();
-        ctx.moveTo(sx - sw * 0.22, shoulderY);
-        ctx.lineTo(sx + sw * 0.22, shoulderY);
-        ctx.lineTo(sx + sw * (0.34 + (lv - 4) * 0.018) + wave, hemY + 2 * scale);
-        ctx.lineTo(sx - sw * (0.34 + (lv - 4) * 0.018) - wave, hemY + 2 * scale);
-        ctx.closePath();
+        ctx.arc(ox, oy, (1.8 + (i % 2) * 0.8) * scale, 0, Math.PI * 2);
         ctx.fill();
-        ctx.stroke();
       }
-
-      // 0B. Thân Áo Pháp Phục Chính & Tà Áo Đổi Màu Rõ Rệt
-      ctx.fillStyle = pal.fill;
-      ctx.strokeStyle = pal.trim;
-      ctx.lineWidth = 1.5 * scale;
-      ctx.beginPath();
-      ctx.moveTo(sx - sw * 0.20, shoulderY);
-      ctx.lineTo(sx + sw * 0.20, shoulderY);
-      ctx.lineTo(sx + sw * 0.27, hemY);
-      ctx.lineTo(sx - sw * 0.27, hemY);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-
-      // Cổ áo chữ V truyền thống nhà Phật
-      ctx.strokeStyle = '#fff8e1';
-      ctx.lineWidth = 1.5 * scale;
-      ctx.beginPath();
-      ctx.moveTo(sx - sw * 0.10, shoulderY);
-      ctx.lineTo(sx, sy - sh * 0.55);
-      ctx.lineTo(sx + sw * 0.10, shoulderY);
-      ctx.stroke();
-
-      // Đai lưng Pháp Phục
-      ctx.fillStyle = pal.trim;
-      ctx.fillRect(sx - sw * 0.21, sy - sh * 0.42, sw * 0.42, 3.2 * scale);
-
-      // 1. Dải Y Cà Sa Kẻ Ô Phước Điền Đắp Chéo Vai (Từ Bậc 4 Tỳ Kheo -> Bậc 10 Phật Đà)
-      if (lv >= 4 && cfg.kasayaColor) {
-        ctx.fillStyle = cfg.kasayaColor;
-        ctx.strokeStyle = '#ffd700';
-        ctx.lineWidth = 1.4 * scale;
-        ctx.beginPath();
-        ctx.moveTo(sx - sw * 0.22, sy - sh * 0.68);
-        ctx.lineTo(sx + sw * 0.22, sy - sh * 0.44);
-        ctx.lineTo(sx + sw * 0.18, sy - sh * 0.12);
-        ctx.lineTo(sx - sw * 0.24, sy - sh * 0.40);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-      }
-
-      // 2. PHÁP KHÍ & PHỤ KIỆN ĐẶC TRƯNG RIÊNG BIỆT CỦA TỪNG BẬC (Bậc 2 -> Bậc 10):
-      if (lv === 2) {
-        // Bậc 2 Chú Tiểu: Khăn Lam Quấn Đầu + Chổi Trúc Quét Lá Chùa bên tay phải
-        ctx.fillStyle = '#0288d1';
-        ctx.fillRect(sx - 8 * scale, headTopY + 2 * scale, 16 * scale, 3 * scale);
-        // Cán chổi trúc & đầu chổi
-        const bx = sx + sw * 0.28;
-        ctx.strokeStyle = '#8d6e63';
-        ctx.lineWidth = 2.0 * scale;
-        ctx.beginPath();
-        ctx.moveTo(bx, sy - sh * 0.58);
-        ctx.lineTo(bx + 3 * scale, sy - 2 * scale);
-        ctx.stroke();
-        ctx.fillStyle = '#d4e157';
-        ctx.beginPath();
-        ctx.moveTo(bx - 3 * scale, sy - 14 * scale);
-        ctx.lineTo(bx + 9 * scale, sy - 14 * scale);
-        ctx.lineTo(bx + 12 * scale, sy - 1 * scale);
-        ctx.lineTo(bx - 5 * scale, sy - 1 * scale);
-        ctx.closePath();
-        ctx.fill();
-      } else if (lv === 3) {
-        // Bậc 3 Sa Di: Tràng Hạt Bồ Đề 108 Hạt lớn quàng cổ xuống ngực
-        ctx.fillStyle = '#5d4037';
-        ctx.strokeStyle = '#ffe082';
-        ctx.lineWidth = 0.7 * scale;
-        for (let b = -4; b <= 4; b++) {
-          const bx = sx + b * 2.5 * scale;
-          const by = sy - sh * 0.65 + Math.abs(b) * 1.6 * scale;
-          ctx.beginPath();
-          ctx.arc(bx, by, 2.0 * scale, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-        }
-      } else if (lv === 4) {
-        // Bậc 4 Tỳ Kheo: Bình Bát Khất Thực Vàng nâng trước ngực
-        ctx.fillStyle = '#ffd700';
-        ctx.strokeStyle = '#e65100';
-        ctx.lineWidth = 1.2 * scale;
-        ctx.beginPath();
-        ctx.arc(sx, sy - sh * 0.45, 6.2 * scale, 0, Math.PI);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-      } else if (lv === 5 || lv === 6) {
-        // Bậc 5 Đại Đức & Bậc 6 Thượng Tọa Trụ Trì: Tích Trượng Vàng 6–9 Vòng Rung Ngân Bên Tay Phải
-        const staffX = sx + sw * 0.30;
-        ctx.strokeStyle = lv === 6 ? '#ffd700' : '#ffb300';
-        ctx.lineWidth = 2.2 * scale;
-        ctx.beginPath();
-        ctx.moveTo(staffX, sy - sh * 0.88);
-        ctx.lineTo(staffX, sy - 2 * scale);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(staffX, sy - sh * 0.92, 6 * scale, 0, Math.PI * 2);
-        ctx.stroke();
-      } else if (lv === 7) {
-        // Bậc 7 Hòa Thượng Phương Trượng: Phất Trần Bạch Ngọc & Ngọc Như Ý
-        const wx = sx + sw * 0.30;
-        ctx.strokeStyle = '#ffd700';
-        ctx.lineWidth = 2.2 * scale;
-        ctx.beginPath();
-        ctx.moveTo(wx, sy - sh * 0.42);
-        ctx.lineTo(wx + 6 * scale, sy - sh * 0.72);
-        ctx.stroke();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2.8 * scale;
-        ctx.beginPath();
-        ctx.moveTo(wx + 6 * scale, sy - sh * 0.72);
-        ctx.quadraticCurveTo(wx + 18 * scale, sy - sh * 0.82, wx + 14 * scale, sy - sh * 0.56);
-        ctx.stroke();
-      } else if (lv === 8) {
-        // Bậc 8 La Hán Kim Thân: Giáp Vai Kim Cang & Vòng Lửa Tam Muội Đỏ Rực Xoay Quanh Thân
-        ctx.fillStyle = '#ffd700';
-        ctx.strokeStyle = '#ff3d00';
-        ctx.lineWidth = 1.4 * scale;
-        ctx.beginPath();
-        ctx.ellipse(sx - sw * 0.22, shoulderY, 7 * scale, 4 * scale, -0.3, 0, Math.PI * 2);
-        ctx.ellipse(sx + sw * 0.22, shoulderY, 7 * scale, 4 * scale, 0.3, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.stroke();
-        for (let f = 0; f < 6; f++) {
-          const a = t * 1.4 + (f * Math.PI / 3);
-          const fx = sx + Math.cos(a) * sw * 0.38;
-          const fy = sy - sh * 0.48 + Math.sin(a) * sh * 0.28;
-          ctx.fillStyle = f % 2 === 0 ? '#ff3d00' : '#ffd740';
-          ctx.beginPath();
-          ctx.arc(fx, fy, 3.2 * scale, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      } else if (lv === 9) {
-        // Bậc 9 Đại Bồ Tát: Dải Lụa Tiên Thiên Y Ngũ Sắc Bay Uốn Lượn 2 Bên Vai + Bình Cam Lộ Ngọc Bích
-        ctx.strokeStyle = '#69f0ae';
-        ctx.lineWidth = 2.6 * scale;
-        ctx.beginPath();
-        ctx.moveTo(sx - sw * 0.20, shoulderY);
-        ctx.quadraticCurveTo(sx - sw * 0.48, sy - sh * 0.88 + Math.sin(t) * 6 * scale, sx - sw * 0.36, sy - sh * 0.32);
-        ctx.moveTo(sx + sw * 0.20, shoulderY);
-        ctx.quadraticCurveTo(sx + sw * 0.48, sy - sh * 0.88 + Math.cos(t) * 6 * scale, sx + sw * 0.36, sy - sh * 0.32);
-        ctx.stroke();
-      } else if (lv === 10) {
-        // Bậc 10 TU THÀNH CHÍNH QUẢ: Dải Lụa Hoàng Kim Cửu Phẩm + Hoa Sen Vàng Bay Quanh Thân Phật
-        ctx.strokeStyle = '#ffd700';
-        ctx.lineWidth = 3.0 * scale;
-        ctx.beginPath();
-        ctx.moveTo(sx - sw * 0.22, shoulderY);
-        ctx.quadraticCurveTo(sx - sw * 0.54, sy - sh * 0.94 + Math.sin(t) * 7 * scale, sx - sw * 0.40, sy - sh * 0.25);
-        ctx.moveTo(sx + sw * 0.22, shoulderY);
-        ctx.quadraticCurveTo(sx + sw * 0.54, sy - sh * 0.94 + Math.cos(t) * 7 * scale, sx + sw * 0.40, sy - sh * 0.25);
-        ctx.stroke();
-      }
-
-      // 3. Mão Tỳ Lư / Mão Phương Trượng / Bảo Quán Bồ Tát / Nhục Kế Phật Đà Trên Đỉnh Đầu (Bậc 6 -> Bậc 10)
-      if (lv >= 6) {
-        ctx.save();
-        ctx.translate(sx, headTopY);
-        ctx.fillStyle = lv === 10 ? '#ffd700' : (lv === 9 ? '#00e676' : (lv === 7 ? '#e040fb' : '#ff1744'));
-        ctx.strokeStyle = '#fff59d';
-        ctx.lineWidth = 1.5 * scale;
-        ctx.beginPath();
-        ctx.moveTo(-10 * scale, 2 * scale);
-        ctx.lineTo(-5 * scale, -8 * scale);
-        ctx.lineTo(0, -12 * scale);
-        ctx.lineTo(5 * scale, -8 * scale);
-        ctx.lineTo(10 * scale, 2 * scale);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // 4. Ấn Vạn Tự 卍 Hoàng Kim Phát Sáng Trước Ngực (Bậc 8 La Hán -> Bậc 10 Tu Thành Chính Quả)
-      if (lv >= 8) {
-        ctx.font = `900 ${Math.max(11, Math.round(13.5 * scale))}px sans-serif`;
-        ctx.fillStyle = '#fff59d';
-        ctx.shadowColor = '#ff3d00';
-        ctx.shadowBlur = 8;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('卍', sx, chestY);
-      }
-
       ctx.restore();
     }
 
@@ -7433,12 +7199,32 @@
       leDaiLe: new Image(),
       furnaceReal: new Image(),
       luHuongReal: new Image(),
-      sanDamRoom: new Image()
+      sanDamRoom: new Image(),
+      outfitRank1: new Image(),
+      outfitRank2: new Image(),
+      outfitRank3: new Image(),
+      outfitRank4: new Image(),
+      outfitRank5: new Image(),
+      outfitRank6: new Image(),
+      outfitRank7: new Image(),
+      outfitRank8: new Image(),
+      outfitRank9: new Image(),
+      outfitRank10: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
     images.walkF.src = 'assets/walk_female.png';
     images.walkM.src = 'assets/walk_male.png';
+    images.outfitRank1.src = 'assets/outfit_rank_1.png?v=83';
+    images.outfitRank2.src = 'assets/outfit_rank_2.png?v=83';
+    images.outfitRank3.src = 'assets/outfit_rank_3.png?v=83';
+    images.outfitRank4.src = 'assets/outfit_rank_4.png?v=83';
+    images.outfitRank5.src = 'assets/outfit_rank_5.png?v=83';
+    images.outfitRank6.src = 'assets/outfit_rank_6.png?v=83';
+    images.outfitRank7.src = 'assets/outfit_rank_7.png?v=83';
+    images.outfitRank8.src = 'assets/outfit_rank_8.png?v=83';
+    images.outfitRank9.src = 'assets/outfit_rank_9.png?v=83';
+    images.outfitRank10.src = 'assets/outfit_rank_10.png?v=83';
     images.kneel.src = 'assets/kneel.png';
     images.bow.src = 'assets/bow.png';
     images.poseVaiUp.src = 'assets/pose_vai_up.png';
@@ -11938,14 +11724,16 @@
 
         if (spr.complete && spr.naturalWidth > 0) {
           const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
-          const sw = spr.naturalWidth * scale * mult;
-          const sh = spr.naturalHeight * scale * mult * poseScaleY;
           const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
 
-          // V81 (#mvyv4q78z): Lấy bậc trang phục & nhuộm trực tiếp màu áo lên Sprite nhân vật (chạy 100% trên iOS/Android/Zalo WebView)
+          // V83 (#mvyvyfn811): Lấy bậc trang phục & sử dụng Ảnh Chụp Studio Thật 100% (outfit_rank_1..10.png) hoặc xử lý điểm ảnh nếp vải tự nhiên
           const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
           const charRealmCfg = getRealmConfigByLv(charOutfitLv);
           const recoloredSpr = getRecoloredCharacterSprite(spr, charOutfitLv);
+          const sprW = recoloredSpr.width || recoloredSpr.naturalWidth || spr.naturalWidth;
+          const sprH = recoloredSpr.height || recoloredSpr.naturalHeight || spr.naturalHeight;
+          const sw = sprW * scale * mult;
+          const sh = sprH * scale * mult * poseScaleY;
 
           // 1) Vẽ Tòa Sen, Vòng Hào Quang & Phật Quang Vạn Đượng phía sau / dưới chân nhân vật
           drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, charOutfitLv, frameCount);
@@ -13175,7 +12963,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 82;
+        const CURRENT_BUILD_VER = 83;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
