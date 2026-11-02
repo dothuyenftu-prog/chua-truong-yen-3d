@@ -1,5 +1,5 @@
 {
-  "version": 93,
-  "updatedAt": "2026-11-02T14:50:15+07:00",
-  "note": "V93: Tự động cập nhật nóng (Auto-Update 2 lớp: Quét version.json mỗi 5 giây + Đồng bộ phiên bản trực tiếp qua sóng Online MQTT) — những người đang Online tự động chuyển sang bản mới mà không cần phải bấm tải lại thủ công."
+  "version": 94,
+  "updatedAt": "2026-11-02T20:03:45+07:00",
+  "note": "V94: Tách biệt hoàn toàn 2 thanh công cụ dưới đáy màn hình điện thoại (gộp gọn Dock 8 nút 2 hàng + bỏ 4 nút trùng lặp trên thanh thao tác nhanh để không bao giờ đè lên hàng Gõ Mõ / Thỉnh Chuông / Dâng Hương), rút gọn bóng thoại NPC thành 1 dòng khấn lễ trang nghiêm và vẽ nhãn TOP 1 + Tên Người Chơi ở lớp trên cùng."
 }

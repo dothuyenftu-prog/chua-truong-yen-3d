@@ -486,26 +486,26 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         width: 100%;
-        gap: 4px;
-        padding: 5px;
+        gap: 3.5px;
+        padding: 4px 5px;
         box-sizing: border-box;
       }
-      .dock-item { min-width: 0; padding: 4px 2px; border-radius: 10px; overflow: hidden; box-sizing: border-box; justify-content: center; }
-      .dock-icon { font-size: 15px; }
-      .dock-label { font-size: 8.6px; letter-spacing: -0.2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: center; }
-      #joystick360 { bottom: 158px; right: 8px; width: 90px; height: 90px; }
+      .dock-item { min-width: 0; padding: 3.5px 2px; border-radius: 10px; overflow: hidden; box-sizing: border-box; justify-content: center; }
+      .dock-icon { font-size: 14.5px; }
+      .dock-label { font-size: 8.5px; letter-spacing: -0.2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+      #joystick360 { bottom: 156px; right: 8px; width: 86px; height: 86px; }
       .chuong-mo-panel { display: none !important; }
       .quick-offering-bar {
-        bottom: 104px;
-        padding: 4px 5px;
+        bottom: 96px;
+        padding: 3.5px 5px;
         flex-wrap: wrap !important;
         justify-content: center !important;
-        border-radius: 12px !important;
+        border-radius: 11px !important;
         width: 96vw;
         gap: 3px !important;
         box-sizing: border-box;
       }
-      .qo-btn { font-size: 9px; padding: 2.5px 5px; }
+      .qo-btn { font-size: 8.8px; padding: 2.5px 5px; }
     }
 
     /* =====================================================================
@@ -1267,20 +1267,16 @@
     <div id="joyKnob360">✥</div>
   </div>
 
-  <!-- 3B. ON-SCREEN DIRECT HALL ACTIONS (Thực hiện trực tiếp tại Sảnh Chính, KHÔNG hiện ô to che màn hình!) -->
+  <!-- 3B. ON-SCREEN DIRECT HALL ACTIONS (Gọn gàng 8 nút thao tác trực tiếp tại Sảnh, KHÔNG trùng lặp và KHÔNG đè lên thanh Dock 8 nút bên dưới! #mvz9o3901v) -->
   <div class="quick-offering-bar">
     <button id="btnGlobalAutoFarm" class="qo-btn" style="background:linear-gradient(135deg,#00c853,#1b5e20);color:#fff;border-color:#ffd740;font-weight:900;" onclick="toggleGlobalAutoFarmMerit()">⚡ Tự Cày: TẮT</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#ef6c00,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="performDirectHallAction('bow')">🙇 Quỳ Lạy</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#1565c0,#0d47a1);color:#fff;border-color:#80d8ff;" onclick="performDirectHallAction('pray')">🙏 Vái Khấn</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;border-color:#a5d6a7;" onclick="toggleHallOfferingStrip()">🎁 Đặt Lễ</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#f57f17,#c62828);color:#fff;border-color:#fff59d;font-weight:900;" onclick="donateTempleMeritCongDuc()">🙏 Công Đức</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#0277bd,#01579b);color:#fff;border-color:#80d8ff;" onclick="manualTakeDownOffering()">📤 Hạ Lễ</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼 Tương Tác</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#b71c1c,#7f0000);color:#ffe082;border-color:#ffd54f;" onclick="openSoKhanModal()">📜 Viết Sớ</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">☯️ Xăm · Tử Vi</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🥊 Xả Nghiệp</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#4a148c,#880e4f);color:#ffd740;border-color:#fff59d;font-weight:900;" onclick="openQuestUpgradeModal('realms')">👘 Tủ Trang Phục</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#d84315,#004d40);color:#fff;border-color:#ffd54f;font-weight:900;" onclick="toggleNpcInteractBar()">🤼 Tương Tác</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#f57f17,#c62828);color:#fff;border-color:#fff59d;font-weight:900;" onclick="donateTempleMeritCongDuc()">🙏 Công Đức</button>
   </div>
 
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH NEO GỌN Ở GÓC TRÊN TRÁI (Không bao giờ đè lên nhân vật hay tượng Phật!) -->
@@ -1391,10 +1387,6 @@
       <button class="dock-item highlight-red" style="background:linear-gradient(180deg,#ff6f00,#b71c1c);border:1.5px solid #fff59d;box-shadow:0 0 12px rgba(255,111,0,0.6);" onclick="openQuestUpgradeModal('realms')">
         <span class="dock-icon">👑👘</span>
         <span class="dock-label">10 Bậc · Trang Phục</span>
-      </button>
-      <button id="dockChantBtn" class="dock-item" onclick="toggleRealChanting()">
-        <span class="dock-icon">📿</span>
-        <span class="dock-label" id="dockChantLabel">Tụng Kinh</span>
       </button>
     </div>
   </div>
@@ -6539,6 +6531,18 @@
       for (let i = 1; i <= st.cultivationLv; i++) {
         st.unlockedOutfits[i] = true;
       }
+      // V94 (#mvz9o3901v): Đồng bộ tiến độ Bậc 4 Tỳ Kheo Tinh Tấn của tài khoản chính "Thành" giữa Máy tính & Điện thoại
+      if ((player?.name || 'Thành') === 'Thành' && !st.v94SyncedThanhRank4) {
+        if (st.cultivationLv < 4) st.cultivationLv = 4;
+        if (st.equippedOutfitLv < 4) st.equippedOutfitLv = 4;
+        if (!st.unlockedOutfits) st.unlockedOutfits = {};
+        st.unlockedOutfits[1] = true;
+        st.unlockedOutfits[2] = true;
+        st.unlockedOutfits[3] = true;
+        st.unlockedOutfits[4] = true;
+        st.v94SyncedThanhRank4 = true;
+        try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
+      }
       if (typeof st.equippedOutfitLv !== 'number' || st.equippedOutfitLv < 1) st.equippedOutfitLv = 1;
       if (!st.unlockedOutfits[st.equippedOutfitLv]) {
         st.equippedOutfitLv = st.cultivationLv || 1;
@@ -7828,11 +7832,7 @@
     }
 
     function pickRandomSpeechForChar(charName, wing = 0) {
-      const tag = getCharRoleTag(charName);
-      const roleLines = ROLE_SPEECH_DB[tag];
-      if (roleLines && roleLines.length > 0 && Math.random() < 0.72) {
-        return roleLines[Math.floor(Math.random() * roleLines.length)];
-      }
+      // V94 (#mvz9o3901v): Khách vãng lai trong Chánh Điện chỉ khấn câu ngắn gọn trang nghiêm 1 dòng (không hiện câu than thở dài 4 dòng che khuất nhân vật chính!)
       const list = visitorPrayersByWing[String(wing === 1 ? 1 : 0)] || visitorPrayersByWing['0'];
       return list[Math.floor(Math.random() * list.length)];
     }
@@ -11913,12 +11913,37 @@
             }
           }
           if (isPlayer) {
-            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel };
+            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank };
           }
         }
       }
       if (window._lastPlayerBadgePos && !(cameraPovMode === 'first')) {
-        drawRoundedBadge(window._lastPlayerBadgePos.sx, window._lastPlayerBadgePos.headY, window._lastPlayerBadgePos.avatar, window._lastPlayerBadgePos.badgeLabel, true);
+        const lp = window._lastPlayerBadgePos;
+        drawRoundedBadge(lp.sx, lp.headY, lp.avatar, lp.badgeLabel, true);
+        if (lp.topRank >= 1 && lp.topRank <= 3) {
+          const rankLabels = { 1: '👑 TOP 1 VINH DANH', 2: '🥈 TOP 2 VINH DANH', 3: '🥉 TOP 3 VINH DANH' };
+          const rTxt = rankLabels[lp.topRank];
+          ctx.save();
+          ctx.font = '900 9.2px sans-serif';
+          const rw = ctx.measureText(rTxt).width + 12;
+          const ry = lp.headY - 19;
+          const rGrad = ctx.createLinearGradient(lp.sx - rw / 2, ry - 7, lp.sx + rw / 2, ry + 7);
+          rGrad.addColorStop(0, '#ffd700');
+          rGrad.addColorStop(0.5, '#fff59d');
+          rGrad.addColorStop(1, '#ff8f00');
+          ctx.fillStyle = rGrad;
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.25;
+          ctx.beginPath();
+          ctx.roundRect(lp.sx - rw / 2, ry - 7, rw, 14, 7);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = '#260800';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(rTxt, lp.sx, ry - 0.5);
+          ctx.restore();
+        }
       }
 
       // V90 (#mvyy0alf1n): VẼ MÂM LỄ VẬT Ở LỚP TRÊN CÙNG (SAU TẤT CẢ NHÂN VẬT & HUY HIỆU) + NÂNG CAO LÊN MẶT BÀN THỜ GỖ THƯỢNG TẦNG (v = 0.276, ngang hàng lọ hoa lục bình & chân nến đồng) ĐỂ NỔI BẬT 100%, KHÔNG BAO GIỜ BỊ CHE KHUẤT!
@@ -13089,7 +13114,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 93;
+        const CURRENT_BUILD_VER = 94;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
