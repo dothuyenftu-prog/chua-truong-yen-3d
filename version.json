@@ -1,5 +1,5 @@
 {
-  "version": 91,
-  "updatedAt": "2026-11-02T14:44:30+07:00",
-  "note": "V91: Xóa vĩnh viễn tài khoản ảo 'Thế Anh' (320 💎) khỏi Bảng Xếp Hạng Phước Đức, kho lưu trữ cục bộ và bộ đồng bộ mạng."
+  "version": 92,
+  "updatedAt": "2026-11-02T14:48:20+07:00",
+  "note": "V92: Khóa mỗi tài khoản / thiết bị chỉ chơi 1 Nick duy nhất và cho phép đổi tên hiển thị bất kỳ lúc nào (giữ nguyên 100% Điểm Phước Đức 💎, Trang Phục 10 Bậc, Nhiệm Vụ & tự động xoá tên cũ khỏi Bảng Xếp Hạng để không bao giờ sinh ra nick ảo trùng lặp)."
 }
