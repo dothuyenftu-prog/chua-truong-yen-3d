@@ -7973,14 +7973,15 @@
     }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 726147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 1, registered: true },
+        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 726147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 5, registered: true },
         'Thành': { name: 'Thành', merit: 61593, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 4, registered: true },
-        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
-        'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 1, registered: true },
-        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 12400, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 1, registered: true },
-        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 9800, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 1, registered: true },
-        'Sale Huế': { name: 'Sale Huế', merit: 8600, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 1, registered: true },
-        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 7200, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 1, registered: true }
+        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 4, registered: true },
+        'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 3, registered: true },
+        'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 3, registered: true },
+        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 12400, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 2, registered: true },
+        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 9800, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 2, registered: true },
+        'Sale Huế': { name: 'Sale Huế', merit: 8600, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 2, registered: true },
+        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 7200, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 2, registered: true }
       };
       let merged = { ...defaults };
       try {
@@ -10190,18 +10191,21 @@
         if (data.accounts && typeof data.accounts === 'object') {
           for (const [accName, accInfo] of Object.entries(data.accounts)) {
             if (isDeletedGhostAccount(accName)) continue;
-            if (!allCharProfiles[accName]) allCharProfiles[accName] = {};
+            if (!allCharProfiles[accName]) allCharProfiles[accName] = { name: accName };
             const localM = Number(allCharProfiles[accName].merit || 0);
             const srvM = Number(accInfo.merit || 0);
             allCharProfiles[accName].merit = Math.max(localM, srvM, 50);
             allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
             allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
+            if (accInfo.outfitLv) allCharProfiles[accName].outfitLv = Math.max(Number(allCharProfiles[accName].outfitLv || 1), Number(accInfo.outfitLv));
             allCharProfiles[accName].registered = true;
             if (accName === player.name && allCharProfiles[accName].merit > player.merit) {
               player.merit = allCharProfiles[accName].merit;
               syncMeritAndBagHud();
             }
           }
+          try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
+          if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
         }
         return;
       }
@@ -11418,6 +11422,10 @@
           }
           g.phaseTick -= dt60;
           if (g.phaseTick <= 0 && g.chatTimer <= 0) {
+            if (g.name && allCharProfiles[g.name] && g.name !== player.name) {
+              allCharProfiles[g.name].merit = Number(allCharProfiles[g.name].merit || 100) + 12 + Math.floor(Math.random() * 18);
+              if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
+            }
             g.phase = 'leaving';
             g.state = 'walk';
             g.chat = '';
@@ -13147,7 +13155,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 96;
+        const CURRENT_BUILD_VER = 97;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
