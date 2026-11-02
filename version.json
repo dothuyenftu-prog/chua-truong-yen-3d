@@ -1,5 +1,5 @@
 {
-  "version": 85,
-  "updatedAt": "2026-11-02T14:01:15+07:00",
-  "note": "V85: Bo 100% hinh ve 2D chu V cu tren lung nhan vat, thay toan bo nhan vat trong sanh chua bang 10 nhan vat chup studio that theo bac + tu dong cap nhat phien ban"
+  "version": 86,
+  "updatedAt": "2026-11-02T14:11:00+07:00",
+  "note": "V86: Tắt mặc định bảng chọn trang phục trên điện thoại (không chắn màn hình, có nút ✕ Đóng lớn và tự đóng sau khi chọn) + Đồng bộ realtime trang phục (outfitLv 1..10) của tất cả mọi người đang Online"
 }

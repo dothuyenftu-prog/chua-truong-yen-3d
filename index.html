@@ -1305,6 +1305,7 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">☯️ Xăm · Tử Vi</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🥊 Xả Nghiệp</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#4a148c,#880e4f);color:#ffd740;border-color:#fff59d;font-weight:900;" onclick="toggleHallQuickOutfitStrip()">👘 Chọn Bậc</button>
   </div>
 
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH NEO GỌN Ở GÓC TRÊN TRÁI (Không bao giờ đè lên nhân vật hay tượng Phật!) -->
@@ -1377,23 +1378,28 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- V84 (#mvyvzz7715 & #mvyw0d3816): THANH ĐỔI NHÂN VẬT CHUẨN THEO TỪNG BẬC (1->10) CÓ NÚT [✕ ĐÓNG] VÀ NÚT MỞ LẠI GỌN GÀNG -->
-  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; bottom:76px; transform:translateX(-50%); z-index:44; display:flex; align-items:center; gap:3.5px; flex-wrap:wrap; justify-content:center; width:min(850px, 98vw); background:rgba(18,7,2,0.96); border:1.5px solid #ffd54f; border-radius:12px; padding:4px 7px; box-shadow:0 6px 20px rgba(0,0,0,0.9);">
-    <span style="font-size:9.6px; font-weight:900; color:#ffd740; margin-right:1px;">🧘 Nhân Vật 10 Bậc:</span>
-    <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#b0bec5; color:#eceff1; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(1)"><img src="assets/outfit_rank_1.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>1.Cư Sĩ</button>
-    <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#a1887f; color:#efebe9; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(2)"><img src="assets/outfit_rank_2.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>2.Chú Tiểu</button>
-    <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ffb74d; color:#ffe0b2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(3)"><img src="assets/outfit_rank_3.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>3.Sa Di</button>
-    <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ffa726; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(4)"><img src="assets/outfit_rank_4.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>4.Tỳ Kheo</button>
-    <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ff7043; color:#ffccbc; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(5)"><img src="assets/outfit_rank_5.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>5.Đại Đức</button>
-    <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ff5252; color:#ffcdd2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(6)"><img src="assets/outfit_rank_6.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>6.Trụ Trì</button>
-    <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#e040fb; color:#f3e5f5; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(7)"><img src="assets/outfit_rank_7.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>7.Hòa Thượng</button>
-    <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ffd740; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(8)"><img src="assets/outfit_rank_8.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>8.La Hán</button>
-    <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#69f0ae; color:#b9f6ca; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(9)"><img src="assets/outfit_rank_9.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>9.Bồ Tát</button>
-    <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9px; padding:2px 6px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(10)"><img src="assets/outfit_rank_10.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>10.Chính Quả</button>
-    <button type="button" class="qo-btn" style="font-size:9px; padding:2.5px 6px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="openQuestUpgradeModal('realms')">📋 Tủ Đồ</button>
-    <button type="button" class="qo-btn" style="font-size:9px; padding:2.5px 7px; background:linear-gradient(135deg,#c62828,#8e0000); border-color:#ff8a80; color:#fff; font-weight:900;" onclick="toggleHallQuickOutfitStrip(false)" title="Đóng / Ẩn thanh chọn bậc nhân vật">✕ Tắt</button>
+  <!-- V86 (#mvywptr71d & #mvywqfcz1e): THANH ĐỔI NHÂN VẬT 10 BẬC TẮT MẶC ĐỊNH ĐỂ KHÔNG CHE MÀN HÌNH ĐIỆN THOẠI + NÚT [✕ ĐÓNG] TO RÕ Ở TRÊN CÙNG & TỰ ĐÓNG KHI CHỌN -->
+  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; top:52px; transform:translateX(-50%); z-index:98; display:none; flex-direction:column; gap:6px; width:min(540px, 95vw); background:rgba(18,7,2,0.98); border:2px solid #ffd54f; border-radius:14px; padding:8px 10px; box-shadow:0 10px 28px rgba(0,0,0,0.95);">
+    <div style="display:flex; justify-content:space-between; align-items:center; width:100%; border-bottom:1px solid rgba(255,213,79,0.35); padding-bottom:5px;">
+      <span style="font-size:11px; font-weight:900; color:#ffd740;">🧘👘 CHỌN NHÂN VẬT 10 BẬC (TỰ ĐÓNG SAU KHI CHỌN):</span>
+      <button type="button" onclick="toggleHallQuickOutfitStrip(false)" style="background:linear-gradient(135deg,#d50000,#8e0000); border:1.5px solid #ffcdd2; color:#fff; border-radius:8px; padding:4px 12px; font-size:11px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.6);">✕ Đóng</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap; justify-content:center;">
+      <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#b0bec5; color:#eceff1; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(1)"><img src="assets/outfit_rank_1.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>1.Cư Sĩ</button>
+      <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#a1887f; color:#efebe9; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(2)"><img src="assets/outfit_rank_2.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>2.Chú Tiểu</button>
+      <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ffb74d; color:#ffe0b2; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(3)"><img src="assets/outfit_rank_3.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>3.Sa Di</button>
+      <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ffa726; color:#fff59d; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(4)"><img src="assets/outfit_rank_4.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>4.Tỳ Kheo</button>
+      <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ff7043; color:#ffccbc; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(5)"><img src="assets/outfit_rank_5.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>5.Đại Đức</button>
+      <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ff5252; color:#ffcdd2; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(6)"><img src="assets/outfit_rank_6.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>6.Trụ Trì</button>
+      <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#e040fb; color:#f3e5f5; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(7)"><img src="assets/outfit_rank_7.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>7.Hòa Thượng</button>
+      <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ffd740; color:#fff59d; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(8)"><img src="assets/outfit_rank_8.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>8.La Hán</button>
+      <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#69f0ae; color:#b9f6ca; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(9)"><img src="assets/outfit_rank_9.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>9.Bồ Tát</button>
+      <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9.5px; padding:3px 7px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(10)"><img src="assets/outfit_rank_10.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>10.Chính Quả</button>
+      <button type="button" class="qo-btn" style="font-size:9.5px; padding:3.5px 8px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="toggleHallQuickOutfitStrip(false); openQuestUpgradeModal('realms')">📋 Tủ Đồ</button>
+      <button type="button" class="qo-btn" style="font-size:9.5px; padding:3.5px 10px; background:linear-gradient(135deg,#c62828,#8e0000); border-color:#ff8a80; color:#fff; font-weight:900;" onclick="toggleHallQuickOutfitStrip(false)">✕ Tắt</button>
+    </div>
   </div>
-  <button type="button" id="btnReopenOutfitStrip" onclick="toggleHallQuickOutfitStrip(true)" style="position:fixed; right:10px; bottom:78px; z-index:44; display:none; background:linear-gradient(135deg,#4a148c,#880e4f); color:#ffd740; border:1.5px solid #ffd54f; border-radius:999px; padding:4px 10px; font-size:10px; font-weight:900; box-shadow:0 4px 12px rgba(0,0,0,0.8); cursor:pointer;">👘 Đổi Nhân Vật 10 Bậc</button>
+  <button type="button" id="btnReopenOutfitStrip" onclick="toggleHallQuickOutfitStrip()" style="position:fixed; left:10px; bottom:112px; z-index:44; display:none; background:linear-gradient(135deg,#4a148c,#880e4f); color:#ffd740; border:1.5px solid #ffd54f; border-radius:999px; padding:4px 10px; font-size:10px; font-weight:900; box-shadow:0 4px 12px rgba(0,0,0,0.8); cursor:pointer;">👘 Đổi Nhân Vật 10 Bậc</button>
 
   <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
   <div class="bottom-dock-wrap">
@@ -2098,10 +2104,13 @@
       </div>
 
       <!-- V80 (#mvyv22isx): BẢNG NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH & KHO 10 BỘ TRANG PHỤC NGAY TRONG BẢNG PHƯỚC ĐỨC -->
-      <div style="background:linear-gradient(135deg,rgba(58,18,6,0.97),rgba(28,8,42,0.97)); border:2px solid #ffd740; border-radius:12px; padding:9px 11px; margin-bottom:9px; box-shadow:0 4px 16px rgba(0,0,0,0.7);">
+      <div id="shopRealmOutfitsBoxWrap" style="background:linear-gradient(135deg,rgba(58,18,6,0.97),rgba(28,8,42,0.97)); border:2px solid #ffd740; border-radius:12px; padding:9px 11px; margin-bottom:9px; box-shadow:0 4px 16px rgba(0,0,0,0.7);">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
           <span style="font-size:11.8px; font-weight:900; color:#ffd740;">👑👘 NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH & ĐỔI 10 BỘ TRANG PHỤC BẰNG PHƯỚC:</span>
-          <button type="button" onclick="closeMeritShopModal(); openQuestUpgradeModal('realms');" style="background:linear-gradient(135deg,#ff6f00,#d50000); color:#fff; border:1.5px solid #fff59d; border-radius:8px; padding:4px 10px; font-size:10.5px; font-weight:900; cursor:pointer;">🔍 Mở Toàn Màn Hình 10 Bậc</button>
+          <div style="display:flex; gap:5px; align-items:center;">
+            <button type="button" onclick="closeMeritShopModal(); openQuestUpgradeModal('realms');" style="background:linear-gradient(135deg,#ff6f00,#d50000); color:#fff; border:1.5px solid #fff59d; border-radius:8px; padding:4px 10px; font-size:10.5px; font-weight:900; cursor:pointer;">🔍 Mở Toàn Màn Hình</button>
+            <button type="button" onclick="const el=document.getElementById('shopRealmOutfitsQuickList'); if(el){el.style.display=el.style.display==='none'?'flex':'none'; this.textContent=el.style.display==='none'?'▼ Mở':'✕ Ẩn';}" style="background:#c62828; color:#fff; border:1px solid #ffcdd2; border-radius:8px; padding:4px 9px; font-size:10.5px; font-weight:900; cursor:pointer;">✕ Ẩn</button>
+          </div>
         </div>
         <div id="shopRealmOutfitsQuickList" style="max-height:215px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px;">
         </div>
@@ -6570,9 +6579,24 @@
         }
         const savedLv = Math.max(1, Math.min(10, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
         if (savedLv > 1) return savedLv;
+        if (player?.name && typeof allCharProfiles === 'object' && allCharProfiles[player.name]?.outfitLv >= 1) {
+          return Math.max(1, Math.min(10, Number(allCharProfiles[player.name].outfitLv)));
+        }
         return getRealmLvByMeritAmount(player?.merit || 0);
       }
-      if (devoteeObj && devoteeObj._realmLv) {
+      if (devoteeObj && typeof devoteeObj.name === 'string') {
+        if (typeof onlineCompanyPeers === 'object' && onlineCompanyPeers) {
+          for (const peer of Object.values(onlineCompanyPeers)) {
+            if (peer && peer.name === devoteeObj.name && peer._realmLv >= 1 && peer._realmLv <= 10) {
+              return Math.max(1, Math.min(10, Number(peer._realmLv)));
+            }
+          }
+        }
+        if (typeof allCharProfiles === 'object' && allCharProfiles[devoteeObj.name]?.outfitLv >= 1 && allCharProfiles[devoteeObj.name]?.outfitLv <= 10) {
+          return Math.max(1, Math.min(10, Number(allCharProfiles[devoteeObj.name].outfitLv)));
+        }
+      }
+      if (devoteeObj && devoteeObj._realmLv >= 1 && devoteeObj._realmLv <= 10) {
         return Math.max(1, Math.min(10, Number(devoteeObj._realmLv)));
       }
       if (devoteeObj) {
@@ -6581,7 +6605,7 @@
         if (typeof devoteeObj.name === 'string') {
           let h = 0;
           for (let i = 0; i < devoteeObj.name.length; i++) h = (h * 31 + devoteeObj.name.charCodeAt(i)) % 997;
-          return (h % 6) + 1; // Đa dạng nhân vật từ Bậc 1 đến Bậc 6 trong sảnh chùa
+          return (h % 6) + 1;
         }
       }
       return 1;
@@ -6779,6 +6803,30 @@
       updateTopBarQuestRealmBadge(st);
     }
 
+    function syncMyOutfitToOnlinePeers(lv) {
+      const safeLv = Math.max(1, Math.min(10, Number(lv || 1)));
+      if (player) {
+        player._realmLv = safeLv;
+        if (player.name && typeof allCharProfiles === 'object' && allCharProfiles) {
+          if (!allCharProfiles[player.name]) allCharProfiles[player.name] = {};
+          allCharProfiles[player.name].outfitLv = safeLv;
+          try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
+        }
+      }
+      if (typeof broadcastMyPresence === 'function') broadcastMyPresence(true);
+      if (typeof syncAccountMeritToServer === 'function') syncAccountMeritToServer();
+      if (typeof publishMqtt === 'function' && player?.name) {
+        publishMqtt({
+          type: 'outfit_change',
+          sender: typeof clientId !== 'undefined' ? clientId : '',
+          name: player.name,
+          outfitLv: safeLv,
+          merit: Number(player.merit || 0),
+          wing: player.wing === 1 ? 1 : 0
+        });
+      }
+    }
+
     function upgradeCharacterRealmByMerit(targetLv) {
       unlockAndStartAudio();
       const st = getPlayerQuestState();
@@ -6797,16 +6845,18 @@
       const curMerit = Number(player?.merit || 0);
       if (curMerit < cfg.meritCost) {
         const missing = (cfg.meritCost - curMerit).toLocaleString('vi-VN');
-        showToast(`⚠️ Con đường tu hành gian nan! Cần ${cfg.meritCost.toLocaleString('vi-VN')} 💎 Phước để đạt "${cfg.name}" (Còn thiếu ${missing} 💎 Phước). Bạn có thể bấm "👁️ Mặc Thử 25s" để chiêm ngưỡng trước!`);
+        showToast(`⚠️ Con đường tu hành gian nan! Cần ${cfg.meritCost.toLocaleString('vi-VN')} 💎 Phước để đạt "${cfg.name}" (Còn thiếu ${missing} 💎 Phước). Bạn có thể bấm "👕 Mặc Ngay Ra Sảnh" để khoác ngay!`);
         return;
       }
       addMerit(-cfg.meritCost, `Đột phá Bậc Tu Hành ${cfg.shortTitle} (-${cfg.meritCost.toLocaleString('vi-VN')} 💎)`);
       st.cultivationLv = cfg.lv;
       st.equippedOutfitLv = cfg.lv;
-      previewOutfitLevel = 0;
+      st.userPickedOutfitLv = cfg.lv;
+      previewOutfitLevel = cfg.lv;
       savePlayerQuestState(st);
+      syncMyOutfitToOnlinePeers(cfg.lv);
       playBellSound();
-      showToast(`🌟 ĐỘT PHÁ BẬC TU HÀNH ${cfg.lv}/10: ${cfg.name}! Đã khoác ${cfg.outfitName}!`);
+      showToast(`🌟 ĐỘT PHÁ BẬC TU HÀNH ${cfg.lv}/10: ${cfg.name}! Mọi người đang Online đều thấy nhân vật mới của bạn!`);
       appendMeritLog(`👑 <b>${player.name}</b> đã viên mãn công đức đột phá lên <b style="color:${cfg.colorHex};">${cfg.shortTitle}: ${cfg.name}</b> — Khoác <b>${cfg.outfitName}</b>!`);
       renderQuestUpgradeModal();
     }
@@ -6816,11 +6866,13 @@
       const st = getPlayerQuestState();
       if (lv > (st.cultivationLv || 1)) return;
       st.equippedOutfitLv = lv;
-      previewOutfitLevel = 0;
+      st.userPickedOutfitLv = lv;
+      previewOutfitLevel = lv;
       savePlayerQuestState(st);
+      syncMyOutfitToOnlinePeers(lv);
       const cfg = getRealmConfigByLv(lv);
       playMoSound();
-      showToast(`👕 Đã khoác Pháp Phục: ${cfg.outfitName} (${cfg.outfitColorLabel})!`);
+      showToast(`👕 Đã khoác Pháp Phục: ${cfg.outfitName} — Đã đồng bộ cho mọi người Online!`);
       renderQuestUpgradeModal();
     }
 
@@ -6896,6 +6948,8 @@
       if (player) {
         player._realmLv = cfg.lv;
       }
+      syncMyOutfitToOnlinePeers(cfg.lv);
+      toggleHallQuickOutfitStrip(false);
       updateTopBarQuestRealmBadge(st);
       renderQuestUpgradeModal();
       closeQuestUpgradeModal();
@@ -6903,7 +6957,7 @@
       playBellSound();
       player.chat = `🧘✨ Con đã hóa thân thành nhân vật [${cfg.shortTitle}]: ${cfg.outfitName}!`;
       player.chatTimer = 260;
-      showToast(`🧘✨ Đã đổi nhân vật sang [${cfg.shortTitle}]: ${cfg.outfitName}!`);
+      showToast(`🧘✨ Đã đổi nhân vật sang [${cfg.shortTitle}] & đồng bộ cho mọi người Online!`);
     }
 
     // V85 (#mvywfsn71b): Bỏ toàn bộ hình vẽ 2D rối mắt quanh lưng/đầu, chỉ vẽ đế tròn ánh vàng tinh tế dưới chân để tôn 100% ảnh chụp thật của nhân vật 10 bậc
@@ -8027,9 +8081,10 @@
       return 'http://192.168.1.13:8899';
     }
 
-    function syncSpecificAccountToServer(accName, meritVal, congDucVal, genderVal, deptVal, honorNote) {
+    function syncSpecificAccountToServer(accName, meritVal, congDucVal, genderVal, deptVal, honorNote, outfitLvVal) {
       if (!accName || accName === 'Sếp Thành') return;
       if (window.location.search && window.location.search.includes('demo=')) return;
+      const resolvedOutfitLv = Number(outfitLvVal) || (accName === player?.name ? getActiveCharacterOutfitLv(player) : Number(allCharProfiles[accName]?.outfitLv || 0));
       const payload = {
         type: 'account_merit_sync',
         name: accName,
@@ -8038,6 +8093,7 @@
         congDuc: Number(congDucVal ?? 1),
         gender: genderVal || 'F',
         dept: deptVal || (typeof getCharDeptName === 'function' ? getCharDeptName(accName) : 'Phật Tử'),
+        outfitLv: resolvedOutfitLv,
         registered: true,
         honorNote: honorNote || ''
       };
@@ -8063,13 +8119,16 @@
         player.merit,
         typeof myZaloCongDucCount === 'number' ? myZaloCongDucCount : 1,
         player.gender || 'F',
-        typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'
+        typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử',
+        allCharProfiles[player.name]?.honorNote || '',
+        getActiveCharacterOutfitLv(player)
       );
     }
 
     function saveCurrentCharProfile() {
       if (!player || !player.name || player.name === 'Sếp Thành') return;
       const prevHonorNote = allCharProfiles[player.name]?.honorNote || '';
+      const activeLv = getActiveCharacterOutfitLv(player);
       allCharProfiles[player.name] = {
         ...(allCharProfiles[player.name] || {}),
         name: player.name,
@@ -8078,6 +8137,7 @@
         gender: player.gender || 'F',
         dept: (player.name === 'Thành') ? 'Thành Viên' : (typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'),
         avatar: (player.name === 'Thành') ? '🧘‍♂️' : (player.avatar || (player.gender === 'M' ? '🧘‍♂️' : '🪷')),
+        outfitLv: activeLv,
         pin: allCharProfiles[player.name]?.pin || currentAccountPin || '1234',
         registered: true,
         honorNote: prevHonorNote,
@@ -10144,12 +10204,50 @@
         allCharProfiles[data.name].congDuc = Number(data.congDuc ?? 1);
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
         if (data.dept) allCharProfiles[data.name].dept = data.dept;
+        if (data.outfitLv) {
+          allCharProfiles[data.name].outfitLv = Math.max(1, Math.min(10, Number(data.outfitLv)));
+        }
         allCharProfiles[data.name].registered = true;
         if (data.honorNote) allCharProfiles[data.name].honorNote = data.honorNote;
+        // Đồng bộ ngay vào nhân vật đang đứng trong điện của người chơi đó (peer hoặc NPC đại diện)
+        for (const peerObj of Object.values(onlineCompanyPeers)) {
+          if (peerObj && peerObj.name === data.name) {
+            peerObj.merit = Number(data.merit ?? peerObj.merit ?? 50);
+            if (data.outfitLv) peerObj.outfitLv = Math.max(1, Math.min(10, Number(data.outfitLv)));
+          }
+        }
+        for (const npcObj of (hallNpcs || [])) {
+          if (npcObj && npcObj.name === data.name) {
+            npcObj.merit = Number(data.merit ?? npcObj.merit ?? 50);
+            if (data.outfitLv) npcObj.outfitLv = Math.max(1, Math.min(10, Number(data.outfitLv)));
+          }
+        }
         try {
           localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
         } catch (e) {}
         if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
+        return;
+      }
+      if (data.type === 'outfit_change' && data.name) {
+        const newLv = Math.max(1, Math.min(10, Number(data.outfitLv || 1)));
+        if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name };
+        allCharProfiles[data.name].outfitLv = newLv;
+        if (data.merit !== undefined) allCharProfiles[data.name].merit = Number(data.merit);
+        for (const peerObj of Object.values(onlineCompanyPeers)) {
+          if (peerObj && peerObj.name === data.name) {
+            peerObj.outfitLv = newLv;
+            if (data.merit !== undefined) peerObj.merit = Number(data.merit);
+          }
+        }
+        for (const npcObj of (hallNpcs || [])) {
+          if (npcObj && npcObj.name === data.name) {
+            npcObj.outfitLv = newLv;
+            if (data.merit !== undefined) npcObj.merit = Number(data.merit);
+          }
+        }
+        try {
+          localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+        } catch (e) {}
         return;
       }
       if (data.sender === clientId) return;
@@ -10225,11 +10323,14 @@
       }
       if (data.type === 'presence' || data.type === 'chat' || data.type === 'ritual') {
         const safeWing = (data.wing === 1) ? 1 : 0;
+        const incomingOutfitLv = data.outfitLv ? Math.max(1, Math.min(10, Number(data.outfitLv))) : undefined;
         const existing = onlineCompanyPeers[data.sender] || {
           id: data.sender,
           name: data.name || 'Thành Viên Công Ty',
           avatar: data.avatar || '🪷',
           gender: data.gender || 'F',
+          outfitLv: incomingOutfitLv,
+          merit: typeof data.merit === 'number' ? data.merit : undefined,
           wing: safeWing,
           u: (typeof data.u === 'number') ? data.u : 0.42,
           v: (typeof data.v === 'number') ? data.v : 0.62,
@@ -10245,6 +10346,20 @@
         existing.name = data.name || existing.name;
         existing.avatar = data.avatar || existing.avatar;
         existing.gender = data.gender || existing.gender;
+        if (incomingOutfitLv) {
+          existing.outfitLv = incomingOutfitLv;
+          if (existing.name) {
+            if (!allCharProfiles[existing.name]) allCharProfiles[existing.name] = { name: existing.name };
+            allCharProfiles[existing.name].outfitLv = incomingOutfitLv;
+          }
+        }
+        if (typeof data.merit === 'number') {
+          existing.merit = data.merit;
+          if (existing.name) {
+            if (!allCharProfiles[existing.name]) allCharProfiles[existing.name] = { name: existing.name };
+            allCharProfiles[existing.name].merit = Math.max(Number(allCharProfiles[existing.name].merit || 0), data.merit);
+          }
+        }
         existing.wing = safeWing;
         if (typeof data.u === 'number') existing.targetU = data.u;
         if (typeof data.v === 'number') existing.targetV = data.v;
@@ -10342,12 +10457,15 @@
       const now = Date.now();
       if (!force && now - lastPresenceBroadcastMs < 350) return;
       lastPresenceBroadcastMs = now;
+      const myActiveOutfitLv = typeof getActiveCharacterOutfitLv === 'function' ? getActiveCharacterOutfitLv(player) : 1;
       const payload = {
         type: 'presence',
         sender: clientId,
         name: player.name,
         avatar: player.avatar,
         gender: player.gender,
+        outfitLv: myActiveOutfitLv,
+        merit: Number(player.merit || 0),
         wing: player.wing === 1 ? 1 : 0,
         u: Math.round(player.targetU * 1000) / 1000,
         v: Math.round(player.targetV * 1000) / 1000,
@@ -10356,6 +10474,13 @@
       };
       publishMqtt(payload);
     }
+
+    // V86: Đồng bộ định kỳ vị trí + trang phục (outfitLv) mỗi 2.5 giây để mọi người Online luôn nhìn thấy trang phục của nhau tức thì (#mvywqfcz1e)
+    setInterval(() => {
+      if (isOnlinePresenceMode && player && player.name) {
+        broadcastMyPresence(true);
+      }
+    }, 2500);
 
     if (localPresenceChannel) {
       localPresenceChannel.onmessage = (ev) => handleIncomingPresence(ev.data);
@@ -12925,7 +13050,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 85;
+        const CURRENT_BUILD_VER = 86;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
