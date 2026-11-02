@@ -1,5 +1,5 @@
 {
-  "version": 88,
-  "updatedAt": "2026-11-02T14:28:00+07:00",
-  "note": "V88: Thêm xác suất X20, X50, X100 (9 bậc X0..X100) + Sửa lỗi động tác Quỳ Lạy sát đất trên bồ đoàn cho nhân vật mọi bậc trang phục (1..10)"
+  "version": 89,
+  "updatedAt": "2026-11-02T14:31:45+07:00",
+  "note": "V89: Thêm bậc X100 (0.15%) & X500 tỉ lệ cực thấp (0.03%) + Nâng mâm lễ vật lên cao trên mặt Bàn Thờ chính (không bị nhãn Top 1/2/3 che khuất)"
 }

@@ -1002,7 +1002,7 @@
         <button id="tabPano" class="chip-btn" onclick="cycleCameraPov()">👁️ Góc Nhìn: Thứ 3</button>
         <button id="btnOnlineMode" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#81c784;" onclick="toggleOnlinePresenceMode()">🟢 Online (<span id="onlineCountLabel">1/15</span>)</button>
         <button id="btnServerMode" class="chip-btn active" style="background:linear-gradient(135deg,#00695c,#004d40);color:#a7ffeb;border-color:#64ffda;" onclick="toggleTopUtilityMenu(); openServerSwitchModal();">⚡ Server: <span id="netModeBadge">Đang kết nối...</span></button>
-        <button id="meritBuffBadge" class="chip-btn active" style="background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;border-color:#ffd740;" onclick="toggleTopUtilityMenu(); openGoldFurnaceRoom();">🔥 Xác Suất: X0·X1·X2·X3·X5·X10·X20·X50·X100</button>
+        <button id="meritBuffBadge" class="chip-btn active" style="background:linear-gradient(135deg,#ff6f00,#e65100);color:#fff;border-color:#ffd740;" onclick="toggleTopUtilityMenu(); openGoldFurnaceRoom();">🔥 Xác Suất: X0·X1·X2·X3·X5·X10·X20·X50·X100·X500</button>
       </div>
     </div>
   </div>
@@ -2100,7 +2100,7 @@
       <!-- BẢNG QUY CHUẨN TÍCH PHƯỚC XÁC SUẤT -->
       <div style="background:rgba(24,10,3,0.94); border:1px solid rgba(255,213,79,0.55); border-radius:9px; padding:6px 9px; margin-bottom:7px; font-size:9.9px; color:#ffe596; line-height:1.42;">
         🪵 <b>1. QUY CHUẨN TÍCH PHƯỚC ĐỨC CÁ NHÂN (Đua Top Phước Đức Công Bằng 100%):</b><br/>
-        • <b>Gõ Mõ:</b> Xác suất <b style="color:#80d8ff;">10%</b> · <b>Thỉnh Chuông:</b> <b style="color:#80d8ff;">20%</b> · <b>Thắp Hương / Đốt Vàng Mã / Đặt Lễ / Hạ Lễ:</b> Quay 9 bậc <b style="color:#ffd740;">X0 · X1 · X2 · X3 · X5 · X10 · X20 · X50 · X100</b> · <b>Lễ Lạy/Vái:</b> <b style="color:#80d8ff;">15%</b> (Có cơ hội nổ nhân hệ số lên tới <b style="color:#ff5252;">X20 · X50 · X100</b>!).<br/>
+        • <b>Gõ Mõ:</b> Xác suất <b style="color:#80d8ff;">10%</b> · <b>Thỉnh Chuông:</b> <b style="color:#80d8ff;">20%</b> · <b>Thắp Hương / Đốt Vàng Mã / Đặt Lễ / Hạ Lễ:</b> Quay 10 bậc <b style="color:#ffd740;">X0 · X1 · X2 · X3 · X5 · X10 · X20 · X50 · X100 · X500</b> · <b>Lễ Lạy/Vái:</b> <b style="color:#80d8ff;">15%</b> (Có cơ hội nổ nhân hệ số lên tới <b style="color:#ff5252;">X100 · X500 Siêu Hiếm</b>!).<br/>
         🔥🎁 <b>2. ĐỐT VÀNG MÃ HOẶC DÂNG LỄ → THÔNG BÁO TOÀN CHÙA + VOICE SƯ TRỤ TRÌ CẢM TẠ & KÍCH HOẠT BUFF X2 / X3:</b><br/>
         • Trạng thái Buff hiện tại: <b id="shopBuffRateStatus" style="color:#69f0ae;">Đang sẵn sàng kích hoạt X2 / X3 (Lễ từ 500💎 chắc chắn Buff X2 · Lễ từ 1.500💎 chắc chắn Buff X3!)</b>.
       </div>
@@ -2486,18 +2486,19 @@
     let autoMoInterval = null;
     let autoMoSec = 0;   // 0 = off, 1 = 1s, 2 = 2s, 3 = 3s
 
-    // V88 (#mvyx43n71i): MỞ RỘNG XÁC SUẤT 9 BẬC CHUẨN: X0 · X1 · X2 · X3 · X5 · X10 · X20 · X50 · X100 — Tỉ lệ càng cao càng hiếm & kịch tính!
+    // V89 (#mvyxj3rn1k & #mvyxjkqs1l): MỞ RỘNG XÁC SUẤT 10 BẬC CHUẨN: X0 · X1 · X2 · X3 · X5 · X10 · X20 · X50 · X100 · X500 (Tỉ lệ cực thấp 0.03%!)
     function rollSixTierMultiplier() {
       const r = Math.random();
-      if (r < 0.0015) return { mult: 100, rate: '0.15%', label: '☀️🐉 THÁNH ÂN VẠN PHẬT X100 (Tỉ lệ 0.15% Siêu Hiếm!)' };
-      if (r < 0.0050) return { mult: 50, rate: '0.35%', label: '👑🔥 KIM LIÊN ĐẠI PHƯỚC X50 (Tỉ lệ 0.35% Cực Hiếm!)' };
-      if (r < 0.0130) return { mult: 20, rate: '0.8%', label: '🌟💎 HỒNG ÂN TAM BẢO X20 (Tỉ lệ 0.8%)' };
-      if (r < 0.0300) return { mult: 10, rate: '1.7%', label: '👑 ĐẠI HỒNG ÂN X10 (Tỉ lệ 1.7%)' };
-      if (r < 0.0650) return { mult: 5, rate: '3.5%', label: '💎 ĐẠI CÁT X5 (Tỉ lệ 3.5%)' };
-      if (r < 0.1300) return { mult: 3, rate: '6.5%', label: '🔥 TAM BẢO X3 (Tỉ lệ 6.5%)' };
-      if (r < 0.2500) return { mult: 2, rate: '12%', label: '✨ SONG HỶ X2 (Tỉ lệ 12%)' };
-      if (r < 0.5000) return { mult: 1, rate: '25%', label: '🪷 LỘC X1 (Tỉ lệ 25%)' };
-      return { mult: 0, rate: '50%', label: '💨 X0 · Không có gì (Tỉ lệ 50%)' };
+      if (r < 0.0003) return { mult: 500, rate: '0.03%', label: '🌌🐉👑 VÔ THƯỢNG CHÁNH ĐẲNG X500 (Tỉ lệ 0.03% Cực Thấp Siêu Hiếm!)' };
+      if (r < 0.0018) return { mult: 100, rate: '0.15%', label: '☀️🐉 THÁNH ÂN VẠN PHẬT X100 (Tỉ lệ 0.15% Siêu Hiếm!)' };
+      if (r < 0.0053) return { mult: 50, rate: '0.35%', label: '👑🔥 KIM LIÊN ĐẠI PHƯỚC X50 (Tỉ lệ 0.35% Cực Hiếm!)' };
+      if (r < 0.0133) return { mult: 20, rate: '0.8%', label: '🌟💎 HỒNG ÂN TAM BẢO X20 (Tỉ lệ 0.8%)' };
+      if (r < 0.0303) return { mult: 10, rate: '1.7%', label: '👑 ĐẠI HỒNG ÂN X10 (Tỉ lệ 1.7%)' };
+      if (r < 0.0653) return { mult: 5, rate: '3.5%', label: '💎 ĐẠI CÁT X5 (Tỉ lệ 3.5%)' };
+      if (r < 0.1303) return { mult: 3, rate: '6.5%', label: '🔥 TAM BẢO X3 (Tỉ lệ 6.5%)' };
+      if (r < 0.2503) return { mult: 2, rate: '12%', label: '✨ SONG HỶ X2 (Tỉ lệ 12%)' };
+      if (r < 0.5003) return { mult: 1, rate: '25%', label: '🪷 LỘC X1 (Tỉ lệ 25%)' };
+      return { mult: 0, rate: '49.97%', label: '💨 X0 · Không có gì (Tỉ lệ 50%)' };
     }
 
     function strikeVisualBell() {
@@ -7454,6 +7455,7 @@
 
       const rollBonusCritMult = () => {
         const cr = Math.random();
+        if (cr < 0.0003) return { m: 500, tag: '🌌🐉 NỔ SIÊU ĐẠI LỘC X500 (0.03%)' };
         if (cr < 0.0020) return { m: 100, tag: '☀️🐉 NỔ ĐẠI LỘC X100' };
         if (cr < 0.0065) return { m: 50, tag: '👑🔥 NỔ ĐẠI LỘC X50' };
         if (cr < 0.0180) return { m: 20, tag: '🌟💎 NỔ LỘC X20' };
@@ -11225,39 +11227,48 @@
           ctx.restore();
         }
 
-        // 3. CHỈ VẼ LỄ VẬT TRÊN BÀN THỜ KHI CÓ NGƯỜI ĐẶT LỄ (Đặt gọn dưới bậc tam cấp bàn thờ — TUYỆT ĐỐI KHÔNG che Tượng Phật & Lư Hương!)
+        // V89 (#mvyxp5d01m): NÂNG LỄ VẬT LÊN CAO TRÊN MẶT BÀN THỜ CHÍNH (censerY - 26px) ĐỂ RÕ NÉT 100%, KHÔNG BAO GIỜ BỊ NHÃN TOP 1/2/3 CHE KHUẤT!
         const wingOfferings = altarOfferings[String(wd.idx)] || [];
         if (wingOfferings.length > 0) {
           ctx.save();
-          const tableY = censerY + 60 * (wingH / 960);
-          const tableW = Math.min(W - 14, Math.max(300, wingW * 0.62));
+          const tableY = censerY - 26 * (wingH / 960);
+          const tableW = Math.min(W - 14, Math.max(310, wingW * 0.65));
           const count = Math.min(5, wingOfferings.length);
-          const cardW = Math.min(98, (tableW - 12) / count - 4);
+          const cardW = Math.min(104, (tableW - 12) / count - 4);
           const cardH = 24;
           const totalCardsW = count * cardW + (count - 1) * 5;
           const startCardX = censerX - totalCardsW / 2;
-          const traySize = Math.min(34, cardW * 0.48);
+          const traySize = Math.min(44, cardW * 0.56);
 
           wingOfferings.slice(-5).forEach((off, idx) => {
             const cxCard = startCardX + idx * (cardW + 5);
             const slotCenterX = cxCard + cardW / 2;
-            const trayCenterY = tableY - traySize * 0.44;
+            const trayCenterY = tableY - traySize * 0.48;
+
+            // Đế hào quang vàng nâng mâm lễ nổi bật trên bàn thờ
+            const trayGlow = ctx.createRadialGradient(slotCenterX, tableY - 4, 2, slotCenterX, tableY - 4, traySize * 0.72);
+            trayGlow.addColorStop(0, 'rgba(255, 215, 64, 0.55)');
+            trayGlow.addColorStop(1, 'rgba(255, 160, 0, 0)');
+            ctx.fillStyle = trayGlow;
+            ctx.beginPath();
+            ctx.ellipse(slotCenterX, tableY - 3, traySize * 0.68, traySize * 0.25, 0, 0, Math.PI * 2);
+            ctx.fill();
 
             const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
             if (tex && tex.complete && tex.naturalWidth > 0) {
-              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 4, traySize, traySize);
+              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 2, traySize, traySize);
             } else {
-              ctx.font = '20px sans-serif';
+              ctx.font = '24px sans-serif';
               ctx.textAlign = 'center';
               ctx.textBaseline = 'middle';
               ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
             }
 
-            // Thẻ Bài Gọn Dưới Mỗi Mâm Lễ: Clip 100% bên trong khung
+            // Thẻ Bài Gọn Dưới Mỗi Mâm Lễ Trên Bàn Thờ: Clip 100% bên trong khung
             const cyCard = tableY + 2;
-            ctx.fillStyle = 'rgba(20, 7, 2, 0.90)';
-            ctx.strokeStyle = 'rgba(255, 213, 79, 0.8)';
-            ctx.lineWidth = 1.1;
+            ctx.fillStyle = 'rgba(20, 7, 2, 0.94)';
+            ctx.strokeStyle = '#ffd54f';
+            ctx.lineWidth = 1.25;
             ctx.beginPath();
             ctx.roundRect(cxCard, cyCard, cardW, cardH, 5);
             ctx.fill();
@@ -11488,9 +11499,9 @@
         window._playerMovedFromHonorSeat = true;
       }
       const top3SeatCoords = [
-        { u: 0.50, v: 0.560 }, // TOP 1: Chính giữa sát bàn thờ trên cùng
-        { u: 0.34, v: 0.568 }, // TOP 2: Bên trái sát bàn thờ trên cùng
-        { u: 0.66, v: 0.568 }  // TOP 3: Bên phải sát bàn thờ trên cùng
+        { u: 0.50, v: 0.592 }, // TOP 1: Chính giữa trước bàn thờ (hạ thấp vừa đủ để không bao giờ chạm vào mâm lễ trên bàn thờ)
+        { u: 0.34, v: 0.600 }, // TOP 2: Bên trái trước bàn thờ
+        { u: 0.66, v: 0.600 }  // TOP 3: Bên phải trước bàn thờ
       ];
       const top3List = [];
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
@@ -13001,7 +13012,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 88;
+        const CURRENT_BUILD_VER = 89;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
