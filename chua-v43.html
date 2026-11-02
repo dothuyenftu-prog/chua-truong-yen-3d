@@ -2494,16 +2494,15 @@
     let autoMoInterval = null;
     let autoMoSec = 0;   // 0 = off, 1 = 1s, 2 = 2s, 3 = 3s
 
-    // XÁC SUẤT 6 BẬC ĐỘ KHÓ CAO (#mvyo8s9vo): Giảm xác suất, tăng độ khó của các X lên để quý hiếm thực sự!
-    // X0 (78.0% - Không trúng) · X1 (15.0% - Lộc cơ bản) · X2 (4.5%) · X3 (1.8%) · X5 (0.55%) · X10 (0.15% - Siêu hiếm 1/666!)
+    // XÁC SUẤT 6 BẬC CHUẨN (#mvvudkh24k & khôi phục theo #mvyv798z10): Không có gì (X0: 55%) · X1 (25%) · X2 (11%) · X3 (5%) · X5 (3%) · X10 (1%) — Tỉ lệ càng cao càng khó!
     function rollSixTierMultiplier() {
       const r = Math.random();
-      if (r < 0.0015) return { mult: 10, rate: '0.15%', label: '👑 ĐẠI HỒNG ÂN X10 (Siêu hiếm 0.15%!)' };
-      if (r < 0.0070) return { mult: 5, rate: '0.55%', label: '💎 NGŨ PHÚC ĐẠI CÁT X5 (Hiếm 0.55%)' };
-      if (r < 0.0250) return { mult: 3, rate: '1.8%', label: '🔥 TAM BẢO X3 (Khó 1.8%)' };
-      if (r < 0.0700) return { mult: 2, rate: '4.5%', label: '✨ SONG HỶ X2 (Tỉ lệ 4.5%)' };
-      if (r < 0.2200) return { mult: 1, rate: '15%', label: '🪷 LỘC CƠ BẢN X1 (Tỉ lệ 15%)' };
-      return { mult: 0, rate: '78%', label: '💨 X0 · Tịnh tâm tu tập (78%)' };
+      if (r < 0.01) return { mult: 10, rate: '1%', label: '👑 ĐẠI HỒNG ÂN X10 (Tỉ lệ 1% cực hiếm!)' };
+      if (r < 0.04) return { mult: 5, rate: '3%', label: '💎 ĐẠI CÁT X5 (Tỉ lệ 3%)' };
+      if (r < 0.09) return { mult: 3, rate: '5%', label: '🔥 TAM BẢO X3 (Tỉ lệ 5%)' };
+      if (r < 0.20) return { mult: 2, rate: '11%', label: '✨ SONG HỶ X2 (Tỉ lệ 11%)' };
+      if (r < 0.45) return { mult: 1, rate: '25%', label: '🪷 LỘC X1 (Tỉ lệ 25%)' };
+      return { mult: 0, rate: '55%', label: '💨 X0 · Không có gì (Tỉ lệ 55%)' };
     }
 
     function strikeVisualBell() {
@@ -2511,7 +2510,7 @@
       playBellSound();
       if (typeof recordQuestProgress === 'function') recordQuestProgress('bell', 1);
       const tier = rollSixTierMultiplier();
-      const pts = 1 * tier.mult * meritRateMultiplier;
+      const pts = 2 * tier.mult * meritRateMultiplier;
       floatingHits.push({
         x: window.innerWidth * 0.52,
         y: window.innerHeight * 0.44,
@@ -7638,15 +7637,15 @@
         instrEl.textContent = '👆 Click vào Cái Chuông để thỉnh';
       } else if (mode === 'incense') {
         const upgPct = typeof getUpgradeBonusChance === 'function' ? Math.round(getUpgradeBonusChance('incense') * 100) : 0;
-        const pct = Math.min(45, (12 + upgPct) * meritRateMultiplier);
+        const pct = Math.min(85, (25 + upgPct) * meritRateMultiplier);
         titleEl.textContent = `♨️🙏 DÂNG 3 NÉN HƯƠNG & CẮM VÀO LƯ HƯƠNG (${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'none';
         if (incCanvas) incCanvas.style.display = 'block';
         malletEl.style.display = 'none';
-        instrEl.textContent = `👆 Chạm vào Lư Hương Đồng để Dâng 3 Nén Tâm Hương & Cắm Vào Lư Hương (Xác suất ${pct}% kết tụ +${2 * meritRateMultiplier} 💎 Phước${buffTag})`;
+        instrEl.textContent = `👆 Chạm vào Lư Hương Đồng để Dâng 3 Nén Tâm Hương & Cắm Vào Lư Hương (Xác suất ${pct}% kết tụ +${3 * meritRateMultiplier} 💎 Phước${buffTag})`;
       } else if (mode === 'bow') {
-        const pct = Math.min(35, 8 * meritRateMultiplier);
+        const pct = Math.min(75, 15 * meritRateMultiplier);
         titleEl.textContent = `🙇 QUỲ LẠY TAM BẢO (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
@@ -7654,7 +7653,7 @@
         malletEl.style.display = 'none';
         instrEl.textContent = `👆 Chạm liên tục để Nhân Vật Quỳ Lạy Tam Bảo (Xác suất: ${pct}% mỗi lạy kết tụ +${1 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       } else if (mode === 'pray') {
-        const pct = Math.min(35, 8 * meritRateMultiplier);
+        const pct = Math.min(75, 15 * meritRateMultiplier);
         titleEl.textContent = `🙏 CHẮP TAY VÁI KHẤN (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
@@ -7704,7 +7703,7 @@
         playMoSound();
         if (typeof recordQuestProgress === 'function') recordQuestProgress('mo', 1);
         const upgBonus = typeof getUpgradeBonusChance === 'function' ? getUpgradeBonusChance('mo') : 0;
-        const chance = Math.min(0.35, (0.06 + upgBonus) * meritRateMultiplier);
+        const chance = Math.min(0.75, (0.10 + upgBonus) * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
         const roll = Math.random();
@@ -7726,16 +7725,16 @@
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Xác suất ${pctLabel}%/nhịp${buffSuffix} — Nâng cấp Pháp Khí hoặc Hóa Vàng để tăng xác suất!)</i>`;
+            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Xác suất ${pctLabel}%/nhịp${buffSuffix} — Đốt Vàng Mã hoặc Dâng Lễ để tăng X2·X3 xác suất!)</i>`;
           }
         }
       } else if (centerStageMode === 'bell') {
         playBellSound();
         if (typeof recordQuestProgress === 'function') recordQuestProgress('bell', 1);
         const upgBonus = typeof getUpgradeBonusChance === 'function' ? getUpgradeBonusChance('bell') : 0;
-        const chance = Math.min(0.42, (0.10 + upgBonus) * meritRateMultiplier);
+        const chance = Math.min(0.85, (0.20 + upgBonus) * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
-        const pts = 1 * meritRateMultiplier;
+        const pts = 2 * meritRateMultiplier;
         if (Math.random() < chance) {
           earned = pts;
           csLuckyCount++;
@@ -7778,7 +7777,7 @@
         player.chat = `🙇 ${player.name} chí thành đứng lên quỳ xuống đảnh lễ Tam Bảo liên tục!`;
         player.chatTimer = 180;
         broadcastMyPresence();
-        const chance = Math.min(0.32, 0.08 * meritRateMultiplier);
+        const chance = Math.min(0.75, 0.15 * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
         if (Math.random() < chance) {
@@ -7812,7 +7811,7 @@
         player.chat = `🙏 ${player.name} đứng thẳng chắp tay cúi vái khấn nguyện cầu bình an!`;
         player.chatTimer = 180;
         broadcastMyPresence();
-        const chance = Math.min(0.32, 0.08 * meritRateMultiplier);
+        const chance = Math.min(0.75, 0.15 * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
         if (Math.random() < chance) {
@@ -9939,21 +9938,20 @@
       altarOfferings[wKey] = [];
 
       takeDownCeremony = null;
-      // HÀM QUAY XÁC SUẤT ĐỘ KHÓ CAO (#mvyo8s9vo):
-      // X0 (78% - Không trúng) · X1 (15% - Lộc cơ bản) · X2 (4.5%) · X3 (1.8%) · X5 (0.55%) · X10 (0.15% - Siêu hiếm!)
+      // HÀM QUAY XÁC SUẤT 6 BẬC CHUẨN (#mvyv798z10):
+      // X0 (55% - Không có gì) · X1 (25%) · X2 (11%) · X3 (5%) · X5 (3%) · X10 (1% - Cực hiếm!)
       const tier = rollSixTierMultiplier();
       const locMult = tier.mult;
       const totalOfferCost = list.reduce((sum, it) => sum + (Number(it.cost) || 20), 0);
-      const baseTanLoc = Math.max(2, Math.round(totalOfferCost * 0.12));
-      const locReward = baseTanLoc * locMult;
+      const locReward = totalOfferCost * locMult * meritRateMultiplier;
       const offerNames = countRemoved > 1 ? `${countRemoved} mâm lễ (${item.fullName || item.label}...)` : (item.fullName || item.label);
       if (locReward > 0) {
         addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames}) ➔ Trúng X${locMult} (Tỉ lệ ${tier.rate}): +${locReward} 💎`);
         appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> trúng mốc <b style="color:#ffd740;">X${locMult} (Tỉ lệ ${tier.rate})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
         showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" ➔ Trúng X${locMult} (Tỉ lệ ${tier.rate}): +${locReward} 💎 Phước!`);
       } else {
-        appendMeritLog(`📤💨 <b>${player.name}</b>: Hạ Lễ <b>${offerNames}</b> trúng <b>X0 (Tịnh tâm hoàn lễ · Tỉ lệ 78%)</b>`);
-        showToast(`📤💨 Hạ Lễ "${offerNames}" ➔ Trúng X0 (Không có lộc phụ · 78% · Càng cao càng khó: X1 15%, X2 4.5%, X3 1.8%, X5 0.55%, X10 0.15%)!`);
+        appendMeritLog(`📤💨 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> trúng <b>X0 (Không có gì · Tỉ lệ 55%)</b>`);
+        showToast(`📤💨 Hạ Lễ "${offerNames}" ➔ Trúng X0 (Không có gì · 55% · Càng cao càng khó: X1 25%, X2 11%, X3 5%, X5 3%, X10 1%)!`);
       }
       renderCenterOfferingInspector();
       publishMqtt({ type: 'takedown', wing: player.wing, clearAll: true, name: player.name });
@@ -10227,17 +10225,16 @@
 
       // Không sinh lá hồng rơi khi đặt lễ (#mvvv047b4r)
 
-      // KHI DÂNG LỄ LÊN BÀN THỜ → QUAY XÁC SUẤT ĐỘ KHÓ CAO (#mvyo8s9vo: X0: 78% · X1: 15% · X2: 4.5% · X3: 1.8% · X5: 0.55% · X10: 0.15%)
+      // KHI DÂNG LỄ LÊN BÀN THỜ → QUAY XÁC SUẤT 6 BẬC CHUẨN (#mvyv798z10: X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%)
+      // Đặc quyền Lễ Lớn ("Càng cao càng thành tâm" #mvym5xtvg): Lễ >= 1.500💎 chắc chắn kích hoạt Buff X3; Lễ >= 500💎 chắc chắn kích hoạt Buff X2!
       if (typeof recordQuestProgress === 'function') recordQuestProgress('offering', 1);
       const rOffer = rollSixTierMultiplier();
       const offerMult = rOffer.mult;
-      const bonusReturnMerit = Math.max(2, Math.round(cost * 0.10)) * offerMult;
+      const bonusReturnMerit = Math.max(4, Math.round(cost * 0.25)) * offerMult;
       if (bonusReturnMerit > 0) addMerit(bonusReturnMerit);
-      // Giảm xác suất kích hoạt Buff X2 / X3 khi dâng lễ để tăng độ khó (#mvyo8s9vo)
-      let buffTriggered = 0;
-      if (offerMult >= 3 || (cost >= 1500 && Math.random() < 0.25)) buffTriggered = 3;
-      else if (offerMult === 2 || (cost >= 500 && Math.random() < 0.30)) buffTriggered = 2;
-      if (buffTriggered >= 2) activateMeritRateBuff(buffTriggered, `Đặt Lễ ${itemName} (${cost} 💎)`);
+      const guaranteedBuff = cost >= 1500 ? 3 : (cost >= 500 ? 2 : 0);
+      const finalBuffMult = Math.max(offerMult, guaranteedBuff);
+      if (finalBuffMult >= 2) activateMeritRateBuff(finalBuffMult, `Đặt Lễ ${itemName} (${cost} 💎)`);
       appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ <b>${itemName}</b> quay trúng <b>${rOffer.label}</b> → Nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
       showToast(`🧙‍♂️🙏 Sư Trụ Trì đang đọc lời cảm tạ & cầu chúc cho thí chủ ${player.name} đã dâng lễ "${itemName}" (${cost} 💎)!`);
@@ -10267,14 +10264,13 @@
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
 
-      // Xác suất 6 bậc độ khó cao (#mvyo8s9vo: X0: 78% · X1: 15% · X2: 4.5% · X3: 1.8% · X5: 0.55% · X10: 0.15%) khi Đốt Vàng Mã
+      // Xác suất 6 bậc chuẩn (#mvyv798z10: X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%) khi Đốt Vàng Mã
       const rBurn = rollSixTierMultiplier();
       const mult = rBurn.mult;
-      const pts = 5 * mult;
+      const pts = 12 * mult;
       if (pts > 0) addMerit(pts);
       const label = customTitle || '🔥🧧 Lễ Vàng Mã Truyền Thống';
-      if (mult >= 3) activateMeritRateBuff(3, `Đốt Vàng Mã (${label})`);
-      else if (mult === 2) activateMeritRateBuff(2, `Đốt Vàng Mã (${label})`);
+      if (mult >= 2) activateMeritRateBuff(mult, `Đốt Vàng Mã (${label})`);
       appendMeritLog(`🔥🧧 <b>${player.name}</b>: Hóa <b>${label}</b> quay trúng <b>${rBurn.label}</b> → <b>+${pts} 💎 Phước Hồi Hướng</b>!`);
 
       goldBurnCeremony = {
@@ -12644,14 +12640,12 @@
       furnaceFlareTimer = 34;
       burnCountTotal++;
       if (typeof recordQuestProgress === 'function') recordQuestProgress('burn', 1);
-      const basePts = Math.max(2, Math.round((g.merit || 10) * 0.4));
-      // QUAY XÁC SUẤT 6 BẬC ĐỘ KHÓ CAO (#mvyo8s9vo: X0: 78% · X1: 15% · X2: 4.5% · X3: 1.8% · X5: 0.55% · X10: 0.15%) KHI ĐỐT VÀNG MÃ!
+      const basePts = g.merit || 12;
+      // KHÔI PHỤC XÁC SUẤT 6 BẬC CHUẨN (#mvyv798z10: X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%) KHI ĐỐT VÀNG MÃ!
       const tier = rollSixTierMultiplier();
       const burnMult = tier.mult;
-      if (burnMult >= 3) {
-        activateMeritRateBuff(3, `Đốt Vàng Mã (${g.name})`);
-      } else if (burnMult === 2) {
-        activateMeritRateBuff(2, `Đốt Vàng Mã (${g.name})`);
+      if (burnMult >= 2) {
+        activateMeritRateBuff(burnMult, `Đốt Vàng Mã (${g.name})`);
       }
       const pts = basePts * burnMult;
       furnaceMeritSession += pts;
@@ -13181,7 +13175,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 81;
+        const CURRENT_BUILD_VER = 82;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
