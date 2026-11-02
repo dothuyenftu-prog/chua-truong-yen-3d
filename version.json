@@ -1,5 +1,5 @@
 {
-  "version": 92,
-  "updatedAt": "2026-11-02T14:48:20+07:00",
-  "note": "V92: Khóa mỗi tài khoản / thiết bị chỉ chơi 1 Nick duy nhất và cho phép đổi tên hiển thị bất kỳ lúc nào (giữ nguyên 100% Điểm Phước Đức 💎, Trang Phục 10 Bậc, Nhiệm Vụ & tự động xoá tên cũ khỏi Bảng Xếp Hạng để không bao giờ sinh ra nick ảo trùng lặp)."
+  "version": 93,
+  "updatedAt": "2026-11-02T14:50:15+07:00",
+  "note": "V93: Tự động cập nhật nóng (Auto-Update 2 lớp: Quét version.json mỗi 5 giây + Đồng bộ phiên bản trực tiếp qua sóng Online MQTT) — những người đang Online tự động chuyển sang bản mới mà không cần phải bấm tải lại thủ công."
 }

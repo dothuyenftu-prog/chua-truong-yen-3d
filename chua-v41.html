@@ -10327,6 +10327,14 @@
         return;
       }
       if (data.type === 'presence' || data.type === 'chat' || data.type === 'ritual') {
+        if (data.buildVer && window._currentBuildVer && Number(data.buildVer) > window._currentBuildVer) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('v', String(data.buildVer));
+          url.searchParams.set('_t', String(Date.now()));
+          window.location.replace(url.toString());
+          return;
+        }
+        if (isDeletedGhostAccount(data.name)) return;
         const safeWing = (data.wing === 1) ? 1 : 0;
         const incomingOutfitLv = data.outfitLv ? Math.max(1, Math.min(10, Number(data.outfitLv))) : undefined;
         const existing = onlineCompanyPeers[data.sender] || {
@@ -10466,6 +10474,7 @@
       const payload = {
         type: 'presence',
         sender: clientId,
+        buildVer: window._currentBuildVer || 93,
         name: player.name,
         avatar: player.avatar,
         gender: player.gender,
@@ -13080,7 +13089,8 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 92;
+        const CURRENT_BUILD_VER = 93;
+        window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
@@ -13098,7 +13108,7 @@
           } catch (e) {}
         }
         checkVer();
-        setInterval(checkVer, 8000);
+        setInterval(checkVer, 5000);
       })();
     });
   </script>
