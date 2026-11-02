@@ -1700,6 +1700,8 @@
               <input id="karmaPhotoUploadInput" type="file" accept="image/*" style="display:none;" onchange="handleKarmaPhotoUpload(event)" />
               <select id="karmaQuickCharSelect" onchange="if(this.value) setKarmaTargetNameEverywhere(this.value)" style="background:#260705; border:1.5px solid #ffab40; color:#ffe082; border-radius:8px; padding:4px 6px; font-size:10.3px; font-weight:800; cursor:pointer;" title="Chọn nhanh tên nhân vật mục tiêu">
                 <option value="">👤 Chọn Tên Mục Tiêu...</option>
+                <option value="Thế Anh" selected>🙏 Thế Anh</option>
+                <option value="Thế Anh Kho HN">🙏 Thế Anh Kho HN</option>
                 <option value="Kẻ Hứa Lèo Bom Hàng">📦 Kẻ Hứa Lèo Bom Hàng</option>
                 <option value="Con Nợ Chây Ì">💸 Con Nợ Chây Ì</option>
                 <option value="Ông Vận Chuyển Trễ Hẹn">🚛 Ông Vận Chuyển Trễ Hẹn</option>
@@ -1709,7 +1711,6 @@
                 <option value="CEO Yến">👑 CEO Yến</option>
                 <option value="Anh Trung QL Kho HN">📦 A. Trung QL Kho HN</option>
                 <option value="Anh Tâm Kho HP">⚓ A. Tâm Kho HP</option>
-                <option value="Thế Anh Kho HN">🙏 Thế Anh Kho HN</option>
                 <option value="Trinh Kế Toán Trưởng">💼 Trinh KT Trưởng</option>
                 <option value="Hải Yến Kế Toán">📊 Hải Yến Kế Toán</option>
                 <option value="HR Kế Toán">📋 HR Kế Toán</option>
@@ -1721,12 +1722,29 @@
                 <option value="Bích Ngọc">🌸 Bích Ngọc</option>
               </select>
               <div style="display:inline-flex; align-items:center; background:#120202; border:1.5px solid #ffd740; border-radius:8px; padding:1px 4px 1px 7px;">
-                <input id="karmaQuickTargetInput" type="text" value="Kẻ Hứa Lèo Bom Hàng" oninput="syncKarmaTargetNameFromMain(this.value)" onchange="syncKarmaTargetNameFromMain(this.value)" onkeydown="event.stopPropagation(); if(event.key==='Enter'){applyQuickKarmaTargetRename();}" onclick="this.focus()" placeholder="Nhập tên mục tiêu..." style="width:142px; background:transparent; border:none; outline:none; padding:3px 2px; color:#fff; font-size:11px; font-weight:900; user-select:text !important; -webkit-user-select:text !important;" />
+                <input id="karmaQuickTargetInput" type="text" value="Thế Anh" oninput="syncKarmaTargetNameFromMain(this.value)" onchange="syncKarmaTargetNameFromMain(this.value)" onkeydown="event.stopPropagation(); if(event.key==='Enter'){applyQuickKarmaTargetRename();}" onclick="this.focus()" placeholder="Nhập tên mục tiêu..." style="width:130px; background:transparent; border:none; outline:none; padding:3px 2px; color:#fff; font-size:11px; font-weight:900; user-select:text !important; -webkit-user-select:text !important;" />
                 <button type="button" title="Xóa nhanh để nhập tên mới" onclick="clearAndFocusKarmaTargetInput()" style="background:rgba(255,82,82,0.28); border:none; color:#ff8a80; border-radius:5px; padding:1px 5px; font-size:10px; font-weight:900; cursor:pointer;">✕</button>
               </div>
               <button type="button" style="background:linear-gradient(135deg,#00c853,#1b5e20); border:1.5px solid #a5d6a7; color:#fff; border-radius:8px; padding:4px 8px; font-size:10.2px; font-weight:900; cursor:pointer;" onclick="promptKarmaTargetRename()">✏️ Đổi Tên</button>
             </div>
             <span style="font-size:10.3px; color:#ffeb3b; font-weight:900; flex-shrink:0;">Mất: <b id="karmaLostMeritCounter">0 💎</b> (<span id="karmaVentCounter">0</span> lần)</span>
+          </div>
+
+          <!-- Hàng 0B: Ô Nhập Vấn Đề / Lỗi Lầm Cần Chửi Ngay Tại Sân Đấm (#mvwfgww76y, #mvwfh4lz6z, #mvwipapj77, #mvwipgvq78) -->
+          <div style="display:flex; align-items:center; gap:5px; margin-bottom:6px; flex-wrap:wrap; background:rgba(48,6,6,0.92); border:1px solid rgba(255,128,171,0.55); border-radius:8px; padding:4px 6px;">
+            <span style="font-size:10.2px; font-weight:900; color:#ff80ab; white-space:nowrap;">🤬 Lỗi Để Chửi:</span>
+            <select id="karmaQuickWrongSelect" onchange="if(this.value) setKarmaWrongDoingEverywhere(this.value)" style="background:#260705; border:1px solid #ff80ab; color:#ffe082; border-radius:6px; padding:3px 5px; font-size:10px; font-weight:800; cursor:pointer; max-width:175px;" title="Chọn nhanh lỗi lầm / vấn đề cần chửi">
+              <option value="Bảo nó cút, nhớ mặt, không qua được thì nói!">💢 Bảo nó cút, nhớ mặt, ko qua đc thì nói!</option>
+              <option value="Hứa hẹn đủ điều rồi lật lọng, không qua được cũng không báo một câu!">😤 Hứa hẹn rồi lật lọng, ko qua ko báo!</option>
+              <option value="Chây ì trốn nợ, gọi điện không nghe nhắn tin không trả lời!">💸 Chây ì trốn nợ, gọi ko nghe!</option>
+              <option value="Làm ăn thiếu trách nhiệm, trễ hẹn làm lỡ hết việc của người khác!">🚛 Trễ hẹn làm lỡ việc người khác!</option>
+              <option value="Sống lươn lẹo tráo trở, qua cầu rút ván vô trách nhiệm!">🐍 Sống lươn lẹo, qua cầu rút ván!</option>
+            </select>
+            <div style="display:inline-flex; align-items:center; flex:1; min-width:170px; background:#120202; border:1.5px solid #ff80ab; border-radius:7px; padding:1px 4px 1px 7px;">
+              <input id="karmaQuickWrongDoingInput" type="text" value="Bảo nó cút, nhớ mặt, không qua được thì nói!" oninput="setKarmaWrongDoingEverywhere(this.value, false)" onchange="setKarmaWrongDoingEverywhere(this.value, false)" onkeydown="event.stopPropagation(); if(event.key==='Enter'){triggerDirectScoldOnCanvas(4);}" onclick="this.focus()" placeholder="Nhập lỗi / vấn đề muốn chửi..." style="width:100%; background:transparent; border:none; outline:none; padding:3px 2px; color:#fff59d; font-size:10.8px; font-weight:800; user-select:text !important; -webkit-user-select:text !important;" />
+              <button type="button" title="Xóa nhanh để nhập lỗi mới" onclick="clearAndFocusKarmaWrongInput()" style="background:rgba(255,82,82,0.28); border:none; color:#ff8a80; border-radius:5px; padding:1px 5px; font-size:9.5px; font-weight:900; cursor:pointer;">✕</button>
+            </div>
+            <button type="button" style="background:linear-gradient(135deg,#ff1744,#880e4f); border:1.5px solid #ffeb3b; color:#fff; border-radius:7px; padding:4px 9px; font-size:10.3px; font-weight:900; cursor:pointer; white-space:nowrap;" onclick="triggerDirectScoldOnCanvas(4)">🤬🔊 Chửi Nó 1 Trận!</button>
           </div>
 
           <!-- Hàng 1: Vũ Khí Đấm · Vả Dép · Tát · Gậy · Sét · Combo -->
@@ -1806,8 +1824,8 @@
             🤬🔊 XẢ KHẨU NGHIỆP MẮNG · CHỬI KẺ LÀM SAI:
           </div>
           <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:8px; margin-bottom:10px;">
-            <input id="karmaTargetName" type="text" value="Kẻ Hứa Lèo Bom Hàng" oninput="resetPunchBagTarget()" placeholder="Tên kẻ làm sai..." style="background:rgba(22,4,3,0.95); border:1px solid #ff5252; border-radius:8px; padding:8px 10px; color:#ffd740; font-size:12px; font-weight:800;" />
-            <input id="karmaWrongDoing" type="text" value="hứa hẹn đủ điều rồi lật lọng tráo trở, sống thiếu chữ tín" placeholder="Lỗi lầm kẻ đó..." style="background:rgba(22,4,3,0.95); border:1px solid rgba(255,82,82,0.75); border-radius:8px; padding:8px 10px; color:#fff; font-size:11.5px;" />
+            <input id="karmaTargetName" type="text" value="Thế Anh" oninput="resetPunchBagTarget()" placeholder="Tên kẻ làm sai..." style="background:rgba(22,4,3,0.95); border:1px solid #ff5252; border-radius:8px; padding:8px 10px; color:#ffd740; font-size:12px; font-weight:800;" />
+            <input id="karmaWrongDoing" type="text" value="Bảo nó cút, nhớ mặt, không qua được thì nói!" oninput="setKarmaWrongDoingEverywhere(this.value, false)" placeholder="Lỗi lầm kẻ đó..." style="background:rgba(22,4,3,0.95); border:1px solid rgba(255,82,82,0.75); border-radius:8px; padding:8px 10px; color:#fff; font-size:11.5px;" />
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
             <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#bf360c); font-size:11.5px; padding:10px 6px; border:1px solid #ffd54f;" onclick="triggerKarmaScoldVoice('mang_khia')">
@@ -2150,7 +2168,7 @@
     // =========================================================================
     // 1. MULTI-TRACK REAL MP3 AUDIO ENGINE (MẶC ĐỊNH: CHỈ CÓ NHẠC THIỀN NHẸ · TẠM DỪNG KHI CÓ VOICE)
     // =========================================================================
-    const sfxMo = new Audio('audio/mo_that.mp3');
+    const sfxMo = new Audio('audio/mo_that.mp3?v=74');
     const sfxBell = new Audio('audio/chuong_chua.mp3');
     const bgMusicPlayer = new Audio('audio/tk2_chua.mp3');
     const bgChantTamBao = new Audio('audio/chu_dai_bi.mp3');
@@ -2220,8 +2238,8 @@
 
     // Pre-allocated 4-channel audio pool for zero-lag rapid tapping & fast gold burning
     const moPool = Array.from({ length: 4 }, () => {
-      const a = new Audio('audio/mo_that.mp3');
-      a.volume = 0.88;
+      const a = new Audio('audio/mo_that.mp3?v=74');
+      a.volume = 0.94;
       return a;
     });
     const bellPool = Array.from({ length: 4 }, () => {
@@ -2414,10 +2432,10 @@
         lines: ["Nam mô Bạc già phạt đế", "Bệ sát xã, lũ rô thích lưu ly", "Bát lạt bà, hắc ra xà dã", "Đát tha yết đa da", "A ra hắc đế", "Tam miệu tam bột đà da", "Đát điệt tha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Án, bệ sát thệ, bệ sát thệ", "Bệ sát xã, tam một yết đế toả ha", "Nam Mô Dược Sư Lưu Ly Quang Vương Phật", "Nam Mô Nhật Quang Biến Chiếu Bồ Tát", "Nam Mô Nguyệt Quang Biến Chiếu Bồ Tát", "Nam Mô Dược Sư Hải Hội Phật Bồ Tát"]
       },
       giam_stress: {
-        title: "Kinh Giảm Đau Đầu · Giảm Stress · Tiêu Trừ Ác Niệm (Kinh Dược Sư & Quán Âm Tịnh Tâm)",
+        title: "Kinh Giảm Đau Đầu · Giảm Stress · Tiêu Trừ Ác Niệm — TT. Thích Trí Thoát tụng",
         audioReal: "audio/thay_tung_giam_stress.mp3",
-        secPerLine: 2.4,
-        times: [0.2, 2.7, 5.5, 8.2, 10.6, 13.0, 15.4, 17.8, 20.2, 22.6, 25.0, 27.4, 29.8, 32.2, 34.6, 37.0, 39.4, 42.0, 44.6, 47.2, 49.6, 52.0, 54.4, 56.8, 59.4, 61.6],
+        secPerLine: 6.2,
+        times: [0.5, 6.8, 13.5, 20.2, 26.8, 33.4, 40.0, 46.6, 53.2, 59.8, 66.4, 73.0, 79.6, 86.2, 92.8, 99.4, 106.0, 112.6, 119.2, 125.8, 132.4, 139.0, 145.6, 152.2, 158.8, 164.5],
         lines: [
           "Nam mô Dược Sư Lưu Ly Quang Vương Phật",
           "Nam mô Đại Từ Đại Bi Quán Thế Âm Bồ Tát",
@@ -2543,6 +2561,9 @@
 
       const overlay = document.getElementById('karaokeSutraOverlay');
       if (overlay) overlay.style.display = 'flex';
+      // Ẩn khung #activeScrollBanner khi đang mở giao diện Tụng Kinh Karaoke ở dưới (#mvwff75z6w, #mvwffmlj6x)
+      const activeBanner = document.getElementById('activeScrollBanner');
+      if (activeBanner) activeBanner.classList.remove('open');
 
       const titleEl = document.getElementById('karaokeSutraTitle');
       if (titleEl) titleEl.textContent = data.title;
@@ -2579,7 +2600,7 @@
       if (karaokeVoiceGuide) {
         // Phát bản thu âm Thầy Chùa Tụng Thật từ YouTube/TikTok đã lưu trong audio/
         bgMusicPlayer.pause();
-        localPrayerMp3.src = data.audioReal + '?v=58';
+        localPrayerMp3.src = data.audioReal + '?v=74';
         localPrayerMp3.currentTime = 0;
         localPrayerMp3.playbackRate = karaokePlaybackRate;
         if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
@@ -2697,7 +2718,7 @@
       if (karaokeVoiceGuide) {
         const data = KARAOKE_SUTRAS_DATA[currentKaraokeKey];
         bgMusicPlayer.pause();
-        localPrayerMp3.src = data.audioReal + '?v=58';
+        localPrayerMp3.src = data.audioReal + '?v=74';
         localPrayerMp3.currentTime = currentSutraLineIdx * (data.secPerLine || 2.2);
         localPrayerMp3.playbackRate = karaokePlaybackRate;
         localPrayerMp3.play().catch(() => {});
@@ -2748,15 +2769,41 @@
       stopAllVoices(false);
     }
 
-    // 2) ĐỔI TÊN MỤC TIÊU TRONG PHÒNG SÂN ĐẤM DỄ DÀNG TRÊN MỌI THIẾT BỊ (#2456 & V56)
-    window._activeKarmaTargetName = 'Kẻ Hứa Lèo Bom Hàng';
+    // 2) ĐỔI TÊN MỤC TIÊU & LỖI LẦM CẦN CHỬI TRONG PHÒNG SÂN ĐẤM DỄ DÀNG TRÊN MỌI THIẾT BỊ (#2456, V56, V74)
+    window._activeKarmaTargetName = 'Thế Anh';
+    window._activeKarmaWrongDoing = 'Bảo nó cút, nhớ mặt, không qua được thì nói!';
     try {
       const savedKt = localStorage.getItem('ty_karma_target_name');
-      if (savedKt && savedKt.trim()) window._activeKarmaTargetName = savedKt.trim();
+      if (savedKt && savedKt.trim() && savedKt.trim() !== 'Kẻ Hứa Lèo Bom Hàng') window._activeKarmaTargetName = savedKt.trim();
+      const savedKw = localStorage.getItem('ty_karma_wrong_doing');
+      if (savedKw && savedKw.trim()) window._activeKarmaWrongDoing = savedKw.trim();
     } catch (e) {}
 
+    function setKarmaWrongDoingEverywhere(newWrong, showNotify = true) {
+      const clean = (newWrong || '').trim() || 'Bảo nó cút, nhớ mặt, không qua được thì nói!';
+      window._activeKarmaWrongDoing = clean;
+      const wInp1 = document.getElementById('karmaQuickWrongDoingInput');
+      const wInp2 = document.getElementById('karmaWrongDoing');
+      if (wInp1 && wInp1.value !== clean) wInp1.value = clean;
+      if (wInp2 && wInp2.value !== clean) wInp2.value = clean;
+      try { localStorage.setItem('ty_karma_wrong_doing', clean); } catch (e) {}
+      punchBagState.subVoiceText = `🤬 Lỗi bị chửi: "${clean}"`;
+      if (showNotify) {
+        showToast(`🤬 Đã chọn vấn đề / lỗi để chửi: "${clean}"`);
+      }
+    }
+
+    function clearAndFocusKarmaWrongInput() {
+      const wInp = document.getElementById('karmaQuickWrongDoingInput');
+      if (wInp) {
+        wInp.value = '';
+        window._activeKarmaWrongDoing = '';
+        wInp.focus();
+      }
+    }
+
     function setKarmaTargetNameEverywhere(newName, showNotify = true) {
-      const clean = (newName || '').trim() || 'Kẻ Hứa Lèo Bom Hàng';
+      const clean = (newName || '').trim() || 'Thế Anh';
       window._activeKarmaTargetName = clean;
       const inp1 = document.getElementById('karmaQuickTargetInput');
       const inp2 = document.getElementById('karmaTargetName');
@@ -2874,45 +2921,80 @@
       unlockAndStartAudio();
       stopAllVoices(true);
       const qInp = document.getElementById('karmaQuickTargetInput');
-      const targetName = (qInp && qInp.value.trim()) || (document.getElementById('karmaTargetName')?.value || '').trim() || 'Kẻ Hứa Lèo';
+      const targetName = (qInp && qInp.value.trim()) || (document.getElementById('karmaTargetName')?.value || '').trim() || 'Thế Anh';
+      const wInp = document.getElementById('karmaQuickWrongDoingInput');
+      const wrongDoing = (wInp && wInp.value.trim()) || (document.getElementById('karmaWrongDoing')?.value || '').trim() || 'Bảo nó cút, nhớ mặt, không qua được thì nói!';
       const sc = DIRECT_SCOLD_SCRIPTS[levelIdx] || DIRECT_SCOLD_SCRIPTS[1];
 
       karmaVentCount++;
       karmaLostMeritTotal += sc.cost;
-      addMerit(-sc.cost, `Chửi sắc séo chua ngoa vào mặt ${targetName} (-${sc.cost} 💎 Phước)`);
+      addMerit(-sc.cost, `Chửi thẳng mặt ${targetName}: "${wrongDoing}" (-${sc.cost} 💎 Phước)`);
       const cntEl = document.getElementById('karmaVentCounter');
       if (cntEl) cntEl.textContent = karmaVentCount;
       const lostEl = document.getElementById('karmaLostMeritCounter');
       if (lostEl) lostEl.textContent = `-${karmaLostMeritTotal} 💎`;
 
+      const dynScoldLines = {
+        1: `🌶️🤬 "Này ${targetName}! ${wrongDoing} Đừng có sống kiểu lươn lẹo vô trách nhiệm như thế nghe chưa!"`,
+        2: `🔥🤬 "${targetName} vểnh to tai lên! ${wrongDoing} Hẹn xong im thin thít để người ta đợi, cút ngay và nhớ lấy cái mặt đấy!"`,
+        3: `⚡🤬 "Nghe rõ từng chữ đây ${targetName}! ${wrongDoing} Qua được hay không thì mở miệng nói 1 câu, đừng giở thói thất hứa!"`,
+        4: `🌋🤬 "Chửi tận óc ${targetName} 1 trận: ${wrongDoing} Sống thiếu trách nhiệm, hứa lèo tráo trở thì cút khuất mắt ngay!"`
+      };
+      const dynVoiceChunks = {
+        1: [
+          `Này ${targetName} kia! Vểnh to cái tai lên mà nghe đây! ${wrongDoing}`,
+          `Đừng có sống kiểu lươn lẹo vô trách nhiệm như thế nghe chưa ${targetName}! Cút ngay cho khuất mắt!`
+        ],
+        2: [
+          `${targetName} đâu rồi! Nhìn thẳng vào đây mà nghe chửi cho tỉnh hồn ra! ${wrongDoing}`,
+          `Làm ăn kiểu gì mà hẹn hò xong im thin thít, để người ta đợi dài cổ! Cút ngay đi, nhớ kỹ cái mặt ${targetName} đấy!`
+        ],
+        3: [
+          `Nghe cho rõ từng chữ đây ${targetName}! ${wrongDoing}`,
+          `Qua được hay không qua được thì mở miệng nói thẳng một câu, đừng có giở thói trẻ con thất hứa làm lỡ hết việc của người khác!`
+        ],
+        4: [
+          `Hôm nay tao phải chửi thẳng vào tận óc ${targetName} một trận cho bõ tức! ${wrongDoing}`,
+          `Tại sao lại sống thiếu trách nhiệm, hứa lèo tráo trở như thế hả ${targetName}? Nhớ kỹ cái mặt đấy, cút khuất mắt ngay lập tức!`
+        ]
+      };
+
       // Nhân vật bị chửi bật khóc nức nở (😭😭💦)
       punchBagState.emotion = 'crying';
-      punchBagState.emotionTimer = 580;
+      punchBagState.emotionTimer = 640;
       punchBagState.shakeX = 18;
       punchBagState.shakeY = 10;
-      punchBagState.cryText = sc.cryReply(targetName);
-      punchBagState.subVoiceText = sc.scoldLine;
+      punchBagState.cryText = `😭😭💦 "${targetName}: Hu hu em biết lỗi vụ [${wrongDoing}] rồi, em nhục phát khóc xin tha cho em!"`;
+      punchBagState.subVoiceText = dynScoldLines[levelIdx] || dynScoldLines[1];
 
       punchBagState.fxList.push({
         x: 270,
         y: 190,
-        label: `🤬😭 CHỬI SẮC SÉO (-${sc.cost}💎)`,
+        label: `🤬😭 CHỬI ${targetName.toUpperCase()} (-${sc.cost}💎)`,
         bigEmoji: '🤬😭💦',
-        life: 1.35
+        life: 1.45
       });
 
-      localKarmaScoldMp3.src = sc.file + '?v=49';
-      localKarmaScoldMp3.currentTime = 0;
-      localKarmaScoldMp3.volume = 1.0;
-      localKarmaScoldMp3.onended = () => {
-        isVoiceSpeaking = false;
-        resumeZenMusicIfIdle();
-      };
-      localKarmaScoldMp3.play().catch(() => {
-        isVoiceSpeaking = false;
-        resumeZenMusicIfIdle();
-      });
-      showToast(`🤬😭 Đang chửi sắc séo chua ngoa vào mặt ${targetName} khiến nhân vật khóc nức nở! (-${sc.cost} 💎)`);
+      const isDefaultTheAnh = targetName.toLowerCase().includes('thế anh') && (wrongDoing.toLowerCase().includes('nhớ mặt') || wrongDoing.toLowerCase().includes('không qua được'));
+      const fallbackMp3File = isDefaultTheAnh ? `audio/chui_the_anh_${levelIdx || 4}.mp3?v=74` : `${sc.file}?v=74`;
+      localKarmaScoldMp3.src = fallbackMp3File;
+
+      if (isDefaultTheAnh) {
+        playMoSound();
+        setTimeout(playMoSound, 110);
+        localKarmaScoldMp3.currentTime = 0;
+        localKarmaScoldMp3.volume = 1.0;
+        localKarmaScoldMp3.onended = () => {
+          isVoiceSpeaking = false;
+          resumeZenMusicIfIdle();
+        };
+        localKarmaScoldMp3.play().catch(() => {
+          playMultiChunksSequential(dynVoiceChunks[levelIdx] || dynVoiceChunks[4], 'karmaVoiceLiveText', `🤬🔊 Chửi thẳng mặt ${targetName}:`, null, 'scold_fierce');
+        });
+      } else {
+        playMultiChunksSequential(dynVoiceChunks[levelIdx] || dynVoiceChunks[4], 'karmaVoiceLiveText', `🤬🔊 Chửi thẳng mặt ${targetName}:`, localKarmaScoldMp3, 'scold_fierce');
+      }
+      showToast(`🤬😭 Đang chửi thẳng mặt ${targetName}: "${wrongDoing}"! (-${sc.cost} 💎)`);
     }
 
     function triggerDirectAbbotOnCanvas(topicIdx = 1) {
@@ -3604,10 +3686,14 @@
       if (asPhoneEl) asPhoneEl.textContent = cfg.title.replace('📜 ', '');
 
       const banner = document.getElementById('activeScrollBanner');
-      banner.classList.add('open');
-
-      // Hiển thị ĐẦY ĐỦ 100% NGUYÊN VĂN BÀI KHẤN trên khung đọc sớ (Không cắt bớt, không chia đoạn nhảy chữ!)
-      document.getElementById('asPrayerPreview').textContent = `"${fullText}"`;
+      if (cfg.isSutra) {
+        // Khi tụng kinh đã có dòng chữ chạy Karaoke bên dưới, KHÔNG hiển thị khung #activeScrollBanner ở trên (#mvwff75z6w, #mvwffmlj6x)
+        if (banner) banner.classList.remove('open');
+      } else {
+        if (banner) banner.classList.add('open');
+        // Hiển thị ĐẦY ĐỦ 100% NGUYÊN VĂN BÀI KHẤN trên khung đọc sớ (Không cắt bớt, không chia đoạn nhảy chữ!)
+        document.getElementById('asPrayerPreview').textContent = `"${fullText}"`;
+      }
 
       const fallbackFile = (vGender === 'F') ? cfg.audioNu : cfg.audioNam;
       isVoiceSpeaking = true;
@@ -4090,28 +4176,60 @@
           pctx.textBaseline = 'middle';
           pctx.fillText(`🥊 MỤC TIÊU BỊ ĐẤM: ${targetName.slice(0, 22)} · HP: ${punchBagState.hp}% (Đã đấm ${punchBagState.combo} phát)`, W * 0.5, barY + 10);
 
-          // Bong bóng lời van xin / khóc lóc / cảm động của Nhân Vật trên Sân Đấm
+          // Bong bóng lời van xin / khóc lóc / cảm động của Nhân Vật trên Sân Đấm (Tự động xuống dòng vừa khung, không bao giờ bị cắt chữ ở mép phải!)
           const isMovedState = (punchBagState.emotion === 'moved' && punchBagState.emotionTimer > 0);
           const isCryState = (punchBagState.emotion === 'crying' && punchBagState.emotionTimer > 0);
-          pctx.fillStyle = isMovedState ? 'rgba(14, 48, 20, 0.92)' : (isCryState ? 'rgba(74, 8, 42, 0.92)' : 'rgba(20, 4, 4, 0.90)');
+          pctx.fillStyle = isMovedState ? 'rgba(14, 48, 20, 0.94)' : (isCryState ? 'rgba(74, 8, 42, 0.94)' : 'rgba(20, 4, 4, 0.92)');
           pctx.strokeStyle = isMovedState ? '#69f0ae' : (isCryState ? '#ff80ab' : '#ff8a80');
           pctx.lineWidth = 2;
           pctx.beginPath();
-          pctx.roundRect(10, 34, W - 20, 46, 10);
+          pctx.roundRect(8, 32, W - 16, 58, 10);
           pctx.fill();
           pctx.stroke();
 
-          pctx.font = 'bold 12px sans-serif';
-          pctx.fillStyle = isMovedState ? '#b9f6ca' : '#fff59d';
+          const wrapCanvasLine = (txt, maxPx, fontStr) => {
+            pctx.font = fontStr;
+            const words = String(txt || '').trim().split(/\s+/);
+            const out = [];
+            let cur = '';
+            for (const w of words) {
+              const test = cur ? (cur + ' ' + w) : w;
+              if (pctx.measureText(test).width > maxPx && cur) {
+                out.push(cur);
+                cur = w;
+              } else {
+                cur = test;
+              }
+            }
+            if (cur) out.push(cur);
+            return out;
+          };
+
+          const maxBubbleTextW = W - 32;
           pctx.textAlign = 'center';
           pctx.textBaseline = 'middle';
-          const line1 = String(punchBagState.cryText || '').slice(0, 62);
-          const line2 = String(punchBagState.subVoiceText || '').slice(0, 66);
-          pctx.fillText(line1, W * 0.5, line2 ? 47 : 57);
-          if (line2) {
-            pctx.font = 'italic 11.2px sans-serif';
+          const cryLines = wrapCanvasLine(punchBagState.cryText || '', maxBubbleTextW, 'bold 11px sans-serif').slice(0, 2);
+          const subLines = punchBagState.subVoiceText ? wrapCanvasLine(punchBagState.subVoiceText, maxBubbleTextW, 'italic 10.4px sans-serif').slice(0, 2) : [];
+
+          if (subLines.length > 0) {
+            pctx.font = 'bold 10.8px sans-serif';
+            pctx.fillStyle = isMovedState ? '#b9f6ca' : '#fff59d';
+            pctx.fillText(cryLines[0] || '', W * 0.5, 44);
+            pctx.font = 'italic 10.3px sans-serif';
             pctx.fillStyle = '#ffffff';
-            pctx.fillText(line2, W * 0.5, 66);
+            pctx.fillText(subLines[0] || '', W * 0.5, 59);
+            if (subLines[1] || cryLines[1]) {
+              pctx.fillText(subLines[1] || cryLines[1] || '', W * 0.5, 74);
+            }
+          } else {
+            pctx.font = 'bold 11.2px sans-serif';
+            pctx.fillStyle = isMovedState ? '#b9f6ca' : '#fff59d';
+            if (cryLines.length === 1) {
+              pctx.fillText(cryLines[0], W * 0.5, 61);
+            } else {
+              pctx.fillText(cryLines[0] || '', W * 0.5, 52);
+              pctx.fillText(cryLines[1] || '', W * 0.5, 70);
+            }
           }
 
           // Hiệu ứng Vũ Khí Đấm · Vả Dép · Tát · Phang Gậy · Giật Sét TO RÕ (Không vẽ bảng chữ dài che mặt nhân vật!)
@@ -9562,6 +9680,89 @@
         player.faceDir = 0;
       }
 
+      // VINH DANH TOP 3 PHƯỚC ĐỨC NGỒI SÁT TRÊN CÙNG TRƯỚC BÀN THỜ + XUNG QUANH TOẢ ÁNH SÁNG VÀNG RỰC RỠ (#mvwfe7o76v)
+      if (holdDir.dx !== 0 || holdDir.dy !== 0 || (activeMutualInteraction && activeMutualInteraction.active)) {
+        window._playerMovedFromHonorSeat = true;
+      }
+      const top3SeatCoords = [
+        { u: 0.50, v: 0.560 }, // TOP 1: Chính giữa sát bàn thờ trên cùng
+        { u: 0.34, v: 0.568 }, // TOP 2: Bên trái sát bàn thờ trên cùng
+        { u: 0.66, v: 0.568 }  // TOP 3: Bên phải sát bàn thờ trên cùng
+      ];
+      const top3List = [];
+      if (typeof allCharProfiles === 'object' && allCharProfiles) {
+        const seenTop = new Set();
+        Object.keys(allCharProfiles).forEach(cName => {
+          if (cName === 'Sếp Thành') return;
+          const prof = allCharProfiles[cName];
+          if (!prof || prof.registered === false || seenTop.has(cName)) return;
+          seenTop.add(cName);
+          const m = (cName === player.name) ? (player.merit || 0) : Number(prof.merit ?? 80);
+          const rosterMatch = (typeof CHARACTER_ROSTER_V57 !== 'undefined') ? CHARACTER_ROSTER_V57.find(r => r.name === cName) : null;
+          top3List.push({
+            name: cName,
+            merit: m,
+            gender: prof.gender || (rosterMatch ? rosterMatch.gender : inferGenderFromName(cName, 'F')),
+            avatar: prof.avatar || (rosterMatch ? rosterMatch.avatar : (prof.gender === 'M' ? '🧘‍♂️' : '🪷'))
+          });
+        });
+        top3List.sort((a, b) => b.merit - a.merit);
+      }
+      const top3Champions = top3List.slice(0, 3);
+      const top3Map = new Map();
+      top3Champions.forEach((ch, idx) => {
+        top3Map.set(ch.name, { ...ch, rank: idx + 1, seatU: top3SeatCoords[idx].u, seatV: top3SeatCoords[idx].v });
+      });
+
+      // Không để khách vãng lai trùng tên với Top 3 đang ngồi ghế vinh danh trên cùng
+      for (let i = renderables.length - 1; i >= 0; i--) {
+        if (renderables[i].type === 'visitor' && top3Map.has(renderables[i].data.name)) {
+          renderables.splice(i, 1);
+        }
+      }
+
+      player._topRank = 0;
+      if (top3Map.has(player.name)) {
+        const myTop = top3Map.get(player.name);
+        player._topRank = myTop.rank;
+        player._topMerit = myTop.merit;
+        if (!window._playerMovedFromHonorSeat) {
+          player.u = myTop.seatU;
+          player.v = myTop.seatV;
+          player.targetU = myTop.seatU;
+          player.targetV = myTop.seatV;
+          if (player.state === 'walk') player.state = 'kneel';
+        }
+      }
+
+      top3Champions.forEach((ch, idx) => {
+        const rank = idx + 1;
+        const seat = top3SeatCoords[idx];
+        if (ch.name === player.name) return;
+        const existingPeer = renderables.find(r => r.type === 'online_peer' && r.data && r.data.name === ch.name);
+        if (existingPeer) {
+          existingPeer.data._topRank = rank;
+          existingPeer.data._topMerit = ch.merit;
+          return;
+        }
+        renderables.push({
+          type: 'top3_honor',
+          data: {
+            name: ch.name,
+            gender: ch.gender,
+            avatar: ch.avatar,
+            merit: ch.merit,
+            wing: player.wing,
+            u: seat.u,
+            v: seat.v,
+            state: 'kneel',
+            _topRank: rank,
+            _topMerit: ch.merit
+          },
+          v: seat.v
+        });
+      });
+
       renderables.push({ type: 'player', data: player, v: player.v });
       renderables.sort((a, b) => a.v - b.v);
 
@@ -9696,7 +9897,53 @@
           spr = (d.gender === 'M') ? images.walkM : images.walkF;
         }
 
-        if (isPlayer || item.type === 'online_peer' || inMutual) {
+        const topRank = d._topRank || 0;
+        if (topRank >= 1 && topRank <= 3) {
+          // V74 (#mvwfe7o76v): TOP 3 ĐƯỢC NGỒI SÁT VINH DANH TRÊN CÙNG, XUNG QUANH TOẢ ÁNH SÁNG VÀNG RỰC RỠ!
+          ctx.save();
+          const pulseAura = 1.0 + Math.sin(frameCount * 0.08 + topRank) * 0.09;
+          const auraRadius = (topRank === 1 ? 66 : 54) * scale * pulseAura;
+          const auraCenterY = sy - 38 * scale;
+
+          // 1) Hào quang ánh sáng vàng đa tầng tỏa rộng xung quanh nhân vật Top 3
+          const auraGrad = ctx.createRadialGradient(sx, auraCenterY, 6 * scale, sx, auraCenterY, auraRadius);
+          auraGrad.addColorStop(0, 'rgba(255, 250, 190, 0.78)');
+          auraGrad.addColorStop(0.38, 'rgba(255, 215, 64, 0.46)');
+          auraGrad.addColorStop(0.72, 'rgba(255, 160, 0, 0.20)');
+          auraGrad.addColorStop(1, 'rgba(255, 143, 0, 0)');
+          ctx.fillStyle = auraGrad;
+          ctx.beginPath();
+          ctx.arc(sx, auraCenterY, auraRadius, 0, Math.PI * 2);
+          ctx.fill();
+
+          // 2) Vòng tròn kim quang & tòa sen vàng dưới chân vị trí Vinh Danh Top 3
+          const matGrad = ctx.createRadialGradient(sx, sy - 3, 4 * scale, sx, sy - 3, 34 * scale);
+          matGrad.addColorStop(0, 'rgba(255, 245, 157, 0.92)');
+          matGrad.addColorStop(0.65, 'rgba(255, 193, 7, 0.65)');
+          matGrad.addColorStop(1, 'rgba(230, 81, 0, 0)');
+          ctx.fillStyle = matGrad;
+          ctx.beginPath();
+          ctx.ellipse(sx, sy - 3, 34 * scale, 12.5 * scale, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = topRank === 1 ? '#fff59d' : '#ffd54f';
+          ctx.lineWidth = topRank === 1 ? 2.6 : 2.0;
+          ctx.beginPath();
+          ctx.ellipse(sx, sy - 3, 28 * scale * pulseAura, 10 * scale * pulseAura, 0, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // 3) Các hạt kim tuyến ánh sáng vàng bay lấp lánh quanh thân Top 3
+          for (let sp = 0; sp < 6; sp++) {
+            const ang = (frameCount * 0.045) + (sp * Math.PI / 3) + topRank;
+            const orbX = sx + Math.cos(ang) * (26 * scale);
+            const orbY = auraCenterY + Math.sin(ang * 1.3) * (28 * scale);
+            ctx.fillStyle = (sp % 2 === 0) ? 'rgba(255, 255, 210, 0.92)' : 'rgba(255, 215, 64, 0.88)';
+            ctx.beginPath();
+            ctx.arc(orbX, orbY, (2.2 + (sp % 2) * 1.1) * scale, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        } else if (isPlayer || item.type === 'online_peer' || inMutual) {
           ctx.save();
           ctx.strokeStyle = isPlayer ? 'rgba(255, 215, 90, 0.85)' : (inMutual ? 'rgba(255, 138, 128, 0.9)' : 'rgba(105, 240, 174, 0.85)');
           ctx.lineWidth = 2.0;
@@ -9752,8 +9999,41 @@
           const headY = sy - sh - bob + poseOffsetY - 8;
           const badgeLabel = isPlayer
             ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
-            : d.name;
-          drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer);
+            : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
+          drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
+
+          if (topRank >= 1 && topRank <= 3) {
+            const rankLabels = { 1: '👑 TOP 1 VINH DANH', 2: '🥈 TOP 2 VINH DANH', 3: '🥉 TOP 3 VINH DANH' };
+            const rTxt = rankLabels[topRank];
+            ctx.save();
+            ctx.font = '900 9.5px sans-serif';
+            const rw = ctx.measureText(rTxt).width + 12;
+            const ry = headY - 22;
+            const rGrad = ctx.createLinearGradient(sx - rw / 2, ry - 8, sx + rw / 2, ry + 8);
+            if (topRank === 1) {
+              rGrad.addColorStop(0, '#ffd700');
+              rGrad.addColorStop(0.5, '#fff59d');
+              rGrad.addColorStop(1, '#ff8f00');
+            } else if (topRank === 2) {
+              rGrad.addColorStop(0, '#ffe082');
+              rGrad.addColorStop(1, '#ffb300');
+            } else {
+              rGrad.addColorStop(0, '#ffcc80');
+              rGrad.addColorStop(1, '#f57c00');
+            }
+            ctx.fillStyle = rGrad;
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.3;
+            ctx.beginPath();
+            ctx.roundRect(sx - rw / 2, ry - 8, rw, 15, 7.5);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#260800';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(rTxt, sx, ry - 0.5);
+            ctx.restore();
+          }
 
           // Khi đang inMutual đã có Banner trung tâm nổi bật nên không vẽ chồng 2 nhãn nhỏ bên dưới nữa
           if (isPlayer && !inMutual && poseStatusText) {
