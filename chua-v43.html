@@ -9123,37 +9123,18 @@
         playBellSound();
         isVoiceSpeaking = true;
 
-        // Phát giọng Sư Trụ Trì đọc trực tiếp tên người dâng lễ + tên lễ vật + lời cầu chúc (#mvylvhacb)
-        const spokenBlessing = `A Di Đà Phật! Thay mặt bổn tự Chùa Trường Yến, Sư Trụ Trì xin thành tâm cảm tạ thí chủ ${targetGiver} đã dâng lễ ${detailText || 'phẩm vật thanh tịnh'}. Nguyện cầu mười phương Chư Phật chứng giám lòng thành, gia hộ cho thí chủ ${targetGiver} ${targetWish}, thân khỏe tâm an, tài lộc đại phát, vạn sự cát tường như ý!`;
-        const ttsEl = document.getElementById('ttsVoicePlayer');
-        const playStaticAbbotMp3 = () => {
-          abbotThankYouAudio.src = src;
-          abbotThankYouAudio.currentTime = 0;
-          abbotThankYouAudio.volume = 1.0;
-          abbotThankYouAudio.onended = () => {
-            isVoiceSpeaking = false;
-            resumeZenMusicIfIdle();
-          };
-          abbotThankYouAudio.play().catch(() => {
-            isVoiceSpeaking = false;
-            resumeZenMusicIfIdle();
-          });
+        // V78 (#mvytvaebu): Khi dâng lễ chỉ phát duy nhất giọng Sư Trụ Trì đọc lời cảm tạ, tuyệt đối không phát 2 người đọc (bỏ giọng nữ Google TTS đọc kèm)
+        abbotThankYouAudio.src = src;
+        abbotThankYouAudio.currentTime = 0;
+        abbotThankYouAudio.volume = 1.0;
+        abbotThankYouAudio.onended = () => {
+          isVoiceSpeaking = false;
+          resumeZenMusicIfIdle();
         };
-
-        if (ttsEl && kind === 'le') {
-          const ttsUrl = 'https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=' + encodeURIComponent(spokenBlessing.slice(0, 195));
-          ttsEl.src = ttsUrl;
-          ttsEl.volume = 1.0;
-          ttsEl.preservesPitch = true;
-          ttsEl.playbackRate = 1.02;
-          ttsEl.onended = () => {
-            playStaticAbbotMp3();
-          };
-          ttsEl.onerror = playStaticAbbotMp3;
-          ttsEl.play().catch(playStaticAbbotMp3);
-        } else {
-          playStaticAbbotMp3();
-        }
+        abbotThankYouAudio.play().catch(() => {
+          isVoiceSpeaking = false;
+          resumeZenMusicIfIdle();
+        });
       } catch (e) {}
     }
 
@@ -12719,7 +12700,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 77;
+        const CURRENT_BUILD_VER = 78;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
