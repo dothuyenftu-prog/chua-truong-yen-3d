@@ -941,8 +941,8 @@
       <button id="btnTopBarOnlineBadge" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#69f0ae;font-weight:900;" onclick="showOnlineMembersToast()" title="Số người đang lễ chùa trực tuyến — Bấm để xem danh sách đang Online">
         🟢 Online: <span id="topBarOnlineCount" style="color:#69f0ae;font-weight:900;">1</span>
       </button>
-      <button id="btnTopBarQuestUpgrade" class="chip-btn active" style="background:linear-gradient(135deg,#6a1b9a,#4a148c);color:#fff8e1;border-color:#ffd740;font-weight:900;" onclick="openQuestUpgradeModal()" title="Mở Bảng Nhiệm Vụ Tu Tập Hàng Ngày & Nâng Cấp Pháp Khí - Cảnh Giới Tu Hành">
-        📜 Nhiệm Vụ · <span id="topBarRealmBadge" style="color:#ffd740;">Lv.1</span>
+      <button id="btnTopBarQuestUpgrade" class="chip-btn active" style="background:linear-gradient(135deg,#d50000,#ff6f00);color:#fff8e1;border:1.5px solid #fff59d;font-weight:900;box-shadow:0 0 12px rgba(255,111,0,0.65);" onclick="openQuestUpgradeModal('realms')" title="Nâng Cấp Nhân Vật 10 Bậc Tu Hành Bằng Phước & Đổi 10 Bộ Trang Phục">
+        👑👘 10 Bậc Tu · Trang Phục
       </button>
       <button id="btnDesktopRightMerit" class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
         🏆 Bảng Top · 💎<span id="meritScore">1.380</span>
@@ -1117,11 +1117,14 @@
         <input id="accountPinInput" type="password" inputmode="numeric" value="1234" maxlength="8" placeholder="Nhập Mã PIN 4 số riêng (VD: 1234, 6868...)" style="font-size:13px; font-weight:800; padding:8px 10px; letter-spacing:3px; color:#ffd740;" />
       </div>
       <div class="sk-field">
-        <label>👘 Chọn Hình Dáng Nhân Vật Áo Lam:</label>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:4px;">
-          <button id="btnGenderF" class="topic-btn" style="text-align:center; padding:8px;" onclick="selectCharGender('F')">👩🏻🪷 Phật Tử Nữ (Áo Lam)</button>
-          <button id="btnGenderM" class="topic-btn selected" style="text-align:center; padding:8px;" onclick="selectCharGender('M')">👨🏻🧘‍♂️ Cư Sĩ Nam (Áo Lam)</button>
+        <label>👘 Chọn Giới Tính & Khoác 10 Bộ Trang Phục Bậc Tu Hành:</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:4px; margin-bottom:6px;">
+          <button id="btnGenderF" class="topic-btn" style="text-align:center; padding:8px;" onclick="selectCharGender('F')">👩🏻🪷 Phật Tử Nữ</button>
+          <button id="btnGenderM" class="topic-btn selected" style="text-align:center; padding:8px;" onclick="selectCharGender('M')">👨🏻🧘‍♂️ Cư Sĩ Nam</button>
         </div>
+        <button type="button" class="btn-sk-submit" style="width:100%; background:linear-gradient(135deg,#ff6f00,#b71c1c); border:1.5px solid #fff59d; padding:8px 10px; font-size:11.5px; font-weight:900; box-shadow:0 0 12px rgba(255,111,0,0.5);" onclick="closeRenameCharModal(); openQuestUpgradeModal('realms');">
+          👑👘 Mở Kho 10 Bộ Trang Phục & Nâng Cấp Bậc Tu Hành Bằng Phước
+        </button>
       </div>
       <div style="font-size:10.5px; color:#f7cf73; font-weight:800; margin:6px 0 4px;">⚡ Hoặc bấm chọn nhanh tên thành viên để đăng nhập:</div>
       <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
@@ -1166,6 +1169,14 @@
 
       <!-- Khung Cảnh Giới Hiện Tại & Trang Phục Đang Khoác -->
       <div id="quPlayerRealmHeader" style="background:linear-gradient(135deg,#2a1006 0%,#4a148c 55%,#1a0633 100%); border:2px solid #ffd740; border-radius:12px; padding:10px 12px; margin-bottom:8px; box-shadow:0 6px 18px rgba(0,0,0,0.75);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:5px;">
+          <span id="quRealmBadge" style="font-size:13px; font-weight:900; color:#ffd740;">🌱 Bậc 1/10 · Bạch Y Thiện Tín</span>
+          <span id="quCurrentOutfitBadge" style="font-size:11px; font-weight:800; color:#69f0ae; background:rgba(0,0,0,0.45); padding:2px 8px; border-radius:999px; border:1px solid #69f0ae;">👕 Đang khoác: Áo Lam Xám Tro Mộc Mạc</span>
+        </div>
+        <div style="width:100%; height:9px; background:rgba(0,0,0,0.65); border-radius:999px; overflow:hidden; border:1px solid rgba(255,215,64,0.4); margin-bottom:4px;">
+          <div id="quRealmExpBar" style="width:15%; height:100%; background:linear-gradient(90deg,#ffd740,#ff6d00,#00e676);"></div>
+        </div>
+        <div id="quRealmExpText" style="font-size:11px; color:#ffe082; font-weight:800;">Hiện có: 1.380 💎 / Cần 5.000 💎 lên Bậc 2 (🧹 Chú Tiểu Quét Lá)</div>
       </div>
 
       <!-- Chuyển 3 Tab: [👑 1. Bậc Tu Hành & Trang Phục (10 Bậc)] · [📜 2. Nhiệm Vụ Hàng Ngày] · [⚒️ 3. Nâng Cấp Pháp Khí] -->
@@ -1396,6 +1407,10 @@
       <button class="dock-item active-ritual" onclick="openMeritShopModal()">
         <span class="dock-icon">🎁</span>
         <span class="dock-label">Cửa Hàng Lễ</span>
+      </button>
+      <button class="dock-item highlight-red" style="background:linear-gradient(180deg,#ff6f00,#b71c1c);border:1.5px solid #fff59d;box-shadow:0 0 12px rgba(255,111,0,0.6);" onclick="openQuestUpgradeModal('realms')">
+        <span class="dock-icon">👑👘</span>
+        <span class="dock-label">10 Bậc · Trang Phục</span>
       </button>
       <button id="dockChantBtn" class="dock-item" onclick="toggleRealChanting()">
         <span class="dock-icon">📿</span>
@@ -2057,9 +2072,20 @@
             • Túi Vàng Mã: <b id="shopGoldBagCount" style="color:#ffab40;">2 Lễ</b> · Đã Hóa: <b id="shopBurnCount" style="color:#a5d6a7;">2 Lễ</b>
           </div>
           <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:5px;">
-            <span class="cm-auto-pill" style="font-size:9.5px; padding:3px 7px; background:rgba(48,20,5,0.95); color:#ffe082; border:1px solid #ffd54f;" onclick="closeMeritShopModal(); openCenterStage('mo');">🪵 Gõ Mõ Tích Phước</span>
-            <span class="cm-auto-pill" style="font-size:9.5px; padding:3px 7px; background:linear-gradient(135deg,#e65100,#b71c1c); color:#fff; border:1px solid #ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Phòng Hóa Vàng</span>
+            <span class="cm-auto-pill" style="font-size:9.5px; padding:3px 7px; background:linear-gradient(135deg,#ff6f00,#b71c1c); color:#fff; border:1px solid #fff59d; font-weight:900;" onclick="closeMeritShopModal(); openQuestUpgradeModal('realms');">👑👘 10 Bậc Tu & Trang Phục</span>
+            <span class="cm-auto-pill" style="font-size:9.5px; padding:3px 7px; background:rgba(48,20,5,0.95); color:#ffe082; border:1px solid #ffd54f;" onclick="closeMeritShopModal(); openCenterStage('mo');">🪵 Gõ Mõ</span>
+            <span class="cm-auto-pill" style="font-size:9.5px; padding:3px 7px; background:linear-gradient(135deg,#e65100,#b71c1c); color:#fff; border:1px solid #ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</span>
           </div>
+        </div>
+      </div>
+
+      <!-- V80 (#mvyv22isx): BẢNG NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH & KHO 10 BỘ TRANG PHỤC NGAY TRONG BẢNG PHƯỚC ĐỨC -->
+      <div style="background:linear-gradient(135deg,rgba(58,18,6,0.97),rgba(28,8,42,0.97)); border:2px solid #ffd740; border-radius:12px; padding:9px 11px; margin-bottom:9px; box-shadow:0 4px 16px rgba(0,0,0,0.7);">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
+          <span style="font-size:11.8px; font-weight:900; color:#ffd740;">👑👘 NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH & ĐỔI 10 BỘ TRANG PHỤC BẰNG PHƯỚC:</span>
+          <button type="button" onclick="closeMeritShopModal(); openQuestUpgradeModal('realms');" style="background:linear-gradient(135deg,#ff6f00,#d50000); color:#fff; border:1.5px solid #fff59d; border-radius:8px; padding:4px 10px; font-size:10.5px; font-weight:900; cursor:pointer;">🔍 Mở Toàn Màn Hình 10 Bậc</button>
+        </div>
+        <div id="shopRealmOutfitsQuickList" style="max-height:215px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px;">
         </div>
       </div>
 
@@ -6640,43 +6666,11 @@
       });
 
       if (panelR) {
-        const curMerit = Number(player?.merit || 0);
-        panelR.innerHTML = `
-          <div style="background:linear-gradient(90deg,rgba(74,20,4,0.95),rgba(32,12,4,0.95)); border:1.5px solid #ffd54f; border-radius:10px; padding:8px 12px; font-size:11px; color:#ffe082; line-height:1.45;">
-            🙏 <b>Đạo Lộ Tu Tập 10 Bậc Từ Thấp Nhất Đến Tu Thành Chính Quả:</b> Phước Đức (💎) của bạn hiện có <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b>. Mỗi bậc tu hành yêu cầu một con số Phước khổng lồ gấp nhiều lần bậc trước để thể hiện hành trình khổ luyện vạn kiếp mới <b>Tu Thành Chính Quả (99.999.999.999 💎 Phước)</b>. Khi đột phá hoặc bấm <b>👁️ Mặc Thử 25s</b>, nhân vật trên Chánh Điện sẽ lập tức đổi màu Pháp Phục, Y Cà Sa, Mão/Bảo Quán, Tòa Sen & Hào Quang!
-          </div>
-        ` + REALM_RANKS_CONFIG.map(r => {
-          const isUnlocked = (st.cultivationLv || 1) >= r.lv;
-          const isNext = (st.cultivationLv || 1) + 1 === r.lv;
-          const isEquipped = ((previewOutfitLevel || st.equippedOutfitLv || 1) === r.lv);
-          const canAfford = curMerit >= r.meritCost;
-          const missingMerit = Math.max(0, r.meritCost - curMerit);
-
-          return `<div style="background:${r.lv === 10 ? 'linear-gradient(135deg,rgba(88,24,4,0.96),rgba(38,8,2,0.98))' : 'rgba(32,16,8,0.94)'}; border:${isEquipped ? '2px solid #00e676' : (r.lv === 10 ? '2px solid #ffd700' : '1.2px solid rgba(255,213,79,0.4)')}; border-radius:11px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; box-shadow:${r.lv === 10 ? '0 0 18px rgba(255,215,0,0.32)' : 'none'};">
-            <div style="flex:1; min-width:235px;">
-              <div style="display:flex; align-items:center; gap:7px; flex-wrap:wrap;">
-                <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:${r.colorHex}; border:2px solid #fff; box-shadow:0 0 8px ${r.colorHex};"></span>
-                <span style="font-size:12.5px; font-weight:900; color:${r.colorHex};">${r.shortTitle}: ${r.name}</span>
-                <span style="background:rgba(0,0,0,0.55); border:1px solid ${r.colorHex}; color:${r.colorHex}; font-size:9.8px; font-weight:900; padding:1px 7px; border-radius:999px;">Màu: ${r.outfitColorLabel}</span>
-              </div>
-              <div style="font-size:11px; color:#fff8e1; font-weight:800; margin-top:4px;">👘 Trang phục: <span style="color:#ffd54f;">${r.outfitName}</span></div>
-              <div style="font-size:10.3px; color:#d7ccc8; margin-top:2px;">✨ Quyền năng: ${r.perk}</div>
-              <div style="font-size:11px; font-weight:900; color:${isUnlocked ? '#69f0ae' : '#ffab40'}; margin-top:4px;">
-                💎 Phước yêu cầu: <span style="color:#ffd740; font-size:11.8px;">${r.meritCostText}</span>
-                ${!isUnlocked ? `<span style="color:#ff8a80; font-size:10px; margin-left:6px;">(Còn thiếu ${missingMerit.toLocaleString('vi-VN')} 💎)</span>` : `<span style="color:#69f0ae; font-size:10px; margin-left:6px;">(Đã chứng đắc ✅)</span>`}
-              </div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:155px;">
-              ${isUnlocked
-                ? (isEquipped
-                  ? `<button disabled style="width:100%; padding:6px 10px; border-radius:8px; border:1.5px solid #00e676; background:rgba(0,200,83,0.22); color:#69f0ae; font-size:10.8px; font-weight:900;">👕 Đang Khoác Pháp Phục Này</button>`
-                  : `<button onclick="equipCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 10px; border-radius:8px; border:1.5px solid #80d8ff; background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; font-size:10.8px; font-weight:900;">👕 Khoác Pháp Phục Bậc ${r.lv}</button>`)
-                : `<button onclick="upgradeCharacterRealmByMerit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 10px; border-radius:8px; border:1.5px solid ${canAfford && isNext ? '#00e676' : '#ffd54f'}; background:${canAfford && isNext ? 'linear-gradient(135deg,#00c853,#009624)' : 'linear-gradient(135deg,#6d1b07,#3e1004)'}; color:#fff; font-size:10.6px; font-weight:900;">⬆️ Đột Phá Bậc ${r.lv} (-${r.meritCost.toLocaleString('vi-VN')} 💎)</button>`
-              }
-              <button onclick="previewCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:4px 9px; border-radius:7px; border:1px solid rgba(255,215,64,0.65); background:rgba(255,215,64,0.14); color:#ffe082; font-size:10px; font-weight:800;">👁️ Mặc Thử Ra Sảnh Chùa (25s)</button>
-            </div>
-          </div>`;
-        }).join('');
+        panelR.innerHTML = buildAllTenRealmsHtml(st, false);
+      }
+      const shopRealmBox = document.getElementById('shopRealmOutfitsQuickList');
+      if (shopRealmBox) {
+        shopRealmBox.innerHTML = buildAllTenRealmsHtml(st, true);
       }
 
       if (panelQ) {
@@ -6775,23 +6769,114 @@
       renderQuestUpgradeModal();
     }
 
+    // V80 (#mvyv22isx): Hình Minh Họa Trực Quan Từng Bộ Trang Phục Nhân Vật (Bậc 1 -> Bậc 10)
+    function buildRealmOutfitVisualPortrait(r) {
+      const robeColors = {
+        1: ['#90a4ae', '#546e7a'],
+        2: ['#29b6f6', '#0277bd'],
+        3: ['#a1887f', '#5d4037'],
+        4: ['#ffd54f', '#f57f17'],
+        5: ['#ffb300', '#e65100'],
+        6: ['#ff5252', '#b71c1c'],
+        7: ['#ce93d8', '#6a1b9a'],
+        8: ['#ffd740', '#ff6f00'],
+        9: ['#69f0ae', '#00897b'],
+        10: ['#fff59d', '#ffab00']
+      };
+      const [c1, c2] = robeColors[r.lv] || ['#90a4ae', '#546e7a'];
+      const hasSash = r.lv >= 4;
+      const sashCol = r.kasayaColor || '#d50000';
+      const hasCrown = r.lv >= 6;
+      const hasLotus = r.lv >= 4;
+      const hasHalo = r.lv >= 3;
+      const hasSwastika = r.lv >= 8;
+
+      return `<div style="position:relative; width:64px; height:76px; border-radius:10px; background:radial-gradient(circle at 50% 35%, ${r.colorHex}44 0%, #160802 85%); border:2px solid ${r.colorHex}; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 12px ${r.colorHex}55; overflow:hidden;">
+        <svg viewBox="0 0 64 76" width="64" height="76">
+          ${hasHalo ? `<circle cx="32" cy="24" r="${14 + r.lv * 0.7}" fill="none" stroke="${r.lv === 10 ? '#ffd700' : r.colorHex}" stroke-width="${r.lv >= 8 ? 2.4 : 1.4}" stroke-dasharray="${r.lv === 10 ? 'none' : '3,2'}" opacity="0.92"/>` : ''}
+          ${r.lv >= 9 ? `<circle cx="32" cy="24" r="22" fill="none" stroke="#69f0ae" stroke-width="1.3" opacity="0.85"/>` : ''}
+          ${hasLotus ? `<ellipse cx="32" cy="68" rx="22" ry="5.5" fill="${r.lv === 10 ? '#ffd700' : r.colorHex}" stroke="#fff" stroke-width="1"/>` : `<ellipse cx="32" cy="69" rx="16" ry="3.5" fill="rgba(255,255,255,0.2)"/>`}
+          <!-- Thân Áo Pháp Phục -->
+          <path d="M16 66 L21 34 Q32 30 43 34 L48 66 Z" fill="${c1}" stroke="${c2}" stroke-width="1.6"/>
+          <!-- Tay Áo Rộng -->
+          <path d="M21 35 L11 50 L18 53 L23 42 Z" fill="${c2}" stroke="#fff" stroke-width="0.6"/>
+          <path d="M43 35 L53 50 L46 53 L41 42 Z" fill="${c2}" stroke="#fff" stroke-width="0.6"/>
+          <!-- Cổ Áo Chữ V Nhà Phật -->
+          <path d="M26 33 L32 42 L38 33" fill="none" stroke="#fff8e1" stroke-width="1.5"/>
+          <!-- Y Cà Sa Đắp Chéo Vai -->
+          ${hasSash ? `<path d="M20 36 L44 47 L42 63 L19 50 Z" fill="${sashCol}" stroke="#ffd700" stroke-width="1"/>` : ''}
+          <!-- Đầu Nhân Vật -->
+          <circle cx="32" cy="23" r="8.5" fill="#ffe0b2" stroke="#5d4037" stroke-width="1"/>
+          <!-- Mão Tỳ Lư / Bảo Quán -->
+          ${hasCrown ? `<polygon points="23,17 32,7 41,17" fill="${r.lv === 10 ? '#ffd700' : r.colorHex}" stroke="#fff" stroke-width="1"/>` : ''}
+          <!-- Hai Tay Chắp Búp Sen -->
+          <ellipse cx="32" cy="46" rx="4" ry="5.5" fill="#ffe0b2" stroke="#8d6e63" stroke-width="0.8"/>
+          ${hasSwastika ? `<text x="32" y="42" text-anchor="middle" fill="#fff59d" font-size="9" font-weight="900">卍</text>` : ''}
+        </svg>
+        <span style="position:absolute; bottom:1px; right:2px; background:rgba(0,0,0,0.82); color:${r.colorHex}; font-size:8.5px; font-weight:900; padding:0 4px; border-radius:4px; border:1px solid ${r.colorHex};">Bậc ${r.lv}</span>
+      </div>`;
+    }
+
+    function buildAllTenRealmsHtml(stInput, compactMode = false) {
+      const st = stInput || getPlayerQuestState();
+      const curMerit = Number(player?.merit || 0);
+      const introBanner = compactMode ? '' : `
+        <div style="background:linear-gradient(90deg,rgba(74,20,4,0.95),rgba(32,12,4,0.95)); border:1.5px solid #ffd54f; border-radius:10px; padding:8px 12px; font-size:11px; color:#ffe082; line-height:1.45;">
+          🙏 <b>Đạo Lộ Tu Tập 10 Bậc & 10 Bộ Trang Phục (Từ Bạch Y Thiện Tín ➔ Tu Thành Chính Quả):</b> Phước Đức hiện có: <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b>. Mỗi bậc có <b>Trang Phục, Màu Áo, Y Cà Sa, Mão/Bảo Quán, Tòa Sen & Hào Quang riêng</b>. Bạn có thể <b>⬆️ Đột Phá Bằng Phước</b> hoặc bấm <b>👕 Mặc Ngay Ra Sảnh</b> ở bất kỳ bậc nào để khoác trang phục đó lên nhân vật!
+        </div>
+      `;
+      return introBanner + REALM_RANKS_CONFIG.map(r => {
+        const isUnlocked = (st.cultivationLv || 1) >= r.lv;
+        const isNext = (st.cultivationLv || 1) + 1 === r.lv;
+        const activeLv = previewOutfitLevel || st.equippedOutfitLv || st.cultivationLv || 1;
+        const isEquipped = (activeLv === r.lv);
+        const canAfford = curMerit >= r.meritCost;
+        const missingMerit = Math.max(0, r.meritCost - curMerit);
+
+        return `<div style="background:${r.lv === 10 ? 'linear-gradient(135deg,rgba(88,24,4,0.96),rgba(38,8,2,0.98))' : 'rgba(32,16,8,0.94)'}; border:${isEquipped ? '2px solid #00e676' : (r.lv === 10 ? '2px solid #ffd700' : '1.2px solid rgba(255,213,79,0.4)')}; border-radius:11px; padding:8px 10px; display:flex; align-items:center; justify-content:space-between; gap:9px; flex-wrap:wrap; box-shadow:${r.lv === 10 ? '0 0 18px rgba(255,215,0,0.32)' : 'none'};">
+          ${buildRealmOutfitVisualPortrait(r)}
+          <div style="flex:1; min-width:195px;">
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <span style="font-size:12px; font-weight:900; color:${r.colorHex};">${r.shortTitle}: ${r.name}</span>
+              <span style="background:rgba(0,0,0,0.65); border:1px solid ${r.colorHex}; color:${r.colorHex}; font-size:9.5px; font-weight:900; padding:1px 6px; border-radius:999px;">🎨 Màu: ${r.outfitColorLabel}</span>
+            </div>
+            <div style="font-size:10.8px; color:#fff8e1; font-weight:800; margin-top:3px;">👘 Trang phục: <span style="color:#ffd54f;">${r.outfitName}</span></div>
+            <div style="font-size:10px; color:#d7ccc8; margin-top:2px;">✨ ${r.perk}</div>
+            <div style="font-size:10.8px; font-weight:900; color:${isUnlocked ? '#69f0ae' : '#ffab40'}; margin-top:3px;">
+              💎 Phước nâng cấp: <span style="color:#ffd740; font-size:11.5px;">${r.meritCostText}</span>
+              ${!isUnlocked ? `<span style="color:#ff8a80; font-size:9.8px; margin-left:4px;">(Thiếu ${missingMerit.toLocaleString('vi-VN')} 💎)</span>` : `<span style="color:#69f0ae; font-size:9.8px; margin-left:4px;">(Đã mở khóa ✅)</span>`}
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:148px;">
+            ${isUnlocked
+              ? `<button onclick="equipCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 9px; border-radius:8px; border:1.5px solid #00e676; background:${isEquipped ? 'rgba(0,200,83,0.28)' : 'linear-gradient(135deg,#00c853,#009624)'}; color:#fff; font-size:10.5px; font-weight:900;">${isEquipped ? '✅ Đang Mặc Bộ Này' : `👕 Khoác Áo Bậc ${r.lv}`}</button>`
+              : `<button onclick="upgradeCharacterRealmByMerit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 9px; border-radius:8px; border:1.5px solid ${canAfford && isNext ? '#00e676' : '#ffd54f'}; background:${canAfford && isNext ? 'linear-gradient(135deg,#00c853,#009624)' : 'linear-gradient(135deg,#8e24aa,#4a148c)'}; color:#fff; font-size:10.4px; font-weight:900;">⬆️ Nâng Cấp (-${r.meritCost.toLocaleString('vi-VN')} 💎)</button>`
+            }
+            <button onclick="previewCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:5px 9px; border-radius:7px; border:1.2px solid #ffd740; background:${isEquipped ? 'rgba(0,230,118,0.25)' : 'linear-gradient(135deg,#f57f17,#e65100)'}; color:#fff; font-size:10px; font-weight:900;">👕 Mặc Ngay Ra Sảnh Chùa</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
     function previewCharacterRealmOutfit(lv) {
       unlockAndStartAudio();
       const cfg = getRealmConfigByLv(lv);
       previewOutfitLevel = cfg.lv;
-      if (previewOutfitTimer) clearTimeout(previewOutfitTimer);
-      previewOutfitTimer = setTimeout(() => {
-        previewOutfitLevel = 0;
-        updateTopBarQuestRealmBadge();
-        showToast(`⏳ Đã kết thúc 25 giây mặc thử ${cfg.outfitName}.`);
-      }, 25000);
+      if (previewOutfitTimer) {
+        clearTimeout(previewOutfitTimer);
+        previewOutfitTimer = null;
+      }
       updateTopBarQuestRealmBadge();
+      renderQuestUpgradeModal();
       closeQuestUpgradeModal();
+      closeMeritShopModal();
       playBellSound();
-      showToast(`👁️✨ Đang mặc thử 25s trên sảnh chùa: [${cfg.shortTitle}] — ${cfg.outfitName}!`);
+      player.chat = `👘✨ Con đang khoác bộ Pháp Phục [${cfg.shortTitle}]: ${cfg.outfitName} (${cfg.outfitColorLabel})!`;
+      player.chatTimer = 260;
+      showToast(`👘✨ Đã mặc bộ Trang Phục [${cfg.shortTitle}]: ${cfg.outfitName} (${cfg.outfitColorLabel}) ra sảnh chùa!`);
     }
 
-    // V77: Vẽ Đài Sen, Vòng Lửa Kim Cang, Hào Quang Cầu Vồng & Phật Quang Vạn Tự 卍 Dưới Chân / Sau Lưng Nhân Vật
+    // V80 (#mvyv22isx): Vẽ Đài Sen, Vòng Lửa Kim Cang, Hào Quang Cầu Vồng & Phật Quang Vạn Tự 卍 Dưới Chân / Sau Lưng Nhân Vật
     function drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, lv, frameCount) {
       if (!lv || lv <= 1) return;
       const cfg = getRealmConfigByLv(lv);
@@ -6888,25 +6973,66 @@
       ctx.restore();
     }
 
-    // V77: Vẽ Y Cà Sa Đắp Chéo Vai, Tràng Hạt Bồ Đề, Mão Tỳ Lư / Bảo Quán Bồ Tát & Ấn Vạn Tự 卍 Trước Ngực Nhân Vật
+    // V80 (#mvyv22isx): Vẽ Toàn Bộ Áo Pháp Phục Đổi Màu 10 Bậc, Y Cà Sa, Tràng Hạt, Mão Tỳ Lư / Bảo Quán & Ấn Vạn Tự 卍 Trên Mọi Điện Thoại (Không phụ thuộc ctx.filter)
     function drawCharacterCultivationOverlay(ctx, sx, sy, sw, sh, scale, lv, frameCount) {
       if (!lv || lv <= 1) return;
       const cfg = getRealmConfigByLv(lv);
       ctx.save();
 
-      const chestY = sy - sh * 0.56;
+      const robePalette = {
+        2: { fill: 'rgba(41, 182, 246, 0.44)', trim: '#0288d1' },
+        3: { fill: 'rgba(141, 110, 99, 0.48)', trim: '#5d4037' },
+        4: { fill: 'rgba(255, 213, 79, 0.50)', trim: '#f57f17' },
+        5: { fill: 'rgba(255, 160, 0, 0.52)', trim: '#e65100' },
+        6: { fill: 'rgba(229, 57, 53, 0.54)', trim: '#ffd700' },
+        7: { fill: 'rgba(171, 71, 188, 0.54)', trim: '#ffd700' },
+        8: { fill: 'rgba(255, 215, 0, 0.58)', trim: '#ff6f00' },
+        9: { fill: 'rgba(0, 230, 118, 0.52)', trim: '#fff59d' },
+        10: { fill: 'rgba(255, 235, 59, 0.64)', trim: '#ff1744' }
+      };
+      const pal = robePalette[lv] || { fill: 'rgba(255, 213, 79, 0.42)', trim: '#ffd54f' };
+
+      const shoulderY = sy - sh * 0.68;
+      const hemY = sy - sh * 0.08;
+      const chestY = sy - sh * 0.55;
       const headTopY = sy - sh * 0.92;
+
+      // 0. Thân Áo Pháp Phục Đổi Màu Trực Tiếp Trên Nhân Vật (Đảm bảo 100% hiển thị rõ trên iOS / Android / Zalo WebView)
+      ctx.fillStyle = pal.fill;
+      ctx.strokeStyle = pal.trim;
+      ctx.lineWidth = 1.25 * scale;
+      ctx.beginPath();
+      ctx.moveTo(sx - sw * 0.19, shoulderY);
+      ctx.lineTo(sx + sw * 0.19, shoulderY);
+      ctx.lineTo(sx + sw * 0.25, hemY);
+      ctx.lineTo(sx - sw * 0.25, hemY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Cổ áo chữ V truyền thống nhà Phật
+      ctx.strokeStyle = '#fff8e1';
+      ctx.lineWidth = 1.3 * scale;
+      ctx.beginPath();
+      ctx.moveTo(sx - sw * 0.09, shoulderY);
+      ctx.lineTo(sx, sy - sh * 0.56);
+      ctx.lineTo(sx + sw * 0.09, shoulderY);
+      ctx.stroke();
+
+      // Đai lưng Pháp Phục (Bậc 2+)
+      ctx.fillStyle = pal.trim;
+      ctx.fillRect(sx - sw * 0.20, sy - sh * 0.42, sw * 0.40, 2.8 * scale);
 
       // 1. Dải Y Cà Sa / Pháp Phục Đắp Chéo Qua Vai (Từ Bậc 4 Tỳ Kheo -> Bậc 10 Phật Đà)
       if (lv >= 4 && cfg.kasayaColor) {
         ctx.fillStyle = cfg.kasayaColor;
-        ctx.strokeStyle = lv >= 6 ? '#ffd700' : 'rgba(255,255,255,0.55)';
-        ctx.lineWidth = 1.1 * scale;
+        ctx.strokeStyle = lv >= 6 ? '#ffd700' : 'rgba(255,255,255,0.75)';
+        ctx.lineWidth = 1.2 * scale;
         ctx.beginPath();
         ctx.moveTo(sx - sw * 0.21, sy - sh * 0.68);
-        ctx.lineTo(sx + sw * 0.19, sy - sh * 0.44);
-        ctx.lineTo(sx + sw * 0.14, sy - sh * 0.25);
-        ctx.lineTo(sx - sw * 0.23, sy - sh * 0.48);
+        ctx.lineTo(sx + sw * 0.21, sy - sh * 0.44);
+        ctx.lineTo(sx + sw * 0.17, sy - sh * 0.14);
+        ctx.lineTo(sx - sw * 0.23, sy - sh * 0.42);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
@@ -6920,7 +7046,7 @@
           const bx = sx + b * 2.8 * scale;
           const by = sy - sh * 0.66 + Math.abs(b) * 1.35 * scale;
           ctx.beginPath();
-          ctx.arc(bx, by, 1.55 * scale, 0, Math.PI * 2);
+          ctx.arc(bx, by, 1.65 * scale, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -6931,11 +7057,11 @@
         ctx.translate(sx, headTopY);
         ctx.fillStyle = lv === 10 ? '#ffd700' : (lv === 9 ? '#00e676' : (lv === 7 ? '#e040fb' : '#ff3d00'));
         ctx.strokeStyle = '#fff59d';
-        ctx.lineWidth = 1.2 * scale;
+        ctx.lineWidth = 1.3 * scale;
         ctx.beginPath();
-        ctx.moveTo(-7.5 * scale, 2 * scale);
-        ctx.lineTo(0, -8.5 * scale);
-        ctx.lineTo(7.5 * scale, 2 * scale);
+        ctx.moveTo(-8.5 * scale, 2 * scale);
+        ctx.lineTo(0, -9.5 * scale);
+        ctx.lineTo(8.5 * scale, 2 * scale);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
@@ -6944,7 +7070,7 @@
 
       // 4. Ấn Vạn Tự 卍 Hoàng Kim Trước Ngực (Bậc 8 La Hán -> Bậc 10 Tu Thành Chính Quả)
       if (lv >= 8) {
-        ctx.font = `900 ${Math.max(9, Math.round(11.5 * scale))}px sans-serif`;
+        ctx.font = `900 ${Math.max(10, Math.round(12 * scale))}px sans-serif`;
         ctx.fillStyle = '#fff59d';
         ctx.shadowColor = '#ff6f00';
         ctx.shadowBlur = 6;
@@ -9678,6 +9804,7 @@
 
     function openMeritShopModal() {
       syncMeritAndBagHud();
+      if (typeof renderQuestUpgradeModal === 'function') renderQuestUpgradeModal();
       document.getElementById('meritShopModal').classList.add('open');
     }
 
@@ -12849,7 +12976,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 79;
+        const CURRENT_BUILD_VER = 80;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
