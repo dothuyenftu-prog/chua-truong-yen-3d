@@ -1,5 +1,5 @@
 {
-  "version": 89,
-  "updatedAt": "2026-11-02T14:31:45+07:00",
-  "note": "V89: Thêm bậc X100 (0.15%) & X500 tỉ lệ cực thấp (0.03%) + Nâng mâm lễ vật lên cao trên mặt Bàn Thờ chính (không bị nhãn Top 1/2/3 che khuất)"
+  "version": 90,
+  "updatedAt": "2026-11-02T14:38:30+07:00",
+  "note": "V90: Đưa các Mâm Lễ Vật dâng cúng lên lớp hiển thị trên cùng (vẽ sau toàn bộ nhân vật & huy hiệu) và nâng cao lên Mặt Bàn Thờ Gỗ Thượng Tầng (v=0.276, ngang hàng lọ hoa lục bình & chân nến đồng); đồng thời hạ vị trí quỳ của Top 3 xuống thảm đỏ và chuyển nhãn Bậc Tu Hành xuống dưới chân để không bao giờ che khuất lễ vật."
 }

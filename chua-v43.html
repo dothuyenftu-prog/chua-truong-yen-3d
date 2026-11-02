@@ -6288,18 +6288,40 @@
     }
 
     // =========================================================================
-    // V76 (#mvyotj6rp): HỆ THỐNG NHIỆM VỤ TU TẬP HÀNG NGÀY & NÂNG CẤP PHÁP KHÍ - CẢNH GIỚI
+    // V76 / V90 (#mvyy24yb1o): HỆ THỐNG NHIỆM VỤ TU TẬP HÀNG NGÀY PHẦN THƯỞNG KHỦNG (TỰ ĐỘNG NHÂN THEO BẬC TU HÀNH)
     // =========================================================================
     const DAILY_QUESTS_CONFIG = [
-      { id: 'mo', icon: '🪘', title: 'Tịnh Tâm Gõ Mõ Tụng Kinh', desc: 'Gõ Mõ Tụng Kinh đủ 15 tiếng trong ngày để thanh lọc tâm ý.', target: 15, rewardMerit: 18, rewardExp: 25 },
-      { id: 'bell', icon: '🔔', title: 'Thỉnh Đại Hồng Chuông', desc: 'Thỉnh Đại Hồng Chuông 5 tiếng vang vọng khắp ba cõi.', target: 5, rewardMerit: 20, rewardExp: 30 },
-      { id: 'incense', icon: '🪔', title: 'Dâng Nén Tâm Hương', desc: 'Thắp Hương khấn nguyện 3 lần tại các ban thờ.', target: 3, rewardMerit: 16, rewardExp: 25 },
-      { id: 'bow', icon: '🙇', title: 'Thành Tâm Lễ Phật', desc: 'Quỳ Lạy hoặc Vái Khấn 8 lần trước Tam Bảo / Đức Ông / Thần Tài.', target: 8, rewardMerit: 22, rewardExp: 35 },
-      { id: 'offering', icon: '🍱', title: 'Sắm Lễ Cúng Dường & Hạ Lộc', desc: 'Dâng Lễ Vật lên bàn thờ hoặc Hạ Lễ thụ lộc 2 lần.', target: 2, rewardMerit: 30, rewardExp: 45 },
-      { id: 'gold', icon: '🔥', title: 'Hóa Vàng Tạ Lễ Lò Bát Quái', desc: 'Hóa Vàng Mã tại Lò Hóa Vàng 2 lần.', target: 2, rewardMerit: 28, rewardExp: 40 },
-      { id: 'social', icon: '🤝', title: 'Kết Duyên Đạo Hữu Trong Chùa', desc: 'Tương tác (Vái nhau, Quỳ lạy nhau, Đấm nhau vui hoặc Trò chuyện) với người chơi khác 3 lần.', target: 3, rewardMerit: 24, rewardExp: 35 },
-      { id: 'divination', icon: '🎋', title: 'Thỉnh Quẻ Vấn Đạo Đầu Ngày', desc: 'Rút Xăm Quan Âm, Gieo Quẻ Kinh Dịch hoặc Xem Tử Vi 1 lần.', target: 1, rewardMerit: 15, rewardExp: 20 }
+      { id: 'mo', icon: '🪘', title: 'Tịnh Tâm Gõ Mõ Tụng Kinh', desc: 'Gõ Mõ Tụng Kinh đủ 15 tiếng trong ngày để thanh lọc tâm ý.', target: 15, rewardMerit: 50000, rewardExp: 500 },
+      { id: 'bell', icon: '🔔', title: 'Thỉnh Đại Hồng Chuông', desc: 'Thỉnh Đại Hồng Chuông 5 tiếng vang vọng khắp ba cõi.', target: 5, rewardMerit: 65000, rewardExp: 650 },
+      { id: 'incense', icon: '🪔', title: 'Dâng Nén Tâm Hương', desc: 'Thắp Hương khấn nguyện 3 lần tại các ban thờ.', target: 3, rewardMerit: 55000, rewardExp: 550 },
+      { id: 'bow', icon: '🙇', title: 'Thành Tâm Lễ Phật', desc: 'Quỳ Lạy hoặc Vái Khấn 8 lần trước Tam Bảo / Đức Ông / Thần Tài.', target: 8, rewardMerit: 85000, rewardExp: 850 },
+      { id: 'offering', icon: '🍱', title: 'Sắm Lễ Cúng Dường & Hạ Lộc', desc: 'Dâng Lễ Vật lên bàn thờ hoặc Hạ Lễ thụ lộc 2 lần.', target: 2, rewardMerit: 150000, rewardExp: 1500 },
+      { id: 'gold', icon: '🔥', title: 'Hóa Vàng Tạ Lễ Lò Bát Quái', desc: 'Hóa Vàng Mã tại Lò Hóa Vàng 2 lần.', target: 2, rewardMerit: 120000, rewardExp: 1200 },
+      { id: 'social', icon: '🤝', title: 'Kết Duyên Đạo Hữu Trong Chùa', desc: 'Tương tác (Vái nhau, Quỳ lạy nhau, Đấm nhau vui hoặc Trò chuyện) với người chơi khác 3 lần.', target: 3, rewardMerit: 100000, rewardExp: 1000 },
+      { id: 'divination', icon: '🎋', title: 'Thỉnh Quẻ Vấn Đạo Đầu Ngày', desc: 'Rút Xăm Quan Âm, Gieo Quẻ Kinh Dịch hoặc Xem Tử Vi 1 lần.', target: 1, rewardMerit: 60000, rewardExp: 600 }
     ];
+
+    function getQuestEffectiveReward(q, stInput) {
+      const st = stInput || (typeof getPlayerQuestState === 'function' ? getPlayerQuestState() : null);
+      const lv = Math.max(1, Number(st?.cultivationLv || 1));
+      const realmMultipliers = {
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 3,      // Bậc 4: Mỗi nhiệm vụ thưởng 150.000 -> 450.000 💎 (Tổng 8 NV = 2.055.000 💎, đủ lên Bậc 5!)
+        5: 15,     // Bậc 5: Mỗi nhiệm vụ thưởng 750.000 -> 2.250.000 💎 (Tổng 8 NV = 10.275.000 💎)
+        6: 100,    // Bậc 6: Mỗi nhiệm vụ thưởng 5 Triệu -> 15 Triệu 💎
+        7: 600,    // Bậc 7: Mỗi nhiệm vụ thưởng 30 Triệu -> 90 Triệu 💎
+        8: 4000,   // Bậc 8: Mỗi nhiệm vụ thưởng 200 Triệu -> 600 Triệu 💎
+        9: 25000,  // Bậc 9: Mỗi nhiệm vụ thưởng 1,25 Tỷ -> 3,75 Tỷ 💎
+        10: 50000  // Bậc 10: Mỗi nhiệm vụ thưởng 2,5 Tỷ -> 7,5 Tỷ 💎
+      };
+      const mult = realmMultipliers[lv] || 1;
+      return {
+        merit: Math.round((q.rewardMerit || 50000) * mult),
+        exp: Math.round((q.rewardExp || 500) * Math.max(1, lv))
+      };
+    }
 
     const DHARMA_UPGRADES_CONFIG = [
       { key: 'mo', icon: '🪘', name: 'Mõ Ngọc Bồ Đề', desc: 'Mỗi cấp tăng +0.7% xác suất nổ X khi Gõ Mõ & cộng thêm điểm Tu Vi.', baseCost: 35, costScale: 1.55, bonusPerLv: 0.007 },
@@ -6526,6 +6548,12 @@
         st.progress = {};
         st.claimed = {};
       }
+      // V90 (#mvyy24yb1o): Mở khóa nhận lại phần thưởng Nhiệm Vụ theo mức thưởng mới siêu cao nếu trước đó lỡ nhận mức cũ!
+      if (!st.v90QuestRewardBoosted) {
+        st.claimed = {};
+        st.v90QuestRewardBoosted = true;
+        try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
+      }
       if (!st.upgrades) st.upgrades = { mo: 1, bell: 1, incense: 1, furnace: 1 };
       if (typeof st.exp !== 'number') st.exp = 0;
       if (typeof st.cultivationLv !== 'number' || st.cultivationLv < 1) st.cultivationLv = 1;
@@ -6633,7 +6661,8 @@
       st.progress[questId] = next;
       savePlayerQuestState(st);
       if (prev < cfg.target && next >= cfg.target && !st.claimed[questId]) {
-        showToast(`🎯 Hoàn thành Nhiệm Vụ "${cfg.title}"! Mở 📜 Nhiệm Vụ để nhận +${cfg.rewardMerit} 💎 Phước!`);
+        const eff = getQuestEffectiveReward(cfg, st);
+        showToast(`🎯 Hoàn thành Nhiệm Vụ "${cfg.title}"! Mở 📜 Nhiệm Vụ để nhận +${eff.merit.toLocaleString('vi-VN')} 💎 Phước!`);
       }
     }
 
@@ -6725,6 +6754,7 @@
           const done = prog >= q.target;
           const claimed = !!st.claimed[q.id];
           const pct = Math.round((prog / q.target) * 100);
+          const eff = getQuestEffectiveReward(q, st);
           return `<div style="background:rgba(32,16,8,0.92); border:1px solid ${done && !claimed ? '#00e676' : 'rgba(255,213,79,0.35)'}; border-radius:10px; padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
             <div style="flex:1; min-width:210px;">
               <div style="font-size:12px; font-weight:900; color:#ffe082;">${q.icon} ${q.title} <span style="font-size:10.5px; color:#80d8ff;">(${prog}/${q.target})</span></div>
@@ -6734,11 +6764,11 @@
               </div>
             </div>
             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-              <span style="font-size:10.5px; font-weight:800; color:#69f0ae;">🎁 +${q.rewardMerit} 💎 · +${q.rewardExp} Tu Vi</span>
+              <span style="font-size:11px; font-weight:900; color:#69f0ae;">🎁 +${eff.merit.toLocaleString('vi-VN')} 💎 · +${eff.exp.toLocaleString('vi-VN')} Tu Vi</span>
               ${claimed
                 ? `<button disabled style="padding:5px 10px; border-radius:7px; border:1px solid #546e7a; background:#263238; color:#90a4ae; font-size:10.5px; font-weight:800;">✅ Đã Nhận</button>`
                 : (done
-                  ? `<button onclick="claimQuestReward('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #fff59d; background:linear-gradient(135deg,#00c853,#009624); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 10px rgba(0,230,118,0.5);">🎁 Nhận Thưởng</button>`
+                  ? `<button onclick="claimQuestReward('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #fff59d; background:linear-gradient(135deg,#00c853,#009624); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 10px rgba(0,230,118,0.5);">🎁 Nhận +${eff.merit.toLocaleString('vi-VN')} 💎</button>`
                   : `<span style="font-size:10px; color:#ffb74d; font-weight:700;">Đang tu tập...</span>`)}
             </div>
           </div>`;
@@ -7021,19 +7051,13 @@
       const cfg = DAILY_QUESTS_CONFIG.find(q => q.id === questId);
       if (!cfg) return;
       if ((st.progress[questId] || 0) < cfg.target || st.claimed[questId]) return;
-      const prevRealm = getRealmInfoByExp(st.exp || 0).cur.lv;
+      const eff = getQuestEffectiveReward(cfg, st);
       st.claimed[questId] = true;
-      st.exp = (st.exp || 0) + cfg.rewardExp;
+      st.exp = (st.exp || 0) + eff.exp;
       savePlayerQuestState(st);
-      addMerit(cfg.rewardMerit, `Hoàn thành Nhiệm Vụ "${cfg.title}" (+${cfg.rewardMerit} 💎)`);
-      const newRealm = getRealmInfoByExp(st.exp).cur;
+      addMerit(eff.merit, `Hoàn thành Nhiệm Vụ "${cfg.title}" (+${eff.merit.toLocaleString('vi-VN')} 💎)`);
       playBellSound();
-      if (newRealm.lv > prevRealm) {
-        addMerit(15, `Đột phá Cảnh Giới "${newRealm.name}" (Lv.${newRealm.lv}) (+15 💎)`);
-        showToast(`🌟 ĐỘT PHÁ CẢNH GIỚI: ${newRealm.name} (Lv.${newRealm.lv})! Thưởng thêm +15 💎 Phước!`);
-      } else {
-        showToast(`🎁 Đã nhận thưởng Nhiệm Vụ: +${cfg.rewardMerit} 💎 Phước & +${cfg.rewardExp} Tu Vi!`);
-      }
+      showToast(`🎁 Đã nhận thưởng Nhiệm Vụ "${cfg.title}": +${eff.merit.toLocaleString('vi-VN')} 💎 Phước & +${eff.exp.toLocaleString('vi-VN')} Tu Vi!`);
       renderQuestUpgradeModal();
     }
 
@@ -11226,72 +11250,6 @@
           }
           ctx.restore();
         }
-
-        // V89 (#mvyxp5d01m): NÂNG LỄ VẬT LÊN CAO TRÊN MẶT BÀN THỜ CHÍNH (censerY - 26px) ĐỂ RÕ NÉT 100%, KHÔNG BAO GIỜ BỊ NHÃN TOP 1/2/3 CHE KHUẤT!
-        const wingOfferings = altarOfferings[String(wd.idx)] || [];
-        if (wingOfferings.length > 0) {
-          ctx.save();
-          const tableY = censerY - 26 * (wingH / 960);
-          const tableW = Math.min(W - 14, Math.max(310, wingW * 0.65));
-          const count = Math.min(5, wingOfferings.length);
-          const cardW = Math.min(104, (tableW - 12) / count - 4);
-          const cardH = 24;
-          const totalCardsW = count * cardW + (count - 1) * 5;
-          const startCardX = censerX - totalCardsW / 2;
-          const traySize = Math.min(44, cardW * 0.56);
-
-          wingOfferings.slice(-5).forEach((off, idx) => {
-            const cxCard = startCardX + idx * (cardW + 5);
-            const slotCenterX = cxCard + cardW / 2;
-            const trayCenterY = tableY - traySize * 0.48;
-
-            // Đế hào quang vàng nâng mâm lễ nổi bật trên bàn thờ
-            const trayGlow = ctx.createRadialGradient(slotCenterX, tableY - 4, 2, slotCenterX, tableY - 4, traySize * 0.72);
-            trayGlow.addColorStop(0, 'rgba(255, 215, 64, 0.55)');
-            trayGlow.addColorStop(1, 'rgba(255, 160, 0, 0)');
-            ctx.fillStyle = trayGlow;
-            ctx.beginPath();
-            ctx.ellipse(slotCenterX, tableY - 3, traySize * 0.68, traySize * 0.25, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
-            if (tex && tex.complete && tex.naturalWidth > 0) {
-              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 2, traySize, traySize);
-            } else {
-              ctx.font = '24px sans-serif';
-              ctx.textAlign = 'center';
-              ctx.textBaseline = 'middle';
-              ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
-            }
-
-            // Thẻ Bài Gọn Dưới Mỗi Mâm Lễ Trên Bàn Thờ: Clip 100% bên trong khung
-            const cyCard = tableY + 2;
-            ctx.fillStyle = 'rgba(20, 7, 2, 0.94)';
-            ctx.strokeStyle = '#ffd54f';
-            ctx.lineWidth = 1.25;
-            ctx.beginPath();
-            ctx.roundRect(cxCard, cyCard, cardW, cardH, 5);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.save();
-            ctx.beginPath();
-            ctx.roundRect(cxCard + 2, cyCard + 1, cardW - 4, cardH - 2, 4);
-            ctx.clip();
-            ctx.font = 'bold 7.8px system-ui, -apple-system, sans-serif';
-            ctx.fillStyle = '#ffd740';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 12)}`, slotCenterX, cyCard + 7);
-
-            ctx.font = 'bold 7.6px system-ui, -apple-system, sans-serif';
-            ctx.fillStyle = '#69f0ae';
-            const giverName = (off.giver || 'Tín Chủ').replace(' (Giám Đốc)', '').replace(' (KH)', '').slice(0, 12);
-            ctx.fillText(`👤 ${giverName}`, slotCenterX, cyCard + 17.5);
-            ctx.restore();
-          });
-          ctx.restore();
-        }
       }
 
       for (const sp of smokeParticles) {
@@ -11499,9 +11457,9 @@
         window._playerMovedFromHonorSeat = true;
       }
       const top3SeatCoords = [
-        { u: 0.50, v: 0.592 }, // TOP 1: Chính giữa trước bàn thờ (hạ thấp vừa đủ để không bao giờ chạm vào mâm lễ trên bàn thờ)
-        { u: 0.34, v: 0.600 }, // TOP 2: Bên trái trước bàn thờ
-        { u: 0.66, v: 0.600 }  // TOP 3: Bên phải trước bàn thờ
+        { u: 0.50, v: 0.648 }, // TOP 1: Chính giữa trên thảm đỏ (hạ xuống dưới bậc tam cấp để thoáng hoàn toàn khu bàn thờ)
+        { u: 0.25, v: 0.656 }, // TOP 2: Bên trái thảm đỏ
+        { u: 0.75, v: 0.656 }  // TOP 3: Bên phải thảm đỏ
       ];
       const top3List = [];
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
@@ -11828,24 +11786,24 @@
           // 3) Vẽ Dải Y Cà Sa Đắp Chéo Vai, Tràng Hạt, Mão Tỳ Lư / Bảo Quán & Ấn Vạn Tự 卍
           drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, sh, scale, charOutfitLv, frameCount);
 
-          const headY = sy - sh - bob + poseOffsetY - 8;
+          const headY = sy - sh - bob + poseOffsetY - 6;
           const badgeLabel = isPlayer
             ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
 
-          // V77: Hiển thị Nhãn Bậc Tu Hành & Pháp Phục trên đầu người chơi (hoặc nhân vật Bậc cao)
-          if (isPlayer || charOutfitLv >= 2) {
+          // V90 (#mvyy0alf1n): Đặt Nhãn Bậc Tu Hành gọn dưới chân nhân vật (sy + 11) thay vì chồng 3 tầng lên đỉnh đầu gây che bàn thờ!
+          if ((isPlayer || charOutfitLv >= 2) && !(isPlayer && !inMutual && poseStatusText)) {
             const realmTitleTxt = isPlayer && previewOutfitLevel ? `👁️ MẶC THỬ: ${charRealmCfg.shortTitle}` : charRealmCfg.shortTitle;
             ctx.save();
-            ctx.font = '800 8.8px sans-serif';
+            ctx.font = '800 8.5px sans-serif';
             const rtw = ctx.measureText(realmTitleTxt).width + 10;
-            const rty = (topRank >= 1 && topRank <= 3) ? (headY - 38) : (headY - 21);
+            const rty = sy + 11;
             ctx.fillStyle = 'rgba(20, 8, 2, 0.90)';
             ctx.strokeStyle = charRealmCfg.colorHex;
-            ctx.lineWidth = 1.2;
+            ctx.lineWidth = 1.15;
             ctx.beginPath();
-            ctx.roundRect(sx - rtw / 2, rty - 7, rtw, 14, 7);
+            ctx.roundRect(sx - rtw / 2, rty - 6.5, rtw, 13, 6.5);
             ctx.fill();
             ctx.stroke();
             ctx.fillStyle = charRealmCfg.colorHex;
@@ -11859,10 +11817,10 @@
             const rankLabels = { 1: '👑 TOP 1 VINH DANH', 2: '🥈 TOP 2 VINH DANH', 3: '🥉 TOP 3 VINH DANH' };
             const rTxt = rankLabels[topRank];
             ctx.save();
-            ctx.font = '900 9.5px sans-serif';
+            ctx.font = '900 9.2px sans-serif';
             const rw = ctx.measureText(rTxt).width + 12;
-            const ry = headY - 22;
-            const rGrad = ctx.createLinearGradient(sx - rw / 2, ry - 8, sx + rw / 2, ry + 8);
+            const ry = headY - 19;
+            const rGrad = ctx.createLinearGradient(sx - rw / 2, ry - 7, sx + rw / 2, ry + 7);
             if (topRank === 1) {
               rGrad.addColorStop(0, '#ffd700');
               rGrad.addColorStop(0.5, '#fff59d');
@@ -11876,9 +11834,9 @@
             }
             ctx.fillStyle = rGrad;
             ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 1.3;
+            ctx.lineWidth = 1.25;
             ctx.beginPath();
-            ctx.roundRect(sx - rw / 2, ry - 8, rw, 15, 7.5);
+            ctx.roundRect(sx - rw / 2, ry - 7, rw, 14, 7);
             ctx.fill();
             ctx.stroke();
             ctx.fillStyle = '#260800';
@@ -11924,6 +11882,88 @@
       }
       if (window._lastPlayerBadgePos && !(cameraPovMode === 'first')) {
         drawRoundedBadge(window._lastPlayerBadgePos.sx, window._lastPlayerBadgePos.headY, window._lastPlayerBadgePos.avatar, window._lastPlayerBadgePos.badgeLabel, true);
+      }
+
+      // V90 (#mvyy0alf1n): VẼ MÂM LỄ VẬT Ở LỚP TRÊN CÙNG (SAU TẤT CẢ NHÂN VẬT & HUY HIỆU) + NÂNG CAO LÊN MẶT BÀN THỜ GỖ THƯỢNG TẦNG (v = 0.276, ngang hàng lọ hoa lục bình & chân nến đồng) ĐỂ NỔI BẬT 100%, KHÔNG BAO GIỜ BỊ CHE KHUẤT!
+      for (const wd of wingDefs) {
+        const wx = centerScreenX + (wd.idx - camWingX) * wingW - wingW / 2;
+        if (wx + wingW < -50 || wx > W + 50) continue;
+        const wingOfferings = altarOfferings[String(wd.idx)] || [];
+        if (wingOfferings.length > 0) {
+          ctx.save();
+          const censerX = wx + wingW * 0.5;
+          // Đặt ngay trên mặt Bàn Thờ Gỗ Thượng Tầng (ngang hàng 2 lọ hoa xanh & đôi chân nến đồng, cao hơn hẳn lư hương và mọi nhân vật)
+          const tableY = topScreenY + wingH * ((wd.idx === 0) ? 0.276 : 0.292);
+          const tableW = Math.min(W - 12, Math.max(316, wingW * 0.68));
+          const count = Math.min(5, wingOfferings.length);
+          const cardW = Math.min(108, (tableW - 12) / count - 4);
+          const cardH = 25;
+          const totalCardsW = count * cardW + (count - 1) * 5;
+          const startCardX = censerX - totalCardsW / 2;
+          const traySize = Math.min(48, cardW * 0.60);
+
+          // Khay sơn son thếp vàng đỡ lễ vật trên mặt bàn thờ thượng tầng
+          ctx.fillStyle = 'rgba(42, 12, 4, 0.82)';
+          ctx.strokeStyle = 'rgba(255, 215, 64, 0.88)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(startCardX - 6, tableY - 4, totalCardsW + 12, cardH + 10, 8);
+          ctx.fill();
+          ctx.stroke();
+
+          wingOfferings.slice(-5).forEach((off, idx) => {
+            const cxCard = startCardX + idx * (cardW + 5);
+            const slotCenterX = cxCard + cardW / 2;
+            const trayCenterY = tableY - traySize * 0.48;
+
+            // Đế hào quang vàng nâng mâm lễ nổi bật trên bàn thờ
+            const trayGlow = ctx.createRadialGradient(slotCenterX, tableY - 6, 2, slotCenterX, tableY - 6, traySize * 0.78);
+            trayGlow.addColorStop(0, 'rgba(255, 235, 120, 0.75)');
+            trayGlow.addColorStop(0.55, 'rgba(255, 193, 7, 0.35)');
+            trayGlow.addColorStop(1, 'rgba(255, 160, 0, 0)');
+            ctx.fillStyle = trayGlow;
+            ctx.beginPath();
+            ctx.ellipse(slotCenterX, tableY - 3, traySize * 0.72, traySize * 0.28, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            const tex = off.imgKey ? images[off.imgKey] : images.vangMamDayDu;
+            if (tex && tex.complete && tex.naturalWidth > 0) {
+              ctx.drawImage(tex, slotCenterX - traySize / 2, tableY - traySize + 2, traySize, traySize);
+            } else {
+              ctx.font = '26px sans-serif';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(off.icon || '🧧', slotCenterX, trayCenterY);
+            }
+
+            // Thẻ Bài Gọn Dưới Mỗi Mâm Lễ Trên Bàn Thờ: Clip 100% bên trong khung
+            const cyCard = tableY + 2;
+            ctx.fillStyle = 'rgba(20, 7, 2, 0.96)';
+            ctx.strokeStyle = '#ffd54f';
+            ctx.lineWidth = 1.3;
+            ctx.beginPath();
+            ctx.roundRect(cxCard, cyCard, cardW, cardH, 5);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(cxCard + 2, cyCard + 1, cardW - 4, cardH - 2, 4);
+            ctx.clip();
+            ctx.font = 'bold 8.0px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = '#ffd740';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${off.icon || '🪷'} ${(off.label || 'Lễ Vật').slice(0, 12)}`, slotCenterX, cyCard + 7.5);
+
+            ctx.font = 'bold 7.8px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = '#69f0ae';
+            const giverName = (off.giver || 'Tín Chủ').replace(' (Giám Đốc)', '').replace(' (KH)', '').slice(0, 12);
+            ctx.fillText(`👤 ${giverName}`, slotCenterX, cyCard + 18);
+            ctx.restore();
+          });
+          ctx.restore();
+        }
       }
 
       // HIỆU ỨNG ĐÁM MÂY KHÓI BỤI & NỔ ĐÒN "ĐÁNH NHAU TÚI BỤI" HOẶC HÀO QUANG "VÁI / QUỲ LẠY NHAU" GIỮA 2 NHÂN VẬT
@@ -13012,7 +13052,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 89;
+        const CURRENT_BUILD_VER = 90;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
