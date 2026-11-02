@@ -7989,8 +7989,13 @@
       merit: 1380
     };
 
-    // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V68 — BẢO TOÀN 100% ĐIỂM PHƯỚC ĐỨC KHI TẢI LẠI TRANG & XOÁ TÀI KHOẢN ẢO "SẾP THÀNH")
+    // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V91 — BẢO TOÀN 100% ĐIỂM PHƯỚC ĐỨC & XOÁ VĨNH VIỄN CÁC NICK ẢO "SẾP THÀNH", "THẾ ANH")
     const CHAR_PROFILES_STORAGE_KEY = 'chua_ty_registered_accounts_v62';
+    const DELETED_GHOST_ACCOUNTS = new Set(['Sếp Thành', 'Thế Anh']);
+    function isDeletedGhostAccount(accName) {
+      const clean = String(accName || '').trim();
+      return !clean || DELETED_GHOST_ACCOUNTS.has(clean);
+    }
     function loadAllCharProfiles() {
       const defaults = {
         'Thành': { name: 'Thành', merit: 1380, congDuc: 5, gender: 'M', dept: '', avatar: '🧘‍♂️', registered: true }
@@ -8004,8 +8009,11 @@
             merged = { ...defaults, ...parsed };
           }
         }
-        // Xoá vĩnh viễn tài khoản mẫu "Sếp Thành" cũ không có thật (#mvw8bl0769)
+        // Xoá vĩnh viễn tài khoản mẫu "Sếp Thành" & "Thế Anh" (#mvw8bl0769 & #mvyy80df1p)
         delete merged['Sếp Thành'];
+        delete merged['Thế Anh'];
+        localStorage.removeItem('ty_merit_backup_Thế Anh');
+        localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh');
 
         // Khôi phục điểm Phước Đức đã tích luỹ của mỗi tài khoản từ kho dự phòng ty_merit_backup_ & xoá nhãn Thành Viên / honorNote tự động (#mvym071ge)
         Object.keys(merged).forEach(k => {
@@ -8058,9 +8066,10 @@
           localStorage.setItem('ty_v81_restored_thanh_default', '1');
         }
         let savedName = (localStorage.getItem('ty_custom_char_name') || 'Thành').trim();
-        if (savedName === 'Sếp Thành') {
+        if (savedName === 'Sếp Thành' || savedName === 'Thế Anh') {
           savedName = 'Thành';
           localStorage.setItem('ty_custom_char_name', 'Thành');
+          localStorage.setItem('ty_logged_in_account', 'Thành');
         }
         player.name = savedName;
         const prof = allCharProfiles[player.name];
@@ -8079,7 +8088,7 @@
     }
 
     function syncSpecificAccountToServer(accName, meritVal, congDucVal, genderVal, deptVal, honorNote, outfitLvVal) {
-      if (!accName || accName === 'Sếp Thành') return;
+      if (isDeletedGhostAccount(accName)) return;
       if (window.location.search && window.location.search.includes('demo=')) return;
       const resolvedOutfitLv = Number(outfitLvVal) || (accName === player?.name ? getActiveCharacterOutfitLv(player) : Number(allCharProfiles[accName]?.outfitLv || 0));
       const payload = {
@@ -8123,7 +8132,7 @@
     }
 
     function saveCurrentCharProfile() {
-      if (!player || !player.name || player.name === 'Sếp Thành') return;
+      if (!player || isDeletedGhostAccount(player.name)) return;
       const prevHonorNote = allCharProfiles[player.name]?.honorNote || '';
       const activeLv = getActiveCharacterOutfitLv(player);
       allCharProfiles[player.name] = {
@@ -8142,6 +8151,7 @@
       };
       try {
         delete allCharProfiles['Sếp Thành'];
+        delete allCharProfiles['Thế Anh'];
         localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
         localStorage.setItem('ty_merit_backup_' + player.name, String(player.merit));
       } catch (e) {}
@@ -8174,7 +8184,7 @@
     }
 
     function switchActiveCharacterProfile(charName) {
-      if (charName === 'Sếp Thành') charName = 'Thành';
+      if (isDeletedGhostAccount(charName)) charName = 'Thành';
       // CHỈ lưu điểm của nhân vật cũ khi thực sự chuyển từ nhân vật A sang nhân vật B khác tên!
       if (window._charProfileLoaded && player.name && player.name !== charName) {
         saveCurrentCharProfile();
@@ -9640,8 +9650,10 @@
       // V62: CHỈ hiển thị những người thật đã Tạo Tài Khoản / Đăng Nhập (registered === true)!
       // Các NPC phụ trong sảnh chưa tham gia tạo nick sẽ KHÔNG được lên Bảng Top Phước Đức!
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
+        delete allCharProfiles['Sếp Thành'];
+        delete allCharProfiles['Thế Anh'];
         Object.keys(allCharProfiles).forEach(cName => {
-          if (cName === 'Sếp Thành') return;
+          if (isDeletedGhostAccount(cName)) return;
           const prof = allCharProfiles[cName];
           if (!prof || prof.registered === false) return;
           if (seen.has(cName)) return;
@@ -10159,7 +10171,7 @@
         }
         if (data.accounts && typeof data.accounts === 'object') {
           for (const [accName, accInfo] of Object.entries(data.accounts)) {
-            if (accName === 'Sếp Thành') continue;
+            if (isDeletedGhostAccount(accName)) continue;
             if (!allCharProfiles[accName]) allCharProfiles[accName] = {};
             const localM = Number(allCharProfiles[accName].merit || 0);
             const srvM = Number(accInfo.merit || 0);
@@ -10176,6 +10188,7 @@
         return;
       }
       if (data.type === 'account_merit_sync' && data.name) {
+        if (isDeletedGhostAccount(data.name)) return;
         if (!allCharProfiles[data.name]) allCharProfiles[data.name] = {};
         allCharProfiles[data.name].merit = Number(data.merit ?? 50);
         allCharProfiles[data.name].congDuc = Number(data.congDuc ?? 1);
@@ -11465,7 +11478,7 @@
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
         const seenTop = new Set();
         Object.keys(allCharProfiles).forEach(cName => {
-          if (cName === 'Sếp Thành') return;
+          if (isDeletedGhostAccount(cName)) return;
           const prof = allCharProfiles[cName];
           if (!prof || prof.registered === false || seenTop.has(cName)) return;
           seenTop.add(cName);
@@ -13052,7 +13065,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 90;
+        const CURRENT_BUILD_VER = 91;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
