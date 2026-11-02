@@ -1,5 +1,5 @@
 {
-  "version": 86,
-  "updatedAt": "2026-11-02T14:11:00+07:00",
-  "note": "V86: Tắt mặc định bảng chọn trang phục trên điện thoại (không chắn màn hình, có nút ✕ Đóng lớn và tự đóng sau khi chọn) + Đồng bộ realtime trang phục (outfitLv 1..10) của tất cả mọi người đang Online"
+  "version": 87,
+  "updatedAt": "2026-11-02T14:18:30+07:00",
+  "note": "V87: Phải mua bằng điểm Phước 💎 mới được khoác trang phục + Bỏ hoàn toàn khung nổi Pháp Phục 3D trên sảnh + Bỏ khung text cảm tạ dài của Sư Trụ Trì khi dâng lễ cho đỡ loạn"
 }

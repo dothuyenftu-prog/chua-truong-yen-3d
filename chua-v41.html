@@ -1305,7 +1305,7 @@
     <button class="qo-btn" style="background:linear-gradient(135deg,#ad1457,#6a1b9a);color:#fff;border-color:#ffd54f;" onclick="openFortuneStickModal()">☯️ Xăm · Tử Vi</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#880e4f,#311b92);color:#ffeb3b;border-color:#ff80ab;" onclick="openKarmaReleaseModal()">🥊 Xả Nghiệp</button>
     <button class="qo-btn" style="background:linear-gradient(135deg,#e65100,#b71c1c);color:#fff;border-color:#ffd54f;" onclick="openGoldFurnaceRoom()">🔥 Hóa Vàng</button>
-    <button class="qo-btn" style="background:linear-gradient(135deg,#4a148c,#880e4f);color:#ffd740;border-color:#fff59d;font-weight:900;" onclick="toggleHallQuickOutfitStrip()">👘 Chọn Bậc</button>
+    <button class="qo-btn" style="background:linear-gradient(135deg,#4a148c,#880e4f);color:#ffd740;border-color:#fff59d;font-weight:900;" onclick="openQuestUpgradeModal('realms')">👘 Tủ Trang Phục</button>
   </div>
 
   <!-- 3C. THANH ĐẶT LỄ & HẠ LỄ NHANH NEO GỌN Ở GÓC TRÊN TRÁI (Không bao giờ đè lên nhân vật hay tượng Phật!) -->
@@ -1378,28 +1378,9 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- V86 (#mvywptr71d & #mvywqfcz1e): THANH ĐỔI NHÂN VẬT 10 BẬC TẮT MẶC ĐỊNH ĐỂ KHÔNG CHE MÀN HÌNH ĐIỆN THOẠI + NÚT [✕ ĐÓNG] TO RÕ Ở TRÊN CÙNG & TỰ ĐÓNG KHI CHỌN -->
-  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; top:52px; transform:translateX(-50%); z-index:98; display:none; flex-direction:column; gap:6px; width:min(540px, 95vw); background:rgba(18,7,2,0.98); border:2px solid #ffd54f; border-radius:14px; padding:8px 10px; box-shadow:0 10px 28px rgba(0,0,0,0.95);">
-    <div style="display:flex; justify-content:space-between; align-items:center; width:100%; border-bottom:1px solid rgba(255,213,79,0.35); padding-bottom:5px;">
-      <span style="font-size:11px; font-weight:900; color:#ffd740;">🧘👘 CHỌN NHÂN VẬT 10 BẬC (TỰ ĐÓNG SAU KHI CHỌN):</span>
-      <button type="button" onclick="toggleHallQuickOutfitStrip(false)" style="background:linear-gradient(135deg,#d50000,#8e0000); border:1.5px solid #ffcdd2; color:#fff; border-radius:8px; padding:4px 12px; font-size:11px; font-weight:900; cursor:pointer; box-shadow:0 2px 8px rgba(213,0,0,0.6);">✕ Đóng</button>
-    </div>
-    <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap; justify-content:center;">
-      <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#b0bec5; color:#eceff1; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(1)"><img src="assets/outfit_rank_1.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>1.Cư Sĩ</button>
-      <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#a1887f; color:#efebe9; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(2)"><img src="assets/outfit_rank_2.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>2.Chú Tiểu</button>
-      <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ffb74d; color:#ffe0b2; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(3)"><img src="assets/outfit_rank_3.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>3.Sa Di</button>
-      <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ffa726; color:#fff59d; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(4)"><img src="assets/outfit_rank_4.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>4.Tỳ Kheo</button>
-      <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ff7043; color:#ffccbc; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(5)"><img src="assets/outfit_rank_5.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>5.Đại Đức</button>
-      <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ff5252; color:#ffcdd2; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(6)"><img src="assets/outfit_rank_6.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>6.Trụ Trì</button>
-      <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#e040fb; color:#f3e5f5; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(7)"><img src="assets/outfit_rank_7.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>7.Hòa Thượng</button>
-      <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#ffd740; color:#fff59d; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(8)"><img src="assets/outfit_rank_8.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>8.La Hán</button>
-      <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9.5px; padding:3px 6px; border-color:#69f0ae; color:#b9f6ca; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(9)"><img src="assets/outfit_rank_9.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>9.Bồ Tát</button>
-      <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9.5px; padding:3px 7px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900; display:inline-flex; align-items:center; gap:3px;" onclick="previewCharacterRealmOutfit(10)"><img src="assets/outfit_rank_10.png?v=86" style="height:22px;width:auto;object-fit:contain;"/>10.Chính Quả</button>
-      <button type="button" class="qo-btn" style="font-size:9.5px; padding:3.5px 8px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="toggleHallQuickOutfitStrip(false); openQuestUpgradeModal('realms')">📋 Tủ Đồ</button>
-      <button type="button" class="qo-btn" style="font-size:9.5px; padding:3.5px 10px; background:linear-gradient(135deg,#c62828,#8e0000); border-color:#ff8a80; color:#fff; font-weight:900;" onclick="toggleHallQuickOutfitStrip(false)">✕ Tắt</button>
-    </div>
-  </div>
-  <button type="button" id="btnReopenOutfitStrip" onclick="toggleHallQuickOutfitStrip()" style="position:fixed; left:10px; bottom:112px; z-index:44; display:none; background:linear-gradient(135deg,#4a148c,#880e4f); color:#ffd740; border:1.5px solid #ffd54f; border-radius:999px; padding:4px 10px; font-size:10px; font-weight:900; box-shadow:0 4px 12px rgba(0,0,0,0.8); cursor:pointer;">👘 Đổi Nhân Vật 10 Bậc</button>
+  <!-- V87 (#mvywwq7o1g): BỎ HOÀN TOÀN KHUNG NỔI PHÁP PHỤC 3D TRÊN SẢNH ĐỂ KHÔNG BAO GIỜ CHE MÀN HÌNH -->
+  <div id="hallQuickOutfitStrip" style="display:none !important;"></div>
+  <button type="button" id="btnReopenOutfitStrip" style="display:none !important;"></button>
 
   <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
   <div class="bottom-dock-wrap">
@@ -2103,16 +2084,16 @@
         </div>
       </div>
 
-      <!-- V80 (#mvyv22isx): BẢNG NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH & KHO 10 BỘ TRANG PHỤC NGAY TRONG BẢNG PHƯỚC ĐỨC -->
+      <!-- V87 (#mvywqjzo1f & #mvywwq7o1g): BẢNG NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH THU GỌN MẶC ĐỊNH ĐỂ KHÔNG RỐI MẮT -->
       <div id="shopRealmOutfitsBoxWrap" style="background:linear-gradient(135deg,rgba(58,18,6,0.97),rgba(28,8,42,0.97)); border:2px solid #ffd740; border-radius:12px; padding:9px 11px; margin-bottom:9px; box-shadow:0 4px 16px rgba(0,0,0,0.7);">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
-          <span style="font-size:11.8px; font-weight:900; color:#ffd740;">👑👘 NÂNG CẤP NHÂN VẬT 10 BẬC TU HÀNH & ĐỔI 10 BỘ TRANG PHỤC BẰNG PHƯỚC:</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span style="font-size:11.5px; font-weight:900; color:#ffd740;">👑👘 CỬA HÀNG MUA & NÂNG CẤP 10 BỘ PHÁP PHỤC BẰNG PHƯỚC:</span>
           <div style="display:flex; gap:5px; align-items:center;">
-            <button type="button" onclick="closeMeritShopModal(); openQuestUpgradeModal('realms');" style="background:linear-gradient(135deg,#ff6f00,#d50000); color:#fff; border:1.5px solid #fff59d; border-radius:8px; padding:4px 10px; font-size:10.5px; font-weight:900; cursor:pointer;">🔍 Mở Toàn Màn Hình</button>
-            <button type="button" onclick="const el=document.getElementById('shopRealmOutfitsQuickList'); if(el){el.style.display=el.style.display==='none'?'flex':'none'; this.textContent=el.style.display==='none'?'▼ Mở':'✕ Ẩn';}" style="background:#c62828; color:#fff; border:1px solid #ffcdd2; border-radius:8px; padding:4px 9px; font-size:10.5px; font-weight:900; cursor:pointer;">✕ Ẩn</button>
+            <button type="button" onclick="closeMeritShopModal(); openQuestUpgradeModal('realms');" style="background:linear-gradient(135deg,#ff6f00,#d50000); color:#fff; border:1.5px solid #fff59d; border-radius:8px; padding:4px 10px; font-size:10.5px; font-weight:900; cursor:pointer;">🛒 Mở Tủ Trang Phục</button>
+            <button type="button" onclick="const el=document.getElementById('shopRealmOutfitsQuickList'); if(el){el.style.display=el.style.display==='none'?'flex':'none'; this.textContent=el.style.display==='none'?'▼ Xem Nhanh':'✕ Ẩn';}" style="background:#3e2723; color:#ffe082; border:1px solid #ffd54f; border-radius:8px; padding:4px 9px; font-size:10.5px; font-weight:900; cursor:pointer;">▼ Xem Nhanh</button>
           </div>
         </div>
-        <div id="shopRealmOutfitsQuickList" style="max-height:215px; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px;">
+        <div id="shopRealmOutfitsQuickList" style="max-height:215px; overflow-y:auto; display:none; flex-direction:column; gap:6px; padding-right:2px; margin-top:6px;">
         </div>
       </div>
 
@@ -6534,7 +6515,7 @@
         st = JSON.parse(localStorage.getItem(storageKey) || 'null');
       } catch (e) { st = null; }
       if (!st || typeof st !== 'object') {
-        st = { date: todayKey, progress: {}, claimed: {}, upgrades: { mo: 1, bell: 1, incense: 1, furnace: 1 }, exp: 0, cultivationLv: 1, equippedOutfitLv: 1 };
+        st = { date: todayKey, progress: {}, claimed: {}, upgrades: { mo: 1, bell: 1, incense: 1, furnace: 1 }, exp: 0, cultivationLv: 1, equippedOutfitLv: 1, unlockedOutfits: { 1: true } };
       }
       if (st.date !== todayKey) {
         st.date = todayKey;
@@ -6544,9 +6525,25 @@
       if (!st.upgrades) st.upgrades = { mo: 1, bell: 1, incense: 1, furnace: 1 };
       if (typeof st.exp !== 'number') st.exp = 0;
       if (typeof st.cultivationLv !== 'number' || st.cultivationLv < 1) st.cultivationLv = 1;
-      if (typeof st.equippedOutfitLv !== 'number' || st.equippedOutfitLv < 1) st.equippedOutfitLv = st.cultivationLv;
-      if (st.equippedOutfitLv > st.cultivationLv) st.equippedOutfitLv = st.cultivationLv;
+      if (!st.unlockedOutfits || typeof st.unlockedOutfits !== 'object') {
+        st.unlockedOutfits = { 1: true };
+      }
+      st.unlockedOutfits[1] = true;
+      for (let i = 1; i <= st.cultivationLv; i++) {
+        st.unlockedOutfits[i] = true;
+      }
+      if (typeof st.equippedOutfitLv !== 'number' || st.equippedOutfitLv < 1) st.equippedOutfitLv = 1;
+      if (!st.unlockedOutfits[st.equippedOutfitLv]) {
+        st.equippedOutfitLv = st.cultivationLv || 1;
+      }
       return st;
+    }
+
+    function isOutfitUnlockedForState(st, lv) {
+      const n = Number(lv || 1);
+      if (n <= 1) return true;
+      if (!st) return false;
+      return Boolean(st.unlockedOutfits && st.unlockedOutfits[n]) || Number(st.cultivationLv || 1) >= n;
     }
 
     function savePlayerQuestState(st) {
@@ -6556,56 +6553,35 @@
     }
 
     function getRealmLvByMeritAmount(meritVal) {
-      const m = Number(meritVal || 0);
-      if (m >= 99999999999) return 10;
-      if (m >= 5000000000) return 9;
-      if (m >= 600000000) return 8;
-      if (m >= 80000000) return 7;
-      if (m >= 10000000) return 6;
-      if (m >= 1500000) return 5;
-      if (m >= 150000) return 6; // Thành (~192.419 Phước) mặc định bậc Trụ Trì Y Đỏ Cam trang nghiêm
-      if (m >= 25000) return 4;
-      if (m >= 5000) return 3;
-      if (m >= 500) return 2;
       return 1;
     }
 
+    // V87 (#mvywqjzo1f & #mvywqfcz1e): PHẢI MUA BẰNG ĐIỂM PHƯỚC 💎 MỚI ĐƯỢC TRANG PHỤC + ĐỒNG BỘ 100% TRANG PHỤC CỦA MỌI NGƯỜI ĐANG ONLINE
     function getActiveCharacterOutfitLv(isPlayerChar, devoteeObj) {
       if (isPlayerChar) {
-        if (previewOutfitLevel >= 1 && previewOutfitLevel <= 10) return previewOutfitLevel;
         const st = getPlayerQuestState();
-        if (st && st.userPickedOutfitLv >= 1 && st.userPickedOutfitLv <= 10) {
-          return st.userPickedOutfitLv;
-        }
-        const savedLv = Math.max(1, Math.min(10, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
-        if (savedLv > 1) return savedLv;
-        if (player?.name && typeof allCharProfiles === 'object' && allCharProfiles[player.name]?.outfitLv >= 1) {
-          return Math.max(1, Math.min(10, Number(allCharProfiles[player.name].outfitLv)));
-        }
-        return getRealmLvByMeritAmount(player?.merit || 0);
-      }
-      if (devoteeObj && typeof devoteeObj.name === 'string') {
-        if (typeof onlineCompanyPeers === 'object' && onlineCompanyPeers) {
-          for (const peer of Object.values(onlineCompanyPeers)) {
-            if (peer && peer.name === devoteeObj.name && peer._realmLv >= 1 && peer._realmLv <= 10) {
-              return Math.max(1, Math.min(10, Number(peer._realmLv)));
-            }
-          }
-        }
-        if (typeof allCharProfiles === 'object' && allCharProfiles[devoteeObj.name]?.outfitLv >= 1 && allCharProfiles[devoteeObj.name]?.outfitLv <= 10) {
-          return Math.max(1, Math.min(10, Number(allCharProfiles[devoteeObj.name].outfitLv)));
-        }
-      }
-      if (devoteeObj && devoteeObj._realmLv >= 1 && devoteeObj._realmLv <= 10) {
-        return Math.max(1, Math.min(10, Number(devoteeObj._realmLv)));
+        const eqLv = Math.max(1, Math.min(10, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
+        return isOutfitUnlockedForState(st, eqLv) ? eqLv : 1;
       }
       if (devoteeObj) {
-        const m = Number(devoteeObj._topMerit || devoteeObj.merit || 0);
-        if (m >= 5000) return getRealmLvByMeritAmount(m);
+        if (devoteeObj.outfitLv >= 1 && devoteeObj.outfitLv <= 10) {
+          return Math.max(1, Math.min(10, Number(devoteeObj.outfitLv)));
+        }
+        if (devoteeObj._realmLv >= 1 && devoteeObj._realmLv <= 10) {
+          return Math.max(1, Math.min(10, Number(devoteeObj._realmLv)));
+        }
         if (typeof devoteeObj.name === 'string') {
-          let h = 0;
-          for (let i = 0; i < devoteeObj.name.length; i++) h = (h * 31 + devoteeObj.name.charCodeAt(i)) % 997;
-          return (h % 6) + 1;
+          if (typeof onlineCompanyPeers === 'object' && onlineCompanyPeers) {
+            for (const peer of Object.values(onlineCompanyPeers)) {
+              if (peer && peer.name === devoteeObj.name) {
+                const pLv = Number(peer.outfitLv || peer._realmLv || 0);
+                if (pLv >= 1 && pLv <= 10) return Math.max(1, Math.min(10, pLv));
+              }
+            }
+          }
+          if (typeof allCharProfiles === 'object' && allCharProfiles[devoteeObj.name]?.outfitLv >= 1 && allCharProfiles[devoteeObj.name]?.outfitLv <= 10) {
+            return Math.max(1, Math.min(10, Number(allCharProfiles[devoteeObj.name].outfitLv)));
+          }
         }
       }
       return 1;
@@ -6621,30 +6597,17 @@
 
     function updateTopBarQuestRealmBadge(stInput) {
       const st = stInput || getPlayerQuestState();
-      const cur = getRealmConfigByLv(st.cultivationLv || 1);
-      const activeLv = previewOutfitLevel || st.equippedOutfitLv || st.cultivationLv || 1;
+      const rawLv = Number(st.equippedOutfitLv || st.cultivationLv || 1);
+      const activeLv = isOutfitUnlockedForState(st, rawLv) ? rawLv : 1;
       const eq = getRealmConfigByLv(activeLv);
       const btn = document.getElementById('btnTopBarQuestUpgrade');
       if (btn) {
         const unclaimed = DAILY_QUESTS_CONFIG.filter(q => (st.progress[q.id] || 0) >= q.target && !st.claimed[q.id]).length;
         btn.innerHTML = `👑👘 Bậc ${activeLv}/10 · ${eq.outfitColorLabel.split(' ')[0]}${unclaimed > 0 ? ` <span style="background:#00e676;color:#003314;padding:0 5px;border-radius:8px;font-size:10px;">+${unclaimed}</span>` : ''}`;
       }
-      for (let i = 1; i <= 10; i++) {
-        const qBtn = document.getElementById('qoLvBtn_' + i);
-        if (qBtn) {
-          if (i === activeLv) {
-            qBtn.style.boxShadow = '0 0 10px #00e676';
-            qBtn.style.borderWidth = '2px';
-            qBtn.style.transform = 'scale(1.06)';
-          } else {
-            qBtn.style.boxShadow = 'none';
-            qBtn.style.borderWidth = '1px';
-            qBtn.style.transform = 'none';
-          }
-        }
-      }
       if (player) {
         player._realmLv = activeLv;
+        player.outfitLv = activeLv;
       }
     }
 
@@ -6830,50 +6793,54 @@
     function upgradeCharacterRealmByMerit(targetLv) {
       unlockAndStartAudio();
       const st = getPlayerQuestState();
-      const curLv = Number(st.cultivationLv || 1);
       const cfg = getRealmConfigByLv(targetLv);
       if (!cfg) return;
-      if (targetLv <= curLv) {
-        equipCharacterRealmOutfit(targetLv);
-        return;
-      }
-      if (targetLv > curLv + 1) {
-        const nextCfg = getRealmConfigByLv(curLv + 1);
-        showToast(`⚠️ Tu hành cần tuần tự từng bậc! Hãy đột phá ${nextCfg.shortTitle} (${nextCfg.meritCostText}) trước!`);
+      if (isOutfitUnlockedForState(st, cfg.lv)) {
+        equipCharacterRealmOutfit(cfg.lv);
         return;
       }
       const curMerit = Number(player?.merit || 0);
       if (curMerit < cfg.meritCost) {
         const missing = (cfg.meritCost - curMerit).toLocaleString('vi-VN');
-        showToast(`⚠️ Con đường tu hành gian nan! Cần ${cfg.meritCost.toLocaleString('vi-VN')} 💎 Phước để đạt "${cfg.name}" (Còn thiếu ${missing} 💎 Phước). Bạn có thể bấm "👕 Mặc Ngay Ra Sảnh" để khoác ngay!`);
+        showToast(`⚠️ Chưa đủ Phước Đức để mua "${cfg.outfitName}"! Cần ${cfg.meritCost.toLocaleString('vi-VN')} 💎 Phước (Còn thiếu ${missing} 💎). Hãy tích thêm Phước để mua nhé!`);
         return;
       }
-      addMerit(-cfg.meritCost, `Đột phá Bậc Tu Hành ${cfg.shortTitle} (-${cfg.meritCost.toLocaleString('vi-VN')} 💎)`);
-      st.cultivationLv = cfg.lv;
+      addMerit(-cfg.meritCost, `Mua & Mở khóa Trang Phục ${cfg.shortTitle} (-${cfg.meritCost.toLocaleString('vi-VN')} 💎)`);
+      if (!st.unlockedOutfits || typeof st.unlockedOutfits !== 'object') {
+        st.unlockedOutfits = { 1: true };
+      }
+      st.unlockedOutfits[cfg.lv] = true;
+      if (cfg.lv > (st.cultivationLv || 1)) {
+        st.cultivationLv = cfg.lv;
+      }
       st.equippedOutfitLv = cfg.lv;
-      st.userPickedOutfitLv = cfg.lv;
-      previewOutfitLevel = cfg.lv;
+      previewOutfitLevel = 0;
       savePlayerQuestState(st);
       syncMyOutfitToOnlinePeers(cfg.lv);
       playBellSound();
-      showToast(`🌟 ĐỘT PHÁ BẬC TU HÀNH ${cfg.lv}/10: ${cfg.name}! Mọi người đang Online đều thấy nhân vật mới của bạn!`);
-      appendMeritLog(`👑 <b>${player.name}</b> đã viên mãn công đức đột phá lên <b style="color:${cfg.colorHex};">${cfg.shortTitle}: ${cfg.name}</b> — Khoác <b>${cfg.outfitName}</b>!`);
+      showToast(`🌟 ĐÃ MUA & MỞ KHÓA TRANG PHỤC BẬC ${cfg.lv}/10: ${cfg.outfitName}! Đã đồng bộ cho mọi người đang Online!`);
+      appendMeritLog(`👑 <b>${player.name}</b> đã dùng Phước Đức mua & mở khóa <b style="color:${cfg.colorHex};">${cfg.shortTitle}: ${cfg.outfitName}</b>!`);
       renderQuestUpgradeModal();
     }
 
     function equipCharacterRealmOutfit(lv) {
       unlockAndStartAudio();
       const st = getPlayerQuestState();
-      if (lv > (st.cultivationLv || 1)) return;
-      st.equippedOutfitLv = lv;
-      st.userPickedOutfitLv = lv;
-      previewOutfitLevel = lv;
-      savePlayerQuestState(st);
-      syncMyOutfitToOnlinePeers(lv);
       const cfg = getRealmConfigByLv(lv);
+      if (!cfg) return;
+      if (!isOutfitUnlockedForState(st, cfg.lv)) {
+        upgradeCharacterRealmByMerit(cfg.lv);
+        return;
+      }
+      st.equippedOutfitLv = cfg.lv;
+      previewOutfitLevel = 0;
+      savePlayerQuestState(st);
+      syncMyOutfitToOnlinePeers(cfg.lv);
       playMoSound();
       showToast(`👕 Đã khoác Pháp Phục: ${cfg.outfitName} — Đã đồng bộ cho mọi người Online!`);
       renderQuestUpgradeModal();
+      closeQuestUpgradeModal();
+      closeMeritShopModal();
     }
 
     // V83 (#mvyvyfn811): Hiển thị Ảnh Chụp Studio Thật 100% Của Từng Bộ Pháp Phục (assets/outfit_rank_1.png -> outfit_rank_10.png)
@@ -6889,14 +6856,13 @@
       const curMerit = Number(player?.merit || 0);
       const introBanner = compactMode ? '' : `
         <div style="background:linear-gradient(90deg,rgba(74,20,4,0.95),rgba(32,12,4,0.95)); border:1.5px solid #ffd54f; border-radius:10px; padding:8px 12px; font-size:11px; color:#ffe082; line-height:1.45;">
-          🙏 <b>Đạo Lộ Tu Tập 10 Bậc & 10 Bộ Trang Phục (Từ Bạch Y Thiện Tín ➔ Tu Thành Chính Quả):</b> Phước Đức hiện có: <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b>. Mỗi bậc có <b>Trang Phục, Màu Áo, Y Cà Sa, Mão/Bảo Quán, Tòa Sen & Hào Quang riêng</b>. Bạn có thể <b>⬆️ Đột Phá Bằng Phước</b> hoặc bấm <b>👕 Mặc Ngay Ra Sảnh</b> ở bất kỳ bậc nào để khoác trang phục đó lên nhân vật!
+          🙏 <b>Cửa Hàng Mua & Khoác 10 Bộ Pháp Phục:</b> Phước Đức hiện có: <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b>. Bạn <b>phải dùng Điểm Phước 💎 để Mua / Mở Khóa</b> mới được khoác bộ Pháp Phục tương ứng. Khi mặc, tất cả mọi người đang Online trong Chùa đều nhìn thấy trang phục của bạn!
         </div>
       `;
+      const activeLv = isOutfitUnlockedForState(st, st.equippedOutfitLv) ? Number(st.equippedOutfitLv || 1) : 1;
       return introBanner + REALM_RANKS_CONFIG.map(r => {
-        const isUnlocked = (st.cultivationLv || 1) >= r.lv;
-        const isNext = (st.cultivationLv || 1) + 1 === r.lv;
-        const activeLv = previewOutfitLevel || st.equippedOutfitLv || st.cultivationLv || 1;
-        const isEquipped = (activeLv === r.lv);
+        const isUnlocked = isOutfitUnlockedForState(st, r.lv);
+        const isEquipped = isUnlocked && (activeLv === r.lv);
         const canAfford = curMerit >= r.meritCost;
         const missingMerit = Math.max(0, r.meritCost - curMerit);
 
@@ -6910,54 +6876,27 @@
             <div style="font-size:10.8px; color:#fff8e1; font-weight:800; margin-top:3px;">👘 Trang phục: <span style="color:#ffd54f;">${r.outfitName}</span></div>
             <div style="font-size:10px; color:#d7ccc8; margin-top:2px;">✨ ${r.perk}</div>
             <div style="font-size:10.8px; font-weight:900; color:${isUnlocked ? '#69f0ae' : '#ffab40'}; margin-top:3px;">
-              💎 Phước nâng cấp: <span style="color:#ffd740; font-size:11.5px;">${r.meritCostText}</span>
-              ${!isUnlocked ? `<span style="color:#ff8a80; font-size:9.8px; margin-left:4px;">(Thiếu ${missingMerit.toLocaleString('vi-VN')} 💎)</span>` : `<span style="color:#69f0ae; font-size:9.8px; margin-left:4px;">(Đã mở khóa ✅)</span>`}
+              💎 Giá mở khóa: <span style="color:#ffd740; font-size:11.5px;">${r.meritCostText}</span>
+              ${!isUnlocked ? `<span style="color:#ff8a80; font-size:9.8px; margin-left:4px;">(Chưa mua · ${canAfford ? 'Đủ Phước mua ngay!' : `Thiếu ${missingMerit.toLocaleString('vi-VN')} 💎`})</span>` : `<span style="color:#69f0ae; font-size:9.8px; margin-left:4px;">(Đã sở hữu ✅)</span>`}
             </div>
           </div>
-          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:148px;">
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:152px;">
             ${isUnlocked
-              ? `<button onclick="equipCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 9px; border-radius:8px; border:1.5px solid #00e676; background:${isEquipped ? 'rgba(0,200,83,0.28)' : 'linear-gradient(135deg,#00c853,#009624)'}; color:#fff; font-size:10.5px; font-weight:900;">${isEquipped ? '✅ Đang Mặc Bộ Này' : `👕 Khoác Áo Bậc ${r.lv}`}</button>`
-              : `<button onclick="upgradeCharacterRealmByMerit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 9px; border-radius:8px; border:1.5px solid ${canAfford && isNext ? '#00e676' : '#ffd54f'}; background:${canAfford && isNext ? 'linear-gradient(135deg,#00c853,#009624)' : 'linear-gradient(135deg,#8e24aa,#4a148c)'}; color:#fff; font-size:10.4px; font-weight:900;">⬆️ Nâng Cấp (-${r.meritCost.toLocaleString('vi-VN')} 💎)</button>`
+              ? `<button onclick="equipCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:7px 10px; border-radius:8px; border:1.5px solid #00e676; background:${isEquipped ? 'rgba(0,200,83,0.28)' : 'linear-gradient(135deg,#00c853,#009624)'}; color:#fff; font-size:10.8px; font-weight:900;">${isEquipped ? '✅ Đang Mặc Bộ Này' : `👕 Mặc Trang Phục Bậc ${r.lv}`}</button>`
+              : `<button onclick="upgradeCharacterRealmByMerit(${r.lv})" style="width:100%; cursor:pointer; padding:7px 10px; border-radius:8px; border:1.5px solid ${canAfford ? '#00e676' : '#ffd54f'}; background:${canAfford ? 'linear-gradient(135deg,#00c853,#009624)' : 'linear-gradient(135deg,#8e24aa,#4a148c)'}; color:#fff; font-size:10.5px; font-weight:900;">🛒 Mua Trang Phục (-${r.meritCost.toLocaleString('vi-VN')} 💎)</button>`
             }
-            <button onclick="previewCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:5px 9px; border-radius:7px; border:1.2px solid #ffd740; background:${isEquipped ? 'rgba(0,230,118,0.25)' : 'linear-gradient(135deg,#f57f17,#e65100)'}; color:#fff; font-size:10px; font-weight:900;">👕 Mặc Ngay Ra Sảnh Chùa</button>
           </div>
         </div>`;
       }).join('');
     }
 
     function toggleHallQuickOutfitStrip(show) {
-      const strip = document.getElementById('hallQuickOutfitStrip');
-      const reopenBtn = document.getElementById('btnReopenOutfitStrip');
-      if (!strip) return;
-      const isVisible = (show !== undefined) ? Boolean(show) : (strip.style.display === 'none');
-      strip.style.display = isVisible ? 'flex' : 'none';
-      if (reopenBtn) reopenBtn.style.display = isVisible ? 'none' : 'block';
+      if (show === false) return;
+      openQuestUpgradeModal('realms');
     }
 
     function previewCharacterRealmOutfit(lv) {
-      unlockAndStartAudio();
-      const cfg = getRealmConfigByLv(lv);
-      previewOutfitLevel = cfg.lv;
-      if (previewOutfitTimer) {
-        clearTimeout(previewOutfitTimer);
-        previewOutfitTimer = null;
-      }
-      const st = getPlayerQuestState();
-      st.userPickedOutfitLv = cfg.lv;
-      savePlayerQuestState(st);
-      if (player) {
-        player._realmLv = cfg.lv;
-      }
-      syncMyOutfitToOnlinePeers(cfg.lv);
-      toggleHallQuickOutfitStrip(false);
-      updateTopBarQuestRealmBadge(st);
-      renderQuestUpgradeModal();
-      closeQuestUpgradeModal();
-      closeMeritShopModal();
-      playBellSound();
-      player.chat = `🧘✨ Con đã hóa thân thành nhân vật [${cfg.shortTitle}]: ${cfg.outfitName}!`;
-      player.chatTimer = 260;
-      showToast(`🧘✨ Đã đổi nhân vật sang [${cfg.shortTitle}] & đồng bộ cho mọi người Online!`);
+      equipCharacterRealmOutfit(lv);
     }
 
     // V85 (#mvywfsn71b): Bỏ toàn bộ hình vẽ 2D rối mắt quanh lưng/đầu, chỉ vẽ đế tròn ánh vàng tinh tế dưới chân để tôn 100% ảnh chụp thật của nhân vật 10 bậc
@@ -9335,59 +9274,29 @@
     let globalOfferingBannerTimer = null;
 
     function showGlobalOfferingBroadcastBanner(giverName, detailText, costVal, zoneName, wishText) {
+      // V87 (#mvywx5n81h): Bỏ các hộp chữ dài gây rối mắt trên màn hình khi dâng lễ / công đức, chỉ hiển thị Toast gọn
       const bEl = document.getElementById('globalOfferingBroadcastBanner');
-      const tEl = document.getElementById('globalOfferingBroadcastTitle');
-      const bodyEl = document.getElementById('globalOfferingBroadcastBody');
-      if (!bEl || !bodyEl) return;
-      const gName = giverName || player.name || 'Thí Chủ';
-      const itemStr = detailText || 'Lễ Vật Thành Tâm';
-      const costStr = costVal ? ` (${Number(costVal).toLocaleString('vi-VN')} 💎)` : '';
-      const zStr = zoneName || 'Bàn Thờ Chùa Trường Yến';
-      const wStr = wishText ? ` · Cầu: <i>"${wishText}"</i>` : '';
-      if (tEl) {
-        tEl.innerHTML = `🎊🙏 THÔNG BÁO TOÀN CHÙA · SƯ TRỤ TRÌ CẢM TẠ & CẦU CHÚC THÍ CHỦ ${gName.toUpperCase()}`;
-      }
-      bodyEl.innerHTML = `Thí chủ <b style="color:#ffd740;">${gName}</b> vừa thành tâm dâng lễ <b style="color:#69f0ae;">${itemStr}${costStr}</b> lên <b style="color:#80d8ff;">${zStr}</b>${wStr}!<br/><span style="color:#ffe082;font-size:10.6px;">🧙‍♂️🔊 Sư Trụ Trì chúc phúc: "Nguyện Chư Phật gia hộ cho thí chủ ${gName} thân khỏe tâm an, tài lộc đại phát, vạn sự cát tường như ý!"</span>`;
-      bEl.style.display = 'block';
-      if (globalOfferingBannerTimer) clearTimeout(globalOfferingBannerTimer);
-      globalOfferingBannerTimer = setTimeout(() => {
-        bEl.style.display = 'none';
-      }, 8500);
+      if (bEl) bEl.style.display = 'none';
+      const banner = document.getElementById('activeScrollBanner');
+      if (banner) banner.classList.remove('open');
     }
 
     function playAbbotThankYouVoice(kind = 'le', detailText = '', giverName = '', wishText = '', costVal = 0, zoneName = '') {
       try {
         unlockAndStartAudio();
         stopAllVoices(true);
-        const targetGiver = giverName || player.name || 'Thí Chủ';
-        const targetZone = zoneName || (player.wing === 1 ? 'Ban Thần Tài Vị Tiền' : 'Ban Tam Bảo');
-        const targetWish = wishText || 'thân khỏe tâm an, tài lộc hanh thông, vạn sự như ý';
         let src = 'audio/su_tru_tri_cam_on_le.mp3?v=75';
-        let bannerTitle = `🧙‍♂️🙏 SƯ TRỤ TRÌ CẢM TẠ THÍ CHỦ ${targetGiver.toUpperCase()}`;
-        let bannerBody = `A Di Đà Phật! Thay mặt bổn tự Chùa Trường Yến, bần tăng xin tán thán công đức và thành tâm cảm tạ thí chủ <b>${targetGiver}</b> đã dâng lễ <b>${detailText || 'phẩm vật thanh tịnh'}</b>${costVal ? ` (${Number(costVal).toLocaleString('vi-VN')} 💎)` : ''} lên <b>${targetZone}</b>. Nguyện cầu mười phương Chư Phật gia hộ cho thí chủ <b>${targetGiver}</b> ${targetWish}, phúc lộc dồi dào, vạn sự cát tường như ý!`;
         if (kind === 'cong_duc') {
           src = 'audio/su_tru_tri_cam_on_cong_duc.mp3?v=75';
-          bannerTitle = `🧙‍♂️🏅 SƯ TRỤ TRÌ TÁN THÁN CÔNG ĐỨC THÍ CHỦ ${targetGiver.toUpperCase()}`;
-          bannerBody = `Nam Mô A Di Đà Phật! Bần tăng xin hoan hỷ ghi nhận và cảm tạ tấm lòng vàng phát tâm công đức của thí chủ <b>${targetGiver}</b>. Một giọt dầu công đức sáng rạng muôn đời, nguyện đem phước báu lành này hồi hướng cho thí chủ tài lộc hanh thông, sở cầu tất ứng!`;
         } else if (kind === 'hoa_vang') {
           src = 'audio/su_tru_tri_cam_on_hoa_vang.mp3?v=75';
-          bannerTitle = `🧙‍♂️🔥 SƯ TRỤ TRÌ CHỨNG MINH LỄ HÓA NGÂN VÀNG`;
-          bannerBody = `A Di Đà Phật! Bần tăng cảm tạ tấm lòng thành kính của thí chủ <b>${targetGiver}</b> đã tiến lễ hóa <b>${detailText || 'ngân vàng'}</b>. Nguyện cầu chư vị Tôn Thần, Thần Tài Thổ Địa chứng giám lòng thành, độ trì cho thí chủ buôn may bán đắt, đạt mọi chỉ tiêu ước nguyện!`;
         }
 
-        // Hiển thị Banner thông báo nổi bật trên đỉnh màn hình cho tất cả mọi người (#mvylvhacb)
-        showGlobalOfferingBroadcastBanner(targetGiver, detailText, costVal, targetZone, wishText);
-
+        // V87 (#mvywx5n81h): Không mở khung chữ #activeScrollBanner & #globalOfferingBroadcastBanner cho đỡ loạn màn hình
         const banner = document.getElementById('activeScrollBanner');
-        const tEl = document.getElementById('asBannerTitle');
-        const nEl = document.getElementById('asName');
-        const pEl = document.getElementById('asPrayerPreview');
-        if (tEl) tEl.textContent = bannerTitle;
-        if (nEl) nEl.textContent = targetGiver;
-        if (pEl) pEl.innerHTML = bannerBody;
-        if (banner && (!document.getElementById('karaokeSutraOverlay') || document.getElementById('karaokeSutraOverlay').style.display === 'none')) {
-          banner.classList.add('open');
-        }
+        if (banner) banner.classList.remove('open');
+        const bEl = document.getElementById('globalOfferingBroadcastBanner');
+        if (bEl) bEl.style.display = 'none';
 
         playBellSound();
         isVoiceSpeaking = true;
@@ -13050,7 +12959,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 86;
+        const CURRENT_BUILD_VER = 87;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
