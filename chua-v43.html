@@ -1377,21 +1377,23 @@
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
 
-  <!-- V83 (#mvyvyfn811): THANH ĐỔI NHANH 10 BỘ TRANG PHỤC ẢNH CHỤP STUDIO THẬT NGAY TRÊN SẢNH CHÙA -->
-  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; bottom:76px; transform:translateX(-50%); z-index:44; display:flex; align-items:center; gap:3.5px; flex-wrap:wrap; justify-content:center; width:min(820px, 98vw); background:rgba(18,7,2,0.95); border:1.5px solid #ffd54f; border-radius:12px; padding:4px 7px; box-shadow:0 6px 20px rgba(0,0,0,0.88);">
-    <span style="font-size:9.8px; font-weight:900; color:#ffd740; margin-right:2px;">👘 Pháp Phục 3D:</span>
-    <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#b0bec5; color:#eceff1; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(1)"><img src="assets/outfit_rank_1.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>1.Áo Lam</button>
-    <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#a1887f; color:#efebe9; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(2)"><img src="assets/outfit_rank_2.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>2.Chú Tiểu</button>
-    <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ffb74d; color:#ffe0b2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(3)"><img src="assets/outfit_rank_3.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>3.Sa Di</button>
-    <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ffa726; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(4)"><img src="assets/outfit_rank_4.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>4.Tỳ Kheo</button>
-    <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ff7043; color:#ffccbc; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(5)"><img src="assets/outfit_rank_5.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>5.Đại Đức</button>
-    <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ff5252; color:#ffcdd2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(6)"><img src="assets/outfit_rank_6.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>6.Trụ Trì</button>
-    <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#e040fb; color:#f3e5f5; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(7)"><img src="assets/outfit_rank_7.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>7.Hòa Thượng</button>
-    <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#ffd740; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(8)"><img src="assets/outfit_rank_8.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>8.La Hán</button>
-    <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9.1px; padding:2px 5px; border-color:#69f0ae; color:#b9f6ca; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(9)"><img src="assets/outfit_rank_9.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>9.Bồ Tát</button>
-    <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9.1px; padding:2px 6px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(10)"><img src="assets/outfit_rank_10.png?v=83" style="height:20px;width:auto;object-fit:contain;"/>10.Chính Quả</button>
-    <button type="button" class="qo-btn" style="font-size:9.1px; padding:2.5px 6px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="openQuestUpgradeModal('realms')">📋 Tủ Đồ</button>
+  <!-- V84 (#mvyvzz7715 & #mvyw0d3816): THANH ĐỔI NHÂN VẬT CHUẨN THEO TỪNG BẬC (1->10) CÓ NÚT [✕ ĐÓNG] VÀ NÚT MỞ LẠI GỌN GÀNG -->
+  <div id="hallQuickOutfitStrip" style="position:fixed; left:50%; bottom:76px; transform:translateX(-50%); z-index:44; display:flex; align-items:center; gap:3.5px; flex-wrap:wrap; justify-content:center; width:min(850px, 98vw); background:rgba(18,7,2,0.96); border:1.5px solid #ffd54f; border-radius:12px; padding:4px 7px; box-shadow:0 6px 20px rgba(0,0,0,0.9);">
+    <span style="font-size:9.6px; font-weight:900; color:#ffd740; margin-right:1px;">🧘 Nhân Vật 10 Bậc:</span>
+    <button type="button" id="qoLvBtn_1" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#b0bec5; color:#eceff1; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(1)"><img src="assets/outfit_rank_1.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>1.Cư Sĩ</button>
+    <button type="button" id="qoLvBtn_2" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#a1887f; color:#efebe9; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(2)"><img src="assets/outfit_rank_2.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>2.Chú Tiểu</button>
+    <button type="button" id="qoLvBtn_3" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ffb74d; color:#ffe0b2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(3)"><img src="assets/outfit_rank_3.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>3.Sa Di</button>
+    <button type="button" id="qoLvBtn_4" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ffa726; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(4)"><img src="assets/outfit_rank_4.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>4.Tỳ Kheo</button>
+    <button type="button" id="qoLvBtn_5" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ff7043; color:#ffccbc; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(5)"><img src="assets/outfit_rank_5.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>5.Đại Đức</button>
+    <button type="button" id="qoLvBtn_6" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ff5252; color:#ffcdd2; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(6)"><img src="assets/outfit_rank_6.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>6.Trụ Trì</button>
+    <button type="button" id="qoLvBtn_7" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#e040fb; color:#f3e5f5; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(7)"><img src="assets/outfit_rank_7.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>7.Hòa Thượng</button>
+    <button type="button" id="qoLvBtn_8" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#ffd740; color:#fff59d; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(8)"><img src="assets/outfit_rank_8.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>8.La Hán</button>
+    <button type="button" id="qoLvBtn_9" class="qo-btn" style="font-size:9px; padding:2px 5px; border-color:#69f0ae; color:#b9f6ca; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(9)"><img src="assets/outfit_rank_9.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>9.Bồ Tát</button>
+    <button type="button" id="qoLvBtn_10" class="qo-btn" style="font-size:9px; padding:2px 6px; background:linear-gradient(135deg,#ff6f00,#d50000); border-color:#ffd700; color:#fff59d; font-weight:900; display:inline-flex; align-items:center; gap:2px;" onclick="previewCharacterRealmOutfit(10)"><img src="assets/outfit_rank_10.png?v=84" style="height:20px;width:auto;object-fit:contain;"/>10.Chính Quả</button>
+    <button type="button" class="qo-btn" style="font-size:9px; padding:2.5px 6px; background:rgba(255,255,255,0.12); color:#ffd54f;" onclick="openQuestUpgradeModal('realms')">📋 Tủ Đồ</button>
+    <button type="button" class="qo-btn" style="font-size:9px; padding:2.5px 7px; background:linear-gradient(135deg,#c62828,#8e0000); border-color:#ff8a80; color:#fff; font-weight:900;" onclick="toggleHallQuickOutfitStrip(false)" title="Đóng / Ẩn thanh chọn bậc nhân vật">✕ Tắt</button>
   </div>
+  <button type="button" id="btnReopenOutfitStrip" onclick="toggleHallQuickOutfitStrip(true)" style="position:fixed; right:10px; bottom:78px; z-index:44; display:none; background:linear-gradient(135deg,#4a148c,#880e4f); color:#ffd740; border:1.5px solid #ffd54f; border-radius:999px; padding:4px 10px; font-size:10px; font-weight:900; box-shadow:0 4px 12px rgba(0,0,0,0.8); cursor:pointer;">👘 Đổi Nhân Vật 10 Bậc</button>
 
   <!-- 4. UNIFIED 8-BUTTON BOTTOM RITUAL DOCK (Mõ · Chuông · Thắp Hương Tại Sảnh · Đặt Lễ Tại Sảnh · Viết Sớ · Rút Thẻ · Xả Nghiệp · Cửa Hàng) -->
   <div class="bottom-dock-wrap">
@@ -6842,6 +6844,15 @@
       }).join('');
     }
 
+    function toggleHallQuickOutfitStrip(show) {
+      const strip = document.getElementById('hallQuickOutfitStrip');
+      const reopenBtn = document.getElementById('btnReopenOutfitStrip');
+      if (!strip) return;
+      const isVisible = (show !== undefined) ? Boolean(show) : (strip.style.display === 'none');
+      strip.style.display = isVisible ? 'flex' : 'none';
+      if (reopenBtn) reopenBtn.style.display = isVisible ? 'none' : 'block';
+    }
+
     function previewCharacterRealmOutfit(lv) {
       unlockAndStartAudio();
       const cfg = getRealmConfigByLv(lv);
@@ -6850,14 +6861,17 @@
         clearTimeout(previewOutfitTimer);
         previewOutfitTimer = null;
       }
+      if (player) {
+        player._realmLv = cfg.lv;
+      }
       updateTopBarQuestRealmBadge();
       renderQuestUpgradeModal();
       closeQuestUpgradeModal();
       closeMeritShopModal();
       playBellSound();
-      player.chat = `👘✨ Con đang khoác bộ Pháp Phục [${cfg.shortTitle}]: ${cfg.outfitName} (${cfg.outfitColorLabel})!`;
+      player.chat = `🧘✨ Con đã hóa thân thành nhân vật [${cfg.shortTitle}]: ${cfg.outfitName}!`;
       player.chatTimer = 260;
-      showToast(`👘✨ Đã mặc bộ Trang Phục [${cfg.shortTitle}]: ${cfg.outfitName} (${cfg.outfitColorLabel}) ra sảnh chùa!`);
+      showToast(`🧘✨ Đã đổi nhân vật sang [${cfg.shortTitle}]: ${cfg.outfitName}!`);
     }
 
     // V80 (#mvyv22isx): Vẽ Đài Sen, Vòng Lửa Kim Cang, Hào Quang Cầu Vồng & Phật Quang Vạn Tự 卍 Dưới Chân / Sau Lưng Nhân Vật
@@ -6957,14 +6971,13 @@
       ctx.restore();
     }
 
-    // V83 (#mvyvyfn811): Hệ thống Trang Phục 10 Bậc Ảnh Chụp Studio Thật 100% (outfit_rank_1.png -> outfit_rank_10.png)
-    // Kết hợp Bộ Xử Lý Điểm Ảnh Nếp Vải Tự Nhiên (Per-Pixel Luminance-Preserving Cloth Shader) khi nhân vật Quỳ / Lạy nghiêng người (Không bao giờ lem vào mặt, tay hay đệm quỳ!)
+    // V84 (#mvyw0d3816): THAY LUÔN NHÂN VẬT THÀNH CÁC NHÂN VẬT CHUẨN THEO TỪNG BẬC (Bậc 1 -> Bậc 10) TRONG MỌI TRẠNG THÁI (Đứng, Đi, Ngồi Top 3, Vái, Lạy)!
     const _recoloredSpriteCache = {};
     function getRecoloredCharacterSprite(spr, lv) {
       if (!spr || !spr.complete || !spr.naturalWidth || !lv || lv <= 1) return spr;
 
-      // 1. Khi nhân vật đang Đứng / Đi dạo (walkM / walkF): Dùng trực tiếp Ảnh Chụp Studio Thật 100% của Bậc đó!
-      if (typeof images === 'object' && (spr === images.walkM || spr === images.walkF)) {
+      // Thay trực tiếp nhân vật thành Nhân Vật Chuẩn Theo Từng Bậc (outfit_rank_2.png -> outfit_rank_10.png) trong mọi tư thế tại sảnh!
+      if (typeof images === 'object') {
         const studioRankSpr = images['outfitRank' + lv];
         if (studioRankSpr && studioRankSpr.complete && studioRankSpr.naturalWidth > 0) {
           return studioRankSpr;
@@ -11723,13 +11736,13 @@
         }
 
         if (spr.complete && spr.naturalWidth > 0) {
-          const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
-          const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
-
-          // V83 (#mvyvyfn811): Lấy bậc trang phục & sử dụng Ảnh Chụp Studio Thật 100% (outfit_rank_1..10.png) hoặc xử lý điểm ảnh nếp vải tự nhiên
           const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
           const charRealmCfg = getRealmConfigByLv(charOutfitLv);
           const recoloredSpr = getRecoloredCharacterSprite(spr, charOutfitLv);
+          const isStudioRankChar = (charOutfitLv >= 2 && typeof images === 'object' && recoloredSpr === images['outfitRank' + charOutfitLv]);
+          const mult = isStudioRankChar ? 0.62 : ((spr === images.kneel || spr === images.bow) ? 0.54 : 0.60);
+          const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
+
           const sprW = recoloredSpr.width || recoloredSpr.naturalWidth || spr.naturalWidth;
           const sprH = recoloredSpr.height || recoloredSpr.naturalHeight || spr.naturalHeight;
           const sw = sprW * scale * mult;
@@ -11738,23 +11751,27 @@
           // 1) Vẽ Tòa Sen, Vòng Hào Quang & Phật Quang Vạn Đượng phía sau / dưới chân nhân vật
           drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, charOutfitLv, frameCount);
 
-          // 2) Vẽ Sprite nhân vật đã được nhuộm màu Pháp Phục theo đúng bậc
+          // 2) Vẽ Nhân Vật Chuẩn Theo Từng Bậc (Từ Chú Tiểu, Sa Di, Tỳ Kheo, Đại Đức, Trụ Trì, Hòa Thượng, La Hán, Bồ Tát đến Phật Đà Chính Quả)
           ctx.save();
           if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
             drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
           } else if (isVaiState) {
-            const fullSh = spr.naturalHeight * scale * mult;
+            const fullSh = sprH * scale * mult;
             const vaiDip = 0.5 - 0.5 * Math.cos(frameCount * 0.16);
             ctx.save();
             ctx.translate(sx, sy);
             drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, vaiDip);
             ctx.restore();
           } else if (isBowCycleState) {
-            const fullSh = spr.naturalHeight * scale * mult;
+            const fullSh = sprH * scale * mult;
             const cycleTick = (frameCount + (isPlayer ? 0 : 19)) % 76;
             ctx.save();
             ctx.translate(sx, sy + poseOffsetY);
-            if (cycleTick < 16) {
+            if (isStudioRankChar) {
+              // Giữ nguyên Nhân Vật Chuẩn Theo Bậc khi cúi lạy (không bị biến lại thành Cư Sĩ Áo Lam!)
+              const bowDip = Math.sin((cycleTick / 76) * Math.PI);
+              drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, bowDip * 0.85);
+            } else if (cycleTick < 16) {
               const standBow = Math.sin((cycleTick / 16) * Math.PI) * 0.65;
               drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, standBow);
             } else if (cycleTick < 32) {
@@ -12963,7 +12980,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 83;
+        const CURRENT_BUILD_VER = 84;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
