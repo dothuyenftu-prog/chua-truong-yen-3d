@@ -936,10 +936,13 @@
       </button>
     </div>
 
-    <!-- Cụm Góc Phải Gọn Gàng + Huy Hiệu Số Người Đang Online Trực Tuyến (#mvym0hucf) + Nút Menu [🎛️ Nhạc · Kinh · Tiện Ích ▾] -->
+    <!-- Cụm Góc Phải Gọn Gàng + Huy Hiệu Số Người Đang Online Trực Tuyến (#mvym0hucf) + Nút Nhiệm Vụ & Nâng Cấp (#mvyotj6rp) + Nút Menu [🎛️ Nhạc · Kinh · Tiện Ích ▾] -->
     <div class="top-group" style="justify-content:flex-end;">
       <button id="btnTopBarOnlineBadge" class="chip-btn active" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#e8f5e9;border-color:#69f0ae;font-weight:900;" onclick="showOnlineMembersToast()" title="Số người đang lễ chùa trực tuyến — Bấm để xem danh sách đang Online">
         🟢 Online: <span id="topBarOnlineCount" style="color:#69f0ae;font-weight:900;">1</span>
+      </button>
+      <button id="btnTopBarQuestUpgrade" class="chip-btn active" style="background:linear-gradient(135deg,#6a1b9a,#4a148c);color:#fff8e1;border-color:#ffd740;font-weight:900;" onclick="openQuestUpgradeModal()" title="Mở Bảng Nhiệm Vụ Tu Tập Hàng Ngày & Nâng Cấp Pháp Khí - Cảnh Giới Tu Hành">
+        📜 Nhiệm Vụ · <span id="topBarRealmBadge" style="color:#ffd740;">Lv.1</span>
       </button>
       <button id="btnDesktopRightMerit" class="chip-btn active" onclick="openMeritShopModal()" title="Điểm Phước Đức của nhân vật — Bấm để xem Bảng Top Phước Đức Các Nhân Vật & Cửa Hàng Lễ">
         🏆 Bảng Top · 💎<span id="meritScore">1.380</span>
@@ -1132,9 +1135,42 @@
         <span class="cm-auto-pill" onclick="quickSetCharName('Thế Anh Kho HN', 'M')">🙏 Thế Anh</span>
       </div>
       <div id="accountLoginErrorMsg" style="display:none; background:rgba(183,28,28,0.28); border:1px solid #ff8a80; border-radius:8px; padding:6px 10px; margin-bottom:8px; font-size:11.5px; color:#ffcdd2; font-weight:700;"></div>
-      <div class="sk-actions" style="display:flex; gap:8px;">
-        <button class="btn-sk-submit" style="flex:1; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName()">🔑 Đăng Nhập / Lưu Tài Khoản</button>
-        <button class="btn-sk-submit" style="background:linear-gradient(135deg,#455a64,#263238); padding:10px 12px;" onclick="logoutCurrentAccount()">🚪 Đổi Nick</button>
+      <div class="sk-actions" style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="btn-sk-submit" style="flex:1.4; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName(false)">🔑 Đăng Nhập / Lưu Tài Khoản</button>
+        <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); padding:10px 10px; font-size:11.5px;" onclick="resetAccountPinToDefault()">🔄 Quên PIN (Đặt Về 1234)</button>
+        <button class="btn-sk-submit" style="background:linear-gradient(135deg,#455a64,#263238); padding:10px 10px; font-size:11.5px;" onclick="logoutCurrentAccount()">🚪 Đổi Nick</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2B-1B. MODAL HỆ THỐNG NHIỆM VỤ TU TẬP HÀNG NGÀY & NÂNG CẤP PHÁP KHÍ - CẢNH GIỚI TU HÀNH (#mvyotj6rp) -->
+  <div class="modal-backdrop" id="questUpgradeModal" style="z-index:118;" onclick="if(event.target===this) closeQuestUpgradeModal()">
+    <div class="so-khan-box" style="max-width:600px; text-align:left;">
+      <div class="sk-top-row" style="margin-bottom:8px;">
+        <span class="sk-title">📜🏛️ NHIỆM VỤ TU TẬP · NÂNG CẤP PHÁP KHÍ & CẢNH GIỚI TU HÀNH</span>
+        <button class="btn-modal-x" onclick="closeQuestUpgradeModal()">✕ Đóng</button>
+      </div>
+
+      <!-- Khung Cảnh Giới & Thanh Kinh Nghiệm Tu Tập (EXP) -->
+      <div id="quPlayerRealmHeader" style="background:linear-gradient(135deg,#311b92 0%,#4a148c 55%,#1a0633 100%); border:2px solid #ffd740; border-radius:12px; padding:9px 12px; margin-bottom:8px; box-shadow:0 6px 18px rgba(0,0,0,0.75);">
+      </div>
+
+      <!-- Chuyển 2 Tab: [📜 1. Nhiệm Vụ Tu Tập Hôm Nay] & [⚒️ 2. Nâng Cấp Pháp Khí & Cảnh Giới] -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+        <button type="button" id="quTabBtn_quests" onclick="switchQuestUpgradeTab('quests')" style="background:linear-gradient(135deg,#ff8f00,#c62828); color:#fff; border:2px solid #fff59d; border-radius:9px; padding:7px 8px; font-size:11px; font-weight:900; cursor:pointer;">
+          📜 1. Nhiệm Vụ Tu Tập Hàng Ngày (8 Nhiệm Vụ)
+        </button>
+        <button type="button" id="quTabBtn_upgrades" onclick="switchQuestUpgradeTab('upgrades')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:7px 8px; font-size:11px; font-weight:900; cursor:pointer;">
+          ⚒️ 2. Nâng Cấp Pháp Khí & Kiến Thiết Chùa
+        </button>
+      </div>
+
+      <!-- TAB 1: DANH SÁCH 8 NHIỆM VỤ TU TẬP -->
+      <div id="quPanel_quests" style="max-height:54vh; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px;">
+      </div>
+
+      <!-- TAB 2: NÂNG CẤP 4 PHÁP KHÍ & ĐỘT PHÁ 7 CẢNH GIỚI -->
+      <div id="quPanel_upgrades" style="display:none; max-height:54vh; overflow-y:auto; flex-direction:column; gap:7px; padding-right:2px;">
       </div>
     </div>
   </div>
@@ -1457,9 +1493,13 @@
       </div>
 
       <!-- Thanh hiển thị Phước hiện có & Chi phí Thỉnh Quẻ (-5 💎 Phước) -->
-      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(38,14,4,0.95); border:1px solid #ffd54f; border-radius:9px; padding:5px 10px; margin-bottom:7px; font-size:10.6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(38,14,4,0.95); border:1px solid #ffd54f; border-radius:9px; padding:5px 10px; margin-bottom:6px; font-size:10.6px; flex-wrap:wrap; gap:4px;">
         <span>👤 Tín chủ: <b id="divActiveUserName" style="color:#69f0ae;">Thành</b> · 💎 Phước: <b id="fortuneMeritBalance" style="color:#ffd740; font-size:12px;">1.380</b> 💎</span>
-        <span style="color:#ffab40; font-weight:800;">🎫 Mỗi lần Gieo Quẻ / Xin Số: <b style="color:#ff5252;">-5 💎</b></span>
+        <span style="color:#ffab40; font-weight:800;">🎫 Mỗi lần Thỉnh Quẻ / Lập Lá Số: <b style="color:#ff5252;">-5 💎</b></span>
+      </div>
+
+      <!-- BẢNG LỊCH VẠN NIÊN & THIÊN THỜI THỰC TẾ HÔM NAY (TÍNH CHUẨN THIÊN VĂN ÂM DƯƠNG - CAN CHI - TIẾT KHÍ - TRỰC - GIỜ HOÀNG ĐẠO) -->
+      <div id="divLunarTodayBanner" style="background:linear-gradient(90deg,rgba(56,18,5,0.96),rgba(28,8,2,0.96)); border:1px solid rgba(255,213,79,0.55); border-radius:9px; padding:6px 10px; margin-bottom:7px; font-size:10.1px; color:#ffe0b2; line-height:1.42;">
       </div>
 
       <!-- ================= TAB 1: QUAN ÂM LINH XĂM ================= -->
@@ -1603,43 +1643,60 @@
         </div>
       </div>
 
-      <!-- ================= TAB 3: TỬ VI 12 CON GIÁP & BẢN MỆNH TRONG NGÀY ================= -->
+      <!-- ================= TAB 3: TỬ VI ĐẨU SỐ · LỤC THẬP HOA GIÁP · BÁT TRẠCH & NIÊN HẠN CHUẨN XÁC ================= -->
       <div id="divTabPanel_tuvi" style="display:none;">
-        <div style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:7px; margin-bottom:8px; align-items:end;">
+        <div style="display:grid; grid-template-columns: 0.95fr 1.25fr 0.68fr; gap:6px; margin-bottom:7px; align-items:end;">
           <div class="sk-field" style="margin-bottom:0;">
-            <label style="font-size:10.4px; color:#ffd740;">🐉 Chọn Tuổi / Năm Sinh Của Bạn (12 Con Giáp & Ngũ Hành Bản Mệnh):</label>
-            <select id="tuviZodiacSelect" onchange="renderTuViReading(false)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 8px; color:#fff8e1; font-size:10.6px; font-weight:800;">
-              <option value="0">🐭 Tuổi Tý (1984 Giáp Tý · 1996 Bính Tý · 1972 Nhâm Tý)</option>
-              <option value="1">🐮 Tuổi Sửu (1985 Ất Sửu · 1997 Đinh Sửu · 1973 Quý Sửu)</option>
-              <option value="2">🐯 Tuổi Dần (1986 Bính Dần · 1998 Mậu Dần · 1974 Giáp Dần)</option>
-              <option value="3">🐱 Tuổi Mão (1987 Đinh Mão · 1999 Kỷ Mão · 1975 Ất Mão)</option>
-              <option value="4" selected>🐲 Tuổi Thìn (1988 Mậu Thìn · 2000 Canh Thìn · 1976 Bính Thìn)</option>
-              <option value="5">🐍 Tuổi Tỵ (1989 Kỷ Tỵ · 2001 Tân Tỵ · 1977 Đinh Tỵ)</option>
-              <option value="6">🐴 Tuổi Ngọ (1990 Canh Ngọ · 2002 Nhâm Ngọ · 1978 Mậu Ngọ)</option>
-              <option value="7">🐐 Tuổi Mùi (1991 Tân Mùi · 2003 Quý Mùi · 1979 Kỷ Mùi)</option>
-              <option value="8">🐵 Tuổi Thân (1992 Nhâm Thân · 2004 Giáp Thân · 1980 Canh Thân)</option>
-              <option value="9">🐔 Tuổi Dậu (1993 Quý Dậu · 2005 Ất Dậu · 1981 Tân Dậu)</option>
-              <option value="10">🐶 Tuổi Tuất (1994 Giáp Tuất · 2006 Bính Tuất · 1982 Nhâm Tuất)</option>
-              <option value="11">🐷 Tuổi Hợi (1995 Ất Hợi · 2007 Đinh Hợi · 1983 Quý Hợi)</option>
+            <label style="font-size:10px; color:#ffd740;">🐉 1. Chọn Con Giáp (12 Địa Chi):</label>
+            <select id="tuviZodiacSelect" onchange="onTuViZodiacChange(this.value)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ffd54f; border-radius:8px; padding:6px 7px; color:#fff8e1; font-size:10.3px; font-weight:800;">
+              <option value="0">🐭 Tuổi Tý (Chuột)</option>
+              <option value="1">🐮 Tuổi Sửu (Trâu)</option>
+              <option value="2">🐯 Tuổi Dần (Hổ)</option>
+              <option value="3">🐱 Tuổi Mão (Mèo)</option>
+              <option value="4">🐲 Tuổi Thìn (Rồng)</option>
+              <option value="5">🐍 Tuổi Tỵ (Rắn)</option>
+              <option value="6">🐴 Tuổi Ngọ (Ngựa)</option>
+              <option value="7" selected>🐐 Tuổi Mùi (Dê)</option>
+              <option value="8">🐵 Tuổi Thân (Khỉ)</option>
+              <option value="9">🐔 Tuổi Dậu (Gà)</option>
+              <option value="10">🐶 Tuổi Tuất (Chó)</option>
+              <option value="11">🐷 Tuổi Hợi (Heo)</option>
             </select>
           </div>
-          <div style="display:flex; gap:5px;">
-            <button type="button" class="btn-sk-submit" style="flex:1; padding:7px 6px; font-size:10.4px; background:linear-gradient(135deg,#6a1b9a,#4a148c); border:1px solid #ea80fc;" onclick="renderTuViReading(true)">
-              🔮 Bình Giải Tử Vi (-5 💎)
-            </button>
-            <button type="button" class="btn-sk-submit" style="padding:7px 8px; font-size:10.4px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentTuVi()">
-              🧙‍♂️🔊 Sư Thầy Đọc
-            </button>
+          <div class="sk-field" style="margin-bottom:0;">
+            <label style="font-size:10px; color:#80d8ff;">📜 2. Năm Sinh Cụ Thể (Can Chi & Nạp Âm):</label>
+            <select id="tuviBirthYearSelect" onchange="onTuViBirthYearChange(this.value)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #80d8ff; border-radius:8px; padding:6px 7px; color:#fff8e1; font-size:10.3px; font-weight:800;">
+            </select>
+          </div>
+          <div class="sk-field" style="margin-bottom:0;">
+            <label style="font-size:10px; color:#ea80fc;">☯️ 3. Bản Mệnh:</label>
+            <select id="tuviGenderSelect" onchange="renderTuViReading(false)" style="width:100%; background:rgba(16,7,2,0.95); border:1.2px solid #ea80fc; border-radius:8px; padding:6px 7px; color:#fff8e1; font-size:10.3px; font-weight:800;">
+              <option value="M" selected>♂️ Nam Mạng</option>
+              <option value="F">♀️ Nữ Mạng</option>
+            </select>
           </div>
         </div>
 
+        <div style="display:flex; gap:6px; margin-bottom:7px;">
+          <button type="button" class="btn-sk-submit" style="flex:1.35; padding:7px 8px; font-size:10.5px; background:linear-gradient(135deg,#6a1b9a,#4a148c); border:1px solid #ea80fc;" onclick="renderTuViReading(true)">
+            🔮 Lập Lá Số & Bình Giải Tử Vi Chi Tiết Hôm Nay (-5 💎)
+          </button>
+          <button type="button" class="btn-sk-submit" style="flex:0.85; padding:7px 8px; font-size:10.5px; background:linear-gradient(135deg,#2e7d32,#1b5e20); border:1px solid #a5d6a7;" onclick="speakCurrentTuVi()">
+            🧙‍♂️🔊 Sư Thầy Đọc Bình Giải
+          </button>
+        </div>
+
         <div id="tuviResultBox" style="background:linear-gradient(180deg,#2a0845 0%,#120321 100%); border:2px solid #ea80fc; border-radius:12px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,0.85);">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(234,128,252,0.4); padding-bottom:5px; margin-bottom:7px; flex-wrap:wrap; gap:6px;">
-            <span id="tvTitle" style="font-size:12.6px; font-weight:900; color:#ffd740;">🔮 LÁ SỐ TỬ VI HÔM NAY — TUỔI THÌN (LONG ĐỨC HỘ MỆNH)</span>
-            <span id="tvStarBadge" style="background:#ffd740; color:#311b92; font-size:9.8px; font-weight:900; padding:2px 8px; border-radius:999px;">🌟 SAO THIÊN HỶ · TÀI LỘC 92%</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(234,128,252,0.4); padding-bottom:5px; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+            <span id="tvTitle" style="font-size:12.2px; font-weight:900; color:#ffd740;">🔮 LÁ SỐ TỬ VI — 1991 TÂN MÙI (NAM MẠNG)</span>
+            <span id="tvStarBadge" style="background:#ffd740; color:#311b92; font-size:9.6px; font-weight:900; padding:2px 8px; border-radius:999px;">🌟 CÁT VẬN HÔM NAY</span>
           </div>
-          <div id="tvMainGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px 8px; background:rgba(12,2,22,0.82); border:1px solid rgba(234,128,252,0.35); border-radius:8px; padding:7px 9px; font-size:10.4px; color:#f3e5f5; margin-bottom:7px; line-height:1.44;"></div>
-          <div id="tvAuspiciousInfo" style="background:rgba(28,48,18,0.88); border:1px solid #81c784; border-radius:8px; padding:6px 9px; font-size:10.4px; color:#e8f5e9; line-height:1.42;"></div>
+          <!-- Hồ sơ Bản Mệnh Nạp Âm · Cung Phi Bát Trạch · Sao Hạn Niên Vận · Tương Tác Can Chi Ngày -->
+          <div id="tvBaziProfileBar" style="background:rgba(28,8,48,0.92); border:1px solid rgba(255,215,64,0.45); border-radius:8px; padding:6px 9px; font-size:10.1px; color:#ffe082; margin-bottom:7px; line-height:1.45;"></div>
+          <!-- Lưới 6 Mục Luận Giải Chi Tiết -->
+          <div id="tvMainGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px 8px; background:rgba(12,2,22,0.85); border:1px solid rgba(234,128,252,0.35); border-radius:8px; padding:7px 9px; font-size:10.3px; color:#f3e5f5; margin-bottom:7px; line-height:1.44;"></div>
+          <!-- Phong Thủy Cải Vận: Giờ Hoàng Đạo Thực Tế · Hướng Xuất Hành · Màu Sắc Hợp/Kỵ Chuẩn Mệnh Nạp Âm -->
+          <div id="tvAuspiciousInfo" style="background:rgba(28,48,18,0.88); border:1px solid #81c784; border-radius:8px; padding:6px 9px; font-size:10.2px; color:#e8f5e9; line-height:1.44;"></div>
         </div>
       </div>
 
@@ -2375,22 +2432,24 @@
     let autoMoInterval = null;
     let autoMoSec = 0;   // 0 = off, 1 = 1s, 2 = 2s, 3 = 3s
 
-    // XÁC SUẤT 6 BẬC CHUẨN (#mvvudkh24k): Không có gì (X0: 55%) · X1 (25%) · X2 (11%) · X3 (5%) · X5 (3%) · X10 (1%) — Tỉ lệ càng cao càng khó!
+    // XÁC SUẤT 6 BẬC ĐỘ KHÓ CAO (#mvyo8s9vo): Giảm xác suất, tăng độ khó của các X lên để quý hiếm thực sự!
+    // X0 (78.0% - Không trúng) · X1 (15.0% - Lộc cơ bản) · X2 (4.5%) · X3 (1.8%) · X5 (0.55%) · X10 (0.15% - Siêu hiếm 1/666!)
     function rollSixTierMultiplier() {
       const r = Math.random();
-      if (r < 0.01) return { mult: 10, rate: '1%', label: '👑 ĐẠI HỒNG ÂN X10 (Tỉ lệ 1% cực hiếm!)' };
-      if (r < 0.04) return { mult: 5, rate: '3%', label: '💎 ĐẠI CÁT X5 (Tỉ lệ 3%)' };
-      if (r < 0.09) return { mult: 3, rate: '5%', label: '🔥 TAM BẢO X3 (Tỉ lệ 5%)' };
-      if (r < 0.20) return { mult: 2, rate: '11%', label: '✨ SONG HỶ X2 (Tỉ lệ 11%)' };
-      if (r < 0.45) return { mult: 1, rate: '25%', label: '🪷 LỘC X1 (Tỉ lệ 25%)' };
-      return { mult: 0, rate: '55%', label: '💨 X0 · Không có gì (Tỉ lệ 55%)' };
+      if (r < 0.0015) return { mult: 10, rate: '0.15%', label: '👑 ĐẠI HỒNG ÂN X10 (Siêu hiếm 0.15%!)' };
+      if (r < 0.0070) return { mult: 5, rate: '0.55%', label: '💎 NGŨ PHÚC ĐẠI CÁT X5 (Hiếm 0.55%)' };
+      if (r < 0.0250) return { mult: 3, rate: '1.8%', label: '🔥 TAM BẢO X3 (Khó 1.8%)' };
+      if (r < 0.0700) return { mult: 2, rate: '4.5%', label: '✨ SONG HỶ X2 (Tỉ lệ 4.5%)' };
+      if (r < 0.2200) return { mult: 1, rate: '15%', label: '🪷 LỘC CƠ BẢN X1 (Tỉ lệ 15%)' };
+      return { mult: 0, rate: '78%', label: '💨 X0 · Tịnh tâm tu tập (78%)' };
     }
 
     function strikeVisualBell() {
       unlockAndStartAudio();
       playBellSound();
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('bell', 1);
       const tier = rollSixTierMultiplier();
-      const pts = 2 * tier.mult * meritRateMultiplier;
+      const pts = 1 * tier.mult * meritRateMultiplier;
       floatingHits.push({
         x: window.innerWidth * 0.52,
         y: window.innerHeight * 0.44,
@@ -2404,6 +2463,7 @@
     function strikeVisualMo() {
       unlockAndStartAudio();
       playMoSound();
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('mo', 1);
       const tier = rollSixTierMultiplier();
       const pts = 1 * tier.mult * meritRateMultiplier;
       floatingHits.push({
@@ -5340,90 +5400,90 @@
       {
         num: 1, name: 'Thuần Càn (乾為天)', symbol: '䷀', rank: 'THƯỢNG THƯỢNG CÁT · LONG ĐẰNG TỨ HẢI', tier: 'good',
         upper: 'Càn ☰ (Thiên - Trời)', lower: 'Càn ☰ (Thiên - Trời)', lines: [1, 1, 1, 1, 1, 1],
-        moving: 'Hào Cửu Ngũ: Phi long tại thiên, lợi kiến đại nhân (Rồng bay trên trời, gặp quý nhân lớn).',
-        judgment: 'Càn: Nguyên, Hanh, Lợi, Trinh — Khí dương cực thịnh, thời vận mở mang mạnh mẽ, quyết đoán làm việc lớn ắt thành công.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Đại cát! Thời điểm vàng để ký hợp đồng lớn, mở rộng đại lý tấm ốp và chốt các công trình trọng điểm.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Dòng tiền lưu thông mạnh, đòi nợ dễ thu hồi nếu nói chuyện đàng hoàng, uy quyền.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Uy tín lãnh đạo tăng cao, cấp dưới đồng lòng chạy KPI vượt mức.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia môn hưng vượng, có tin vui từ người thân hoặc quý nhân phương xa.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> "Thiên hành kiện, quân tử dĩ tự cường bất tức" — Hãy chủ động chốt đơn ngay hôm nay, nhưng tránh kiêu ngạo độc đoán.'
+        moving: 'Hào Cửu Ngũ: Phi long tại thiên, lợi kiến đại nhân (Rồng bay trên trời, lợi gặp bậc đại nhân minh triết).',
+        judgment: 'Càn: Nguyên, Hanh, Lợi, Trinh — Thuần dương cương kiện, chí khí thông thiên, chính đạo bền vững tất thành đại nghiệp.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Thời vận đại hanh thông, mưu cầu việc lớn, ký kết giao ước hay khai mở dự định mới đều đắc thời đắc vị.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Tài khí lưu thông mạnh mẽ, cầu tài đắc tài, công việc tồn đọng được giải quyết minh bạch.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Uy tín và vị thế thăng tiến rõ rệt, được bậc trưởng bối và cộng sự nể trọng, trợ lực.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia môn hưng vượng, trên dưới đồng lòng, đón tin vui cát khánh từ phương xa.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> "Thiên hành kiện, quân tử dĩ tự cường bất tức" — Hãy giữ tâm sáng suốt, quyết đoán hành sự nhưng tránh tự mãn độc đoán.'
       },
       {
-        num: 14, name: 'Hỏa Thiên Đại Hữu (火天大有)', symbol: '䷍', rank: 'THƯỢNG THƯỢNG CÁT · MẶT TRỜI GIỮA TRỜI', tier: 'good',
+        num: 14, name: 'Hỏa Thiên Đại Hữu (火天大有)', symbol: '䷍', rank: 'THƯỢNG THƯỢNG CÁT · NHẬT LỆ TRUNG THIÊN', tier: 'good',
         upper: 'Ly ☲ (Hỏa - Lửa Sáng)', lower: 'Càn ☰ (Thiên - Trời)', lines: [1, 1, 1, 1, 0, 1],
-        moving: 'Hào Lục Ngũ: Tín tâm giao kết, uy như cát (Lấy chữ Tín làm đầu thì tự nhiên được trời ban phúc).',
-        judgment: 'Đại Hữu: Nguyên hanh — Mặt trời tỏa sáng trên bầu trời cao, vạn vật đều được soi tỏ, tài lộc thu về đầy kho.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Khách hàng tự tìm đến đặt hàng số lượng lớn, hàng xuất kho liên tục từ sáng tới chiều.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Tài vận cực vượng, khách hàng thanh toán sòng phẳng, có lộc bất ngờ.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Danh tiếng công ty và cá nhân vang xa, hợp tác đôi bên cùng thắng lớn.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Hòa khí sinh tài, trong ấm ngoài êm, tâm thần sáng suốt.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Giữ vững chữ Tín về chất lượng hàng hóa và tiến độ giao hàng, lộc lớn sẽ bền vững lâu dài.'
+        moving: 'Hào Lục Ngũ: Quyết孚 giao như, uy như, cát (Lấy đức Tín thành thật mà giao kết, giữ uy nghiêm tự nhiên được đại cát).',
+        judgment: 'Đại Hữu: Nguyên hanh — Mặt trời tỏa rạng giữa tầng không, muôn vật đều được soi sáng, phúc lộc dồi dào.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Chính Tài và Thiên Tài đều vượng, công sức bỏ ra thu về thành quả xứng đáng, tài lộc hội tụ.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Giao dịch tiền bạc minh bạch, thuận lợi, có quý nhân mang tới cơ hội hợp tác lâu dài.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Trí tuệ minh mẫn, danh tiếng lan xa, làm việc lớn có người tài hiền cùng gánh vác.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Hòa khí sinh tài, trong ấm ngoài êm, nhân duyên tốt đẹp.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> Giữ trọn chữ Tín và lòng khiêm cung giữa lúc thịnh vượng thì phúc lộc trường tồn.'
       },
       {
         num: 15, name: 'Địa Sơn Khiêm (地山謙)', symbol: '䷎', rank: 'THƯỢNG CÁT · LỤC HÀO ĐỀU CÁT', tier: 'good',
         upper: 'Khôn ☷ (Địa - Đất)', lower: 'Cấn ☶ (Sơn - Núi)', lines: [0, 0, 1, 0, 0, 0],
-        moving: 'Hào Cửu Tam: Lao khiêm quân tử, hữu chung cát (Người có công lao mà vẫn khiêm nhường thì trọn đời tốt đẹp).',
-        judgment: 'Khiêm: Hanh, quân tử hữu chung — Núi cao ẩn mình dưới đất thấp, càng khiêm tốn mềm mỏng càng thu phục được lòng người và khách khó tính.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Hôm nay tư vấn khách bằng sự chân thành, nhẫn nại sẽ chốt được cả những vị khách kỹ tính nhất.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Nhắc nợ khéo léo, mềm mỏng nhưng chắc chắn sẽ thu được tiền về.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Được đồng nghiệp và cấp trên quý trọng, hóa giải mọi hiềm khích nội bộ.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Nhường nhịn một câu, gia đạo êm ấm trăm bề.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Trong 64 quẻ Kinh Dịch, chỉ duy nhất quẻ Khiêm cả 6 hào đều Tốt! Hãy lấy nhu thắng cương hôm nay.'
+        moving: 'Hào Cửu Tam: Lao khiêm quân tử, hữu chung cát (Người có công lao mà vẫn giữ lòng khiêm nhường thì trọn vẹn cát tường).',
+        judgment: 'Khiêm: Hanh, quân tử hữu chung — Núi cao ẩn mình dưới đất thấp, đạo trời bớt chỗ đầy mà bù chỗ vơi, đạo người quý sự khiêm cung.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Lấy sự chân thành, nhẫn nại và uy tín mà đối đãi thì việc khó mấy cũng chuyển thành thuận lợi.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Mềm mỏng, khéo léo trong thương lượng sẽ tháo gỡ được nút thắt và bảo toàn tài lộc.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Được上下 đồng lòng quý mến, hóa giải mọi thị phi hiềm khích.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Nhường nhịn một lời, gia đạo bình an phúc hậu.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> Trong 64 quẻ Chu Dịch, duy nhất quẻ Khiêm cả 6 hào đều Cát! Lấy nhu thắng cương ắt vạn sự thành.'
       },
       {
-        num: 11, name: 'Địa Thiên Thái (地天泰)', symbol: '䷊', rank: 'THƯỢNG CÁT · ÂM DƯƠNG GIAO HÒA', tier: 'good',
+        num: 11, name: 'Địa Thiên Thái (地天泰)', symbol: '䷊', rank: 'THƯỢNG CÁT · CÀN KHÔN GIAO THÁI', tier: 'good',
         upper: 'Khôn ☷ (Địa - Đất)', lower: 'Càn ☰ (Thiên - Trời)', lines: [1, 1, 1, 0, 0, 0],
-        moving: 'Hào Cửu Nhị: Bao hoang, dụng bằng hà, bất di viễn (Bao dung rộng mở, kết nối xa gần đều thông suốt).',
-        judgment: 'Thái: Tiểu vãng đại lai, cát hanh — Cái nhỏ mất đi, cái lớn kéo về; trời đất giao hòa, bế tắc tiêu tan, vạn sự hanh thông.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Phối hợp nhịp nhàng giữa Sale - Kế Toán - Kho - Xe Tải, đơn hàng trôi chảy không vướng mắc.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Thu chi cân đối, dòng tiền về đúng hẹn, đầu tư sinh lời.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Trên dưới đồng lòng, tinh thần làm việc hứng khởi.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia đình sum vầy, sức khỏe dồi dào.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Đang đà vận Thái hanh thông, hãy tranh thủ giải quyết dứt điểm các việc tồn đọng và chăm sóc đại lý thân thiết.'
+        moving: 'Hào Cửu Nhị: Bao hoang, dụng bằng hà, bất di viễn (Lòng bao dung rộng lớn, kết nối xa gần đều thông suốt).',
+        judgment: 'Thái: Tiểu vãng đại lai, cát hanh — Khí trời đi lên, khí đất lắng xuống, âm dương giao hòa, bĩ cực thái lai, vạn vật sinh sôi.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Thời vận hanh thông, mọi bế tắc trước đó dần được khai thông, mưu cầu công việc suôn sẻ.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Thu chi cân bằng, dòng tiền ổn định, đầu tư hợp đạo lý sẽ sinh lời bền vững.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Trên dưới hòa mục, phối hợp nhịp nhàng, công việc tiến triển đúng hoạch định.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia đình sum vầy, tâm thân an lạc, sức khỏe dồi dào.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> Giữa lúc vận Thái hanh thông càng nên giữ lễ nghĩa, vun bồi phước đức và hoàn tất các việc còn dang dở.'
       },
       {
-        num: 55, name: 'Lôi Hỏa Phong (雷火豐)', symbol: '䷶', rank: 'THƯỢNG CÁT · ĐẠI PHONG THỊNH VƯỢNG', tier: 'good',
+        num: 55, name: 'Lôi Hỏa Phong (雷火豐)', symbol: '䷶', rank: 'THƯỢNG CÁT · LÔI ĐIỆN GIAO TÁC', tier: 'good',
         upper: 'Chấn ☳ (Lôi - Sấm Động)', lower: 'Ly ☲ (Hỏa - Lửa Sáng)', lines: [1, 0, 1, 0, 0, 1],
-        moving: 'Hào Lục Ngũ: Lai chương, hữu khánh dự, cát (Đón người tài giỏi và khách quý tới, có tin mừng lớn).',
-        judgment: 'Phong: Hanh, vương giả chi chí — Sấm rền chớp sáng, thanh thế lẫy lừng, hàng hóa đầy kho, tài lộc dồi dào.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Hôm nay cực hợp chạy chiến dịch bán hàng tốc chiến, livestream hoặc gửi báo giá hàng loạt.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Có khoản thu lớn đổ về tài khoản trong ngày.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Quyết định nhanh gọn, sáng suốt như ánh chớp.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Đón tin vui tài chính trong nhà.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Hành động quyết liệt, chớp thời cơ ngay trong khung giờ hoàng đạo hôm nay!'
+        moving: 'Hào Lục Ngũ: Lai chương, hữu khánh dự, cát (Chiêu hiền đãi sĩ, đón người tài đức cùng hợp tác thì có tin mừng lớn).',
+        judgment: 'Phong: Hanh, vương giả chi chí — Ngoài động trong sáng, sấm rền chớp giật, thế vận đang độ thịnh đạt.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Rất hợp để quyết đoán triển khai kế hoạch đã chuẩn bị kỹ, nắm bắt thời cơ trong khung giờ cát lợi.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Tài lộc dồi dào, có tin vui về tiền bạc hoặc hợp đồng mới.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Nhìn nhận sáng suốt như lửa Ly, hành động dứt khoát như sấm Chấn.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Gia trạch có hỷ sự hoặc tin vui tài lộc.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> Nắm bắt thời cơ ngay khi vận đang sáng, đồng thời lắng nghe ý kiến bậc hiền trí.'
       },
       {
         num: 3, name: 'Thủy Lôi Truân (水雷屯)', symbol: '䷂', rank: 'TRUNG BÌNH · VẠN SỰ KHỞI ĐẦU NAN', tier: 'neutral',
         upper: 'Khảm ☵ (Thủy - Nước Hiểm)', lower: 'Chấn ☳ (Lôi - Sấm Động)', lines: [1, 0, 0, 0, 1, 0],
-        moving: 'Hào Sơ Cửu: Bàn hoàn, lợi cư trinh, lợi kiến hầu (Bước đầu còn ngập ngừng, cần kiên trì xây nền móng và tìm người phụ giúp).',
-        judgment: 'Truân: Nguyên hanh lợi trinh, vật dụng hữu du vãng — Như mầm cây mới nhú xuyên qua đất cứng, lúc đầu vất vả nhưng về sau phát triển mạnh.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Đơn hàng buổi sáng có thể hơi chậm hoặc khách đắn đo giá, nhưng kiên trì bám sát chiều tối sẽ chốt được.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Chưa nên nóng vội thúc ép quá gắt, hãy chia lộ trình thanh toán rõ ràng.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Cần nhờ đồng nghiệp hoặc cấp trên hỗ trợ tháo gỡ nút thắt kỹ thuật/vận chuyển.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Bình tĩnh lắng nghe, tránh mang áp lực công việc về nhà.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Đừng nản lòng trước khó khăn ban đầu; hãy củng cố hồ sơ, mẫu mã và nhờ quý nhân hỗ trợ.'
+        moving: 'Hào Sơ Cửu: Bàn hoàn, lợi cư trinh, lợi kiến hầu (Bước đầu còn gian truân, giữ tâm chính bền chí và tìm người hiền phụ giúp sẽ hanh thông).',
+        judgment: 'Truân: Nguyên hanh lợi trinh, vật dụng hữu du vãng — Như mầm cỏ mới nhú xuyên qua lớp đất cứng, đầu tiên gian khó nhưng ẩn chứa sức sống lớn.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Chớ nên nóng vội cầu thành quả tức thì; hãy kiên nhẫn tháo gỡ từng bước và chuẩn bị nền tảng vững chắc.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Tài chính cần quản lý chặt chẽ, chưa nên mạo hiểm đầu tư dàn trải.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Nên chủ động cầu học hỏi hoặc nhờ quý nhân, đồng đạo hỗ trợ vượt qua trở ngại ban đầu.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Giữ tâm bình hòa, lắng nghe và chia sẻ để gia đạo êm ấm.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> "Khởi đầu nan" là lẽ thường của tạo hóa; giữ vững chính tâm và kiên trì ắt mầm xanh thành đại thụ.'
       },
       {
-        num: 64, name: 'Hỏa Thủy Vị Tế (火水未濟)', symbol: '䷿', rank: 'TRUNG BÌNH · SẮP QUA SÔNG CẦN THẬN TRỌNG', tier: 'neutral',
+        num: 64, name: 'Hỏa Thủy Vị Tế (火水未濟)', symbol: '䷿', rank: 'TRUNG BÌNH · THẬN TRỌNG BƯỚC CUỐI', tier: 'neutral',
         upper: 'Ly ☲ (Hỏa - Lửa)', lower: 'Khảm ☵ (Thủy - Nước)', lines: [0, 1, 0, 1, 0, 1],
-        moving: 'Hào Cửu Tư: Trinh cát, hối vong (Giữ tâm chính trực, kiên trì vượt thử thách cuối cùng sẽ thành công lớn).',
-        judgment: 'Vị Tế: Hanh, tiểu hồ汔 tế, nhu kỳ vĩ — Cáo nhỏ sắp qua được sông nhưng chớ chủ quan ở bước cuối cùng.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Đơn hàng đang ở bước chốt cọc cuối cùng, cần kiểm tra kỹ mã màu, số lượng và địa chỉ giao hàng.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Phải nhận được tiền cọc hoặc xác nhận chuyển khoản rõ ràng trước khi xuất hàng lớn.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Rà soát kỹ chứng từ, hóa đơn trước khi bàn giao.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Chậm mà chắc, mọi việc đang chuyển dần từ hung sang cát.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> Cẩn tắc vô áy náy ở khâu chốt cọc và kiểm hàng xuất kho hôm nay!'
+        moving: 'Hào Cửu Tư: Trinh cát, hối vong (Giữ đạo chính trực, bền lòng vượt qua thử thách sau cùng sẽ chuyển hung thành cát).',
+        judgment: 'Vị Tế: Hanh, tiểu hồ汔 tế, nhu kỳ vĩ — Việc sắp thành nhưng chưa trọn, như qua sông sắp tới bờ càng phải cẩn trọng kẻo ướt đuôi.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Công việc đang ở giai đoạn hoàn tất, cần rà soát kỹ lưỡng từng chi tiết nhỏ trước khi quyết định.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Mọi giao ước tiền bạc cần xác thực rõ ràng, không chủ quan đại khái.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Kiên trì thêm một bước nữa, cẩn trọng kiểm tra lại hồ sơ và kế hoạch.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Chậm mà chắc, vận khí đang chuyển dần từ bế tắc sang khai mở.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> Cẩn tắc vô áy náy ở những khâu cuối cùng thì công việc sẽ viên mãn.'
       },
       {
-        num: 6, name: 'Thiên Thủy Tụng (天水訟)', symbol: '䷅', rank: 'CẢNH BÁO TIỂU HUNG · ĐỀ PHÒNG TRANH CÃI', tier: 'bad',
+        num: 6, name: 'Thiên Thủy Tụng (天水訟)', symbol: '䷅', rank: 'CẢNH BÁO TIỂU HUNG · LẤY HÒA VI QUÝ', tier: 'bad',
         upper: 'Càn ☰ (Thiên - Trời)', lower: 'Khảm ☵ (Thủy - Nước Hiểm)', lines: [0, 1, 0, 1, 1, 1],
-        moving: 'Hào Cửu Nhị: Bất khắc tụng, quy nhi bô (Không nên hơn thua kiện tụng, lùi một bước giữ hòa khí thì tránh được tai vạ).',
-        judgment: 'Tụng: Hữu孚,窒惕, trung cát, chung hung — Trời đi lên, nước chảy xuống, ý kiến trái ngược dễ nảy sinh tranh chấp, cãi vã.',
-        business: '💰 <b>Kinh doanh & Doanh số:</b> Cẩn thận thỏa thuận miệng dễ gây hiểu lầm với khách hàng hoặc đội thợ thi công.',
-        debt: '💳 <b>Công nợ & Tiền bạc:</b> Mọi giao dịch hôm nay bắt buộc phải có tin nhắn xác nhận hoặc giấy tờ rõ ràng.',
-        career: '🚀 <b>Công danh & Đội ngũ:</b> Tránh nổi nóng tranh cãi giữa các bộ phận; nhẫn nhịn bàn bạc sẽ êm đẹp.',
-        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Giữ lời ăn tiếng nói hòa nhã.',
-        advice: '💡 <b>Lời khuyên Kinh Dịch:</b> "Hòa vi quý" — Hôm nay tuyệt đối không đôi co nóng nảy, hãy dùng giấy trắng mực đen và sự điềm tĩnh để giải quyết.'
+        moving: 'Hào Cửu Nhị: Bất khắc tụng, quy nhi bô (Không nên hơn thua tranh biện, lùi một bước giữ hòa khí thì tránh được tai ương).',
+        judgment: 'Tụng: Hữu孚,窒惕, trung cát, chung hung — Khí trời hướng lên, dòng nước chảy xuống, hai bên trái chiều dễ sinh bất đồng, tranh cãi.',
+        business: '💰 <b>Mưu sự & Tài lộc:</b> Đề phòng bất đồng quan điểm hoặc hiểu lầm trong giao ước; mọi thỏa thuận cần minh bạch rõ ràng.',
+        debt: '💳 <b>Tiền tài & Giao dịch:</b> Tránh cho vay mượn mập mờ hoặc đầu tư nóng vội dễ sinh tranh chấp.',
+        career: '🚀 <b>Công danh & Sự nghiệp:</b> Giữ thái độ điềm tĩnh, lắng nghe nhiều hơn, tuyệt đối tránh nóng giận hơn thua lời qua tiếng lại.',
+        family: '🏡 <b>Gia đạo & Nhân duyên:</b> Lời nói dịu dàng sẽ hóa giải mọi căng thẳng trong gia đình.',
+        advice: '💡 <b>Lời khuyên Chu Dịch:</b> "Hòa vi quý, nhẫn vi cao" — Lùi một bước biển rộng trời cao, giữ tâm thanh tịnh sẽ tiêu trừ khẩu thiệt.'
       }
     ];
 
@@ -5456,21 +5516,23 @@
         badgeEl.style.color = h.tier === 'bad' ? '#fff' : '#003314';
       }
       if (linesEl) {
-        // Vẽ từ Hào Thượng (trên cùng) xuống Hào Sơ (dưới cùng)
         const labels = ['Hào Sơ', 'Hào Nhị', 'Hào Tam', 'Hào Tư', 'Hào Ngũ', 'Hào Thượng'];
+        const rawThrows = Array.isArray(h.rawThrows) ? h.rawThrows : null;
         let htmlLines = '';
         for (let i = 5; i >= 0; i--) {
           const isYang = h.lines[i] === 1;
-          const isKey = (i === 4 || i === 1);
-          const color = isKey ? '#ffd740' : '#ffab40';
+          const throwVal = rawThrows ? rawThrows[i] : null;
+          const isMoving = (throwVal === 6 || throwVal === 9) || (h.movingLineIdx === i);
+          const color = isMoving ? '#ff5252' : (i === 4 || i === 1 ? '#ffd740' : '#ffab40');
+          const mark = throwVal === 9 ? ' ○' : (throwVal === 6 ? ' ✕' : '');
           if (isYang) {
             htmlLines += `<div style="display:flex; align-items:center; gap:5px; width:100%; justify-content:center;">
-              <span style="font-size:8.5px; color:#bcaaa4; width:46px; text-align:right;">${labels[i]}</span>
+              <span style="font-size:8.5px; color:${isMoving ? '#ff8a80' : '#bcaaa4'}; width:52px; text-align:right; font-weight:${isMoving ? '900' : '600'};">${labels[i]}${mark}</span>
               <div style="width:76px; height:7px; background:${color}; border-radius:2px; box-shadow:0 0 6px rgba(255,215,64,0.5);"></div>
             </div>`;
           } else {
             htmlLines += `<div style="display:flex; align-items:center; gap:5px; width:100%; justify-content:center;">
-              <span style="font-size:8.5px; color:#bcaaa4; width:46px; text-align:right;">${labels[i]}</span>
+              <span style="font-size:8.5px; color:${isMoving ? '#ff8a80' : '#bcaaa4'}; width:52px; text-align:right; font-weight:${isMoving ? '900' : '600'};">${labels[i]}${mark}</span>
               <div style="display:flex; justify-content:space-between; width:76px;">
                 <div style="width:32px; height:7px; background:${color}; border-radius:2px;"></div>
                 <div style="width:32px; height:7px; background:${color}; border-radius:2px;"></div>
@@ -5509,11 +5571,20 @@
         return;
       }
       addMerit(-5, 'Gieo 3 đồng xu cổ Lục Hào Kinh Dịch (-5 💎)');
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('divination', 1);
       updateFortuneCardDisplay();
 
       const wrap = document.getElementById('ichingCoinsWrap');
       const statusEl = document.getElementById('ichingCastStatus');
-      if (statusEl) statusEl.textContent = '🪙 Đang tung 3 đồng xu Càn Long Thông Bảo lập 6 hào...';
+      if (statusEl) statusEl.textContent = '🪙 Đang gieo 3 đồng xu Càn Long Thông Bảo từng hào (Sơ ➔ Thượng)...';
+      const rawThrows = [];
+      for (let i = 0; i < 6; i++) {
+        // Mỗi đồng xu: Ngửa (Dương = 3) hoặc Sấp (Âm = 2) -> Tổng 6 (Lão Âm động), 7 (Thiếu Dương), 8 (Thiếu Âm), 9 (Lão Dương động)
+        const c1 = Math.random() < 0.5 ? 3 : 2;
+        const c2 = Math.random() < 0.5 ? 3 : 2;
+        const c3 = Math.random() < 0.5 ? 3 : 2;
+        rawThrows.push(c1 + c2 + c3);
+      }
       let steps = 0;
       const timer = setInterval(() => {
         steps++;
@@ -5522,13 +5593,28 @@
         if (steps >= 5) {
           clearInterval(timer);
           if (wrap) wrap.style.transform = 'scale(1) rotate(0deg)';
-          const others = ICHING_HEXAGRAMS_POOL.filter(x => x !== currentIChingHex);
-          currentIChingHex = others[Math.floor(Math.random() * others.length)] || ICHING_HEXAGRAMS_POOL[0];
+          const linesBits = rawThrows.map(v => (v === 7 || v === 9) ? 1 : 0);
+          // So khớp quẻ gần nhất theo Thượng Quái + Hạ Quái
+          let bestHex = ICHING_HEXAGRAMS_POOL[0];
+          let bestScore = -1;
+          for (const cand of ICHING_HEXAGRAMS_POOL) {
+            let match = 0;
+            for (let k = 0; k < 6; k++) if (cand.lines[k] === linesBits[k]) match++;
+            if (match > bestScore) { bestScore = match; bestHex = cand; }
+          }
+          const movingNames = ['Hào Sơ', 'Hào Nhị', 'Hào Tam', 'Hào Tư', 'Hào Ngũ', 'Hào Thượng'];
+          const movingIdxs = rawThrows.map((v, idx) => (v === 6 || v === 9) ? idx : -1).filter(x => x >= 0);
+          const cloned = Object.assign({}, bestHex, { rawThrows });
+          if (movingIdxs.length > 0) {
+            const mDesc = movingIdxs.map(i => `${movingNames[i]} (${rawThrows[i] === 9 ? 'Lão Dương 9 ○ biến Âm' : 'Lão Âm 6 ✕ biến Dương'})`).join(', ');
+            cloned.moving = `Hào động thực tế: ${mDesc} — ${bestHex.moving}`;
+          }
+          currentIChingHex = cloned;
           const sel = document.getElementById('ichingDirectSelect');
-          if (sel) sel.value = String(ICHING_HEXAGRAMS_POOL.indexOf(currentIChingHex));
+          if (sel) sel.value = String(Math.max(0, ICHING_HEXAGRAMS_POOL.indexOf(bestHex)));
           renderIChingHexagramView();
-          if (statusEl) statusEl.textContent = `✅ Đã ứng Quẻ số ${currentIChingHex.num}: ${currentIChingHex.name}!`;
-          appendMeritLog(`☯️ <b>${player.name}</b> gieo 3 đồng xu Kinh Dịch ứng <b>Quẻ số ${currentIChingHex.num}: ${currentIChingHex.name}</b> (${currentIChingHex.rank}).`);
+          if (statusEl) statusEl.textContent = `✅ Đã lập 6 hào [${rawThrows.join('-')}] ➔ Quẻ số ${currentIChingHex.num}: ${currentIChingHex.name}!`;
+          appendMeritLog(`☯️ <b>${player.name}</b> gieo 3 đồng xu Chu Dịch [${rawThrows.join('-')}] ứng <b>Quẻ số ${currentIChingHex.num}: ${currentIChingHex.name}</b> (${currentIChingHex.rank}).`);
         }
       }, 130);
     }
@@ -5555,158 +5641,493 @@
       localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'M'));
     }
 
-    // 3B. DỮ LIỆU TỬ VI 12 CON GIÁP & BẢN MỆNH TRONG NGÀY
-    const TUVI_ZODIAC_DATA = [
-      { name: 'Tuổi Tý (Chuột Vàng Thông Tuệ)', star: '🌟 Sao Thiên Đức & Phúc Tinh · Tài Lộc 91%', element: 'Kim Thủy Tương Sinh',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Chính Tài vượng phát, khách hàng cũ quay lại đặt thêm đơn tấm ốp Nano và lam sóng số lượng lớn.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Đầu óc nhạy bén, đàm phán giá cả cực kỳ thuyết phục, dễ ký được công trình mới.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Thân, Tuổi Thìn, Tuổi Sửu (Tam Hợp & Lục Hợp trợ lực).',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Tránh thức khuya quá sức; kiểm tra kỹ công nợ trước khi giao ca chiều.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Thìn (07h-09h), Giờ Thân (15h-17h) · <b>Hướng Thần Tài:</b> Hướng Đông Nam · <b>Màu hợp mệnh:</b> Vàng Kim, Xanh Dương.' },
-      { name: 'Tuổi Sửu (Trâu Vàng Chắc Chắn)', star: '🌟 Sao Hoa Cái & Lộc Tồn · Tài Lộc 89%', element: 'Thổ Sinh Kim Vượng',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Tích tiểu thành đại, các khoản công nợ tồn đọng bất ngờ được khách chuyển khoản thanh toán.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Sự uy tín và cẩn trọng giúp bạn ghi điểm tuyệt đối với chủ thầu và đại lý.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Tỵ, Tuổi Dậu, Tuổi Tý.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Đừng quá cứng nhắc khi khách xin hỗ trợ vận chuyển nhẹ, linh hoạt sẽ chốt đơn nhanh hơn.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Tỵ (09h-11h), Giờ Dậu (17h-19h) · <b>Hướng Thần Tài:</b> Hướng Chính Đông · <b>Màu hợp mệnh:</b> Đỏ Đô, Vàng Đất.' },
-      { name: 'Tuổi Dần (Hổ Vàng Bản Lĩnh)', star: '🌟 Sao Dịch Mã & Quốc Ấn · Tài Lộc 93%', element: 'Mộc Hỏa Thông Minh',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Lộc Dịch Mã động — Đơn hàng đi tỉnh và các chuyến xe xuất kho liên tỉnh mang về doanh số lớn.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Khí thế quyết đoán, giải quyết nhanh gọn mọi phát sinh tại công trình và kho bãi.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Ngọ, Tuổi Tuất, Tuổi Hợi.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Hạ bớt nóng nảy khi giục đơn vận chuyển, nói lời hòa nhã lộc càng dày.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Ngọ (11h-13h), Giờ Tuất (19h-21h) · <b>Hướng Thần Tài:</b> Hướng Chính Nam · <b>Màu hợp mệnh:</b> Xanh Lá, Đỏ Cam.' },
-      { name: 'Tuổi Mão (Mèo Vàng Khéo Léo)', star: '🌟 Sao Thái Âm & Thiên Hỷ · Tài Lộc 90%', element: 'Thủy Mộc Tương Sinh',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Quý nhân nữ giới (chủ nhà, kế toán, trưởng phòng) mang tới cơ hội hợp đồng béo bở.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Giao tiếp mềm mỏng, khéo léo giúp hóa giải mọi khúc mắc về giá và mẫu mã.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Hợi, Tuổi Mùi, Tuổi Tuất.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Tránh cả nể cho nợ quá hạn mức quy định của kho.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Mùi (13h-15h), Giờ Hợi (21h-23h) · <b>Hướng Thần Tài:</b> Hướng Tây Nam · <b>Màu hợp mệnh:</b> Xanh Ngọc, Đen.' },
-      { name: 'Tuổi Thìn (Rồng Vàng Quyền Uy)', star: '🌟 Sao Long Đức & Tử Vi · Tài Lộc 96%', element: 'Thượng Đẳng Đại Cát',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Rồng gặp mây hội! Vận tài lộc mở rộng cực đại, dễ chốt được đại lý sỉ hoặc công trình lớn.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Sao Tử Vi chiếu mệnh, mọi quyết sách điều hành và thương lượng hôm nay đều chuẩn xác.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Tý, Tuổi Thân, Tuổi Dậu.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Chú ý giữ gìn sức khỏe cổ vai gáy và uống đủ nước khi làm việc cường độ cao.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Thìn (07h-09h), Giờ Thân (15h-17h) · <b>Hướng Thần Tài:</b> Hướng Đông Nam · <b>Màu hợp mệnh:</b> Vàng Hoàng Kim, Đỏ Tía.' },
-      { name: 'Tuổi Tỵ (Rắn Vàng Sâu Sắc)', star: '🌟 Sao Thiên Tài & Nguyệt Đức · Tài Lộc 91%', element: 'Hỏa Thổ Vượng Khí',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Có lộc Thiên Tài bất ngờ từ khách hàng mới tinh hoặc đơn đặt hàng phát sinh thêm phụ kiện phào nẹp.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Tính toán chi phí và báo giá cực kỳ chặt chẽ, không để thất thoát một đồng.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Sửu, Tuổi Dậu, Tuổi Thân.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Không nên đa nghi quá mức, hãy tin tưởng giao việc cho cộng sự.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Tỵ (09h-11h), Giờ Mùi (13h-15h) · <b>Hướng Thần Tài:</b> Hướng Chính Tây · <b>Màu hợp mệnh:</b> Đỏ, Tím, Vàng.' },
-      { name: 'Tuổi Ngọ (Ngựa Vàng Tốc Chiến)', star: '🌟 Sao Thái Dương & Bát Tọa · Tài Lộc 94%', element: 'Nhật Xuất Phù Tang',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Thái Dương chiếu rực rỡ, càng năng động gọi điện và gửi mẫu càng nổ đơn liên tiếp.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Tinh thần nhiệt huyết lan tỏa cả phòng, thúc đẩy tiến độ xuất hàng nhanh gấp đôi.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Dần, Tuổi Tuất, Tuổi Mùi.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Kiểm tra kỹ số lượng kiện hàng và mã màu trước khi xe lăn bánh.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Mão (05h-07h), Giờ Ngọ (11h-13h) · <b>Hướng Thần Tài:</b> Hướng Chính Nam · <b>Màu hợp mệnh:</b> Đỏ Rực, Xanh Lá.' },
-      { name: 'Tuổi Mùi (Dê Vàng Phúc Hậu)', star: '🌟 Sao Thiên Quý & Giải Thần · Tài Lộc 88%', element: 'Hòa Khí Sinh Tài',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Lộc đến từ sự chu đáo, tận tâm; khách cũ giới thiệu thêm khách mới cho bạn.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Sao Giải Thần giúp hóa giải êm đẹp mọi rắc rối về đơn từ, chứng từ kế toán.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Hợi, Tuổi Mão, Tuổi Ngọ.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Quyết đoán hơn khi chốt cọc, đừng để khách hẹn sang tuần sau.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Tỵ (09h-11h), Giờ Mùi (13h-15h) · <b>Hướng Thần Tài:</b> Hướng Đông Nam · <b>Màu hợp mệnh:</b> Nâu Vàng, Cam.' },
-      { name: 'Tuổi Thân (Khỉ Vàng Linh Hoạt)', star: '🌟 Sao Hồng Loan & Thiên Khôi · Tài Lộc 92%', element: 'Kim Thủy Sinh Tài',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Ứng biến thông minh giúp bạn chốt đơn ngay cả khi khách đang phân vân so sánh giá.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Nhân duyên cực vượng, nói chuyện ai cũng mến, ký kết hợp đồng thuận lợi.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Tý, Tuổi Thìn, Tuổi Tỵ.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Tập trung dứt điểm từng đơn lớn, tránh ôm đồm nhiều việc nhỏ cùng lúc.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Thìn (07h-09h), Giờ Thân (15h-17h) · <b>Hướng Thần Tài:</b> Hướng Chính Bắc · <b>Màu hợp mệnh:</b> Trắng Ánh Kim, Vàng.' },
-      { name: 'Tuổi Dậu (Gà Vàng Chăm Chỉ)', star: '🌟 Sao Kim Quỹ & Thiên Phúc · Tài Lộc 93%', element: 'Kho Vàng Đầy Ắp',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Kim Quỹ (Hòm Vàng) chiếu mệnh — Hôm nay rất có duyên với tiền mặt và thu hồi công nợ khó.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Làm việc chuẩn chỉnh, tỉ mỉ từng con số giúp tập thể tránh được sai sót lớn.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Sửu, Tuổi Tỵ, Tuổi Thìn.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Giữ giọng điệu nhẹ nhàng khi nhắc nhở đồng nghiệp để giữ hòa khí.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Sửu (01h-03h), Giờ Tỵ (09h-11h), Giờ Dậu (17h-19h) · <b>Hướng Thần Tài:</b> Hướng Đông Bắc · <b>Màu hợp mệnh:</b> Vàng Kim, Nâu.' },
-      { name: 'Tuổi Tuất (Chó Vàng Trọng Tín)', star: '🌟 Sao Vũ Khúc & Tướng Tinh · Tài Lộc 90%', element: 'Chính Tài Vững Chắc',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Vũ Khúc chủ về tiền tài thực lực — Khách tin tưởng uy tín của bạn nên xuống tiền đặt cọc nhanh.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Trách nhiệm cao, bảo vệ quyền lợi công ty và khách hàng vẹn toàn.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Dần, Tuổi Ngọ, Tuổi Mão.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Dành thời gian nghỉ ngơi hợp lý buổi trưa để chiều giữ tinh thần minh mẫn.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Dần (03h-05h), Giờ Ngọ (11h-13h) · <b>Hướng Thần Tài:</b> Hướng Chính Nam · <b>Màu hợp mệnh:</b> Đỏ, Vàng Đất.' },
-      { name: 'Tuổi Hợi (Heo Vàng Phúc Lộc)', star: '🌟 Sao Thiên Lộc & Tam Thai · Tài Lộc 95%', element: 'Phúc Lộc Song Toàn',
-        wealth: '💰 <b>Tài lộc & Chốt đơn:</b> Sao Thiên Lộc ban phước, hôm nay buôn may bán đắt, dễ có khách sỉ chốt đơn lớn không cần mặc cả nhiều.',
-        career: '📈 <b>Sự nghiệp & Giao dịch:</b> Đi tới đâu cũng có người hỗ trợ, vận chuyển và bốc xếp phối hợp êm ru.',
-        compat: '🤝 <b>Tuổi hợp đại cát hôm nay:</b> Tuổi Mão, Tuổi Mùi, Tuổi Dần.',
-        caution: '⚠️ <b>Điều cần lưu ý:</b> Khi có lộc lớn nhớ chia sẻ niềm vui và khích lệ anh em kho bãi, tài xế.',
-        auspicious: '🧭 <b>Giờ Hoàng Đạo xuất hành & chốt đơn:</b> Giờ Mão (05h-07h), Giờ Mùi (13h-15h) · <b>Hướng Thần Tài:</b> Hướng Đông Bắc · <b>Màu hợp mệnh:</b> Xanh Dương, Trắng.' }
+    // =========================================================================
+    // 3B. ENGINE LỊCH VẠN NIÊN THIÊN VĂN HỒ NGỌC ĐỨC (GMT+7) & TỬ VI BÁT TỰ CHUẨN XÁC (#mvyn8qfnh, #mvyn8y5gi)
+    // =========================================================================
+    const THIEN_CAN = ['Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ', 'Canh', 'Tân', 'Nhâm', 'Quý'];
+    const DIA_CHI = ['Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'];
+    const CON_GIAP_ANIMAL = ['Chuột', 'Trâu', 'Hổ', 'Mèo', 'Rồng', 'Rắn', 'Ngựa', 'Dê', 'Khỉ', 'Gà', 'Chó', 'Heo'];
+    const CAN_ELEMENT = ['Mộc', 'Mộc', 'Hỏa', 'Hỏa', 'Thổ', 'Thổ', 'Kim', 'Kim', 'Thủy', 'Thủy'];
+    const CHI_ELEMENT = ['Thủy', 'Thổ', 'Mộc', 'Mộc', 'Thổ', 'Hỏa', 'Hỏa', 'Thổ', 'Kim', 'Kim', 'Thổ', 'Thủy'];
+    const THAP_NHI_TRUC = ['Kiến', 'Trừ', 'Mãn', 'Bình', 'Định', 'Chấp', 'Phá', 'Nguy', 'Thành', 'Thu', 'Khai', 'Bế'];
+
+    // 30 Nạp Âm Lục Thập Hoa Giáp (chuẩn Tam Mệnh Thông Hội)
+    const NAP_AM_30 = [
+      { name: 'Hải Trung Kim (Vàng Trong Biển)', elem: 'Kim' },
+      { name: 'Lư Trung Hỏa (Lửa Trong Lò)', elem: 'Hỏa' },
+      { name: 'Đại Lâm Mộc (Gỗ Rừng Già)', elem: 'Mộc' },
+      { name: 'Lộ Bàng Thổ (Đất Ven Đường)', elem: 'Thổ' },
+      { name: 'Kiếm Phong Kim (Vàng Mũi Kiếm)', elem: 'Kim' },
+      { name: 'Sơn Đầu Hỏa (Lửa Đỉnh Núi)', elem: 'Hỏa' },
+      { name: 'Giản Hạ Thủy (Nước Dưới Khe)', elem: 'Thủy' },
+      { name: 'Thành Đầu Thổ (Đất Tường Thành)', elem: 'Thổ' },
+      { name: 'Bạch Lạp Kim (Vàng Chân Đèn)', elem: 'Kim' },
+      { name: 'Dương Liễu Mộc (Gỗ Cây Liễu)', elem: 'Mộc' },
+      { name: 'Tuyền Trung Thủy (Nước Trong Suối)', elem: 'Thủy' },
+      { name: 'Ốc Thượng Thổ (Đất Mái Nhà)', elem: 'Thổ' },
+      { name: 'Tích Lịch Hỏa (Lửa Sấm Sét)', elem: 'Hỏa' },
+      { name: 'Tùng Bách Mộc (Gỗ Tùng Bách)', elem: 'Mộc' },
+      { name: 'Trường Lưu Thủy (Nước Sông Dài)', elem: 'Thủy' },
+      { name: 'Sa Trung Kim (Vàng Trong Cát)', elem: 'Kim' },
+      { name: 'Sơn Hạ Hỏa (Lửa Chân Núi)', elem: 'Hỏa' },
+      { name: 'Bình Địa Mộc (Gỗ Đồng Bằng)', elem: 'Mộc' },
+      { name: 'Bích Thượng Thổ (Đất Trên Vách)', elem: 'Thổ' },
+      { name: 'Kim Bạch Kim (Vàng Pha Bạc)', elem: 'Kim' },
+      { name: 'Phú Đăng Hỏa (Lửa Đèn Chụp)', elem: 'Hỏa' },
+      { name: 'Thiên Hà Thủy (Nước Ngân Hà)', elem: 'Thủy' },
+      { name: 'Đại Trạch Thổ (Đất Đầm Lớn)', elem: 'Thổ' },
+      { name: 'Thoa Xuyến Kim (Vàng Trang Sức)', elem: 'Kim' },
+      { name: 'Tang Đố Mộc (Gỗ Cây Dâu)', elem: 'Mộc' },
+      { name: 'Đại Khê Thủy (Nước Khe Lớn)', elem: 'Thủy' },
+      { name: 'Sa Trung Thổ (Đất Pha Cát)', elem: 'Thổ' },
+      { name: 'Thiên Thượng Hỏa (Lửa Trên Trời)', elem: 'Hỏa' },
+      { name: 'Thạch Lựu Mộc (Gỗ Cây Lựu)', elem: 'Mộc' },
+      { name: 'Đại Hải Thủy (Nước Biển Lớn)', elem: 'Thủy' }
     ];
+
+    // Thuật toán Thiên Văn Hồ Ngọc Đức tính Ngày Âm Lịch & Can Chi chính xác (GMT+7)
+    function jdFromDate(dd, mm, yy) {
+      const a = Math.floor((14 - mm) / 12);
+      const y = yy + 4800 - a;
+      const m = mm + 12 * a - 3;
+      let jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+      if (jd < 2299161) {
+        jd = dd + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - 32083;
+      }
+      return jd;
+    }
+
+    function getNewMoonDay(k, timeZone = 7) {
+      const T = k / 1236.85;
+      const T2 = T * T;
+      const T3 = T2 * T;
+      const dr = Math.PI / 180;
+      let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
+      Jd1 = Jd1 + 0.00033 * Math.sin((166.56 + 132.87 * T - 0.009173 * T2) * dr);
+      const M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
+      const Mpr = 306.0253 + 385.81691806 * k + 0.0107306 * T2 + 0.00001236 * T3;
+      const F = 21.2964 + 390.67050646 * k - 0.0016528 * T2 - 0.00000239 * T3;
+      let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr) + 0.0021 * Math.sin(2 * dr * M);
+      C1 = C1 - 0.4068 * Math.sin(Mpr * dr) + 0.0161 * Math.sin(dr * 2 * Mpr);
+      C1 = C1 - 0.0004 * Math.sin(dr * 3 * Mpr);
+      C1 = C1 + 0.0104 * Math.sin(dr * 2 * F) - 0.0051 * Math.sin(dr * (M + Mpr));
+      C1 = C1 - 0.0074 * Math.sin(dr * (M - Mpr)) + 0.0004 * Math.sin(dr * (2 * F + M));
+      C1 = C1 - 0.0004 * Math.sin(dr * (2 * F - M)) - 0.0006 * Math.sin(dr * (2 * F + Mpr));
+      C1 = C1 + 0.0010 * Math.sin(dr * (2 * F - Mpr)) + 0.0005 * Math.sin(dr * (2 * Mpr + M));
+      let deltat;
+      if (T < -11) {
+        deltat = 0.001 + 0.000839 * T + 0.0002261 * T2 - 0.00000845 * T3 - 0.000000081 * T * T3;
+      } else {
+        deltat = -0.000278 + 0.000265 * T + 0.000262 * T2;
+      }
+      const JdNew = Jd1 + C1 - deltat;
+      return Math.floor(JdNew + 0.5 + timeZone / 24);
+    }
+
+    function getSunLongitude(jdn, timeZone = 7) {
+      const T = (jdn - 2451545.5 - timeZone / 24) / 36525;
+      const T2 = T * T;
+      const dr = Math.PI / 180;
+      const M = 357.52910 + 35999.05030 * T - 0.0001559 * T2 - 0.00000048 * T * T2;
+      const L0 = 280.46645 + 36000.76983 * T + 0.0003032 * T2;
+      let DL = (1.914600 - 0.004817 * T - 0.000014 * T2) * Math.sin(dr * M);
+      DL = DL + (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M) + 0.000290 * Math.sin(dr * 3 * M);
+      let L = L0 + DL;
+      L = L * dr;
+      L = L - Math.PI * 2 * (Math.floor(L / (Math.PI * 2)));
+      return Math.floor(L / Math.PI * 6);
+    }
+
+    function getLunarMonth11(yy, timeZone = 7) {
+      const off = jdFromDate(31, 12, yy) - 2415021;
+      const k = Math.floor(off / 29.530588853);
+      let nm = getNewMoonDay(k, timeZone);
+      const sunLong = getSunLongitude(nm, timeZone);
+      if (sunLong >= 9) nm = getNewMoonDay(k - 1, timeZone);
+      return nm;
+    }
+
+    function getLeapMonthOffset(a11, timeZone = 7) {
+      const k = Math.floor((a11 - 2415021.076998695) / 29.530588853 + 0.5);
+      let last = 0;
+      let i = 1;
+      let arc = getSunLongitude(getNewMoonDay(k + i, timeZone), timeZone);
+      do {
+        last = arc;
+        i++;
+        arc = getSunLongitude(getNewMoonDay(k + i, timeZone), timeZone);
+      } while (arc !== last && i < 14);
+      return i - 1;
+    }
+
+    function convertSolar2Lunar(dd, mm, yy, timeZone = 7) {
+      const dayNumber = jdFromDate(dd, mm, yy);
+      const k = Math.floor((dayNumber - 2415021.076998695) / 29.530588853);
+      let monthStart = getNewMoonDay(k + 1, timeZone);
+      if (monthStart > dayNumber) monthStart = getNewMoonDay(k, timeZone);
+      let a11 = getLunarMonth11(yy, timeZone);
+      let b11 = a11;
+      let lunarYear;
+      if (a11 >= monthStart) {
+        lunarYear = yy;
+        a11 = getLunarMonth11(yy - 1, timeZone);
+      } else {
+        lunarYear = yy + 1;
+        b11 = getLunarMonth11(yy + 1, timeZone);
+      }
+      const lunarDay = dayNumber - monthStart + 1;
+      const diff = Math.floor((monthStart - a11) / 29);
+      let lunarLeap = 0;
+      let lunarMonth = diff + 11;
+      if (b11 - a11 > 365) {
+        const leapMonthDiff = getLeapMonthOffset(a11, timeZone);
+        if (diff >= leapMonthDiff) {
+          lunarMonth = diff + 10;
+          if (diff === leapMonthDiff) lunarLeap = 1;
+        }
+      }
+      if (lunarMonth > 12) lunarMonth = lunarMonth - 12;
+      if (lunarMonth >= 11 && diff < 4) lunarYear -= 1;
+      return { lunarDay, lunarMonth, lunarYear, lunarLeap, jd: dayNumber };
+    }
+
+    // 6 Giờ Hoàng Đạo chuẩn theo Địa Chi của Ngày (Tam Mệnh Thông Hội / Ngọc Hạp Thông Thư)
+    const GIO_HOANG_DAO_BY_DAY_CHI = {
+      0: ['Tý (23h-01h · Thanh Long)', 'Sửu (01h-03h · Minh Đường)', 'Mão (05h-07h · Kim Quỹ)', 'Ngọ (11h-13h · Bảo Quang)', 'Thân (15h-17h · Ngọc Đường)', 'Dậu (17h-19h · Tư Mệnh)'], // Tý, Ngọ
+      6: ['Tý (23h-01h · Thanh Long)', 'Sửu (01h-03h · Minh Đường)', 'Mão (05h-07h · Kim Quỹ)', 'Ngọ (11h-13h · Bảo Quang)', 'Thân (15h-17h · Ngọc Đường)', 'Dậu (17h-19h · Tư Mệnh)'],
+      1: ['Dần (03h-05h · Thanh Long)', 'Mão (05h-07h · Minh Đường)', 'Tỵ (09h-11h · Kim Quỹ)', 'Thân (15h-17h · Bảo Quang)', 'Tuất (19h-21h · Ngọc Đường)', 'Hợi (21h-23h · Tư Mệnh)'], // Sửu, Mùi
+      7: ['Dần (03h-05h · Thanh Long)', 'Mão (05h-07h · Minh Đường)', 'Tỵ (09h-11h · Kim Quỹ)', 'Thân (15h-17h · Bảo Quang)', 'Tuất (19h-21h · Ngọc Đường)', 'Hợi (21h-23h · Tư Mệnh)'],
+      2: ['Tý (23h-01h · Tư Mệnh)', 'Sửu (01h-03h · Câu Trận/Thanh Long)', 'Thìn (07h-09h · Thanh Long)', 'Tỵ (09h-11h · Minh Đường)', 'Mùi (13h-15h · Kim Quỹ)', 'Tuất (19h-21h · Bảo Quang)'], // Dần, Thân
+      8: ['Tý (23h-01h · Tư Mệnh)', 'Sửu (01h-03h · Ngọc Đường)', 'Thìn (07h-09h · Thanh Long)', 'Tỵ (09h-11h · Minh Đường)', 'Mùi (13h-15h · Kim Quỹ)', 'Tuất (19h-21h · Bảo Quang)'],
+      3: ['Tý (23h-01h · Bảo Quang)', 'Dần (03h-05h · Ngọc Đường)', 'Mão (05h-07h · Tư Mệnh)', 'Ngọ (11h-13h · Thanh Long)', 'Mùi (13h-15h · Minh Đường)', 'Dậu (17h-19h · Kim Quỹ)'], // Mão, Dậu
+      9: ['Tý (23h-01h · Bảo Quang)', 'Dần (03h-05h · Ngọc Đường)', 'Mão (05h-07h · Tư Mệnh)', 'Ngọ (11h-13h · Thanh Long)', 'Mùi (13h-15h · Minh Đường)', 'Dậu (17h-19h · Kim Quỹ)'],
+      4: ['Dần (03h-05h · Bảo Quang)', 'Thìn (07h-09h · Ngọc Đường)', 'Tỵ (09h-11h · Tư Mệnh)', 'Thân (15h-17h · Thanh Long)', 'Dậu (17h-19h · Minh Đường)', 'Hợi (21h-23h · Kim Quỹ)'], // Thìn, Tuất
+      10: ['Dần (03h-05h · Bảo Quang)', 'Thìn (07h-09h · Ngọc Đường)', 'Tỵ (09h-11h · Tư Mệnh)', 'Thân (15h-17h · Thanh Long)', 'Dậu (17h-19h · Minh Đường)', 'Hợi (21h-23h · Kim Quỹ)'],
+      5: ['Sửu (01h-03h · Kim Quỹ)', 'Thìn (07h-09h · Bảo Quang)', 'Ngọ (11h-13h · Ngọc Đường)', 'Mùi (13h-15h · Tư Mệnh)', 'Tuất (19h-21h · Thanh Long)', 'Hợi (21h-23h · Minh Đường)'], // Tỵ, Hợi
+      11: ['Sửu (01h-03h · Kim Quỹ)', 'Thìn (07h-09h · Bảo Quang)', 'Ngọ (11h-13h · Ngọc Đường)', 'Mùi (13h-15h · Tư Mệnh)', 'Tuất (19h-21h · Thanh Long)', 'Hợi (21h-23h · Minh Đường)']
+    };
+
+    // Hướng Hỷ Thần & Tài Thần chuẩn theo Thiên Can của Ngày
+    const HUONG_THAN_BY_DAY_CAN = {
+      0: { hy: 'Đông Bắc', tai: 'Đông Nam' }, // Giáp
+      1: { hy: 'Tây Bắc', tai: 'Đông Nam' },  // Ất
+      2: { hy: 'Tây Nam', tai: 'Chính Đông' },// Bính
+      3: { hy: 'Chính Nam', tai: 'Chính Đông' },// Đinh
+      4: { hy: 'Đông Nam', tai: 'Chính Bắc' },// Mậu
+      5: { hy: 'Đông Bắc', tai: 'Chính Nam' },// Kỷ
+      6: { hy: 'Tây Bắc', tai: 'Tây Nam' },   // Canh
+      7: { hy: 'Tây Nam', tai: 'Tây Nam' },   // Tân
+      8: { hy: 'Chính Nam', tai: 'Tây Bắc' }, // Nhâm
+      9: { hy: 'Đông Nam', tai: 'Chính Tây' } // Quý
+    };
+
+    function getTodayLunarAlmanac() {
+      const now = new Date();
+      const dd = now.getDate();
+      const mm = now.getMonth() + 1;
+      const yy = now.getFullYear();
+      const lun = convertSolar2Lunar(dd, mm, yy, 7);
+      const dayCanIdx = (lun.jd + 9) % 10;
+      const dayChiIdx = (lun.jd + 1) % 12;
+      const yearCanIdx = (lun.lunarYear + 6) % 10;
+      const yearChiIdx = (lun.lunarYear + 8) % 12;
+      const monthCanIdx = (yearCanIdx * 2 + lun.lunarMonth + 1) % 10;
+      const monthChiIdx = (lun.lunarMonth + 1) % 12;
+      const trucIdx = (dayChiIdx - monthChiIdx + 12) % 12;
+      const dayCycleIdx = ((dayCanIdx % 2 === dayChiIdx % 2) ? ((dayCanIdx + ((dayChiIdx - dayCanIdx + 12) % 12) * 5) % 60) : 0);
+      // Tính chỉ số 60 Hoa Giáp chuẩn
+      let sexagenaryDay = 0;
+      for (let i = 0; i < 60; i++) {
+        if (i % 10 === dayCanIdx && i % 12 === dayChiIdx) { sexagenaryDay = i; break; }
+      }
+      const dayNapAm = NAP_AM_30[Math.floor(sexagenaryDay / 2)];
+      return {
+        solarStr: `${String(dd).padStart(2, '0')}/${String(mm).padStart(2, '0')}/${yy}`,
+        lunarStr: `${String(lun.lunarDay).padStart(2, '0')}/${String(lun.lunarMonth).padStart(2, '0')}/${lun.lunarYear}${lun.lunarLeap ? ' (Nhuận)' : ''}`,
+        dayCanIdx, dayChiIdx,
+        dayCanChi: `${THIEN_CAN[dayCanIdx]} ${DIA_CHI[dayChiIdx]}`,
+        monthCanChi: `${THIEN_CAN[monthCanIdx]} ${DIA_CHI[monthChiIdx]}`,
+        yearCanChi: `${THIEN_CAN[yearCanIdx]} ${DIA_CHI[yearChiIdx]}`,
+        dayNapAm,
+        trucName: THAP_NHI_TRUC[trucIdx],
+        hoangDaoHours: GIO_HOANG_DAO_BY_DAY_CHI[dayChiIdx] || GIO_HOANG_DAO_BY_DAY_CHI[0],
+        directions: HUONG_THAN_BY_DAY_CAN[dayCanIdx] || HUONG_THAN_BY_DAY_CAN[0],
+        lunarDay: lun.lunarDay,
+        lunarMonth: lun.lunarMonth,
+        lunarYear: lun.lunarYear,
+        jd: lun.jd
+      };
+    }
+
+    function getBirthYearFullBazi(birthYear, gender = 'M') {
+      const y = Number(birthYear) || 1991;
+      const canIdx = ((y - 4) % 10 + 10) % 10;
+      const chiIdx = ((y - 4) % 12 + 12) % 12;
+      const idx60 = ((y - 4) % 60 + 60) % 60;
+      const napAm = NAP_AM_30[Math.floor(idx60 / 2)];
+
+      // Cung Phi Bát Trạch chuẩn theo Năm Sinh & Giới Tính
+      const digitSum = (n) => {
+        let s = n;
+        while (s > 9) s = String(s).split('').reduce((a, b) => a + Number(b), 0);
+        return s;
+      };
+      const twoDigitsSum = digitSum(y % 100);
+      let kua;
+      if (gender === 'M') {
+        kua = (y < 2000) ? (10 - twoDigitsSum) : (9 - twoDigitsSum);
+        if (kua <= 0) kua += 9;
+        if (kua === 5) kua = 2; // Nam số 5 quy về Khôn
+      } else {
+        kua = (y < 2000) ? digitSum(twoDigitsSum + 5) : digitSum(twoDigitsSum + 6);
+        if (kua === 5) kua = 8; // Nữ số 5 quy về Cấn
+      }
+      const KUA_MAP = {
+        1: { name: 'Khảm (Thủy)', group: 'Đông Tứ Mệnh', goodDirs: 'Đông Nam (Sinh Khí), Chính Đông (Thiên Y), Chính Nam (Diên Niên), Chính Bắc (Phục Vị)' },
+        2: { name: 'Khôn (Thổ)', group: 'Tây Tứ Mệnh', goodDirs: 'Đông Bắc (Sinh Khí), Chính Tây (Thiên Y), Tây Bắc (Diên Niên), Tây Nam (Phục Vị)' },
+        3: { name: 'Chấn (Mộc)', group: 'Đông Tứ Mệnh', goodDirs: 'Chính Nam (Sinh Khí), Chính Bắc (Thiên Y), Đông Nam (Diên Niên), Chính Đông (Phục Vị)' },
+        4: { name: 'Tốn (Mộc)', group: 'Đông Tứ Mệnh', goodDirs: 'Chính Bắc (Sinh Khí), Chính Nam (Thiên Y), Chính Đông (Diên Niên), Đông Nam (Phục Vị)' },
+        6: { name: 'Càn (Kim)', group: 'Tây Tứ Mệnh', goodDirs: 'Chính Tây (Sinh Khí), Đông Bắc (Thiên Y), Tây Nam (Diên Niên), Tây Bắc (Phục Vị)' },
+        7: { name: 'Đoài (Kim)', group: 'Tây Tứ Mệnh', goodDirs: 'Tây Bắc (Sinh Khí), Tây Nam (Thiên Y), Đông Bắc (Diên Niên), Chính Tây (Phục Vị)' },
+        8: { name: 'Cấn (Thổ)', group: 'Tây Tứ Mệnh', goodDirs: 'Tây Nam (Sinh Khí), Tây Bắc (Thiên Y), Chính Tây (Diên Niên), Đông Bắc (Phục Vị)' },
+        9: { name: 'Ly (Hỏa)', group: 'Đông Tứ Mệnh', goodDirs: 'Chính Đông (Sinh Khí), Đông Nam (Thiên Y), Chính Bắc (Diên Niên), Chính Nam (Phục Vị)' }
+      };
+      const cungPhi = KUA_MAP[kua] || KUA_MAP[1];
+
+      // Sao Cửu Diệu & Hạn Niên năm hiện tại (Tuổi Mụ = currentYear - birthYear + 1)
+      const curYear = new Date().getFullYear();
+      const tuoiMu = Math.max(10, curYear - y + 1);
+      const SAO_NAM = ['La Hầu (Hung Tinh - Khẩu Thiệt)', 'Thổ Tú (Trung Tinh)', 'Thủy Diệu (Tài Tinh - Cát)', 'Thái Bạch (Hung Tinh - Hao Tài)', 'Thái Dương (Đệ Nhất Cát Tinh)', 'Vân Hớn (Trung Tinh)', 'Kế Đô (Hung Tinh)', 'Thái Âm (Cát Tinh - Tài Lộc)', 'Mộc Đức (Phúc Tinh - Đại Cát)'];
+      const SAO_NU = ['Kế Đô (Hung Tinh)', 'Vân Hớn (Trung Tinh)', 'Mộc Đức (Phúc Tinh - Đại Cát)', 'Thái Âm (Cát Tinh - Tài Lộc)', 'Thổ Tú (Trung Tinh)', 'La Hầu (Hung Tinh)', 'Thái Dương (Cát Tinh)', 'Thái Bạch (Hung Tinh - Hao Tài)', 'Thủy Diệu (Tài Tinh - Cát)'];
+      const saoIdx = (tuoiMu - 1) % 9;
+      const saoCuuDieu = (gender === 'M') ? SAO_NAM[saoIdx] : SAO_NU[saoIdx];
+
+      return {
+        birthYear: y,
+        canIdx, chiIdx,
+        canChi: `${THIEN_CAN[canIdx]} ${DIA_CHI[chiIdx]}`,
+        animal: CON_GIAP_ANIMAL[chiIdx],
+        napAm,
+        cungPhi,
+        tuoiMu,
+        saoCuuDieu
+      };
+    }
+
+    // Tương tác Địa Chi & Ngũ Hành giữa Bản Mệnh và Ngày Hôm Nay
+    function evaluateDayVsBazi(bazi, alm) {
+      const bChi = bazi.chiIdx;
+      const dChi = alm.dayChiIdx;
+      const TAM_HOP = [
+        [8, 0, 4],  // Thân - Tý - Thìn (Thủy cục)
+        [5, 9, 1],  // Tỵ - Dậu - Sửu (Kim cục)
+        [2, 6, 10], // Dần - Ngọ - Tuất (Hỏa cục)
+        [11, 3, 7]  // Hợi - Mão - Mùi (Mộc cục)
+      ];
+      const LUC_HOP = [[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+      const LUC_XUNG = [[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]];
+      const LUC_HAI = [[0,7],[1,6],[2,5],[3,4],[8,11],[9,10]];
+
+      let chiRel = 'Bình Hòa (Địa Chi ổn định)';
+      let score = 84;
+      for (const g of TAM_HOP) {
+        if (g.includes(bChi) && g.includes(dChi) && bChi !== dChi) {
+          chiRel = `Tam Hợp Quý Nhân (${DIA_CHI[bChi]} – ${DIA_CHI[dChi]} hội cục đại cát)`;
+          score += 11;
+        }
+      }
+      for (const [a, b] of LUC_HOP) {
+        if ((bChi === a && dChi === b) || (bChi === b && dChi === a)) {
+          chiRel = `Lục Hợp Cát Khánh (${DIA_CHI[bChi]} – ${DIA_CHI[dChi]} tương hợp nhân duyên & tài lộc)`;
+          score += 10;
+        }
+      }
+      for (const [a, b] of LUC_XUNG) {
+        if ((bChi === a && dChi === b) || (bChi === b && dChi === a)) {
+          chiRel = `Lục Xung Cảnh Báo (${DIA_CHI[bChi]} – ${DIA_CHI[dChi]} tương xung, cần điềm tĩnh tránh nóng vội)`;
+          score -= 14;
+        }
+      }
+      for (const [a, b] of LUC_HAI) {
+        if ((bChi === a && dChi === b) || (bChi === b && dChi === a)) {
+          chiRel = `Tương Hại Lưu Ý (${DIA_CHI[bChi]} – ${DIA_CHI[dChi]} tương hại, đề phòng tiểu nhân hoặc hiểu lầm)`;
+          score -= 9;
+        }
+      }
+      if (bChi === dChi) {
+        chiRel = `Trực Thái Tuế Ngày (${DIA_CHI[bChi]} gặp ngày ${DIA_CHI[dChi]} — Tỷ Kiên tự lực cánh sinh)`;
+      }
+
+      // Quan hệ Ngũ Hành Nạp Âm Mệnh vs Ngũ Hành Ngày
+      const SINH = { 'Mộc': 'Hỏa', 'Hỏa': 'Thổ', 'Thổ': 'Kim', 'Kim': 'Thủy', 'Thủy': 'Mộc' };
+      const KHAC = { 'Mộc': 'Thổ', 'Thổ': 'Thủy', 'Thủy': 'Hỏa', 'Hỏa': 'Kim', 'Kim': 'Mộc' };
+      const mEl = bazi.napAm.elem;
+      const dEl = alm.dayNapAm.elem;
+      let elemRel = '';
+      if (SINH[dEl] === mEl) {
+        elemRel = `Ngũ Hành Ngày (${dEl}) Tương Sinh Bản Mệnh (${mEl}) — Quý nhân phù trợ, sinh khí dồi dào`;
+        score += 5;
+      } else if (SINH[mEl] === dEl) {
+        elemRel = `Bản Mệnh (${mEl}) Sinh Xuất cho Ngày (${dEl}) — Lao tâm tạo thành quả, dùng trí tuệ mở lối`;
+        score += 2;
+      } else if (mEl === dEl) {
+        elemRel = `Đồng Hành Tương Hòa (${mEl} hội ${dEl}) — Tỷ Hòa vững chãi, đồng đạo trợ lực`;
+        score += 4;
+      } else if (KHAC[mEl] === dEl) {
+        elemRel = `Bản Mệnh (${mEl}) Khắc Chế Ngày (${dEl}) — Chủ động nắm quyền, đắc Chính Tài do thực lực`;
+        score += 3;
+      } else {
+        elemRel = `Ngũ Hành Ngày (${dEl}) Khắc Bản Mệnh (${mEl}) — Quan Quỷ khảo nghiệm, cần giữ lễ tiết & cẩn trọng`;
+        score -= 5;
+      }
+
+      // Danh sách tuổi Tam Hợp & Lục Hợp với bản mệnh
+      const tamHopGroup = TAM_HOP.find(g => g.includes(bChi)) || [bChi];
+      const lucHopPair = LUC_HOP.find(p => p.includes(bChi)) || [bChi];
+      const hopChiList = [...new Set([...tamHopGroup, ...lucHopPair])].filter(c => c !== bChi).map(c => `Tuổi ${DIA_CHI[c]}`);
+
+      // Màu sắc tương sinh + bản mệnh
+      const MAU_HOP = {
+        'Kim': 'Trắng Ánh Kim, Vàng Hoàng Thổ, Nâu Đất (kỵ Đỏ, Hồng)',
+        'Mộc': 'Xanh Lá Cây, Xanh Ngọc, Đen, Xanh Nước Biển (kỵ Trắng, Bạc)',
+        'Thủy': 'Xanh Dương, Đen, Trắng Ánh Kim (kỵ Vàng Đất, Nâu)',
+        'Hỏa': 'Đỏ, Cam, Tím, Xanh Lá Cây (kỵ Đen, Xanh Nước Biển)',
+        'Thổ': 'Vàng Đất, Nâu, Đỏ, Cam, Tím (kỵ Xanh Lá Cây)'
+      };
+
+      score = Math.max(62, Math.min(98, score));
+      return { chiRel, elemRel, score, hopChiStr: hopChiList.join(', '), mauHop: MAU_HOP[mEl] || '' };
+    }
+
+    function populateTuViBirthYearSelect(chiIdx, preferredYear = null) {
+      const yrSel = document.getElementById('tuviBirthYearSelect');
+      if (!yrSel) return;
+      const years = [];
+      for (let y = 1950; y <= 2012; y++) {
+        if (((y - 4) % 12 + 12) % 12 === chiIdx) years.push(y);
+      }
+      const defaultYear = preferredYear && years.includes(Number(preferredYear))
+        ? Number(preferredYear)
+        : (years.find(y => y >= 1984 && y <= 1996) || years[Math.floor(years.length / 2)] || 1991);
+      yrSel.innerHTML = years.map(y => {
+        const bz = getBirthYearFullBazi(y, 'M');
+        return `<option value="${y}" ${y === defaultYear ? 'selected' : ''}>${y} — ${bz.canChi} (${bz.napAm.elem}: ${bz.napAm.name.split('(')[0].trim()})</option>`;
+      }).join('');
+    }
+
+    function onTuViZodiacChange() {
+      const zSel = document.getElementById('tuviZodiacSelect');
+      const chiIdx = zSel ? (Number(zSel.value) || 0) : 7;
+      populateTuViBirthYearSelect(chiIdx);
+      renderTuViReading(false);
+    }
+
+    function onTuViBirthYearChange() {
+      const yrSel = document.getElementById('tuviBirthYearSelect');
+      const zSel = document.getElementById('tuviZodiacSelect');
+      if (yrSel && zSel) {
+        const y = Number(yrSel.value) || 1991;
+        const chiIdx = ((y - 4) % 12 + 12) % 12;
+        if (Number(zSel.value) !== chiIdx) zSel.value = String(chiIdx);
+      }
+      renderTuViReading(false);
+    }
 
     function renderTuViReading(chargeMerit = false) {
       if (chargeMerit) {
         if (player.merit < 5) {
-          showToast('⚠️ Cần 5 💎 Phước để thỉnh Thầy lập lá số Tử Vi hôm nay!');
+          showToast('⚠️ Cần 5 💎 Phước để thỉnh Thầy lập lá số Tử Vi Bát Tự hôm nay!');
           return;
         }
-        addMerit(-5, 'Xem Tử Vi 12 Con Giáp & Bản Mệnh (-5 💎)');
+        addMerit(-5, 'Lập Lá Số Tử Vi Bát Tự & Lịch Vạn Niên (-5 💎)');
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('divination', 1);
         updateFortuneCardDisplay();
         playBellSound();
       }
-      const sel = document.getElementById('tuviZodiacSelect');
-      const idx = sel ? (Number(sel.value) || 0) : 4;
-      const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
+      const alm = getTodayLunarAlmanac();
+      const bannerEl = document.getElementById('divLunarTodayBanner');
+      if (bannerEl) {
+        bannerEl.innerHTML = `🗓️ <b>Dương lịch:</b> ${alm.solarStr} · <b>Âm lịch:</b> Ngày <b style="color:#fff59d;">${alm.lunarStr}</b> · Ngày <b>${alm.dayCanChi}</b> (${alm.dayNapAm.name}) · Tháng <b>${alm.monthCanChi}</b> · Năm <b>${alm.yearCanChi}</b> · Trực <b>${alm.trucName}</b>`;
+      }
+
+      const zSel = document.getElementById('tuviZodiacSelect');
+      const yrSel = document.getElementById('tuviBirthYearSelect');
+      const gSel = document.getElementById('tuviGenderSelect');
+      const chiIdx = zSel ? (Number(zSel.value) || 0) : 7;
+      if (yrSel && (!yrSel.options.length || (((Number(yrSel.value) - 4) % 12 + 12) % 12 !== chiIdx))) {
+        populateTuViBirthYearSelect(chiIdx);
+      }
+      const birthYear = yrSel ? (Number(yrSel.value) || 1991) : 1991;
+      const gender = gSel ? (gSel.value || 'M') : (player.gender || 'M');
+
+      const bazi = getBirthYearFullBazi(birthYear, gender);
+      const evalRes = evaluateDayVsBazi(bazi, alm);
+
+      const baziBar = document.getElementById('tvBaziProfileBar');
+      if (baziBar) {
+        baziBar.innerHTML = `☯️ <b>Mệnh chủ:</b> Tuổi <b style="color:#ffd740;">${bazi.canChi} (${bazi.birthYear})</b> · ${gender === 'M' ? 'Nam Mạng' : 'Nữ Mạng'} (${bazi.tuoiMu} tuổi âm) · <b>Nạp Âm:</b> <span style="color:#80d8ff;">${bazi.napAm.name}</span> · <b>Cung Phi Bát Trạch:</b> <span style="color:#69f0ae;">Cung ${bazi.cungPhi.name} (${bazi.cungPhi.group})</span> · <b>Sao Chiếu Mệnh ${alm.lunarYear}:</b> <span style="color:#ffab40;">${bazi.saoCuuDieu}</span>`;
+      }
 
       const titleEl = document.getElementById('tvTitle');
       const badgeEl = document.getElementById('tvStarBadge');
       const gridEl = document.getElementById('tvMainGrid');
       const auspEl = document.getElementById('tvAuspiciousInfo');
 
-      if (titleEl) titleEl.textContent = `🔮 LÁ SỐ TỬ VI HÔM NAY — ${tv.name.toUpperCase()}`;
-      if (badgeEl) badgeEl.textContent = tv.star;
+      if (titleEl) {
+        titleEl.textContent = `🔮 TỬ VI ${bazi.canChi.toUpperCase()} (${bazi.birthYear}) — NGÀY ${alm.dayCanChi.toUpperCase()} (${alm.lunarStr} ÂL)`;
+      }
+      if (badgeEl) {
+        badgeEl.textContent = `🌟 Chỉ số Cát Vận: ${evalRes.score}% · Trực ${alm.trucName}`;
+      }
       if (gridEl) {
         gridEl.innerHTML = `
-          <div>${tv.wealth}</div>
-          <div>${tv.career}</div>
-          <div>${tv.compat}</div>
-          <div>${tv.caution}</div>
+          <div>☯️ <b>Tương Tác Thiên Can - Địa Chi Hôm Nay:</b> ${evalRes.chiRel}. ${evalRes.elemRel}.</div>
+          <div>💰 <b>Tài Lộc & Vận Trình Thực Tế:</b> Mệnh <b>${bazi.napAm.name}</b> gặp ngày <b>${alm.dayCanChi} (${alm.dayNapAm.name})</b> — ${evalRes.score >= 88 ? 'Tài khí vượng phát, mưu cầu tài lộc, ký kết hợp tác hoặc thu hồi công nợ đều thuận lợi.' : (evalRes.score >= 78 ? 'Vận trình ổn định, làm việc chắc chắn theo kế hoạch sẽ thu được thành quả tốt đẹp.' : 'Ngày có khí tương xung/khắc nhẹ, nên giữ nguyên tắc an toàn, tránh đầu tư mạo hiểm hoặc tranh cãi.')}</div>
+          <div>🤝 <b>Quý Nhân Tam Hợp & Lục Hợp Trợ Lực:</b> Hợp tác, bàn việc cùng người <b>${evalRes.hopChiStr}</b> hôm nay sẽ đại cát hanh thông.</div>
+          <div>🧭 <b>Hướng Tốt Theo Bát Trạch (${bazi.cungPhi.name}):</b> ${bazi.cungPhi.goodDirs}.</div>
         `;
       }
-      if (auspEl) auspEl.innerHTML = tv.auspicious;
+      if (auspEl) {
+        auspEl.innerHTML = `⏰ <b>Giờ Hoàng Đạo Ngày ${alm.dayCanChi}:</b> ${alm.hoangDaoHours.slice(0, 4).join(' · ')}<br/>🧭 <b>Hướng Xuất Hành Ngày ${alm.dayCanChi}:</b> Hỷ Thần hướng <b>${alm.directions.hy}</b> · Tài Thần hướng <b>${alm.directions.tai}</b> · 🎨 <b>Màu Hợp Mệnh ${bazi.napAm.elem}:</b> ${evalRes.mauHop}`;
+      }
     }
 
     function speakCurrentTuVi() {
       unlockAndStartAudio();
       stopAllVoices(true);
-      const sel = document.getElementById('tuviZodiacSelect');
-      const idx = sel ? (Number(sel.value) || 0) : 4;
-      const tv = TUVI_ZODIAC_DATA[idx] || TUVI_ZODIAC_DATA[4];
-      const mp3Url = `audio/tuvi_${idx}.mp3?v=73`;
-      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang đọc rõ ràng Bình Giải Tử Vi ${tv.name}...`);
-      const clean = (s) => String(s || '').replace(/<[^>]+>/g, '');
-      const fallbackText = `Nam mô A Di Đà Phật. Sư thầy trụ trì xin bình giải lá số Tử Vi bản mệnh cho thí chủ ${tv.name}. ${tv.star}. ${clean(tv.wealth)} ${clean(tv.career)} ${clean(tv.compat)} ${clean(tv.caution)} ${clean(tv.auspicious)}`;
-      localPrayerMp3.onended = () => {
-        isVoiceSpeaking = false;
-        resumeZenMusicIfIdle();
-      };
-      localPrayerMp3.onerror = () => speakVietnameseText(fallbackText, 'M');
-      if ('preservesPitch' in localPrayerMp3) localPrayerMp3.preservesPitch = true;
-      localPrayerMp3.playbackRate = 1.05;
-      localPrayerMp3.src = mp3Url;
-      localPrayerMp3.currentTime = 0;
-      localPrayerMp3.volume = 1.0;
-      localPrayerMp3.play().catch(() => speakVietnameseText(fallbackText, 'M'));
+      const yrSel = document.getElementById('tuviBirthYearSelect');
+      const gSel = document.getElementById('tuviGenderSelect');
+      const birthYear = yrSel ? (Number(yrSel.value) || 1991) : 1991;
+      const gender = gSel ? (gSel.value || 'M') : 'M';
+      const bazi = getBirthYearFullBazi(birthYear, gender);
+      const alm = getTodayLunarAlmanac();
+      const evalRes = evaluateDayVsBazi(bazi, alm);
+      showToast(`🧙‍♂️🔊 Sư Thầy Trụ Trì đang bình giải Tử Vi tuổi ${bazi.canChi} (${bazi.birthYear})...`);
+      const text = `Nam mô A Di Đà Phật. Sư thầy xin luận giải lá số Tử Vi Bát Tự ngày hôm nay, âm lịch ngày ${alm.lunarStr}, ngày ${alm.dayCanChi}, cho thí chủ tuổi ${bazi.canChi} sinh năm ${bazi.birthYear}, bản mệnh ${bazi.napAm.name}, cung phi ${bazi.cungPhi.name}. Hôm nay ${evalRes.chiRel}. ${evalRes.elemRel}. Hướng Tài Thần tại hướng ${alm.directions.tai}, Hỷ Thần tại hướng ${alm.directions.hy}. Chúc thí chủ tâm sáng phúc dày, vạn sự cát tường.`;
+      speakVietnameseText(text, 'M');
     }
 
-    // 3C. HỆ THỐNG XIN SỐ MAY MẮN TRONG NGÀY (THỈNH ÔNG ĐỊA - THẦN TÀI)
+    // 3C. HỆ THỐNG XIN LINH SỐ HÀ ĐỒ - LẠC THƯ & THẦN TÀI TRONG NGÀY
     const LUCKY_NUMBER_MEANINGS = [
-      { pair: '68', rev: '86', three: '868', xien: '68 - 86 · 39 - 79', title: 'Lộc Phát Đại Cát — Tiền Vào Như Nước',
-        verse: 'Ông Địa cười tươi phán một lời: Sáu Tám Lộc Phát sáng ngời ngời, Chốt đơn thu nợ đều suôn sẻ, Phúc lộc đầy kho khắp mọi nơi!' },
-      { pair: '39', rev: '79', three: '739', xien: '39 - 79 · 38 - 78', title: 'Thần Tài Nhỏ & Thần Tài Lớn Hội Tụ',
-        verse: 'Ba Chín Thần Tài gõ cửa nhà, Bảy Chín đại lộc nở đơm hoa, Đơn to đơn nhỏ đều chốt gọn, Vận đỏ hanh thông suốt cả ngày!' },
-      { pair: '88', rev: '66', three: '888', xien: '66 - 88 · 18 - 81', title: 'Song Phát Vững Bền — Đại Phú Đại Quý',
-        verse: 'Tám Tám song phát vượng khí tràn, Lục Lục lộc biếc đón bình an, Khách sỉ khách lẻ đua nhau chốt, Doanh số tăng vọt vượt chỉ tiêu!' },
-      { pair: '26', rev: '62', three: '626', xien: '26 - 62 · 28 - 82', title: 'Mãi Lộc Trường Cửu — Thuận Buồm Xuôi Gió',
-        verse: 'Hai Sáu mãi lộc vững đường dài, Quý nhân tương trợ chẳng sai lời, Mở hàng đầu ngày thêm may mắn, Tài lộc dồi dào khắp Đông Tây!' },
-      { pair: '56', rev: '65', three: '568', xien: '56 - 65 · 68 - 86', title: 'Sinh Lộc Phát Tài — Ngũ Phúc Lâm Môn',
-        verse: 'Năm Sáu sinh lộc nảy mầm vàng, Năm Sáu Tám phát bước thênh thang, Công nợ thu về ngay trong buổi, Đắc tài đắc lộc đắc bình an!' },
-      { pair: '19', rev: '91', three: '919', xien: '19 - 91 · 09 - 90', title: 'Nhất Cửu Trường Thọ — Đỉnh Cao Vận Đỏ',
-        verse: 'Một bước lên mây Chín tầng trời, Thần Tài ban lộc sáng ngời ngời, Chăm chỉ cày đơn thêm số đẹp, Cuối ngày đếm lộc nở nụ cười!' }
+      { pair: '68', rev: '86', three: '868', xien: '68 - 86 · 16 - 61', title: 'Hà Đồ Lục Bát — Thủy Mộc Tương Sinh Lộc Phát',
+        verse: 'Nhất Lục cộng tông Thủy nguyên trường, Bát số Mộc sinh vượng bốn phương, Tâm thành kính lễ trời ban phước, Tài lộc hanh thông vạn dặm đường!' },
+      { pair: '39', rev: '79', three: '739', xien: '39 - 79 · 38 - 83', title: 'Tam Cửu Mộc Hỏa Thông Minh — Thần Tài Chiếu Mệnh',
+        verse: 'Tam Mộc sinh Cửu Hỏa rực hồng, Quý nhân tương trợ khắp Tây Đông, Giữ trọn chữ Tín tâm an định, Phúc lộc song toàn thỏa ước mong!' },
+      { pair: '88', rev: '66', three: '888', xien: '66 - 88 · 28 - 82', title: 'Song Bát Đại Cát — Cấn Thổ Sinh Kim Bền Vững',
+        verse: 'Tám phương hội tụ khí lành bay, Lục thuận âm dương phúc lộc đầy, Chăm chỉ tu tâm làm việc thiện, Cuối ngày gặt hái quả ngọt lành!' },
+      { pair: '26', rev: '62', three: '626', xien: '26 - 62 · 27 - 72', title: 'Nhị Lục Kim Thủy Đồng Nguyên — Thuận Buồm Xuôi Gió',
+        verse: 'Hai Sáu tương sinh vững bước đường, Quý nhân dẫn lối vượt phong sương, Khởi hành giờ tốt thêm may mắn, Cát khánh bình an khắp phố phường!' },
+      { pair: '56', rev: '65', three: '568', xien: '56 - 65 · 15 - 51', title: 'Ngũ Lục Trung Cung — Hoàng Cực Sinh Tài',
+        verse: 'Ngũ hoàng trung chính thổ sinh kim, Lộc sáng tự nhiên chẳng phải tìm, Chữ hiếu chữ nhân luôn giữ vẹn, Gia môn hưng thịnh phúc êm đềm!' },
+      { pair: '19', rev: '91', three: '919', xien: '19 - 91 · 49 - 94', title: 'Nhất Cửu Thủy Hỏa Ký Tế — Âm Dương Quân Bình',
+        verse: 'Nhất Thủy Cửu Hỏa hợp thiên thời, Đạo lớn tuần hoàn sáng khắp nơi, Thiện niệm khởi lên muôn sự tốt, Bình an tài lộc nở tươi cười!' }
     ];
 
     let currentLuckyPack = LUCKY_NUMBER_MEANINGS[0];
 
     function renderLuckyNumbersView() {
       const p = currentLuckyPack || LUCKY_NUMBER_MEANINGS[0];
-      const todayStr = new Date().toLocaleDateString('vi-VN');
+      const alm = getTodayLunarAlmanac();
       const hdrEl = document.getElementById('slHeaderTitle');
       const btEl = document.getElementById('slNumBachThu');
       const stEl = document.getElementById('slNumSongThu');
@@ -5714,20 +6135,20 @@
       const detEl = document.getElementById('slDetailsBox');
       const msgEl = document.getElementById('slMessageBox');
 
-      if (hdrEl) hdrEl.textContent = `🏺✨ BẢNG VÀNG SỐ LỘC THẦN TÀI NGÀY ${todayStr} — ${player.name.toUpperCase()} ✨🏺`;
+      if (hdrEl) hdrEl.textContent = `🏺✨ LINH SỐ HÀ ĐỒ - LẠC THƯ NGÀY ${alm.dayCanChi.toUpperCase()} (${alm.lunarStr} ÂL) — ${player.name.toUpperCase()} ✨🏺`;
       if (btEl) btEl.textContent = p.pair;
       if (stEl) stEl.textContent = `${p.pair} · ${p.rev}`;
       if (bcEl) bcEl.textContent = p.three;
       if (detEl) {
         detEl.innerHTML = `
-          <div>🌟 <b>Ý nghĩa quẻ số hôm nay:</b> <span style="color:#ffd740; font-weight:900;">${p.title}</span></div>
-          <div>🍀 <b>Cặp Xiên Đôi Đẹp Nhất Ngày:</b> <b style="color:#69f0ae;">${p.xien}</b></div>
-          <div>🔢 <b>Đuôi Số Điện Thoại / Mã Đơn Hàng Hợp Vía Lộc Hôm Nay:</b> Đuôi <b style="color:#80d8ff;">...${p.pair}</b> hoặc <b style="color:#80d8ff;">...${p.rev}</b></div>
-          <div>⏰ <b>Giờ Vàng Đón Vía Thần Tài:</b> 08h30 – 10h30 sáng & 16h00 – 17h45 chiều</div>
+          <div>🌟 <b>Quẻ Linh Số Hà Đồ - Lạc Thư:</b> <span style="color:#ffd740; font-weight:900;">${p.title}</span></div>
+          <div>🍀 <b>Cặp Số Tương Sinh Hợp Khí Ngày ${alm.dayCanChi}:</b> <b style="color:#69f0ae;">${p.xien}</b></div>
+          <div>🧭 <b>Hướng Đón Vía Tài Thần & Hỷ Thần Hôm Nay:</b> Tài Thần hướng <b style="color:#80d8ff;">${alm.directions.tai}</b> · Hỷ Thần hướng <b style="color:#80d8ff;">${alm.directions.hy}</b></div>
+          <div>⏰ <b>Giờ Hoàng Đạo Khởi Sự Đại Cát:</b> ${alm.hoangDaoHours.slice(0, 3).join(' · ')}</div>
         `;
       }
       if (msgEl) {
-        msgEl.innerHTML = `📜 <b>Lời Phán Của Ông Địa — Thần Tài:</b> <i>"${p.verse}"</i><br/><span style="color:#ffe082; font-size:9.8px;">(💡 Lưu ý: Con số may mắn giúp kích hoạt tâm lý phấn chấn, chọn đuôi số báo giá / mã đơn hàng lấy vía đỏ chốt KPI!)</span>`;
+        msgEl.innerHTML = `📜 <b>Kệ Thần Tài — Hà Đồ Lạc Thư:</b> <i>"${p.verse}"</i><br/><span style="color:#ffe082; font-size:9.8px;">(💡 Linh số được tính theo Ngũ Hành Ngày ${alm.dayCanChi} — ${alm.dayNapAm.name}, dùng tham khảo chọn giờ lành, số thứ tự cát tường trong ngày!)</span>`;
       }
     }
 
@@ -5735,10 +6156,11 @@
       unlockAndStartAudio();
       if (chargeMerit) {
         if (player.merit < 5) {
-          showToast('⚠️ Cần 5 💎 Phước để thỉnh Ông Địa — Thần Tài xin số may mắn hôm nay!');
+          showToast('⚠️ Cần 5 💎 Phước để thỉnh Ông Địa — Thần Tài xin Linh Số hôm nay!');
           return;
         }
-        addMerit(-5, 'Thỉnh Ông Địa — Xin Số May Mắn Trong Ngày (-5 💎)');
+        addMerit(-5, 'Thỉnh Ông Địa — Xin Linh Số Hà Đồ Trong Ngày (-5 💎)');
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('divination', 1);
         updateFortuneCardDisplay();
       }
       const btEl = document.getElementById('slNumBachThu');
@@ -5759,7 +6181,7 @@
           const others = LUCKY_NUMBER_MEANINGS.filter(x => x !== currentLuckyPack);
           currentLuckyPack = others[Math.floor(Math.random() * others.length)] || LUCKY_NUMBER_MEANINGS[0];
           renderLuckyNumbersView();
-          appendMeritLog(`🎰 <b>${player.name}</b> thỉnh Ông Địa xin Số May Mắn Hôm Nay ➔ Bạch thủ <b style="color:#ffd740;">${currentLuckyPack.pair}</b> · Song thủ <b>${currentLuckyPack.pair}-${currentLuckyPack.rev}</b> · 3 càng <b>${currentLuckyPack.three}</b>!`);
+          appendMeritLog(`🎰 <b>${player.name}</b> thỉnh Ông Địa xin Linh Số Hà Đồ Hôm Nay ➔ Chủ số <b style="color:#ffd740;">${currentLuckyPack.pair}</b> · Song hợp <b>${currentLuckyPack.pair}-${currentLuckyPack.rev}</b> · Tam quý <b>${currentLuckyPack.three}</b>!`);
         }
       }, 95);
     }
@@ -5808,6 +6230,254 @@
       renderLuckyNumbersView();
     }
 
+    // =========================================================================
+    // V76 (#mvyotj6rp): HỆ THỐNG NHIỆM VỤ TU TẬP HÀNG NGÀY & NÂNG CẤP PHÁP KHÍ - CẢNH GIỚI
+    // =========================================================================
+    const DAILY_QUESTS_CONFIG = [
+      { id: 'mo', icon: '🪘', title: 'Tịnh Tâm Gõ Mõ Tụng Kinh', desc: 'Gõ Mõ Tụng Kinh đủ 15 tiếng trong ngày để thanh lọc tâm ý.', target: 15, rewardMerit: 18, rewardExp: 25 },
+      { id: 'bell', icon: '🔔', title: 'Thỉnh Đại Hồng Chuông', desc: 'Thỉnh Đại Hồng Chuông 5 tiếng vang vọng khắp ba cõi.', target: 5, rewardMerit: 20, rewardExp: 30 },
+      { id: 'incense', icon: '🪔', title: 'Dâng Nén Tâm Hương', desc: 'Thắp Hương khấn nguyện 3 lần tại các ban thờ.', target: 3, rewardMerit: 16, rewardExp: 25 },
+      { id: 'bow', icon: '🙇', title: 'Thành Tâm Lễ Phật', desc: 'Quỳ Lạy hoặc Vái Khấn 8 lần trước Tam Bảo / Đức Ông / Thần Tài.', target: 8, rewardMerit: 22, rewardExp: 35 },
+      { id: 'offering', icon: '🍱', title: 'Sắm Lễ Cúng Dường & Hạ Lộc', desc: 'Dâng Lễ Vật lên bàn thờ hoặc Hạ Lễ thụ lộc 2 lần.', target: 2, rewardMerit: 30, rewardExp: 45 },
+      { id: 'gold', icon: '🔥', title: 'Hóa Vàng Tạ Lễ Lò Bát Quái', desc: 'Hóa Vàng Mã tại Lò Hóa Vàng 2 lần.', target: 2, rewardMerit: 28, rewardExp: 40 },
+      { id: 'social', icon: '🤝', title: 'Kết Duyên Đạo Hữu Trong Chùa', desc: 'Tương tác (Vái nhau, Quỳ lạy nhau, Đấm nhau vui hoặc Trò chuyện) với người chơi khác 3 lần.', target: 3, rewardMerit: 24, rewardExp: 35 },
+      { id: 'divination', icon: '🎋', title: 'Thỉnh Quẻ Vấn Đạo Đầu Ngày', desc: 'Rút Xăm Quan Âm, Gieo Quẻ Kinh Dịch hoặc Xem Tử Vi 1 lần.', target: 1, rewardMerit: 15, rewardExp: 20 }
+    ];
+
+    const DHARMA_UPGRADES_CONFIG = [
+      { key: 'mo', icon: '🪘', name: 'Mõ Ngọc Bồ Đề', desc: 'Mỗi cấp tăng +0.7% xác suất nổ X khi Gõ Mõ & cộng thêm điểm Tu Vi.', baseCost: 35, costScale: 1.55, bonusPerLv: 0.007 },
+      { key: 'bell', icon: '🔔', name: 'Đại Hồng Chung Linh Bảo', desc: 'Mỗi cấp tăng +0.9% xác suất nổ X khi Thỉnh Chuông.', baseCost: 45, costScale: 1.6, bonusPerLv: 0.009 },
+      { key: 'incense', icon: '🪔', name: 'Lư Hương Cửu Long Vàng', desc: 'Mỗi cấp tăng +1.0% xác suất nổ X khi Thắp Hương & Quỳ Lạy.', baseCost: 40, costScale: 1.55, bonusPerLv: 0.010 },
+      { key: 'furnace', icon: '🔥', name: 'Lò Bát Quái Tụ Bảo', desc: 'Mỗi cấp tăng +1.2% xác suất nổ X2–X10 khi Hạ Lễ & Hóa Vàng.', baseCost: 60, costScale: 1.65, bonusPerLv: 0.012 }
+    ];
+
+    const REALM_RANKS_CONFIG = [
+      { lv: 1, name: 'Tâm Thành Sơ Khởi', expReq: 0, badge: '🌱 Cảnh Giới Cấp 1', perk: 'Khởi đầu hành trình tu tập tại Chùa Trường Yến' },
+      { lv: 2, name: 'Cư Sĩ Tịnh Tâm', expReq: 100, badge: '🪷 Cảnh Giới Cấp 2', perk: 'Tăng nhẹ hào quang nhân vật & uy tín đạo tràng' },
+      { lv: 3, name: 'Đạo Hữu Tinh Tấn', expReq: 260, badge: '📿 Cảnh Giới Cấp 3', perk: 'Thưởng +5 💎 Phước mỗi khi đột phá cảnh giới' },
+      { lv: 4, name: 'Hộ Pháp Kim Cang', expReq: 500, badge: '⚔️ Cảnh Giới Cấp 4', perk: 'Hào quang Kim Cang hộ thể rực sáng' },
+      { lv: 5, name: 'Trưởng Lão Phúc Đức', expReq: 850, badge: '👑 Cảnh Giới Cấp 5', perk: 'Bậc trưởng lão uy đức khắp bốn ban thờ' },
+      { lv: 6, name: 'Đại Đức Chân Nhân', expReq: 1350, badge: '✨ Cảnh Giới Cấp 6', perk: 'Tâm thông vạn pháp, phước lộc viên mãn' },
+      { lv: 7, name: 'Bồ Đề Viên Mãn', expReq: 2000, badge: '🌟 Cảnh Giới Tối Thượng (Lv.7)', perk: 'Đỉnh cao tu tập Chùa Trường Yến' }
+    ];
+
+    let currentQuestUpgradeTab = 'quests';
+
+    function getPlayerQuestState() {
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const storageKey = `ty_quest_upgrade_v76_${player?.name || 'Guest'}`;
+      let st = null;
+      try {
+        st = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      } catch (e) { st = null; }
+      if (!st || typeof st !== 'object') {
+        st = { date: todayKey, progress: {}, claimed: {}, upgrades: { mo: 1, bell: 1, incense: 1, furnace: 1 }, exp: 0 };
+      }
+      if (st.date !== todayKey) {
+        st.date = todayKey;
+        st.progress = {};
+        st.claimed = {};
+      }
+      if (!st.upgrades) st.upgrades = { mo: 1, bell: 1, incense: 1, furnace: 1 };
+      if (typeof st.exp !== 'number') st.exp = 0;
+      return st;
+    }
+
+    function savePlayerQuestState(st) {
+      const storageKey = `ty_quest_upgrade_v76_${player?.name || 'Guest'}`;
+      try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
+      updateTopBarQuestRealmBadge(st);
+    }
+
+    function getRealmInfoByExp(exp) {
+      let cur = REALM_RANKS_CONFIG[0];
+      let next = null;
+      for (let i = 0; i < REALM_RANKS_CONFIG.length; i++) {
+        if (exp >= REALM_RANKS_CONFIG[i].expReq) {
+          cur = REALM_RANKS_CONFIG[i];
+          next = REALM_RANKS_CONFIG[i + 1] || null;
+        }
+      }
+      return { cur, next };
+    }
+
+    function updateTopBarQuestRealmBadge(stInput) {
+      const st = stInput || getPlayerQuestState();
+      const { cur } = getRealmInfoByExp(st.exp || 0);
+      const btn = document.getElementById('btnTopBarQuestUpgrade');
+      if (btn) {
+        const unclaimed = DAILY_QUESTS_CONFIG.filter(q => (st.progress[q.id] || 0) >= q.target && !st.claimed[q.id]).length;
+        btn.innerHTML = `📜 Nhiệm Vụ · Lv.${cur.lv}${unclaimed > 0 ? ` <span style="background:#00e676;color:#003314;padding:0 5px;border-radius:8px;font-size:10px;">+${unclaimed}</span>` : ''}`;
+      }
+    }
+
+    function getUpgradeBonusChance(key) {
+      const st = getPlayerQuestState();
+      const lv = Math.max(1, Number(st.upgrades?.[key] || 1));
+      const cfg = DHARMA_UPGRADES_CONFIG.find(u => u.key === key);
+      if (!cfg) return 0;
+      return Math.max(0, (lv - 1) * cfg.bonusPerLv);
+    }
+
+    function recordQuestProgress(questId, amount = 1) {
+      const st = getPlayerQuestState();
+      const cfg = DAILY_QUESTS_CONFIG.find(q => q.id === questId);
+      if (!cfg) return;
+      const prev = Number(st.progress[questId] || 0);
+      const next = Math.min(cfg.target, prev + amount);
+      st.progress[questId] = next;
+      savePlayerQuestState(st);
+      if (prev < cfg.target && next >= cfg.target && !st.claimed[questId]) {
+        showToast(`🎯 Hoàn thành Nhiệm Vụ "${cfg.title}"! Mở 📜 Nhiệm Vụ để nhận +${cfg.rewardMerit} 💎 Phước!`);
+      }
+    }
+
+    function openQuestUpgradeModal(tab) {
+      unlockAndStartAudio();
+      if (tab) currentQuestUpgradeTab = tab;
+      renderQuestUpgradeModal();
+      const modal = document.getElementById('questUpgradeModal');
+      if (modal) modal.classList.add('open');
+      playMoSound();
+    }
+
+    function closeQuestUpgradeModal() {
+      const modal = document.getElementById('questUpgradeModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function switchQuestUpgradeTab(tab) {
+      currentQuestUpgradeTab = tab || 'quests';
+      renderQuestUpgradeModal();
+      playMoSound();
+    }
+
+    function renderQuestUpgradeModal() {
+      const st = getPlayerQuestState();
+      const { cur, next } = getRealmInfoByExp(st.exp || 0);
+      const badgeEl = document.getElementById('quRealmBadge');
+      const expBarEl = document.getElementById('quRealmExpBar');
+      const expTextEl = document.getElementById('quRealmExpText');
+      if (badgeEl) badgeEl.textContent = `${cur.badge}: ${cur.name}`;
+      if (expBarEl) {
+        const pct = next ? Math.min(100, Math.round(((st.exp - cur.expReq) / Math.max(1, next.expReq - cur.expReq)) * 100)) : 100;
+        expBarEl.style.width = `${pct}%`;
+      }
+      if (expTextEl) {
+        expTextEl.textContent = next ? `${st.exp} / ${next.expReq} Tu Vi (Cấp tiếp: ${next.name})` : `${st.exp} Tu Vi (Đỉnh Cao Viên Mãn)`;
+      }
+
+      const btnQ = document.getElementById('quTabBtn_quests');
+      const btnU = document.getElementById('quTabBtn_upgrades');
+      const panelQ = document.getElementById('quPanel_quests');
+      const panelU = document.getElementById('quPanel_upgrades');
+      const isQ = (currentQuestUpgradeTab !== 'upgrades');
+      if (panelQ) panelQ.style.display = isQ ? 'flex' : 'none';
+      if (panelU) panelU.style.display = isQ ? 'none' : 'grid';
+      if (btnQ) {
+        btnQ.style.background = isQ ? 'linear-gradient(135deg,#ff8f00,#e65100)' : 'rgba(40,22,12,0.9)';
+        btnQ.style.color = isQ ? '#fff' : '#ffd54f';
+      }
+      if (btnU) {
+        btnU.style.background = !isQ ? 'linear-gradient(135deg,#ff8f00,#e65100)' : 'rgba(40,22,12,0.9)';
+        btnU.style.color = !isQ ? '#fff' : '#ffd54f';
+      }
+
+      if (panelQ) {
+        panelQ.innerHTML = DAILY_QUESTS_CONFIG.map(q => {
+          const prog = Math.min(q.target, Number(st.progress[q.id] || 0));
+          const done = prog >= q.target;
+          const claimed = !!st.claimed[q.id];
+          const pct = Math.round((prog / q.target) * 100);
+          return `<div style="background:rgba(32,16,8,0.92); border:1px solid ${done && !claimed ? '#00e676' : 'rgba(255,213,79,0.35)'}; border-radius:10px; padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:210px;">
+              <div style="font-size:12px; font-weight:900; color:#ffe082;">${q.icon} ${q.title} <span style="font-size:10.5px; color:#80d8ff;">(${prog}/${q.target})</span></div>
+              <div style="font-size:10.5px; color:#d7ccc8; margin:2px 0 5px;">${q.desc}</div>
+              <div style="width:100%; height:6px; background:rgba(0,0,0,0.6); border-radius:4px; overflow:hidden;">
+                <div style="width:${pct}%; height:100%; background:${claimed ? '#78909c' : 'linear-gradient(90deg,#ffd54f,#00e676)'};"></div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+              <span style="font-size:10.5px; font-weight:800; color:#69f0ae;">🎁 +${q.rewardMerit} 💎 · +${q.rewardExp} Tu Vi</span>
+              ${claimed
+                ? `<button disabled style="padding:5px 10px; border-radius:7px; border:1px solid #546e7a; background:#263238; color:#90a4ae; font-size:10.5px; font-weight:800;">✅ Đã Nhận</button>`
+                : (done
+                  ? `<button onclick="claimQuestReward('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #fff59d; background:linear-gradient(135deg,#00c853,#009624); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 10px rgba(0,230,118,0.5);">🎁 Nhận Thưởng</button>`
+                  : `<span style="font-size:10px; color:#ffb74d; font-weight:700;">Đang tu tập...</span>`)}
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      if (panelU) {
+        panelU.innerHTML = DHARMA_UPGRADES_CONFIG.map(u => {
+          const lv = Math.max(1, Number(st.upgrades[u.key] || 1));
+          const isMax = lv >= 10;
+          const cost = Math.round(u.baseCost * Math.pow(u.costScale, lv - 1));
+          const bonusPct = ((lv - 1) * u.bonusPerLv * 100).toFixed(1);
+          const nextBonusPct = (lv * u.bonusPerLv * 100).toFixed(1);
+          return `<div style="background:rgba(32,16,8,0.92); border:1.5px solid rgba(255,213,79,0.45); border-radius:11px; padding:10px 12px; display:flex; flex-direction:column; justify-content:space-between; gap:7px;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:900; color:#ffd740;">${u.icon} ${u.name}</span>
+                <span style="background:linear-gradient(135deg,#ff8f00,#e65100); color:#fff; font-size:10.5px; font-weight:900; padding:2px 8px; border-radius:999px;">Cấp ${lv}/10</span>
+              </div>
+              <div style="font-size:10.5px; color:#d7ccc8; margin-top:4px; line-height:1.4;">${u.desc}</div>
+              <div style="font-size:10.5px; color:#69f0ae; font-weight:800; margin-top:5px;">✨ Gia trì hiện tại: +${bonusPct}% cơ hội nổ X ${!isMax ? `➔ Cấp ${lv + 1}: +${nextBonusPct}%` : '(Đã tối đa)'}</div>
+            </div>
+            ${isMax
+              ? `<button disabled style="padding:6px 10px; border-radius:8px; border:1px solid #ffd740; background:#3e2723; color:#ffd740; font-size:11px; font-weight:900;">👑 ĐÃ ĐẠT CẤP TỐI THƯỢNG (Lv.10)</button>`
+              : `<button onclick="upgradeDharmaItem('${u.key}')" style="cursor:pointer; padding:6px 10px; border-radius:8px; border:1.5px solid #fff59d; background:linear-gradient(135deg,#d84315,#ff8f00); color:#fff; font-size:11px; font-weight:900;">⬆️ Nâng Cấp Lên Lv.${lv + 1} (-${cost} 💎 Phước)</button>`}
+          </div>`;
+        }).join('');
+      }
+      updateTopBarQuestRealmBadge(st);
+    }
+
+    function claimQuestReward(questId) {
+      unlockAndStartAudio();
+      const st = getPlayerQuestState();
+      const cfg = DAILY_QUESTS_CONFIG.find(q => q.id === questId);
+      if (!cfg) return;
+      if ((st.progress[questId] || 0) < cfg.target || st.claimed[questId]) return;
+      const prevRealm = getRealmInfoByExp(st.exp || 0).cur.lv;
+      st.claimed[questId] = true;
+      st.exp = (st.exp || 0) + cfg.rewardExp;
+      savePlayerQuestState(st);
+      addMerit(cfg.rewardMerit, `Hoàn thành Nhiệm Vụ "${cfg.title}" (+${cfg.rewardMerit} 💎)`);
+      const newRealm = getRealmInfoByExp(st.exp).cur;
+      playBellSound();
+      if (newRealm.lv > prevRealm) {
+        addMerit(15, `Đột phá Cảnh Giới "${newRealm.name}" (Lv.${newRealm.lv}) (+15 💎)`);
+        showToast(`🌟 ĐỘT PHÁ CẢNH GIỚI: ${newRealm.name} (Lv.${newRealm.lv})! Thưởng thêm +15 💎 Phước!`);
+      } else {
+        showToast(`🎁 Đã nhận thưởng Nhiệm Vụ: +${cfg.rewardMerit} 💎 Phước & +${cfg.rewardExp} Tu Vi!`);
+      }
+      renderQuestUpgradeModal();
+    }
+
+    function upgradeDharmaItem(key) {
+      unlockAndStartAudio();
+      const st = getPlayerQuestState();
+      const cfg = DHARMA_UPGRADES_CONFIG.find(u => u.key === key);
+      if (!cfg) return;
+      const lv = Math.max(1, Number(st.upgrades[key] || 1));
+      if (lv >= 10) return;
+      const cost = Math.round(cfg.baseCost * Math.pow(cfg.costScale, lv - 1));
+      if (player.merit < cost) {
+        showToast(`⚠️ Cần ${cost} 💎 Phước để nâng cấp ${cfg.name} lên Cấp ${lv + 1} (Hiện có ${player.merit} 💎)!`);
+        return;
+      }
+      addMerit(-cost, `Nâng cấp Pháp Khí ${cfg.name} lên Cấp ${lv + 1} (-${cost} 💎)`);
+      st.upgrades[key] = lv + 1;
+      st.exp = (st.exp || 0) + 35;
+      savePlayerQuestState(st);
+      playBellSound();
+      showToast(`⬆️✨ Đã nâng cấp ${cfg.name} lên Cấp ${lv + 1}/10 (+35 Tu Vi)!`);
+      appendMeritLog(`⬆️ <b>${player.name}</b> đã nâng cấp Pháp Khí <b>${cfg.name}</b> lên <b style="color:#ffd740;">Cấp ${lv + 1}/10</b>!`);
+      renderQuestUpgradeModal();
+    }
+
     function shakeAndDrawFortuneStick(drawMode = 'all') {
       unlockAndStartAudio();
       if (isDrawingStick) return;
@@ -5819,6 +6489,7 @@
       }
 
       addMerit(-cost, drawMode === 'bad_only' ? 'Thỉnh Quẻ Xăm Soi Hạn & Cảnh Báo (-5 💎)' : 'Thỉnh 1 Thẻ Xăm Quan Âm Trong Bộ 24 Quẻ (-5 💎)');
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('divination', 1);
       updateFortuneCardDisplay();
 
       isDrawingStick = true;
@@ -6119,15 +6790,16 @@
         malletEl.textContent = '🪵';
         instrEl.textContent = '👆 Click vào Cái Chuông để thỉnh';
       } else if (mode === 'incense') {
-        const pct = 25 * meritRateMultiplier;
+        const upgPct = typeof getUpgradeBonusChance === 'function' ? Math.round(getUpgradeBonusChance('incense') * 100) : 0;
+        const pct = Math.min(45, (12 + upgPct) * meritRateMultiplier);
         titleEl.textContent = `♨️🙏 DÂNG 3 NÉN HƯƠNG & CẮM VÀO LƯ HƯƠNG (${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'none';
         if (incCanvas) incCanvas.style.display = 'block';
         malletEl.style.display = 'none';
-        instrEl.textContent = `👆 Chạm vào Lư Hương Đồng để Dâng 3 Nén Tâm Hương & Cắm Vào Lư Hương (Xác suất ${pct}% kết tụ +${3 * meritRateMultiplier} 💎 Phước${buffTag})`;
+        instrEl.textContent = `👆 Chạm vào Lư Hương Đồng để Dâng 3 Nén Tâm Hương & Cắm Vào Lư Hương (Xác suất ${pct}% kết tụ +${2 * meritRateMultiplier} 💎 Phước${buffTag})`;
       } else if (mode === 'bow') {
-        const pct = 15 * meritRateMultiplier;
+        const pct = Math.min(35, 8 * meritRateMultiplier);
         titleEl.textContent = `🙇 QUỲ LẠY TAM BẢO (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
@@ -6135,7 +6807,7 @@
         malletEl.style.display = 'none';
         instrEl.textContent = `👆 Chạm liên tục để Nhân Vật Quỳ Lạy Tam Bảo (Xác suất: ${pct}% mỗi lạy kết tụ +${1 * meritRateMultiplier} 💎 Phước Đức${buffTag})`;
       } else if (mode === 'pray') {
-        const pct = 15 * meritRateMultiplier;
+        const pct = Math.min(35, 8 * meritRateMultiplier);
         titleEl.textContent = `🙏 CHẮP TAY VÁI KHẤN (XÁC SUẤT ${pct}% TÍCH PHƯỚC${buffTag})`;
         imgEl.style.display = 'none';
         emojiEl.style.display = 'block';
@@ -6183,7 +6855,9 @@
       const buffSuffix = meritRateMultiplier > 1 ? ` [Buff X${meritRateMultiplier}]` : '';
       if (centerStageMode === 'mo') {
         playMoSound();
-        const chance = 0.10 * meritRateMultiplier;
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('mo', 1);
+        const upgBonus = typeof getUpgradeBonusChance === 'function' ? getUpgradeBonusChance('mo') : 0;
+        const chance = Math.min(0.35, (0.06 + upgBonus) * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
         const roll = Math.random();
@@ -6205,14 +6879,16 @@
           if (rollBanner) {
             rollBanner.style.color = '#ffe082';
             rollBanner.style.borderColor = 'rgba(255,213,79,0.5)';
-            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Xác suất ${pctLabel}%/nhịp${buffSuffix} — Đốt Vàng Mã hoặc Dâng Lễ để tăng X2·X3 xác suất!)</i>`;
+            rollBanner.innerHTML = `🪵 <i>Cốc! Đang tịnh tâm tu tập... (Xác suất ${pctLabel}%/nhịp${buffSuffix} — Nâng cấp Pháp Khí hoặc Hóa Vàng để tăng xác suất!)</i>`;
           }
         }
       } else if (centerStageMode === 'bell') {
         playBellSound();
-        const chance = 0.20 * meritRateMultiplier;
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('bell', 1);
+        const upgBonus = typeof getUpgradeBonusChance === 'function' ? getUpgradeBonusChance('bell') : 0;
+        const chance = Math.min(0.42, (0.10 + upgBonus) * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
-        const pts = 2 * meritRateMultiplier;
+        const pts = 1 * meritRateMultiplier;
         if (Math.random() < chance) {
           earned = pts;
           csLuckyCount++;
@@ -6237,6 +6913,7 @@
       } else if (centerStageMode === 'incense') {
         // KÍCH HOẠT ĐỘNG TÁC DÂNG 3 NÉN HƯƠNG ĐỎ & CẮM THẲNG VÀO LƯ HƯƠNG ĐỒNG!
         csIncensePlantAnim = { active: true, prog: 0 };
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('incense', 1);
         performRitual('incense');
         document.getElementById('csHitCounter').textContent = csHitCount;
         const luckyEl2 = document.getElementById('csLuckyCounter');
@@ -6246,6 +6923,7 @@
       } else if (centerStageMode === 'bow') {
         playMoSound();
         playNamMoADiDaPhatChant();
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('bow', 1);
         player.state = 'bow_cycle';
         player.bowTimer = 320;
         player.vaiTimer = 0;
@@ -6253,7 +6931,7 @@
         player.chat = `🙇 ${player.name} chí thành đứng lên quỳ xuống đảnh lễ Tam Bảo liên tục!`;
         player.chatTimer = 180;
         broadcastMyPresence();
-        const chance = 0.15 * meritRateMultiplier;
+        const chance = Math.min(0.32, 0.08 * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
         if (Math.random() < chance) {
@@ -6280,13 +6958,14 @@
       } else if (centerStageMode === 'pray') {
         playBellSound();
         playNamMoADiDaPhatChant();
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('bow', 1);
         player.state = 'vai';
         player.vaiTimer = 300;
         player.bowTimer = 0;
-        player.chat = `🙏 ${player.name} đứng thẳng chắp tay cúi vái khấn nguyện cầu bình an, đạt KPI!`;
+        player.chat = `🙏 ${player.name} đứng thẳng chắp tay cúi vái khấn nguyện cầu bình an!`;
         player.chatTimer = 180;
         broadcastMyPresence();
-        const chance = 0.15 * meritRateMultiplier;
+        const chance = Math.min(0.32, 0.08 * meritRateMultiplier);
         const pctLabel = Math.round(chance * 100);
         const pts = 1 * meritRateMultiplier;
         if (Math.random() < chance) {
@@ -6956,6 +7635,27 @@
       selectCharGender(g || 'F');
     }
 
+    async function resetAccountPinToDefault() {
+      const input = document.getElementById('customCharNameInput');
+      const pinInput = document.getElementById('accountPinInput');
+      const errBox = document.getElementById('accountLoginErrorMsg');
+      const raw = input ? input.value.trim() : (player?.name || 'Thế Anh Kho HN');
+      if (pinInput) pinInput.value = '1234';
+      if (errBox) errBox.style.display = 'none';
+      if (allCharProfiles[raw]) {
+        allCharProfiles[raw].pin = '1234';
+        try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
+      }
+      try {
+        await fetch(getAccountApiBaseUrl() + '/api/account/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: raw, pin: '1234', resetPin: true })
+        });
+      } catch (e) {}
+      showToast(`🔄 Đã đặt lại Mã PIN của tài khoản "${raw}" về mặc định: 1234!`);
+    }
+
     async function saveCustomCharName() {
       const input = document.getElementById('customCharNameInput');
       const pinInput = document.getElementById('accountPinInput');
@@ -6967,15 +7667,18 @@
         showToast('⚠️ Vui lòng nhập Tên Tài Khoản / Nhân Vật của bạn!');
         return;
       }
-      // Kiểm tra Mã PIN cục bộ hoặc trên Server LAN
+      // Kiểm tra Mã PIN cục bộ hoặc cho phép mở khóa bằng PIN mặc định 1234 (#mvyo6xx0n)
       const localExisting = allCharProfiles[raw];
-      if (localExisting && localExisting.pin && localExisting.pin !== rawPin) {
+      if (localExisting && localExisting.pin && localExisting.pin !== rawPin && rawPin !== '1234') {
         if (errBox) {
-          errBox.textContent = `❌ Tài khoản "${raw}" đã có Mã PIN bảo vệ riêng! Vui lòng nhập đúng Mã PIN của tài khoản này.`;
+          errBox.textContent = `❌ Tài khoản "${raw}" đã có Mã PIN bảo vệ riêng! Nhập đúng PIN hoặc bấm nút "🔄 Quên PIN (Đặt Về 1234)".`;
           errBox.style.display = 'block';
         }
         showToast(`❌ Sai Mã PIN của tài khoản "${raw}"!`);
         return;
+      }
+      if (localExisting && rawPin === '1234') {
+        localExisting.pin = '1234';
       }
 
       const backupMerit = Number(localStorage.getItem('ty_merit_backup_' + raw) || 0);
@@ -6995,6 +7698,7 @@
             body: JSON.stringify({
               name: raw,
               pin: rawPin,
+              resetPin: (rawPin === '1234'),
               gender: selectedCustomGender,
               dept: (raw === 'Thành') ? 'Thành Viên' : (typeof getCharDeptName === 'function' ? getCharDeptName(raw) : 'Phật Tử'),
               initialMerit: bestLocalMerit,
@@ -7600,18 +8304,33 @@
           mode: 'brawl',
           timer: 260,
           maxTimer: 260,
+          actorA: player,
           target: target,
           midU: midU,
           midV: midV
         };
 
-        appendMeritLog(`🥊💥 <b>[Đánh Nhau Túi Bụi] ${player.name}</b> và <b>${target.name}</b> (${getCharDeptName(target.name)}) xông thẳng vào nhau đánh nhau túi bụi tại sảnh (-1 💎)!`);
+        publishMqtt({
+          type: 'mutual_interact',
+          sender: clientId,
+          actorAName: player.name,
+          actorBName: target.name,
+          mode: 'brawl',
+          pLine: dlg.pLine,
+          tLine: dlg.tLine,
+          wing: player.wing,
+          midU: midU,
+          midV: midV
+        });
+        broadcastMyPresence(true);
+        appendMeritLog(`🥊💥 <b>[Đánh Nhau Túi Bụi] ${player.name}</b> và <b>${target.name}</b> xông thẳng vào nhau đánh nhau túi bụi tại sảnh (-1 💎)!`);
         showToast(`🥊💥 ${player.name} & ${target.name} đang xông vào nhau đánh nhau túi bụi!`);
         return;
       }
 
       if (mode === 'mutual_vai') {
         // 2. VÁI NHAU: CẢ 2 XOAY NGƯỜI VÀO NHAU & CÙNG ĐỨNG VÁI LẠY NHAU!
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
         addMerit(1, `Xoay người vái lạy nhau với ${target.name} (+1 💎 Phước)`);
         if (allCharProfiles[target.name]) {
           allCharProfiles[target.name].merit = (allCharProfiles[target.name].merit || 35) + 1;
@@ -7646,11 +8365,25 @@
           mode: 'mutual_vai',
           timer: 250,
           maxTimer: 250,
+          actorA: player,
           target: target,
           midU: midU,
           midV: midV
         };
 
+        publishMqtt({
+          type: 'mutual_interact',
+          sender: clientId,
+          actorAName: player.name,
+          actorBName: target.name,
+          mode: 'mutual_vai',
+          pLine: dlg.pLine,
+          tLine: dlg.tLine,
+          wing: player.wing,
+          midU: midU,
+          midV: midV
+        });
+        broadcastMyPresence(true);
         appendMeritLog(`🙏🔄 <b>[Vái Nhau] ${player.name}</b> và <b>${target.name}</b> xoay người vào nhau cùng chắp tay vái lạy nhau (+1 💎)!`);
         showToast(`🙏🔄 ${player.name} & ${target.name} đang xoay người vào nhau cùng vái lạy nhau!`);
         return;
@@ -7658,6 +8391,7 @@
 
       if (mode === 'mutual_kneel') {
         // 3. QUỲ LẠY NHAU: CẢ 2 XOAY NGƯỜI VÀO NHAU & CÙNG QUỲ XUỐNG LẠY NHAU SẤP MẶT!
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
         addMerit(1, `Xoay người quỳ lạy nhau với ${target.name} (+1 💎 Phước)`);
         if (allCharProfiles[target.name]) {
           allCharProfiles[target.name].merit = (allCharProfiles[target.name].merit || 35) + 1;
@@ -7695,11 +8429,25 @@
           mode: 'mutual_kneel',
           timer: 270,
           maxTimer: 270,
+          actorA: player,
           target: target,
           midU: midU,
           midV: midV
         };
 
+        publishMqtt({
+          type: 'mutual_interact',
+          sender: clientId,
+          actorAName: player.name,
+          actorBName: target.name,
+          mode: 'mutual_kneel',
+          pLine: dlg.pLine,
+          tLine: dlg.tLine,
+          wing: player.wing,
+          midU: midU,
+          midV: midV
+        });
+        broadcastMyPresence(true);
         appendMeritLog(`🙇🔄 <b>[Quỳ Lạy Nhau] ${player.name}</b> và <b>${target.name}</b> xoay người vào nhau cùng quỳ sụp xuống lạy nhau (+1 💎)!`);
         showToast(`🙇🔄 ${player.name} & ${target.name} đang xoay người vào nhau cùng quỳ lạy nhau!`);
         return;
@@ -7726,11 +8474,25 @@
         mode: 'salty_chat',
         timer: 220,
         maxTimer: 220,
+        actorA: player,
         target: target,
         midU: midU,
         midV: midV
       };
 
+      publishMqtt({
+        type: 'mutual_interact',
+        sender: clientId,
+        actorAName: player.name,
+        actorBName: target.name,
+        mode: 'salty_chat',
+        pLine: dlg.pLine,
+        tLine: dlg.tLine,
+        wing: player.wing,
+        midU: midU,
+        midV: midV
+      });
+      broadcastMyPresence(true);
       appendMeritLog(`🤬💬 <b>[Than Thở & Cà Khịa] ${player.name}</b> vs <b>${target.name}</b>: "${dlg.pLine}" ↔ "${dlg.tLine}"`);
       showToast(`🤬💬 ${player.name} và ${target.name} đang xả nỗi niềm cay cú, bực bội!`);
     }
@@ -7754,6 +8516,19 @@
         target.chatTimer = 180;
         playMoSound();
       }, 280);
+      publishMqtt({
+        type: 'mutual_interact',
+        sender: clientId,
+        actorAName: player.name,
+        actorBName: target.name,
+        mode: 'salty_chat',
+        pLine: player.chat,
+        tLine: reply,
+        wing: player.wing,
+        midU: 0.50,
+        midV: 0.66
+      });
+      broadcastMyPresence(true);
       showToast(`💬 Đã gửi lời nói tới ${target.name}!`);
     }
 
@@ -8208,20 +8983,21 @@
       altarOfferings[wKey] = [];
 
       takeDownCeremony = null;
-      // HÀM QUAY XÁC SUẤT THEO TỈ LỆ CÀNG CAO CÀNG KHÓ:
-      // X1 (50% - Cơ bản) · X2 (30% - Vừa) · X3 (12% - Khá khó) · X5 (6% - Rất khó) · X10 (2% - Cực hiếm!)
+      // HÀM QUAY XÁC SUẤT ĐỘ KHÓ CAO (#mvyo8s9vo):
+      // X0 (78% - Không trúng) · X1 (15% - Lộc cơ bản) · X2 (4.5%) · X3 (1.8%) · X5 (0.55%) · X10 (0.15% - Siêu hiếm!)
       const tier = rollSixTierMultiplier();
       const locMult = tier.mult;
       const totalOfferCost = list.reduce((sum, it) => sum + (Number(it.cost) || 20), 0);
-      const locReward = totalOfferCost * locMult * meritRateMultiplier;
+      const baseTanLoc = Math.max(2, Math.round(totalOfferCost * 0.12));
+      const locReward = baseTanLoc * locMult;
       const offerNames = countRemoved > 1 ? `${countRemoved} mâm lễ (${item.fullName || item.label}...)` : (item.fullName || item.label);
       if (locReward > 0) {
         addMerit(locReward, `Hạ Lễ Thụ Lộc (${offerNames}) ➔ Trúng X${locMult} (Tỉ lệ ${tier.rate}): +${locReward} 💎`);
         appendMeritLog(`📤🌟 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> trúng mốc <b style="color:#ffd740;">X${locMult} (Tỉ lệ ${tier.rate})</b> → Nhận <b>+${locReward} 💎 Phước Đức</b>!`);
         showToast(`📤✨ Hạ Lễ Thụ Lộc "${offerNames}" ➔ Trúng X${locMult} (Tỉ lệ ${tier.rate}): +${locReward} 💎 Phước!`);
       } else {
-        appendMeritLog(`📤💨 <b>${player.name}</b>: Hạ Lễ Thụ Lộc <b>${offerNames}</b> trúng <b>X0 (Không có gì · Tỉ lệ 55%)</b>`);
-        showToast(`📤💨 Hạ Lễ "${offerNames}" ➔ Trúng X0 (Không có gì · 55% · Càng cao càng khó: X1 25%, X2 11%, X3 5%, X5 3%, X10 1%)!`);
+        appendMeritLog(`📤💨 <b>${player.name}</b>: Hạ Lễ <b>${offerNames}</b> trúng <b>X0 (Tịnh tâm hoàn lễ · Tỉ lệ 78%)</b>`);
+        showToast(`📤💨 Hạ Lễ "${offerNames}" ➔ Trúng X0 (Không có lộc phụ · 78% · Càng cao càng khó: X1 15%, X2 4.5%, X3 1.8%, X5 0.55%, X10 0.15%)!`);
       }
       renderCenterOfferingInspector();
       publishMqtt({ type: 'takedown', wing: player.wing, clearAll: true, name: player.name });
@@ -8494,15 +9270,17 @@
 
       // Không sinh lá hồng rơi khi đặt lễ (#mvvv047b4r)
 
-      // KHI DÂNG LỄ LÊN BÀN THỜ → QUAY XÁC SUẤT 6 BẬC (X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%)
-      // Đặc quyền Lễ Lớn ("Càng cao càng thành tâm" #mvym5xtvg): Lễ >= 1.500💎 chắc chắn kích hoạt Buff X3; Lễ >= 500💎 chắc chắn kích hoạt Buff X2!
+      // KHI DÂNG LỄ LÊN BÀN THỜ → QUAY XÁC SUẤT ĐỘ KHÓ CAO (#mvyo8s9vo: X0: 78% · X1: 15% · X2: 4.5% · X3: 1.8% · X5: 0.55% · X10: 0.15%)
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('offering', 1);
       const rOffer = rollSixTierMultiplier();
       const offerMult = rOffer.mult;
-      const bonusReturnMerit = Math.max(4, Math.round(cost * 0.25)) * offerMult;
+      const bonusReturnMerit = Math.max(2, Math.round(cost * 0.10)) * offerMult;
       if (bonusReturnMerit > 0) addMerit(bonusReturnMerit);
-      const guaranteedBuff = cost >= 1500 ? 3 : (cost >= 500 ? 2 : 0);
-      const finalBuffMult = Math.max(offerMult, guaranteedBuff);
-      if (finalBuffMult >= 2) activateMeritRateBuff(finalBuffMult, `Đặt Lễ ${itemName} (${cost} 💎)`);
+      // Giảm xác suất kích hoạt Buff X2 / X3 khi dâng lễ để tăng độ khó (#mvyo8s9vo)
+      let buffTriggered = 0;
+      if (offerMult >= 3 || (cost >= 1500 && Math.random() < 0.25)) buffTriggered = 3;
+      else if (offerMult === 2 || (cost >= 500 && Math.random() < 0.30)) buffTriggered = 2;
+      if (buffTriggered >= 2) activateMeritRateBuff(buffTriggered, `Đặt Lễ ${itemName} (${cost} 💎)`);
       appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ <b>${itemName}</b> quay trúng <b>${rOffer.label}</b> → Nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
       showToast(`🧙‍♂️🙏 Sư Trụ Trì đang đọc lời cảm tạ & cầu chúc cho thí chủ ${player.name} đã dâng lễ "${itemName}" (${cost} 💎)!`);
@@ -8528,16 +9306,18 @@
       unlockAndStartAudio();
       closeMeritShopModal();
       burnCountTotal++;
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('burn', 1);
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
 
-      // Xác suất 6 bậc (X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%) khi Đốt Vàng Mã
+      // Xác suất 6 bậc độ khó cao (#mvyo8s9vo: X0: 78% · X1: 15% · X2: 4.5% · X3: 1.8% · X5: 0.55% · X10: 0.15%) khi Đốt Vàng Mã
       const rBurn = rollSixTierMultiplier();
       const mult = rBurn.mult;
-      const pts = 12 * mult;
+      const pts = 5 * mult;
       if (pts > 0) addMerit(pts);
       const label = customTitle || '🔥🧧 Lễ Vàng Mã Truyền Thống';
-      if (mult >= 2) activateMeritRateBuff(mult, `Đốt Vàng Mã (${label})`);
+      if (mult >= 3) activateMeritRateBuff(3, `Đốt Vàng Mã (${label})`);
+      else if (mult === 2) activateMeritRateBuff(2, `Đốt Vàng Mã (${label})`);
       appendMeritLog(`🔥🧧 <b>${player.name}</b>: Hóa <b>${label}</b> quay trúng <b>${rBurn.label}</b> → <b>+${pts} 💎 Phước Hồi Hướng</b>!`);
 
       goldBurnCeremony = {
@@ -8675,7 +9455,72 @@
         if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
         return;
       }
-      if (data.sender === clientId || (data.name && data.name === player.name)) return;
+      if (data.sender === clientId) return;
+      if (data.type === 'mutual_interact') {
+        const safeWing = (data.wing === 1) ? 1 : 0;
+        const aName = data.actorAName || 'Thành Viên';
+        const bName = data.actorBName || 'Đạo Hữu';
+        const midU = typeof data.midU === 'number' ? data.midU : 0.50;
+        const midV = typeof data.midV === 'number' ? data.midV : 0.66;
+        const mode = data.mode || 'mutual_vai';
+
+        const resolveActorObj = (nm, isLeft) => {
+          if (nm === player.name) return player;
+          const peer = Object.values(onlineCompanyPeers).find(p => p && p.name === nm);
+          if (peer) return peer;
+          return ensureTargetNpcInCurrentWing(nm);
+        };
+        const actorA = resolveActorObj(aName, true);
+        const actorB = resolveActorObj(bName, false);
+        if (actorA && actorB) {
+          actorA.wing = safeWing;
+          actorB.wing = safeWing;
+          if (actorA.waitOutsideTimer !== undefined) actorA.waitOutsideTimer = 0;
+          if (actorB.waitOutsideTimer !== undefined) actorB.waitOutsideTimer = 0;
+          const off = (mode === 'brawl') ? 0.032 : 0.078;
+          actorA.u = Math.max(0.16, midU - off);
+          actorB.u = Math.min(0.84, midU + off);
+          actorA.v = midV;
+          actorB.v = midV;
+          actorA.targetU = actorA.u;
+          actorB.targetU = actorB.u;
+          actorA.targetV = midV;
+          actorB.targetV = midV;
+          if (data.pLine) { actorA.chat = data.pLine; actorA.chatTimer = 180; }
+          if (data.tLine) { actorB.chat = data.tLine; actorB.chatTimer = 180; }
+
+          if (mode === 'mutual_vai') {
+            actorA.state = 'vai'; actorA.vaiTimer = 250;
+            actorB.state = 'vai'; actorB.vaiTimer = 250;
+            playBellSound();
+          } else if (mode === 'mutual_kneel') {
+            actorA.state = 'bow_cycle'; actorA.bowTimer = 270;
+            actorB.state = 'bow_cycle'; actorB.bowTimer = 270;
+            playMoSound();
+          } else if (mode === 'brawl') {
+            playHeavyPunchSfx('punch');
+            setTimeout(() => playHeavyPunchSfx('slipper'), 220);
+          } else {
+            playMoSound();
+          }
+
+          activeMutualInteraction = {
+            active: true,
+            mode: mode,
+            timer: 250,
+            maxTimer: 250,
+            actorA: actorA,
+            target: actorB,
+            midU: midU,
+            midV: midV
+          };
+        }
+        const actionLabel = mode === 'brawl' ? '🥊💥 Đang đánh nhau túi bụi' : (mode === 'mutual_vai' ? '🙏🔄 Đang xoay người vái nhau' : (mode === 'mutual_kneel' ? '🙇🔄 Đang quỳ lạy nhau' : '💬 Đang trò chuyện đối đáp'));
+        appendMeritLog(`${actionLabel}: <b>${aName}</b> & <b>${bName}</b> tại ${safeWing === 1 ? 'Ban Thần Tài' : 'Chánh Điện Tam Bảo'}!`);
+        showToast(`${actionLabel}: ${aName} & ${bName}!`);
+        return;
+      }
+      if (data.name && data.name === player.name) return;
       if (data.type === 'leave') {
         delete onlineCompanyPeers[data.sender];
         updateOnlineCountBadge();
@@ -9971,7 +10816,8 @@
         const sx = (wx + wingW * 0.5) + (d.u - 0.5) * visW;
         const sy = topScreenY + d.v * wingH;
         const isPlayer = (item.type === 'player');
-        const inMutual = Boolean(activeMutualInteraction && activeMutualInteraction.active && (isPlayer || d === activeMutualInteraction.target));
+        const actA = (activeMutualInteraction && activeMutualInteraction.actorA) ? activeMutualInteraction.actorA : player;
+        const inMutual = Boolean(activeMutualInteraction && activeMutualInteraction.active && (d === actA || d === activeMutualInteraction.target));
         const scale = Math.max(0.34, 0.35 + (d.v - 0.46) * 1.12) * (wingH / 960) * (inMutual ? 1.28 : 1.0);
 
         d._screenX = sx;
@@ -9982,7 +10828,7 @@
         }
 
         const mutualMode = inMutual ? activeMutualInteraction.mode : null;
-        const faceDir = inMutual ? (isPlayer ? 1 : -1) : 0; // +1: Xoay mặt sang phải, -1: Xoay mặt sang trái
+        const faceDir = inMutual ? (d === actA ? 1 : -1) : 0; // +1: Xoay mặt sang phải, -1: Xoay mặt sang trái
 
         let spr = (d.gender === 'M') ? images.walkM : images.walkF;
         let poseScaleY = 1.0;
@@ -10241,9 +11087,10 @@
       // HIỆU ỨNG ĐÁM MÂY KHÓI BỤI & NỔ ĐÒN "ĐÁNH NHAU TÚI BỤI" HOẶC HÀO QUANG "VÁI / QUỲ LẠY NHAU" GIỮA 2 NHÂN VẬT
       if (activeMutualInteraction && activeMutualInteraction.active && activeMutualInteraction.target) {
         const mi = activeMutualInteraction;
+        const actA = mi.actorA || player;
         const tgt = mi.target;
-        const midX = ((player._screenX || W * 0.45) + (tgt._screenX || W * 0.55)) * 0.5;
-        const midY = ((player._screenY || H * 0.7) + (tgt._screenY || H * 0.7)) * 0.5 - 42;
+        const midX = ((actA._screenX || W * 0.45) + (tgt._screenX || W * 0.55)) * 0.5;
+        const midY = ((actA._screenY || H * 0.7) + (tgt._screenY || H * 0.7)) * 0.5 - 42;
         const elapsed = mi.maxTimer - mi.timer;
 
         ctx.save();
@@ -10787,21 +11634,19 @@
       if (!g) return;
       furnaceFlareTimer = 34;
       burnCountTotal++;
-      const basePts = g.merit || 12;
-      // QUAY XÁC SUẤT NỔ PHƯỚC ĐỨC GẤP ĐÔI (X2) HOẶC GẤP BA (X3) KHI ĐỐT VÀNG MÃ!
-      const rollMult = Math.random();
-      let burnMult = 1;
-      if (rollMult < 0.28) {
-        burnMult = 3; // 28% cơ hội nổ ĐẠI CÁT X3 (Gấp 3)
-      } else if (rollMult < 0.78) {
-        burnMult = 2; // 50% cơ hội nổ SONG HỶ X2 (Gấp Đôi)
-      }
-      if (burnMult > 1) {
-        activateMeritRateBuff(burnMult, `Đốt Vàng Mã (${g.name})`);
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('burn', 1);
+      const basePts = Math.max(2, Math.round((g.merit || 10) * 0.4));
+      // QUAY XÁC SUẤT 6 BẬC ĐỘ KHÓ CAO (#mvyo8s9vo: X0: 78% · X1: 15% · X2: 4.5% · X3: 1.8% · X5: 0.55% · X10: 0.15%) KHI ĐỐT VÀNG MÃ!
+      const tier = rollSixTierMultiplier();
+      const burnMult = tier.mult;
+      if (burnMult >= 3) {
+        activateMeritRateBuff(3, `Đốt Vàng Mã (${g.name})`);
+      } else if (burnMult === 2) {
+        activateMeritRateBuff(2, `Đốt Vàng Mã (${g.name})`);
       }
       const pts = basePts * burnMult;
       furnaceMeritSession += pts;
-      addMerit(pts);
+      if (pts > 0) addMerit(pts);
       document.getElementById('furnaceBurnCounter').textContent = burnCountTotal;
       document.getElementById('furnaceMeritEarned').textContent = `+${furnaceMeritSession} 💎`;
       const bcEl = document.getElementById('shopBurnCount');
@@ -10816,17 +11661,19 @@
         em.alpha = 1.0;
       }
       if (floatingHits.length > 5) floatingHits.shift();
-      const multBanner = burnMult === 3
-        ? `👑 ĐẠI CÁT X3 (GẤP BA): +${pts} 💎 (${g.name})!`
-        : (burnMult === 2 ? `✨ SONG HỶ X2 (GẤP ĐÔI): +${pts} 💎 (${g.name})!` : `🔥 +${pts} 💎 (${g.name})`);
+      const multBanner = burnMult >= 3
+        ? `👑 ĐẠI CÁT X${burnMult} (${tier.rate}): +${pts} 💎 (${g.name})!`
+        : (burnMult === 2 ? `✨ SONG HỶ X2 (${tier.rate}): +${pts} 💎 (${g.name})!` : (burnMult === 1 ? `🔥 LỘC X1 (${tier.rate}): +${pts} 💎 (${g.name})` : `💨 X0 · Hóa vàng tịnh tâm (${tier.rate})`));
       floatingHits.push({
         x: window.innerWidth * 0.5 + (Math.random() - 0.5) * 36,
         y: window.innerHeight * 0.42,
         text: multBanner,
-        color: burnMult === 3 ? '#69f0ae' : (burnMult === 2 ? '#ffd740' : '#ffe082'),
+        color: burnMult >= 3 ? '#69f0ae' : (burnMult === 2 ? '#ffd740' : '#ffe082'),
         life: 1.25
       });
-      appendMeritLog(`🔥🧧 <b>${player.name}</b> hóa <b>${g.icon} ${g.name}</b> ${burnMult > 1 ? `nổ Lộc <b>X${burnMult} (Gấp ${burnMult})</b> ` : ''}(<b>+${pts} 💎 Phước Đức</b>)`);
+      if (pts > 0) {
+        appendMeritLog(`🔥🧧 <b>${player.name}</b> hóa <b>${g.icon} ${g.name}</b> trúng <b>X${burnMult} (${tier.rate})</b> (<b>+${pts} 💎 Phước Đức</b>)`);
+      }
     }
 
     function rapidBurstBurnGold() {
@@ -11315,8 +12162,31 @@
           setTimeout(() => {
             if (typeof drawFortuneStickNow === 'function') drawFortuneStickNow();
           }, 150);
+        } else if (dm === "quest_upgrade") {
+          openQuestUpgradeModal('quests');
         }
       }, 300);
+
+      // V76: Khởi tạo Huy Hiệu Nhiệm Vụ & Cảnh Giới trên thanh Top Bar + Tự động đồng bộ bản mới khi bấm link cũ (#mvyncdlwj)
+      if (typeof updateTopBarQuestRealmBadge === 'function') {
+        updateTopBarQuestRealmBadge();
+      }
+      (function autoCheckLatestBuildVersion() {
+        const CURRENT_BUILD_VER = 76;
+        try {
+          if (window.location.search && window.location.search.includes('demo=')) return;
+          fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+              if (data && Number(data.version) > CURRENT_BUILD_VER) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('v', String(data.version));
+                window.location.replace(url.toString());
+              }
+            })
+            .catch(() => {});
+        } catch (e) {}
+      })();
     });
   </script>
 </body>
