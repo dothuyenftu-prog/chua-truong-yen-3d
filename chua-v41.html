@@ -7973,9 +7973,14 @@
     }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thành': { name: 'Thành', merit: 57874, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 4, registered: true },
-        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 706147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 1, registered: true },
-        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true }
+        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 726147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 1, registered: true },
+        'Thành': { name: 'Thành', merit: 61593, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 4, registered: true },
+        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
+        'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 1, registered: true },
+        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 12400, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 1, registered: true },
+        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 9800, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 1, registered: true },
+        'Sale Huế': { name: 'Sale Huế', merit: 8600, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 1, registered: true },
+        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 7200, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 1, registered: true }
       };
       let merged = { ...defaults };
       try {
@@ -7992,41 +7997,21 @@
         localStorage.removeItem('ty_merit_backup_Thế Anh');
         localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh');
 
-        // V95 (#mvz9oe1v1w): Đồng bộ chuẩn dữ liệu thực tế lúc chiều sang mọi trình duyệt (kể cả Zalo trên iPhone) để không bị lệch điểm & trang phục giữa Máy tính và Điện thoại!
-        merged['Thành'] = {
-          ...(merged['Thành'] || {}),
-          name: 'Thành',
-          merit: Math.max(Number(merged['Thành']?.merit || 0), Number(localStorage.getItem('ty_merit_backup_Thành') || 0), 57874),
-          congDuc: Math.max(Number(merged['Thành']?.congDuc || 0), 12),
-          gender: 'M',
-          dept: '',
-          avatar: '🧘‍♂️',
-          outfitLv: Math.max(Number(merged['Thành']?.outfitLv || 0), 4),
-          registered: true
-        };
+        // V96 (#mvz9pi6c1y): Đồng bộ chuẩn cả 8 Tài Khoản Đã Đăng Ký + Pháp Phục Bậc 4 của Thành từ buổi chiều sang mọi trình duyệt (kể cả Zalo trên iPhone)!
+        Object.keys(defaults).forEach(accKey => {
+          const defObj = defaults[accKey];
+          const curObj = merged[accKey] || {};
+          merged[accKey] = {
+            ...defObj,
+            ...curObj,
+            name: accKey,
+            merit: Math.max(Number(curObj.merit || 0), Number(localStorage.getItem('ty_merit_backup_' + accKey) || 0), defObj.merit),
+            congDuc: Math.max(Number(curObj.congDuc || 0), defObj.congDuc),
+            outfitLv: Math.max(Number(curObj.outfitLv || 0), defObj.outfitLv),
+            registered: true
+          };
+        });
         localStorage.setItem('ty_merit_backup_Thành', String(merged['Thành'].merit));
-
-        merged['Thế Anh Kho HN'] = {
-          ...(merged['Thế Anh Kho HN'] || {}),
-          name: 'Thế Anh Kho HN',
-          merit: Math.max(Number(merged['Thế Anh Kho HN']?.merit || 0), 706147),
-          congDuc: Math.max(Number(merged['Thế Anh Kho HN']?.congDuc || 0), 18),
-          gender: 'M',
-          dept: 'Điều Phối Kho',
-          avatar: '🙏',
-          registered: true
-        };
-
-        merged['Thu Trang'] = {
-          ...(merged['Thu Trang'] || {}),
-          name: 'Thu Trang',
-          merit: Math.max(Number(merged['Thu Trang']?.merit || 0), 34663),
-          congDuc: Math.max(Number(merged['Thu Trang']?.congDuc || 0), 8),
-          gender: 'F',
-          dept: 'Sale Tư Vấn',
-          avatar: '🌸',
-          registered: true
-        };
 
         // Khôi phục điểm Phước Đức đã tích luỹ của mỗi tài khoản từ kho dự phòng ty_merit_backup_ & xoá nhãn Thành Viên / honorNote tự động (#mvym071ge)
         Object.keys(merged).forEach(k => {
@@ -8088,9 +8073,9 @@
         const prof = allCharProfiles[player.name];
         const backupMerit = Number(localStorage.getItem('ty_merit_backup_' + player.name) || 0);
         player.merit = Math.max(
-          Number(prof?.merit ?? (player.name === 'Thành' ? 57874 : 80)),
+          Number(prof?.merit ?? (player.name === 'Thành' ? 61593 : 80)),
           backupMerit,
-          (player.name === 'Thành' ? 57874 : 0)
+          (player.name === 'Thành' ? 61593 : 0)
         );
         window._charProfileLoaded = true;
       } catch (e) {}
@@ -13162,7 +13147,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 95;
+        const CURRENT_BUILD_VER = 96;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
