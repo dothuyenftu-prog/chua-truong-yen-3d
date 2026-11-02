@@ -7995,7 +7995,11 @@
         localStorage.removeItem('ty_merit_backup_Thế Anh');
         localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh');
 
-        // V98 (#mvzazvxf21): Đồng bộ chuẩn cả 9 Tài Khoản Đã Đăng Ký + Pháp Phục Bậc 4 của Thành từ buổi chiều sang mọi trình duyệt!
+        // V99 (#mvzb03n822): Đồng bộ chuẩn cả 9 Tài Khoản Đã Đăng Ký + Pháp Phục Bậc 4 của Thành từ buổi chiều sang mọi trình duyệt!
+        if (Number(merged['Thành']?.merit) === 726147) {
+          merged['Thành'].merit = 61593;
+          localStorage.setItem('ty_merit_backup_Thành', '61593');
+        }
         Object.keys(defaults).forEach(accKey => {
           const defObj = defaults[accKey];
           const curObj = merged[accKey] || {};
@@ -8466,7 +8470,8 @@
         return;
       }
       const oldName = (player?.name || '').trim();
-      if (!isStartupRestore && oldName && raw !== oldName) {
+      // Nếu tên nhập vào trùng với một tài khoản đã đăng ký sẵn (ví dụ quay về tài khoản "Thành"), chuyển thẳng về tài khoản đó chứ KHÔNG gộp điểm!
+      if (!isStartupRestore && oldName && raw !== oldName && !allCharProfiles[raw]) {
         return renameCurrentLoggedAccount();
       }
       // Kiểm tra Mã PIN cục bộ hoặc cho phép mở khóa bằng PIN mặc định 1234 (#mvyo6xx0n)
@@ -13181,7 +13186,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 98;
+        const CURRENT_BUILD_VER = 99;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
