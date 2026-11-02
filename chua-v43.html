@@ -7791,22 +7791,19 @@
 
     const visitorPrayersByWing = {
       '0': [
-        "🪷😤 Cay thực sự! Tư vấn 50 mẫu tấm ốp Nano từ sáng tới đêm xong khách chốt câu: Để anh về hỏi vợ đã! 😂",
-        "📦🤬 Bực cái cửa mình! Trời nắng 40 độ bốc xong 200 kiện hàng lên xe thì Sale báo khách đổi màu, hạ xuống bốc lại!",
-        "💼😤 Khó chịu vô cùng! Lúc mua hàng thì ngọt xớt, lúc Kế Toán gọi thu hồi công nợ thì kêu 'Anh đang vào hầm mất sóng'!",
-        "🚚🤬 Đường tắc cứng ngắc mà cứ 30 giây gọi 1 cuộc 'Anh tới chưa?', tới nơi thì chủ nhà đi vắng tắt máy! Cay thế chứ!",
-        "👷‍♂️💢 Tường xây cong như cái võng mà bắt thợ ốp tấm Nano phẳng như gương, xong đứng chống nạnh soi từng tí một!",
-        "🎬😤 Quay kịch bản chỉnh chu 8 tiếng được 100 view, quay cảnh anh em kho vật nhau thì lên xu hướng! Khó hiểu thật sự!",
-        "👵👀 Đi lễ chùa cầu tâm tịnh mà nhìn thấy mặt con nợ đứng cạnh là máu dồn lên não rồi đấy! Nam mô bớt nóng!",
-        "🧐😤 Khách hàng bỏ tiền ra thì phải hỏi kỹ 100 mẫu chứ, sao mấy em Sale nhìn anh với ánh mắt hình viên đạn thế?!"
+        "🙏 Nam Mô A Di Đà Phật!",
+        "🪷 Cầu gia đạo bình an, vạn sự cát tường!",
+        "✨ Thành tâm lễ Phật, tâm thanh tịnh!",
+        "🙏 Nguyện cầu sức khỏe & bình an!",
+        "🪷 Nam Mô Bổn Sư Thích Ca Mâu Ni Phật!",
+        "✨ Cầu công việc hanh thông, thuận lợi!"
       ],
       '1': [
-        "💰🤬 Lạy Thần Tài vật cho mấy ông nợ tiền hàng từ quý trước hôm nay tự dưng áy náy lương tâm chuyển khoản trả sạch!",
-        "🌺😤 Khách đòi chiết khấu sát ván, tặng kèm keo, lại còn đòi bao ship tận chân công trình! Xin Thần Tài độ cho con khách sộp!",
-        "📊🔥 Kế Toán nhìn bảng công nợ quá hạn mà muốn xông vào đấm nhau túi bụi với mấy ông hẹn 'Thứ 2 anh chuyển'!",
-        "🛵🤬 Giao đơn hàng 200k giữa trưa nắng gắt, khách bắt chờ 45 phút ngoài cổng rồi xin bớt 20k tiền ship! Cay nổ đom đóm!",
-        "🏗️😅 Chủ thầu cũng khổ lắm chứ bộ, chủ nhà giữ lại 20% tiền bảo hành vì 1 vết xước bằng sợi tóc trên phào chỉ!",
-        "👑🔥 Xin vía Thần Tài cho tháng này cả công ty nổ đơn ầm ầm, kho xuất hàng mỏi tay, không ai còn cớ kêu ca nữa!"
+        "💰 Cầu Thần Tài gia hộ lộc phát rực rỡ!",
+        "✨ Xin vía Thần Tài buôn may bán đắt!",
+        "💎 Cầu tháng này nổ đơn, tài lộc dồi dào!",
+        "🙏 Thành tâm dâng lễ, cầu vạn sự hanh thông!",
+        "💰 Cầu công nợ thu hồi suôn sẻ, lộc về đầy kho!"
       ]
     };
 
@@ -7869,7 +7866,7 @@
         phaseTick: 360,
         bowTimer: 50,
         sentenceIdx: 0,
-        chat: ROLE_SPEECH_DB.sale[0],
+        chat: "🙏 Nam Mô A Di Đà Phật!",
         chatTimer: 180,
         pendingSpeech: false,
         pauseTimer: 0,
@@ -7891,7 +7888,7 @@
         phaseTick: 480,
         bowTimer: 40,
         sentenceIdx: 1,
-        chat: ROLE_SPEECH_DB.kho[0],
+        chat: "🪷 Cầu gia đạo bình an, vạn sự cát tường!",
         chatTimer: 0,
         pendingSpeech: true,
         pauseTimer: 0,
@@ -7913,7 +7910,7 @@
         phaseTick: 360,
         bowTimer: 50,
         sentenceIdx: 0,
-        chat: ROLE_SPEECH_DB.ketoan[0],
+        chat: "💰 Cầu Thần Tài gia hộ lộc phát rực rỡ!",
         chatTimer: 180,
         pendingSpeech: false,
         pauseTimer: 0,
@@ -7935,7 +7932,7 @@
         phaseTick: 480,
         bowTimer: 30,
         sentenceIdx: 1,
-        chat: ROLE_SPEECH_DB.khach[1],
+        chat: "✨ Xin vía Thần Tài buôn may bán đắt!",
         chatTimer: 0,
         pendingSpeech: true,
         pauseTimer: 0,
@@ -7973,15 +7970,15 @@
     }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 726147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 5, registered: true },
+        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 726147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 1, registered: true },
         'Thành': { name: 'Thành', merit: 61593, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 4, registered: true },
-        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 4, registered: true },
-        'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 3, registered: true },
-        'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 3, registered: true },
-        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 12400, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 2, registered: true },
-        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 9800, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 2, registered: true },
-        'Sale Huế': { name: 'Sale Huế', merit: 8600, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 2, registered: true },
-        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 7200, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 2, registered: true }
+        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
+        'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 1, registered: true },
+        'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 1, registered: true },
+        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 12400, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 1, registered: true },
+        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 9800, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 1, registered: true },
+        'Sale Huế': { name: 'Sale Huế', merit: 8600, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 1, registered: true },
+        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 7200, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 1, registered: true }
       };
       let merged = { ...defaults };
       try {
@@ -7998,7 +7995,7 @@
         localStorage.removeItem('ty_merit_backup_Thế Anh');
         localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh');
 
-        // V96 (#mvz9pi6c1y): Đồng bộ chuẩn cả 8 Tài Khoản Đã Đăng Ký + Pháp Phục Bậc 4 của Thành từ buổi chiều sang mọi trình duyệt (kể cả Zalo trên iPhone)!
+        // V98 (#mvzazvxf21): Đồng bộ chuẩn cả 9 Tài Khoản Đã Đăng Ký + Pháp Phục Bậc 4 của Thành từ buổi chiều sang mọi trình duyệt!
         Object.keys(defaults).forEach(accKey => {
           const defObj = defaults[accKey];
           const curObj = merged[accKey] || {};
@@ -8008,7 +8005,7 @@
             name: accKey,
             merit: Math.max(Number(curObj.merit || 0), Number(localStorage.getItem('ty_merit_backup_' + accKey) || 0), defObj.merit),
             congDuc: Math.max(Number(curObj.congDuc || 0), defObj.congDuc),
-            outfitLv: Math.max(Number(curObj.outfitLv || 0), defObj.outfitLv),
+            outfitLv: (accKey === 'Thành') ? Math.max(Number(curObj.outfitLv || 0), 4) : 1,
             registered: true
           };
         });
@@ -8065,9 +8062,10 @@
           localStorage.setItem('ty_v81_restored_thanh_default', '1');
         }
         let savedName = (localStorage.getItem('ty_custom_char_name') || 'Thành').trim();
-        if (savedName === 'Sếp Thành' || savedName === 'Thế Anh') {
+        if (savedName === 'Sếp Thành' || savedName === 'Thế Anh' || savedName === 'Thế Anh Kho HN') {
           savedName = 'Thành';
           localStorage.setItem('ty_custom_char_name', 'Thành');
+          localStorage.setItem('ty_custom_char_gender', 'M');
           localStorage.setItem('ty_logged_in_account', 'Thành');
         }
         player.name = savedName;
@@ -9711,7 +9709,7 @@
         const safeName = item.name.replace(/'/g, "\'");
         return `
           <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; background:${isMe ? 'rgba(255,193,7,0.18)' : 'rgba(255,255,255,0.05)'}; border:1px solid ${isMe ? '#ffd740' : 'rgba(255,215,64,0.25)'}; border-radius:8px; padding:5px 8px; font-size:10.5px;">
-            <div style="display:flex; align-items:center; gap:6px; min-width:0; cursor:pointer;" onclick="document.getElementById('charSelect').value='${safeName}'; switchActiveCharacterProfile('${safeName}'); closeMeritShopModal();" title="Bấm để đóng vai nhân vật ${item.name}">
+            <div style="display:flex; align-items:center; gap:6px; min-width:0;">
               <span style="font-weight:900; color:#ffd740; min-width:20px; flex-shrink:0;">${medal}</span>
               <span style="color:#fff8e1; font-weight:800; font-size:11px; white-space:nowrap;">${item.avatar} ${item.name}</span>
             </div>
@@ -11534,10 +11532,15 @@
       if (holdDir.dx !== 0 || holdDir.dy !== 0 || (activeMutualInteraction && activeMutualInteraction.active)) {
         window._playerMovedFromHonorSeat = true;
       }
-      const top3SeatCoords = [
-        { u: 0.50, v: 0.602 }, // TOP 1: Chính giữa trước bồ đoàn bàn thờ (chuẩn bố cục lúc chiều #mvz9oe1v1w)
-        { u: 0.30, v: 0.610 }, // TOP 2: Bên trái trước bàn thờ
-        { u: 0.70, v: 0.610 }  // TOP 3: Bên phải trước bàn thờ
+      const isMobileScreen = (W <= 768);
+      const top3SeatCoords = isMobileScreen ? [
+        { u: 0.50, v: 0.556 }, // TOP 1: Chính giữa sát bàn thờ (cao hơn hẳn Top 2 & Top 3 để không bao giờ đè nhãn lên nhau trên điện thoại!)
+        { u: 0.21, v: 0.630 }, // TOP 2: Bên trái trước bàn thờ
+        { u: 0.79, v: 0.630 }  // TOP 3: Bên phải trước bàn thờ
+      ] : [
+        { u: 0.50, v: 0.576 }, // TOP 1: Chính giữa trước bồ đoàn bàn thờ
+        { u: 0.26, v: 0.618 }, // TOP 2: Bên trái trước bàn thờ
+        { u: 0.74, v: 0.618 }  // TOP 3: Bên phải trước bàn thờ
       ];
       const top3List = [];
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
@@ -11870,24 +11873,25 @@
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
 
-          // V95 (#mvz9oe1v1w): Giữ nguyên Nhãn Bậc Tu Hành & Pháp Phục trên đầu nhân vật như bản lúc chiều ("🪷 Bậc 4 · Tỳ Kheo Tinh Tấn")
-          if (isPlayer || charOutfitLv >= 2) {
-            const realmTitleTxt = isPlayer && previewOutfitLevel ? `👁️ MẶC THỬ: ${charRealmCfg.shortTitle}` : charRealmCfg.shortTitle;
+          // V98 (#mvzazvxf21): Chỉ hiện Nhãn Bậc Tu Hành & Pháp Phục trên đầu nhân vật người chơi chính ("🪷 Bậc 4 · Tỳ Kheo Tinh Tấn") để không gây chồng chữ rối mắt với các NPC xung quanh!
+          if (isPlayer) {
+            const realmTitleTxt = previewOutfitLevel ? `👁️ MẶC THỬ: ${charRealmCfg.shortTitle}` : charRealmCfg.shortTitle;
             ctx.save();
             ctx.font = '800 8.8px sans-serif';
             const rtw = ctx.measureText(realmTitleTxt).width + 10;
+            const rtx = Math.max(6, Math.min(W - rtw - 6, Math.round(sx - rtw / 2)));
             const rty = (topRank >= 1 && topRank <= 3) ? (headY - 36) : (headY - 20);
             ctx.fillStyle = 'rgba(20, 8, 2, 0.92)';
             ctx.strokeStyle = charRealmCfg.colorHex;
             ctx.lineWidth = 1.2;
             ctx.beginPath();
-            ctx.roundRect(sx - rtw / 2, rty - 7, rtw, 14, 7);
+            ctx.roundRect(rtx, rty - 7, rtw, 14, 7);
             ctx.fill();
             ctx.stroke();
             ctx.fillStyle = charRealmCfg.colorHex;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(realmTitleTxt, sx, rty);
+            ctx.fillText(realmTitleTxt, rtx + rtw / 2, rty);
             ctx.restore();
           }
 
@@ -11897,8 +11901,9 @@
             ctx.save();
             ctx.font = '900 9.2px sans-serif';
             const rw = ctx.measureText(rTxt).width + 12;
+            const rx = Math.max(6, Math.min(W - rw - 6, Math.round(sx - rw / 2)));
             const ry = headY - 19;
-            const rGrad = ctx.createLinearGradient(sx - rw / 2, ry - 7, sx + rw / 2, ry + 7);
+            const rGrad = ctx.createLinearGradient(rx, ry - 7, rx + rw, ry + 7);
             if (topRank === 1) {
               rGrad.addColorStop(0, '#ffd700');
               rGrad.addColorStop(0.5, '#fff59d');
@@ -11914,13 +11919,13 @@
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 1.25;
             ctx.beginPath();
-            ctx.roundRect(sx - rw / 2, ry - 7, rw, 14, 7);
+            ctx.roundRect(rx, ry - 7, rw, 14, 7);
             ctx.fill();
             ctx.stroke();
             ctx.fillStyle = '#260800';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(rTxt, sx, ry - 0.5);
+            ctx.fillText(rTxt, rx + rw / 2, ry - 0.5);
             ctx.restore();
           }
 
@@ -11954,21 +11959,42 @@
             }
           }
           if (isPlayer) {
-            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank };
+            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank, charRealmCfg };
           }
         }
       }
       if (window._lastPlayerBadgePos && !(cameraPovMode === 'first')) {
         const lp = window._lastPlayerBadgePos;
         drawRoundedBadge(lp.sx, lp.headY, lp.avatar, lp.badgeLabel, true);
+        if (lp.charRealmCfg) {
+          const realmTitleTxt = previewOutfitLevel ? `👁️ MẶC THỬ: ${lp.charRealmCfg.shortTitle}` : lp.charRealmCfg.shortTitle;
+          ctx.save();
+          ctx.font = '800 8.8px sans-serif';
+          const rtw = ctx.measureText(realmTitleTxt).width + 10;
+          const rtx = Math.max(6, Math.min(W - rtw - 6, Math.round(lp.sx - rtw / 2)));
+          const rty = (lp.topRank >= 1 && lp.topRank <= 3) ? (lp.headY - 36) : (lp.headY - 20);
+          ctx.fillStyle = 'rgba(20, 8, 2, 0.92)';
+          ctx.strokeStyle = lp.charRealmCfg.colorHex;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.roundRect(rtx, rty - 7, rtw, 14, 7);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = lp.charRealmCfg.colorHex;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(realmTitleTxt, rtx + rtw / 2, rty);
+          ctx.restore();
+        }
         if (lp.topRank >= 1 && lp.topRank <= 3) {
           const rankLabels = { 1: '👑 TOP 1 VINH DANH', 2: '🥈 TOP 2 VINH DANH', 3: '🥉 TOP 3 VINH DANH' };
           const rTxt = rankLabels[lp.topRank];
           ctx.save();
           ctx.font = '900 9.2px sans-serif';
           const rw = ctx.measureText(rTxt).width + 12;
+          const rx = Math.max(6, Math.min(W - rw - 6, Math.round(lp.sx - rw / 2)));
           const ry = lp.headY - 19;
-          const rGrad = ctx.createLinearGradient(lp.sx - rw / 2, ry - 7, lp.sx + rw / 2, ry + 7);
+          const rGrad = ctx.createLinearGradient(rx, ry - 7, rx + rw, ry + 7);
           rGrad.addColorStop(0, '#ffd700');
           rGrad.addColorStop(0.5, '#fff59d');
           rGrad.addColorStop(1, '#ff8f00');
@@ -11976,13 +12002,13 @@
           ctx.strokeStyle = '#ffffff';
           ctx.lineWidth = 1.25;
           ctx.beginPath();
-          ctx.roundRect(lp.sx - rw / 2, ry - 7, rw, 14, 7);
+          ctx.roundRect(rx, ry - 7, rw, 14, 7);
           ctx.fill();
           ctx.stroke();
           ctx.fillStyle = '#260800';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText(rTxt, lp.sx, ry - 0.5);
+          ctx.fillText(rTxt, rx + rw / 2, ry - 0.5);
           ctx.restore();
         }
       }
@@ -13155,7 +13181,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 97;
+        const CURRENT_BUILD_VER = 98;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
