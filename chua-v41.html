@@ -1135,10 +1135,23 @@
         <span class="cm-auto-pill" onclick="quickSetCharName('Thế Anh Kho HN', 'M')">🙏 Thế Anh</span>
       </div>
       <div id="accountLoginErrorMsg" style="display:none; background:rgba(183,28,28,0.28); border:1px solid #ff8a80; border-radius:8px; padding:6px 10px; margin-bottom:8px; font-size:11.5px; color:#ffcdd2; font-weight:700;"></div>
-      <div class="sk-actions" style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button class="btn-sk-submit" style="flex:1.4; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName(false)">🔑 Đăng Nhập / Lưu Tài Khoản</button>
+      <div class="sk-actions" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+        <button class="btn-sk-submit" style="flex:1.4; background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="saveCustomCharName(false)">🔑 Đăng Nhập / Chuyển Nick</button>
         <button class="btn-sk-submit" style="background:linear-gradient(135deg,#e65100,#b71c1c); padding:10px 10px; font-size:11.5px;" onclick="resetAccountPinToDefault()">🔄 Quên PIN (Đặt Về 1234)</button>
         <button class="btn-sk-submit" style="background:linear-gradient(135deg,#455a64,#263238); padding:10px 10px; font-size:11.5px;" onclick="logoutCurrentAccount()">🚪 Đổi Nick</button>
+      </div>
+
+      <!-- V79 (#mvyv1q6cw): KHUNG ĐỔI TÊN TÀI KHOẢN HIỆN TẠI (GIỮ NGUYÊN 100% PHƯỚC ĐỨC 💎, CÔNG ĐỨC & BẬC TU HÀNH) -->
+      <div style="background:rgba(42,20,6,0.92); border:1.5px solid #ffd54f; border-radius:10px; padding:9px 11px; margin-top:4px;">
+        <div style="font-size:11.5px; font-weight:900; color:#ffd740; margin-bottom:5px;">
+          ✏️ ĐỔI TÊN TÀI KHOẢN ĐANG ĐĂNG NHẬP (GIỮ NGUYÊN 100% PHƯỚC 💎 & CẤP ĐỘ):
+        </div>
+        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+          <input id="accountRenameNewInput" type="text" maxlength="32" placeholder="Nhập tên mới muốn đổi cho nick này (VD: Thế Anh Trưởng Kho...)" style="flex:1; min-width:180px; background:rgba(16,6,2,0.95); border:1.2px solid #80d8ff; border-radius:8px; padding:7px 10px; color:#fff8e1; font-size:12.5px; font-weight:800;" />
+          <button type="button" class="btn-sk-submit" style="background:linear-gradient(135deg,#0277bd,#01579b); border:1.5px solid #80d8ff; padding:8px 12px; font-size:11.5px; font-weight:900;" onclick="renameCurrentLoggedAccount()">
+            ✏️ Đổi Tên Nick Này Ngay
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -8095,9 +8108,126 @@
       if (accNameEl) accNameEl.textContent = player.name;
       const accMeritEl = document.getElementById('accModalCurrentMerit');
       if (accMeritEl) accMeritEl.textContent = player.merit;
+      const renInp = document.getElementById('accountRenameNewInput');
+      if (renInp) renInp.value = '';
       selectCharGender(player.gender || 'F');
       if (modal) modal.classList.add('open');
       setTimeout(() => { if (input) input.focus(); }, 60);
+    }
+
+    // V79 (#mvyv1q6cw): Đổi Tên Tài Khoản Hiện Tại — Giữ Nguyên 100% Phước Đức 💎, Công Đức, Mã PIN, Nhiệm Vụ & Bậc Tu Hành
+    async function renameCurrentLoggedAccount() {
+      unlockAndStartAudio();
+      const oldName = (player?.name || '').trim();
+      const renInp = document.getElementById('accountRenameNewInput');
+      const mainInp = document.getElementById('customCharNameInput');
+      const pinInput = document.getElementById('accountPinInput');
+      const errBox = document.getElementById('accountLoginErrorMsg');
+      if (errBox) errBox.style.display = 'none';
+
+      let newName = (renInp && renInp.value.trim()) ? renInp.value.trim() : '';
+      if (!newName && mainInp && mainInp.value.trim() && mainInp.value.trim() !== oldName) {
+        newName = mainInp.value.trim();
+      }
+      if (!newName) {
+        showToast('⚠️ Vui lòng nhập Tên Mới vào ô "✏️ Đổi Tên Tài Khoản Đang Đăng Nhập"!');
+        if (renInp) renInp.focus();
+        return;
+      }
+      if (newName === oldName) {
+        showToast(`ℹ️ Tài khoản của bạn hiện đã mang tên "${newName}" rồi!`);
+        return;
+      }
+
+      const rawPin = (pinInput && pinInput.value.trim()) ? pinInput.value.trim() : (currentAccountPin || '1234');
+      const oldProfile = allCharProfiles[oldName] || {};
+      const targetExisting = allCharProfiles[newName] || {};
+      const keptMerit = Math.max(Number(player.merit || 0), Number(oldProfile.merit || 0), Number(targetExisting.merit || 0));
+      const keptCongDuc = Math.max(Number(myZaloCongDucCount || 1), Number(oldProfile.congDuc || 1), Number(targetExisting.congDuc || 1));
+      const keptDept = oldProfile.dept || (typeof getCharDeptName === 'function' ? getCharDeptName(newName) : 'Phật Tử');
+
+      // 1. Chuyển dữ liệu Nhiệm Vụ, Pháp Khí & Bậc Tu Hành sang tên mới
+      try {
+        const oldQuestRaw = localStorage.getItem(`ty_quest_upgrade_v76_${oldName}`);
+        if (oldQuestRaw) {
+          localStorage.setItem(`ty_quest_upgrade_v76_${newName}`, oldQuestRaw);
+        }
+        localStorage.setItem('ty_merit_backup_' + newName, String(keptMerit));
+      } catch (e) {}
+
+      // 2. Cập nhật hồ sơ tài khoản cục bộ & xóa tên cũ để không bị trùng trên Bảng Xếp Hạng
+      allCharProfiles[newName] = {
+        ...oldProfile,
+        ...targetExisting,
+        name: newName,
+        merit: keptMerit,
+        congDuc: keptCongDuc,
+        gender: selectedCustomGender || player.gender || 'M',
+        dept: keptDept,
+        pin: rawPin,
+        registered: true,
+        updatedAt: Date.now()
+      };
+      delete allCharProfiles[oldName];
+      try {
+        localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+        localStorage.setItem('ty_custom_char_name', newName);
+        localStorage.setItem('ty_logged_in_account', newName);
+        localStorage.setItem('ty_account_pin', rawPin);
+      } catch (e) {}
+
+      // 3. Cập nhật nhân vật đang điều khiển
+      player.name = newName;
+      player.gender = selectedCustomGender || player.gender || 'M';
+      player.merit = keptMerit;
+      myZaloCongDucCount = keptCongDuc;
+      if (mainInp) mainInp.value = newName;
+      if (renInp) renInp.value = '';
+      const accNameEl = document.getElementById('accModalCurrentName');
+      if (accNameEl) accNameEl.textContent = newName;
+      const accMeritEl = document.getElementById('accModalCurrentMerit');
+      if (accMeritEl) accMeritEl.textContent = keptMerit;
+      const skName = document.getElementById('skInputName');
+      if (skName) skName.value = newName;
+
+      // 4. Đồng bộ đổi tên lên Server LAN & MQTT
+      try {
+        await fetch(getAccountApiBaseUrl() + '/api/account/rename', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            oldName,
+            newName,
+            pin: rawPin,
+            gender: player.gender,
+            dept: keptDept,
+            merit: keptMerit,
+            congDuc: keptCongDuc
+          })
+        });
+      } catch (e) {}
+
+      publishMqtt({
+        type: 'account_rename',
+        oldName,
+        newName,
+        merit: keptMerit,
+        congDuc: keptCongDuc,
+        gender: player.gender,
+        dept: keptDept
+      });
+
+      syncTopAccountSelectDropdown();
+      syncMeritAndBagHud();
+      renderZaloCongDucLeaderboard();
+      updateTopBarQuestRealmBadge();
+      playBellSound();
+      appendMeritLog(`✏️🔑 Tài khoản <b>${oldName}</b> đã đổi tên thành <b style="color:#ffd740;">${newName}</b> (Giữ nguyên <b>${keptMerit.toLocaleString('vi-VN')} 💎 Phước</b>)!`);
+      player.chat = `✏️🙏 ${oldName} đã đổi tên tài khoản thành "${newName}" (${keptMerit.toLocaleString('vi-VN')} 💎)!`;
+      player.chatTimer = 240;
+      closeRenameCharModal();
+      showToast(`✅ Đã đổi tên tài khoản "${oldName}" ➔ "${newName}" (Giữ nguyên ${keptMerit.toLocaleString('vi-VN')} 💎 Phước)!`);
+      broadcastMyPresence(true);
     }
 
     function logoutCurrentAccount() {
@@ -10087,6 +10217,25 @@
         const wingKey = String(data.wing === 1 ? 1 : 0);
         altarOfferings[wingKey] = [];
         renderCenterOfferingInspector();
+      } else if (data.type === 'account_rename' && data.oldName && data.newName) {
+        const oldK = String(data.oldName).trim();
+        const newK = String(data.newName).trim();
+        if (oldK && newK && oldK !== newK) {
+          const oldP = allCharProfiles[oldK] || {};
+          allCharProfiles[newK] = {
+            ...oldP,
+            name: newK,
+            merit: Math.max(Number(data.merit || 0), Number(oldP.merit || 0)),
+            congDuc: Math.max(Number(data.congDuc || 1), Number(oldP.congDuc || 1)),
+            gender: data.gender || oldP.gender || 'M',
+            dept: data.dept || oldP.dept || 'Phật Tử',
+            registered: true,
+            updatedAt: Date.now()
+          };
+          delete allCharProfiles[oldK];
+          try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
+          renderZaloCongDucLeaderboard();
+        }
       }
     }
 
@@ -12700,7 +12849,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 78;
+        const CURRENT_BUILD_VER = 79;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
