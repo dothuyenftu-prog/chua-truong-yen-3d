@@ -1143,34 +1143,41 @@
     </div>
   </div>
 
-  <!-- 2B-1B. MODAL HỆ THỐNG NHIỆM VỤ TU TẬP HÀNG NGÀY & NÂNG CẤP PHÁP KHÍ - CẢNH GIỚI TU HÀNH (#mvyotj6rp) -->
+  <!-- 2B-1B. MODAL HỆ THỐNG NÂNG CẤP NHÂN VẬT · TRANG PHỤC 10 BẬC TU HÀNH & NHIỆM VỤ (#mvyotj6rp, #mvyttpast) -->
   <div class="modal-backdrop" id="questUpgradeModal" style="z-index:118;" onclick="if(event.target===this) closeQuestUpgradeModal()">
-    <div class="so-khan-box" style="max-width:600px; text-align:left;">
+    <div class="so-khan-box" style="max-width:650px; text-align:left;">
       <div class="sk-top-row" style="margin-bottom:8px;">
-        <span class="sk-title">📜🏛️ NHIỆM VỤ TU TẬP · NÂNG CẤP PHÁP KHÍ & CẢNH GIỚI TU HÀNH</span>
+        <span class="sk-title">👑🧘 NÂNG CẤP NHÂN VẬT · TRANG PHỤC 10 BẬC TU HÀNH & NHIỆM VỤ</span>
         <button class="btn-modal-x" onclick="closeQuestUpgradeModal()">✕ Đóng</button>
       </div>
 
-      <!-- Khung Cảnh Giới & Thanh Kinh Nghiệm Tu Tập (EXP) -->
-      <div id="quPlayerRealmHeader" style="background:linear-gradient(135deg,#311b92 0%,#4a148c 55%,#1a0633 100%); border:2px solid #ffd740; border-radius:12px; padding:9px 12px; margin-bottom:8px; box-shadow:0 6px 18px rgba(0,0,0,0.75);">
+      <!-- Khung Cảnh Giới Hiện Tại & Trang Phục Đang Khoác -->
+      <div id="quPlayerRealmHeader" style="background:linear-gradient(135deg,#2a1006 0%,#4a148c 55%,#1a0633 100%); border:2px solid #ffd740; border-radius:12px; padding:10px 12px; margin-bottom:8px; box-shadow:0 6px 18px rgba(0,0,0,0.75);">
       </div>
 
-      <!-- Chuyển 2 Tab: [📜 1. Nhiệm Vụ Tu Tập Hôm Nay] & [⚒️ 2. Nâng Cấp Pháp Khí & Cảnh Giới] -->
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
-        <button type="button" id="quTabBtn_quests" onclick="switchQuestUpgradeTab('quests')" style="background:linear-gradient(135deg,#ff8f00,#c62828); color:#fff; border:2px solid #fff59d; border-radius:9px; padding:7px 8px; font-size:11px; font-weight:900; cursor:pointer;">
-          📜 1. Nhiệm Vụ Tu Tập Hàng Ngày (8 Nhiệm Vụ)
+      <!-- Chuyển 3 Tab: [👑 1. Bậc Tu Hành & Trang Phục (10 Bậc)] · [📜 2. Nhiệm Vụ Hàng Ngày] · [⚒️ 3. Nâng Cấp Pháp Khí] -->
+      <div style="display:grid; grid-template-columns:1.25fr 1fr 1fr; gap:6px; margin-bottom:8px;">
+        <button type="button" id="quTabBtn_realms" onclick="switchQuestUpgradeTab('realms')" style="background:linear-gradient(135deg,#ff8f00,#c62828); color:#fff; border:2px solid #fff59d; border-radius:9px; padding:7px 6px; font-size:10.8px; font-weight:900; cursor:pointer;">
+          👑 1. Bậc Tu Hành & Trang Phục (10 Bậc)
         </button>
-        <button type="button" id="quTabBtn_upgrades" onclick="switchQuestUpgradeTab('upgrades')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:7px 8px; font-size:11px; font-weight:900; cursor:pointer;">
-          ⚒️ 2. Nâng Cấp Pháp Khí & Kiến Thiết Chùa
+        <button type="button" id="quTabBtn_quests" onclick="switchQuestUpgradeTab('quests')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:7px 6px; font-size:10.8px; font-weight:900; cursor:pointer;">
+          📜 2. Nhiệm Vụ Hôm Nay (8)
+        </button>
+        <button type="button" id="quTabBtn_upgrades" onclick="switchQuestUpgradeTab('upgrades')" style="background:rgba(45,18,6,0.92); color:#ffe082; border:1.5px solid rgba(255,213,79,0.5); border-radius:9px; padding:7px 6px; font-size:10.8px; font-weight:900; cursor:pointer;">
+          ⚒️ 3. Nâng Cấp Pháp Khí
         </button>
       </div>
 
-      <!-- TAB 1: DANH SÁCH 8 NHIỆM VỤ TU TẬP -->
-      <div id="quPanel_quests" style="max-height:54vh; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px;">
+      <!-- TAB 1: 10 BẬC TU HÀNH & THAY ĐỔI TRANG PHỤC / MÀU SẮC BẰNG PHƯỚC ĐỨC KHỔNG LỒ -->
+      <div id="quPanel_realms" style="max-height:55vh; overflow-y:auto; display:flex; flex-direction:column; gap:7px; padding-right:2px;">
       </div>
 
-      <!-- TAB 2: NÂNG CẤP 4 PHÁP KHÍ & ĐỘT PHÁ 7 CẢNH GIỚI -->
-      <div id="quPanel_upgrades" style="display:none; max-height:54vh; overflow-y:auto; flex-direction:column; gap:7px; padding-right:2px;">
+      <!-- TAB 2: DANH SÁCH 8 NHIỆM VỤ TU TẬP -->
+      <div id="quPanel_quests" style="display:none; max-height:55vh; overflow-y:auto; flex-direction:column; gap:6px; padding-right:2px;">
+      </div>
+
+      <!-- TAB 3: NÂNG CẤP 4 PHÁP KHÍ -->
+      <div id="quPanel_upgrades" style="display:none; max-height:55vh; overflow-y:auto; flex-direction:column; gap:7px; padding-right:2px;">
       </div>
     </div>
   </div>
@@ -6251,17 +6258,208 @@
       { key: 'furnace', icon: '🔥', name: 'Lò Bát Quái Tụ Bảo', desc: 'Mỗi cấp tăng +1.2% xác suất nổ X2–X10 khi Hạ Lễ & Hóa Vàng.', baseCost: 60, costScale: 1.65, bonusPerLv: 0.012 }
     ];
 
+    // V77: HỆ THỐNG 10 BẬC TU HÀNH & PHÁP PHỤC ĐỔI MÀU TRANG PHỤC NHÂN VẬT (Từ Bạch Y Thiện Tín -> Chú Tiểu -> Sa Di -> Tỳ Kheo -> Đại Đức -> Thượng Tọa -> Hòa Thượng -> La Hán -> Đại Bồ Tát -> TU THÀNH CHÍNH QUẢ)
     const REALM_RANKS_CONFIG = [
-      { lv: 1, name: 'Tâm Thành Sơ Khởi', expReq: 0, badge: '🌱 Cảnh Giới Cấp 1', perk: 'Khởi đầu hành trình tu tập tại Chùa Trường Yến' },
-      { lv: 2, name: 'Cư Sĩ Tịnh Tâm', expReq: 100, badge: '🪷 Cảnh Giới Cấp 2', perk: 'Tăng nhẹ hào quang nhân vật & uy tín đạo tràng' },
-      { lv: 3, name: 'Đạo Hữu Tinh Tấn', expReq: 260, badge: '📿 Cảnh Giới Cấp 3', perk: 'Thưởng +5 💎 Phước mỗi khi đột phá cảnh giới' },
-      { lv: 4, name: 'Hộ Pháp Kim Cang', expReq: 500, badge: '⚔️ Cảnh Giới Cấp 4', perk: 'Hào quang Kim Cang hộ thể rực sáng' },
-      { lv: 5, name: 'Trưởng Lão Phúc Đức', expReq: 850, badge: '👑 Cảnh Giới Cấp 5', perk: 'Bậc trưởng lão uy đức khắp bốn ban thờ' },
-      { lv: 6, name: 'Đại Đức Chân Nhân', expReq: 1350, badge: '✨ Cảnh Giới Cấp 6', perk: 'Tâm thông vạn pháp, phước lộc viên mãn' },
-      { lv: 7, name: 'Bồ Đề Viên Mãn', expReq: 2000, badge: '🌟 Cảnh Giới Tối Thượng (Lv.7)', perk: 'Đỉnh cao tu tập Chùa Trường Yến' }
+      {
+        lv: 1,
+        name: 'Bạch Y Thiện Tín (Phật Tử Sơ Tâm)',
+        shortTitle: '🌱 Bậc 1 · Bạch Y Thiện Tín',
+        meritCost: 0,
+        meritCostText: '0 💎 Phước (Mặc định)',
+        expReq: 0,
+        badge: '🌱 Bậc 1/10 · Mức Thấp Nhất Cửa Chùa',
+        outfitName: 'Áo Lam Xám Tro Mộc Mạc',
+        outfitColorLabel: 'Xám Tro Cổ Tự',
+        colorHex: '#b0bec5',
+        borderHex: '#78909c',
+        cssFilter: 'none',
+        kasayaColor: null,
+        crownType: 'none',
+        lotusType: 'none',
+        haloType: 'none',
+        perk: 'Khởi đầu hành trình tu tập tại cửa chùa với tấm áo lam bình dị.'
+      },
+      {
+        lv: 2,
+        name: 'Chú Tiểu Quét Lá (Tập Sự Chấp Tác)',
+        shortTitle: '🧹 Bậc 2 · Chú Tiểu Quét Lá',
+        meritCost: 5000,
+        meritCostText: '5.000 💎 Phước',
+        expReq: 100,
+        badge: '🧹 Bậc 2/10 · Tập Sự Chấp Tác',
+        outfitName: 'Áo Lam Xanh Thanh Tịnh & Đai Vải Lam',
+        outfitColorLabel: 'Xanh Lam Thanh Tịnh',
+        colorHex: '#4fc3f7',
+        borderHex: '#0288d1',
+        cssFilter: 'hue-rotate(185deg) saturate(1.45) brightness(1.04)',
+        kasayaColor: 'rgba(3, 169, 244, 0.55)',
+        crownType: 'headband_blue',
+        lotusType: 'ring_blue',
+        haloType: 'soft_blue',
+        perk: 'Sớm khuya quét lá sân chùa, công đức thanh tịnh (+2% cơ hội nổ X).'
+      },
+      {
+        lv: 3,
+        name: 'Sa Di Thọ Giới (Nhập Môn Xuất Gia)',
+        shortTitle: '📿 Bậc 3 · Sa Di Thọ Giới',
+        meritCost: 35000,
+        meritCostText: '35.000 💎 Phước',
+        expReq: 280,
+        badge: '📿 Bậc 3/10 · Nhập Môn Xuất Gia',
+        outfitName: 'Áo Nâu Sồng Cổ Tự & Tràng Hạt Bồ Đề 108 Hạt',
+        outfitColorLabel: 'Nâu Sồng Đất Phật',
+        colorHex: '#d7a86e',
+        borderHex: '#8d6e63',
+        cssFilter: 'sepia(0.82) hue-rotate(-14deg) saturate(1.65) brightness(0.96)',
+        kasayaColor: 'rgba(121, 85, 72, 0.78)',
+        crownType: 'mala_beads',
+        lotusType: 'ring_amber',
+        haloType: 'warm_amber',
+        perk: 'Thọ Mười Giới Sa Di, khoác áo nâu sồng trang nghiêm (+4% cơ hội nổ X).'
+      },
+      {
+        lv: 4,
+        name: 'Tỳ Kheo Tinh Tấn (Thọ Đại Giới Cụ Túc)',
+        shortTitle: '🪷 Bậc 4 · Tỳ Kheo Tinh Tấn',
+        meritCost: 250000,
+        meritCostText: '250.000 💎 Phước',
+        expReq: 600,
+        badge: '🪷 Bậc 4/10 · Thọ Đại Giới Cụ Túc',
+        outfitName: 'Áo Nhật Bình Vàng Nghệ Nhà Phật & Y Ngũ Điều',
+        outfitColorLabel: 'Vàng Nghệ Từ Bi',
+        colorHex: '#ffd54f',
+        borderHex: '#fbc02d',
+        cssFilter: 'sepia(0.95) hue-rotate(8deg) saturate(2.35) brightness(1.08)',
+        kasayaColor: 'rgba(230, 81, 0, 0.82)',
+        crownType: 'mala_gold',
+        lotusType: 'lotus_green',
+        haloType: 'gold_single',
+        perk: 'Thọ 250 giới Tỳ Kheo, đắp Y Ngũ Điều vàng rực (+6% cơ hội nổ X).'
+      },
+      {
+        lv: 5,
+        name: 'Đại Đức Giảng Sư (Hoằng Pháp Độ Sinh)',
+        shortTitle: '🔔 Bậc 5 · Đại Đức Giảng Sư',
+        meritCost: 1500000,
+        meritCostText: '1.500.000 💎 Phước (1,5 Triệu)',
+        expReq: 1200,
+        badge: '🔔 Bậc 5/10 · Hoằng Pháp Độ Sinh',
+        outfitName: 'Áo Hậu Vàng Kim Đắp Y Cà Sa Đỏ Cam Thất Điều',
+        outfitColorLabel: 'Đỏ Cam Cà Sa Thất Điều',
+        colorHex: '#ff8a65',
+        borderHex: '#ff5722',
+        cssFilter: 'sepia(0.9) hue-rotate(-22deg) saturate(2.85) brightness(1.08)',
+        kasayaColor: 'rgba(213, 0, 0, 0.88)',
+        crownType: 'crown_abbot_red',
+        lotusType: 'lotus_pink',
+        haloType: 'gold_double',
+        perk: 'Thuyết pháp độ sinh khắp bốn phương (+9% cơ hội nổ X).'
+      },
+      {
+        lv: 6,
+        name: 'Thượng Tọa Trụ Trì (Bậc Thầy Đạo Tràng)',
+        shortTitle: '🏯 Bậc 6 · Thượng Tọa Trụ Trì',
+        meritCost: 10000000,
+        meritCostText: '10.000.000 💎 Phước (10 Triệu)',
+        expReq: 2500,
+        badge: '🏯 Bậc 6/10 · Bậc Thầy Đạo Tràng',
+        outfitName: 'Pháp Phục Cà Sa Đỏ Thẫm Thêu Chỉ Vàng & Mão Tỳ Lư',
+        outfitColorLabel: 'Đỏ Chu Sa Hoàng Kim',
+        colorHex: '#ff5252',
+        borderHex: '#d50000',
+        cssFilter: 'sepia(0.95) hue-rotate(-38deg) saturate(3.4) brightness(1.05)',
+        kasayaColor: 'rgba(255, 215, 0, 0.92)',
+        crownType: 'crown_ty_lu',
+        lotusType: 'lotus_gold_small',
+        haloType: 'crimson_gold',
+        perk: 'Chủ trì ngôi phạm vũ Chùa Trường Yến (+12% cơ hội nổ X).'
+      },
+      {
+        lv: 7,
+        name: 'Hòa Thượng Phương Trượng (Đại Trưởng Lão)',
+        shortTitle: '👑 Bậc 7 · Hòa Thượng Phương Trượng',
+        meritCost: 80000000,
+        meritCostText: '80.000.000 💎 Phước (80 Triệu)',
+        expReq: 5000,
+        badge: '👑 Bậc 7/10 · Cao Tăng Đại Trưởng Lão',
+        outfitName: 'Cà Sa Cửu Điều Tử Kim (Tím Đế Vương Pha Vàng Ròng) & Đài Sen Bạch Ngọc',
+        outfitColorLabel: 'Tím Tử Kim Đế Vương',
+        colorHex: '#e040fb',
+        borderHex: '#aa00ff',
+        cssFilter: 'hue-rotate(255deg) saturate(2.55) brightness(1.08)',
+        kasayaColor: 'rgba(255, 215, 64, 0.95)',
+        crownType: 'crown_patriarch',
+        lotusType: 'lotus_jade',
+        haloType: 'violet_gold',
+        perk: 'Bậc Cao Tăng Long Tượng trong chốn Thiền Môn (+16% cơ hội nổ X).'
+      },
+      {
+        lv: 8,
+        name: 'La Hán Kim Thân (Bất Hoại Kim Cang Quả Vị)',
+        shortTitle: '⚔️ Bậc 8 · La Hán Kim Thân',
+        meritCost: 600000000,
+        meritCostText: '600.000.000 💎 Phước (600 Triệu)',
+        expReq: 12000,
+        badge: '⚔️ Bậc 8/10 · Chứng Quả A La Hán',
+        outfitName: 'Kim Thân La Hán Vàng Ròng & Vòng Lửa Tam Muội Kim Cang',
+        outfitColorLabel: 'Kim Thân Vàng Ròng Bất Hoại',
+        colorHex: '#ffd740',
+        borderHex: '#ffab00',
+        cssFilter: 'sepia(1) hue-rotate(12deg) saturate(4.2) brightness(1.18) contrast(1.08)',
+        kasayaColor: 'rgba(255, 61, 0, 0.95)',
+        crownType: 'arhat_usnisa',
+        lotusType: 'lotus_fire_gold',
+        haloType: 'arhat_fire_ring',
+        perk: 'Siêu thoát tam giới, chứng đắc Kim Thân Bất Hoại (+22% cơ hội nổ X).'
+      },
+      {
+        lv: 9,
+        name: 'Đại Bồ Tát Hóa Thân (Từ Bi Cứu Khổ Mười Phương)',
+        shortTitle: '🌈 Bậc 9 · Đại Bồ Tát Hóa Thân',
+        meritCost: 5000000000,
+        meritCostText: '5.000.000.000 💎 Phước (5 Tỷ Phước)',
+        expReq: 30000,
+        badge: '🌈 Bậc 9/10 · Đại Bồ Tát Mười Phương',
+        outfitName: 'Thiên Y Ngũ Sắc Lưu Ly Ngọc Bích, Bảo Quán Bồ Tát & Hào Quang Cầu Vồng 7 Sắc',
+        outfitColorLabel: 'Ngọc Lưu Ly Ngũ Sắc Cầu Vồng',
+        colorHex: '#69f0ae',
+        borderHex: '#00e676',
+        cssFilter: 'hue-rotate(135deg) saturate(2.6) brightness(1.16)',
+        kasayaColor: 'rgba(255, 235, 59, 0.96)',
+        crownType: 'bodhisattva_crown',
+        lotusType: 'lotus_rainbow',
+        haloType: 'rainbow_halo',
+        perk: 'Lắng nghe tiếng kêu khổ thế gian, viên thông vạn pháp (+30% cơ hội nổ X).'
+      },
+      {
+        lv: 10,
+        name: 'Phật Đà Chánh Đẳng Chánh Giác (TU THÀNH CHÍNH QUẢ)',
+        shortTitle: '☀️ Bậc 10 · TU THÀNH CHÍNH QUẢ',
+        meritCost: 99999999999,
+        meritCostText: '99.999.999.999 💎 Phước (~100 Tỷ Phước)',
+        expReq: 100000,
+        badge: '☀️ Bậc 10/10 · TU THÀNH CHÍNH QUẢ VÔ THƯỢNG',
+        outfitName: 'Phật Y Vạn Tự 卍 Hoàng Kim Cửu Phẩm, Phật Quang Vạn Đượng 3 Tầng & Tòa Sen Vàng Chín Phẩm',
+        outfitColorLabel: 'Phật Quang Vạn Tự 卍 Hoàng Kim Tối Thượng',
+        colorHex: '#fff59d',
+        borderHex: '#ffd700',
+        cssFilter: 'sepia(1) hue-rotate(16deg) saturate(4.8) brightness(1.26) contrast(1.1)',
+        kasayaColor: 'rgba(255, 23, 68, 0.96)',
+        crownType: 'buddha_supreme',
+        lotusType: 'lotus_nine_tier_gold',
+        haloType: 'buddha_supreme_halo',
+        perk: 'Đỉnh cao viên mãn Vô Thượng Chánh Đẳng Chánh Giác (+50% cơ hội nổ X & Hào Quang Vạn Tự 卍 chiếu rọi toàn điện).'
+      }
     ];
 
-    let currentQuestUpgradeTab = 'quests';
+    let currentQuestUpgradeTab = 'realms';
+    let previewOutfitTimer = null;
+    let previewOutfitLevel = 0;
+
+    function getRealmConfigByLv(lv) {
+      const idx = Math.max(1, Math.min(REALM_RANKS_CONFIG.length, Number(lv || 1))) - 1;
+      return REALM_RANKS_CONFIG[idx] || REALM_RANKS_CONFIG[0];
+    }
 
     function getPlayerQuestState() {
       const todayKey = new Date().toISOString().slice(0, 10);
@@ -6271,7 +6469,7 @@
         st = JSON.parse(localStorage.getItem(storageKey) || 'null');
       } catch (e) { st = null; }
       if (!st || typeof st !== 'object') {
-        st = { date: todayKey, progress: {}, claimed: {}, upgrades: { mo: 1, bell: 1, incense: 1, furnace: 1 }, exp: 0 };
+        st = { date: todayKey, progress: {}, claimed: {}, upgrades: { mo: 1, bell: 1, incense: 1, furnace: 1 }, exp: 0, cultivationLv: 1, equippedOutfitLv: 1 };
       }
       if (st.date !== todayKey) {
         st.date = todayKey;
@@ -6280,6 +6478,9 @@
       }
       if (!st.upgrades) st.upgrades = { mo: 1, bell: 1, incense: 1, furnace: 1 };
       if (typeof st.exp !== 'number') st.exp = 0;
+      if (typeof st.cultivationLv !== 'number' || st.cultivationLv < 1) st.cultivationLv = 1;
+      if (typeof st.equippedOutfitLv !== 'number' || st.equippedOutfitLv < 1) st.equippedOutfitLv = st.cultivationLv;
+      if (st.equippedOutfitLv > st.cultivationLv) st.equippedOutfitLv = st.cultivationLv;
       return st;
     }
 
@@ -6289,25 +6490,43 @@
       updateTopBarQuestRealmBadge(st);
     }
 
-    function getRealmInfoByExp(exp) {
-      let cur = REALM_RANKS_CONFIG[0];
-      let next = null;
-      for (let i = 0; i < REALM_RANKS_CONFIG.length; i++) {
-        if (exp >= REALM_RANKS_CONFIG[i].expReq) {
-          cur = REALM_RANKS_CONFIG[i];
-          next = REALM_RANKS_CONFIG[i + 1] || null;
-        }
+    function getActiveCharacterOutfitLv(isPlayerChar, devoteeObj) {
+      if (isPlayerChar) {
+        if (previewOutfitLevel >= 1 && previewOutfitLevel <= 10) return previewOutfitLevel;
+        const st = getPlayerQuestState();
+        return Math.max(1, Math.min(10, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
       }
+      if (devoteeObj && devoteeObj._realmLv) {
+        return Math.max(1, Math.min(10, Number(devoteeObj._realmLv)));
+      }
+      // Cho các NPC / Phật tử mẫu trong chùa có trang phục đa dạng từ Bậc 1 đến Bậc 4 để sảnh chùa sinh động
+      if (devoteeObj && typeof devoteeObj.name === 'string') {
+        let h = 0;
+        for (let i = 0; i < devoteeObj.name.length; i++) h = (h * 31 + devoteeObj.name.charCodeAt(i)) % 997;
+        return (h % 4) + 1;
+      }
+      return 1;
+    }
+
+    function getRealmInfoByExp(expInput) {
+      const st = getPlayerQuestState();
+      const curLv = Math.max(1, Math.min(REALM_RANKS_CONFIG.length, Number(st.cultivationLv || 1)));
+      const cur = getRealmConfigByLv(curLv);
+      const next = REALM_RANKS_CONFIG[curLv] || null;
       return { cur, next };
     }
 
     function updateTopBarQuestRealmBadge(stInput) {
       const st = stInput || getPlayerQuestState();
-      const { cur } = getRealmInfoByExp(st.exp || 0);
+      const cur = getRealmConfigByLv(st.cultivationLv || 1);
+      const eq = getRealmConfigByLv(previewOutfitLevel || st.equippedOutfitLv || st.cultivationLv || 1);
       const btn = document.getElementById('btnTopBarQuestUpgrade');
       if (btn) {
         const unclaimed = DAILY_QUESTS_CONFIG.filter(q => (st.progress[q.id] || 0) >= q.target && !st.claimed[q.id]).length;
-        btn.innerHTML = `📜 Nhiệm Vụ · Lv.${cur.lv}${unclaimed > 0 ? ` <span style="background:#00e676;color:#003314;padding:0 5px;border-radius:8px;font-size:10px;">+${unclaimed}</span>` : ''}`;
+        btn.innerHTML = `👑 Bậc ${cur.lv}/10 · ${eq.outfitColorLabel.split(' ')[0]}${unclaimed > 0 ? ` <span style="background:#00e676;color:#003314;padding:0 5px;border-radius:8px;font-size:10px;">+${unclaimed}</span>` : ''}`;
+      }
+      if (player) {
+        player._realmLv = previewOutfitLevel || st.equippedOutfitLv || st.cultivationLv || 1;
       }
     }
 
@@ -6315,8 +6534,9 @@
       const st = getPlayerQuestState();
       const lv = Math.max(1, Number(st.upgrades?.[key] || 1));
       const cfg = DHARMA_UPGRADES_CONFIG.find(u => u.key === key);
-      if (!cfg) return 0;
-      return Math.max(0, (lv - 1) * cfg.bonusPerLv);
+      const itemBonus = cfg ? Math.max(0, (lv - 1) * cfg.bonusPerLv) : 0;
+      const realmBonus = Math.max(0, ((st.cultivationLv || 1) - 1) * 0.015);
+      return itemBonus + realmBonus;
     }
 
     function recordQuestProgress(questId, amount = 1) {
@@ -6347,40 +6567,103 @@
     }
 
     function switchQuestUpgradeTab(tab) {
-      currentQuestUpgradeTab = tab || 'quests';
+      currentQuestUpgradeTab = tab || 'realms';
       renderQuestUpgradeModal();
       playMoSound();
     }
 
     function renderQuestUpgradeModal() {
       const st = getPlayerQuestState();
-      const { cur, next } = getRealmInfoByExp(st.exp || 0);
+      const cur = getRealmConfigByLv(st.cultivationLv || 1);
+      const next = REALM_RANKS_CONFIG[cur.lv] || null;
+      const equippedCfg = getRealmConfigByLv(previewOutfitLevel || st.equippedOutfitLv || cur.lv);
+
       const badgeEl = document.getElementById('quRealmBadge');
       const expBarEl = document.getElementById('quRealmExpBar');
       const expTextEl = document.getElementById('quRealmExpText');
-      if (badgeEl) badgeEl.textContent = `${cur.badge}: ${cur.name}`;
+      const outfitEl = document.getElementById('quCurrentOutfitBadge');
+
+      if (badgeEl) {
+        badgeEl.textContent = `${cur.badge}: ${cur.name}`;
+        badgeEl.style.color = cur.colorHex;
+      }
+      if (outfitEl) {
+        outfitEl.textContent = `👕 Đang khoác: ${equippedCfg.outfitName} (${equippedCfg.outfitColorLabel})${previewOutfitLevel ? ' [ĐANG MẶC THỬ]' : ''}`;
+      }
       if (expBarEl) {
-        const pct = next ? Math.min(100, Math.round(((st.exp - cur.expReq) / Math.max(1, next.expReq - cur.expReq)) * 100)) : 100;
+        const curMerit = Math.max(0, Number(player?.merit || 0));
+        const pct = next
+          ? Math.min(100, Math.max(4, Math.round((Math.log10(curMerit + 1) / Math.log10(next.meritCost + 1)) * 100)))
+          : 100;
         expBarEl.style.width = `${pct}%`;
       }
       if (expTextEl) {
-        expTextEl.textContent = next ? `${st.exp} / ${next.expReq} Tu Vi (Cấp tiếp: ${next.name})` : `${st.exp} Tu Vi (Đỉnh Cao Viên Mãn)`;
+        const curMeritStr = Number(player?.merit || 0).toLocaleString('vi-VN');
+        expTextEl.textContent = next
+          ? `Hiện có: ${curMeritStr} 💎 / Cần ${next.meritCost.toLocaleString('vi-VN')} 💎 lên Bậc ${next.lv} (${next.shortTitle})`
+          : `☀️ ĐÃ ĐẠT ĐỈNH CAO TU THÀNH CHÍNH QUẢ (BẬC 10/10)`;
       }
 
+      const btnR = document.getElementById('quTabBtn_realms');
       const btnQ = document.getElementById('quTabBtn_quests');
       const btnU = document.getElementById('quTabBtn_upgrades');
+      const panelR = document.getElementById('quPanel_realms');
       const panelQ = document.getElementById('quPanel_quests');
       const panelU = document.getElementById('quPanel_upgrades');
-      const isQ = (currentQuestUpgradeTab !== 'upgrades');
-      if (panelQ) panelQ.style.display = isQ ? 'flex' : 'none';
-      if (panelU) panelU.style.display = isQ ? 'none' : 'grid';
-      if (btnQ) {
-        btnQ.style.background = isQ ? 'linear-gradient(135deg,#ff8f00,#e65100)' : 'rgba(40,22,12,0.9)';
-        btnQ.style.color = isQ ? '#fff' : '#ffd54f';
-      }
-      if (btnU) {
-        btnU.style.background = !isQ ? 'linear-gradient(135deg,#ff8f00,#e65100)' : 'rgba(40,22,12,0.9)';
-        btnU.style.color = !isQ ? '#fff' : '#ffd54f';
+
+      const tab = currentQuestUpgradeTab || 'realms';
+      if (panelR) panelR.style.display = (tab === 'realms') ? 'flex' : 'none';
+      if (panelQ) panelQ.style.display = (tab === 'quests') ? 'flex' : 'none';
+      if (panelU) panelU.style.display = (tab === 'upgrades') ? 'grid' : 'none';
+
+      [
+        [btnR, tab === 'realms'],
+        [btnQ, tab === 'quests'],
+        [btnU, tab === 'upgrades']
+      ].forEach(([b, active]) => {
+        if (!b) return;
+        b.style.background = active ? 'linear-gradient(135deg,#ff8f00,#e65100)' : 'rgba(40,22,12,0.9)';
+        b.style.color = active ? '#fff' : '#ffd54f';
+      });
+
+      if (panelR) {
+        const curMerit = Number(player?.merit || 0);
+        panelR.innerHTML = `
+          <div style="background:linear-gradient(90deg,rgba(74,20,4,0.95),rgba(32,12,4,0.95)); border:1.5px solid #ffd54f; border-radius:10px; padding:8px 12px; font-size:11px; color:#ffe082; line-height:1.45;">
+            🙏 <b>Đạo Lộ Tu Tập 10 Bậc Từ Thấp Nhất Đến Tu Thành Chính Quả:</b> Phước Đức (💎) của bạn hiện có <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b>. Mỗi bậc tu hành yêu cầu một con số Phước khổng lồ gấp nhiều lần bậc trước để thể hiện hành trình khổ luyện vạn kiếp mới <b>Tu Thành Chính Quả (99.999.999.999 💎 Phước)</b>. Khi đột phá hoặc bấm <b>👁️ Mặc Thử 25s</b>, nhân vật trên Chánh Điện sẽ lập tức đổi màu Pháp Phục, Y Cà Sa, Mão/Bảo Quán, Tòa Sen & Hào Quang!
+          </div>
+        ` + REALM_RANKS_CONFIG.map(r => {
+          const isUnlocked = (st.cultivationLv || 1) >= r.lv;
+          const isNext = (st.cultivationLv || 1) + 1 === r.lv;
+          const isEquipped = ((previewOutfitLevel || st.equippedOutfitLv || 1) === r.lv);
+          const canAfford = curMerit >= r.meritCost;
+          const missingMerit = Math.max(0, r.meritCost - curMerit);
+
+          return `<div style="background:${r.lv === 10 ? 'linear-gradient(135deg,rgba(88,24,4,0.96),rgba(38,8,2,0.98))' : 'rgba(32,16,8,0.94)'}; border:${isEquipped ? '2px solid #00e676' : (r.lv === 10 ? '2px solid #ffd700' : '1.2px solid rgba(255,213,79,0.4)')}; border-radius:11px; padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; box-shadow:${r.lv === 10 ? '0 0 18px rgba(255,215,0,0.32)' : 'none'};">
+            <div style="flex:1; min-width:235px;">
+              <div style="display:flex; align-items:center; gap:7px; flex-wrap:wrap;">
+                <span style="display:inline-block; width:14px; height:14px; border-radius:50%; background:${r.colorHex}; border:2px solid #fff; box-shadow:0 0 8px ${r.colorHex};"></span>
+                <span style="font-size:12.5px; font-weight:900; color:${r.colorHex};">${r.shortTitle}: ${r.name}</span>
+                <span style="background:rgba(0,0,0,0.55); border:1px solid ${r.colorHex}; color:${r.colorHex}; font-size:9.8px; font-weight:900; padding:1px 7px; border-radius:999px;">Màu: ${r.outfitColorLabel}</span>
+              </div>
+              <div style="font-size:11px; color:#fff8e1; font-weight:800; margin-top:4px;">👘 Trang phục: <span style="color:#ffd54f;">${r.outfitName}</span></div>
+              <div style="font-size:10.3px; color:#d7ccc8; margin-top:2px;">✨ Quyền năng: ${r.perk}</div>
+              <div style="font-size:11px; font-weight:900; color:${isUnlocked ? '#69f0ae' : '#ffab40'}; margin-top:4px;">
+                💎 Phước yêu cầu: <span style="color:#ffd740; font-size:11.8px;">${r.meritCostText}</span>
+                ${!isUnlocked ? `<span style="color:#ff8a80; font-size:10px; margin-left:6px;">(Còn thiếu ${missingMerit.toLocaleString('vi-VN')} 💎)</span>` : `<span style="color:#69f0ae; font-size:10px; margin-left:6px;">(Đã chứng đắc ✅)</span>`}
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:5px; min-width:155px;">
+              ${isUnlocked
+                ? (isEquipped
+                  ? `<button disabled style="width:100%; padding:6px 10px; border-radius:8px; border:1.5px solid #00e676; background:rgba(0,200,83,0.22); color:#69f0ae; font-size:10.8px; font-weight:900;">👕 Đang Khoác Pháp Phục Này</button>`
+                  : `<button onclick="equipCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 10px; border-radius:8px; border:1.5px solid #80d8ff; background:linear-gradient(135deg,#0277bd,#01579b); color:#fff; font-size:10.8px; font-weight:900;">👕 Khoác Pháp Phục Bậc ${r.lv}</button>`)
+                : `<button onclick="upgradeCharacterRealmByMerit(${r.lv})" style="width:100%; cursor:pointer; padding:6px 10px; border-radius:8px; border:1.5px solid ${canAfford && isNext ? '#00e676' : '#ffd54f'}; background:${canAfford && isNext ? 'linear-gradient(135deg,#00c853,#009624)' : 'linear-gradient(135deg,#6d1b07,#3e1004)'}; color:#fff; font-size:10.6px; font-weight:900;">⬆️ Đột Phá Bậc ${r.lv} (-${r.meritCost.toLocaleString('vi-VN')} 💎)</button>`
+              }
+              <button onclick="previewCharacterRealmOutfit(${r.lv})" style="width:100%; cursor:pointer; padding:4px 9px; border-radius:7px; border:1px solid rgba(255,215,64,0.65); background:rgba(255,215,64,0.14); color:#ffe082; font-size:10px; font-weight:800;">👁️ Mặc Thử Ra Sảnh Chùa (25s)</button>
+            </div>
+          </div>`;
+        }).join('');
       }
 
       if (panelQ) {
@@ -6432,6 +6715,232 @@
         }).join('');
       }
       updateTopBarQuestRealmBadge(st);
+    }
+
+    function upgradeCharacterRealmByMerit(targetLv) {
+      unlockAndStartAudio();
+      const st = getPlayerQuestState();
+      const curLv = Number(st.cultivationLv || 1);
+      const cfg = getRealmConfigByLv(targetLv);
+      if (!cfg) return;
+      if (targetLv <= curLv) {
+        equipCharacterRealmOutfit(targetLv);
+        return;
+      }
+      if (targetLv > curLv + 1) {
+        const nextCfg = getRealmConfigByLv(curLv + 1);
+        showToast(`⚠️ Tu hành cần tuần tự từng bậc! Hãy đột phá ${nextCfg.shortTitle} (${nextCfg.meritCostText}) trước!`);
+        return;
+      }
+      const curMerit = Number(player?.merit || 0);
+      if (curMerit < cfg.meritCost) {
+        const missing = (cfg.meritCost - curMerit).toLocaleString('vi-VN');
+        showToast(`⚠️ Con đường tu hành gian nan! Cần ${cfg.meritCost.toLocaleString('vi-VN')} 💎 Phước để đạt "${cfg.name}" (Còn thiếu ${missing} 💎 Phước). Bạn có thể bấm "👁️ Mặc Thử 25s" để chiêm ngưỡng trước!`);
+        return;
+      }
+      addMerit(-cfg.meritCost, `Đột phá Bậc Tu Hành ${cfg.shortTitle} (-${cfg.meritCost.toLocaleString('vi-VN')} 💎)`);
+      st.cultivationLv = cfg.lv;
+      st.equippedOutfitLv = cfg.lv;
+      previewOutfitLevel = 0;
+      savePlayerQuestState(st);
+      playBellSound();
+      showToast(`🌟 ĐỘT PHÁ BẬC TU HÀNH ${cfg.lv}/10: ${cfg.name}! Đã khoác ${cfg.outfitName}!`);
+      appendMeritLog(`👑 <b>${player.name}</b> đã viên mãn công đức đột phá lên <b style="color:${cfg.colorHex};">${cfg.shortTitle}: ${cfg.name}</b> — Khoác <b>${cfg.outfitName}</b>!`);
+      renderQuestUpgradeModal();
+    }
+
+    function equipCharacterRealmOutfit(lv) {
+      unlockAndStartAudio();
+      const st = getPlayerQuestState();
+      if (lv > (st.cultivationLv || 1)) return;
+      st.equippedOutfitLv = lv;
+      previewOutfitLevel = 0;
+      savePlayerQuestState(st);
+      const cfg = getRealmConfigByLv(lv);
+      playMoSound();
+      showToast(`👕 Đã khoác Pháp Phục: ${cfg.outfitName} (${cfg.outfitColorLabel})!`);
+      renderQuestUpgradeModal();
+    }
+
+    function previewCharacterRealmOutfit(lv) {
+      unlockAndStartAudio();
+      const cfg = getRealmConfigByLv(lv);
+      previewOutfitLevel = cfg.lv;
+      if (previewOutfitTimer) clearTimeout(previewOutfitTimer);
+      previewOutfitTimer = setTimeout(() => {
+        previewOutfitLevel = 0;
+        updateTopBarQuestRealmBadge();
+        showToast(`⏳ Đã kết thúc 25 giây mặc thử ${cfg.outfitName}.`);
+      }, 25000);
+      updateTopBarQuestRealmBadge();
+      closeQuestUpgradeModal();
+      playBellSound();
+      showToast(`👁️✨ Đang mặc thử 25s trên sảnh chùa: [${cfg.shortTitle}] — ${cfg.outfitName}!`);
+    }
+
+    // V77: Vẽ Đài Sen, Vòng Lửa Kim Cang, Hào Quang Cầu Vồng & Phật Quang Vạn Tự 卍 Dưới Chân / Sau Lưng Nhân Vật
+    function drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, lv, frameCount) {
+      if (!lv || lv <= 1) return;
+      const cfg = getRealmConfigByLv(lv);
+      const t = frameCount * 0.05;
+      ctx.save();
+
+      // 1. Vòng Hào Quang & Tòa Sen Dưới Chân Nhân Vật
+      const footY = sy - 3 * scale;
+      const rx = (25 + lv * 2.2) * scale;
+      const ry = (9.5 + lv * 0.85) * scale;
+
+      if (lv >= 4) {
+        // Vẽ Cánh Sen Nở Dưới Chân (Từ Bậc 4 Tỳ Kheo đến Bậc 10 Tu Thành Chính Quả)
+        const petals = lv >= 10 ? 16 : (lv >= 7 ? 12 : 8);
+        const lotusFill = lv === 10 ? '#ffd700' : (lv === 9 ? '#69f0ae' : (lv === 8 ? '#ff6d00' : (lv === 7 ? '#ea80fc' : (lv >= 5 ? '#ff80ab' : '#ffd54f'))));
+        const lotusStroke = lv === 10 ? '#fff9c4' : '#ffffff';
+        for (let i = 0; i < petals; i++) {
+          const ang = (i / petals) * Math.PI * 2 + t * 0.35;
+          const px = sx + Math.cos(ang) * rx * 0.82;
+          const py = footY + Math.sin(ang) * ry * 0.82;
+          ctx.save();
+          ctx.translate(px, py);
+          ctx.rotate(ang);
+          ctx.fillStyle = lotusFill;
+          ctx.globalAlpha = 0.72;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 7.5 * scale, 3.8 * scale, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = lotusStroke;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      ctx.strokeStyle = cfg.colorHex;
+      ctx.lineWidth = (lv >= 8 ? 2.6 : 1.8) * scale;
+      ctx.beginPath();
+      ctx.ellipse(sx, footY, rx, ry, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 2. Hào Quang Sau Lưng & Sau Đầu (Bậc 3 -> Bậc 10)
+      if (lv >= 3) {
+        const haloCx = sx;
+        const haloCy = sy - sh * 0.72;
+        const haloR = (18 + lv * 2.4) * scale;
+
+        const grad = ctx.createRadialGradient(haloCx, haloCy, haloR * 0.15, haloCx, haloCy, haloR * 1.45);
+        grad.addColorStop(0, cfg.colorHex + 'aa');
+        grad.addColorStop(0.55, cfg.borderHex + '44');
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(haloCx, haloCy, haloR * 1.45, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (lv >= 6) {
+          ctx.strokeStyle = lv === 10 ? '#fff59d' : cfg.colorHex;
+          ctx.lineWidth = (lv >= 9 ? 2.2 : 1.5) * scale;
+          ctx.beginPath();
+          ctx.arc(haloCx, haloCy, haloR * 0.88, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        if (lv === 9) {
+          // Bậc 9 Đại Bồ Tát: Hào Quang Cầu Vồng Ngũ Sắc
+          const rainbowCols = ['#ff5252', '#ffd740', '#69f0ae', '#40c4ff', '#e040fb'];
+          rainbowCols.forEach((col, idx) => {
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 1.4 * scale;
+            ctx.beginPath();
+            ctx.arc(haloCx, haloCy, (haloR * 0.72) + idx * 3.1 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+          });
+        } else if (lv === 10) {
+          // Bậc 10 TU THÀNH CHÍNH QUẢ: Phật Quang Vạn Đượng 3 Tầng + Tia Sáng Hoàng Kim
+          const rays = 12;
+          for (let r = 0; r < rays; r++) {
+            const a = (r / rays) * Math.PI * 2 + t * 0.6;
+            ctx.strokeStyle = 'rgba(255, 245, 157, 0.85)';
+            ctx.lineWidth = 1.8 * scale;
+            ctx.beginPath();
+            ctx.moveTo(haloCx + Math.cos(a) * haloR * 0.65, haloCy + Math.sin(a) * haloR * 0.65);
+            ctx.lineTo(haloCx + Math.cos(a) * haloR * 1.38, haloCy + Math.sin(a) * haloR * 1.38);
+            ctx.stroke();
+          }
+          ctx.strokeStyle = '#ffd700';
+          ctx.lineWidth = 2.4 * scale;
+          ctx.beginPath();
+          ctx.arc(haloCx, haloCy, haloR * 1.08, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    // V77: Vẽ Y Cà Sa Đắp Chéo Vai, Tràng Hạt Bồ Đề, Mão Tỳ Lư / Bảo Quán Bồ Tát & Ấn Vạn Tự 卍 Trước Ngực Nhân Vật
+    function drawCharacterCultivationOverlay(ctx, sx, sy, sw, sh, scale, lv, frameCount) {
+      if (!lv || lv <= 1) return;
+      const cfg = getRealmConfigByLv(lv);
+      ctx.save();
+
+      const chestY = sy - sh * 0.56;
+      const headTopY = sy - sh * 0.92;
+
+      // 1. Dải Y Cà Sa / Pháp Phục Đắp Chéo Qua Vai (Từ Bậc 4 Tỳ Kheo -> Bậc 10 Phật Đà)
+      if (lv >= 4 && cfg.kasayaColor) {
+        ctx.fillStyle = cfg.kasayaColor;
+        ctx.strokeStyle = lv >= 6 ? '#ffd700' : 'rgba(255,255,255,0.55)';
+        ctx.lineWidth = 1.1 * scale;
+        ctx.beginPath();
+        ctx.moveTo(sx - sw * 0.21, sy - sh * 0.68);
+        ctx.lineTo(sx + sw * 0.19, sy - sh * 0.44);
+        ctx.lineTo(sx + sw * 0.14, sy - sh * 0.25);
+        ctx.lineTo(sx - sw * 0.23, sy - sh * 0.48);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      // 2. Tràng Hạt Bồ Đề 108 Hạt Quàng Cổ (Bậc 3 -> Bậc 9)
+      if (lv >= 3 && lv <= 9) {
+        const beadColor = lv >= 6 ? '#ffd700' : (lv >= 4 ? '#ffb300' : '#8d6e63');
+        ctx.fillStyle = beadColor;
+        for (let b = -3; b <= 3; b++) {
+          const bx = sx + b * 2.8 * scale;
+          const by = sy - sh * 0.66 + Math.abs(b) * 1.35 * scale;
+          ctx.beginPath();
+          ctx.arc(bx, by, 1.55 * scale, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // 3. Mão Tỳ Lư / Bảo Quán Bồ Tát / Nhục Kế Phật Đà Trên Đỉnh Đầu (Bậc 6 -> Bậc 10)
+      if (lv >= 6) {
+        ctx.save();
+        ctx.translate(sx, headTopY);
+        ctx.fillStyle = lv === 10 ? '#ffd700' : (lv === 9 ? '#00e676' : (lv === 7 ? '#e040fb' : '#ff3d00'));
+        ctx.strokeStyle = '#fff59d';
+        ctx.lineWidth = 1.2 * scale;
+        ctx.beginPath();
+        ctx.moveTo(-7.5 * scale, 2 * scale);
+        ctx.lineTo(0, -8.5 * scale);
+        ctx.lineTo(7.5 * scale, 2 * scale);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 4. Ấn Vạn Tự 卍 Hoàng Kim Trước Ngực (Bậc 8 La Hán -> Bậc 10 Tu Thành Chính Quả)
+      if (lv >= 8) {
+        ctx.font = `900 ${Math.max(9, Math.round(11.5 * scale))}px sans-serif`;
+        ctx.fillStyle = '#fff59d';
+        ctx.shadowColor = '#ff6f00';
+        ctx.shadowBlur = 6;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('卍', sx, chestY);
+      }
+
+      ctx.restore();
     }
 
     function claimQuestReward(questId) {
@@ -10970,6 +11479,19 @@
           const sh = spr.naturalHeight * scale * mult * poseScaleY;
           const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
 
+          // V77: Lấy bậc trang phục & màu sắc tu hành của nhân vật (1 -> 10)
+          const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
+          const charRealmCfg = getRealmConfigByLv(charOutfitLv);
+
+          // 1) Vẽ Tòa Sen, Vòng Hào Quang & Phật Quang Vạn Đượng phía sau / dưới chân nhân vật
+          drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, charOutfitLv, frameCount);
+
+          // 2) Áp dụng bộ lọc đổi màu Pháp Phục (Áo Lam -> Xanh Lam -> Nâu Sồng -> Vàng Nghệ -> Đỏ Cam -> Đỏ Chu Sa -> Tím Tử Kim -> Kim Thân La Hán -> Ngọc Lưu Ly -> Hoàng Kim Chính Quả)
+          ctx.save();
+          if (charRealmCfg.cssFilter && charRealmCfg.cssFilter !== 'none') {
+            ctx.filter = charRealmCfg.cssFilter;
+          }
+
           if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
             // V63: Khi 2 người Tương Tác (Vái Nhau / Quỳ Lạy Nhau / Đấm Nhau) -> Render Nhân Vật 3D Studio Thật Góc Nghiêng Có Khớp Lưng & Bồ Đoàn 60FPS!
             drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
@@ -11006,12 +11528,37 @@
             ctx.drawImage(spr, -sw / 2, -sh, sw, sh);
             ctx.restore();
           }
+          ctx.restore();
+
+          // 3) Vẽ Dải Y Cà Sa Đắp Chéo Vai, Tràng Hạt, Mão Tỳ Lư / Bảo Quán & Ấn Vạn Tự 卍
+          drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, sh, scale, charOutfitLv, frameCount);
 
           const headY = sy - sh - bob + poseOffsetY - 8;
           const badgeLabel = isPlayer
             ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
           drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
+
+          // V77: Hiển thị Nhãn Bậc Tu Hành & Pháp Phục trên đầu người chơi (hoặc nhân vật Bậc cao)
+          if (isPlayer || charOutfitLv >= 2) {
+            const realmTitleTxt = isPlayer && previewOutfitLevel ? `👁️ MẶC THỬ: ${charRealmCfg.shortTitle}` : charRealmCfg.shortTitle;
+            ctx.save();
+            ctx.font = '800 8.8px sans-serif';
+            const rtw = ctx.measureText(realmTitleTxt).width + 10;
+            const rty = (topRank >= 1 && topRank <= 3) ? (headY - 38) : (headY - 21);
+            ctx.fillStyle = 'rgba(20, 8, 2, 0.90)';
+            ctx.strokeStyle = charRealmCfg.colorHex;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.roundRect(sx - rtw / 2, rty - 7, rtw, 14, 7);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = charRealmCfg.colorHex;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(realmTitleTxt, sx, rty);
+            ctx.restore();
+          }
 
           if (topRank >= 1 && topRank <= 3) {
             const rankLabels = { 1: '👑 TOP 1 VINH DANH', 2: '🥈 TOP 2 VINH DANH', 3: '🥉 TOP 3 VINH DANH' };
@@ -12163,16 +12710,16 @@
             if (typeof drawFortuneStickNow === 'function') drawFortuneStickNow();
           }, 150);
         } else if (dm === "quest_upgrade") {
-          openQuestUpgradeModal('quests');
+          openQuestUpgradeModal('realms');
         }
       }, 300);
 
-      // V76: Khởi tạo Huy Hiệu Nhiệm Vụ & Cảnh Giới trên thanh Top Bar + Tự động đồng bộ bản mới khi bấm link cũ (#mvyncdlwj)
+      // V77: Khởi tạo Huy Hiệu 10 Bậc Tu Hành & Pháp Phục trên thanh Top Bar + Tự động đồng bộ bản mới khi bấm link cũ
       if (typeof updateTopBarQuestRealmBadge === 'function') {
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 76;
+        const CURRENT_BUILD_VER = 77;
         try {
           if (window.location.search && window.location.search.includes('demo=')) return;
           fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
