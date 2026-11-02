@@ -1,5 +1,5 @@
 {
-  "version": 84,
-  "updatedAt": "2026-11-02T13:52:30+07:00",
-  "note": "V84: Thay luon nhan vat thanh cac nhan vat chuan theo tung bac (1->10) trong moi tu the (ke ca khi ngoi Top 3) + them nut [X Tat] thanh chon nhanh"
+  "version": 85,
+  "updatedAt": "2026-11-02T14:01:15+07:00",
+  "note": "V85: Bo 100% hinh ve 2D chu V cu tren lung nhan vat, thay toan bo nhan vat trong sanh chua bang 10 nhan vat chup studio that theo bac + tu dong cap nhat phien ban"
 }
