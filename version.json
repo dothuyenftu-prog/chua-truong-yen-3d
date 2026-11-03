@@ -1,4 +1,4 @@
 {
-  "version": 116,
-  "note": "V116: Fix 100% realistic 3D strip-mesh bowing (Vai Khan) and kneeling/prostrating (Quy Lay) animations with zero sideways neck twist"
+  "version": 117,
+  "note": "V117: Remove Cong Nhan rank and add Thai Tu / Thai Tu Phi Dong Cung (Rank 9) above Vuong Gia"
 }
