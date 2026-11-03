@@ -1,5 +1,5 @@
 {
-  "version": 100,
-  "updated": "2026-11-03T09:39:00+07:00",
-  "note": "V100 (#mw02lppg2f): Khac phuc triet de loi 8 Nhiem Vu Hang Ngay (them nut Thuc Hien truc tiep trong bang Nhiem Vu + ghi nhan tien do day du khi Go Mo, Tung Kinh, Tu Cay, Thinh Chuong, Dang Huong, Quy Lay, Vai Khan, Dat Le, Ha Le, Hoa Vang, Tuong Tac va Rut Xam)"
+  "version": 101,
+  "updated": "2026-11-03T09:46:30+07:00",
+  "note": "V101 (#mw02m21w2g & #mw02meeb2h): Mo khoa nhan thuong ngay cac Nhiem Vu da hoan thanh (them nut Nhan Tat Ca + Lam Lai) & Nang cap manh ti le no Loc Hoa Vang (100% trung Loc X2->X500, Lo Bat Quai +8%/cap, nhan he so theo Bac Tu Hanh)"
 }
