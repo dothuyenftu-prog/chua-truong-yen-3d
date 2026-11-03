@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 109;
+      var CURRENT_BUILD_VER = 110;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -10886,14 +10886,13 @@
         });
         if (altarOfferings[wingKey].length > 5) altarOfferings[wingKey].shift();
         renderCenterOfferingInspector();
-        // Thông báo toàn chùa & phát giọng Sư Trụ Trì cảm tạ người vừa dâng lễ cho TẤT CẢ mọi người đang Online (#mvylvhacb)!
+        // V110 (#mw0enim938): Khi đặt lễ, chỉ người trực tiếp đặt lễ mới nghe tiếng cảm ơn của Sư Trụ Trì (các máy khác chỉ hiện lễ vật trên bàn thờ & dòng thông báo, không phát giọng nói)
         const giverName = data.name || 'Thí Chủ';
         const itemTitle = data.itemName || 'Lễ Vật Thành Tâm';
         const costVal = Number(data.cost) || 0;
         const wishTxt = data.wish || 'Cầu bình an & tài lộc';
         appendMeritLog(`🎊🎁 <b>[Thông Báo Toàn Chùa] ${giverName}</b> vừa dâng lễ <b>${data.icon || '🪷'} ${itemTitle}</b>${costVal ? ` (${costVal} 💎)` : ''} lên <b>${zoneName}</b> · Cầu: <i>"${wishTxt}"</i>!`);
-        showToast(`🎊🙏 Thí chủ ${giverName} vừa dâng lễ "${itemTitle}" lên ${zoneName} · Sư Trụ Trì đang cảm tạ & cầu chúc!`);
-        playAbbotThankYouVoice('le', itemTitle, giverName, wishTxt, costVal, zoneName);
+        showToast(`🎊🙏 Thí chủ ${giverName} vừa dâng lễ "${itemTitle}" lên ${zoneName}!`);
       } else if (data.type === 'takedown') {
         const wingKey = String(data.wing === 1 ? 1 : 0);
         altarOfferings[wingKey] = [];
@@ -13548,7 +13547,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 109;
+        const CURRENT_BUILD_VER = 110;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
