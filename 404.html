@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 108;
+      var CURRENT_BUILD_VER = 109;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -6635,6 +6635,21 @@
           localStorage.setItem(storageKey, JSON.stringify(st));
         } catch (e) {}
       }
+      // V109 (#mw0ecjk137): Khóa cố định điểm Phước chuẩn của Thế Anh Kho một lần duy nhất để đồng nhất 100% giữa mọi tab/máy, chấm dứt lỗi nhảy số xoay vòng!
+      if ((player?.name || '') === 'Thế Anh Kho' && !st.v109FixTheAnhMeritSpin) {
+        st.v109FixTheAnhMeritSpin = true;
+        if (typeof player.merit === 'number' && player.merit > 500000000) {
+          player.merit = Math.max(0, player.merit - 680000000);
+        }
+        try {
+          localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(player.merit));
+          if (typeof allCharProfiles === 'object' && allCharProfiles && allCharProfiles['Thế Anh Kho']) {
+            allCharProfiles['Thế Anh Kho'].merit = player.merit;
+            localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+          }
+          localStorage.setItem(storageKey, JSON.stringify(st));
+        } catch (e) {}
+      }
       const cloudProf = (typeof allCharProfiles === 'object' && allCharProfiles) ? allCharProfiles[player?.name || 'Thành'] : null;
       if (cloudProf) {
         let changedByCloud = false;
@@ -8257,14 +8272,18 @@
       } catch (e) {}
       const canonicalTheAnh = 'Thế Anh Kho';
       let rawTheAnhMerit = Number(profilesObj[canonicalTheAnh]?.merit ?? 312241200);
-      // V107 (#mw0dhrj430): Trừ đúng 691.790.000 💎 tiền mua lần lượt Bậc 2 -> Bậc 8 (La Hán Kim Thân) của Thế Anh Kho (1.004.031.200 - 691.790.000 = 312.241.200 💎)
-      if (rawTheAnhMerit >= 1000000000) {
-        rawTheAnhMerit = rawTheAnhMerit - 691790000;
-      }
+      // V109 (#mw0ecjk137): Đồng bộ một lần duy nhất nếu hồ sơ lưu cũ của Thế Anh Kho vẫn còn mức ~992M (> 500M) để không bị lệch giữa các máy
       try {
-        const bkTheAnh = localStorage.getItem('ty_merit_backup_Thế Anh Kho');
-        if (bkTheAnh !== null && Number(bkTheAnh) >= 1000000000) {
-          localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(Number(bkTheAnh) - 691790000));
+        if (localStorage.getItem('ty_v109_stabilize_the_anh_merit') !== '1') {
+          localStorage.setItem('ty_v109_stabilize_the_anh_merit', '1');
+          if (rawTheAnhMerit > 500000000) {
+            rawTheAnhMerit = rawTheAnhMerit >= 1000000000 ? (rawTheAnhMerit - 691790000) : Math.max(0, rawTheAnhMerit - 680000000);
+          }
+          const bkTheAnh = localStorage.getItem('ty_merit_backup_Thế Anh Kho');
+          if (bkTheAnh !== null && Number(bkTheAnh) > 500000000) {
+            const fixedBk = Number(bkTheAnh) >= 1000000000 ? (Number(bkTheAnh) - 691790000) : Math.max(0, Number(bkTheAnh) - 680000000);
+            localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(fixedBk));
+          }
         }
       } catch (e) {}
       let bestMerit = Math.max(0, rawTheAnhMerit);
@@ -8431,12 +8450,6 @@
       if (typeof publishMqtt === 'function') {
         try {
           publishMqtt(payload);
-          if (mqttClient && mqttClient.connected) {
-            mqttClient.publish('truongyen/chua3d/v43_cloud_accounts', JSON.stringify({
-              type: 'init_sync',
-              accounts: allCharProfiles
-            }), { qos: 1, retain: true });
-          }
         } catch (e) {}
       }
       try {
@@ -10546,17 +10559,19 @@
             if (!accName || isDeletedGhostAccount(accName)) continue;
             if (!allCharProfiles[accName]) allCharProfiles[accName] = { name: accName };
             const isMyActiveAcc = (accName === player.name);
+            const isPeerCurrentlyOnline = Object.values(onlineCompanyPeers).some(p => p && p.name === accName);
+            const hasDirectLiveSync = Boolean(allCharProfiles[accName]._directSyncAt);
             if (isMyActiveAcc) {
               // Không bao giờ để bản đồng bộ cũ từ MQTT/Server ghi đè ngược làm tăng lại Phước sau khi vừa mua trang phục hoặc bị phạt!
               allCharProfiles[accName].merit = Number(player.merit || 0);
-            } else {
+            } else if (!isPeerCurrentlyOnline && !hasDirectLiveSync) {
+              // V109 (#mw0ecjk137): Chỉ dùng init_sync làm giá trị khởi tạo ban đầu khi người đó chưa Online và chưa có gói đồng bộ trực tiếp
               let srvM = Number(accInfo.merit ?? allCharProfiles[accName].merit ?? 50);
-              if (accName === 'Thế Anh Kho' && srvM >= 1000000000) srvM = srvM - 691790000;
               allCharProfiles[accName].merit = Math.max(0, srvM);
             }
             allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
             allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
-            if (!isMyActiveAcc) {
+            if (!isMyActiveAcc && !isPeerCurrentlyOnline && !hasDirectLiveSync) {
               if (accInfo.outfitLv) allCharProfiles[accName].outfitLv = Math.max(1, Math.min(10, Number(accInfo.outfitLv)));
               if (accInfo.cultivationLv) allCharProfiles[accName].cultivationLv = Math.max(1, Math.min(10, Number(accInfo.cultivationLv)));
               if (accInfo.unlockedOutfits && typeof accInfo.unlockedOutfits === 'object') {
@@ -10591,8 +10606,8 @@
           allCharProfiles[data.name].merit = Number(player.merit || 0);
         } else {
           let syncM = Number(data.merit ?? allCharProfiles[data.name].merit ?? 50);
-          if (data.name === 'Thế Anh Kho' && syncM >= 1000000000) syncM = syncM - 691790000;
           allCharProfiles[data.name].merit = Math.max(0, syncM);
+          allCharProfiles[data.name]._directSyncAt = Date.now();
         }
         allCharProfiles[data.name].congDuc = Math.max(Number(allCharProfiles[data.name].congDuc || 0), Number(data.congDuc ?? 1));
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
@@ -10816,13 +10831,16 @@
           }
         }
         if (typeof data.merit === 'number') {
-          let peerM = Number(data.merit);
-          if (existing.name === 'Thế Anh Kho' && peerM >= 1000000000) peerM = peerM - 691790000;
-          existing.merit = Math.max(0, peerM);
+          let peerM = Math.max(0, Number(data.merit));
+          existing.merit = peerM;
           if (existing.name && existing.name !== player.name) {
             if (!allCharProfiles[existing.name]) allCharProfiles[existing.name] = { name: existing.name };
-            allCharProfiles[existing.name].merit = existing.merit;
-            if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
+            const prevMerit = allCharProfiles[existing.name].merit;
+            allCharProfiles[existing.name].merit = peerM;
+            allCharProfiles[existing.name]._directSyncAt = Date.now();
+            if (prevMerit !== peerM && typeof renderZaloCongDucLeaderboard === 'function') {
+              renderZaloCongDucLeaderboard();
+            }
           }
         }
         existing.wing = safeWing;
@@ -10947,12 +10965,30 @@
       publishMqtt(payload);
     }
 
-    // V86: Đồng bộ định kỳ vị trí + trang phục (outfitLv) mỗi 2.5 giây để mọi người Online luôn nhìn thấy trang phục của nhau tức thì (#mvywqfcz1e)
+    // V86 + V109: Đồng bộ định kỳ vị trí + trang phục (outfitLv) mỗi 2.5 giây (bỏ qua các tab ẩn dưới nền để 2 tab trên cùng máy không tranh chấp điểm Phước!)
     setInterval(() => {
+      if (document.hidden) return;
       if (isOnlinePresenceMode && player && player.name) {
         broadcastMyPresence(true);
       }
     }, 2500);
+
+    // V109 (#mw0ecjk137): Đồng bộ tức thì điểm Phước giữa nhiều tab trên cùng 1 trình duyệt để tab cũ không bao giờ phát điểm Phước cũ!
+    window.addEventListener('storage', (ev) => {
+      if (!ev || !ev.key || !player || !player.name) return;
+      if (ev.key === 'ty_merit_backup_' + player.name && ev.newValue !== null) {
+        const syncedM = Math.max(0, Number(ev.newValue));
+        if (!isNaN(syncedM) && player.merit !== syncedM) {
+          player.merit = syncedM;
+          if (allCharProfiles && allCharProfiles[player.name]) {
+            allCharProfiles[player.name].merit = syncedM;
+          }
+          const mEl = document.getElementById('meritCount');
+          if (mEl) mEl.textContent = syncedM.toLocaleString('vi-VN');
+          if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
+        }
+      }
+    });
 
     if (localPresenceChannel) {
       localPresenceChannel.onmessage = (ev) => handleIncomingPresence(ev.data);
@@ -11053,9 +11089,9 @@
         mqttClient = mqtt.connect(url, { connectTimeout: 4500, reconnectPeriod: 4000 });
         mqttClient.on('connect', () => {
           mqttClient.subscribe('truongyen/chua3d/v43_online');
-          mqttClient.subscribe('truongyen/chua3d/v43_cloud_accounts');
           updateNetBadgeUI();
           broadcastMyPresence(true);
+          if (typeof syncAccountMeritToServer === 'function') syncAccountMeritToServer();
         });
         mqttClient.on('message', (topic, payload) => {
           try {
@@ -11071,7 +11107,7 @@
     });
 
     setInterval(() => {
-      broadcastMyPresence();
+      if (!document.hidden) broadcastMyPresence();
       updateOnlineCountBadge();
     }, 3500);
 
@@ -13512,7 +13548,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 108;
+        const CURRENT_BUILD_VER = 109;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
