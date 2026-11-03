@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 110;
+      var CURRENT_BUILD_VER = 111;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -9715,6 +9715,11 @@
 
     function playAbbotThankYouVoice(kind = 'le', detailText = '', giverName = '', wishText = '', costVal = 0, zoneName = '') {
       try {
+        // V111 (#mw0fuxw13a): Tắt hoàn toàn giọng Sư Trụ Trì đọc cảm ơn khi đặt lễ (chỉ ngân tiếng chuông thanh tịnh cho người đặt lễ)
+        if (kind === 'le') {
+          playBellSound();
+          return;
+        }
         unlockAndStartAudio();
         stopAllVoices(true);
         let src = 'audio/su_tru_tri_cam_on_le.mp3?v=75';
@@ -10404,8 +10409,8 @@
       if (finalBuffMult >= 2) activateMeritRateBuff(finalBuffMult, `Đặt Lễ ${itemName} (${cost} 💎)`);
       appendMeritLog(`🌟🎁 <b>${player.name}</b> đặt lễ <b>${itemName}</b> quay trúng <b>${rOffer.label}</b> → Nhận Lộc Hồi Hướng <b>+${bonusReturnMerit} 💎</b>!`);
 
-      showToast(`🧙‍♂️🙏 Sư Trụ Trì đang đọc lời cảm tạ & cầu chúc cho thí chủ ${player.name} đã dâng lễ "${itemName}" (${cost} 💎)!`);
-      playAbbotThankYouVoice('le', itemName, player.name, userWish, cost, zoneName);
+      showToast(`🎁🙏 Đã thành tâm dâng lễ "${itemName}" (${cost} 💎) lên ${zoneName}!`);
+      playBellSound();
       publishMqtt({ type: 'offering', name: player.name, icon, itemName, cost, wish: userWish, wing: player.wing, imgKey, imgSrc });
     }
 
@@ -13547,7 +13552,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 110;
+        const CURRENT_BUILD_VER = 111;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
