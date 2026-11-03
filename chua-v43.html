@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 107;
+      var CURRENT_BUILD_VER = 108;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -21,11 +21,9 @@
             .then(function(d) {
               if (d && Number(d.version) > 0) {
                 var latestVer = Number(d.version);
-                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer)) {
+                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer) || !location.pathname.endsWith('/chua-v43.html')) {
                   var u = new URL(location.href);
-                  if (u.pathname.endsWith('/index.html') || u.pathname.endsWith('/')) {
-                    u.pathname = u.pathname.replace(/\/(index\.html)?$/, '/chua-v43.html');
-                  }
+                  u.pathname = u.pathname.replace(/\/([^\/]*\.html)?$/, '/chua-v43.html');
                   u.searchParams.set('v', String(latestVer));
                   u.searchParams.set('_t', String(Date.now()));
                   location.replace(u.toString());
@@ -6621,18 +6619,17 @@
           localStorage.setItem(storageKey, JSON.stringify(st));
         } catch (e) {}
       }
-      if ((player?.name || '') === 'Thế Anh Kho' && !st.v107DeductedTheAnhOutfitCost) {
-        st.unlockedOutfits = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
-        st.cultivationLv = 8;
-        st.equippedOutfitLv = 8;
-        st.v107DeductedTheAnhOutfitCost = true;
-        const curM = Number(localStorage.getItem('ty_merit_backup_Thế Anh Kho') || player?.merit || 1004031200);
-        const afterM = curM >= 1000000000 ? (curM - 691790000) : curM;
-        if (player) player.merit = afterM;
+      // V108 (#mw0djfpt31): Thế Anh Kho vi phạm mua vượt mốc không trừ phước -> Reset trang phục về Bậc 1 từ đầu để bắt buộc phải tự bấm mua lại lần lượt từ Bậc 1 -> Bậc 2 -> ... và trừ phước từng bậc!
+      if ((player?.name || '') === 'Thế Anh Kho' && !st.v108ResetTheAnhStartOver) {
+        st.unlockedOutfits = { 1: true };
+        st.cultivationLv = 1;
+        st.equippedOutfitLv = 1;
+        st.v108ResetTheAnhStartOver = true;
         try {
-          localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(afterM));
           if (typeof allCharProfiles === 'object' && allCharProfiles && allCharProfiles['Thế Anh Kho']) {
-            allCharProfiles['Thế Anh Kho'].merit = afterM;
+            allCharProfiles['Thế Anh Kho'].outfitLv = 1;
+            allCharProfiles['Thế Anh Kho'].cultivationLv = 1;
+            allCharProfiles['Thế Anh Kho'].unlockedOutfits = { 1: true };
             localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
           }
           localStorage.setItem(storageKey, JSON.stringify(st));
@@ -8272,13 +8269,25 @@
       } catch (e) {}
       let bestMerit = Math.max(0, rawTheAnhMerit);
       let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
-      let bestOutfitLv = Math.max(Number(profilesObj[canonicalTheAnh]?.outfitLv || 1), 8);
+      // V108 (#mw0djfpt31): Reset trang phục của Thế Anh Kho về lại Bậc 1 để bắt buộc mua lại từ đầu lần lượt từng bậc!
+      let theAnhResetDone = false;
+      try {
+        theAnhResetDone = localStorage.getItem('ty_v108_reset_the_anh_outfit') === '1';
+        if (!theAnhResetDone) {
+          localStorage.setItem('ty_v108_reset_the_anh_outfit', '1');
+          if (profilesObj[canonicalTheAnh]) {
+            profilesObj[canonicalTheAnh].outfitLv = 1;
+            profilesObj[canonicalTheAnh].cultivationLv = 1;
+            profilesObj[canonicalTheAnh].unlockedOutfits = { 1: true };
+          }
+        }
+      } catch (e) {}
+      let bestOutfitLv = !theAnhResetDone ? 1 : Math.max(1, Number(profilesObj[canonicalTheAnh]?.outfitLv || 1));
       for (const k of Object.keys(profilesObj)) {
         const kLower = k.toLowerCase();
         if (k !== canonicalTheAnh && (normalizeCanonicalAccountName(k) === canonicalTheAnh || kLower.includes('thế anh') || kLower.includes('the anh'))) {
           const dup = profilesObj[k] || {};
           bestCongDuc = Math.max(bestCongDuc, Number(dup.congDuc || 0));
-          bestOutfitLv = Math.max(bestOutfitLv, Number(dup.outfitLv || 1));
           delete profilesObj[k];
           try { localStorage.removeItem('ty_merit_backup_' + k); } catch (e) {}
         }
@@ -8292,14 +8301,15 @@
         dept: 'Điều Phối Kho',
         avatar: '🧘‍♂️',
         outfitLv: bestOutfitLv,
-        cultivationLv: Math.max(Number(profilesObj[canonicalTheAnh]?.cultivationLv || 1), bestOutfitLv),
+        cultivationLv: !theAnhResetDone ? 1 : Math.max(1, Number(profilesObj[canonicalTheAnh]?.cultivationLv || 1), bestOutfitLv),
+        unlockedOutfits: !theAnhResetDone ? { 1: true } : (profilesObj[canonicalTheAnh]?.unlockedOutfits || { 1: true }),
         registered: true
       };
       return profilesObj;
     }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 312241200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 8, cultivationLv: 8, registered: true },
+        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 312241200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 1, cultivationLv: 1, unlockedOutfits: { 1: true }, registered: true },
         'Thành': { name: 'Thành', merit: 47291011, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 8, cultivationLv: 8, registered: true },
         'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
         'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 1, registered: true },
@@ -13502,7 +13512,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 107;
+        const CURRENT_BUILD_VER = 108;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
