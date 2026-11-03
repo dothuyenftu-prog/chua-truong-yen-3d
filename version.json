@@ -1,4 +1,4 @@
 {
-  "version": 115,
-  "updatedAt": "2026-11-03T16:32:00+07:00"
+  "version": 116,
+  "note": "V116: Fix 100% realistic 3D strip-mesh bowing (Vai Khan) and kneeling/prostrating (Quy Lay) animations with zero sideways neck twist"
 }

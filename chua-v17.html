@@ -11377,69 +11377,90 @@
     }
 
 
-    // V114 (#mw0gutk13h): SỬA ĐỘNG TÁC VÁI KHẤN CHUẨN CHÂN THỰC 100%:
-    // - Phần thân dưới (chân, quần & hông từ thắt lưng trở xuống) ĐỨNG YÊN CỐ ĐỊNH 100% trên sàn chùa (TUYỆT ĐỐI KHÔNG nhún chân, KHÔNG tụt vạt áo xuống đầu gối!).
-    // - Chỉ phần thân trên (lưng, vai, hai tay chắp vái) và đầu GẬP CÚI THẤP XUỐNG sâu quanh khớp thắt lưng cố định theo 2 đốt xương sống (Thắt lưng ➔ Vai & Cổ ➔ Đầu)!
-    function drawPhotorealistic3DWaistBow(ctx, spr, sw, sh, bowDepth) {
+    // V116 (#mw0i5ae83m): ĐỘNG TÁC VÁI KHẤN & QUỲ LẠY 3D LƯỚI DẢI LIÊN TỤC (40 STRIPS) CHÂN THỰC 100%:
+    // - TUYỆT ĐỐI KHÔNG xoay nghiêng cổ/vai sang ngang (ctx.rotate = 0 tuyệt đối), không cắt rời ngang vai gây gãy cổ!
+    // - Khi Đứng Vái Khấn (kneeFold = 0, bowDepth = 0..1):
+    //   + Phần thân dưới từ hông xuống bàn chân (0.46..1.00) đứng yên cố định 100% trên chiếu.
+    //   + Phần lưng trên (0.19..0.46), cổ (0.135..0.19) và đầu (0.00..0.135) cúi gập mượt về phía trước theo phối cảnh 3D tự nhiên, giữ nguyên tỷ lệ cơ thể chuẩn.
+    // - Khi Hạ Gối Quỳ Xuống & Cúi Lạy Sát Đất (kneeFold = 0..1, bowDepth = 0..1):
+    //   + Đúng khớp đầu gối & bắp chân (0.68..1.00) gập xuống chiếu làm cơ thể hạ thấp xuống tư thế quỳ thật tự nhiên, sau đó khớp hông & lưng cúi lạy xuống chiếu trang nghiêm.
+    function drawPhotorealistic3DWaistBow(ctx, spr, sw, sh, bowDepth, kneeFold = 0) {
       const natW = spr.naturalWidth || spr.width;
       const natH = spr.naturalHeight || spr.height;
-      if (!natW || !natH) return;
+      if (!natW || !natH) return sh;
 
-      const waistRatio = 0.46; // Khớp thắt lưng (46% từ đỉnh đầu xuống; từ 46%..100% là hông, vạt áo dưới & đôi chân đứng thẳng)
-      const neckRatio = 0.17;  // Khớp cổ & vai trên (0%..17% là đầu & cổ)
+      const kf = Math.max(0, Math.min(1, Number(kneeFold || 0)));
+      const bd = Math.max(0, Math.min(1, Number(bowDepth || 0)));
 
-      const srcWaistY = Math.round(natH * waistRatio);
-      const srcNeckY = Math.round(natH * neckRatio);
+      // Nếu đang đứng thẳng bình thường không cúi không quỳ -> vẽ 1 lần siêu nét
+      if (kf < 0.005 && bd < 0.005) {
+        ctx.drawImage(spr, -sw / 2, -sh, sw, sh);
+        return sh;
+      }
 
-      const lowerH = sh * (1.0 - waistRatio);
-      const torsoH = sh * (waistRatio - neckRatio);
-      const headH = sh * neckRatio;
+      const N = 36;
+      let curY = 0; // Bắt đầu từ mặt chiếu (chân = 0) đi ngược lên đỉnh đầu
 
-      // 1. Vẽ phần thân dưới (Hông + Quần + Đôi Chân) ĐỨNG YÊN CỐ ĐỊNH 100% trên mặt sàn (không dịch chuyển dù chỉ 1px!)
-      ctx.drawImage(
-        spr,
-        0, srcWaistY, natW, natH - srcWaistY,
-        -sw / 2, -lowerH, sw, lowerH
-      );
+      for (let i = N - 1; i >= 0; i--) {
+        const t0 = i / N;
+        const t1 = (i + 1) / N;
+        const t = 0.5 * (t0 + t1);
 
-      // 2. Khớp 1 (Thắt lưng ➔ Lưng & Vai): Gập sâu phần thân trên xuống từ đúng tâm thắt lưng cố định (-lowerH), KHÔNG đẩy tụt eo xuống chân!
-      ctx.save();
-      ctx.translate(0, -lowerH);
-      // Khi cúi thấp người về phía bàn thờ: lưng gập sâu xuống (torsoScaleY co từ 1.0 xuống 0.38 ở nhịp cúi sâu nhất) và hơi nghiêng về phía hai tay chắp
-      const torsoTilt = bowDepth * 0.24;
-      const torsoScaleY = 1.0 - bowDepth * 0.62;
-      const torsoScaleX = 1.0 + bowDepth * 0.06;
+        const srcY0 = Math.floor(t0 * natH);
+        const srcY1 = Math.max(srcY0 + 1, Math.ceil(t1 * natH));
+        const baseH = (t1 - t0) * sh;
 
-      ctx.save();
-      ctx.rotate(torsoTilt);
-      ctx.scale(torsoScaleX, torsoScaleY);
-      const seamOverlapSrc = Math.round(natH * 0.025);
-      const seamOverlapDst = sh * 0.025;
-      ctx.drawImage(
-        spr,
-        0, srcNeckY, natW, (srcWaistY - srcNeckY) + seamOverlapSrc,
-        -sw / 2, -torsoH, sw, torsoH + seamOverlapDst
-      );
-      ctx.restore();
+        let sy = 1.0;
+        let sx = 1.0;
 
-      // 3. Khớp 2 (Cổ & Đầu + Chắp Tay): Gắn liền vào đỉnh vai đã cúi, tiếp tục cúi thấp đầu xuống sâu kính cẩn
-      ctx.save();
-      ctx.rotate(torsoTilt);
-      const bowedShoulderY = -torsoH * torsoScaleY + bowDepth * (sh * 0.028);
-      ctx.translate(0, bowedShoulderY);
-      ctx.rotate(bowDepth * 0.34);
-      const headScaleY = 1.0 - bowDepth * 0.36;
-      ctx.scale(1.0 + bowDepth * 0.03, headScaleY);
-      const headOverlapSrc = Math.round(natH * 0.03);
-      const headOverlapDst = sh * 0.03;
-      ctx.drawImage(
-        spr,
-        0, 0, natW, srcNeckY + headOverlapSrc,
-        -sw / 2, -headH, sw, headH + headOverlapDst
-      );
-      ctx.restore();
+        // A. Khớp đầu gối & bắp chân (t >= 0.68): chỉ gập xuống chiếu khi Quỳ (kf > 0), đứng Vái Khấn giữ nguyên 1.0
+        if (t >= 0.68 && kf > 0) {
+          const vKnee = (t - 0.68) / 0.32;
+          sy *= (1.0 - kf * (0.78 * Math.pow(vKnee, 0.85)));
+          sx *= (1.0 + kf * (0.09 * Math.sin(vKnee * Math.PI)));
+        }
 
-      ctx.restore();
+        // B. Khớp đùi & hông (0.42 <= t < 0.74): gập sâu trên gót chân khi đang Quỳ và Cúi Lạy Sát Đất (kf > 0 & bd > 0)
+        if (t >= 0.42 && t < 0.74 && kf > 0 && bd > 0) {
+          const vHip = Math.sin(((t - 0.42) / 0.32) * Math.PI);
+          const prostrate = kf * bd;
+          sy *= (1.0 - prostrate * (0.50 * vHip));
+          sx *= (1.0 + prostrate * (0.06 * vHip));
+        }
+
+        // C. Khớp thắt lưng, vai, cổ & đầu (t < 0.46) khi cúi về phía bàn thờ (bd > 0)
+        if (t < 0.46 && bd > 0) {
+          if (t >= 0.19) {
+            // Lưng & vai (0.19 .. 0.46): hơi mở rộng nhẹ phần bả vai khi chắp tay vái và rút ngắn phối cảnh tự nhiên
+            const uTorso = (0.46 - t) / (0.46 - 0.19);
+            const torsoComp = (0.22 + 0.16 * kf) * Math.pow(Math.sin(uTorso * Math.PI * 0.5), 1.1);
+            sy *= (1.0 - bd * torsoComp);
+            sx *= (1.0 + bd * (0.05 + 0.04 * kf) * Math.sin(uTorso * Math.PI));
+          } else if (t >= 0.135) {
+            // Cổ (0.135 .. 0.19): cúi gập cằm xuống ngực nên phần gáy thu ngắn mượt mà
+            const uNeck = (0.19 - t) / (0.19 - 0.135);
+            const neckComp = 0.52 + 0.22 * kf;
+            sy *= Math.max(0.16, 1.0 - bd * neckComp);
+            sx *= (1.0 - bd * 0.03 * uNeck);
+          } else {
+            // Đầu & mũ mão/tóc (0.00 .. 0.135): cúi thẳng về phía trước (tuyệt đối không nghiêng lệch sang bên!)
+            const uHead = (0.135 - t) / 0.135;
+            const headComp = (0.22 + 0.16 * kf) * (0.6 + 0.4 * uHead);
+            sy *= (1.0 - bd * headComp);
+            sx *= (1.0 - bd * (0.04 + 0.04 * uHead));
+          }
+        }
+
+        const dstH = Math.max(1, baseH * sy + 0.85);
+        const dstW = sw * sx;
+        const dstX = -dstW * 0.5;
+        const dstY = curY - baseH * sy;
+
+        ctx.drawImage(spr, 0, srcY0, natW, srcY1 - srcY0, dstX, dstY, dstW, dstH);
+        curY -= baseH * sy;
+      }
+
+      return Math.abs(curY);
     }
 
     function drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) {
@@ -11456,149 +11477,59 @@
       ctx.ellipse(0, -2, 34 * scale, 11 * scale, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      const dir = (faceDir >= 0) ? 1 : -1;
-      ctx.scale(dir, 1);
+      const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
+      const charGender = (d.gender === 'M') ? 'M' : 'F';
+      const baseSpr = (charGender === 'M') ? images.walkM : images.walkF;
+      const realSpr = getRecoloredCharacterSprite(baseSpr, charOutfitLv, charGender);
+      const stW = (realSpr.width || realSpr.naturalWidth || 140) * scale * 0.56;
+      const stH = (realSpr.height || realSpr.naturalHeight || 420) * scale * 0.56;
 
-      const vaiUp = images.poseVaiUp;
-      const vaiBow = images.poseVaiBow;
-      const kneelUp = images.poseKneelUp;
-      const kneelBow = images.poseKneelBow;
-
-      if (mutualMode === 'mutual_kneel' && kneelUp && kneelUp.complete && kneelBow && kneelBow.complete) {
-        // CHU KỲ QUỲ LẠY NHAU 3D CHÂN THỰC TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa 60FPS):
-        // Pha 1 (0..0.28): Quỳ thẳng chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu
-        // Pha 2 (0.28..0.48): Khớp lưng gập dần xuống sàn chuyển mượt sang tư thế lạy sát đất
-        // Pha 3 (0.48..0.80): Cúi rạp trán và hai bàn tay chạm sàn trước bồ đoàn (pose_kneel_bow)
-        // Pha 4 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm trên bồ đoàn
+      if (mutualMode === 'mutual_kneel') {
         const cycle = (frameCount % 84) / 84.0;
-        const baseH = 128 * scale;
-
-        if (cycle < 0.30) {
-          const nodT = Math.sin((cycle / 0.30) * Math.PI);
-          const h = baseH;
-          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-          // Khớp lưng trên bồ đoàn khẽ cúi chào trước khi lạy xuống
-          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
-          const lowerH = h * 0.44;
-          const upperH = h * 0.56;
-          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
-          ctx.save();
-          ctx.translate(-w * 0.04, -lowerH + 4);
-          ctx.rotate(nodT * 0.18);
-          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
-          ctx.restore();
-        } else if (cycle < 0.46) {
-          // Chuyển khớp mượt từ Quỳ thẳng -> Cúi rạp lạy sát đất
-          const t = (cycle - 0.30) / 0.16;
-          const ease = t * t * (3 - 2 * t);
-          if (ease < 0.55) {
-            const h = baseH;
-            const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-            const splitY = Math.round(kneelUp.naturalHeight * 0.56);
-            const lowerH = h * 0.44;
-            const upperH = h * 0.56;
-            ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
-            ctx.save();
-            ctx.translate(-w * 0.04, -lowerH + 4);
-            ctx.rotate(0.18 + ease * 0.62);
-            ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
-            ctx.restore();
-          } else {
-            const hBow = 78 * scale;
-            const wBow = hBow * (kneelBow.naturalWidth / kneelBow.naturalHeight);
-            const dip = (1.0 - ease) * 0.14;
-            ctx.save();
-            ctx.rotate(-dip);
-            ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
-            ctx.restore();
-          }
-        } else if (cycle < 0.80) {
-          // Ngũ thể đầu địa: Cúi rạp đầu và hai bàn tay chạm sát sàn chùa
-          const breathe = Math.sin(((cycle - 0.46) / 0.34) * Math.PI);
-          const hBow = (77 - breathe * 2.5) * scale;
-          const wBow = (78 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
-          ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
+        let kf = 1.0, bd = 0.0;
+        if (cycle < 0.22) {
+          const t = cycle / 0.22;
+          kf = t * t * (3 - 2 * t);
+          bd = 0.10 * kf;
+        } else if (cycle < 0.72) {
+          kf = 1.0;
+          const t = (cycle - 0.22) / 0.50;
+          bd = 0.10 + 0.90 * Math.sin(t * Math.PI);
         } else {
-          // Ngẩng đầu dậy trở về tư thế quỳ thẳng chắp tay
-          const t = (cycle - 0.80) / 0.20;
+          const t = (cycle - 0.72) / 0.28;
           const ease = t * t * (3 - 2 * t);
-          const h = baseH;
-          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
-          const lowerH = h * 0.44;
-          const upperH = h * 0.56;
-          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
-          ctx.save();
-          ctx.translate(-w * 0.04, -lowerH + 4);
-          ctx.rotate((1.0 - ease) * 0.48);
-          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
-          ctx.restore();
+          kf = 1.0 - ease;
+          bd = 0.10 * (1.0 - ease);
         }
+        drawPhotorealistic3DWaistBow(ctx, realSpr, stW, stH, bd, kf);
         ctx.restore();
         return;
       }
 
-      if (mutualMode === 'mutual_vai' && vaiUp && vaiUp.complete && vaiBow && vaiBow.complete) {
-        // V114 (#mw0gutk13h): ĐỨNG YÊN CỐ ĐỊNH CHÂN, CHỈ GẬP CÚI THẤP PHẦN LƯNG & ĐẦU XUỐNG (KHÔNG NHÚN CHÂN!)
+      if (mutualMode === 'mutual_vai') {
         const cycle = (frameCount % 72) / 72.0;
-        let bowWave = 0;
+        let bd = 0;
         if (cycle < 0.28) {
           const t = cycle / 0.28;
-          bowWave = t * t * (3 - 2 * t);
+          bd = t * t * (3 - 2 * t);
         } else if (cycle < 0.62) {
-          bowWave = 1.0;
+          bd = 0.92 + 0.08 * Math.sin(((cycle - 0.28) / 0.34) * Math.PI);
         } else if (cycle < 0.88) {
           const t = (cycle - 0.62) / 0.26;
-          bowWave = 1.0 - t * t * (3 - 2 * t);
-        } else {
-          bowWave = 0;
+          bd = 1.0 - t * t * (3 - 2 * t);
         }
-        const h = 142 * scale;
-        const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
-        const splitY = Math.round(vaiUp.naturalHeight * 0.48);
-        const lowerH = h * 0.52;
-        const upperH = h * 0.48;
-        // 1. Chân & thân dưới đứng yên 100% trên sàn chùa
-        ctx.drawImage(vaiUp, 0, splitY, vaiUp.naturalWidth, vaiUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
-        // 2. Chỉ phần thân trên & đầu cúi thấp xuống quanh khớp thắt lưng cố định (-lowerH)
-        ctx.save();
-        ctx.translate(0, -lowerH + 2);
-        ctx.rotate(bowWave * 0.62);
-        ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 8, -w * 0.48, -upperH, w, upperH + 4);
-        ctx.restore();
+        drawPhotorealistic3DWaistBow(ctx, realSpr, stW, stH, bd, 0);
         ctx.restore();
         return;
       }
 
-      if (mutualMode === 'brawl' && vaiBow && vaiBow.complete && vaiUp && vaiUp.complete) {
-        // ĐẤM NHAU TÚI BỤI 3D: Sử dụng nhân vật 3D thật nghiêng mình tung đòn liên hoàn + hiệu ứng găng đấm 3D & sóng xung kích!
+      if (mutualMode === 'brawl') {
         const phase = frameCount * 0.65 + (isPlayer ? 0 : Math.PI);
-        const useBow = Math.sin(phase) > 0;
-        const spr3d = useBow ? vaiBow : vaiUp;
-        const h = (useBow ? 135 : 140) * scale;
-        const w = h * (spr3d.naturalWidth / spr3d.naturalHeight);
-        const lungeX = Math.sin(phase) * 7 * scale;
+        const lungeX = Math.sin(phase) * 7 * scale * (faceDir >= 0 ? 1 : -1);
         const bobY = Math.abs(Math.cos(phase)) * 4 * scale;
-
         ctx.save();
         ctx.translate(lungeX, -bobY);
-        ctx.rotate(0.12 + Math.sin(phase) * 0.08);
-        ctx.drawImage(spr3d, -w * 0.42, -h, w, h);
-
-        // Hiệu ứng vệt nắm đấm 3D & sóng xung kích khi tung cú đấm
-        const punchExt = Math.max(0, Math.sin(phase)) * 26 * scale;
-        if (punchExt > 6 * scale) {
-          const fistX = w * 0.32 + punchExt;
-          const fistY = -h * 0.68;
-          const fistGrad = ctx.createRadialGradient(fistX - 2, fistY - 2, 1, fistX, fistY, 10 * scale);
-          fistGrad.addColorStop(0, '#ffeb3b');
-          fistGrad.addColorStop(0.5, '#ff1744');
-          fistGrad.addColorStop(1, 'rgba(213, 0, 0, 0)');
-          ctx.fillStyle = fistGrad;
-          ctx.beginPath();
-          ctx.arc(fistX, fistY, 10 * scale, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        drawPhotorealistic3DWaistBow(ctx, realSpr, stW, stH, 0.25 + 0.20 * Math.max(0, Math.sin(phase)), 0);
         ctx.restore();
         ctx.restore();
         return;
@@ -12175,19 +12106,20 @@
           drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, charOutfitLv, frameCount);
 
           // 2) Vẽ Nhân Vật Phật Tử Nam / Nữ Khoác Trang Phục 11 Bậc 3D Studio Thật (Từ Ăn Mày Áo Vá -> Công Nhân -> ... -> Hoàng Đế -> Tu Thành Tiên)
+          let actualRenderedH = sh;
           ctx.save();
           if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
             drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
           } else if (isVaiState) {
             const fullSh = sprH * scale * mult;
-            // Nhịp cúi vái trang nghiêm (72 frame/chu kỳ): Cúi thấp người xuống -> Giữ tư thế cúi thấp kính cẩn -> Từ từ ngẩng lên -> Đứng thẳng
+            // Nhịp Đứng Vái Khấn trang nghiêm (72 frame/chu kỳ): Chân đứng yên 100%, lưng & đầu cúi vái thẳng trục
             const vaiCycle = (frameCount % 72) / 72.0;
             let vaiDip = 0;
             if (vaiCycle < 0.28) {
               const t = vaiCycle / 0.28;
               vaiDip = t * t * (3 - 2 * t);
             } else if (vaiCycle < 0.62) {
-              vaiDip = 0.94 + 0.06 * Math.sin(((vaiCycle - 0.28) / 0.34) * Math.PI);
+              vaiDip = 0.92 + 0.08 * Math.sin(((vaiCycle - 0.28) / 0.34) * Math.PI);
             } else if (vaiCycle < 0.88) {
               const t = (vaiCycle - 0.62) / 0.26;
               vaiDip = 1.0 - t * t * (3 - 2 * t);
@@ -12196,26 +12128,50 @@
             }
             ctx.save();
             ctx.translate(sx, sy);
-            drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, vaiDip);
+            actualRenderedH = drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, vaiDip, 0);
             ctx.restore();
           } else if (isBowCycleState) {
-            const fullSh = sprH * scale * mult;
             const rawTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19));
             const cycleTick = rawTick % 76;
             const standRec = getRecoloredCharacterSprite((d.gender === 'M') ? images.walkM : images.walkF, charOutfitLv, charGender);
             const stW = (standRec.width || standRec.naturalWidth) * scale * 0.56;
             const stH = (standRec.height || standRec.naturalHeight) * scale * 0.56;
+            let kf = 0, bd = 0;
+            if (cycleTick < 14) {
+              // Pha 1: Đứng Chắp Tay khẽ cúi đầu
+              const t = cycleTick / 14.0;
+              kf = 0;
+              bd = 0.14 * Math.sin(t * Math.PI * 0.5);
+            } else if (cycleTick < 30) {
+              // Pha 2: Hạ Gối Quỳ Xuống chiếu mượt mà
+              const t = (cycleTick - 14) / 16.0;
+              const ease = t * t * (3 - 2 * t);
+              kf = ease;
+              bd = 0.14 * (1.0 - ease * 0.4);
+            } else if (cycleTick < 60) {
+              // Pha 3: Cúi Lạy Sát Đất trên chiếu
+              const t = (cycleTick - 30) / 30.0;
+              kf = 1.0;
+              bd = 0.08 + 0.92 * Math.sin(t * Math.PI);
+            } else {
+              // Pha 4: Ngẩng Đầu Lên & Đứng Dậy
+              const t = (cycleTick - 60) / 16.0;
+              const ease = t * t * (3 - 2 * t);
+              kf = 1.0 - ease;
+              bd = 0.08 * (1.0 - ease);
+            }
             ctx.save();
             ctx.translate(sx, sy);
-            if (cycleTick < 24) {
-              const standBow = Math.min(1.0, (cycleTick / 24));
-              drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, standBow);
-            } else if (cycleTick < 56) {
-              drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, 1.0);
-            } else {
-              const riseBow = Math.max(0, 1.0 - ((cycleTick - 56) / 20));
-              drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, riseBow);
-            }
+            actualRenderedH = drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, bd, kf);
+            ctx.restore();
+          } else if (d.state === 'kneel') {
+            const standRec = getRecoloredCharacterSprite((d.gender === 'M') ? images.walkM : images.walkF, charOutfitLv, charGender);
+            const stW = (standRec.width || standRec.naturalWidth) * scale * 0.56;
+            const stH = (standRec.height || standRec.naturalHeight) * scale * 0.56;
+            const gentleNod = 0.06 + 0.05 * Math.sin(frameCount * 0.05 + (isPlayer ? 0 : 1.7));
+            ctx.save();
+            ctx.translate(sx, sy);
+            actualRenderedH = drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, gentleNod, 1.0);
             ctx.restore();
           } else {
             ctx.save();
@@ -12229,9 +12185,9 @@
           ctx.restore();
 
           // 3) Vẽ Dải Y Cà Sa Đắp Chéo Vai, Tràng Hạt, Mão Tỳ Lư / Bảo Quán & Ấn Vạn Tự 卍
-          drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, sh, scale, charOutfitLv, frameCount);
+          drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, actualRenderedH, scale, charOutfitLv, frameCount);
 
-          const headY = sy - sh - bob + poseOffsetY - 6;
+          const headY = sy - actualRenderedH - bob - 6;
           const badgeLabel = isPlayer
             ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
