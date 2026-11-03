@@ -8186,7 +8186,8 @@
       let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
       let bestOutfitLv = Math.max(Number(profilesObj[canonicalTheAnh]?.outfitLv || 1), 8);
       for (const k of Object.keys(profilesObj)) {
-        if (k !== canonicalTheAnh && normalizeCanonicalAccountName(k) === canonicalTheAnh) {
+        const kLower = k.toLowerCase();
+        if (k !== canonicalTheAnh && (normalizeCanonicalAccountName(k) === canonicalTheAnh || kLower.includes('thế anh') || kLower.includes('the anh'))) {
           const dup = profilesObj[k] || {};
           bestMerit = Math.max(bestMerit, Number(dup.merit || 0));
           bestCongDuc = Math.max(bestCongDuc, Number(dup.congDuc || 0));
@@ -11622,125 +11623,29 @@
         ctx.fill();
       }
 
-      // Nhân vật vãng lai ngồi lễ tĩnh lặng, chỉ thỉnh thoảng (~35 giây/lần) mới niệm 1 câu ngắn 4-6 chữ trong 3 giây, không lặp lại liên tục!
+      // V104 (#mw0axatt2p & #mw0b1sv52q): XOÁ SẠCH 100% CÁC CON BOT VÃNG LAI ĐI LẠI TRONG SẢNH & CHỈ ĐỂ LẠI ĐÚNG 1 NGƯỜI SỐ 1 (TOP #1)!
       const renderables = [];
-      // KHÁCH VÃNG LAI ĐI RA ĐI VÀO LIÊN TỤC (#2380 & #2385):
-      // Bước từ cửa vào bồ đoàn -> Quỳ lễ & khấn 1 câu ngắn gọn -> Đứng dậy đi ra cửa -> Đổi lượt khách mới bước vào!
-      for (const g of visitingGuests) {
-        if (g.name === player.name) {
-          const alt = visitorNamesPool.find(p => p.name !== player.name && !visitingGuests.some(o => o !== g && o.name === p.name)) || visitorNamesPool[0];
-          if (alt) {
-            g.name = alt.name;
-            g.avatar = alt.avatar;
-            g.gender = alt.gender;
-          }
+      if (activeMutualInteraction && activeMutualInteraction.active && activeMutualInteraction.target) {
+        const tgt = activeMutualInteraction.target;
+        if (tgt !== player && !Object.values(onlineCompanyPeers).includes(tgt)) {
+          if (tgt.vaiTimer && tgt.vaiTimer > 0) tgt.vaiTimer = Math.max(0, tgt.vaiTimer - dt60);
+          if (tgt.bowTimer && tgt.bowTimer > 0) tgt.bowTimer = Math.max(0, tgt.bowTimer - dt60);
+          if (tgt.chatTimer && tgt.chatTimer > 0) tgt.chatTimer = Math.max(0, tgt.chatTimer - dt60);
+          renderables.push({ type: 'visitor', data: tgt, v: tgt.v });
         }
-        if (g.waitOutsideTimer > 0) {
-          g.waitOutsideTimer = Math.max(0, g.waitOutsideTimer - dt60);
-          if (g.waitOutsideTimer === 0) {
-            let nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
-            nextVisitorPoolIdx++;
-            for (let tries = 0; tries < visitorNamesPool.length; tries++) {
-              if (nextProfile.name !== player.name && !visitingGuests.some(o => o !== g && o.name === nextProfile.name)) {
-                break;
-              }
-              nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
-              nextVisitorPoolIdx++;
-            }
-            g.name = nextProfile.name;
-            g.avatar = nextProfile.avatar;
-            g.gender = nextProfile.gender;
-            const sideLeft = (g.id.endsWith('1'));
-            g.u = sideLeft ? 0.12 : 0.88;
-            g.v = 0.94;
-            g.targetU = sideLeft ? (0.18 + Math.random() * 0.10) : (0.72 + Math.random() * 0.10);
-            g.targetV = 0.64 + Math.random() * 0.08;
-            g.phase = 'entering';
-            g.state = 'walk';
-            g.chat = '';
-            g.chatTimer = 0;
-            g.pendingSpeech = false;
-          }
-          continue;
-        }
-
-        const gdu = g.targetU - g.u;
-        const gdv = g.targetV - g.v;
-        const dist = Math.hypot(gdu, gdv);
-
-        if (g.phase === 'entering') {
-          if (dist > 0.008) {
-            g.u += gdu * 0.032 * dt60;
-            g.v += gdv * 0.032 * dt60;
-            g.state = 'walk';
-          } else {
-            g.phase = 'praying';
-            g.state = 'kneel';
-            g.phaseTick = 420; // Quỳ lễ ~7.0 giây thực tế
-            g.bowTimer = 90;
-            g.chat = pickRandomSpeechForChar(g.name, g.wing);
-            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
-            if (otherSpeaking) {
-              g.chatTimer = 0;
-              g.pendingSpeech = true;
-            } else {
-              g.chatTimer = 180; // Giữ lời nói của nhân vật đúng 3.0 giây thực tế (kể cả màn 120Hz) rồi mới tắt (#mvwe9kpj6t)
-              g.pendingSpeech = false;
-            }
-          }
-        } else if (g.phase === 'praying') {
-          if (g.bowTimer > 0) g.bowTimer = Math.max(0, g.bowTimer - dt60);
-          if (g.pendingSpeech) {
-            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
-            if (!otherSpeaking) {
-              g.chat = g.chat || pickRandomSpeechForChar(g.name, g.wing);
-              g.chatTimer = 180; // Đến lượt nói: giữ 3.0 giây thực tế (#mvwe9kpj6t)
-              g.pendingSpeech = false;
-              g.phaseTick = Math.max(g.phaseTick, 240);
-            }
-          } else if (g.chatTimer > 0) {
-            g.chatTimer = Math.max(0, g.chatTimer - dt60);
-          }
-          g.phaseTick -= dt60;
-          if (g.phaseTick <= 0 && g.chatTimer <= 0) {
-            if (g.name && allCharProfiles[g.name] && g.name !== player.name) {
-              allCharProfiles[g.name].merit = Number(allCharProfiles[g.name].merit || 100) + 12 + Math.floor(Math.random() * 18);
-              if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
-            }
-            g.phase = 'leaving';
-            g.state = 'walk';
-            g.chat = '';
-            g.chatTimer = 0;
-            g.pendingSpeech = false;
-            g.targetU = (g.u < 0.5) ? 0.08 : 0.92;
-            g.targetV = 0.95;
-          }
-        } else if (g.phase === 'leaving') {
-          if (dist > 0.012) {
-            g.u += gdu * 0.036 * dt60;
-            g.v += gdv * 0.036 * dt60;
-            g.state = 'walk';
-          } else {
-            g.waitOutsideTimer = 55; // Nghỉ ~0.9s ngoài cửa rồi có khách vãng lai mới đi vào
-          }
-        }
-
-        if (g.vaiTimer && g.vaiTimer > 0) {
-          g.vaiTimer = Math.max(0, g.vaiTimer - dt60);
-          g.state = 'vai';
-          if (g.vaiTimer === 0) g.state = (g.phase === 'praying') ? 'kneel' : 'walk';
-        }
-        renderables.push({ type: 'visitor', data: g, v: g.v });
       }
 
-      // Render Online Company Peers (Nội suy chuyển động mượt 60FPS + Giới hạn 15 người toàn hệ thống!)
+      // Render Online Company Peers (Loại bỏ trùng tên để không bao giờ xuất hiện 2 nhân vật cùng tên trên sảnh!)
+      const seenPeerNames = new Set([player.name]);
       if (isOnlinePresenceMode) {
         for (const peerId of Object.keys(onlineCompanyPeers)) {
           const peer = onlineCompanyPeers[peerId];
-          if (!peer || peer.name === player.name) {
+          if (peer && peer.name) peer.name = normalizeCanonicalAccountName(peer.name);
+          if (!peer || !peer.name || isDeletedGhostAccount(peer.name) || seenPeerNames.has(peer.name)) {
             delete onlineCompanyPeers[peerId];
             continue;
           }
+          seenPeerNames.add(peer.name);
           if (typeof peer.targetU === 'number') peer.u += (peer.targetU - peer.u) * 0.15 * dt60;
           if (typeof peer.targetV === 'number') peer.v += (peer.targetV - peer.v) * 0.15 * dt60;
           if (peer.vaiTimer && peer.vaiTimer > 0) peer.vaiTimer = Math.max(0, peer.vaiTimer - dt60);
@@ -11811,22 +11716,19 @@
         player.faceDir = 0;
       }
 
-      // VINH DANH TOP 3 PHƯỚC ĐỨC NGỒI SÁT TRÊN CÙNG TRƯỚC BÀN THỜ + XUNG QUANH TOẢ ÁNH SÁNG VÀNG RỰC RỠ (#mvwfe7o76v)
+      // VINH DANH DUY NHẤT 1 NGƯỜI SỐ 1 (TOP #1) NGỒI CHÍNH GIỮA TRƯỚC BÀN THỜ (#mw0b1sv52q: "xoá 1 thằng đi, để lại 1 thằng số 1 thôi")
       if (holdDir.dx !== 0 || holdDir.dy !== 0 || (activeMutualInteraction && activeMutualInteraction.active)) {
         window._playerMovedFromHonorSeat = true;
       }
       const isMobileScreen = (W <= 768);
       const top3SeatCoords = isMobileScreen ? [
-        { u: 0.50, v: 0.556 }, // TOP 1: Chính giữa sát bàn thờ (cao hơn hẳn Top 2 & Top 3 để không bao giờ đè nhãn lên nhau trên điện thoại!)
-        { u: 0.21, v: 0.630 }, // TOP 2: Bên trái trước bàn thờ
-        { u: 0.79, v: 0.630 }  // TOP 3: Bên phải trước bàn thờ
+        { u: 0.50, v: 0.556 }
       ] : [
-        { u: 0.50, v: 0.576 }, // TOP 1: Chính giữa trước bồ đoàn bàn thờ
-        { u: 0.26, v: 0.618 }, // TOP 2: Bên trái trước bàn thờ
-        { u: 0.74, v: 0.618 }  // TOP 3: Bên phải trước bàn thờ
+        { u: 0.50, v: 0.576 }
       ];
       const top3List = [];
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
+        mergeDuplicateAccountsInPlace(allCharProfiles);
         const seenTop = new Set();
         Object.keys(allCharProfiles).forEach(cName => {
           if (isDeletedGhostAccount(cName)) return;
@@ -11844,18 +11746,12 @@
         });
         top3List.sort((a, b) => b.merit - a.merit);
       }
-      const top3Champions = top3List.slice(0, 3);
+      // Chỉ giữ lại đúng 1 người Số 1 (Top #1) duy nhất!
+      const top3Champions = top3List.slice(0, 1);
       const top3Map = new Map();
       top3Champions.forEach((ch, idx) => {
         top3Map.set(ch.name, { ...ch, rank: idx + 1, seatU: top3SeatCoords[idx].u, seatV: top3SeatCoords[idx].v });
       });
-
-      // Không để khách vãng lai trùng tên với Top 3 đang ngồi ghế vinh danh trên cùng
-      for (let i = renderables.length - 1; i >= 0; i--) {
-        if (renderables[i].type === 'visitor' && top3Map.has(renderables[i].data.name)) {
-          renderables.splice(i, 1);
-        }
-      }
 
       player._topRank = 0;
       if (top3Map.has(player.name)) {
@@ -13465,7 +13361,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 103;
+        const CURRENT_BUILD_VER = 104;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
