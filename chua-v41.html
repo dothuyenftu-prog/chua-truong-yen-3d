@@ -5,7 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
+  <script>
+    (function earlyAutoRedirectOldLink() {
+      var CURRENT_BUILD_VER = 105;
+      window._currentBuildVer = CURRENT_BUILD_VER;
+      function checkAndRedirect() {
+        try {
+          if (location.search.indexOf('demo=') !== -1) return;
+          var reqVer = Number(new URLSearchParams(location.search).get('v') || 0);
+          fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(d) {
+              if (d && Number(d.version) > 0) {
+                var latestVer = Number(d.version);
+                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer)) {
+                  var u = new URL(location.href);
+                  if (u.pathname.endsWith('/index.html') || u.pathname.endsWith('/')) {
+                    u.pathname = u.pathname.replace(/\/(index\.html)?$/, '/chua-v43.html');
+                  }
+                  u.searchParams.set('v', String(latestVer));
+                  u.searchParams.set('_t', String(Date.now()));
+                  location.replace(u.toString());
+                }
+              }
+            }).catch(function(){});
+        } catch (e) {}
+      }
+      checkAndRedirect();
+      setInterval(checkAndRedirect, 4000);
+    })();
+  </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
@@ -6569,17 +6601,52 @@
       for (let i = 1; i <= st.cultivationLv; i++) {
         st.unlockedOutfits[i] = true;
       }
-      // V94 (#mvz9o3901v): Đồng bộ tiến độ Bậc 4 Tỳ Kheo Tinh Tấn của tài khoản chính "Thành" giữa Máy tính & Điện thoại
-      if ((player?.name || 'Thành') === 'Thành' && !st.v94SyncedThanhRank4) {
-        if (st.cultivationLv < 4) st.cultivationLv = 4;
-        if (st.equippedOutfitLv < 4) st.equippedOutfitLv = 4;
+      // V103 (#mw0avdds2o): Đồng bộ tiến độ Bậc 7 (Hoà Thượng Đại Đức) của tài khoản chính "Thành" & đồng bộ 2 chiều từ Cloud Profile cho mọi tài khoản!
+      if ((player?.name || 'Thành') === 'Thành' && !st.v103SyncedThanhRank7) {
+        if (st.cultivationLv < 7) st.cultivationLv = 7;
+        if (st.equippedOutfitLv < 7) st.equippedOutfitLv = 7;
         if (!st.unlockedOutfits) st.unlockedOutfits = {};
-        st.unlockedOutfits[1] = true;
-        st.unlockedOutfits[2] = true;
-        st.unlockedOutfits[3] = true;
-        st.unlockedOutfits[4] = true;
-        st.v94SyncedThanhRank4 = true;
+        for (let i = 1; i <= 7; i++) st.unlockedOutfits[i] = true;
+        st.v103SyncedThanhRank7 = true;
         try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
+      }
+      const cloudProf = (typeof allCharProfiles === 'object' && allCharProfiles) ? allCharProfiles[player?.name || 'Thành'] : null;
+      if (cloudProf) {
+        const cloudMaxLv = Math.max(Number(cloudProf.cultivationLv || 1), Number(cloudProf.outfitLv || 1));
+        let changedByCloud = false;
+        if (cloudMaxLv > st.cultivationLv) {
+          st.cultivationLv = Math.min(10, cloudMaxLv);
+          for (let i = 1; i <= st.cultivationLv; i++) st.unlockedOutfits[i] = true;
+          changedByCloud = true;
+        }
+        if (cloudProf.unlockedOutfits && typeof cloudProf.unlockedOutfits === 'object') {
+          Object.keys(cloudProf.unlockedOutfits).forEach(k => {
+            if (cloudProf.unlockedOutfits[k] && !st.unlockedOutfits[k]) {
+              st.unlockedOutfits[k] = true;
+              const numK = Number(k);
+              if (numK > st.cultivationLv && numK <= 10) st.cultivationLv = numK;
+              changedByCloud = true;
+            }
+          });
+        }
+        if (cloudProf.upgrades && typeof cloudProf.upgrades === 'object') {
+          ['mo', 'bell', 'incense', 'furnace'].forEach(uk => {
+            const cLv = Number(cloudProf.upgrades[uk] || 1);
+            if (cLv > Number(st.upgrades[uk] || 1)) {
+              st.upgrades[uk] = Math.min(10, cLv);
+              changedByCloud = true;
+            }
+          });
+        }
+        const cloudEquipped = Number(cloudProf.outfitLv || cloudMaxLv || 1);
+        if (!st._manualEquipChanged && cloudEquipped > Number(st.equippedOutfitLv || 1) && cloudEquipped <= 10) {
+          st.equippedOutfitLv = cloudEquipped;
+          st.unlockedOutfits[cloudEquipped] = true;
+          changedByCloud = true;
+        }
+        if (changedByCloud) {
+          try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
+        }
       }
       if (typeof st.equippedOutfitLv !== 'number' || st.equippedOutfitLv < 1) st.equippedOutfitLv = 1;
       if (!st.unlockedOutfits[st.equippedOutfitLv]) {
@@ -6924,11 +6991,16 @@
 
     function syncMyOutfitToOnlinePeers(lv) {
       const safeLv = Math.max(1, Math.min(10, Number(lv || 1)));
+      const st = getPlayerQuestState();
       if (player) {
         player._realmLv = safeLv;
+        player.outfitLv = safeLv;
         if (player.name && typeof allCharProfiles === 'object' && allCharProfiles) {
           if (!allCharProfiles[player.name]) allCharProfiles[player.name] = {};
           allCharProfiles[player.name].outfitLv = safeLv;
+          allCharProfiles[player.name].cultivationLv = Math.max(Number(allCharProfiles[player.name].cultivationLv || 1), Number(st.cultivationLv || 1), safeLv);
+          allCharProfiles[player.name].unlockedOutfits = { ...(allCharProfiles[player.name].unlockedOutfits || {}), ...(st.unlockedOutfits || {}), [safeLv]: true };
+          allCharProfiles[player.name].upgrades = { ...(allCharProfiles[player.name].upgrades || {}), ...(st.upgrades || {}) };
           try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
         }
       }
@@ -6940,6 +7012,9 @@
           sender: typeof clientId !== 'undefined' ? clientId : '',
           name: player.name,
           outfitLv: safeLv,
+          cultivationLv: Math.max(Number(st.cultivationLv || 1), safeLv),
+          unlockedOutfits: st.unlockedOutfits || { 1: true, [safeLv]: true },
+          upgrades: st.upgrades || { mo: 1, bell: 1, incense: 1, furnace: 1 },
           merit: Number(player.merit || 0),
           wing: player.wing === 1 ? 1 : 0
         });
@@ -6961,7 +7036,6 @@
         showToast(`⚠️ Chưa đủ Phước Đức để mua "${cfg.outfitName}"! Cần ${cfg.meritCost.toLocaleString('vi-VN')} 💎 Phước (Còn thiếu ${missing} 💎). Hãy tích thêm Phước để mua nhé!`);
         return;
       }
-      addMerit(-cfg.meritCost, `Mua & Mở khóa Trang Phục ${cfg.shortTitle} (-${cfg.meritCost.toLocaleString('vi-VN')} 💎)`);
       if (!st.unlockedOutfits || typeof st.unlockedOutfits !== 'object') {
         st.unlockedOutfits = { 1: true };
       }
@@ -6970,8 +7044,10 @@
         st.cultivationLv = cfg.lv;
       }
       st.equippedOutfitLv = cfg.lv;
+      st._manualEquipChanged = true;
       previewOutfitLevel = 0;
       savePlayerQuestState(st);
+      addMerit(-cfg.meritCost, `Mua & Mở khóa Trang Phục ${cfg.shortTitle} (-${cfg.meritCost.toLocaleString('vi-VN')} 💎)`);
       syncMyOutfitToOnlinePeers(cfg.lv);
       playBellSound();
       showToast(`🌟 ĐÃ MUA & MỞ KHÓA TRANG PHỤC BẬC ${cfg.lv}/10: ${cfg.outfitName}! Đã đồng bộ cho mọi người đang Online!`);
@@ -6989,6 +7065,7 @@
         return;
       }
       st.equippedOutfitLv = cfg.lv;
+      st._manualEquipChanged = true;
       previewOutfitLevel = 0;
       savePlayerQuestState(st);
       syncMyOutfitToOnlinePeers(cfg.lv);
@@ -8111,17 +8188,64 @@
       merit: 1380
     };
 
-    // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V91 — BẢO TOÀN 100% ĐIỂM PHƯỚC ĐỨC & XOÁ VĨNH VIỄN CÁC NICK ẢO "SẾP THÀNH", "THẾ ANH")
+    // HỆ THỐNG LƯU HỒ SƠ & BẢNG TOP PHƯỚC ĐỨC CỦA TẤT CẢ CÁC NHÂN VẬT (V103 — XOÁ NICK "THẾ ANH KHO HN" 81 TR & ĐỒNG BỘ 2 CHIỀU PHÁP PHỤC BẬC 7 CHO "THÀNH")
     const CHAR_PROFILES_STORAGE_KEY = 'chua_ty_registered_accounts_v62';
-    const DELETED_GHOST_ACCOUNTS = new Set(['Sếp Thành', 'Thế Anh']);
+    const DELETED_GHOST_ACCOUNTS = new Set(['Sếp Thành', 'Thế Anh', 'Thế Anh Kho HN']);
     function isDeletedGhostAccount(accName) {
       const clean = String(accName || '').trim();
       return !clean || DELETED_GHOST_ACCOUNTS.has(clean);
     }
+    function normalizeCanonicalAccountName(accName) {
+      const clean = String(accName || '').trim();
+      if (!clean) return '';
+      const lower = clean.toLowerCase().replace(/\s+/g, ' ');
+      if (lower === 'thế anh kho' || lower === 'the anh kho') {
+        return 'Thế Anh Kho';
+      }
+      return clean;
+    }
+    function mergeDuplicateAccountsInPlace(profilesObj) {
+      if (!profilesObj || typeof profilesObj !== 'object') return profilesObj;
+      delete profilesObj['Sếp Thành'];
+      delete profilesObj['Thế Anh'];
+      delete profilesObj['Thế Anh Kho HN'];
+      try {
+        localStorage.removeItem('ty_merit_backup_Thế Anh Kho HN');
+        localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh Kho HN');
+      } catch (e) {}
+      const canonicalTheAnh = 'Thế Anh Kho';
+      let bestMerit = Math.max(Number(profilesObj[canonicalTheAnh]?.merit || 0), 1004031200);
+      let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
+      let bestOutfitLv = Math.max(Number(profilesObj[canonicalTheAnh]?.outfitLv || 1), 8);
+      for (const k of Object.keys(profilesObj)) {
+        const kLower = k.toLowerCase();
+        if (k !== canonicalTheAnh && (normalizeCanonicalAccountName(k) === canonicalTheAnh || kLower.includes('thế anh') || kLower.includes('the anh'))) {
+          const dup = profilesObj[k] || {};
+          bestMerit = Math.max(bestMerit, Number(dup.merit || 0));
+          bestCongDuc = Math.max(bestCongDuc, Number(dup.congDuc || 0));
+          bestOutfitLv = Math.max(bestOutfitLv, Number(dup.outfitLv || 1));
+          delete profilesObj[k];
+          try { localStorage.removeItem('ty_merit_backup_' + k); } catch (e) {}
+        }
+      }
+      profilesObj[canonicalTheAnh] = {
+        ...(profilesObj[canonicalTheAnh] || {}),
+        name: canonicalTheAnh,
+        merit: bestMerit,
+        congDuc: bestCongDuc,
+        gender: 'M',
+        dept: 'Điều Phối Kho',
+        avatar: '🧘‍♂️',
+        outfitLv: bestOutfitLv,
+        cultivationLv: Math.max(Number(profilesObj[canonicalTheAnh]?.cultivationLv || 1), bestOutfitLv),
+        registered: true
+      };
+      return profilesObj;
+    }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thế Anh Kho HN': { name: 'Thế Anh Kho HN', merit: 726147, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🙏', outfitLv: 1, registered: true },
-        'Thành': { name: 'Thành', merit: 61593, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 4, registered: true },
+        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 1004031200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 8, cultivationLv: 8, registered: true },
+        'Thành': { name: 'Thành', merit: 47291011, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 7, cultivationLv: 7, registered: true },
         'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
         'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 1, registered: true },
         'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 1, registered: true },
@@ -8139,17 +8263,13 @@
             merged = { ...defaults, ...parsed };
           }
         }
-        // Xoá vĩnh viễn tài khoản mẫu "Sếp Thành" & "Thế Anh" (#mvw8bl0769 & #mvyy80df1p)
-        delete merged['Sếp Thành'];
-        delete merged['Thế Anh'];
+        // Xoá vĩnh viễn tài khoản mẫu "Sếp Thành", "Thế Anh", "Thế Anh Kho HN" (81 tr) (#mw0auq8h2n)
+        mergeDuplicateAccountsInPlace(merged);
         localStorage.removeItem('ty_merit_backup_Thế Anh');
         localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh');
+        localStorage.removeItem('ty_merit_backup_Thế Anh Kho HN');
+        localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh Kho HN');
 
-        // V99 (#mvzb03n822): Đồng bộ chuẩn cả 9 Tài Khoản Đã Đăng Ký + Pháp Phục Bậc 4 của Thành từ buổi chiều sang mọi trình duyệt!
-        if (Number(merged['Thành']?.merit) === 726147) {
-          merged['Thành'].merit = 61593;
-          localStorage.setItem('ty_merit_backup_Thành', '61593');
-        }
         Object.keys(defaults).forEach(accKey => {
           const defObj = defaults[accKey];
           const curObj = merged[accKey] || {};
@@ -8159,7 +8279,8 @@
             name: accKey,
             merit: Math.max(Number(curObj.merit || 0), Number(localStorage.getItem('ty_merit_backup_' + accKey) || 0), defObj.merit),
             congDuc: Math.max(Number(curObj.congDuc || 0), defObj.congDuc),
-            outfitLv: (accKey === 'Thành') ? Math.max(Number(curObj.outfitLv || 0), 4) : 1,
+            outfitLv: (accKey === 'Thành') ? Math.max(Number(curObj.outfitLv || 0), 7) : Math.max(Number(curObj.outfitLv || 1), Number(defObj.outfitLv || 1)),
+            cultivationLv: (accKey === 'Thành') ? Math.max(Number(curObj.cultivationLv || 0), Number(curObj.outfitLv || 0), 7) : Math.max(Number(curObj.cultivationLv || 1), Number(curObj.outfitLv || 1), Number(defObj.outfitLv || 1)),
             registered: true
           };
         });
@@ -8177,22 +8298,6 @@
           }
         });
 
-        // Khôi phục mốc 1.380 💎 của tài khoản "Thành" vừa bị reset nhầm ở bản trước (#mvw8bl0769)
-        if (!localStorage.getItem('ty_v68_restored_thanh_merit')) {
-          const curThanhMerit = Number(merged['Thành']?.merit || 0);
-          merged['Thành'] = {
-            ...(merged['Thành'] || {}),
-            name: 'Thành',
-            merit: Math.max(curThanhMerit, 1380),
-            congDuc: Math.max(Number(merged['Thành']?.congDuc || 0), 5),
-            gender: 'M',
-            dept: '',
-            avatar: '🧘‍♂️',
-            registered: true
-          };
-          localStorage.setItem('ty_merit_backup_Thành', String(merged['Thành'].merit));
-          localStorage.setItem('ty_v68_restored_thanh_merit', '1');
-        }
         localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(merged));
       } catch (e) {}
       return merged;
@@ -8205,30 +8310,19 @@
     // Nạp ngay điểm Phước Đức đã lưu của tài khoản hiện tại vào player.merit TRƯỚC KHI bất kỳ hàm nào chạy!
     (function preloadInitialPlayerMerit() {
       try {
-        // V81 (#mvyv4cb7y): Nếu máy vừa thử đăng nhập tài khoản "Thế Anh" / "Thế Anh Kho HN" ở bản trước, tự động trả về tài khoản chính "Thành"
-        if (!localStorage.getItem('ty_v81_restored_thanh_default')) {
-          const curSaved = (localStorage.getItem('ty_custom_char_name') || '').trim();
-          if (curSaved === 'Thế Anh' || curSaved === 'Thế Anh Kho HN') {
-            localStorage.setItem('ty_custom_char_name', 'Thành');
-            localStorage.setItem('ty_custom_char_gender', 'M');
-            localStorage.setItem('ty_logged_in_account', 'Thành');
-          }
-          localStorage.setItem('ty_v81_restored_thanh_default', '1');
-        }
-        let savedName = (localStorage.getItem('ty_custom_char_name') || 'Thành').trim();
+        let savedName = normalizeCanonicalAccountName(localStorage.getItem('ty_custom_char_name') || 'Thành');
         if (savedName === 'Sếp Thành' || savedName === 'Thế Anh' || savedName === 'Thế Anh Kho HN') {
           savedName = 'Thành';
-          localStorage.setItem('ty_custom_char_name', 'Thành');
-          localStorage.setItem('ty_custom_char_gender', 'M');
-          localStorage.setItem('ty_logged_in_account', 'Thành');
         }
+        localStorage.setItem('ty_custom_char_name', savedName);
+        localStorage.setItem('ty_logged_in_account', savedName);
         player.name = savedName;
         const prof = allCharProfiles[player.name];
         const backupMerit = Number(localStorage.getItem('ty_merit_backup_' + player.name) || 0);
         player.merit = Math.max(
-          Number(prof?.merit ?? (player.name === 'Thành' ? 61593 : 80)),
+          Number(prof?.merit ?? (player.name === 'Thành' ? 47291011 : 80)),
           backupMerit,
-          (player.name === 'Thành' ? 61593 : 0)
+          (player.name === 'Thành' ? 47291011 : 0)
         );
         window._charProfileLoaded = true;
       } catch (e) {}
@@ -8242,7 +8336,10 @@
     function syncSpecificAccountToServer(accName, meritVal, congDucVal, genderVal, deptVal, honorNote, outfitLvVal) {
       if (isDeletedGhostAccount(accName)) return;
       if (window.location.search && window.location.search.includes('demo=')) return;
-      const resolvedOutfitLv = Number(outfitLvVal) || (accName === player?.name ? getActiveCharacterOutfitLv(player) : Number(allCharProfiles[accName]?.outfitLv || 0));
+      const isMe = (accName === player?.name);
+      const st = isMe && typeof getPlayerQuestState === 'function' ? getPlayerQuestState() : null;
+      const resolvedOutfitLv = Number(outfitLvVal) || (isMe ? getActiveCharacterOutfitLv(player) : Number(allCharProfiles[accName]?.outfitLv || 1));
+      const resolvedCultivationLv = st ? Math.max(Number(st.cultivationLv || 1), resolvedOutfitLv) : Math.max(Number(allCharProfiles[accName]?.cultivationLv || 1), resolvedOutfitLv);
       const payload = {
         type: 'account_merit_sync',
         name: accName,
@@ -8252,6 +8349,9 @@
         gender: genderVal || 'F',
         dept: deptVal || (typeof getCharDeptName === 'function' ? getCharDeptName(accName) : 'Phật Tử'),
         outfitLv: resolvedOutfitLv,
+        cultivationLv: resolvedCultivationLv,
+        unlockedOutfits: st ? st.unlockedOutfits : (allCharProfiles[accName]?.unlockedOutfits || { 1: true }),
+        upgrades: st ? st.upgrades : (allCharProfiles[accName]?.upgrades || { mo: 1, bell: 1, incense: 1, furnace: 1 }),
         registered: true,
         honorNote: honorNote || ''
       };
@@ -8295,6 +8395,7 @@
       if (!player || isDeletedGhostAccount(player.name)) return;
       const prevHonorNote = allCharProfiles[player.name]?.honorNote || '';
       const activeLv = getActiveCharacterOutfitLv(player);
+      const st = typeof getPlayerQuestState === 'function' ? getPlayerQuestState() : null;
       allCharProfiles[player.name] = {
         ...(allCharProfiles[player.name] || {}),
         name: player.name,
@@ -8304,6 +8405,9 @@
         dept: (player.name === 'Thành') ? 'Thành Viên' : (typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử'),
         avatar: (player.name === 'Thành') ? '🧘‍♂️' : (player.avatar || (player.gender === 'M' ? '🧘‍♂️' : '🪷')),
         outfitLv: activeLv,
+        cultivationLv: st ? Math.max(Number(st.cultivationLv || 1), activeLv) : activeLv,
+        unlockedOutfits: st ? st.unlockedOutfits : (allCharProfiles[player.name]?.unlockedOutfits || { 1: true }),
+        upgrades: st ? st.upgrades : (allCharProfiles[player.name]?.upgrades || { mo: 1, bell: 1, incense: 1, furnace: 1 }),
         pin: allCharProfiles[player.name]?.pin || currentAccountPin || '1234',
         registered: true,
         honorNote: prevHonorNote,
@@ -8312,6 +8416,7 @@
       try {
         delete allCharProfiles['Sếp Thành'];
         delete allCharProfiles['Thế Anh'];
+        delete allCharProfiles['Thế Anh Kho HN'];
         localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
         localStorage.setItem('ty_merit_backup_' + player.name, String(player.merit));
       } catch (e) {}
@@ -9828,8 +9933,7 @@
       // V62: CHỈ hiển thị những người thật đã Tạo Tài Khoản / Đăng Nhập (registered === true)!
       // Các NPC phụ trong sảnh chưa tham gia tạo nick sẽ KHÔNG được lên Bảng Top Phước Đức!
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
-        delete allCharProfiles['Sếp Thành'];
-        delete allCharProfiles['Thế Anh'];
+        mergeDuplicateAccountsInPlace(allCharProfiles);
         Object.keys(allCharProfiles).forEach(cName => {
           if (isDeletedGhostAccount(cName)) return;
           const prof = allCharProfiles[cName];
@@ -9870,9 +9974,9 @@
         const safeName = item.name.replace(/'/g, "\'");
         return `
           <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; background:${isMe ? 'rgba(255,193,7,0.18)' : 'rgba(255,255,255,0.05)'}; border:1px solid ${isMe ? '#ffd740' : 'rgba(255,215,64,0.25)'}; border-radius:8px; padding:5px 8px; font-size:10.5px;">
-            <div style="display:flex; align-items:center; gap:6px; min-width:0;">
+            <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1; overflow:hidden;">
               <span style="font-weight:900; color:#ffd740; min-width:20px; flex-shrink:0;">${medal}</span>
-              <span style="color:#fff8e1; font-weight:800; font-size:11px; white-space:nowrap;">${item.avatar} ${item.name}</span>
+              <span style="color:#fff8e1; font-weight:800; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${item.name}">${item.avatar} ${item.name}</span>
             </div>
             <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
               <b style="color:#ffd54f; font-size:11px;">💎 ${Number(item.merit).toLocaleString('vi-VN')}</b>
@@ -10341,6 +10445,13 @@
 
     function handleIncomingPresence(data) {
       if (!data || !isOnlinePresenceMode) return;
+      if ((data.type === 'force_reload' || data.buildVer) && window._currentBuildVer && Number(data.buildVer) > window._currentBuildVer) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('v', String(data.buildVer));
+        url.searchParams.set('_t', String(Date.now()));
+        window.location.replace(url.toString());
+        return;
+      }
       if (data.type === 'init_sync') {
         if (data.altarOfferings) {
           if (Array.isArray(data.altarOfferings['0']) && data.altarOfferings['0'].length > 0 && altarOfferings['0'].length === 0) {
@@ -10351,8 +10462,10 @@
           }
         }
         if (data.accounts && typeof data.accounts === 'object') {
-          for (const [accName, accInfo] of Object.entries(data.accounts)) {
-            if (isDeletedGhostAccount(accName)) continue;
+          for (const [rawAccName, accInfo] of Object.entries(data.accounts)) {
+            if (isDeletedGhostAccount(rawAccName)) continue;
+            const accName = normalizeCanonicalAccountName(rawAccName);
+            if (!accName || isDeletedGhostAccount(accName)) continue;
             if (!allCharProfiles[accName]) allCharProfiles[accName] = { name: accName };
             const localM = Number(allCharProfiles[accName].merit || 0);
             const srvM = Number(accInfo.merit || 0);
@@ -10360,29 +10473,66 @@
             allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
             allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
             if (accInfo.outfitLv) allCharProfiles[accName].outfitLv = Math.max(Number(allCharProfiles[accName].outfitLv || 1), Number(accInfo.outfitLv));
+            if (accInfo.cultivationLv) allCharProfiles[accName].cultivationLv = Math.max(Number(allCharProfiles[accName].cultivationLv || 1), Number(accInfo.cultivationLv));
+            if (accInfo.unlockedOutfits && typeof accInfo.unlockedOutfits === 'object') {
+              allCharProfiles[accName].unlockedOutfits = { ...(allCharProfiles[accName].unlockedOutfits || {}), ...accInfo.unlockedOutfits };
+            }
+            if (accInfo.upgrades && typeof accInfo.upgrades === 'object') {
+              const curUp = allCharProfiles[accName].upgrades || {};
+              allCharProfiles[accName].upgrades = {
+                mo: Math.max(Number(curUp.mo || 1), Number(accInfo.upgrades.mo || 1)),
+                bell: Math.max(Number(curUp.bell || 1), Number(accInfo.upgrades.bell || 1)),
+                incense: Math.max(Number(curUp.incense || 1), Number(accInfo.upgrades.incense || 1)),
+                furnace: Math.max(Number(curUp.furnace || 1), Number(accInfo.upgrades.furnace || 1))
+              };
+            }
             allCharProfiles[accName].registered = true;
-            if (accName === player.name && allCharProfiles[accName].merit > player.merit) {
-              player.merit = allCharProfiles[accName].merit;
-              syncMeritAndBagHud();
+            if (accName === player.name) {
+              if (allCharProfiles[accName].merit > player.merit) {
+                player.merit = allCharProfiles[accName].merit;
+                syncMeritAndBagHud();
+              }
+              if (typeof updateTopBarQuestRealmBadge === 'function') updateTopBarQuestRealmBadge();
             }
           }
+          mergeDuplicateAccountsInPlace(allCharProfiles);
           try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
           if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
         }
         return;
       }
       if (data.type === 'account_merit_sync' && data.name) {
+        data.name = normalizeCanonicalAccountName(data.name);
         if (isDeletedGhostAccount(data.name)) return;
-        if (!allCharProfiles[data.name]) allCharProfiles[data.name] = {};
-        allCharProfiles[data.name].merit = Number(data.merit ?? 50);
-        allCharProfiles[data.name].congDuc = Number(data.congDuc ?? 1);
+        if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name };
+        allCharProfiles[data.name].merit = Math.max(Number(allCharProfiles[data.name].merit || 0), Number(data.merit ?? 50));
+        allCharProfiles[data.name].congDuc = Math.max(Number(allCharProfiles[data.name].congDuc || 0), Number(data.congDuc ?? 1));
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
         if (data.dept) allCharProfiles[data.name].dept = data.dept;
         if (data.outfitLv) {
-          allCharProfiles[data.name].outfitLv = Math.max(1, Math.min(10, Number(data.outfitLv)));
+          allCharProfiles[data.name].outfitLv = Math.max(Number(allCharProfiles[data.name].outfitLv || 1), Math.max(1, Math.min(10, Number(data.outfitLv))));
+        }
+        if (data.cultivationLv) {
+          allCharProfiles[data.name].cultivationLv = Math.max(Number(allCharProfiles[data.name].cultivationLv || 1), Math.max(1, Math.min(10, Number(data.cultivationLv))));
+        }
+        if (data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
+          allCharProfiles[data.name].unlockedOutfits = { ...(allCharProfiles[data.name].unlockedOutfits || {}), ...data.unlockedOutfits };
+        }
+        if (data.upgrades && typeof data.upgrades === 'object') {
+          const curUp = allCharProfiles[data.name].upgrades || {};
+          allCharProfiles[data.name].upgrades = {
+            mo: Math.max(Number(curUp.mo || 1), Number(data.upgrades.mo || 1)),
+            bell: Math.max(Number(curUp.bell || 1), Number(data.upgrades.bell || 1)),
+            incense: Math.max(Number(curUp.incense || 1), Number(data.upgrades.incense || 1)),
+            furnace: Math.max(Number(curUp.furnace || 1), Number(data.upgrades.furnace || 1))
+          };
         }
         allCharProfiles[data.name].registered = true;
         if (data.honorNote) allCharProfiles[data.name].honorNote = data.honorNote;
+        mergeDuplicateAccountsInPlace(allCharProfiles);
+        if (data.name === player.name && typeof updateTopBarQuestRealmBadge === 'function') {
+          updateTopBarQuestRealmBadge();
+        }
         // Đồng bộ ngay vào nhân vật đang đứng trong điện của người chơi đó (peer hoặc NPC đại diện)
         for (const peerObj of Object.values(onlineCompanyPeers)) {
           if (peerObj && peerObj.name === data.name) {
@@ -10432,10 +10582,19 @@
         return;
       }
       if (data.type === 'outfit_change' && data.name) {
+        data.name = normalizeCanonicalAccountName(data.name);
+        if (isDeletedGhostAccount(data.name)) return;
         const newLv = Math.max(1, Math.min(10, Number(data.outfitLv || 1)));
         if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name };
         allCharProfiles[data.name].outfitLv = newLv;
-        if (data.merit !== undefined) allCharProfiles[data.name].merit = Number(data.merit);
+        allCharProfiles[data.name].cultivationLv = Math.max(Number(allCharProfiles[data.name].cultivationLv || 1), Number(data.cultivationLv || 1), newLv);
+        if (data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
+          allCharProfiles[data.name].unlockedOutfits = { ...(allCharProfiles[data.name].unlockedOutfits || {}), ...data.unlockedOutfits };
+        }
+        if (data.merit !== undefined) allCharProfiles[data.name].merit = Math.max(Number(allCharProfiles[data.name].merit || 0), Number(data.merit));
+        if (data.name === player.name && typeof updateTopBarQuestRealmBadge === 'function') {
+          updateTopBarQuestRealmBadge();
+        }
         for (const peerObj of Object.values(onlineCompanyPeers)) {
           if (peerObj && peerObj.name === data.name) {
             peerObj.outfitLv = newLv;
@@ -11503,125 +11662,29 @@
         ctx.fill();
       }
 
-      // Nhân vật vãng lai ngồi lễ tĩnh lặng, chỉ thỉnh thoảng (~35 giây/lần) mới niệm 1 câu ngắn 4-6 chữ trong 3 giây, không lặp lại liên tục!
+      // V104 (#mw0axatt2p & #mw0b1sv52q): XOÁ SẠCH 100% CÁC CON BOT VÃNG LAI ĐI LẠI TRONG SẢNH & CHỈ ĐỂ LẠI ĐÚNG 1 NGƯỜI SỐ 1 (TOP #1)!
       const renderables = [];
-      // KHÁCH VÃNG LAI ĐI RA ĐI VÀO LIÊN TỤC (#2380 & #2385):
-      // Bước từ cửa vào bồ đoàn -> Quỳ lễ & khấn 1 câu ngắn gọn -> Đứng dậy đi ra cửa -> Đổi lượt khách mới bước vào!
-      for (const g of visitingGuests) {
-        if (g.name === player.name) {
-          const alt = visitorNamesPool.find(p => p.name !== player.name && !visitingGuests.some(o => o !== g && o.name === p.name)) || visitorNamesPool[0];
-          if (alt) {
-            g.name = alt.name;
-            g.avatar = alt.avatar;
-            g.gender = alt.gender;
-          }
+      if (activeMutualInteraction && activeMutualInteraction.active && activeMutualInteraction.target) {
+        const tgt = activeMutualInteraction.target;
+        if (tgt !== player && !Object.values(onlineCompanyPeers).includes(tgt)) {
+          if (tgt.vaiTimer && tgt.vaiTimer > 0) tgt.vaiTimer = Math.max(0, tgt.vaiTimer - dt60);
+          if (tgt.bowTimer && tgt.bowTimer > 0) tgt.bowTimer = Math.max(0, tgt.bowTimer - dt60);
+          if (tgt.chatTimer && tgt.chatTimer > 0) tgt.chatTimer = Math.max(0, tgt.chatTimer - dt60);
+          renderables.push({ type: 'visitor', data: tgt, v: tgt.v });
         }
-        if (g.waitOutsideTimer > 0) {
-          g.waitOutsideTimer = Math.max(0, g.waitOutsideTimer - dt60);
-          if (g.waitOutsideTimer === 0) {
-            let nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
-            nextVisitorPoolIdx++;
-            for (let tries = 0; tries < visitorNamesPool.length; tries++) {
-              if (nextProfile.name !== player.name && !visitingGuests.some(o => o !== g && o.name === nextProfile.name)) {
-                break;
-              }
-              nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
-              nextVisitorPoolIdx++;
-            }
-            g.name = nextProfile.name;
-            g.avatar = nextProfile.avatar;
-            g.gender = nextProfile.gender;
-            const sideLeft = (g.id.endsWith('1'));
-            g.u = sideLeft ? 0.12 : 0.88;
-            g.v = 0.94;
-            g.targetU = sideLeft ? (0.18 + Math.random() * 0.10) : (0.72 + Math.random() * 0.10);
-            g.targetV = 0.64 + Math.random() * 0.08;
-            g.phase = 'entering';
-            g.state = 'walk';
-            g.chat = '';
-            g.chatTimer = 0;
-            g.pendingSpeech = false;
-          }
-          continue;
-        }
-
-        const gdu = g.targetU - g.u;
-        const gdv = g.targetV - g.v;
-        const dist = Math.hypot(gdu, gdv);
-
-        if (g.phase === 'entering') {
-          if (dist > 0.008) {
-            g.u += gdu * 0.032 * dt60;
-            g.v += gdv * 0.032 * dt60;
-            g.state = 'walk';
-          } else {
-            g.phase = 'praying';
-            g.state = 'kneel';
-            g.phaseTick = 420; // Quỳ lễ ~7.0 giây thực tế
-            g.bowTimer = 90;
-            g.chat = pickRandomSpeechForChar(g.name, g.wing);
-            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
-            if (otherSpeaking) {
-              g.chatTimer = 0;
-              g.pendingSpeech = true;
-            } else {
-              g.chatTimer = 180; // Giữ lời nói của nhân vật đúng 3.0 giây thực tế (kể cả màn 120Hz) rồi mới tắt (#mvwe9kpj6t)
-              g.pendingSpeech = false;
-            }
-          }
-        } else if (g.phase === 'praying') {
-          if (g.bowTimer > 0) g.bowTimer = Math.max(0, g.bowTimer - dt60);
-          if (g.pendingSpeech) {
-            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
-            if (!otherSpeaking) {
-              g.chat = g.chat || pickRandomSpeechForChar(g.name, g.wing);
-              g.chatTimer = 180; // Đến lượt nói: giữ 3.0 giây thực tế (#mvwe9kpj6t)
-              g.pendingSpeech = false;
-              g.phaseTick = Math.max(g.phaseTick, 240);
-            }
-          } else if (g.chatTimer > 0) {
-            g.chatTimer = Math.max(0, g.chatTimer - dt60);
-          }
-          g.phaseTick -= dt60;
-          if (g.phaseTick <= 0 && g.chatTimer <= 0) {
-            if (g.name && allCharProfiles[g.name] && g.name !== player.name) {
-              allCharProfiles[g.name].merit = Number(allCharProfiles[g.name].merit || 100) + 12 + Math.floor(Math.random() * 18);
-              if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
-            }
-            g.phase = 'leaving';
-            g.state = 'walk';
-            g.chat = '';
-            g.chatTimer = 0;
-            g.pendingSpeech = false;
-            g.targetU = (g.u < 0.5) ? 0.08 : 0.92;
-            g.targetV = 0.95;
-          }
-        } else if (g.phase === 'leaving') {
-          if (dist > 0.012) {
-            g.u += gdu * 0.036 * dt60;
-            g.v += gdv * 0.036 * dt60;
-            g.state = 'walk';
-          } else {
-            g.waitOutsideTimer = 55; // Nghỉ ~0.9s ngoài cửa rồi có khách vãng lai mới đi vào
-          }
-        }
-
-        if (g.vaiTimer && g.vaiTimer > 0) {
-          g.vaiTimer = Math.max(0, g.vaiTimer - dt60);
-          g.state = 'vai';
-          if (g.vaiTimer === 0) g.state = (g.phase === 'praying') ? 'kneel' : 'walk';
-        }
-        renderables.push({ type: 'visitor', data: g, v: g.v });
       }
 
-      // Render Online Company Peers (Nội suy chuyển động mượt 60FPS + Giới hạn 15 người toàn hệ thống!)
+      // Render Online Company Peers (Loại bỏ trùng tên để không bao giờ xuất hiện 2 nhân vật cùng tên trên sảnh!)
+      const seenPeerNames = new Set([player.name]);
       if (isOnlinePresenceMode) {
         for (const peerId of Object.keys(onlineCompanyPeers)) {
           const peer = onlineCompanyPeers[peerId];
-          if (!peer || peer.name === player.name) {
+          if (peer && peer.name) peer.name = normalizeCanonicalAccountName(peer.name);
+          if (!peer || !peer.name || isDeletedGhostAccount(peer.name) || seenPeerNames.has(peer.name)) {
             delete onlineCompanyPeers[peerId];
             continue;
           }
+          seenPeerNames.add(peer.name);
           if (typeof peer.targetU === 'number') peer.u += (peer.targetU - peer.u) * 0.15 * dt60;
           if (typeof peer.targetV === 'number') peer.v += (peer.targetV - peer.v) * 0.15 * dt60;
           if (peer.vaiTimer && peer.vaiTimer > 0) peer.vaiTimer = Math.max(0, peer.vaiTimer - dt60);
@@ -11692,22 +11755,19 @@
         player.faceDir = 0;
       }
 
-      // VINH DANH TOP 3 PHƯỚC ĐỨC NGỒI SÁT TRÊN CÙNG TRƯỚC BÀN THỜ + XUNG QUANH TOẢ ÁNH SÁNG VÀNG RỰC RỠ (#mvwfe7o76v)
+      // VINH DANH DUY NHẤT 1 NGƯỜI SỐ 1 (TOP #1) NGỒI CHÍNH GIỮA TRƯỚC BÀN THỜ (#mw0b1sv52q: "xoá 1 thằng đi, để lại 1 thằng số 1 thôi")
       if (holdDir.dx !== 0 || holdDir.dy !== 0 || (activeMutualInteraction && activeMutualInteraction.active)) {
         window._playerMovedFromHonorSeat = true;
       }
       const isMobileScreen = (W <= 768);
       const top3SeatCoords = isMobileScreen ? [
-        { u: 0.50, v: 0.556 }, // TOP 1: Chính giữa sát bàn thờ (cao hơn hẳn Top 2 & Top 3 để không bao giờ đè nhãn lên nhau trên điện thoại!)
-        { u: 0.21, v: 0.630 }, // TOP 2: Bên trái trước bàn thờ
-        { u: 0.79, v: 0.630 }  // TOP 3: Bên phải trước bàn thờ
+        { u: 0.50, v: 0.556 }
       ] : [
-        { u: 0.50, v: 0.576 }, // TOP 1: Chính giữa trước bồ đoàn bàn thờ
-        { u: 0.26, v: 0.618 }, // TOP 2: Bên trái trước bàn thờ
-        { u: 0.74, v: 0.618 }  // TOP 3: Bên phải trước bàn thờ
+        { u: 0.50, v: 0.576 }
       ];
       const top3List = [];
       if (typeof allCharProfiles === 'object' && allCharProfiles) {
+        mergeDuplicateAccountsInPlace(allCharProfiles);
         const seenTop = new Set();
         Object.keys(allCharProfiles).forEach(cName => {
           if (isDeletedGhostAccount(cName)) return;
@@ -11725,18 +11785,12 @@
         });
         top3List.sort((a, b) => b.merit - a.merit);
       }
-      const top3Champions = top3List.slice(0, 3);
+      // Chỉ giữ lại đúng 1 người Số 1 (Top #1) duy nhất!
+      const top3Champions = top3List.slice(0, 1);
       const top3Map = new Map();
       top3Champions.forEach((ch, idx) => {
         top3Map.set(ch.name, { ...ch, rank: idx + 1, seatU: top3SeatCoords[idx].u, seatV: top3SeatCoords[idx].v });
       });
-
-      // Không để khách vãng lai trùng tên với Top 3 đang ngồi ghế vinh danh trên cùng
-      for (let i = renderables.length - 1; i >= 0; i--) {
-        if (renderables[i].type === 'visitor' && top3Map.has(renderables[i].data.name)) {
-          renderables.splice(i, 1);
-        }
-      }
 
       player._topRank = 0;
       if (top3Map.has(player.name)) {
@@ -13346,15 +13400,16 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 101;
+        const CURRENT_BUILD_VER = 105;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
+            const reqVer = Number(new URLSearchParams(window.location.search).get('v') || 0);
             fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
               .then(r => r.ok ? r.json() : null)
               .then(data => {
-                if (data && Number(data.version) > CURRENT_BUILD_VER) {
+                if (data && (Number(data.version) > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < Number(data.version)))) {
                   const url = new URL(window.location.href);
                   url.searchParams.set('v', String(data.version));
                   url.searchParams.set('_t', String(Date.now()));
@@ -13365,7 +13420,7 @@
           } catch (e) {}
         }
         checkVer();
-        setInterval(checkVer, 5000);
+        setInterval(checkVer, 4000);
       })();
     });
   </script>

@@ -5,7 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
+  <script>
+    (function earlyAutoRedirectOldLink() {
+      var CURRENT_BUILD_VER = 105;
+      window._currentBuildVer = CURRENT_BUILD_VER;
+      function checkAndRedirect() {
+        try {
+          if (location.search.indexOf('demo=') !== -1) return;
+          var reqVer = Number(new URLSearchParams(location.search).get('v') || 0);
+          fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(d) {
+              if (d && Number(d.version) > 0) {
+                var latestVer = Number(d.version);
+                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer)) {
+                  var u = new URL(location.href);
+                  if (u.pathname.endsWith('/index.html') || u.pathname.endsWith('/')) {
+                    u.pathname = u.pathname.replace(/\/(index\.html)?$/, '/chua-v43.html');
+                  }
+                  u.searchParams.set('v', String(latestVer));
+                  u.searchParams.set('_t', String(Date.now()));
+                  location.replace(u.toString());
+                }
+              }
+            }).catch(function(){});
+        } catch (e) {}
+      }
+      checkAndRedirect();
+      setInterval(checkAndRedirect, 4000);
+    })();
+  </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
@@ -10413,6 +10445,13 @@
 
     function handleIncomingPresence(data) {
       if (!data || !isOnlinePresenceMode) return;
+      if ((data.type === 'force_reload' || data.buildVer) && window._currentBuildVer && Number(data.buildVer) > window._currentBuildVer) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('v', String(data.buildVer));
+        url.searchParams.set('_t', String(Date.now()));
+        window.location.replace(url.toString());
+        return;
+      }
       if (data.type === 'init_sync') {
         if (data.altarOfferings) {
           if (Array.isArray(data.altarOfferings['0']) && data.altarOfferings['0'].length > 0 && altarOfferings['0'].length === 0) {
@@ -13361,15 +13400,16 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 104;
+        const CURRENT_BUILD_VER = 105;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
             if (window.location.search && window.location.search.includes('demo=')) return;
+            const reqVer = Number(new URLSearchParams(window.location.search).get('v') || 0);
             fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
               .then(r => r.ok ? r.json() : null)
               .then(data => {
-                if (data && Number(data.version) > CURRENT_BUILD_VER) {
+                if (data && (Number(data.version) > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < Number(data.version)))) {
                   const url = new URL(window.location.href);
                   url.searchParams.set('v', String(data.version));
                   url.searchParams.set('_t', String(Date.now()));
@@ -13380,7 +13420,7 @@
           } catch (e) {}
         }
         checkVer();
-        setInterval(checkVer, 5000);
+        setInterval(checkVer, 4000);
       })();
     });
   </script>

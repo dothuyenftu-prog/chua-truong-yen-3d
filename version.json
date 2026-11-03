@@ -1,5 +1,5 @@
 {
-  "version": 104,
-  "updatedAt": "2026-11-03T13:37:30+07:00",
-  "note": "V104: Xoá sạch 100% Bot vãng lai trong sảnh + Chỉ để lại đúng 1 người Số 1 (Top #1) ngồi danh dự trước bàn thờ & chặn tuyệt đối nick Thế Anh trùng"
+  "version": 105,
+  "updatedAt": "2026-11-03T14:23:30+07:00",
+  "note": "V105: Tự động chuyển hướng mọi link cũ (index.html, chua-v41, chua-v42, chua-v43?v=cũ) sang bản mới nhất ngay từ thẻ <head>"
 }
