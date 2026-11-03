@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 115;
+      var CURRENT_BUILD_VER = 118;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -21,7 +21,12 @@
             .then(function(d) {
               if (d && Number(d.version) > 0) {
                 var latestVer = Number(d.version);
-                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer) || !location.pathname.endsWith('/chua-v43.html')) {
+                var needPathFix = !location.pathname.endsWith('/chua-v43.html');
+                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer) || needPathFix) {
+                  var guardKey = 'ty_redir_guard_v' + latestVer;
+                  var lastTry = Number(sessionStorage.getItem(guardKey) || 0);
+                  if (!needPathFix && reqVer >= latestVer && (Date.now() - lastTry) < 60000) return;
+                  sessionStorage.setItem(guardKey, String(Date.now()));
                   var u = new URL(location.href);
                   u.pathname = u.pathname.replace(/\/([^\/]*\.html)?$/, '/chua-v43.html');
                   u.searchParams.set('v', String(latestVer));
@@ -33,7 +38,7 @@
         } catch (e) {}
       }
       checkAndRedirect();
-      setInterval(checkAndRedirect, 4000);
+      setInterval(checkAndRedirect, 8000);
     })();
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
@@ -13502,27 +13507,8 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 115;
+        const CURRENT_BUILD_VER = 118;
         window._currentBuildVer = CURRENT_BUILD_VER;
-        function checkVer() {
-          try {
-            if (window.location.search && window.location.search.includes('demo=')) return;
-            const reqVer = Number(new URLSearchParams(window.location.search).get('v') || 0);
-            fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
-              .then(r => r.ok ? r.json() : null)
-              .then(data => {
-                if (data && (Number(data.version) > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < Number(data.version)))) {
-                  const url = new URL(window.location.href);
-                  url.searchParams.set('v', String(data.version));
-                  url.searchParams.set('_t', String(Date.now()));
-                  window.location.replace(url.toString());
-                }
-              })
-              .catch(() => {});
-          } catch (e) {}
-        }
-        checkVer();
-        setInterval(checkVer, 4000);
       })();
     });
   </script>

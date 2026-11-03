@@ -1,4 +1,4 @@
 {
-  "version": 117,
-  "note": "V117: Remove Cong Nhan rank and add Thai Tu / Thai Tu Phi Dong Cung (Rank 9) above Vuong Gia"
+  "version": 118,
+  "note": "V118: Fix infinite reload loop by syncing CURRENT_BUILD_VER = 118 and adding sessionStorage anti-loop guard"
 }
