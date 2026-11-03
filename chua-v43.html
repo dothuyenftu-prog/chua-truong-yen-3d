@@ -9715,15 +9715,15 @@
         playNamMoADiDaPhatChant();
         player.state = 'bow_cycle';
         player.vaiTimer = 0;
-        player.bowCycleTick = 20;
-        player.bowTimer = 360;
+        player.bowCycleTick = 0;
+        player.bowTimer = 336;
         const tier = rollSixTierMultiplier();
         const pts = 1 * tier.mult * meritRateMultiplier;
         if (pts > 0) {
           addMerit(pts, `Quỳ lạy tại ${roomName} (${tier.label} → +${pts} 💎)`);
-          showToast(`🙇✨ Quỳ lạy Tam Bảo trúng ${tier.label} → +${pts} 💎 Phước!`);
+          showToast(`🙇✨ Quỳ lạy 3D Tam Bảo trúng ${tier.label} → +${pts} 💎 Phước!`);
         } else {
-          showToast(`🙇 Đang quỳ gối & cúi lạy Tam Bảo tại ${roomName}...`);
+          showToast(`🙇 Đang hạ gối quỳ trên bồ đoàn & cúi lạy 3D (Ngũ Thể Đầu Địa) tại ${roomName}...`);
         }
         broadcastMyPresence(true);
         return;
@@ -9735,14 +9735,15 @@
         playNamMoADiDaPhatChant();
         player.state = 'vai';
         player.bowTimer = 0;
-        player.vaiTimer = 240;
+        player.vaiCycleTick = 0;
+        player.vaiTimer = 288;
         const tier = rollSixTierMultiplier();
         const pts = 1 * tier.mult * meritRateMultiplier;
         if (pts > 0) {
           addMerit(pts, `Vái khấn tại ${roomName} (${tier.label} → +${pts} 💎)`);
-          showToast(`🙏✨ Vái khấn trúng ${tier.label} → +${pts} 💎 Phước!`);
+          showToast(`🙏✨ Vái khấn 3D trúng ${tier.label} → +${pts} 💎 Phước!`);
         } else {
-          showToast(`🙏 Đang chắp tay cúi vái tại ${roomName}...`);
+          showToast(`🙏 Đang nâng tay chắp lễ & cúi mình vái khấn 3D tại ${roomName}...`);
         }
         broadcastMyPresence(true);
       }
@@ -11352,90 +11353,559 @@
     }
 
 
-    // V116 (#mw0i5ae83m): ĐỘNG TÁC VÁI KHẤN & QUỲ LẠY 3D LƯỚI DẢI LIÊN TỤC (40 STRIPS) CHÂN THỰC 100%:
-    // - TUYỆT ĐỐI KHÔNG xoay nghiêng cổ/vai sang ngang (ctx.rotate = 0 tuyệt đối), không cắt rời ngang vai gây gãy cổ!
-    // - Khi Đứng Vái Khấn (kneeFold = 0, bowDepth = 0..1):
-    //   + Phần thân dưới từ hông xuống bàn chân (0.46..1.00) đứng yên cố định 100% trên chiếu.
-    //   + Phần lưng trên (0.19..0.46), cổ (0.135..0.19) và đầu (0.00..0.135) cúi gập mượt về phía trước theo phối cảnh 3D tự nhiên, giữ nguyên tỷ lệ cơ thể chuẩn.
-    // - Khi Hạ Gối Quỳ Xuống & Cúi Lạy Sát Đất (kneeFold = 0..1, bowDepth = 0..1):
-    //   + Đúng khớp đầu gối & bắp chân (0.68..1.00) gập xuống chiếu làm cơ thể hạ thấp xuống tư thế quỳ thật tự nhiên, sau đó khớp hông & lưng cúi lạy xuống chiếu trang nghiêm.
-    function drawPhotorealistic3DWaistBow(ctx, spr, sw, sh, bowDepth, kneeFold = 0) {
-      const natW = spr.naturalWidth || spr.width;
-      const natH = spr.naturalHeight || spr.height;
-      if (!natW || !natH) return sh;
+    // V120 (#mw0lq5a83q): BỘ ENGINE 5 TƯ THẾ 3D STUDIO THẬT CHO HÀNH ĐỘNG "🙏 VÁI KHẤN 3D" & "🙇 QUỲ LẠY 3D (NGŨ THỂ ĐẦU ĐỊA)"
+    // - Thay thế hoàn toàn kiểu ép dẹt/bóp lùn 2D của ảnh đứng bằng 5 tư thế giải phẫu 3D Studio thật cho cả 22 nhân vật Nam/Nữ (Bậc 1..11):
+    //   1) `stand`: Đứng Trang Nghiêm 3D (Ảnh gốc `social_m_1..11.png` / `social_f_1..11.png`).
+    //   2) `vaiUp`: Đứng Chắp Tay Lễ 3D (185x420) — Hai khuỷu tay nâng chắp lễ phía trước ngực, thân dưới & vạt áo đứng thẳng 1:1.
+    //   3) `vaiDeep`: Đứng Cúi Mình Vái Khấn Sâu 3D (185x420) — Vòm lưng cong 3D (Arched Back Dome) nhận ánh sáng vàng + đầu/mũ mão rút ngắn phối cảnh 3D cúi về phía bàn thờ, chân đứng vững trên chiếu.
+    //   4) `kneelUp`: Hạ Gối Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D (185x398) — Quỳ gối thật trên đệm sen đỏ-vàng, lộ 2 đế hài đen phía sau và nếp gấp vải 3D theo đúng trang phục từng bậc.
+    //   5) `kneelMid`: Quỳ Nghiêng Lưng Cúi Lạy 45° Trên Bồ Đoàn 3D (185x398) — Chuyển tiếp 3D mượt mà từ quỳ thẳng sang cúi lạy sát đất.
+    //   6) `bowFull`: Quỳ Cúi Lạy Sát Đất — Ngũ Thể Đầu Địa 3D (208x198) — Hai tay/ống tay áo chống trải dài trên chiếu, vòm lưng 3D cong tròn và tà áo phủ bồ đoàn.
+    const _ritual3DPoseCache = {};
+    let _kneelBaseImgData = null;
+    let _bowBaseImgData = null;
 
-      const kf = Math.max(0, Math.min(1, Number(kneeFold || 0)));
-      const bd = Math.max(0, Math.min(1, Number(bowDepth || 0)));
+    function _ensureBaseRitualImageData() {
+      if (!_kneelBaseImgData && images.kneel && images.kneel.complete && images.kneel.naturalWidth > 0) {
+        const kc = document.createElement('canvas');
+        kc.width = images.kneel.naturalWidth;
+        kc.height = images.kneel.naturalHeight;
+        const kctx = kc.getContext('2d');
+        kctx.drawImage(images.kneel, 0, 0);
+        _kneelBaseImgData = kctx.getImageData(0, 0, kc.width, kc.height);
+      }
+      if (!_bowBaseImgData && images.bow && images.bow.complete && images.bow.naturalWidth > 0) {
+        const bc = document.createElement('canvas');
+        bc.width = images.bow.naturalWidth;
+        bc.height = images.bow.naturalHeight;
+        const bctx = bc.getContext('2d');
+        bctx.drawImage(images.bow, 0, 0);
+        _bowBaseImgData = bctx.getImageData(0, 0, bc.width, bc.height);
+      }
+      return Boolean(_kneelBaseImgData && _bowBaseImgData);
+    }
 
-      // Nếu đang đứng thẳng bình thường không cúi không quỳ -> vẽ 1 lần siêu nét
-      if (kf < 0.005 && bd < 0.005) {
-        ctx.drawImage(spr, -sw / 2, -sh, sw, sh);
+    function getOrCreate3DRitualPoseSet(standSpr, lv, genderInput) {
+      if (!standSpr || !standSpr.complete || !(standSpr.naturalWidth || standSpr.width)) return null;
+      if (!_ensureBaseRitualImageData()) return null;
+
+      const safeLv = Math.max(1, Math.min(11, Number(lv || 1)));
+      const gender = (genderInput === 'M') ? 'M' : 'F';
+      const cacheKey = `${gender}_${safeLv}`;
+      if (_ritual3DPoseCache[cacheKey]) return _ritual3DPoseCache[cacheKey];
+
+      const sw = standSpr.naturalWidth || standSpr.width;
+      const sh = standSpr.naturalHeight || standSpr.height;
+      const kw = _kneelBaseImgData.width; // 185
+      const kh = _kneelBaseImgData.height; // 360
+      const bw = _bowBaseImgData.width; // 266
+      const bh = _bowBaseImgData.height; // 254
+      const kData = _kneelBaseImgData.data;
+      const bData = _bowBaseImgData.data;
+
+      // 1. Lấy dữ liệu pixel ảnh đứng (`standSpr`) và bản làm mịn luma (`sLumaSmooth`) để tách Albedo trang phục
+      const sCan = document.createElement('canvas');
+      sCan.width = sw;
+      sCan.height = sh;
+      const sCtx = sCan.getContext('2d');
+      sCtx.drawImage(standSpr, 0, 0, sw, sh);
+      const sImgData = sCtx.getImageData(0, 0, sw, sh);
+      const sData = sImgData.data;
+
+      const tinyW = Math.max(12, Math.round(sw / 8));
+      const tinyH = Math.max(28, Math.round(sh / 8));
+      const tinyCan = document.createElement('canvas');
+      tinyCan.width = tinyW;
+      tinyCan.height = tinyH;
+      const tinyCtx = tinyCan.getContext('2d');
+      tinyCtx.imageSmoothingEnabled = true;
+      tinyCtx.drawImage(sCan, 0, 0, tinyW, tinyH);
+
+      const blurCan = document.createElement('canvas');
+      blurCan.width = sw;
+      blurCan.height = sh;
+      const blurCtx = blurCan.getContext('2d');
+      blurCtx.imageSmoothingEnabled = true;
+      blurCtx.drawImage(tinyCan, 0, 0, sw, sh);
+      const blurData = blurCtx.getImageData(0, 0, sw, sh).data;
+
+      const sLumaSmooth = new Float32Array(sw * sh);
+      const torsoSamples = [];
+      const yTorso0 = Math.floor(sh * 0.25), yTorso1 = Math.floor(sh * 0.70);
+      const xTorso0 = Math.floor(sw * 0.28), xTorso1 = Math.floor(sw * 0.72);
+      for (let y = 0; y < sh; y++) {
+        for (let x = 0; x < sw; x++) {
+          const idx = (y * sw + x) * 4;
+          const l = 0.299 * blurData[idx] + 0.587 * blurData[idx + 1] + 0.114 * blurData[idx + 2];
+          sLumaSmooth[y * sw + x] = l;
+          if (y >= yTorso0 && y < yTorso1 && x >= xTorso0 && x < xTorso1 && ((x + y) & 1) === 0 && sData[idx + 3] > 120) {
+            torsoSamples.push(l);
+          }
+        }
+      }
+      torsoSamples.sort((a, b) => a - b);
+      const medSLuma = torsoSamples.length ? torsoSamples[torsoSamples.length >> 1] : 100.0;
+
+      // Lưu danh sách tọa độ x có pixel đặc (alpha > 90) trên từng hàng của `standSpr` để không bao giờ lấy nhầm khe trống giữa 2 ống quần
+      const rowOpaqueXs = new Array(sh);
+      const fallbackXs = [];
+      for (let x = Math.floor(sw * 0.20); x < Math.floor(sw * 0.80); x++) fallbackXs.push(x);
+      for (let y = 0; y < sh; y++) {
+        const xs = [];
+        const rowOff = y * sw * 4;
+        for (let x = 0; x < sw; x++) {
+          if (sData[rowOff + x * 4 + 3] > 90) xs.push(x);
+        }
+        rowOpaqueXs[y] = xs.length >= 4 ? xs : fallbackXs;
+      }
+
+      // --- A. Dựng `kneelUp` (185 x 398) — Hạ Gối Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D ---
+      const outK = new Uint8ClampedArray(kData);
+      outK.fill(0, 0, 76 * kw * 4);
+      for (let y = 72; y < kh; y++) {
+        const clothXs = [];
+        for (let x = 0; x < kw; x++) {
+          const p = (y * kw + x) * 4;
+          const ak = kData[p + 3];
+          if (ak <= 15) continue;
+          const rk = kData[p], gk = kData[p + 1], bk = kData[p + 2];
+          const kl = 0.299 * rk + 0.587 * gk + 0.114 * bk;
+          const isCushion = (y > kh * 0.72) && ((rk - bk) > 22) && (rk > 60);
+          const isSoles = (y > kh * 0.88) && (x > kw * 0.30) && (x < kw * 0.70) && (kl < 42);
+          if (!isCushion && !isSoles) clothXs.push(x);
+        }
+        if (clothXs.length < 4) continue;
+        const x0 = clothXs[0], x1 = clothXs[clothXs.length - 1];
+        const span = Math.max(1.0, x1 - x0);
+        const vNorm = Math.max(0.0, Math.min(1.0, (y - 74.0) / (354.0 - 74.0)));
+        const vSpr = 0.195 + (0.935 - 0.195) * Math.pow(vNorm, 0.95);
+        const syIdx = Math.min(sh - 1, Math.max(0, Math.round(vSpr * sh)));
+        const sXs = rowOpaqueXs[syIdx];
+        const nS = sXs.length;
+
+        for (let i = 0; i < clothXs.length; i++) {
+          const x = clothXs[i];
+          const uNorm = Math.max(0.0, Math.min(1.0, (x - x0) / span));
+          const sxIdx = sXs[Math.min(nS - 1, Math.round(uNorm * (nS - 1)))];
+          const sp = (syIdx * sw + sxIdx) * 4;
+          const sr = sData[sp], sg = sData[sp + 1], sb = sData[sp + 2];
+          const smL = Math.max(28.0, sLumaSmooth[syIdx * sw + sxIdx]);
+          const albedoNorm = Math.pow(medSLuma / smL, 0.55);
+
+          const kp = (y * kw + x) * 4;
+          const kl = 0.299 * kData[kp] + 0.587 * kData[kp + 1] + 0.114 * kData[kp + 2];
+          const shade3D = Math.pow(kl / 106.0, 0.90);
+          const spec = Math.max(0.0, (kl - 155.0) * 0.35);
+          const mult = albedoNorm * shade3D;
+          outK[kp]     = Math.min(255, Math.max(0, Math.round(sr * mult + spec)));
+          outK[kp + 1] = Math.min(255, Math.max(0, Math.round(sg * mult + spec * 0.9)));
+          outK[kp + 2] = Math.min(255, Math.max(0, Math.round(sb * mult + spec * 0.7)));
+        }
+      }
+
+      const padTop = 38;
+      const kBodyCan = document.createElement('canvas');
+      kBodyCan.width = kw;
+      kBodyCan.height = kh;
+      kBodyCan.getContext('2d').putImageData(new ImageData(outK, kw, kh), 0, 0);
+
+      const kneelUpCan = document.createElement('canvas');
+      kneelUpCan.width = kw;
+      kneelUpCan.height = kh + padTop; // 185 x 398
+      const kuCtx = kneelUpCan.getContext('2d');
+      kuCtx.drawImage(kBodyCan, 0, padTop);
+
+      const dstHh = Math.round(sh * 0.22);
+      const headCan = document.createElement('canvas');
+      headCan.width = sw;
+      headCan.height = dstHh;
+      const headCtx = headCan.getContext('2d');
+      headCtx.drawImage(standSpr, 0, 0, sw, dstHh, 0, 0, sw, dstHh);
+      const hImgD = headCtx.getImageData(0, 0, sw, dstHh);
+      for (let fy = Math.max(0, dstHh - 9); fy < dstHh; fy++) {
+        const fade = (dstHh - fy) / 9.0;
+        const off = fy * sw * 4;
+        for (let x = 0; x < sw; x++) hImgD.data[off + x * 4 + 3] = Math.round(hImgD.data[off + x * 4 + 3] * fade);
+      }
+      headCtx.putImageData(hImgD, 0, 0);
+      const headPasteY = Math.max(0, (84 + padTop) - dstHh);
+      kuCtx.drawImage(headCan, (kw - sw) >> 1, headPasteY);
+      kneelUpCan._visualTopY = headPasteY;
+      kneelUpCan._waistY = 200 + padTop;
+
+      // --- B. Dựng `bowFull` (208 x 198, thu 0.78x từ 266 x 254 để khớp chiều ngang bồ đoàn `kneelUp`) ---
+      const outB = new Uint8ClampedArray(bData);
+      for (let y = 4; y < bh; y++) {
+        const clothXs = [];
+        for (let x = 0; x < bw; x++) {
+          const p = (y * bw + x) * 4;
+          const ab = bData[p + 3];
+          if (ab <= 15) continue;
+          const rb = bData[p], gb = bData[p + 1], bb = bData[p + 2];
+          const bl = 0.299 * rb + 0.587 * gb + 0.114 * bb;
+          const isCushionB = (y > bh * 0.58) && ((rb - bb) > 22) && (rb > 60);
+          if (!isCushionB && bl > 22) clothXs.push(x);
+        }
+        if (clothXs.length < 4) continue;
+        const xMin = clothXs[0], xMax = clothXs[clothXs.length - 1];
+        const tY = Math.max(0.0, Math.min(1.0, (y - 6.0) / (248.0 - 6.0)));
+        const crevL = 56.0 + Math.max(0.0, (y - 65.0)) * 0.16;
+        const crevR = 210.0 - Math.max(0.0, (y - 65.0)) * 0.16;
+
+        const vCenter = 0.205 + (0.935 - 0.205) * Math.pow(tY, 0.92);
+        const syCenter = Math.min(sh - 1, Math.max(0, Math.round(vCenter * sh)));
+        const sXsC = rowOpaqueXs[syCenter];
+        const nC = sXsC.length;
+        const cStart = Math.max(0, Math.floor(nC * 0.12));
+        const cEnd = Math.max(cStart + 2, Math.min(nC, Math.floor(nC * 0.88)));
+
+        const tArm = Math.max(0.0, Math.min(1.0, (y - 20.0) / (180.0 - 20.0)));
+        const vArm = 0.22 + (0.54 - 0.22) * tArm;
+        const syArm = Math.min(sh - 1, Math.max(0, Math.round(vArm * sh)));
+        const sXsA = rowOpaqueXs[syArm];
+        const nA = sXsA.length;
+        const lArmEnd = Math.max(2, Math.floor(nA * 0.26));
+        const rArmStart = Math.min(nA - 2, Math.floor(nA * 0.74));
+
+        for (let i = 0; i < clothXs.length; i++) {
+          const x = clothXs[i];
+          let sxIdx = 0, syIdx = syCenter;
+          if (y > 68 && x < crevL) {
+            const uArm = Math.max(0.0, Math.min(1.0, (x - xMin) / Math.max(1.0, crevL - xMin)));
+            sxIdx = sXsA[Math.min(lArmEnd - 1, Math.round(uArm * (lArmEnd - 1)))];
+            syIdx = syArm;
+          } else if (y > 68 && x > crevR) {
+            const uArm = Math.max(0.0, Math.min(1.0, (x - crevR) / Math.max(1.0, xMax - crevR)));
+            const rLen = Math.max(1, nA - rArmStart);
+            sxIdx = sXsA[Math.min(nA - 1, rArmStart + Math.round(uArm * (rLen - 1)))];
+            syIdx = syArm;
+          } else {
+            const cLeft = Math.max(xMin, y > 68 ? crevL : xMin);
+            const cRight = Math.min(xMax, y > 68 ? crevR : xMax);
+            const uC = Math.max(0.0, Math.min(1.0, (x - cLeft) / Math.max(1.0, cRight - cLeft)));
+            const cLen = Math.max(1, cEnd - cStart);
+            sxIdx = sXsC[Math.min(nC - 1, cStart + Math.round(uC * (cLen - 1)))];
+            syIdx = syCenter;
+          }
+
+          const sp = (syIdx * sw + sxIdx) * 4;
+          const sr = sData[sp], sg = sData[sp + 1], sb = sData[sp + 2];
+          const smL = Math.max(28.0, sLumaSmooth[syIdx * sw + sxIdx]);
+          const albedoNorm = Math.pow(medSLuma / smL, 0.55);
+
+          const bp = (y * bw + x) * 4;
+          const bl = 0.299 * bData[bp] + 0.587 * bData[bp + 1] + 0.114 * bData[bp + 2];
+          const shade3D = Math.pow(bl / 112.0, 0.92);
+          const spec = Math.max(0.0, (bl - 160.0) * 0.40);
+          const mult = albedoNorm * shade3D;
+          outB[bp]     = Math.min(255, Math.max(0, Math.round(sr * mult + spec)));
+          outB[bp + 1] = Math.min(255, Math.max(0, Math.round(sg * mult + spec * 0.9)));
+          outB[bp + 2] = Math.min(255, Math.max(0, Math.round(sb * mult + spec * 0.7)));
+        }
+      }
+
+      const bowRawCan = document.createElement('canvas');
+      bowRawCan.width = bw;
+      bowRawCan.height = bh;
+      bowRawCan.getContext('2d').putImageData(new ImageData(outB, bw, bh), 0, 0);
+
+      const bowFullCan = document.createElement('canvas');
+      bowFullCan.width = Math.round(bw * 0.78);  // 208
+      bowFullCan.height = Math.round(bh * 0.78); // 198
+      const bfCtx = bowFullCan.getContext('2d');
+      bfCtx.imageSmoothingEnabled = true;
+      bfCtx.imageSmoothingQuality = 'high';
+      bfCtx.drawImage(bowRawCan, 0, 0, bowFullCan.width, bowFullCan.height);
+      bowFullCan._visualTopY = 4;
+
+      // --- C. Chuẩn bị thân dưới đứng (`lowCleanCan`) đã gọn mép tay áo rộng để ghép `vaiUp` & `vaiDeep` ---
+      const yRef = Math.min(sh - 1, Math.round(sh * 0.75));
+      const refXs = rowOpaqueXs[yRef];
+      const rx0 = refXs[0], rx1 = refXs[refXs.length - 1];
+      const sSkirtW = Math.max(40.0, rx1 - rx0);
+
+      const kuData = kuCtx.getImageData(0, 0, kw, kh + padTop).data;
+      const yWaistRef = (205 + padTop) * kw * 4;
+      let kx0 = 45, kx1 = 140;
+      for (let x = 0; x < kw; x++) {
+        if (kuData[yWaistRef + x * 4 + 3] > 60) { kx0 = x; break; }
+      }
+      for (let x = kw - 1; x >= 0; x--) {
+        if (kuData[yWaistRef + x * 4 + 3] > 60) { kx1 = x; break; }
+      }
+      const kWaistW = Math.max(50.0, kx1 - kx0);
+
+      const lowCleanData = new Uint8ClampedArray(sData);
+      const yTap0 = Math.floor(sh * 0.45), yTap1 = Math.floor(sh * 0.75);
+      const midX = 0.5 * (rx0 + rx1);
+      for (let y = yTap0; y < yTap1; y++) {
+        const u = (y - yTap0) / Math.max(1.0, yTap1 - yTap0);
+        const targetHalfW = 0.5 * ((1.0 - u) * kWaistW + u * sSkirtW);
+        const allowL = Math.round(midX - targetHalfW);
+        const allowR = Math.round(midX + targetHalfW);
+        const rOff = y * sw * 4;
+        for (let x = 0; x < Math.max(0, allowL); x++) lowCleanData[rOff + x * 4 + 3] = 0;
+        for (let x = Math.min(sw, allowR); x < sw; x++) lowCleanData[rOff + x * 4 + 3] = 0;
+        for (let fx = 0; fx < 4; fx++) {
+          const f = (fx + 1) / 4.0;
+          if (allowL + fx >= 0 && allowL + fx < sw) lowCleanData[rOff + (allowL + fx) * 4 + 3] = Math.round(lowCleanData[rOff + (allowL + fx) * 4 + 3] * f);
+          if (allowR - fx >= 0 && allowR - fx < sw) lowCleanData[rOff + (allowR - fx) * 4 + 3] = Math.round(lowCleanData[rOff + (allowR - fx) * 4 + 3] * f);
+        }
+      }
+      const lowCleanCan = document.createElement('canvas');
+      lowCleanCan.width = sw;
+      lowCleanCan.height = sh;
+      lowCleanCan.getContext('2d').putImageData(new ImageData(lowCleanData, sw, sh), 0, 0);
+
+      const vw = kw, vh = sh; // 185 x 420
+      const cx = vw >> 1;
+      const lowY0 = Math.round(sh * 0.48);
+
+      // --- D. Dựng `vaiUp` (185 x 420) — Đứng Chắp Tay Lễ 3D (Chiều cao 420px khớp 1:1 với `standSpr`) ---
+      const vaiUpCan = document.createElement('canvas');
+      vaiUpCan.width = vw;
+      vaiUpCan.height = vh;
+      const vuCtx = vaiUpCan.getContext('2d');
+      vuCtx.imageSmoothingEnabled = true;
+      vuCtx.imageSmoothingQuality = 'high';
+      vuCtx.drawImage(lowCleanCan, 0, lowY0, sw, sh - lowY0, cx - (sw >> 1), lowY0, sw, sh - lowY0);
+
+      const kuCropH = (210 + padTop) - headPasteY;
+      const targetKuH = lowY0 + 14;
+      const kuUpperCan = document.createElement('canvas');
+      kuUpperCan.width = kw;
+      kuUpperCan.height = targetKuH;
+      const kuuCtx = kuUpperCan.getContext('2d');
+      kuuCtx.imageSmoothingEnabled = true;
+      kuuCtx.imageSmoothingQuality = 'high';
+      kuuCtx.drawImage(kneelUpCan, 0, headPasteY, kw, kuCropH, 0, 0, kw, targetKuH);
+      const kuuImg = kuuCtx.getImageData(0, 0, kw, targetKuH);
+      for (let fy = Math.max(0, targetKuH - 14); fy < targetKuH; fy++) {
+        const fade = (targetKuH - fy) / 14.0;
+        const off = fy * kw * 4;
+        for (let x = 0; x < kw; x++) kuuImg.data[off + x * 4 + 3] = Math.round(kuuImg.data[off + x * 4 + 3] * fade);
+      }
+      kuuCtx.putImageData(kuuImg, 0, 0);
+      vuCtx.drawImage(kuUpperCan, 0, 0);
+      vaiUpCan._visualTopY = 0;
+      vaiUpCan._waistY = lowY0;
+
+      // --- E. Chuẩn bị Vòm Lưng Cong 3D (`bDomeCleanCan`) & Đầu Cúi Phối Cảnh 3D (`headBowCan`) cho `vaiDeep` & `kneelMid` ---
+      const bdH = 118, bdW = bw; // rows 4..122 of bowRawCan
+      const bDomeCleanCan = document.createElement('canvas');
+      bDomeCleanCan.width = bdW;
+      bDomeCleanCan.height = bdH;
+      const bdcCtx = bDomeCleanCan.getContext('2d');
+      bdcCtx.drawImage(bowRawCan, 0, 4, bdW, bdH, 0, 0, bdW, bdH);
+      const bdImg = bdcCtx.getImageData(0, 0, bdW, bdH);
+      for (let y = 0; y < bdH; y++) {
+        const uY = y / Math.max(1.0, bdH - 1.0);
+        const rOff = y * bdW * 4;
+        if (uY > 0.42) {
+          const tIn = (uY - 0.42) / 0.58;
+          const limL = Math.round(28 + tIn * 36);
+          const limR = Math.round(bdW - 28 - tIn * 36);
+          for (let x = 0; x < Math.max(0, limL); x++) bdImg.data[rOff + x * 4 + 3] = 0;
+          for (let x = Math.min(bdW, limR); x < bdW; x++) bdImg.data[rOff + x * 4 + 3] = 0;
+          for (let fx = 0; fx < 5; fx++) {
+            const f = (fx + 1) / 5.0;
+            if (limL + fx < bdW) bdImg.data[rOff + (limL + fx) * 4 + 3] = Math.round(bdImg.data[rOff + (limL + fx) * 4 + 3] * f);
+            if (limR - fx >= 0) bdImg.data[rOff + (limR - fx) * 4 + 3] = Math.round(bdImg.data[rOff + (limR - fx) * 4 + 3] * f);
+          }
+        }
+        if (y > bdH - 12) {
+          const fade = (bdH - y) / 12.0;
+          for (let x = 0; x < bdW; x++) bdImg.data[rOff + x * 4 + 3] = Math.round(bdImg.data[rOff + x * 4 + 3] * fade);
+        }
+      }
+      bdcCtx.putImageData(bdImg, 0, 0);
+
+      const headBCropH = Math.round(sh * 0.175);
+      const hw = Math.round(sw * 0.84);
+      const hh = Math.round(headBCropH * 0.54);
+      const headBowCan = document.createElement('canvas');
+      headBowCan.width = hw;
+      headBowCan.height = hh;
+      const hbCtx = headBowCan.getContext('2d');
+      hbCtx.imageSmoothingEnabled = true;
+      hbCtx.imageSmoothingQuality = 'high';
+      hbCtx.drawImage(standSpr, 0, 0, sw, headBCropH, 0, 0, hw, hh);
+      const hbImg = hbCtx.getImageData(0, 0, hw, hh);
+      for (let y = 0; y < hh; y++) {
+        const shade = 1.06 - 0.30 * (y / Math.max(1.0, hh - 1.0));
+        const rOff = y * hw * 4;
+        for (let x = 0; x < hw; x++) {
+          hbImg.data[rOff + x * 4]     = Math.min(255, Math.round(hbImg.data[rOff + x * 4] * shade));
+          hbImg.data[rOff + x * 4 + 1] = Math.min(255, Math.round(hbImg.data[rOff + x * 4 + 1] * shade));
+          hbImg.data[rOff + x * 4 + 2] = Math.min(255, Math.round(hbImg.data[rOff + x * 4 + 2] * shade));
+        }
+      }
+      hbCtx.putImageData(hbImg, 0, 0);
+
+      const domeScale = (kWaistW * 0.98) / 136.0;
+      const dstDw = Math.round(bdW * domeScale);
+      const dstDh = Math.round(bdH * domeScale * 1.12);
+
+      // --- F. Dựng `vaiDeep` (185 x 420) — Đứng Cúi Mình Vái Khấn Sâu 3D ---
+      const vaiDeepCan = document.createElement('canvas');
+      vaiDeepCan.width = vw;
+      vaiDeepCan.height = vh;
+      const vdCtx = vaiDeepCan.getContext('2d');
+      vdCtx.imageSmoothingEnabled = true;
+      vdCtx.imageSmoothingQuality = 'high';
+      vdCtx.drawImage(lowCleanCan, 0, lowY0, sw, sh - lowY0, cx - (sw >> 1), lowY0, sw, sh - lowY0);
+      const vdImg = vdCtx.getImageData(0, lowY0, vw, Math.min(34, vh - lowY0));
+      for (let y = 0; y < vdImg.height; y++) {
+        const wShade = 0.60 + 0.40 * (y / 34.0);
+        const rOff = y * vw * 4;
+        for (let x = 0; x < vw; x++) {
+          vdImg.data[rOff + x * 4]     = Math.round(vdImg.data[rOff + x * 4] * wShade);
+          vdImg.data[rOff + x * 4 + 1] = Math.round(vdImg.data[rOff + x * 4 + 1] * wShade);
+          vdImg.data[rOff + x * 4 + 2] = Math.round(vdImg.data[rOff + x * 4 + 2] * wShade);
+        }
+      }
+      vdCtx.putImageData(vdImg, 0, lowY0);
+
+      const domeTopY = lowY0 + Math.round(12 * domeScale) - dstDh;
+      const headY = domeTopY - Math.round(hh * 0.50);
+      vdCtx.drawImage(headBowCan, cx - (hw >> 1), headY);
+      vdCtx.drawImage(bDomeCleanCan, 0, 0, bdW, bdH, cx - (dstDw >> 1), domeTopY, dstDw, dstDh);
+      vaiDeepCan._visualTopY = Math.max(0, headY);
+      vaiDeepCan._waistY = lowY0;
+
+      // --- G. Dựng `kneelMid` (185 x 398) — Quỳ Nghiêng Lưng Cúi Lạy 45° Trên Bồ Đoàn 3D ---
+      const kneelMidCan = document.createElement('canvas');
+      kneelMidCan.width = kw;
+      kneelMidCan.height = kh + padTop;
+      const kmCtx = kneelMidCan.getContext('2d');
+      kmCtx.imageSmoothingEnabled = true;
+      kmCtx.imageSmoothingQuality = 'high';
+      const kLowY0 = 200 + padTop;
+      kmCtx.drawImage(kneelUpCan, 0, kLowY0, kw, (kh + padTop) - kLowY0, 0, kLowY0, kw, (kh + padTop) - kLowY0);
+      const kmImg = kmCtx.getImageData(0, kLowY0, kw, Math.min(28, (kh + padTop) - kLowY0));
+      for (let y = 0; y < kmImg.height; y++) {
+        const wShade = 0.62 + 0.38 * (y / 28.0);
+        const rOff = y * kw * 4;
+        for (let x = 0; x < kw; x++) {
+          kmImg.data[rOff + x * 4]     = Math.round(kmImg.data[rOff + x * 4] * wShade);
+          kmImg.data[rOff + x * 4 + 1] = Math.round(kmImg.data[rOff + x * 4 + 1] * wShade);
+          kmImg.data[rOff + x * 4 + 2] = Math.round(kmImg.data[rOff + x * 4 + 2] * wShade);
+        }
+      }
+      kmCtx.putImageData(kmImg, 0, kLowY0);
+
+      const kDomeTopY = kLowY0 + Math.round(12 * domeScale) - dstDh;
+      const kHeadY = kDomeTopY - Math.round(hh * 0.50);
+      kmCtx.drawImage(headBowCan, cx - (hw >> 1), kHeadY);
+      kmCtx.drawImage(bDomeCleanCan, 0, 0, bdW, bdH, cx - (dstDw >> 1), kDomeTopY, dstDw, dstDh);
+      kneelMidCan._visualTopY = Math.max(0, kHeadY);
+      kneelMidCan._waistY = kLowY0;
+
+      const poseSet = {
+        stand: standSpr,
+        vaiUp: vaiUpCan,
+        vaiDeep: vaiDeepCan,
+        kneelUp: kneelUpCan,
+        kneelMid: kneelMidCan,
+        bowFull: bowFullCan
+      };
+      _ritual3DPoseCache[cacheKey] = poseSet;
+      return poseSet;
+    }
+
+    // Vẽ 1 tư thế 3D có khớp bản lề thắt lưng (`_waistY`) để thân dưới/bồ đoàn bám chặt 100% xuống sàn, chỉ phần lưng trên & đầu chuyển động 3D mượt 60FPS!
+    function drawUpperBodyHinged3DPose(ctx, poseCan, unitScale, upperPitch = 1.0) {
+      const pw = poseCan.width;
+      const ph = poseCan.height;
+      const waistY = poseCan._waistY || Math.round(ph * 0.52);
+      const visualTopY = poseCan._visualTopY || 0;
+
+      const dstW = pw * unitScale;
+      const lowSrcH = ph - waistY;
+      const lowDstH = lowSrcH * unitScale;
+
+      // 1) Vẽ phần thân dưới / bồ đoàn cố định 100% trên mặt chiếu
+      ctx.drawImage(poseCan, 0, waistY, pw, lowSrcH, -dstW * 0.5, -lowDstH, dstW, lowDstH);
+
+      // 2) Vẽ phần thân trên & vòm lưng 3D gắn liền tại khớp thắt lưng (`-lowDstH`) với độ mở vai phối cảnh 3D
+      const upSrcH = waistY + 6;
+      const upDstH = (waistY * unitScale) * upperPitch;
+      const upDstW = dstW * (1.0 + (1.0 - upperPitch) * 0.16);
+      const overlapPx = 6 * unitScale;
+      ctx.drawImage(poseCan, 0, 0, pw, upSrcH, -upDstW * 0.5, -lowDstH - upDstH, upDstW, upDstH + overlapPx);
+
+      const visUpperH = Math.max(10, (waistY - visualTopY) * unitScale * upperPitch);
+      return lowDstH + visUpperH;
+    }
+
+    // Vẽ chuỗi hành động 3D Studio cho "🙏 Vái Khấn 3D" (`mode = 'vai'`) và "🙇 Quỳ Lạy 3D — Ngũ Thể Đầu Địa" (`mode = 'bow_cycle'`)
+    function draw3DRitualAnimation(ctx, standSpr, lv, gender, scale, mode, rawTick) {
+      const unitScale = scale * 0.56;
+      const poseSet = getOrCreate3DRitualPoseSet(standSpr, lv, gender);
+      if (!poseSet) {
+        const sw = (standSpr.width || standSpr.naturalWidth || 154) * unitScale;
+        const sh = (standSpr.height || standSpr.naturalHeight || 420) * unitScale;
+        ctx.drawImage(standSpr, -sw * 0.5, -sh, sw, sh);
         return sh;
       }
 
-      const N = 36;
-      let curY = 0; // Bắt đầu từ mặt chiếu (chân = 0) đi ngược lên đỉnh đầu
-
-      for (let i = N - 1; i >= 0; i--) {
-        const t0 = i / N;
-        const t1 = (i + 1) / N;
-        const t = 0.5 * (t0 + t1);
-
-        const srcY0 = Math.floor(t0 * natH);
-        const srcY1 = Math.max(srcY0 + 1, Math.ceil(t1 * natH));
-        const baseH = (t1 - t0) * sh;
-
-        let sy = 1.0;
-        let sx = 1.0;
-
-        // A. Khớp đầu gối & bắp chân (t >= 0.68): chỉ gập xuống chiếu khi Quỳ (kf > 0), đứng Vái Khấn giữ nguyên 1.0
-        if (t >= 0.68 && kf > 0) {
-          const vKnee = (t - 0.68) / 0.32;
-          sy *= (1.0 - kf * (0.78 * Math.pow(vKnee, 0.85)));
-          sx *= (1.0 + kf * (0.09 * Math.sin(vKnee * Math.PI)));
-        }
-
-        // B. Khớp đùi & hông (0.42 <= t < 0.74): gập sâu trên gót chân khi đang Quỳ và Cúi Lạy Sát Đất (kf > 0 & bd > 0)
-        if (t >= 0.42 && t < 0.74 && kf > 0 && bd > 0) {
-          const vHip = Math.sin(((t - 0.42) / 0.32) * Math.PI);
-          const prostrate = kf * bd;
-          sy *= (1.0 - prostrate * (0.50 * vHip));
-          sx *= (1.0 + prostrate * (0.06 * vHip));
-        }
-
-        // C. Khớp thắt lưng, vai, cổ & đầu (t < 0.46) khi cúi về phía bàn thờ (bd > 0)
-        if (t < 0.46 && bd > 0) {
-          if (t >= 0.19) {
-            // Lưng & vai (0.19 .. 0.46): hơi mở rộng nhẹ phần bả vai khi chắp tay vái và rút ngắn phối cảnh tự nhiên
-            const uTorso = (0.46 - t) / (0.46 - 0.19);
-            const torsoComp = (0.22 + 0.16 * kf) * Math.pow(Math.sin(uTorso * Math.PI * 0.5), 1.1);
-            sy *= (1.0 - bd * torsoComp);
-            sx *= (1.0 + bd * (0.05 + 0.04 * kf) * Math.sin(uTorso * Math.PI));
-          } else if (t >= 0.135) {
-            // Cổ (0.135 .. 0.19): cúi gập cằm xuống ngực nên phần gáy thu ngắn mượt mà
-            const uNeck = (0.19 - t) / (0.19 - 0.135);
-            const neckComp = 0.52 + 0.22 * kf;
-            sy *= Math.max(0.16, 1.0 - bd * neckComp);
-            sx *= (1.0 - bd * 0.03 * uNeck);
+      if (mode === 'vai') {
+        // Chu kỳ 72 frame: Đứng Chắp Tay Lễ 3D (`vaiUp`) -> Đứng Cúi Mình Vái Khấn Sâu 3D (`vaiDeep` + 2 nhịp khấn nguyện 3D) -> Ngẩng Lên Chắp Tay (`vaiUp`)
+        const cycle = ((rawTick % 72) + 72) % 72 / 72.0;
+        if (cycle < 0.16) {
+          const u = cycle / 0.16;
+          const ease = u * u * (3 - 2 * u);
+          return drawUpperBodyHinged3DPose(ctx, poseSet.vaiUp, unitScale, 1.0 - 0.10 * ease);
+        } else if (cycle < 0.80) {
+          const u = (cycle - 0.16) / 0.64;
+          let pitch = 1.0;
+          if (u < 0.20) {
+            const t = u / 0.20;
+            pitch = 1.06 - 0.08 * (t * t * (3 - 2 * t));
+          } else if (u < 0.80) {
+            // 2 nhịp khấn nguyện 3D thành tâm khi đang cúi vái sâu
+            const nod = Math.sin(((u - 0.20) / 0.60) * Math.PI * 2);
+            pitch = 0.96 - 0.05 * nod;
           } else {
-            // Đầu & mũ mão/tóc (0.00 .. 0.135): cúi thẳng về phía trước (tuyệt đối không nghiêng lệch sang bên!)
-            const uHead = (0.135 - t) / 0.135;
-            const headComp = (0.22 + 0.16 * kf) * (0.6 + 0.4 * uHead);
-            sy *= (1.0 - bd * headComp);
-            sx *= (1.0 - bd * (0.04 + 0.04 * uHead));
+            const t = (u - 0.80) / 0.20;
+            pitch = 0.98 + 0.08 * (t * t * (3 - 2 * t));
           }
+          return drawUpperBodyHinged3DPose(ctx, poseSet.vaiDeep, unitScale, pitch);
+        } else {
+          const u = (cycle - 0.80) / 0.20;
+          const ease = u * u * (3 - 2 * u);
+          return drawUpperBodyHinged3DPose(ctx, poseSet.vaiUp, unitScale, 0.90 + 0.10 * ease);
         }
-
-        const dstH = Math.max(1, baseH * sy + 0.85);
-        const dstW = sw * sx;
-        const dstX = -dstW * 0.5;
-        const dstY = curY - baseH * sy;
-
-        ctx.drawImage(spr, 0, srcY0, natW, srcY1 - srcY0, dstX, dstY, dstW, dstH);
-        curY -= baseH * sy;
       }
 
-      return Math.abs(curY);
+      // `mode === 'bow_cycle'`: Chu kỳ 84 frame Ngũ Thể Đầu Địa 3D:
+      // 1) Đứng Chắp Tay Lễ 3D (`vaiUp`) -> 2) Hạ Gối Quỳ Trên Bồ Đoàn (`kneelUp`) -> 3) Quỳ Cúi Lưng 45° (`kneelMid`)
+      // -> 4) Quỳ Cúi Lạy Sát Đất — Ngũ Thể Đầu Địa (`bowFull`) -> 5) Chống Tay Ngẩng Lưng 45° (`kneelMid`) -> 6) Quỳ Thẳng Chắp Tay (`kneelUp`)
+      const cycle = ((rawTick % 84) + 84) % 84 / 84.0;
+      if (cycle < 0.13) {
+        const u = cycle / 0.13;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.vaiUp, unitScale, 1.0 - 0.08 * u);
+      } else if (cycle < 0.28) {
+        const u = (cycle - 0.13) / 0.15;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelUp, unitScale, 1.02 - 0.08 * u);
+      } else if (cycle < 0.42) {
+        const u = (cycle - 0.28) / 0.14;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelMid, unitScale, 1.04 - 0.12 * u);
+      } else if (cycle < 0.72) {
+        const u = (cycle - 0.42) / 0.30;
+        const dip = Math.sin(u * Math.PI);
+        const bwCan = poseSet.bowFull;
+        const dstW = bwCan.width * unitScale * (1.0 + 0.03 * dip);
+        const dstH = bwCan.height * unitScale * (1.0 - 0.07 * dip);
+        ctx.drawImage(bwCan, -dstW * 0.5, -dstH, dstW, dstH);
+        return dstH;
+      } else if (cycle < 0.85) {
+        const u = (cycle - 0.72) / 0.13;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelMid, unitScale, 0.92 + 0.12 * u);
+      } else {
+        const u = (cycle - 0.85) / 0.15;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelUp, unitScale, 0.94 + 0.06 * u);
+      }
     }
 
     function drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) {
@@ -11460,40 +11930,13 @@
       const stH = (realSpr.height || realSpr.naturalHeight || 420) * scale * 0.56;
 
       if (mutualMode === 'mutual_kneel') {
-        const cycle = (frameCount % 84) / 84.0;
-        let kf = 1.0, bd = 0.0;
-        if (cycle < 0.22) {
-          const t = cycle / 0.22;
-          kf = t * t * (3 - 2 * t);
-          bd = 0.10 * kf;
-        } else if (cycle < 0.72) {
-          kf = 1.0;
-          const t = (cycle - 0.22) / 0.50;
-          bd = 0.10 + 0.90 * Math.sin(t * Math.PI);
-        } else {
-          const t = (cycle - 0.72) / 0.28;
-          const ease = t * t * (3 - 2 * t);
-          kf = 1.0 - ease;
-          bd = 0.10 * (1.0 - ease);
-        }
-        drawPhotorealistic3DWaistBow(ctx, realSpr, stW, stH, bd, kf);
+        draw3DRitualAnimation(ctx, realSpr, charOutfitLv, charGender, scale, 'bow_cycle', frameCount);
         ctx.restore();
         return;
       }
 
       if (mutualMode === 'mutual_vai') {
-        const cycle = (frameCount % 72) / 72.0;
-        let bd = 0;
-        if (cycle < 0.28) {
-          const t = cycle / 0.28;
-          bd = t * t * (3 - 2 * t);
-        } else if (cycle < 0.62) {
-          bd = 0.92 + 0.08 * Math.sin(((cycle - 0.28) / 0.34) * Math.PI);
-        } else if (cycle < 0.88) {
-          const t = (cycle - 0.62) / 0.26;
-          bd = 1.0 - t * t * (3 - 2 * t);
-        }
-        drawPhotorealistic3DWaistBow(ctx, realSpr, stW, stH, bd, 0);
+        draw3DRitualAnimation(ctx, realSpr, charOutfitLv, charGender, scale, 'vai', frameCount);
         ctx.restore();
         return;
       }
@@ -11504,7 +11947,7 @@
         const bobY = Math.abs(Math.cos(phase)) * 4 * scale;
         ctx.save();
         ctx.translate(lungeX, -bobY);
-        drawPhotorealistic3DWaistBow(ctx, realSpr, stW, stH, 0.25 + 0.20 * Math.max(0, Math.sin(phase)), 0);
+        ctx.drawImage(realSpr, -stW * 0.5, -stH, stW, stH);
         ctx.restore();
         ctx.restore();
         return;
@@ -11540,8 +11983,6 @@
       if (Math.hypot(du, dv) > 0.002) {
         player.u += du * 0.16 * dt60;
         player.v += dv * 0.16 * dt60;
-      } else if (player.state === 'walk' && player.v < 0.62 && (!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
-        player.state = 'kneel';
       }
 
       // TỰ ĐỘNG CHUYỂN PHÒNG GIỮA 2 GIAN: BAN TAM BẢO (0) VÀ BAN THẦN TÀI (1)
@@ -11576,11 +12017,13 @@
 
       if (player.vaiTimer && player.vaiTimer > 0) {
         player.vaiTimer = Math.max(0, player.vaiTimer - dt60);
+        player.vaiCycleTick = (player.vaiCycleTick || 0) + dt60;
         player.state = 'vai';
         if (player.vaiTimer === 0) player.state = 'walk';
       } else if (player.bowTimer > 0) {
         player.bowTimer = Math.max(0, player.bowTimer - dt60);
         player.bowCycleTick = (player.bowCycleTick || 0) + dt60;
+        player.state = 'bow_cycle';
         if (player.bowTimer === 0) player.state = 'walk';
       }
       if (player.chatTimer > 0) player.chatTimer = Math.max(0, player.chatTimer - dt60);
@@ -11843,7 +12286,6 @@
           player.v = myTop.seatV;
           player.targetU = myTop.seatU;
           player.targetV = myTop.seatV;
-          if (player.state === 'walk') player.state = 'kneel';
         }
       }
 
@@ -11867,7 +12309,7 @@
             wing: player.wing,
             u: seat.u,
             v: seat.v,
-            state: 'kneel',
+            state: 'walk',
             _topRank: rank,
             _topMerit: ch.merit
           },
@@ -11962,48 +12404,35 @@
             poseStatusColor = '#ff5252';
           }
         } else if (isVaiState) {
-          // V114 (#mw0gutk13h): ĐỨNG YÊN CỐ ĐỊNH CHÂN, NGƯỜI CÚI THẤP XUỐNG (KHÔNG NHÚN CẢ NGƯỜI!)
           spr = (d.gender === 'M') ? images.walkM : images.walkF;
-          poseScaleY = 1.0;
-          poseOffsetY = 0;
+          const rawVaiTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : (frameCount + 11));
+          const vaiCycle = ((rawVaiTick % 72) + 72) % 72 / 72.0;
           if (faceDir !== 0) {
-            poseStatusText = '🙏🔄 Đang Xoay Người Cúi Vái Nhau';
+            poseStatusText = '🙏🔄 Đang Chắp Tay Cúi Mình Vái Khấn 3D';
+          } else if (vaiCycle < 0.16 || vaiCycle >= 0.80) {
+            poseStatusText = '🙏 Đang Nâng Tay Chắp Lễ 3D Trước Ngực';
           } else {
-            poseStatusText = '🙏 Đang Đứng Yên Cúi Thấp Người Vái Khấn';
+            poseStatusText = '🙏 Đang Cúi Mình Vái Khấn Sâu 3D';
           }
           poseStatusColor = '#80d8ff';
         } else if (isBowCycleState) {
-          // QUỲ LẠY (Nếu là mutual_kneel thì cả 2 xoay người vào nhau, cùng quỳ xuống và cúi lạy nhau sát đất!)
+          spr = (d.gender === 'M') ? images.walkM : images.walkF;
           const rawTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19));
-          const cycleTick = rawTick % 76;
-          if (cycleTick < 14) {
-            spr = (d.gender === 'M') ? images.walkM : images.walkF;
-            poseScaleY = 0.96;
-            if (faceDir !== 0) poseRotation = faceDir * 0.14;
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Xoay Người Chuẩn Bị Quỳ Lạy Nhau' : '🙇 Đứng Chắp Tay';
-          } else if (cycleTick < 30) {
-            spr = images.kneel;
-            const dropFrac = (cycleTick - 14) / 16;
-            poseScaleY = 1.02 - dropFrac * 0.06;
-            poseOffsetY = dropFrac * 5;
-            if (faceDir !== 0) poseRotation = faceDir * (0.16 + dropFrac * 0.16);
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Cả 2 Cùng Quỳ Xuống Đối Diện' : '🙇 Hạ Gối Quỳ Xuống';
-          } else if (cycleTick < 60) {
-            spr = images.bow;
-            const bowFrac = Math.sin(((cycleTick - 30) / 30) * Math.PI);
-            poseScaleY = 1.0 - bowFrac * 0.14;
-            poseOffsetY = bowFrac * 9;
-            if (faceDir !== 0) poseRotation = faceDir * (0.28 + bowFrac * 0.34);
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Đang Xoay Người Quỳ Lạy Nhau Sát Đất!' : '🙇 Cúi Lạy Sát Đất';
+          const cycle = ((rawTick % 84) + 84) % 84 / 84.0;
+          if (cycle < 0.13) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Đứng Chắp Tay Chuẩn Bị Quỳ Lạy 3D' : '🙇 Đứng Chắp Tay Lễ 3D';
+          } else if (cycle < 0.28) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Hạ Gối Quỳ Xuống Bồ Đoàn 3D' : '🙇 Hạ Gối Quỳ Trên Bồ Đoàn 3D';
+          } else if (cycle < 0.42) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Quỳ Nghiêng Lưng Cúi Lạy 45° 3D' : '🙇 Quỳ Nghiêng Lưng Cúi Lạy 45° 3D';
+          } else if (cycle < 0.72) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Quỳ Cúi Lạy Sát Đất (Ngũ Thể Đầu Địa 3D)!' : '🙇 Quỳ Cúi Lạy Sát Đất (Ngũ Thể Đầu Địa 3D)';
+          } else if (cycle < 0.85) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Chống Tay Ngẩng Lưng 45° 3D' : '🙇 Chống Tay Ngẩng Lưng 45° 3D';
           } else {
-            spr = images.kneel;
-            poseScaleY = 0.98;
-            if (faceDir !== 0) poseRotation = faceDir * 0.18;
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Ngẩng Lên Tiếp Tục Quỳ Lạy Nhau' : '🙇 Ngẩng Đầu Lên';
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D' : '🙇 Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D';
           }
           poseStatusColor = '#69f0ae';
-        } else if (d.state === 'kneel') {
-          spr = images.kneel;
         } else {
           spr = (d.gender === 'M') ? images.walkM : images.walkF;
         }
@@ -12068,8 +12497,8 @@
           const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
           const charRealmCfg = getRealmConfigByLv(charOutfitLv);
           const charGender = (d.gender === 'M') ? 'M' : 'F';
-          const recoloredSpr = getRecoloredCharacterSprite(spr, charOutfitLv, charGender);
-          const mult = (spr === images.bow) ? 0.54 : 0.56;
+          const recoloredSpr = getRecoloredCharacterSprite((charGender === 'M') ? images.walkM : images.walkF, charOutfitLv, charGender);
+          const mult = 0.56;
           const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
 
           const sprW = recoloredSpr.width || recoloredSpr.naturalWidth || spr.naturalWidth;
@@ -12086,67 +12515,16 @@
           if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
             drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
           } else if (isVaiState) {
-            const fullSh = sprH * scale * mult;
-            // Nhịp Đứng Vái Khấn trang nghiêm (72 frame/chu kỳ): Chân đứng yên 100%, lưng & đầu cúi vái thẳng trục
-            const vaiCycle = (frameCount % 72) / 72.0;
-            let vaiDip = 0;
-            if (vaiCycle < 0.28) {
-              const t = vaiCycle / 0.28;
-              vaiDip = t * t * (3 - 2 * t);
-            } else if (vaiCycle < 0.62) {
-              vaiDip = 0.92 + 0.08 * Math.sin(((vaiCycle - 0.28) / 0.34) * Math.PI);
-            } else if (vaiCycle < 0.88) {
-              const t = (vaiCycle - 0.62) / 0.26;
-              vaiDip = 1.0 - t * t * (3 - 2 * t);
-            } else {
-              vaiDip = 0;
-            }
+            const rawVaiTick = isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : (frameCount + 11);
             ctx.save();
             ctx.translate(sx, sy);
-            actualRenderedH = drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, vaiDip, 0);
+            actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'vai', rawVaiTick);
             ctx.restore();
           } else if (isBowCycleState) {
-            const rawTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19));
-            const cycleTick = rawTick % 76;
-            const standRec = getRecoloredCharacterSprite((d.gender === 'M') ? images.walkM : images.walkF, charOutfitLv, charGender);
-            const stW = (standRec.width || standRec.naturalWidth) * scale * 0.56;
-            const stH = (standRec.height || standRec.naturalHeight) * scale * 0.56;
-            let kf = 0, bd = 0;
-            if (cycleTick < 14) {
-              // Pha 1: Đứng Chắp Tay khẽ cúi đầu
-              const t = cycleTick / 14.0;
-              kf = 0;
-              bd = 0.14 * Math.sin(t * Math.PI * 0.5);
-            } else if (cycleTick < 30) {
-              // Pha 2: Hạ Gối Quỳ Xuống chiếu mượt mà
-              const t = (cycleTick - 14) / 16.0;
-              const ease = t * t * (3 - 2 * t);
-              kf = ease;
-              bd = 0.14 * (1.0 - ease * 0.4);
-            } else if (cycleTick < 60) {
-              // Pha 3: Cúi Lạy Sát Đất trên chiếu
-              const t = (cycleTick - 30) / 30.0;
-              kf = 1.0;
-              bd = 0.08 + 0.92 * Math.sin(t * Math.PI);
-            } else {
-              // Pha 4: Ngẩng Đầu Lên & Đứng Dậy
-              const t = (cycleTick - 60) / 16.0;
-              const ease = t * t * (3 - 2 * t);
-              kf = 1.0 - ease;
-              bd = 0.08 * (1.0 - ease);
-            }
+            const rawBowTick = isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19);
             ctx.save();
             ctx.translate(sx, sy);
-            actualRenderedH = drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, bd, kf);
-            ctx.restore();
-          } else if (d.state === 'kneel') {
-            const standRec = getRecoloredCharacterSprite((d.gender === 'M') ? images.walkM : images.walkF, charOutfitLv, charGender);
-            const stW = (standRec.width || standRec.naturalWidth) * scale * 0.56;
-            const stH = (standRec.height || standRec.naturalHeight) * scale * 0.56;
-            const gentleNod = 0.06 + 0.05 * Math.sin(frameCount * 0.05 + (isPlayer ? 0 : 1.7));
-            ctx.save();
-            ctx.translate(sx, sy);
-            actualRenderedH = drawPhotorealistic3DWaistBow(ctx, standRec, stW, stH, gentleNod, 1.0);
+            actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'bow_cycle', rawBowTick);
             ctx.restore();
           } else {
             ctx.save();
