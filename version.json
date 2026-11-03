@@ -1,4 +1,4 @@
 {
-  "version": 118,
-  "note": "V118: Fix infinite reload loop by syncing CURRENT_BUILD_VER = 118 and adding sessionStorage anti-loop guard"
+  "version": 115,
+  "note": "V119: Instant stop for any cached V115-V117 reload loop + disable head auto-reload loop"
 }
