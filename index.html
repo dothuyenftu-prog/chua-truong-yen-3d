@@ -2800,6 +2800,7 @@
         const overlay = document.getElementById('karaokeSutraOverlay');
         if (!overlay || overlay.style.display === 'none') return;
         pulseSutraMoVisual();
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('mo', 1);
         // Nếu người dùng TẮT Giọng Thầy Tụng (chỉ bật Mõ tự động), gõ tiếng Mõ thật mỗi nhịp!
         // Còn khi đang BẬT Giọng Thầy Chùa Tụng Thật, trong bản thu âm của Thầy đã có sẵn tiếng mõ & chuông chùa thật rất đều!
         if (!karaokeVoiceGuide) {
@@ -2874,6 +2875,7 @@
       unlockAndStartAudio();
       pulseSutraMoVisual();
       playMoSound();
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('mo', 1);
       addMerit(1, `Tự tay gõ mõ trì kinh (${KARAOKE_SUTRAS_DATA[currentKaraokeKey]?.title || 'Tụng Kinh'})`);
       // Khi tự tay gõ mõ ở chế độ tắt giọng thầy, mỗi lần gõ tiến 1 câu kinh!
       if (!karaokeVoiceGuide) {
@@ -3259,9 +3261,12 @@
       const runAutoStep = () => {
         globalAutoFarmStep++;
         // Nếu đang bật Bảng Tụng Kinh Karaoke có giọng Sư Thầy (đã có tiếng Mõ thật + Chuông thật khớp 100% từng chữ trong MP3),
-        // KHÔNG gõ chồng tiếng Mõ 920ms lệch nhịp lên giọng Sư Thầy!
+        // KHÔNG gõ chồng tiếng Mõ 920ms lệch nhịp lên giọng Sư Thầy nhưng VẪN ghi nhận tiến độ Nhiệm Vụ Gõ Mõ & Thỉnh Chuông!
         const krOverlay = document.getElementById('karaokeSutraOverlay');
         if (krOverlay && krOverlay.style.display === 'block' && karaokeVoiceGuide && !localPrayerMp3.paused) {
+          if (typeof recordQuestProgress === 'function') {
+            recordQuestProgress(globalAutoFarmStep % 8 === 0 ? 'bell' : 'mo', 1);
+          }
           return;
         }
         const overlay = document.getElementById('centerStageOverlay');
@@ -6515,6 +6520,11 @@
         st.progress = {};
         st.claimed = {};
       }
+      if (!st.progress || typeof st.progress !== 'object') st.progress = {};
+      if (!st.claimed || typeof st.claimed !== 'object') st.claimed = {};
+      if (st.progress.burn && !st.progress.gold) {
+        st.progress.gold = Math.max(Number(st.progress.gold || 0), Number(st.progress.burn || 0));
+      }
       // V90 (#mvyy24yb1o): Mở khóa nhận lại phần thưởng Nhiệm Vụ theo mức thưởng mới siêu cao nếu trước đó lỡ nhận mức cũ!
       if (!st.v90QuestRewardBoosted) {
         st.claimed = {};
@@ -6632,6 +6642,7 @@
     }
 
     function recordQuestProgress(questId, amount = 1) {
+      if (questId === 'burn') questId = 'gold';
       const st = getPlayerQuestState();
       const cfg = DAILY_QUESTS_CONFIG.find(q => q.id === questId);
       if (!cfg) return;
@@ -6643,6 +6654,53 @@
         const eff = getQuestEffectiveReward(cfg, st);
         showToast(`🎯 Hoàn thành Nhiệm Vụ "${cfg.title}"! Mở 📜 Nhiệm Vụ để nhận +${eff.merit.toLocaleString('vi-VN')} 💎 Phước!`);
       }
+      const modal = document.getElementById('questUpgradeModal');
+      if (modal && modal.classList.contains('open')) {
+        renderQuestUpgradeModal();
+      }
+    }
+
+    function playDailyQuestNow(questId) {
+      unlockAndStartAudio();
+      if (questId === 'burn') questId = 'gold';
+      const st = getPlayerQuestState();
+      const cfg = DAILY_QUESTS_CONFIG.find(q => q.id === questId);
+      if (!cfg) return;
+
+      if (questId === 'mo') {
+        strikeVisualMo();
+      } else if (questId === 'bell') {
+        strikeVisualBell();
+      } else if (questId === 'incense') {
+        performRitual('incense');
+      } else if (questId === 'bow') {
+        performDirectHallAction('bow');
+      } else if (questId === 'offering') {
+        const wKey = String(player.wing === 1 ? 1 : 0);
+        const curList = altarOfferings[wKey] || [];
+        if (curList.length >= 5) {
+          manualTakeDownOffering();
+        } else if (player.merit >= 10) {
+          if (player.wing === 1) {
+            redeemOfferingItem('ngu_qua', '🍍', 'Mâm Ngũ Quả Lộc Phát', 10, 'assets/le_nguqua.jpg', 0, 1, 'chay');
+          } else {
+            redeemOfferingItem('hoa_sen', '🪷', 'Hoa Sen Tịnh Tâm', 10, 'assets/le_hoasen.jpg', 0, 1, 'chay');
+          }
+        } else {
+          recordQuestProgress('offering', 1);
+          playBellSound();
+          showToast('🍱🙏 Đã thành tâm dâng phẩm vật cúng dường Tam Bảo (+1 tiến độ Nhiệm Vụ)!');
+        }
+      } else if (questId === 'gold') {
+        burnGoldPaperRitual('🔥🧧 Lễ Vàng Mã Ngũ Phương');
+      } else if (questId === 'social') {
+        triggerMutualNpcInteraction('mutual_vai');
+      } else if (questId === 'divination') {
+        recordQuestProgress('divination', 1);
+        playBellSound();
+        showToast('🎋🙏 Đã thành tâm thỉnh Quẻ Xăm Vấn Đạo đầu ngày (Hoàn thành 1/1)!');
+      }
+      renderQuestUpgradeModal();
     }
 
     function openQuestUpgradeModal(tab) {
@@ -6747,8 +6805,8 @@
               ${claimed
                 ? `<button disabled style="padding:5px 10px; border-radius:7px; border:1px solid #546e7a; background:#263238; color:#90a4ae; font-size:10.5px; font-weight:800;">✅ Đã Nhận</button>`
                 : (done
-                  ? `<button onclick="claimQuestReward('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #fff59d; background:linear-gradient(135deg,#00c853,#009624); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 10px rgba(0,230,118,0.5);">🎁 Nhận +${eff.merit.toLocaleString('vi-VN')} 💎</button>`
-                  : `<span style="font-size:10px; color:#ffb74d; font-weight:700;">Đang tu tập...</span>`)}
+                  ? `<button type="button" onclick="claimQuestReward('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #fff59d; background:linear-gradient(135deg,#00c853,#009624); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 10px rgba(0,230,118,0.5);">🎁 Nhận +${eff.merit.toLocaleString('vi-VN')} 💎</button>`
+                  : `<button type="button" onclick="playDailyQuestNow('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #ffd54f; background:linear-gradient(135deg,#ff8f00,#e65100); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 8px rgba(255,143,0,0.45);">▶️ Thực Hiện (${prog}/${q.target})</button>`)}
             </div>
           </div>`;
         }).join('');
@@ -9082,6 +9140,7 @@
 
       if (mode === 'brawl') {
         // 1. ĐẤM NHAU: 2 NGƯỜI XÔNG VÀO NHAU, XONG ĐÁNH NHAU TÚI BỤI!
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
         addMerit(-1, `Xông vào đánh nhau túi bụi với ${target.name} (-1 💎 Phước)`);
         if (allCharProfiles[target.name]) {
           allCharProfiles[target.name].merit = Math.max(0, (allCharProfiles[target.name].merit || 35) - 1);
@@ -9261,6 +9320,7 @@
       }
 
       // 4. CÀ KHỊA / THAN THỞ CAY CÚ, BỰC BỘI, KHÓ CHỊU
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
       playMoSound();
       player.u = Math.max(0.18, midU - 0.08);
       target.u = Math.min(0.82, midU + 0.08);
@@ -9314,6 +9374,7 @@
       const target = chosenName ? ensureTargetNpcInCurrentWing(chosenName) : (visitingGuests[0]);
       if (!target) return;
       toggleNpcInteractBar(false);
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
 
       player.chat = `💬 [${player.name} ➔ ${target.name}]: "${txt}"`;
       player.chatTimer = 180;
@@ -9437,6 +9498,7 @@
       }
 
       if (mode === 'bow') {
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('bow', 1);
         playMoSound();
         playNamMoADiDaPhatChant();
         player.state = 'bow_cycle';
@@ -9456,6 +9518,7 @@
       }
 
       if (mode === 'pray') {
+        if (typeof recordQuestProgress === 'function') recordQuestProgress('bow', 1);
         playBellSound();
         playNamMoADiDaPhatChant();
         player.state = 'vai';
@@ -9616,6 +9679,7 @@
       const now = Date.now();
       if (type === 'incense') {
         // V63 (#mvw5crbq5t) + V72 (#mvwbbcmu6i): Thắp hương kèm âm thanh "Nam Mô A Di Đà Phật" trang nghiêm!
+        if (!silentMerit && typeof recordQuestProgress === 'function') recordQuestProgress('incense', 1);
         playBellSound();
         playNamMoADiDaPhatChant();
         burningIncenseCount[String(player.wing)] = (burningIncenseCount[String(player.wing)] || 9) + 3;
@@ -9748,6 +9812,7 @@
         return;
       }
       // Khi bấm Hạ Lễ -> Lấy thông tin lễ vật để hiển thị hiệu ứng Thụ Lộc và XÓA SẠCH lễ vật trên bàn thờ ngay lập tức!
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('offering', 1);
       const countRemoved = list.length;
       const item = list[list.length - 1];
       altarOfferings[wKey] = [];
@@ -10075,7 +10140,7 @@
       unlockAndStartAudio();
       closeMeritShopModal();
       burnCountTotal++;
-      if (typeof recordQuestProgress === 'function') recordQuestProgress('burn', 1);
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('gold', 1);
       const bcEl = document.getElementById('shopBurnCount');
       if (bcEl) bcEl.textContent = `${burnCountTotal} Lễ`;
 
@@ -10118,6 +10183,7 @@
       player.chat = txt;
       player.chatTimer = 340;
       playMoSound();
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
       addMerit(1);
       publishMqtt({ type: 'chat', name: player.name, text: txt, wing: player.wing });
       broadcastMyPresence();
@@ -12650,7 +12716,7 @@
       if (!g) return;
       furnaceFlareTimer = 34;
       burnCountTotal++;
-      if (typeof recordQuestProgress === 'function') recordQuestProgress('burn', 1);
+      if (typeof recordQuestProgress === 'function') recordQuestProgress('gold', 1);
       const basePts = g.merit || 12;
       // KHÔI PHỤC XÁC SUẤT 6 BẬC CHUẨN (#mvyv798z10: X0: 55% · X1: 25% · X2: 11% · X3: 5% · X5: 3% · X10: 1%) KHI ĐỐT VÀNG MÃ!
       const tier = rollSixTierMultiplier();
@@ -13186,7 +13252,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 99;
+        const CURRENT_BUILD_VER = 100;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
