@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 106;
+      var CURRENT_BUILD_VER = 107;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -1370,13 +1370,13 @@
       <button type="button" onclick="interactWithHallNpc('salty_chat')" style="background:linear-gradient(135deg,#4a148c,#311b92); color:#ffeb3b; border:1.5px solid #ea80fc; border-radius:8px; padding:6px 8px; font-size:10.5px; font-weight:900; cursor:pointer;">🤬💬 Cà Khịa Cay Cú</button>
     </div>
     <div style="display:flex; gap:5px; align-items:center;">
-      <input id="npcDialogInput" type="text" placeholder="💬 Nhập lời nói gửi cho nhân vật này..." style="flex:1; background:rgba(6,10,14,0.95); border:1px solid #ffd54f; border-radius:7px; padding:5px 8px; color:#fff; font-size:10.5px;" onkeydown="if(event.key==='Enter') sendDirectNpcDialog()" />
+      <input id="npcDialogInput" type="text" maxlength="500" placeholder="💬 Nhập lời nói gửi cho nhân vật này (hiện đầy đủ 100%)..." style="flex:1; background:rgba(6,10,14,0.95); border:1px solid #ffd54f; border-radius:7px; padding:5px 8px; color:#fff; font-size:10.5px;" onkeydown="if(event.key==='Enter') sendDirectNpcDialog()" />
       <button type="button" onclick="sendDirectNpcDialog()" style="background:linear-gradient(135deg,#00acc1,#006064); color:#fff; border:1px solid #80deea; border-radius:7px; padding:5px 10px; font-size:10.5px; font-weight:800; cursor:pointer;">Gửi 💬</button>
     </div>
   </div>
   <!-- Collapsible Chat Input Drawer -->
   <div id="chatDrawer">
-    <input id="chatInput" type="text" placeholder="Nhập lời chúc hoặc lời khấn (Enter để gửi)..." maxlength="120" />
+    <input id="chatInput" type="text" placeholder="Nhập lời chúc hoặc lời khấn (Enter để gửi, hiện đầy đủ 100%)..." maxlength="500" />
     <button onclick="sendUserChat()">Gửi 🙏</button>
     <button onclick="toggleChatDrawer()" style="background:#c62828;padding:6px 10px;">✕</button>
   </div>
@@ -6533,8 +6533,8 @@
         lv: 10,
         name: 'Phật Đà Chánh Đẳng Chánh Giác (TU THÀNH CHÍNH QUẢ)',
         shortTitle: '☀️ Bậc 10 · TU THÀNH CHÍNH QUẢ',
-        meritCost: 99999999999,
-        meritCostText: '99.999.999.999 💎 Phước (~100 Tỷ Phước)',
+        meritCost: 1000000000000,
+        meritCostText: '1.000.000.000.000 💎 Phước (1.000 Tỷ Phước)',
         expReq: 100000,
         badge: '☀️ Bậc 10/10 · TU THÀNH CHÍNH QUẢ VÔ THƯỢNG',
         outfitName: 'Phật Y Hoàng Kim 24K Cửu Phẩm Chạm Hoa Sen Nổi & Tòa Sen Vàng Chín Phẩm',
@@ -6598,29 +6598,45 @@
         st.unlockedOutfits = { 1: true };
       }
       st.unlockedOutfits[1] = true;
-      // V106 (#mw0d1tgg2t & #mw0d27cg2u): Bắt buộc mở khóa tuần tự 1 -> 10 (không được vượt mốc) và trừ phước chuẩn xác!
-      if ((player?.name || 'Thành') === 'Thành' && !st.v106SequentialMeritMigration) {
-        st.unlockedOutfits = { 1: true, 2: true, 3: true, 4: true, 5: true };
-        st.cultivationLv = 5;
-        st.equippedOutfitLv = 5;
-        st.v106SequentialMeritMigration = true;
-        // Khấu trừ đúng chi phí mua lần lượt Bậc 2 (5k) + Bậc 3 (35k) + Bậc 4 (250k) + Bậc 5 (1.5M) = 1.790.000 💎 nếu trước đó chưa trừ
+      // V107 (#mw0d6ho02v & #mw0dhrj430):
+      // 1. Cấp bộ La Hán Kim Thân (Bậc 8) cho acc chính "Thành" (mở khóa đủ Bậc 1 -> Bậc 8).
+      // 2. Khấu trừ đúng 691.790.000 💎 chi phí mua Bậc 2 -> Bậc 8 của "Thế Anh Kho" (từ 1.004.031.200 💎 còn 312.241.200 💎).
+      if ((player?.name || 'Thành') === 'Thành' && !st.v107GrantThanhLaHanRank8) {
+        st.unlockedOutfits = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
+        st.cultivationLv = 8;
+        st.equippedOutfitLv = 8;
+        st.v107GrantThanhLaHanRank8 = true;
         const curBackupM = Number(localStorage.getItem('ty_merit_backup_Thành') || player?.merit || 47291011);
-        if (curBackupM >= 47291011) {
-          const afterDeduct = curBackupM - 1790000;
-          if (player) player.merit = afterDeduct;
-          try {
-            localStorage.setItem('ty_merit_backup_Thành', String(afterDeduct));
-            if (typeof allCharProfiles === 'object' && allCharProfiles && allCharProfiles['Thành']) {
-              allCharProfiles['Thành'].merit = afterDeduct;
-              allCharProfiles['Thành'].outfitLv = 5;
-              allCharProfiles['Thành'].cultivationLv = 5;
-              allCharProfiles['Thành'].unlockedOutfits = { 1: true, 2: true, 3: true, 4: true, 5: true };
-              localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
-            }
-          } catch (e) {}
-        }
-        try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
+        const restoredM = (curBackupM === 45501011) ? 47291011 : curBackupM;
+        if (player) player.merit = restoredM;
+        try {
+          localStorage.setItem('ty_merit_backup_Thành', String(restoredM));
+          if (typeof allCharProfiles === 'object' && allCharProfiles && allCharProfiles['Thành']) {
+            allCharProfiles['Thành'].merit = restoredM;
+            allCharProfiles['Thành'].outfitLv = 8;
+            allCharProfiles['Thành'].cultivationLv = 8;
+            allCharProfiles['Thành'].unlockedOutfits = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
+            localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+          }
+          localStorage.setItem(storageKey, JSON.stringify(st));
+        } catch (e) {}
+      }
+      if ((player?.name || '') === 'Thế Anh Kho' && !st.v107DeductedTheAnhOutfitCost) {
+        st.unlockedOutfits = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true };
+        st.cultivationLv = 8;
+        st.equippedOutfitLv = 8;
+        st.v107DeductedTheAnhOutfitCost = true;
+        const curM = Number(localStorage.getItem('ty_merit_backup_Thế Anh Kho') || player?.merit || 1004031200);
+        const afterM = curM >= 1000000000 ? (curM - 691790000) : curM;
+        if (player) player.merit = afterM;
+        try {
+          localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(afterM));
+          if (typeof allCharProfiles === 'object' && allCharProfiles && allCharProfiles['Thế Anh Kho']) {
+            allCharProfiles['Thế Anh Kho'].merit = afterM;
+            localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+          }
+          localStorage.setItem(storageKey, JSON.stringify(st));
+        } catch (e) {}
       }
       const cloudProf = (typeof allCharProfiles === 'object' && allCharProfiles) ? allCharProfiles[player?.name || 'Thành'] : null;
       if (cloudProf) {
@@ -8243,14 +8259,24 @@
         localStorage.removeItem('ty_quest_upgrade_v76_Thế Anh Kho HN');
       } catch (e) {}
       const canonicalTheAnh = 'Thế Anh Kho';
-      let bestMerit = Math.max(Number(profilesObj[canonicalTheAnh]?.merit || 0), 1004031200);
+      let rawTheAnhMerit = Number(profilesObj[canonicalTheAnh]?.merit ?? 312241200);
+      // V107 (#mw0dhrj430): Trừ đúng 691.790.000 💎 tiền mua lần lượt Bậc 2 -> Bậc 8 (La Hán Kim Thân) của Thế Anh Kho (1.004.031.200 - 691.790.000 = 312.241.200 💎)
+      if (rawTheAnhMerit >= 1000000000) {
+        rawTheAnhMerit = rawTheAnhMerit - 691790000;
+      }
+      try {
+        const bkTheAnh = localStorage.getItem('ty_merit_backup_Thế Anh Kho');
+        if (bkTheAnh !== null && Number(bkTheAnh) >= 1000000000) {
+          localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(Number(bkTheAnh) - 691790000));
+        }
+      } catch (e) {}
+      let bestMerit = Math.max(0, rawTheAnhMerit);
       let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
       let bestOutfitLv = Math.max(Number(profilesObj[canonicalTheAnh]?.outfitLv || 1), 8);
       for (const k of Object.keys(profilesObj)) {
         const kLower = k.toLowerCase();
         if (k !== canonicalTheAnh && (normalizeCanonicalAccountName(k) === canonicalTheAnh || kLower.includes('thế anh') || kLower.includes('the anh'))) {
           const dup = profilesObj[k] || {};
-          bestMerit = Math.max(bestMerit, Number(dup.merit || 0));
           bestCongDuc = Math.max(bestCongDuc, Number(dup.congDuc || 0));
           bestOutfitLv = Math.max(bestOutfitLv, Number(dup.outfitLv || 1));
           delete profilesObj[k];
@@ -8273,8 +8299,8 @@
     }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 1004031200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 8, cultivationLv: 8, registered: true },
-        'Thành': { name: 'Thành', merit: 47291011, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 7, cultivationLv: 7, registered: true },
+        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 312241200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 8, cultivationLv: 8, registered: true },
+        'Thành': { name: 'Thành', merit: 47291011, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 8, cultivationLv: 8, registered: true },
         'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
         'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 1, registered: true },
         'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 1, registered: true },
@@ -8313,8 +8339,8 @@
             name: accKey,
             merit: resolvedMerit,
             congDuc: Math.max(Number(curObj.congDuc || 0), defObj.congDuc),
-            outfitLv: (accKey === 'Thành') ? Number(curObj.outfitLv || 5) : Math.max(Number(curObj.outfitLv || 1), Number(defObj.outfitLv || 1)),
-            cultivationLv: (accKey === 'Thành') ? Number(curObj.cultivationLv || 5) : Math.max(Number(curObj.cultivationLv || 1), Number(curObj.outfitLv || 1), Number(defObj.outfitLv || 1)),
+            outfitLv: (accKey === 'Thành') ? Math.max(Number(curObj.outfitLv || 8), 8) : Math.max(Number(curObj.outfitLv || 1), Number(defObj.outfitLv || 1)),
+            cultivationLv: (accKey === 'Thành') ? Math.max(Number(curObj.cultivationLv || 8), 8) : Math.max(Number(curObj.cultivationLv || 1), Number(curObj.outfitLv || 1), Number(defObj.outfitLv || 1)),
             registered: true
           };
         });
@@ -10514,7 +10540,8 @@
               // Không bao giờ để bản đồng bộ cũ từ MQTT/Server ghi đè ngược làm tăng lại Phước sau khi vừa mua trang phục hoặc bị phạt!
               allCharProfiles[accName].merit = Number(player.merit || 0);
             } else {
-              const srvM = Number(accInfo.merit ?? allCharProfiles[accName].merit ?? 50);
+              let srvM = Number(accInfo.merit ?? allCharProfiles[accName].merit ?? 50);
+              if (accName === 'Thế Anh Kho' && srvM >= 1000000000) srvM = srvM - 691790000;
               allCharProfiles[accName].merit = Math.max(0, srvM);
             }
             allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
@@ -10553,7 +10580,9 @@
         if (data.name === player.name) {
           allCharProfiles[data.name].merit = Number(player.merit || 0);
         } else {
-          allCharProfiles[data.name].merit = Math.max(0, Number(data.merit ?? allCharProfiles[data.name].merit ?? 50));
+          let syncM = Number(data.merit ?? allCharProfiles[data.name].merit ?? 50);
+          if (data.name === 'Thế Anh Kho' && syncM >= 1000000000) syncM = syncM - 691790000;
+          allCharProfiles[data.name].merit = Math.max(0, syncM);
         }
         allCharProfiles[data.name].congDuc = Math.max(Number(allCharProfiles[data.name].congDuc || 0), Number(data.congDuc ?? 1));
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
@@ -10777,10 +10806,13 @@
           }
         }
         if (typeof data.merit === 'number') {
-          existing.merit = data.merit;
-          if (existing.name) {
+          let peerM = Number(data.merit);
+          if (existing.name === 'Thế Anh Kho' && peerM >= 1000000000) peerM = peerM - 691790000;
+          existing.merit = Math.max(0, peerM);
+          if (existing.name && existing.name !== player.name) {
             if (!allCharProfiles[existing.name]) allCharProfiles[existing.name] = { name: existing.name };
-            allCharProfiles[existing.name].merit = Math.max(Number(allCharProfiles[existing.name].merit || 0), data.merit);
+            allCharProfiles[existing.name].merit = existing.merit;
+            if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
           }
         }
         existing.wing = safeWing;
@@ -10788,8 +10820,14 @@
         if (typeof data.v === 'number') existing.targetV = data.v;
         if (data.state) existing.state = data.state;
         if (data.text || data.chat) {
-          existing.chat = (data.text || data.chat).slice(0, 60);
-          existing.chatTimer = 180; // Giữ lời nói 3.0s thực tế rồi tự tắt (#mvwe9kpj6t)
+          const fullMsg = String(data.text || data.chat).trim();
+          existing.chat = fullMsg;
+          existing.chatTimer = 360; // Giữ lời nói 6.0s và hiển thị đầy đủ 100% nội dung không bị cắt (#mw0d81802w)
+          if (data.type === 'chat' && fullMsg && existing._lastLoggedChat !== fullMsg) {
+            existing._lastLoggedChat = fullMsg;
+            appendMeritLog(`💬 <b>${existing.name}</b>: "${fullMsg}"`);
+            showToast(`💬 ${existing.name}: "${fullMsg}"`);
+          }
         }
         if (data.ritual === 'bow') {
           existing.state = 'bow_cycle';
@@ -11171,11 +11209,10 @@
         ? '500 10.4px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         : '500 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
       ctx.font = fontStr;
-      const maxLinePx = isNarrowMobile ? Math.min(220, Math.floor(window.innerWidth * 0.58)) : Math.min(285, window.innerWidth - 32);
-      const maxBubbleLines = 5;
+      const maxLinePx = isNarrowMobile ? Math.min(320, Math.floor(window.innerWidth * 0.88)) : Math.min(460, window.innerWidth - 28);
+      const maxBubbleLines = 16;
 
-      // V73.2 (#mvwe8pue6r): Loại bỏ hoàn toàn các ký tự Emoji hỗn hợp trong khung chat Canvas
-      // để phông chữ Tiếng Việt trong khung chat đồng nhất 100% về cỡ chữ, đường chân chữ (baseline) và thẳng hàng tuyệt đối!
+      // V73.2 (#mvwe8pue6r) + V107 (#mw0d81802w): Hiển thị ĐẦY ĐỦ 100% nội dung tin nhắn nhiều dòng, không bao giờ cắt chữ hay thêm dấu "..."
       const pureBody = sanitizeEmojiForCanvas(text)
         .replace(/[\u{1F000}-\u{1FAFF}\u{2300}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}]/gu, '')
         .replace(/\s+/g, ' ')
@@ -11185,8 +11222,30 @@
       const lines = [];
       let cur = '';
 
+      const pushWrappedLongWord = (longWord) => {
+        let chunk = '';
+        for (const ch of longWord) {
+          const testChunk = chunk + ch;
+          if (_origCanvasMeasureText.call(ctx, testChunk).width > maxLinePx && chunk) {
+            if (lines.length < maxBubbleLines) lines.push(chunk);
+            chunk = ch;
+          } else {
+            chunk = testChunk;
+          }
+        }
+        return chunk;
+      };
+
       for (let i = 0; i < words.length; i++) {
         const w = words[i];
+        if (_origCanvasMeasureText.call(ctx, w).width > maxLinePx) {
+          if (cur && lines.length < maxBubbleLines) {
+            lines.push(cur);
+            cur = '';
+          }
+          cur = pushWrappedLongWord(w);
+          continue;
+        }
         const test = cur ? (cur + ' ' + w) : w;
         if (_origCanvasMeasureText.call(ctx, test).width > maxLinePx && cur) {
           lines.push(cur);
@@ -11205,16 +11264,6 @@
       if (lines.length === 0) {
         ctx.restore();
         return;
-      }
-
-      for (let i = 0; i < lines.length; i++) {
-        let ln = lines[i];
-        if (_origCanvasMeasureText.call(ctx, ln).width > maxLinePx) {
-          while (ln.length > 1 && _origCanvasMeasureText.call(ctx, ln + '…').width > maxLinePx) {
-            ln = ln.slice(0, -1);
-          }
-          lines[i] = ln + '…';
-        }
       }
 
       let maxW = 0;
@@ -13453,7 +13502,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 106;
+        const CURRENT_BUILD_VER = 107;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
