@@ -10,7 +10,7 @@
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
     (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 111;
+      var CURRENT_BUILD_VER = 112;
       window._currentBuildVer = CURRENT_BUILD_VER;
       function checkAndRedirect() {
         try {
@@ -2514,10 +2514,8 @@
     }
 
     function getGoldBurnRealmScale() {
-      const st = (typeof getPlayerQuestState === 'function') ? getPlayerQuestState() : null;
-      const lv = Math.max(1, Number(st?.cultivationLv || 1));
-      const map = { 1: 1, 2: 2, 3: 5, 4: 15, 5: 50, 6: 200, 7: 800, 8: 3000, 9: 12000, 10: 50000 };
-      return map[lv] || 1;
+      // V112 (#mw0gbqtt3d): Chỉ nhân đúng theo Tiền Lễ Vàng Mã × Hệ số X × Buff, bỏ hệ số nhân cấp số nhân ×50.000 theo Bậc Tu Hành gây lạm phát hàng chục tỷ!
+      return 1;
     }
 
     function strikeVisualBell() {
@@ -6328,21 +6326,9 @@
     function getQuestEffectiveReward(q, stInput) {
       const st = stInput || (typeof getPlayerQuestState === 'function' ? getPlayerQuestState() : null);
       const lv = Math.max(1, Number(st?.cultivationLv || 1));
-      const realmMultipliers = {
-        1: 1,
-        2: 1,
-        3: 1,
-        4: 3,      // Bậc 4: Mỗi nhiệm vụ thưởng 150.000 -> 450.000 💎 (Tổng 8 NV = 2.055.000 💎, đủ lên Bậc 5!)
-        5: 15,     // Bậc 5: Mỗi nhiệm vụ thưởng 750.000 -> 2.250.000 💎 (Tổng 8 NV = 10.275.000 💎)
-        6: 100,    // Bậc 6: Mỗi nhiệm vụ thưởng 5 Triệu -> 15 Triệu 💎
-        7: 600,    // Bậc 7: Mỗi nhiệm vụ thưởng 30 Triệu -> 90 Triệu 💎
-        8: 4000,   // Bậc 8: Mỗi nhiệm vụ thưởng 200 Triệu -> 600 Triệu 💎
-        9: 25000,  // Bậc 9: Mỗi nhiệm vụ thưởng 1,25 Tỷ -> 3,75 Tỷ 💎
-        10: 50000  // Bậc 10: Mỗi nhiệm vụ thưởng 2,5 Tỷ -> 7,5 Tỷ 💎
-      };
-      const mult = realmMultipliers[lv] || 1;
+      // V112 (#mw0gbqtt3d): Giữ mức thưởng nhiệm vụ chuẩn hợp lý, bỏ hệ số nhân ×25.000 - ×50.000 gây nhảy vọt hàng tỷ Phước chỉ sau vài cú bấm!
       return {
-        merit: Math.round((q.rewardMerit || 50000) * mult),
+        merit: Math.round(q.rewardMerit || 50000),
         exp: Math.round((q.rewardExp || 500) * Math.max(1, lv))
       };
     }
@@ -6650,25 +6636,38 @@
           localStorage.setItem(storageKey, JSON.stringify(st));
         } catch (e) {}
       }
+      // V112 (#mw0gbqtt3d):
+      // 1. Chặn hoàn toàn lỗi tự động khôi phục Bậc 10 miễn phí từ cloudProf.unlockedOutfits cũ.
+      // 2. Thu hồi Bậc 10 & số Phước tăng vọt do lỗi hệ số nhân Đốt Vàng / Nhiệm Vụ của Thế Anh Kho về lại mức chuẩn 312.241.200 💎 và Bậc 1 để tự mua lại đúng giá mới!
+      if ((player?.name || '') === 'Thế Anh Kho' && !st.v112FixTheAnhExploit) {
+        st.unlockedOutfits = { 1: true };
+        st.cultivationLv = 1;
+        st.equippedOutfitLv = 1;
+        st.v112FixTheAnhExploit = true;
+        player.merit = 312241200;
+        try {
+          localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200');
+          if (typeof allCharProfiles === 'object' && allCharProfiles && allCharProfiles['Thế Anh Kho']) {
+            allCharProfiles['Thế Anh Kho'].merit = 312241200;
+            allCharProfiles['Thế Anh Kho'].outfitLv = 1;
+            allCharProfiles['Thế Anh Kho'].cultivationLv = 1;
+            allCharProfiles['Thế Anh Kho'].unlockedOutfits = { 1: true };
+            localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
+          }
+          localStorage.setItem(storageKey, JSON.stringify(st));
+        } catch (e) {}
+      }
+      // Không bao giờ tự động copy unlockedOutfits từ cloudProf sang st.unlockedOutfits (tránh lỗi gói mạng cũ tự mở lại Bậc 10 miễn phí!)
       const cloudProf = (typeof allCharProfiles === 'object' && allCharProfiles) ? allCharProfiles[player?.name || 'Thành'] : null;
-      if (cloudProf) {
+      if (cloudProf && (player?.name || '') === 'Thành') {
         let changedByCloud = false;
         if (cloudProf.unlockedOutfits && typeof cloudProf.unlockedOutfits === 'object') {
-          for (let lv = 2; lv <= 10; lv++) {
+          for (let lv = 2; lv <= 8; lv++) {
             if (cloudProf.unlockedOutfits[lv] && st.unlockedOutfits[lv - 1] && !st.unlockedOutfits[lv]) {
               st.unlockedOutfits[lv] = true;
               changedByCloud = true;
             }
           }
-        }
-        if (cloudProf.upgrades && typeof cloudProf.upgrades === 'object') {
-          ['mo', 'bell', 'incense', 'furnace'].forEach(uk => {
-            const cLv = Number(cloudProf.upgrades[uk] || 1);
-            if (cLv > Number(st.upgrades[uk] || 1)) {
-              st.upgrades[uk] = Math.min(10, cLv);
-              changedByCloud = true;
-            }
-          });
         }
         if (changedByCloud) {
           try { localStorage.setItem(storageKey, JSON.stringify(st)); } catch (e) {}
@@ -6994,7 +6993,7 @@
             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
               <span style="font-size:11px; font-weight:900; color:#69f0ae;">🎁 +${eff.merit.toLocaleString('vi-VN')} 💎 · +${eff.exp.toLocaleString('vi-VN')} Tu Vi</span>
               ${claimed
-                ? `<button type="button" onpointerdown="resetSingleDailyQuest('${q.id}'); event.preventDefault();" onclick="resetSingleDailyQuest('${q.id}')" style="cursor:pointer; padding:5px 10px; border-radius:7px; border:1px solid #80d8ff; background:#1c313a; color:#80d8ff; font-size:10.5px; font-weight:800;">✅ Đã Nhận · 🔄 Làm Lại</button>`
+                ? `<span style="padding:5px 10px; border-radius:7px; border:1px solid #546e7a; background:#1c313a; color:#90a4ae; font-size:10.5px; font-weight:800;">✅ Đã Nhận Hôm Nay</span>`
                 : (done
                   ? `<button type="button" onpointerdown="claimQuestReward('${q.id}'); event.preventDefault();" onclick="claimQuestReward('${q.id}')" style="cursor:pointer; padding:6px 14px; border-radius:7px; border:2px solid #fff59d; background:linear-gradient(135deg,#00c853,#009624); color:#fff; font-size:11.5px; font-weight:900; box-shadow:0 0 12px rgba(0,230,118,0.65);">🎁 Nhận +${eff.merit.toLocaleString('vi-VN')} 💎</button>`
                   : `<button type="button" onpointerdown="playDailyQuestNow('${q.id}'); event.preventDefault();" onclick="playDailyQuestNow('${q.id}')" style="cursor:pointer; padding:5px 12px; border-radius:7px; border:1.5px solid #ffd54f; background:linear-gradient(135deg,#ff8f00,#e65100); color:#fff; font-size:11px; font-weight:900; box-shadow:0 0 8px rgba(255,143,0,0.45);">▶️ Thực Hiện (${prog}/${q.target})</button>`)}
@@ -8272,35 +8271,24 @@
       } catch (e) {}
       const canonicalTheAnh = 'Thế Anh Kho';
       let rawTheAnhMerit = Number(profilesObj[canonicalTheAnh]?.merit ?? 312241200);
-      // V109 (#mw0ecjk137): Đồng bộ một lần duy nhất nếu hồ sơ lưu cũ của Thế Anh Kho vẫn còn mức ~992M (> 500M) để không bị lệch giữa các máy
-      try {
-        if (localStorage.getItem('ty_v109_stabilize_the_anh_merit') !== '1') {
-          localStorage.setItem('ty_v109_stabilize_the_anh_merit', '1');
-          if (rawTheAnhMerit > 500000000) {
-            rawTheAnhMerit = rawTheAnhMerit >= 1000000000 ? (rawTheAnhMerit - 691790000) : Math.max(0, rawTheAnhMerit - 680000000);
-          }
-          const bkTheAnh = localStorage.getItem('ty_merit_backup_Thế Anh Kho');
-          if (bkTheAnh !== null && Number(bkTheAnh) > 500000000) {
-            const fixedBk = Number(bkTheAnh) >= 1000000000 ? (Number(bkTheAnh) - 691790000) : Math.max(0, Number(bkTheAnh) - 680000000);
-            localStorage.setItem('ty_merit_backup_Thế Anh Kho', String(fixedBk));
-          }
-        }
-      } catch (e) {}
-      let bestMerit = Math.max(0, rawTheAnhMerit);
-      let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
-      // V108 (#mw0djfpt31): Reset trang phục của Thế Anh Kho về lại Bậc 1 để bắt buộc mua lại từ đầu lần lượt từng bậc!
       let theAnhResetDone = false;
+      // V112 (#mw0gbqtt3d): Thu hồi 1 lần duy nhất Bậc 10 & điểm Phước lạm phát từ lỗi hệ số nhân của Thế Anh Kho về lại 312.241.200 💎 và Bậc 1
       try {
-        theAnhResetDone = localStorage.getItem('ty_v108_reset_the_anh_outfit') === '1';
+        theAnhResetDone = localStorage.getItem('ty_v112_fix_the_anh_exploit') === '1';
         if (!theAnhResetDone) {
-          localStorage.setItem('ty_v108_reset_the_anh_outfit', '1');
+          localStorage.setItem('ty_v112_fix_the_anh_exploit', '1');
+          rawTheAnhMerit = 312241200;
+          localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200');
           if (profilesObj[canonicalTheAnh]) {
+            profilesObj[canonicalTheAnh].merit = 312241200;
             profilesObj[canonicalTheAnh].outfitLv = 1;
             profilesObj[canonicalTheAnh].cultivationLv = 1;
             profilesObj[canonicalTheAnh].unlockedOutfits = { 1: true };
           }
         }
       } catch (e) {}
+      let bestMerit = Math.max(0, rawTheAnhMerit);
+      let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
       let bestOutfitLv = !theAnhResetDone ? 1 : Math.max(1, Number(profilesObj[canonicalTheAnh]?.outfitLv || 1));
       for (const k of Object.keys(profilesObj)) {
         const kLower = k.toLowerCase();
@@ -13552,7 +13540,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 111;
+        const CURRENT_BUILD_VER = 112;
         window._currentBuildVer = CURRENT_BUILD_VER;
         function checkVer() {
           try {
