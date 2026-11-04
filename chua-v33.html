@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    window._currentBuildVer = 123;
+    window._currentBuildVer = 124;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -9583,14 +9583,40 @@
       toggleNpcInteractBar(false);
       if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
 
+      const midU = 0.50;
+      const midV = 0.66;
+      target.wing = player.wing;
+      target.waitOutsideTimer = 0;
+      target.phase = 'praying';
+      target.phaseTick = Math.max(target.phaseTick || 300, 420);
+
+      player.u = Math.max(0.18, midU - 0.08);
+      target.u = Math.min(0.82, midU + 0.08);
+      player.v = midV;
+      target.v = midV;
+      player.targetU = player.u;
+      target.targetU = target.u;
+      player.targetV = midV;
+      target.targetV = midV;
+
       player.chat = `💬 [${player.name} ➔ ${target.name}]: "${txt}"`;
       player.chatTimer = 180;
       const reply = pickRandomSpeechForChar(target.name, player.wing);
-      setTimeout(() => {
-        target.chat = reply;
-        target.chatTimer = 180;
-        playMoSound();
-      }, 280);
+      target.chat = reply;
+      target.chatTimer = 180;
+      playMoSound();
+
+      activeMutualInteraction = {
+        active: true,
+        mode: 'salty_chat',
+        timer: 220,
+        maxTimer: 220,
+        actorA: player,
+        target: target,
+        midU: midU,
+        midV: midV
+      };
+
       publishMqtt({
         type: 'mutual_interact',
         sender: clientId,
@@ -9600,11 +9626,11 @@
         pLine: player.chat,
         tLine: reply,
         wing: player.wing,
-        midU: 0.50,
-        midV: 0.66
+        midU: midU,
+        midV: midV
       });
       broadcastMyPresence(true);
-      showToast(`💬 Đã gửi lời nói tới ${target.name}!`);
+      showToast(`💬 ${player.name} & ${target.name} đang xoay mặt đối diện trò chuyện!`);
     }
 
     // V72 (#mvwbbcmu6i & #mvwbbzs76j):
@@ -12053,14 +12079,18 @@
       }
 
       if (mutualMode === 'salty_chat' && vaiUp && vaiUp.complete) {
-        // 2 NGƯỜI XOAY MẶT VÀO NHAU TRÒ CHUYỆN / CÀ KHỊA ĐỐI DIỆN
+        // 2 NGƯỜI XOAY MẶT VÀO NHAU TRÒ CHUYỆN / CÀ KHỊA ĐỐI DIỆN (Nhịp nghiêng người đối đáp trực diện)
         const baseH = 150 * scale;
-        const h = baseH;
-        const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
-        const nod = Math.sin(frameCount * 0.18 + (isPlayer ? 0 : 1.7)) * 0.05;
+        const talkWave = Math.sin(frameCount * 0.22 + (isPlayer ? 0 : Math.PI));
+        const useLean = (talkWave > 0.35 && vaiBow && vaiBow.complete);
+        const sprChat = useLean ? vaiBow : vaiUp;
+        const h = (useLean ? 146 : 150) * scale;
+        const w = h * (sprChat.naturalWidth / sprChat.naturalHeight);
+        const nod = talkWave * 0.06;
         ctx.save();
+        ctx.translate(talkWave * 3 * scale, 0);
         ctx.rotate(nod);
-        ctx.drawImage(vaiUp, -w * 0.48, -h, w, h);
+        ctx.drawImage(sprChat, useLean ? (-w * 0.30) : (-w * 0.48), -h, w, h);
         ctx.restore();
         ctx.restore();
         return baseH;
@@ -12611,10 +12641,10 @@
         const sc = Math.max(0.38, 0.35 + (mi.midV - 0.46) * 1.12) * (wingH / 960);
 
         ctx.save();
-        if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel') {
-          // Thảm chiếu đỏ viền vàng kết nối 2 người đang xoay mặt vào vái / quỳ lạy nhau
-          ctx.fillStyle = 'rgba(155, 22, 12, 0.85)';
-          ctx.strokeStyle = '#ffd740';
+        if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel' || mi.mode === 'salty_chat') {
+          // Thảm chiếu đỏ viền vàng kết nối 2 người đang xoay mặt vào vái / quỳ lạy / đối đáp nhau
+          ctx.fillStyle = (mi.mode === 'salty_chat') ? 'rgba(88, 24, 135, 0.78)' : 'rgba(155, 22, 12, 0.85)';
+          ctx.strokeStyle = (mi.mode === 'salty_chat') ? '#ea80fc' : '#ffd740';
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.ellipse(midSx, midSy - 2, 95 * sc, 20 * sc, 0, 0, Math.PI * 2);
@@ -13106,25 +13136,27 @@
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('🥊💥 XÔNG VÀO ĐÁNH NHAU TÚI BỤI! 💥🥊', midX, midY + 57);
-        } else if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel') {
-          const iconPair = (mi.mode === 'mutual_kneel') ? '🙇‍♂️ 🔄 🙇‍♀️' : '🙏 🔄 🙏';
+        } else if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel' || mi.mode === 'salty_chat') {
+          const iconPair = (mi.mode === 'mutual_kneel') ? '🙇‍♂️ 🔄 🙇‍♀️' : (mi.mode === 'salty_chat' ? '🤬 🔄 💬' : '🙏 🔄 🙏');
           const bannerTxt = (mi.mode === 'mutual_kneel')
             ? '🙇🔄 CẢ 2 XOAY NGƯỜI QUỲ LẠY NHAU 🔄🙇'
-            : '🙏🔄 CẢ 2 XOAY NGƯỜI VÁI LẠY NHAU 🔄🙏';
+            : (mi.mode === 'salty_chat'
+                ? '🤬🔄 CẢ 2 XOAY MẶT CÀ KHỊA / ĐỐI ĐÁP 🔄💬'
+                : '🙏🔄 CẢ 2 XOAY NGƯỜI VÁI LẠY NHAU 🔄🙏');
           ctx.font = '22px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(iconPair, midX, midY - 6 + Math.sin(frameCount * 0.18) * 5);
 
-          ctx.fillStyle = 'rgba(20, 48, 28, 0.94)';
-          ctx.strokeStyle = '#ffd54f';
+          ctx.fillStyle = (mi.mode === 'salty_chat') ? 'rgba(58, 16, 92, 0.94)' : 'rgba(20, 48, 28, 0.94)';
+          ctx.strokeStyle = (mi.mode === 'salty_chat') ? '#ea80fc' : '#ffd54f';
           ctx.lineWidth = 1.6;
           ctx.beginPath();
-          ctx.roundRect(midX - 122, midY + 46, 244, 21, 10);
+          ctx.roundRect(midX - 128, midY + 46, 256, 21, 10);
           ctx.fill();
           ctx.stroke();
           ctx.font = 'bold 10.5px sans-serif';
-          ctx.fillStyle = '#ffd740';
+          ctx.fillStyle = (mi.mode === 'salty_chat') ? '#ffeb3b' : '#ffd740';
           ctx.fillText(bannerTxt, midX, midY + 56.5);
         }
         ctx.restore();
@@ -14112,6 +14144,10 @@
           selectHallNpcFromDropdown("Anh Trung QL Kho HN");
           interactWithHallNpc("mutual_kneel");
           frameCount = 44;
+        } else if (dm === "salty_chat") {
+          toggleNpcInteractBar(true);
+          selectHallNpcFromDropdown("Trinh Kế Toán Trưởng");
+          interactWithHallNpc("salty_chat");
         } else if (dm === "kinh_dich") {
           openFortuneStickModal('dich');
         } else if (dm === "tu_vi") {
@@ -14144,7 +14180,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 123;
+        const CURRENT_BUILD_VER = 124;
         window._currentBuildVer = CURRENT_BUILD_VER;
       })();
     });
