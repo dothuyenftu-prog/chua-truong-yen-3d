@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    window._currentBuildVer = 121;
+    window._currentBuildVer = 122;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -8069,51 +8069,6 @@
     let nextVisitorPoolIdx = 0;
 
     const visitingGuests = [
-      // === GIAN 0: BAN TAM BẢO (2 Bot Quỳ Yên Tĩnh Tọa + 3 Bot Ra Vào Hành Lễ + 3 Bot Đi Qua Đi Lại Đông Vui) ===
-      {
-        id: 'guest_tb_kneel1',
-        homeWing: 0,
-        wing: 0,
-        name: 'Thu Trang',
-        avatar: '🌸',
-        gender: 'F',
-        u: 0.31,
-        v: 0.615,
-        targetU: 0.31,
-        targetV: 0.615,
-        state: 'kneel',
-        phase: 'seated_kneel',
-        phaseTick: 520,
-        bowTimer: 0,
-        sentenceIdx: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tb_kneel2',
-        homeWing: 0,
-        wing: 0,
-        name: 'Anh Trung QL Kho HN',
-        avatar: '📦',
-        gender: 'M',
-        u: 0.69,
-        v: 0.615,
-        targetU: 0.69,
-        targetV: 0.615,
-        state: 'kneel',
-        phase: 'seated_kneel',
-        phaseTick: 640,
-        bowTimer: 0,
-        sentenceIdx: 1,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
       {
         id: 'guest_tb1',
         homeWing: 0,
@@ -8121,17 +8076,17 @@
         name: 'Sale Minh Anh',
         avatar: '🪷',
         gender: 'F',
-        u: 0.20,
+        u: 0.22,
         v: 0.68,
-        targetU: 0.20,
+        targetU: 0.22,
         targetV: 0.66,
         state: 'kneel',
         phase: 'praying',
         phaseTick: 360,
-        bowTimer: 60,
+        bowTimer: 50,
         sentenceIdx: 0,
         chat: "🙏 Nam Mô A Di Đà Phật!",
-        chatTimer: 160,
+        chatTimer: 180,
         pendingSpeech: false,
         pauseTimer: 0,
         waitOutsideTimer: 0
@@ -8140,16 +8095,16 @@
         id: 'guest_tb2',
         homeWing: 0,
         wing: 0,
-        name: 'Sale Kiều Trang',
-        avatar: '🌼',
-        gender: 'F',
-        u: 0.80,
+        name: 'Anh Trung QL Kho HN',
+        avatar: '📦',
+        gender: 'M',
+        u: 0.78,
         v: 0.68,
-        targetU: 0.80,
+        targetU: 0.78,
         targetV: 0.68,
         state: 'kneel',
         phase: 'praying',
-        phaseTick: 460,
+        phaseTick: 480,
         bowTimer: 40,
         sentenceIdx: 1,
         chat: "🪷 Cầu gia đạo bình an, vạn sự cát tường!",
@@ -8159,149 +8114,12 @@
         waitOutsideTimer: 0
       },
       {
-        id: 'guest_tb3',
-        homeWing: 0,
-        wing: 0,
-        name: 'Sale Huế',
-        avatar: '🌷',
-        gender: 'F',
-        u: 0.14,
-        v: 0.82,
-        targetU: 0.36,
-        targetV: 0.70,
-        state: 'walk',
-        phase: 'entering',
-        phaseTick: 380,
-        bowTimer: 0,
-        sentenceIdx: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tb_stroll1',
-        homeWing: 0,
-        wing: 0,
-        name: 'Mia Xinh',
-        avatar: '🌺',
-        gender: 'F',
-        u: 0.18,
-        v: 0.78,
-        targetU: 0.84,
-        targetV: 0.77,
-        state: 'walk',
-        phase: 'strolling',
-        strollDir: 1,
-        phaseTick: 240,
-        bowTimer: 0,
-        vaiTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tb_stroll2',
-        homeWing: 0,
-        wing: 0,
-        name: 'Anh Hải Đội Thi Công',
-        avatar: '👷‍♂️',
-        gender: 'M',
-        u: 0.82,
-        v: 0.84,
-        targetU: 0.16,
-        targetV: 0.83,
-        state: 'walk',
-        phase: 'strolling',
-        strollDir: -1,
-        phaseTick: 300,
-        bowTimer: 0,
-        vaiTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tb_stroll3',
-        homeWing: 0,
-        wing: 0,
-        name: 'Sale Bích Thủy',
-        avatar: '🌻',
-        gender: 'F',
-        u: 0.42,
-        v: 0.87,
-        targetU: 0.88,
-        targetV: 0.86,
-        state: 'walk',
-        phase: 'strolling',
-        strollDir: 1,
-        phaseTick: 280,
-        bowTimer: 0,
-        vaiTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-
-      // === GIAN 1: BAN THẦN TÀI (2 Bot Quỳ Yên Tĩnh Tọa + 2 Bot Ra Vào Hành Lễ + 2 Bot Đi Qua Đi Lại Đông Vui) ===
-      {
-        id: 'guest_tt_kneel1',
-        homeWing: 1,
-        wing: 1,
-        name: 'CEO Yến',
-        avatar: '👑',
-        gender: 'F',
-        u: 0.31,
-        v: 0.615,
-        targetU: 0.31,
-        targetV: 0.615,
-        state: 'kneel',
-        phase: 'seated_kneel',
-        phaseTick: 540,
-        bowTimer: 0,
-        sentenceIdx: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tt_kneel2',
+        id: 'guest_tt1',
         homeWing: 1,
         wing: 1,
         name: 'Trinh Kế Toán Trưởng',
         avatar: '💼',
         gender: 'F',
-        u: 0.69,
-        v: 0.615,
-        targetU: 0.69,
-        targetV: 0.615,
-        state: 'kneel',
-        phase: 'seated_kneel',
-        phaseTick: 620,
-        bowTimer: 0,
-        sentenceIdx: 1,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tt1',
-        homeWing: 1,
-        wing: 1,
-        name: 'KH Đại Lý Phú Thọ',
-        avatar: '🏪',
-        gender: 'M',
         u: 0.80,
         v: 0.66,
         targetU: 0.80,
@@ -8312,7 +8130,7 @@
         bowTimer: 50,
         sentenceIdx: 0,
         chat: "💰 Cầu Thần Tài gia hộ lộc phát rực rỡ!",
-        chatTimer: 160,
+        chatTimer: 180,
         pendingSpeech: false,
         pauseTimer: 0,
         waitOutsideTimer: 0
@@ -8324,9 +8142,9 @@
         name: 'KH Hùng Khất Nợ',
         avatar: '💸',
         gender: 'M',
-        u: 0.22,
+        u: 0.24,
         v: 0.68,
-        targetU: 0.22,
+        targetU: 0.24,
         targetV: 0.68,
         state: 'kneel',
         phase: 'praying',
@@ -8336,52 +8154,6 @@
         chat: "✨ Xin vía Thần Tài buôn may bán đắt!",
         chatTimer: 0,
         pendingSpeech: true,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tt_stroll1',
-        homeWing: 1,
-        wing: 1,
-        name: 'Tài Xế Long Xe Tải',
-        avatar: '🚚',
-        gender: 'M',
-        u: 0.16,
-        v: 0.79,
-        targetU: 0.85,
-        targetV: 0.78,
-        state: 'walk',
-        phase: 'strolling',
-        strollDir: 1,
-        phaseTick: 260,
-        bowTimer: 0,
-        vaiTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
-        pauseTimer: 0,
-        waitOutsideTimer: 0
-      },
-      {
-        id: 'guest_tt_stroll2',
-        homeWing: 1,
-        wing: 1,
-        name: 'Ngọc Marketing TikTok',
-        avatar: '🎬',
-        gender: 'F',
-        u: 0.84,
-        v: 0.85,
-        targetU: 0.15,
-        targetV: 0.84,
-        state: 'walk',
-        phase: 'strolling',
-        strollDir: -1,
-        phaseTick: 310,
-        bowTimer: 0,
-        vaiTimer: 0,
-        chat: '',
-        chatTimer: 0,
-        pendingSpeech: false,
         pauseTimer: 0,
         waitOutsideTimer: 0
       }
@@ -12389,7 +12161,8 @@
         ctx.fill();
       }
 
-      // V121 (#mw1kl5u84q): DÀN BOT PHẬT TỬ QUA LẠI ĐÔNG VUI + NHÂN VẬT QUỲ YÊN 1 CHỖ TRÊN BỒ ĐOÀN 3D!
+      // KHÁCH VÃNG LAI ĐI RA ĐI VÀO LIÊN TỤC CHUẨN BOT CŨ (#2380 & #2385):
+      // Bước từ cửa vào bồ đoàn -> Quỳ lễ & khấn 1 câu ngắn gọn -> Đứng dậy đi ra cửa -> Đổi lượt khách mới bước vào!
       const renderables = [];
       for (const g of visitingGuests) {
         if (g.name === player.name) {
@@ -12400,105 +12173,6 @@
             g.gender = alt.gender;
           }
         }
-
-        // Nhóm 1: Bot Quỳ Yên Tĩnh Tọa 1 Chỗ Trên Bồ Đoàn (`seated_kneel`)
-        if (g.phase === 'seated_kneel') {
-          g.state = 'kneel';
-          if (g.bowTimer > 0) g.bowTimer = Math.max(0, g.bowTimer - dt60);
-          if (g.chatTimer > 0) g.chatTimer = Math.max(0, g.chatTimer - dt60);
-          g.phaseTick -= dt60;
-          if (g.phaseTick <= 0) {
-            g.phaseTick = 680 + Math.floor(Math.random() * 420);
-            // Thỉnh thoảng (~15 giây/lần) khấn 1 câu ngắn gọn nhưng vẫn giữ nguyên vị trí quỳ yên 1 chỗ trên bồ đoàn
-            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
-            if (!otherSpeaking) {
-              g.chat = pickRandomSpeechForChar(g.name, g.wing);
-              g.chatTimer = 150;
-            }
-          }
-          if (g.vaiTimer && g.vaiTimer > 0) {
-            g.vaiTimer = Math.max(0, g.vaiTimer - dt60);
-            g.state = 'vai';
-            if (g.vaiTimer === 0) g.state = 'kneel';
-          }
-          renderables.push({ type: 'visitor', data: g, v: g.v });
-          continue;
-        }
-
-        // Nhóm 2: Bot Đi Qua Đi Lại Ngang Sảnh Chùa Đông Vui (`strolling`)
-        if (g.phase === 'strolling') {
-          if (g.chatTimer > 0) g.chatTimer = Math.max(0, g.chatTimer - dt60);
-          if (g.pauseTimer && g.pauseTimer > 0) {
-            g.pauseTimer = Math.max(0, g.pauseTimer - dt60);
-            if (g.vaiTimer && g.vaiTimer > 0) {
-              g.vaiTimer = Math.max(0, g.vaiTimer - dt60);
-              g.state = 'vai';
-            } else if (g.bowTimer && g.bowTimer > 0) {
-              g.bowTimer = Math.max(0, g.bowTimer - dt60);
-              g.state = 'bow_cycle';
-            } else {
-              g.state = 'kneel';
-            }
-            if (g.pauseTimer === 0) {
-              g.state = 'walk';
-              g.vaiTimer = 0;
-              g.bowTimer = 0;
-            }
-            renderables.push({ type: 'visitor', data: g, v: g.v });
-            continue;
-          }
-
-          const sdu = g.targetU - g.u;
-          const sdv = g.targetV - g.v;
-          const sdist = Math.hypot(sdu, sdv);
-          if (sdist > 0.014) {
-            const stepSpd = 0.0022 * dt60;
-            g.u += (sdu / sdist) * Math.min(sdist, stepSpd);
-            g.v += (sdv / sdist) * Math.min(sdist, stepSpd * 0.65);
-            g.state = 'walk';
-            g.phaseTick = (g.phaseTick || 240) - dt60;
-            // Khi đi ngang gần giữa bàn thờ (0.34..0.66), dừng lại vái lễ hoặc quỳ yên vài giây rồi đi tiếp
-            if (g.phaseTick <= 0 && g.u > 0.32 && g.u < 0.68) {
-              g.phaseTick = 260 + Math.floor(Math.random() * 180);
-              g.pauseTimer = 110 + Math.floor(Math.random() * 70);
-              if (Math.random() < 0.55) {
-                g.vaiTimer = g.pauseTimer;
-                g.state = 'vai';
-              } else {
-                g.state = 'kneel';
-              }
-              const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
-              if (!otherSpeaking && Math.random() < 0.6) {
-                g.chat = pickRandomSpeechForChar(g.name, g.wing);
-                g.chatTimer = 140;
-              }
-            }
-          } else {
-            // Đã đi tới đầu bên kia của sảnh -> Đổi hướng đi ngược lại (và thỉnh thoảng đổi nhân vật mới bước vào từ cửa)
-            g.strollDir = (g.u > 0.5) ? -1 : 1;
-            if (Math.random() < 0.45) {
-              let nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
-              nextVisitorPoolIdx++;
-              for (let tries = 0; tries < visitorNamesPool.length; tries++) {
-                if (nextProfile.name !== player.name && !visitingGuests.some(o => o !== g && o.name === nextProfile.name)) break;
-                nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
-                nextVisitorPoolIdx++;
-              }
-              if (nextProfile) {
-                g.name = nextProfile.name;
-                g.avatar = nextProfile.avatar;
-                g.gender = nextProfile.gender;
-              }
-            }
-            g.targetU = (g.strollDir > 0) ? (0.82 + Math.random() * 0.10) : (0.08 + Math.random() * 0.10);
-            g.targetV = 0.75 + Math.random() * 0.13;
-            g.phaseTick = 180 + Math.floor(Math.random() * 140);
-          }
-          renderables.push({ type: 'visitor', data: g, v: g.v });
-          continue;
-        }
-
-        // Nhóm 3: Bot Ra Vào Hành Lễ (`entering` -> `praying` -> `leaving`)
         if (g.waitOutsideTimer > 0) {
           g.waitOutsideTimer = Math.max(0, g.waitOutsideTimer - dt60);
           if (g.waitOutsideTimer === 0) {
@@ -12514,10 +12188,10 @@
             g.name = nextProfile.name;
             g.avatar = nextProfile.avatar;
             g.gender = nextProfile.gender;
-            const sideLeft = (g.id.endsWith('1') || g.id.endsWith('3'));
-            g.u = sideLeft ? 0.10 : 0.90;
-            g.v = 0.92;
-            g.targetU = sideLeft ? (0.18 + Math.random() * 0.18) : (0.64 + Math.random() * 0.18);
+            const sideLeft = (g.id.endsWith('1'));
+            g.u = sideLeft ? 0.12 : 0.88;
+            g.v = 0.94;
+            g.targetU = sideLeft ? (0.18 + Math.random() * 0.10) : (0.72 + Math.random() * 0.10);
             g.targetV = 0.64 + Math.random() * 0.08;
             g.phase = 'entering';
             g.state = 'walk';
@@ -12541,14 +12215,14 @@
             g.phase = 'praying';
             g.state = 'kneel';
             g.phaseTick = 420; // Quỳ lễ ~7.0 giây thực tế
-            g.bowTimer = 84;
+            g.bowTimer = 90;
             g.chat = pickRandomSpeechForChar(g.name, g.wing);
             const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
             if (otherSpeaking) {
               g.chatTimer = 0;
               g.pendingSpeech = true;
             } else {
-              g.chatTimer = 165;
+              g.chatTimer = 180; // Giữ lời nói của nhân vật đúng 3.0 giây thực tế (kể cả màn 120Hz) rồi mới tắt (#mvwe9kpj6t)
               g.pendingSpeech = false;
             }
           }
@@ -12559,9 +12233,9 @@
             const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
             if (!otherSpeaking) {
               g.chat = g.chat || pickRandomSpeechForChar(g.name, g.wing);
-              g.chatTimer = 165;
+              g.chatTimer = 180; // Đến lượt nói: giữ 3.0 giây thực tế (#mvwe9kpj6t)
               g.pendingSpeech = false;
-              g.phaseTick = Math.max(g.phaseTick, 220);
+              g.phaseTick = Math.max(g.phaseTick, 240);
             }
           } else if (g.chatTimer > 0) {
             g.chatTimer = Math.max(0, g.chatTimer - dt60);
@@ -12578,7 +12252,7 @@
             g.chatTimer = 0;
             g.pendingSpeech = false;
             g.targetU = (g.u < 0.5) ? 0.08 : 0.92;
-            g.targetV = 0.94;
+            g.targetV = 0.95;
           }
         } else if (g.phase === 'leaving') {
           if (dist > 0.012) {
@@ -12586,7 +12260,7 @@
             g.v += gdv * 0.036 * dt60;
             g.state = 'walk';
           } else {
-            g.waitOutsideTimer = 45;
+            g.waitOutsideTimer = 55; // Nghỉ ~0.9s ngoài cửa rồi có khách vãng lai mới đi vào
           }
         }
 
@@ -14322,7 +13996,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 121;
+        const CURRENT_BUILD_VER = 122;
         window._currentBuildVer = CURRENT_BUILD_VER;
       })();
     });
