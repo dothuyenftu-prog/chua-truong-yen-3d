@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    window._currentBuildVer = 122;
+    window._currentBuildVer = 123;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -9053,7 +9053,7 @@
         }
       }
 
-      const activeChars = [...visitingGuests, ...Object.values(onlineCompanyPeers)];
+      const activeChars = [...visitingGuests, ...Object.values(onlineCompanyPeers), ...(window._lastTopHonorChars || [])];
       for (const npc of activeChars) {
         if (npc._screenX !== undefined && npc._screenY !== undefined) {
           const dist = Math.hypot(clientX - npc._screenX, clientY - (npc._screenY - 35));
@@ -11932,38 +11932,175 @@
       ctx.ellipse(0, -2, 34 * scale, 11 * scale, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
-      const charGender = (d.gender === 'M') ? 'M' : 'F';
-      const baseSpr = (charGender === 'M') ? images.walkM : images.walkF;
-      const realSpr = getRecoloredCharacterSprite(baseSpr, charOutfitLv, charGender);
-      const stW = (realSpr.width || realSpr.naturalWidth || 140) * scale * 0.56;
-      const stH = (realSpr.height || realSpr.naturalHeight || 420) * scale * 0.56;
+      // XOAY 2 NGƯỜI ĐỐI DIỆN VÀO NHAU: người bên trái (faceDir = +1) nhìn sang phải (+1), người bên phải (faceDir = -1) lật ngang nhìn sang trái (-1)
+      const dir = (faceDir >= 0) ? 1 : -1;
+      ctx.scale(dir, 1);
 
-      if (mutualMode === 'mutual_kneel') {
-        draw3DRitualAnimation(ctx, realSpr, charOutfitLv, charGender, scale, 'bow_cycle', frameCount);
-        ctx.restore();
-        return;
+      const vaiUp = images.poseVaiUp;
+      const vaiBow = images.poseVaiBow;
+      const kneelUp = images.poseKneelUp;
+      const kneelBow = images.poseKneelBow;
+
+      if (mutualMode === 'mutual_kneel' && kneelUp && kneelUp.complete && kneelBow && kneelBow.complete) {
+        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU QUỲ LẠY TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa đối diện nhau 60FPS):
+        // Pha 1 (0..0.30): Quỳ thẳng đối diện nhau chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu chào
+        // Pha 2 (0.30..0.46): Khớp lưng gập dần về phía nhau chuyển mượt sang tư thế lạy sát đất
+        // Pha 3 (0.46..0.80): Cúi rạp trán và hai bàn tay chạm sàn hướng thẳng vào nhau (pose_kneel_bow)
+        // Pha 4 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm đối diện nhau trên bồ đoàn
+        const cycle = (frameCount % 84) / 84.0;
+        const baseH = 136 * scale;
+
+        if (cycle < 0.30) {
+          const nodT = Math.sin((cycle / 0.30) * Math.PI);
+          const h = baseH;
+          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
+          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
+          const lowerH = h * 0.44;
+          const upperH = h * 0.56;
+          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(-w * 0.04, -lowerH + 4);
+          ctx.rotate(nodT * 0.18);
+          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+          ctx.restore();
+          ctx.restore();
+          return baseH;
+        } else if (cycle < 0.46) {
+          const t = (cycle - 0.30) / 0.16;
+          const ease = t * t * (3 - 2 * t);
+          if (ease < 0.55) {
+            const h = baseH;
+            const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
+            const splitY = Math.round(kneelUp.naturalHeight * 0.56);
+            const lowerH = h * 0.44;
+            const upperH = h * 0.56;
+            ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+            ctx.save();
+            ctx.translate(-w * 0.04, -lowerH + 4);
+            ctx.rotate(0.18 + ease * 0.62);
+            ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+            ctx.restore();
+            ctx.restore();
+            return baseH * 0.88;
+          } else {
+            const hBow = 84 * scale;
+            const wBow = hBow * (kneelBow.naturalWidth / kneelBow.naturalHeight);
+            const dip = (1.0 - ease) * 0.14;
+            ctx.save();
+            ctx.rotate(-dip);
+            ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
+            ctx.restore();
+            ctx.restore();
+            return hBow + 12 * scale;
+          }
+        } else if (cycle < 0.80) {
+          const breathe = Math.sin(((cycle - 0.46) / 0.34) * Math.PI);
+          const hBow = (83 - breathe * 2.5) * scale;
+          const wBow = (84 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
+          ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
+          ctx.restore();
+          return hBow + 12 * scale;
+        } else {
+          const t = (cycle - 0.80) / 0.20;
+          const ease = t * t * (3 - 2 * t);
+          const h = baseH;
+          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
+          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
+          const lowerH = h * 0.44;
+          const upperH = h * 0.56;
+          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(-w * 0.04, -lowerH + 4);
+          ctx.rotate((1.0 - ease) * 0.48);
+          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+          ctx.restore();
+          ctx.restore();
+          return baseH;
+        }
       }
 
-      if (mutualMode === 'mutual_vai') {
-        draw3DRitualAnimation(ctx, realSpr, charOutfitLv, charGender, scale, 'vai', frameCount);
+      if (mutualMode === 'mutual_vai' && vaiUp && vaiUp.complete && vaiBow && vaiBow.complete) {
+        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU ĐỨNG CHẮP TAY VÁI LẠY NHAU 3D CHÂN THỰC (60FPS):
+        // Chân giữ vững trên chiếu đỏ, khớp hông và lưng cúi gập 45 độ hướng thẳng về phía đối phương với hai tay chắp búp sen!
+        const bowWave = 0.5 - 0.5 * Math.cos(frameCount * 0.15); // 0.0 (đứng thẳng chắp tay đối diện) -> 1.0 (cúi vái sâu 45 độ vào nhau)
+        const baseH = 152 * scale;
+
+        if (bowWave < 0.42) {
+          const t = bowWave / 0.42;
+          const h = baseH;
+          const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
+          const splitY = Math.round(vaiUp.naturalHeight * 0.52);
+          const lowerH = h * 0.48;
+          const upperH = h * 0.52;
+          ctx.drawImage(vaiUp, 0, splitY, vaiUp.naturalWidth, vaiUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(0, -lowerH + 4);
+          ctx.rotate(t * 0.28);
+          ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 10, -w * 0.48, -upperH, w, upperH + 5);
+          ctx.restore();
+        } else {
+          const deepT = (bowWave - 0.42) / 0.58;
+          const h = baseH * (0.97 - deepT * 0.02);
+          const w = h * (vaiBow.naturalWidth / vaiBow.naturalHeight);
+          ctx.save();
+          ctx.translate(-w * 0.08, -4);
+          ctx.rotate((deepT - 0.3) * 0.09);
+          ctx.drawImage(vaiBow, -w * 0.26, -h + 4, w, h);
+          ctx.restore();
+        }
         ctx.restore();
-        return;
+        return baseH;
       }
 
-      if (mutualMode === 'brawl') {
+      if (mutualMode === 'salty_chat' && vaiUp && vaiUp.complete) {
+        // 2 NGƯỜI XOAY MẶT VÀO NHAU TRÒ CHUYỆN / CÀ KHỊA ĐỐI DIỆN
+        const baseH = 150 * scale;
+        const h = baseH;
+        const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
+        const nod = Math.sin(frameCount * 0.18 + (isPlayer ? 0 : 1.7)) * 0.05;
+        ctx.save();
+        ctx.rotate(nod);
+        ctx.drawImage(vaiUp, -w * 0.48, -h, w, h);
+        ctx.restore();
+        ctx.restore();
+        return baseH;
+      }
+
+      if (mutualMode === 'brawl' && vaiBow && vaiBow.complete && vaiUp && vaiUp.complete) {
+        // ĐẤM NHAU TÚI BỤI 3D: 2 nhân vật xoay mặt vào nhau nghiêng mình tung đòn liên hoàn + hiệu ứng găng đấm 3D & sóng xung kích!
         const phase = frameCount * 0.65 + (isPlayer ? 0 : Math.PI);
-        const lungeX = Math.sin(phase) * 7 * scale * (faceDir >= 0 ? 1 : -1);
+        const useBow = Math.sin(phase) > 0;
+        const spr3d = useBow ? vaiBow : vaiUp;
+        const h = (useBow ? 144 : 150) * scale;
+        const w = h * (spr3d.naturalWidth / spr3d.naturalHeight);
+        const lungeX = Math.sin(phase) * 7 * scale;
         const bobY = Math.abs(Math.cos(phase)) * 4 * scale;
+
         ctx.save();
         ctx.translate(lungeX, -bobY);
-        ctx.drawImage(realSpr, -stW * 0.5, -stH, stW, stH);
+        ctx.rotate(0.12 + Math.sin(phase) * 0.08);
+        ctx.drawImage(spr3d, -w * 0.42, -h, w, h);
+
+        const punchExt = Math.max(0, Math.sin(phase)) * 26 * scale;
+        if (punchExt > 6 * scale) {
+          const fistX = w * 0.32 + punchExt;
+          const fistY = -h * 0.68;
+          const fistGrad = ctx.createRadialGradient(fistX - 2, fistY - 2, 1, fistX, fistY, 10 * scale);
+          fistGrad.addColorStop(0, '#ffeb3b');
+          fistGrad.addColorStop(0.5, '#ff1744');
+          fistGrad.addColorStop(1, 'rgba(213, 0, 0, 0)');
+          ctx.fillStyle = fistGrad;
+          ctx.beginPath();
+          ctx.arc(fistX, fistY, 10 * scale, 0, Math.PI * 2);
+          ctx.fill();
+        }
         ctx.restore();
         ctx.restore();
-        return;
+        return 150 * scale;
       }
 
       ctx.restore();
+      return 145 * scale;
     }
 
     function render() {
@@ -12400,9 +12537,11 @@
         top3Map.set(ch.name, { ...ch, rank: idx + 1, seatU: top3SeatCoords[idx].u, seatV: top3SeatCoords[idx].v });
       });
 
-      // Không để khách vãng lai trùng tên với Top 1 đang ngồi ghế vinh danh chính giữa
+      // Không để khách vãng lai trùng tên với Top 1 đang ngồi ghế vinh danh chính giữa (TRỪ KHI đang tương tác đôi activeMutualInteraction!)
       for (let i = renderables.length - 1; i >= 0; i--) {
-        if (renderables[i].type === 'visitor' && top3Map.has(renderables[i].data.name)) {
+        const rItem = renderables[i];
+        const isMutualTgt = Boolean(activeMutualInteraction && activeMutualInteraction.active && rItem.data === activeMutualInteraction.target);
+        if (rItem.type === 'visitor' && top3Map.has(rItem.data.name) && !isMutualTgt) {
           renderables.splice(i, 1);
         }
       }
@@ -12421,10 +12560,16 @@
         }
       }
 
+      window._lastTopHonorChars = [];
       top3Champions.forEach((ch, idx) => {
         const rank = idx + 1;
         const seat = top3SeatCoords[idx];
         if (ch.name === player.name) return;
+        if (activeMutualInteraction && activeMutualInteraction.active && activeMutualInteraction.target && activeMutualInteraction.target.name === ch.name) {
+          activeMutualInteraction.target._topRank = rank;
+          activeMutualInteraction.target._topMerit = ch.merit;
+          return;
+        }
         const existingPeer = renderables.find(r => r.type === 'online_peer' && r.data && r.data.name === ch.name && r.data.wing === player.wing);
         if (existingPeer) {
           existingPeer.data._topRank = rank;
@@ -12434,20 +12579,22 @@
           }
           return;
         }
+        const honorCharObj = {
+          name: ch.name,
+          gender: ch.gender,
+          avatar: ch.avatar,
+          merit: ch.merit,
+          wing: player.wing,
+          u: seat.u,
+          v: seat.v,
+          state: 'kneel',
+          _topRank: rank,
+          _topMerit: ch.merit
+        };
+        window._lastTopHonorChars.push(honorCharObj);
         renderables.push({
           type: 'top3_honor',
-          data: {
-            name: ch.name,
-            gender: ch.gender,
-            avatar: ch.avatar,
-            merit: ch.merit,
-            wing: player.wing,
-            u: seat.u,
-            v: seat.v,
-            state: 'kneel',
-            _topRank: rank,
-            _topMerit: ch.merit
-          },
+          data: honorCharObj,
           v: seat.v
         });
       });
@@ -12648,8 +12795,8 @@
           // 2) Vẽ Nhân Vật Phật Tử Nam / Nữ Khoác Trang Phục 11 Bậc 3D Studio Thật (Từ Ăn Mày Áo Vá -> Công Nhân -> ... -> Hoàng Đế -> Tu Thành Tiên)
           let actualRenderedH = sh;
           ctx.save();
-          if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
-            drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
+          if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl' || mutualMode === 'salty_chat')) {
+            actualRenderedH = drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) || sh;
           } else if (isVaiState) {
             const rawVaiTick = isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : (frameCount + 11);
             ctx.save();
@@ -12682,10 +12829,11 @@
           drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, actualRenderedH, scale, charOutfitLv, frameCount);
 
           const headY = sy - actualRenderedH - bob - 6;
+          const badgeSx = inMutual ? (sx + (faceDir >= 0 ? -42 : 42) * scale) : sx;
           const badgeLabel = isPlayer
             ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
-          drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
+          drawRoundedBadge(badgeSx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
 
           // V98 (#mvzazvxf21): Chỉ hiện Nhãn Bậc Tu Hành & Pháp Phục trên đầu nhân vật người chơi chính ("🪷 Bậc 4 · Tỳ Kheo Tinh Tấn") để không gây chồng chữ rối mắt với các NPC xung quanh!
           if (isPlayer) {
@@ -12693,7 +12841,7 @@
             ctx.save();
             ctx.font = '800 8.8px sans-serif';
             const rtw = ctx.measureText(realmTitleTxt).width + 10;
-            const rtx = Math.max(6, Math.min(W - rtw - 6, Math.round(sx - rtw / 2)));
+            const rtx = Math.max(6, Math.min(W - rtw - 6, Math.round(badgeSx - rtw / 2)));
             const rty = (topRank >= 1 && topRank <= 3) ? (headY - 36) : (headY - 20);
             ctx.fillStyle = 'rgba(20, 8, 2, 0.92)';
             ctx.strokeStyle = charRealmCfg.colorHex;
@@ -12715,7 +12863,7 @@
             ctx.save();
             ctx.font = '900 9.2px sans-serif';
             const rw = ctx.measureText(rTxt).width + 12;
-            const rx = Math.max(6, Math.min(W - rw - 6, Math.round(sx - rw / 2)));
+            const rx = Math.max(6, Math.min(W - rw - 6, Math.round(badgeSx - rw / 2)));
             const ry = headY - 19;
             const rGrad = ctx.createLinearGradient(rx, ry - 7, rx + rw, ry + 7);
             if (topRank === 1) {
@@ -12767,13 +12915,13 @@
             if (activeMutualInteraction && activeMutualInteraction.active && !inMutual) {
               // Không vẽ bóng thoại phụ gây rối mắt lúc đang tương tác đôi
             } else {
-              const bubbleOffsetX = inMutual ? (isPlayer ? -Math.min(145, W * 0.24) : Math.min(145, W * 0.24)) : (W <= 560 && !isPlayer ? (sx < W * 0.5 ? -18 : 18) : 0);
+              const bubbleOffsetX = inMutual ? (faceDir >= 0 ? -Math.min(205, W * 0.28) : Math.min(205, W * 0.28)) : (W <= 560 && !isPlayer ? (sx < W * 0.5 ? -18 : 18) : 0);
               const bubbleOffsetY = inMutual ? -22 : -14;
               drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
             }
           }
           if (isPlayer) {
-            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank, charRealmCfg };
+            window._lastPlayerBadgePos = { sx: badgeSx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank, charRealmCfg };
           }
         }
       }
@@ -13996,7 +14144,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 122;
+        const CURRENT_BUILD_VER = 123;
         window._currentBuildVer = CURRENT_BUILD_VER;
       })();
     });
