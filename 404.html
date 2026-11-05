@@ -9,32 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    (function earlyAutoRedirectOldLink() {
-      var CURRENT_BUILD_VER = 114;
-      window._currentBuildVer = CURRENT_BUILD_VER;
-      function checkAndRedirect() {
-        try {
-          if (location.search.indexOf('demo=') !== -1) return;
-          var reqVer = Number(new URLSearchParams(location.search).get('v') || 0);
-          fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
-            .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(d) {
-              if (d && Number(d.version) > 0) {
-                var latestVer = Number(d.version);
-                if (latestVer > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < latestVer) || !location.pathname.endsWith('/chua-v43.html')) {
-                  var u = new URL(location.href);
-                  u.pathname = u.pathname.replace(/\/([^\/]*\.html)?$/, '/chua-v43.html');
-                  u.searchParams.set('v', String(latestVer));
-                  u.searchParams.set('_t', String(Date.now()));
-                  location.replace(u.toString());
-                }
-              }
-            }).catch(function(){});
-        } catch (e) {}
-      }
-      checkAndRedirect();
-      setInterval(checkAndRedirect, 4000);
-    })();
+    window._currentBuildVer = 124;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -1000,16 +975,17 @@
       <div>
         <div style="font-size:10.5px; color:#ffe082; font-weight:800; margin-bottom:3px;">🎵 1. Chọn Nhạc Nền Chùa (Đầy Đủ · Tách Riêng Với Tụng Kinh):</div>
         <select id="bgMusicSelect" class="top-select" style="width:100%;" onchange="changeBgMusicTrack(this.value)">
-          <option value="audio/nhac_bi_ngan_remix.mp3" selected>🌺 1. Bỉ Ngạn Nở Hoa Người Chẳng Về (Remix Mới)</option>
-          <option value="audio/nhac_tam_mer.mp3">🧘 2. Tâm — Mer (Nhạc Tịnh Tâm)</option>
-          <option value="audio/nhac_lien_hoa_pmc.mp3">🪷 3. Liên Hoa — Phương Mỹ Chi</option>
-          <option value="audio/tk2_chua.mp3">🎵 4. Nhạc Thiền Thanh Tịnh Cổ Tự</option>
-          <option value="audio/chu_dai_bi_84cau_tiktok.mp3">🎵 5. Chú Đại Bi 84 Câu (Bản Nhạc TikTok)</option>
-          <option value="audio/nhac_nen_chua.mp3">🎵 6. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
-          <option value="audio/lien_hoa.mp3">🎵 7. Diệu Pháp Liên Hoa</option>
-          <option value="audio/do_ta_khong_do_nang.mp3">🎵 8. Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
-          <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 9. Dưới Tòa Sen Vàng</option>
-          <option value="audio/tk3_chua.mp3">🎵 10. Vũ Khúc Thiên Đình (Tây Du)</option>
+          <option value="audio/nhac_thien_tinh_tam_moi.mp3" selected>🧘 1. Nhạc Thiền Tịnh Tâm Xóa Tan Phiền Muộn (Mới)</option>
+          <option value="audio/nhac_bi_ngan_remix.mp3">🌺 2. Bỉ Ngạn Nở Hoa Người Chẳng Về (Remix Mới)</option>
+          <option value="audio/nhac_tam_mer.mp3">🧘 3. Tâm — Mer (Nhạc Tịnh Tâm)</option>
+          <option value="audio/nhac_lien_hoa_pmc.mp3">🪷 4. Liên Hoa — Phương Mỹ Chi</option>
+          <option value="audio/tk2_chua.mp3">🎵 5. Nhạc Thiền Thanh Tịnh Cổ Tự</option>
+          <option value="audio/chu_dai_bi_84cau_tiktok.mp3">🎵 6. Chú Đại Bi 84 Câu (Bản Nhạc TikTok)</option>
+          <option value="audio/nhac_nen_chua.mp3">🎵 7. Nhạc Thiền Tịnh Tâm Nhẹ Nhàng</option>
+          <option value="audio/lien_hoa.mp3">🎵 8. Diệu Pháp Liên Hoa</option>
+          <option value="audio/do_ta_khong_do_nang.mp3">🎵 9. Độ Ta Không Độ Nàng (Nhạc Thiền)</option>
+          <option value="audio/tk4_duoi_toa_sen_vang.mp3">🎵 10. Dưới Tòa Sen Vàng</option>
+          <option value="audio/tk3_chua.mp3">🎵 11. Vũ Khúc Thiên Đình (Tây Du)</option>
           <option value="off">🔇 Tắt Nhạc Nền</option>
         </select>
       </div>
@@ -2371,7 +2347,7 @@
     // =========================================================================
     const sfxMo = new Audio('audio/mo_that.mp3?v=74');
     const sfxBell = new Audio('audio/chuong_chua.mp3');
-    const bgMusicPlayer = new Audio('audio/tk2_chua.mp3');
+    const bgMusicPlayer = new Audio('audio/nhac_thien_tinh_tam_moi.mp3?v=125');
     const bgChantTamBao = new Audio('audio/chu_dai_bi.mp3');
     const bgChantThanTai = new Audio('audio/khan_than_tai.mp3');
     bgMusicPlayer.loop = true;
@@ -6372,133 +6348,112 @@
         expReq: 100,
         badge: '🌾 Bậc 2/11 · Nông Dân Chăm Chỉ',
         outfitName: 'Áo Bà Ba Nâu Đất (Nam) / Áo Cánh Nâu Sồng Thôn Nữ (Nữ)',
-        outfitNameM: 'Áo Bà Ba Vải Nâu Đất Đồng Quê & Đai Vải Thắt Eo',
-        outfitNameF: 'Áo Cánh Nâu Sồng Thôn Nữ & Dải Lưng Lụa Xanh Lục',
+        outfitNameM: 'Áo Bà Ba Vải Nâu Đất Đồng Quê & Khăn Rằn Vắt Vai',
+        outfitNameF: 'Áo Cánh Nâu Sồng Thôn Nữ & Dải Lưng Lụa Xanh Hoa Lý',
         outfitColorLabel: 'Nâu Đất Đồng Quê',
         colorHex: '#d7ccc8',
         borderHex: '#8d6e63',
-        cssFilter: 'sepia(0.85) hue-rotate(-18deg) saturate(1.6) brightness(0.92)',
-        kasayaColor: 'rgba(121, 85, 72, 0.78)',
-        crownType: 'headband_blue',
+        cssFilter: 'none',
+        kasayaColor: null,
+        crownType: 'none',
         lotusType: 'ring_blue',
         haloType: 'soft_blue',
         perk: 'Thoát cảnh ăn mày, cày sâu cuốc bẫm làm ăn lương thiện (+2% cơ hội nổ X).'
       },
       {
         lv: 3,
-        name: 'Công Nhân Nhà Máy (Lao Động Chăm Chỉ)',
-        shortTitle: '👷 Bậc 3 · Công Nhân',
+        name: 'Tiểu Thương Phố Thị (Chủ Tiệm Buôn)',
+        shortTitle: '🪙 Bậc 3 · Tiểu Thương',
         meritCost: 35000,
         meritCostText: '35.000 💎 Phước',
         expReq: 280,
-        badge: '👷 Bậc 3/11 · Công Nhân Lao Động Chăm Chỉ',
-        outfitName: 'Đồ Bảo Hộ Công Nhân (Nam) / Đồng Phục Nữ Công Nhân Phản Quang (Nữ)',
-        outfitNameM: 'Áo Bảo Hộ Nam Công Nhân Xanh Công Nghiệp & Dải Phản Quang',
-        outfitNameF: 'Đồng Phục Nữ Công Nhân Xanh Lam Phối Dải Phản Quang & Thẻ Ngực',
-        outfitColorLabel: 'Xanh Bảo Hộ Công Nhân',
-        colorHex: '#29b6f6',
-        borderHex: '#0288d1',
-        cssFilter: 'none',
-        kasayaColor: null,
-        crownType: 'none',
-        lotusType: 'ring_amber',
-        haloType: 'warm_amber',
-        perk: 'Công nhân lao động tăng ca chăm chỉ, tay nghề vững vàng (+4% cơ hội nổ X).'
-      },
-      {
-        lv: 4,
-        name: 'Tiểu Thương Phố Thị (Chủ Tiệm Buôn)',
-        shortTitle: '🪙 Bậc 4 · Tiểu Thương',
-        meritCost: 250000,
-        meritCostText: '250.000 💎 Phước',
-        expReq: 600,
-        badge: '🪙 Bậc 4/11 · Chủ Tiệm Buôn Phố Thị',
+        badge: '🪙 Bậc 3/11 · Chủ Tiệm Buôn Phố Thị',
         outfitName: 'Trường Sam Lụa Ngọc Bích (Nam) / Áo Dài Lụa Ngọc & Kiềng Bạc (Nữ)',
-        outfitNameM: 'Áo Trường Sam Lụa Xanh Ngọc Bích Viền Cổ Bạc',
-        outfitNameF: 'Áo Dài Lụa Xanh Ngọc Bích Thanh Nhã & Kiềng Bạc Cổ',
+        outfitNameM: 'Áo Trường Sam Lụa Xanh Ngọc Bích & Khăn Đóng Chỉnh Tề',
+        outfitNameF: 'Áo Dài Lụa Xanh Ngọc Bích Thanh Nhã & Quần Lụa Trắng',
         outfitColorLabel: 'Lụa Xanh Ngọc Bích',
         colorHex: '#80cbc4',
         borderHex: '#26a69a',
         cssFilter: 'none',
         kasayaColor: null,
         crownType: 'none',
-        lotusType: 'lotus_green',
-        haloType: 'gold_single',
-        perk: 'Mở hiệu buôn bán phát đạt nơi phố thị sầm uất (+6% cơ hội nổ X).'
+        lotusType: 'ring_amber',
+        haloType: 'warm_amber',
+        perk: 'Mở hiệu buôn bán phát đạt nơi phố thị sầm uất (+4% cơ hội nổ X).'
       },
       {
-        lv: 5,
+        lv: 4,
         name: 'Danh Gia Khoa Bảng (Tân Khoa / Tiểu Thư Khuê Các)',
-        shortTitle: '📜 Bậc 5 · Khoa Bảng Danh Gia',
-        meritCost: 1500000,
-        meritCostText: '1.500.000 💎 Phước (1,5 Triệu)',
-        expReq: 1200,
-        badge: '📜 Bậc 5/11 · Danh Gia Khoa Bảng',
+        shortTitle: '📜 Bậc 4 · Khoa Bảng Danh Gia',
+        meritCost: 250000,
+        meritCostText: '250.000 💎 Phước',
+        expReq: 600,
+        badge: '📜 Bậc 4/11 · Danh Gia Khoa Bảng',
         outfitName: 'Áo Gấm Lam Văn Nhân (Nam) / Áo Dài Gấm Lam & Trâm Ngọc (Nữ)',
-        outfitNameM: 'Áo Gấm Lam Sẫm Văn Nhân Thêu Vân Mây Bạc & Khăn Xếp',
-        outfitNameF: 'Áo Dài Gấm Lam Thanh Quý Thêu Hoa Mai & Trâm Cài Ngọc Bích',
+        outfitNameM: 'Áo Gấm Lam Sẫm Tân Khoa Thêu Vân Mây Bạc & Mão Cánh Chuồn',
+        outfitNameF: 'Áo Dài Gấm Lam Tiểu Thư Khuê Các Thêu Hoa Mai & Trâm Ngọc Bích',
         outfitColorLabel: 'Gấm Lam Khoa Bảng',
         colorHex: '#82b1ff',
         borderHex: '#448aff',
         cssFilter: 'none',
         kasayaColor: null,
         crownType: 'none',
-        lotusType: 'lotus_pink',
-        haloType: 'gold_double',
-        perk: 'Đỗ đạt khoa bảng, dòng dõi thư hương lễ nghĩa (+9% cơ hội nổ X).'
+        lotusType: 'lotus_green',
+        haloType: 'gold_single',
+        perk: 'Đỗ đạt khoa bảng, dòng dõi thư hương lễ nghĩa (+7% cơ hội nổ X).'
       },
       {
-        lv: 6,
+        lv: 5,
         name: 'Đại Thương Gia (Chủ Thương Hội Kinh Thành)',
-        shortTitle: '🏮 Bậc 6 · Đại Thương Gia',
-        meritCost: 10000000,
-        meritCostText: '10.000.000 💎 Phước (10 Triệu)',
-        expReq: 2500,
-        badge: '🏮 Bậc 6/11 · Đại Thương Gia Phú Quý',
+        shortTitle: '🏮 Bậc 5 · Đại Thương Gia',
+        meritCost: 1500000,
+        meritCostText: '1.500.000 💎 Phước (1,5 Triệu)',
+        expReq: 1200,
+        badge: '🏮 Bậc 5/11 · Đại Thương Gia Phú Quý',
         outfitName: 'Áo Gấm Đỏ Trầm Kim Tuyến (Nam) / Áo Dài Gấm Đỏ Đào Phú Quý (Nữ)',
-        outfitNameM: 'Áo Gấm Đỏ Trầm Thêu Kim Tuyến Đồng Tiền Vàng & Đai Vàng',
-        outfitNameF: 'Áo Dài Gấm Đỏ Hồng Đào Thêu Hoa Mẫu Đơn Vàng & Chuỗi Ngọc',
+        outfitNameM: 'Áo Gấm Đỏ Trầm Lão Bản Thêu Đồng Tiền Vàng & Đai Vàng',
+        outfitNameF: 'Áo Dài Gấm Đỏ Hồng Đào Bà Chủ Khoác Khăn Choàng Lông Trắng',
         outfitColorLabel: 'Gấm Đỏ Phú Thương',
         colorHex: '#ff8a80',
         borderHex: '#ff5252',
         cssFilter: 'none',
         kasayaColor: null,
         crownType: 'none',
-        lotusType: 'lotus_gold_small',
-        haloType: 'crimson_gold',
-        perk: 'Buôn tàu bán bè khắp Bắc Nam, gia sản phú quý (+12% cơ hội nổ X).'
+        lotusType: 'lotus_pink',
+        haloType: 'gold_double',
+        perk: 'Buôn tàu bán bè khắp Bắc Nam, gia sản phú quý (+10% cơ hội nổ X).'
       },
       {
-        lv: 7,
+        lv: 6,
         name: 'Đại Phú Hộ Điền Chủ (Bá Hộ / Phu Nhân Giàu Sang)',
-        shortTitle: '🏡 Bậc 7 · Đại Phú Hộ',
-        meritCost: 80000000,
-        meritCostText: '80.000.000 💎 Phước (80 Triệu)',
-        expReq: 5000,
-        badge: '🏡 Bậc 7/11 · Đại Phú Hộ Giàu Sang',
+        shortTitle: '🏡 Bậc 6 · Đại Phú Hộ',
+        meritCost: 10000000,
+        meritCostText: '10.000.000 💎 Phước (10 Triệu)',
+        expReq: 2500,
+        badge: '🏡 Bậc 6/11 · Đại Phú Hộ Giàu Sang',
         outfitName: 'Áo Gấm Tím Tử Đàn Chữ Thọ (Nam) / Áo Nhật Bình Tím Huế (Nữ)',
-        outfitNameM: 'Áo Gấm Tím Tử Đàn Thêu Chữ Thọ Vàng Ròng & Khăn Xếp Gấm',
-        outfitNameF: 'Áo Nhật Bình Gấm Tím Huế Thêu Hoa Sen Vàng & Kiềng Vàng',
+        outfitNameM: 'Áo Đại Hồng Bào Gấm Tím Tử Đàn Thêu Chữ Thọ Vàng & Khăn Xếp Gấm',
+        outfitNameF: 'Áo Nhật Bình Gấm Tím Huế Thêu Hoa Sen Vàng & Trâm Vàng',
         outfitColorLabel: 'Gấm Tím Tử Đàn',
         colorHex: '#e040fb',
         borderHex: '#aa00ff',
         cssFilter: 'none',
         kasayaColor: null,
         crownType: 'none',
-        lotusType: 'lotus_jade',
-        haloType: 'violet_gold',
-        perk: 'Ruộng đất cò bay thẳng cánh, phát tâm công đức lớn (+16% cơ hội nổ X).'
+        lotusType: 'lotus_gold_small',
+        haloType: 'crimson_gold',
+        perk: 'Ruộng đất cò bay thẳng cánh, phát tâm công đức lớn (+14% cơ hội nổ X).'
       },
       {
-        lv: 8,
+        lv: 7,
         name: 'Quan Thượng Thư Triều Đình (Nhất Phẩm Phu Nhân)',
-        shortTitle: '🏛️ Bậc 8 · Quan Thượng Thư',
-        meritCost: 600000000,
-        meritCostText: '600.000.000 💎 Phước (600 Triệu)',
-        expReq: 12000,
-        badge: '🏛️ Bậc 8/11 · Đại Quan Nhất Phẩm Triều Đình',
+        shortTitle: '🏛️ Bậc 7 · Quan Thượng Thư',
+        meritCost: 80000000,
+        meritCostText: '80.000.000 💎 Phước (80 Triệu)',
+        expReq: 5000,
+        badge: '🏛️ Bậc 7/11 · Đại Quan Nhất Phẩm Triều Đình',
         outfitName: 'Triều Phục Gấm Đỏ Son Bổ Tử Hạc Vàng (Nam) / Lễ Phục Nhất Phẩm Phu Nhân (Nữ)',
-        outfitNameM: 'Triều Phục Đại Quan Gấm Đỏ Son Thêu Bổ Tử Hạc Vàng & Đai Ngọc',
+        outfitNameM: 'Triều Phục Đại Quan Gấm Đỏ Son Thêu Bổ Tử Hạc Trắng & Đai Ngọc',
         outfitNameF: 'Lễ Phục Nhất Phẩm Phu Nhân Gấm Đỏ Son Thêu Bổ Tử Phượng Vàng',
         outfitColorLabel: 'Đỏ Son Triều Phục',
         colorHex: '#ffd740',
@@ -6506,30 +6461,51 @@
         cssFilter: 'none',
         kasayaColor: null,
         crownType: 'none',
-        lotusType: 'lotus_fire_gold',
-        haloType: 'arhat_fire_ring',
-        perk: 'Trụ cột triều đình, phẩm hàm Nhất Phẩm uy nghi (+22% cơ hội nổ X).'
+        lotusType: 'lotus_jade',
+        haloType: 'violet_gold',
+        perk: 'Trụ cột triều đình, phẩm hàm Nhất Phẩm uy nghi (+18% cơ hội nổ X).'
       },
       {
-        lv: 9,
+        lv: 8,
         name: 'Vương Gia / Quận Chúa Hoàng Tộc',
-        shortTitle: '👑 Bậc 9 · Vương Gia / Quận Chúa',
-        meritCost: 5000000000,
-        meritCostText: '5.000.000.000 💎 Phước (5 Tỷ Phước)',
-        expReq: 30000,
-        badge: '👑 Bậc 9/11 · Vương Gia / Quận Chúa Hoàng Gia',
+        shortTitle: '👑 Bậc 8 · Vương Gia / Quận Chúa',
+        meritCost: 600000000,
+        meritCostText: '600.000.000 💎 Phước (600 Triệu)',
+        expReq: 12000,
+        badge: '👑 Bậc 8/11 · Vương Gia / Quận Chúa Hoàng Gia',
         outfitName: 'Bào Phục Vương Gia Ngọc Lưu Ly (Nam) / Phượng Bào Quận Chúa (Nữ)',
-        outfitNameM: 'Bào Phục Vương Gia Lụa Ngọc Lưu Ly Thêu Giao Long Vàng & Mão Vương',
-        outfitNameF: 'Phượng Bào Quận Chúa Ngọc Lưu Ly Thêu Phượng Hoàng & Trâm Phượng Vàng',
+        outfitNameM: 'Mãng Bào Vương Gia Lụa Ngọc Lưu Ly Thêu Giao Long Vàng & Mão Vương',
+        outfitNameF: 'Phượng Bào Quận Chúa Ngọc Lưu Ly Thêu Phượng Hoàng & Mũ Ngọc Lục Bảo',
         outfitColorLabel: 'Ngọc Lưu Ly Hoàng Tộc',
         colorHex: '#69f0ae',
         borderHex: '#00e676',
         cssFilter: 'none',
         kasayaColor: null,
         crownType: 'none',
+        lotusType: 'lotus_fire_gold',
+        haloType: 'arhat_fire_ring',
+        perk: 'Dòng dõi kim chi ngọc diệp, tôn quý bậc nhất hoàng gia (+24% cơ hội nổ X).'
+      },
+      {
+        lv: 9,
+        name: 'Thái Tử / Thái Tử Phi Đông Cung (Trữ Quân Hoàng Triều)',
+        shortTitle: '⚜️ Bậc 9 · Thái Tử / Thái Tử Phi',
+        meritCost: 5000000000,
+        meritCostText: '5.000.000.000 💎 Phước (5 Tỷ Phước)',
+        expReq: 30000,
+        badge: '⚜️ Bậc 9/11 · THÁI TỬ / THÁI TỬ PHI ĐÔNG CUNG',
+        outfitName: 'Hoàng Bào Thái Tử Hạnh Hoàng (Nam) / Phượng Bào Thái Tử Phi (Nữ)',
+        outfitNameM: 'Hoàng Bào Thái Tử Hạnh Hoàng Cam Kim Thêu Tứ Trảo Kim Long & Mão Dực Thiện Vàng Ròng',
+        outfitNameF: 'Phượng Bào Thái Tử Phi Cam Hoàng Kim Phối Hồng Ngọc & Mũ Thất Phượng',
+        outfitColorLabel: 'Hạnh Hoàng Đông Cung',
+        colorHex: '#ffab40',
+        borderHex: '#ff6d00',
+        cssFilter: 'none',
+        kasayaColor: null,
+        crownType: 'none',
         lotusType: 'lotus_rainbow',
         haloType: 'rainbow_halo',
-        perk: 'Dòng dõi kim chi ngọc diệp, tôn quý bậc nhất hoàng gia (+30% cơ hội nổ X).'
+        perk: 'Trữ quân Đông Cung kế vị ngai vàng, dưới một người trên muôn vạn người (+35% cơ hội nổ X).'
       },
       {
         lv: 10,
@@ -6623,12 +6599,14 @@
         st.unlockedOutfits = { 1: true };
       }
       st.unlockedOutfits[1] = true;
-      // V113 (#mw0ge9vk3e & #mw0gf4qp3f): Đưa toàn bộ mọi người quay về thành Phật Tử ở Bậc 1 (Ăn Mày Áo Vá) để bắt đầu hệ thống 10 Bậc Địa Vị Xã Hội Nam/Nữ mới (không hóa thành sư/La Hán/Phật)!
-      if (!st.v113ResetAllToSocialRank1) {
+      // V115 (#mw0gyum83j & #mw0hdguo3k): Đưa toàn bộ mọi người về Bậc 1 (Ăn Mày Áo Vá) chuẩn socialEpoch = 115, chặn 100% tab cũ đồng bộ đè bậc cũ!
+      if (!st.v115ResetAllToSocialRank1 || (Number(st.socialEpoch) || 0) < 115) {
         st.unlockedOutfits = { 1: true };
         st.cultivationLv = 1;
         st.equippedOutfitLv = 1;
         st.v113ResetAllToSocialRank1 = true;
+        st.v115ResetAllToSocialRank1 = true;
+        st.socialEpoch = 115;
         if ((player?.name || '') === 'Thế Anh Kho') {
           player.merit = 312241200;
           try { localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200'); } catch (e) {}
@@ -6640,6 +6618,7 @@
                 allCharProfiles[k].outfitLv = 1;
                 allCharProfiles[k].cultivationLv = 1;
                 allCharProfiles[k].unlockedOutfits = { 1: true };
+                allCharProfiles[k].socialEpoch = 115;
               }
             });
             if (allCharProfiles['Thế Anh Kho']) allCharProfiles['Thế Anh Kho'].merit = 312241200;
@@ -7015,6 +6994,7 @@
           allCharProfiles[player.name].outfitLv = safeLv;
           allCharProfiles[player.name].cultivationLv = Math.max(Number(allCharProfiles[player.name].cultivationLv || 1), Number(st.cultivationLv || 1), safeLv);
           allCharProfiles[player.name].unlockedOutfits = { ...(allCharProfiles[player.name].unlockedOutfits || {}), ...(st.unlockedOutfits || {}), [safeLv]: true };
+          allCharProfiles[player.name].socialEpoch = 115;
           allCharProfiles[player.name].upgrades = { ...(allCharProfiles[player.name].upgrades || {}), ...(st.upgrades || {}) };
           try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
         }
@@ -7029,6 +7009,7 @@
           outfitLv: safeLv,
           cultivationLv: Math.max(Number(st.cultivationLv || 1), safeLv),
           unlockedOutfits: st.unlockedOutfits || { 1: true, [safeLv]: true },
+          socialEpoch: 115,
           upgrades: st.upgrades || { mo: 1, bell: 1, incense: 1, furnace: 1 },
           merit: Number(player.merit || 0),
           wing: player.wing === 1 ? 1 : 0
@@ -7101,25 +7082,11 @@
       closeMeritShopModal();
     }
 
-    // V113 (#mw0ge9vk3e & #mw0gf4qp3f): Hiển thị song song cả Mẫu Trang Phục Nam (👨) & Nữ (👩) của từng Bậc Địa Vị Xã Hội (1..10) dựa trên hình dáng Phật Tử Nam/Nữ thật!
-    const _outfitPreviewDataUrlCache = {};
+    // V115 (#mw0gyum83j & #mw0hdguo3k): BỘ 22 NHÂN VẬT 3D STUDIO THẬT CHO 11 BẬC NAM (👨) & NỮ (👩) RIÊNG BIỆT (KHÔNG TÔ MÀU GIẢ LÊN ÁO LAM!)
     function getSocialOutfitPreviewDataUrl(lv, gender) {
-      const key = `${lv}_${gender}`;
-      if (_outfitPreviewDataUrlCache[key]) return _outfitPreviewDataUrlCache[key];
-      if (typeof images !== 'object') return gender === 'M' ? 'assets/walk_male.png' : 'assets/walk_female.png';
-      const baseSpr = gender === 'M' ? images.walkM : images.walkF;
-      if (!baseSpr || !baseSpr.complete || !baseSpr.naturalWidth) {
-        return gender === 'M' ? 'assets/walk_male.png' : 'assets/walk_female.png';
-      }
-      const rec = getRecoloredCharacterSprite(baseSpr, lv, gender);
-      if (rec && typeof rec.toDataURL === 'function') {
-        try {
-          const url = rec.toDataURL('image/png');
-          _outfitPreviewDataUrlCache[key] = url;
-          return url;
-        } catch (e) {}
-      }
-      return gender === 'M' ? 'assets/walk_male.png' : 'assets/walk_female.png';
+      const safeLv = Math.max(1, Math.min(11, Number(lv || 1)));
+      const gPrefix = (gender === 'M') ? 'm' : 'f';
+      return `assets/social_${gPrefix}_${safeLv}.png?v=115`;
     }
 
     function buildRealmOutfitVisualPortrait(r) {
@@ -7145,7 +7112,7 @@
       const isMale = (player?.gender === 'M');
       const introBanner = compactMode ? '' : `
         <div style="background:linear-gradient(90deg,rgba(74,20,4,0.95),rgba(32,12,4,0.95)); border:1.5px solid #ffd54f; border-radius:10px; padding:8px 12px; font-size:11px; color:#ffe082; line-height:1.45;">
-          🙏 <b>11 Bậc Địa Vị Xã Hội & Tu Tiên · Trang Phục Nam / Nữ (Từ Ăn Mày ➔ Công Nhân ➔ Đế Vương ➔ Tu Thành Tiên):</b> Hiện có: <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b> · Giới tính đang chọn: <b style="color:#80d8ff;">${isMale ? '👨 Nam (Tự mặc Đồ Nam)' : '👩 Nữ (Tự mặc Đồ Nữ)'}</b>.
+          🙏 <b>11 Bậc Địa Vị Xã Hội & Tu Tiên · Trang Phục Nam / Nữ (Từ Ăn Mày ➔ Vương Gia ➔ Thái Tử ➔ Hoàng Đế ➔ Tu Thành Tiên):</b> Hiện có: <b style="color:#69f0ae; font-size:12px;">${curMerit.toLocaleString('vi-VN')} 💎</b> · Giới tính đang chọn: <b style="color:#80d8ff;">${isMale ? '👨 Nam (Tự mặc Đồ Nam)' : '👩 Nữ (Tự mặc Đồ Nữ)'}</b>.
         </div>
       `;
       const activeLv = isOutfitUnlockedForState(st, st.equippedOutfitLv) ? Number(st.equippedOutfitLv || 1) : 1;
@@ -7244,424 +7211,19 @@
       ctx.restore();
     }
 
-    // V114 (#mw0gm8ww3g): HỆ THỐNG TRANG PHỤC 11 BẬC ĐỊA VỊ XÃ HỘI & TU TIÊN (NAM & NỮ RIÊNG BIỆT) TRÊN DÁNG PHẬT TỬ THẬT (Bậc 3: Công Nhân · Bậc 11: Tu Thành Tiên)
+    // V115 (#mw0gyum83j & #mw0hdguo3k): DÙNG TRỰC TIẾP 22 ẢNH NHÂN VẬT 3D STUDIO CHÂN THỰC RIÊNG BIỆT (11 NAM social_m_1..11 + 11 NỮ social_f_1..11) — BỎ HOÀN TOÀN NHUỘM MÀU CANVAS GIẢ & BỎ CẮT GHÉP CHÂN QUỲ KNEEL.PNG
     const _recoloredSpriteCache = {};
     function getRecoloredCharacterSprite(spr, lv, genderInput) {
-      if (!spr || !spr.complete || !spr.naturalWidth) return spr;
       const safeLv = Math.max(1, Math.min(11, Number(lv || 1)));
       const gender = (genderInput === 'M' || (!genderInput && spr === images?.walkM)) ? 'M' : 'F';
-      const key = (spr.src || 'spr') + '__v114_lv' + safeLv + '_' + gender;
-      if (_recoloredSpriteCache[key]) return _recoloredSpriteCache[key];
-
-      try {
-        const w = spr.naturalWidth;
-        const h = spr.naturalHeight;
-        const off = document.createElement('canvas');
-        off.width = w;
-        off.height = h;
-        const octx = off.getContext('2d');
-        octx.drawImage(spr, 0, 0, w, h);
-
-        // Bảng màu vải riêng cho Trang Phục Nam (M) và Trang Phục Nữ (F) từ Bậc 1 (Ăn Mày Áo Vá) -> Bậc 3 (Công Nhân) -> Bậc 10 (Hoàng Đế / Hoàng Hậu) -> Bậc 11 (Tu Thành Tiên)
-        const clothPalettesM = {
-          1: [104, 98, 90],    // Bậc 1 (Nam): Vải thô xám tro bạc màu đắp miếng vá
-          2: [122, 76, 44],    // Bậc 2 (Nam): Áo bà ba nâu đất đồng quê
-          3: [26, 98, 164],    // Bậc 3 (Nam): Áo bảo hộ Công Nhân xanh công nghiệp
-          4: [22, 138, 118],   // Bậc 4 (Nam): Áo trường sam lụa xanh ngọc bích
-          5: [32, 68, 178],    // Bậc 5 (Nam): Áo gấm lam sẫm Tân Khoa Trạng Nguyên
-          6: [168, 32, 28],    // Bậc 6 (Nam): Áo gấm đỏ trầm Đại Thương Gia
-          7: [118, 32, 152],   // Bậc 7 (Nam): Áo gấm tím tử đàn Đại Phú Hộ
-          8: [198, 22, 24],    // Bậc 8 (Nam): Triều phục gấm đỏ son Quan Thượng Thư
-          9: [16, 152, 122],   // Bậc 9 (Nam): Bào phục Vương Gia lụa Ngọc Lưu Ly
-          10: [238, 178, 22],  // Bậc 10 (Nam): Long Bào Hoàng Kim 24K Hoàng Đế
-          11: [32, 214, 228]   // Bậc 11 (Nam): Tiên Bào Thượng Tiên Ngọc Bích Lưu Quang
-        };
-        const clothPalettesF = {
-          1: [118, 108, 98],   // Bậc 1 (Nữ): Áo cánh vải thô xám bạc chắp vá
-          2: [142, 88, 54],    // Bậc 2 (Nữ): Áo cánh nâu sồng thôn nữ
-          3: [38, 118, 186],   // Bậc 3 (Nữ): Đồng phục Nữ Công Nhân xanh lam phản quang
-          4: [38, 168, 145],   // Bậc 4 (Nữ): Áo dài lụa xanh ngọc bích thanh nhã
-          5: [72, 118, 216],   // Bậc 5 (Nữ): Áo dài gấm lam Tiểu Thư Khuê Các
-          6: [212, 48, 88],    // Bậc 6 (Nữ): Áo dài gấm đỏ hồng đào Bà Chủ Thương Hội
-          7: [152, 46, 182],   // Bậc 7 (Nữ): Áo Nhật Bình gấm tím Huế Phu Nhân Phú Hộ
-          8: [216, 32, 56],    // Bậc 8 (Nữ): Lễ phục Nhất Phẩm Phu Nhân gấm đỏ son
-          9: [26, 182, 148],   // Bậc 9 (Nữ): Phượng bào Quận Chúa lụa Ngọc Lưu Ly
-          10: [246, 192, 38],  // Bậc 10 (Nữ): Đại Phượng Bào Hoàng Kim 24K Hoàng Hậu
-          11: [96, 228, 242]   // Bậc 11 (Nữ): Nghê Thường Vũ Y Tiên Cô Ngọc Bích Ngân Hà
-        };
-
-        const targetRgb = (gender === 'M' ? clothPalettesM : clothPalettesF)[safeLv];
-        let minX = w, maxX = 0, minY = h, maxY = 0, clothCount = 0;
-
-        const maskCanvas = document.createElement('canvas');
-        maskCanvas.width = w;
-        maskCanvas.height = h;
-        const mctx = maskCanvas.getContext('2d');
-        const maskImg = mctx.createImageData(w, h);
-        const mData = maskImg.data;
-
-        if (targetRgb) {
-          const imgData = octx.getImageData(0, 0, w, h);
-          const data = imgData.data;
-          const tr = targetRgb[0], tg = targetRgb[1], tb = targetRgb[2];
-          for (let i = 0; i < data.length; i += 4) {
-            const a = data[i + 3];
-            if (a < 25) continue;
-            const r = data[i], g = data[i + 1], b = data[i + 2];
-            const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-            if (b >= r - 4 && luma > 28 && luma < 232) {
-              const px = (i / 4) % w;
-              const py = Math.floor((i / 4) / w);
-              if (px < minX) minX = px;
-              if (px > maxX) maxX = px;
-              if (py < minY) minY = py;
-              if (py > maxY) maxY = py;
-              clothCount++;
-
-              const shade = Math.min(1.62, Math.max(0.18, luma / 108.0));
-              const spec = luma > 150 ? (luma - 150) * 0.45 : 0;
-              const blend = Math.min(1.0, Math.max(0.0, (b - (r - 6)) / 14.0));
-              const nr = Math.min(255, tr * shade + spec);
-              const ng = Math.min(255, tg * shade + spec);
-              const nb = Math.min(255, tb * shade + spec);
-              data[i]     = Math.round(r * (1 - blend) + nr * blend);
-              data[i + 1] = Math.round(g * (1 - blend) + ng * blend);
-              data[i + 2] = Math.round(b * (1 - blend) + nb * blend);
-
-              mData[i] = 255;
-              mData[i + 1] = 255;
-              mData[i + 2] = 255;
-              mData[i + 3] = Math.round(a * blend);
-            }
-          }
-          octx.putImageData(imgData, 0, 0);
-          mctx.putImageData(maskImg, 0, 0);
+      if (typeof images === 'object' && images) {
+        const realKey = (gender === 'M' ? 'socialM' : 'socialF') + safeLv;
+        const realImg = images[realKey];
+        if (realImg && realImg.complete && realImg.naturalWidth > 0) {
+          return realImg;
         }
-
-        // Vẽ chi tiết đặc trưng của từng Bậc Xã Hội (1..10) cho Nam & Nữ cắt khít 100% theo tà áo (source-atop)
-        if (clothCount > 40 && maxX > minX && maxY > minY && spr !== images.bow) {
-          mctx.globalCompositeOperation = 'source-atop';
-          const cw = maxX - minX;
-          const ch = maxY - minY;
-          const cx = (minX + maxX) * 0.5;
-          const waistY = minY + ch * 0.44;
-          const backY = minY + ch * 0.25;
-
-          // Tạo lớp vẽ chi tiết lên áo rồi dùng maskCanvas cắt chuẩn
-          const detailCanvas = document.createElement('canvas');
-          detailCanvas.width = w;
-          detailCanvas.height = h;
-          const dctx = detailCanvas.getContext('2d');
-
-          if (safeLv === 1) {
-            // Bậc 1 (Ăn Mày Áo Vá): Đắp 4 miếng vá vải nâu/đen khâu chỉ trắng chữ thập rõ nét trên lưng & vạt áo
-            const patches = [
-              { x: cx - cw * 0.22, y: minY + ch * 0.18, pw: cw * 0.22, ph: ch * 0.11, col: '#5d4037' },
-              { x: cx + cw * 0.05, y: minY + ch * 0.34, pw: cw * 0.24, ph: ch * 0.12, col: '#3e2723' },
-              { x: cx - cw * 0.25, y: minY + ch * 0.54, pw: cw * 0.23, ph: ch * 0.11, col: '#455a64' },
-              { x: cx + cw * 0.04, y: minY + ch * 0.70, pw: cw * 0.22, ph: ch * 0.11, col: '#4e342e' }
-            ];
-            patches.forEach(p => {
-              dctx.fillStyle = p.col;
-              dctx.fillRect(p.x, p.y, p.pw, p.ph);
-              dctx.strokeStyle = 'rgba(235, 225, 210, 0.85)';
-              dctx.lineWidth = 1.1;
-              dctx.setLineDash([2, 2]);
-              dctx.strokeRect(p.x, p.y, p.pw, p.ph);
-              dctx.setLineDash([]);
-            });
-          } else if (safeLv === 2) {
-            // Bậc 2 (Nông Dân Áo Nâu): Đai lưng vải thắt ngang eo (Nam đai nâu đậm, Nữ dải lụa xanh lục thôn nữ)
-            dctx.fillStyle = gender === 'M' ? 'rgba(62, 39, 35, 0.88)' : 'rgba(102, 187, 106, 0.85)';
-            dctx.fillRect(minX, waistY - 3, cw, 6);
-          } else if (safeLv === 3) {
-            // Bậc 3 (Công Nhân Nhà Máy — Đồ Bảo Hộ Lao Động Nam & Nữ):
-            // 2 dải phản quang bảo hộ vàng chanh - bạc vắt ngang lưng trên & ngang eo + cầu vai bảo hộ xanh đậm
-            dctx.fillStyle = 'rgba(13, 42, 78, 0.85)';
-            dctx.fillRect(minX, minY, cw, ch * 0.10);
-            // Dải phản quang trên lưng (vàng chanh kẹp viền bạc phản quang)
-            dctx.fillStyle = '#e0e0e0';
-            dctx.fillRect(minX, backY - 5, cw, 9);
-            dctx.fillStyle = '#c6ff00';
-            dctx.fillRect(minX, backY - 3, cw, 5);
-            // Dải phản quang ngang eo bảo hộ công nhân
-            dctx.fillStyle = '#e0e0e0';
-            dctx.fillRect(minX, waistY - 4, cw, 8);
-            dctx.fillStyle = gender === 'M' ? '#ffea00' : '#69f0ae';
-            dctx.fillRect(minX, waistY - 2, cw, 4);
-          } else if (safeLv === 4) {
-            // Bậc 4 (Tiểu Thương): Viền cổ bạc + đai lưng bạc thanh lịch
-            dctx.strokeStyle = 'rgba(224, 247, 250, 0.92)';
-            dctx.lineWidth = 2.2;
-            dctx.beginPath();
-            dctx.arc(cx, minY + 4, cw * 0.24, 0.15 * Math.PI, 0.85 * Math.PI);
-            dctx.stroke();
-            dctx.fillStyle = 'rgba(224, 242, 241, 0.88)';
-            dctx.fillRect(minX, waistY - 3, cw, 6);
-          } else if (safeLv === 5) {
-            // Bậc 5 (Khoa Bảng Danh Gia): Hoa văn vân mây/hoa mai bạc giữa lưng + đai ngọc lam
-            dctx.fillStyle = 'rgba(227, 242, 253, 0.9)';
-            dctx.fillRect(minX, waistY - 3.5, cw, 7);
-            dctx.strokeStyle = 'rgba(255, 255, 255, 0.92)';
-            dctx.lineWidth = 1.8;
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.18, 0, Math.PI * 2);
-            dctx.stroke();
-          } else if (safeLv === 6) {
-            // Bậc 6 (Đại Thương Gia): Kim tuyến đồng tiền vàng giữa lưng + đai vàng + gấu áo viền vàng
-            dctx.fillStyle = 'rgba(255, 215, 64, 0.92)';
-            dctx.fillRect(minX, waistY - 4, cw, 8);
-            dctx.fillRect(minX, maxY - 12, cw, 5);
-            dctx.strokeStyle = '#ffd740';
-            dctx.lineWidth = 2.0;
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.20, 0, Math.PI * 2);
-            dctx.stroke();
-          } else if (safeLv === 7) {
-            // Bậc 7 (Đại Phú Hộ Điền Chủ): Vòng chữ Thọ / Hoa Sen vàng ròng giữa lưng + cổ Nhật Bình vàng
-            dctx.strokeStyle = '#ffd700';
-            dctx.lineWidth = 2.6;
-            dctx.beginPath();
-            dctx.arc(cx, minY + 5, cw * 0.28, 0.1 * Math.PI, 0.9 * Math.PI);
-            dctx.stroke();
-            dctx.fillStyle = 'rgba(255, 215, 0, 0.92)';
-            dctx.fillRect(minX, waistY - 4, cw, 8);
-            dctx.fillRect(minX, maxY - 14, cw, 6);
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.22, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillStyle = '#4a148c';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.11, 0, Math.PI * 2);
-            dctx.fill();
-          } else if (safeLv === 8) {
-            // Bậc 8 (Quan Thượng Thư / Nhất Phẩm Phu Nhân): Bổ Tử Triều Đình vuông thêu Hạc/Phượng vàng + Đai Ngọc
-            const boW = cw * 0.44;
-            const boH = cw * 0.44;
-            dctx.fillStyle = 'rgba(25, 10, 4, 0.85)';
-            dctx.fillRect(cx - boW / 2, backY - boH / 2, boW, boH);
-            dctx.strokeStyle = '#ffd700';
-            dctx.lineWidth = 2.2;
-            dctx.strokeRect(cx - boW / 2, backY - boH / 2, boW, boH);
-            dctx.fillStyle = '#ffd700';
-            dctx.beginPath();
-            dctx.arc(cx, backY, boW * 0.28, 0, Math.PI * 2);
-            dctx.fill();
-            // Đai ngọc triều đình
-            dctx.fillStyle = '#ffd700';
-            dctx.fillRect(minX, waistY - 4.5, cw, 9);
-            dctx.fillStyle = '#80cbc4';
-            for (let bx = minX + 6; bx < maxX - 6; bx += 10) {
-              dctx.fillRect(bx, waistY - 2.5, 5, 5);
-            }
-          } else if (safeLv === 9) {
-            // Bậc 9 (Vương Gia / Quận Chúa Hoàng Tộc): Huy hiệu Giao Long / Phượng Hoàng vàng + viền hoàng gia kép
-            dctx.strokeStyle = '#ffd700';
-            dctx.lineWidth = 3.0;
-            dctx.beginPath();
-            dctx.arc(cx, minY + 5, cw * 0.30, 0.08 * Math.PI, 0.92 * Math.PI);
-            dctx.stroke();
-            dctx.fillStyle = '#ffd700';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.25, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillStyle = '#00695c';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.14, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillStyle = '#ffd700';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.07, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillRect(minX, waistY - 4.5, cw, 9);
-            dctx.fillRect(minX, maxY - 16, cw, 7);
-          } else if (safeLv === 10) {
-            // Bậc 10 (Hoàng Đế / Hoàng Hậu — Cửu Ngũ Chí Tôn): Đoàn Long Cửu Long / Cửu Phượng + Đai Hồng Ngọc + Gấu Thủy Ba
-            dctx.strokeStyle = '#d50000';
-            dctx.lineWidth = 3.2;
-            dctx.beginPath();
-            dctx.arc(cx, minY + 6, cw * 0.32, 0.08 * Math.PI, 0.92 * Math.PI);
-            dctx.stroke();
-            dctx.fillStyle = '#d50000';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.27, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.strokeStyle = '#fff59d';
-            dctx.lineWidth = 2.4;
-            dctx.stroke();
-            dctx.fillStyle = '#ffd700';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.16, 0, Math.PI * 2);
-            dctx.fill();
-            // Đai Ngọc Đế Vương đính Hồng Ngọc
-            dctx.fillStyle = '#b71c1c';
-            dctx.fillRect(minX, waistY - 5, cw, 10);
-            dctx.fillStyle = '#fff59d';
-            for (let bx = minX + 5; bx < maxX - 5; bx += 9) {
-              dctx.fillRect(bx, waistY - 3, 5, 6);
-            }
-            // Thủy Ba Giang Sơn ở gấu bào
-            dctx.fillStyle = '#d50000';
-            dctx.fillRect(minX, maxY - 18, cw, 7);
-            dctx.fillStyle = '#00e676';
-            dctx.fillRect(minX, maxY - 11, cw, 5);
-          } else if (safeLv === 11) {
-            // Bậc 11 (Tu Thành Tiên — Tiên Bào Thượng Tiên Nam / Nghê Thường Vũ Y Tiên Cô Nữ):
-            // 1) Cổ áo Vân Mây Tiên Giới vàng kim & ngọc bích phát sáng
-            dctx.strokeStyle = '#ffd700';
-            dctx.lineWidth = 3.4;
-            dctx.beginPath();
-            dctx.arc(cx, minY + 6, cw * 0.34, 0.08 * Math.PI, 0.92 * Math.PI);
-            dctx.stroke();
-            // 2) Ấn Thái Cực Tiên Giới & Vòng Kim Quang Cửu Thiên giữa lưng
-            dctx.fillStyle = 'rgba(255, 215, 0, 0.95)';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.28, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillStyle = gender === 'M' ? '#006064' : '#880e4f';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.20, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillStyle = '#18ffff';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.11, 0, Math.PI * 2);
-            dctx.fill();
-            dctx.fillStyle = '#fff59d';
-            dctx.beginPath();
-            dctx.arc(cx, backY, cw * 0.05, 0, Math.PI * 2);
-            dctx.fill();
-            // 3) Đai Ngọc Cửu Thiên & Dải Lụa Tiên Y rủ dọc tà áo
-            dctx.fillStyle = '#ffd700';
-            dctx.fillRect(minX, waistY - 5, cw, 10);
-            dctx.fillStyle = '#18ffff';
-            for (let bx = minX + 5; bx < maxX - 5; bx += 9) {
-              dctx.fillRect(bx, waistY - 3, 5, 6);
-            }
-            dctx.fillStyle = gender === 'M' ? 'rgba(255, 215, 0, 0.85)' : 'rgba(255, 128, 171, 0.88)';
-            dctx.fillRect(cx - cw * 0.18, waistY + 5, 5, ch * 0.42);
-            dctx.fillRect(cx + cw * 0.18 - 5, waistY + 5, 5, ch * 0.42);
-            // 4) Viền gấu Tiên Bào Ngũ Sắc Ngân Hà
-            dctx.fillStyle = '#ffd700';
-            dctx.fillRect(minX, maxY - 20, cw, 6);
-            dctx.fillStyle = gender === 'M' ? '#00e5ff' : '#ff80ab';
-            dctx.fillRect(minX, maxY - 14, cw, 6);
-          }
-
-          // Cắt lớp họa tiết khít 100% vào vùng vải áo rồi vẽ đè lên nhân vật
-          dctx.globalCompositeOperation = 'destination-in';
-          dctx.drawImage(maskCanvas, 0, 0);
-          octx.drawImage(detailCanvas, 0, 0);
-
-          // Nếu đạt Bậc 11 (Tu Thành Tiên): Vẽ Dải Lụa Phi Thiên (Hỗn Thiên Lăng) bay lượn quanh hai vai & Vầng Tiên Quang sau đầu
-          if (safeLv === 11 && (spr === images.walkM || spr === images.walkF)) {
-            const headCx = w * 0.5;
-            const headTopY = Math.max(8, minY - ch * 0.24);
-            octx.save();
-            // Vầng Tiên Quang Ngọc Bích & Kim Quang tỏa sau đầu Thượng Tiên / Tiên Cô
-            const haloGrad = octx.createRadialGradient(headCx, headTopY + 18, 4, headCx, headTopY + 18, 28);
-            haloGrad.addColorStop(0, 'rgba(255, 255, 200, 0.95)');
-            haloGrad.addColorStop(0.5, 'rgba(24, 255, 255, 0.65)');
-            haloGrad.addColorStop(1, 'rgba(24, 255, 255, 0)');
-            octx.fillStyle = haloGrad;
-            octx.beginPath();
-            octx.arc(headCx, headTopY + 18, 28, 0, Math.PI * 2);
-            octx.fill();
-            octx.strokeStyle = '#ffd700';
-            octx.lineWidth = 1.6;
-            octx.beginPath();
-            octx.arc(headCx, headTopY + 18, 23, 0, Math.PI * 2);
-            octx.stroke();
-
-            // Dải Lụa Phi Thiên uốn lượn hai bên vai
-            octx.strokeStyle = gender === 'M' ? '#18ffff' : '#ff80ab';
-            octx.lineWidth = 3.2;
-            octx.beginPath();
-            octx.arc(headCx, minY + 16, cw * 0.46, 0.85 * Math.PI, 2.15 * Math.PI);
-            octx.stroke();
-            octx.strokeStyle = '#ffd700';
-            octx.lineWidth = 1.4;
-            octx.stroke();
-            octx.restore();
-          }
-
-          // Phụ kiện đầu cho Bậc 5..11 (Trâm Ngọc / Trâm Phượng / Mũ Phượng / Tiên Quan cho Nữ; Khăn Xếp / Mão Quan / Mão Đế Vương / Mão Tử Kim Thượng Tiên cho Nam)
-          if (safeLv >= 5 && (spr === images.walkM || spr === images.walkF)) {
-            const headCx = w * 0.5;
-            const headTopY = Math.max(8, minY - ch * 0.24);
-            octx.save();
-            if (gender === 'F') {
-              // Trâm cài tóc cho Nữ (Bậc 5-9: Trâm Ngọc / Trâm Vàng, Bậc 10: Mũ Cửu Phượng Hoàng Hậu, Bậc 11: Tiên Quan & Trâm Phượng Ngọc Bích Tiên Cô)
-              const bunY = minY - ch * 0.11;
-              octx.strokeStyle = safeLv === 11 ? '#18ffff' : (safeLv >= 7 ? '#ffd700' : '#80deea');
-              octx.lineWidth = 2.4;
-              octx.beginPath();
-              octx.moveTo(headCx - 14, bunY);
-              octx.lineTo(headCx + 15, bunY - 3);
-              octx.stroke();
-              octx.fillStyle = safeLv === 11 ? '#18ffff' : (safeLv >= 8 ? '#ff1744' : '#00e676');
-              octx.beginPath();
-              octx.arc(headCx + 15, bunY - 3, 3.5, 0, Math.PI * 2);
-              octx.fill();
-              if (safeLv >= 9) {
-                octx.fillStyle = safeLv === 11 ? '#18ffff' : '#ffd700';
-                octx.strokeStyle = '#ffd700';
-                octx.lineWidth = 1.4;
-                octx.beginPath();
-                octx.arc(headCx, headTopY + 4, 9, Math.PI, 0);
-                octx.fill();
-                octx.stroke();
-              }
-            } else {
-              // Mão / Khăn Xếp cho Nam (Bậc 8: Mão Cánh Chuồn Quan Thượng Thư, Bậc 9: Mão Vương Gia, Bậc 10: Mão Bình Thiên Hoàng Đế, Bậc 11: Mão Tử Kim Thượng Tiên)
-              if (safeLv === 8) {
-                octx.fillStyle = '#1a0f0a';
-                octx.strokeStyle = '#ffd700';
-                octx.lineWidth = 1.4;
-                octx.fillRect(headCx - 16, headTopY + 6, 32, 4);
-                octx.strokeRect(headCx - 16, headTopY + 6, 32, 4);
-              } else if (safeLv >= 9) {
-                octx.fillStyle = safeLv === 11 ? '#18ffff' : (safeLv === 10 ? '#ffd700' : '#00bfa5');
-                octx.strokeStyle = '#ffd700';
-                octx.lineWidth = 1.6;
-                octx.fillRect(headCx - 10, headTopY, 20, 8);
-                octx.strokeRect(headCx - 10, headTopY, 20, 8);
-                if (safeLv === 10) {
-                  octx.fillStyle = '#d50000';
-                  octx.fillRect(headCx - 14, headTopY - 2, 28, 3);
-                } else if (safeLv === 11) {
-                  // Đỉnh Ngọc Tử Kim Quán của Thượng Tiên
-                  octx.fillStyle = '#ffd700';
-                  octx.beginPath();
-                  octx.arc(headCx, headTopY - 2, 4.5, 0, Math.PI * 2);
-                  octx.fill();
-                }
-              }
-            }
-            octx.restore();
-          }
-        }
-
-        // Nếu là tư thế Quỳ thẳng trên bồ đoàn (images.kneel):
-        // Giữ nguyên phần bồ đoàn + hai đầu gối quỳ phía dưới (60%..100%) và ghép phần thân trên + đầu của Phật Tử Nam (walkM) hoặc Nữ (walkF) đã mặc trang phục Bậc safeLv!
-        if (spr === images.kneel && typeof images === 'object') {
-          const baseWalk = (gender === 'M') ? images.walkM : images.walkF;
-          if (baseWalk && baseWalk.complete && baseWalk.naturalWidth > 0) {
-            const walkRec = getRecoloredCharacterSprite(baseWalk, safeLv, gender);
-            const stW = walkRec.width || walkRec.naturalWidth;
-            const stH = walkRec.height || walkRec.naturalHeight;
-            octx.clearRect(0, 0, w, Math.round(h * 0.62));
-            const dstW = w * (gender === 'M' ? 0.66 : 0.58);
-            const dstH = h * 0.68;
-            const dstX = (w - dstW) * 0.5;
-            const dstY = h * 0.04;
-            octx.drawImage(walkRec, 0, 0, stW, Math.round(stH * 0.66), dstX, dstY, dstW, dstH);
-          }
-        }
-        _recoloredSpriteCache[key] = off;
-        return off;
-      } catch (e) {
-        return spr;
       }
+      return spr;
     }
 
     // V85 (#mvywfsn71b): Bỏ toàn bộ các hình vẽ 2D đè lên lưng nhân vật để giữ nguyên 100% ảnh chụp thật sắc nét của 10 bậc nhân vật
@@ -7833,12 +7395,18 @@
       outfitRank7: new Image(),
       outfitRank8: new Image(),
       outfitRank9: new Image(),
-      outfitRank10: new Image()
+      outfitRank10: new Image(),
+      socialM1: new Image(), socialM2: new Image(), socialM3: new Image(), socialM4: new Image(), socialM5: new Image(), socialM6: new Image(), socialM7: new Image(), socialM8: new Image(), socialM9: new Image(), socialM10: new Image(), socialM11: new Image(),
+      socialF1: new Image(), socialF2: new Image(), socialF3: new Image(), socialF4: new Image(), socialF5: new Image(), socialF6: new Image(), socialF7: new Image(), socialF8: new Image(), socialF9: new Image(), socialF10: new Image(), socialF11: new Image()
     };
     images.tambao.src = 'assets/hall_tambao.jpg';
     images.thantai.src = 'assets/hall_thantai.jpg';
     images.walkF.src = 'assets/walk_female.png';
     images.walkM.src = 'assets/walk_male.png';
+    for (let i = 1; i <= 11; i++) {
+      images['socialM' + i].src = `assets/social_m_${i}.png?v=117`;
+      images['socialF' + i].src = `assets/social_f_${i}.png?v=117`;
+    }
     images.outfitRank1.src = 'assets/outfit_rank_1.png?v=83';
     images.outfitRank2.src = 'assets/outfit_rank_2.png?v=83';
     images.outfitRank3.src = 'assets/outfit_rank_3.png?v=83';
@@ -8603,10 +8171,10 @@
       wing: (currentZone === 'thantai') ? 1 : 0,
       targetWing: (currentZone === 'thantai') ? 1 : 0,
       u: 0.50,
-      v: 0.76,
+      v: 0.72,
       targetU: 0.50,
-      targetV: 0.76,
-      state: 'walk',
+      targetV: 0.72,
+      state: 'kneel',
       bowTimer: 0,
       chat: '',
       chatTimer: 0,
@@ -8641,21 +8209,22 @@
       const canonicalTheAnh = 'Thế Anh Kho';
       let rawTheAnhMerit = Number(profilesObj[canonicalTheAnh]?.merit ?? 312241200);
       let v113SocialResetDone = false;
-      // V113 (#mw0ge9vk3e & #mw0gf4qp3f): Đưa toàn bộ mọi người quay về thành Phật Tử ở Bậc 1 (Ăn Mày Áo Vá) để bắt đầu hệ thống 10 Bậc Xã Hội Nam/Nữ mới!
+      // V115 (#mw0gyum83j & #mw0hdguo3k): Đưa toàn bộ tài khoản về Bậc 1 chuẩn socialEpoch = 115, chặn 100% việc khôi phục bậc cũ từ tab chưa reload!
       try {
-        v113SocialResetDone = localStorage.getItem('ty_v113_reset_all_social_rank1') === '1';
+        v113SocialResetDone = localStorage.getItem('ty_v115_reset_all_social_rank1') === '1';
         if (!v113SocialResetDone) {
-          localStorage.setItem('ty_v113_reset_all_social_rank1', '1');
+          localStorage.setItem('ty_v115_reset_all_social_rank1', '1');
           rawTheAnhMerit = 312241200;
           localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200');
-          Object.keys(profilesObj).forEach(k => {
-            if (profilesObj[k]) {
-              profilesObj[k].outfitLv = 1;
-              profilesObj[k].cultivationLv = 1;
-              profilesObj[k].unlockedOutfits = { 1: true };
-            }
-          });
         }
+        Object.keys(profilesObj).forEach(k => {
+          if (profilesObj[k] && (!v113SocialResetDone || (Number(profilesObj[k].socialEpoch) || 0) < 115)) {
+            profilesObj[k].outfitLv = 1;
+            profilesObj[k].cultivationLv = 1;
+            profilesObj[k].unlockedOutfits = { 1: true };
+            profilesObj[k].socialEpoch = 115;
+          }
+        });
       } catch (e) {}
       let bestMerit = Math.max(0, rawTheAnhMerit);
       let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
@@ -9485,7 +9054,7 @@
         }
       }
 
-      const activeChars = [...visitingGuests, ...Object.values(onlineCompanyPeers)];
+      const activeChars = [...visitingGuests, ...Object.values(onlineCompanyPeers), ...(window._lastTopHonorChars || [])];
       for (const npc of activeChars) {
         if (npc._screenX !== undefined && npc._screenY !== undefined) {
           const dist = Math.hypot(clientX - npc._screenX, clientY - (npc._screenY - 35));
@@ -10015,14 +9584,40 @@
       toggleNpcInteractBar(false);
       if (typeof recordQuestProgress === 'function') recordQuestProgress('social', 1);
 
+      const midU = 0.50;
+      const midV = 0.66;
+      target.wing = player.wing;
+      target.waitOutsideTimer = 0;
+      target.phase = 'praying';
+      target.phaseTick = Math.max(target.phaseTick || 300, 420);
+
+      player.u = Math.max(0.18, midU - 0.08);
+      target.u = Math.min(0.82, midU + 0.08);
+      player.v = midV;
+      target.v = midV;
+      player.targetU = player.u;
+      target.targetU = target.u;
+      player.targetV = midV;
+      target.targetV = midV;
+
       player.chat = `💬 [${player.name} ➔ ${target.name}]: "${txt}"`;
       player.chatTimer = 180;
       const reply = pickRandomSpeechForChar(target.name, player.wing);
-      setTimeout(() => {
-        target.chat = reply;
-        target.chatTimer = 180;
-        playMoSound();
-      }, 280);
+      target.chat = reply;
+      target.chatTimer = 180;
+      playMoSound();
+
+      activeMutualInteraction = {
+        active: true,
+        mode: 'salty_chat',
+        timer: 220,
+        maxTimer: 220,
+        actorA: player,
+        target: target,
+        midU: midU,
+        midV: midV
+      };
+
       publishMqtt({
         type: 'mutual_interact',
         sender: clientId,
@@ -10032,11 +9627,11 @@
         pLine: player.chat,
         tLine: reply,
         wing: player.wing,
-        midU: 0.50,
-        midV: 0.66
+        midU: midU,
+        midV: midV
       });
       broadcastMyPresence(true);
-      showToast(`💬 Đã gửi lời nói tới ${target.name}!`);
+      showToast(`💬 ${player.name} & ${target.name} đang xoay mặt đối diện trò chuyện!`);
     }
 
     // V72 (#mvwbbcmu6i & #mvwbbzs76j):
@@ -10147,15 +9742,15 @@
         playNamMoADiDaPhatChant();
         player.state = 'bow_cycle';
         player.vaiTimer = 0;
-        player.bowCycleTick = 20;
-        player.bowTimer = 360;
+        player.bowCycleTick = 0;
+        player.bowTimer = 336;
         const tier = rollSixTierMultiplier();
         const pts = 1 * tier.mult * meritRateMultiplier;
         if (pts > 0) {
           addMerit(pts, `Quỳ lạy tại ${roomName} (${tier.label} → +${pts} 💎)`);
-          showToast(`🙇✨ Quỳ lạy Tam Bảo trúng ${tier.label} → +${pts} 💎 Phước!`);
+          showToast(`🙇✨ Quỳ lạy 3D Tam Bảo trúng ${tier.label} → +${pts} 💎 Phước!`);
         } else {
-          showToast(`🙇 Đang quỳ gối & cúi lạy Tam Bảo tại ${roomName}...`);
+          showToast(`🙇 Đang hạ gối quỳ trên bồ đoàn & cúi lạy 3D (Ngũ Thể Đầu Địa) tại ${roomName}...`);
         }
         broadcastMyPresence(true);
         return;
@@ -10167,14 +9762,15 @@
         playNamMoADiDaPhatChant();
         player.state = 'vai';
         player.bowTimer = 0;
-        player.vaiTimer = 240;
+        player.vaiCycleTick = 0;
+        player.vaiTimer = 288;
         const tier = rollSixTierMultiplier();
         const pts = 1 * tier.mult * meritRateMultiplier;
         if (pts > 0) {
           addMerit(pts, `Vái khấn tại ${roomName} (${tier.label} → +${pts} 💎)`);
-          showToast(`🙏✨ Vái khấn trúng ${tier.label} → +${pts} 💎 Phước!`);
+          showToast(`🙏✨ Vái khấn 3D trúng ${tier.label} → +${pts} 💎 Phước!`);
         } else {
-          showToast(`🙏 Đang chắp tay cúi vái tại ${roomName}...`);
+          showToast(`🙏 Đang nâng tay chắp lễ & cúi mình vái khấn 3D tại ${roomName}...`);
         }
         broadcastMyPresence(true);
       }
@@ -10899,7 +10495,7 @@
 
     function handleIncomingPresence(data) {
       if (!data || !isOnlinePresenceMode) return;
-      if ((data.type === 'force_reload' || data.buildVer) && window._currentBuildVer && Number(data.buildVer) > window._currentBuildVer) {
+      if (false && (data.type === 'force_reload' || data.buildVer)) {
         const url = new URL(window.location.href);
         url.searchParams.set('v', String(data.buildVer));
         url.searchParams.set('_t', String(Date.now()));
@@ -10935,11 +10531,11 @@
             allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
             allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
             if (!isMyActiveAcc && !isPeerCurrentlyOnline && !hasDirectLiveSync) {
-              if (accInfo.outfitLv) allCharProfiles[accName].outfitLv = Math.max(1, Math.min(11, Number(accInfo.outfitLv)));
-              if (accInfo.cultivationLv) allCharProfiles[accName].cultivationLv = Math.max(1, Math.min(11, Number(accInfo.cultivationLv)));
-              if (accInfo.unlockedOutfits && typeof accInfo.unlockedOutfits === 'object') {
-                allCharProfiles[accName].unlockedOutfits = { ...(allCharProfiles[accName].unlockedOutfits || {}), ...accInfo.unlockedOutfits };
-              }
+              const isValidV115 = (Number(accInfo.socialEpoch) || 0) >= 115;
+              allCharProfiles[accName].outfitLv = isValidV115 && accInfo.outfitLv ? Math.max(1, Math.min(11, Number(accInfo.outfitLv))) : 1;
+              allCharProfiles[accName].cultivationLv = isValidV115 && accInfo.cultivationLv ? Math.max(1, Math.min(11, Number(accInfo.cultivationLv))) : 1;
+              allCharProfiles[accName].unlockedOutfits = isValidV115 && accInfo.unlockedOutfits && typeof accInfo.unlockedOutfits === 'object' ? { 1: true, ...accInfo.unlockedOutfits } : { 1: true };
+              allCharProfiles[accName].socialEpoch = 115;
             }
             if (accInfo.upgrades && typeof accInfo.upgrades === 'object') {
               const curUp = allCharProfiles[accName].upgrades || {};
@@ -10976,13 +10572,20 @@
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
         if (data.dept) allCharProfiles[data.name].dept = data.dept;
         if (data.name !== player.name) {
-          if (data.outfitLv) {
+          const isValidV115 = (Number(data.socialEpoch) || 0) >= 115;
+          if (isValidV115 && data.outfitLv) {
             allCharProfiles[data.name].outfitLv = Math.max(1, Math.min(11, Number(data.outfitLv)));
+            allCharProfiles[data.name].socialEpoch = 115;
+          } else if ((Number(allCharProfiles[data.name].socialEpoch) || 0) < 115) {
+            allCharProfiles[data.name].outfitLv = 1;
+            allCharProfiles[data.name].cultivationLv = 1;
+            allCharProfiles[data.name].unlockedOutfits = { 1: true };
+            allCharProfiles[data.name].socialEpoch = 115;
           }
-          if (data.cultivationLv) {
+          if (isValidV115 && data.cultivationLv) {
             allCharProfiles[data.name].cultivationLv = Math.max(1, Math.min(11, Number(data.cultivationLv)));
           }
-          if (data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
+          if (isValidV115 && data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
             allCharProfiles[data.name].unlockedOutfits = { ...(allCharProfiles[data.name].unlockedOutfits || {}), ...data.unlockedOutfits };
           }
         }
@@ -11002,16 +10605,17 @@
           updateTopBarQuestRealmBadge();
         }
         // Đồng bộ ngay vào nhân vật đang đứng trong điện của người chơi đó (peer hoặc NPC đại diện)
+        const syncSafeLv = ((Number(data.socialEpoch) || 0) >= 115 && data.outfitLv) ? Math.max(1, Math.min(11, Number(data.outfitLv))) : 1;
         for (const peerObj of Object.values(onlineCompanyPeers)) {
           if (peerObj && peerObj.name === data.name) {
             peerObj.merit = Number(data.merit ?? peerObj.merit ?? 50);
-            if (data.outfitLv) peerObj.outfitLv = Math.max(1, Math.min(11, Number(data.outfitLv)));
+            peerObj.outfitLv = syncSafeLv;
           }
         }
         for (const npcObj of (hallNpcs || [])) {
           if (npcObj && npcObj.name === data.name) {
             npcObj.merit = Number(data.merit ?? npcObj.merit ?? 50);
-            if (data.outfitLv) npcObj.outfitLv = Math.max(1, Math.min(11, Number(data.outfitLv)));
+            npcObj.outfitLv = syncSafeLv;
           }
         }
         try {
@@ -11052,11 +10656,13 @@
       if (data.type === 'outfit_change' && data.name) {
         data.name = normalizeCanonicalAccountName(data.name);
         if (isDeletedGhostAccount(data.name)) return;
-        const newLv = Math.max(1, Math.min(11, Number(data.outfitLv || 1)));
+        const isValidV115 = (Number(data.socialEpoch) || 0) >= 115;
+        const newLv = isValidV115 ? Math.max(1, Math.min(11, Number(data.outfitLv || 1))) : 1;
         if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name };
         allCharProfiles[data.name].outfitLv = newLv;
-        allCharProfiles[data.name].cultivationLv = Math.max(Number(allCharProfiles[data.name].cultivationLv || 1), Number(data.cultivationLv || 1), newLv);
-        if (data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
+        allCharProfiles[data.name].cultivationLv = isValidV115 ? Math.max(Number(allCharProfiles[data.name].cultivationLv || 1), Number(data.cultivationLv || 1), newLv) : 1;
+        allCharProfiles[data.name].socialEpoch = 115;
+        if (isValidV115 && data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
           allCharProfiles[data.name].unlockedOutfits = { ...(allCharProfiles[data.name].unlockedOutfits || {}), ...data.unlockedOutfits };
         }
         if (data.merit !== undefined && data.name !== player.name) {
@@ -11154,7 +10760,7 @@
         return;
       }
       if (data.type === 'presence' || data.type === 'chat' || data.type === 'ritual') {
-        if (data.buildVer && window._currentBuildVer && Number(data.buildVer) > window._currentBuildVer) {
+        if (false && data.buildVer) {
           const url = new URL(window.location.href);
           url.searchParams.set('v', String(data.buildVer));
           url.searchParams.set('_t', String(Date.now()));
@@ -11163,7 +10769,7 @@
         }
         if (isDeletedGhostAccount(data.name)) return;
         const safeWing = (data.wing === 1) ? 1 : 0;
-        const incomingOutfitLv = data.outfitLv ? Math.max(1, Math.min(11, Number(data.outfitLv))) : undefined;
+        const incomingOutfitLv = ((Number(data.socialEpoch) || 0) >= 115 && data.outfitLv) ? Math.max(1, Math.min(11, Number(data.outfitLv))) : 1;
         const existing = onlineCompanyPeers[data.sender] || {
           id: data.sender,
           name: data.name || 'Thành Viên Công Ty',
@@ -11774,69 +11380,569 @@
     }
 
 
-    // V114 (#mw0gutk13h): SỬA ĐỘNG TÁC VÁI KHẤN CHUẨN CHÂN THỰC 100%:
-    // - Phần thân dưới (chân, quần & hông từ thắt lưng trở xuống) ĐỨNG YÊN CỐ ĐỊNH 100% trên sàn chùa (TUYỆT ĐỐI KHÔNG nhún chân, KHÔNG tụt vạt áo xuống đầu gối!).
-    // - Chỉ phần thân trên (lưng, vai, hai tay chắp vái) và đầu GẬP CÚI THẤP XUỐNG sâu quanh khớp thắt lưng cố định theo 2 đốt xương sống (Thắt lưng ➔ Vai & Cổ ➔ Đầu)!
-    function drawPhotorealistic3DWaistBow(ctx, spr, sw, sh, bowDepth) {
-      const natW = spr.naturalWidth || spr.width;
-      const natH = spr.naturalHeight || spr.height;
-      if (!natW || !natH) return;
+    // V120 (#mw0lq5a83q): BỘ ENGINE 5 TƯ THẾ 3D STUDIO THẬT CHO HÀNH ĐỘNG "🙏 VÁI KHẤN 3D" & "🙇 QUỲ LẠY 3D (NGŨ THỂ ĐẦU ĐỊA)"
+    // - Thay thế hoàn toàn kiểu ép dẹt/bóp lùn 2D của ảnh đứng bằng 5 tư thế giải phẫu 3D Studio thật cho cả 22 nhân vật Nam/Nữ (Bậc 1..11):
+    //   1) `stand`: Đứng Trang Nghiêm 3D (Ảnh gốc `social_m_1..11.png` / `social_f_1..11.png`).
+    //   2) `vaiUp`: Đứng Chắp Tay Lễ 3D (185x420) — Hai khuỷu tay nâng chắp lễ phía trước ngực, thân dưới & vạt áo đứng thẳng 1:1.
+    //   3) `vaiDeep`: Đứng Cúi Mình Vái Khấn Sâu 3D (185x420) — Vòm lưng cong 3D (Arched Back Dome) nhận ánh sáng vàng + đầu/mũ mão rút ngắn phối cảnh 3D cúi về phía bàn thờ, chân đứng vững trên chiếu.
+    //   4) `kneelUp`: Hạ Gối Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D (185x398) — Quỳ gối thật trên đệm sen đỏ-vàng, lộ 2 đế hài đen phía sau và nếp gấp vải 3D theo đúng trang phục từng bậc.
+    //   5) `kneelMid`: Quỳ Nghiêng Lưng Cúi Lạy 45° Trên Bồ Đoàn 3D (185x398) — Chuyển tiếp 3D mượt mà từ quỳ thẳng sang cúi lạy sát đất.
+    //   6) `bowFull`: Quỳ Cúi Lạy Sát Đất — Ngũ Thể Đầu Địa 3D (208x198) — Hai tay/ống tay áo chống trải dài trên chiếu, vòm lưng 3D cong tròn và tà áo phủ bồ đoàn.
+    const _ritual3DPoseCache = {};
+    let _kneelBaseImgData = null;
+    let _bowBaseImgData = null;
 
-      const waistRatio = 0.46; // Khớp thắt lưng (46% từ đỉnh đầu xuống; từ 46%..100% là hông, vạt áo dưới & đôi chân đứng thẳng)
-      const neckRatio = 0.17;  // Khớp cổ & vai trên (0%..17% là đầu & cổ)
+    function _ensureBaseRitualImageData() {
+      if (!_kneelBaseImgData && images.kneel && images.kneel.complete && images.kneel.naturalWidth > 0) {
+        const kc = document.createElement('canvas');
+        kc.width = images.kneel.naturalWidth;
+        kc.height = images.kneel.naturalHeight;
+        const kctx = kc.getContext('2d');
+        kctx.drawImage(images.kneel, 0, 0);
+        _kneelBaseImgData = kctx.getImageData(0, 0, kc.width, kc.height);
+      }
+      if (!_bowBaseImgData && images.bow && images.bow.complete && images.bow.naturalWidth > 0) {
+        const bc = document.createElement('canvas');
+        bc.width = images.bow.naturalWidth;
+        bc.height = images.bow.naturalHeight;
+        const bctx = bc.getContext('2d');
+        bctx.drawImage(images.bow, 0, 0);
+        _bowBaseImgData = bctx.getImageData(0, 0, bc.width, bc.height);
+      }
+      return Boolean(_kneelBaseImgData && _bowBaseImgData);
+    }
 
-      const srcWaistY = Math.round(natH * waistRatio);
-      const srcNeckY = Math.round(natH * neckRatio);
+    function getOrCreate3DRitualPoseSet(standSpr, lv, genderInput) {
+      if (!standSpr || !standSpr.complete || !(standSpr.naturalWidth || standSpr.width)) return null;
+      if (!_ensureBaseRitualImageData()) return null;
 
-      const lowerH = sh * (1.0 - waistRatio);
-      const torsoH = sh * (waistRatio - neckRatio);
-      const headH = sh * neckRatio;
+      const safeLv = Math.max(1, Math.min(11, Number(lv || 1)));
+      const gender = (genderInput === 'M') ? 'M' : 'F';
+      const cacheKey = `${gender}_${safeLv}`;
+      if (_ritual3DPoseCache[cacheKey]) return _ritual3DPoseCache[cacheKey];
 
-      // 1. Vẽ phần thân dưới (Hông + Quần + Đôi Chân) ĐỨNG YÊN CỐ ĐỊNH 100% trên mặt sàn (không dịch chuyển dù chỉ 1px!)
-      ctx.drawImage(
-        spr,
-        0, srcWaistY, natW, natH - srcWaistY,
-        -sw / 2, -lowerH, sw, lowerH
-      );
+      const sw = standSpr.naturalWidth || standSpr.width;
+      const sh = standSpr.naturalHeight || standSpr.height;
+      const kw = _kneelBaseImgData.width; // 185
+      const kh = _kneelBaseImgData.height; // 360
+      const bw = _bowBaseImgData.width; // 266
+      const bh = _bowBaseImgData.height; // 254
+      const kData = _kneelBaseImgData.data;
+      const bData = _bowBaseImgData.data;
 
-      // 2. Khớp 1 (Thắt lưng ➔ Lưng & Vai): Gập sâu phần thân trên xuống từ đúng tâm thắt lưng cố định (-lowerH), KHÔNG đẩy tụt eo xuống chân!
-      ctx.save();
-      ctx.translate(0, -lowerH);
-      // Khi cúi thấp người về phía bàn thờ: lưng gập sâu xuống (torsoScaleY co từ 1.0 xuống 0.38 ở nhịp cúi sâu nhất) và hơi nghiêng về phía hai tay chắp
-      const torsoTilt = bowDepth * 0.24;
-      const torsoScaleY = 1.0 - bowDepth * 0.62;
-      const torsoScaleX = 1.0 + bowDepth * 0.06;
+      // 1. Lấy dữ liệu pixel ảnh đứng (`standSpr`) và bản làm mịn luma (`sLumaSmooth`) để tách Albedo trang phục
+      const sCan = document.createElement('canvas');
+      sCan.width = sw;
+      sCan.height = sh;
+      const sCtx = sCan.getContext('2d');
+      sCtx.drawImage(standSpr, 0, 0, sw, sh);
+      const sImgData = sCtx.getImageData(0, 0, sw, sh);
+      const sData = sImgData.data;
 
-      ctx.save();
-      ctx.rotate(torsoTilt);
-      ctx.scale(torsoScaleX, torsoScaleY);
-      const seamOverlapSrc = Math.round(natH * 0.025);
-      const seamOverlapDst = sh * 0.025;
-      ctx.drawImage(
-        spr,
-        0, srcNeckY, natW, (srcWaistY - srcNeckY) + seamOverlapSrc,
-        -sw / 2, -torsoH, sw, torsoH + seamOverlapDst
-      );
-      ctx.restore();
+      const tinyW = Math.max(12, Math.round(sw / 8));
+      const tinyH = Math.max(28, Math.round(sh / 8));
+      const tinyCan = document.createElement('canvas');
+      tinyCan.width = tinyW;
+      tinyCan.height = tinyH;
+      const tinyCtx = tinyCan.getContext('2d');
+      tinyCtx.imageSmoothingEnabled = true;
+      tinyCtx.drawImage(sCan, 0, 0, tinyW, tinyH);
 
-      // 3. Khớp 2 (Cổ & Đầu + Chắp Tay): Gắn liền vào đỉnh vai đã cúi, tiếp tục cúi thấp đầu xuống sâu kính cẩn
-      ctx.save();
-      ctx.rotate(torsoTilt);
-      const bowedShoulderY = -torsoH * torsoScaleY + bowDepth * (sh * 0.028);
-      ctx.translate(0, bowedShoulderY);
-      ctx.rotate(bowDepth * 0.34);
-      const headScaleY = 1.0 - bowDepth * 0.36;
-      ctx.scale(1.0 + bowDepth * 0.03, headScaleY);
-      const headOverlapSrc = Math.round(natH * 0.03);
-      const headOverlapDst = sh * 0.03;
-      ctx.drawImage(
-        spr,
-        0, 0, natW, srcNeckY + headOverlapSrc,
-        -sw / 2, -headH, sw, headH + headOverlapDst
-      );
-      ctx.restore();
+      const blurCan = document.createElement('canvas');
+      blurCan.width = sw;
+      blurCan.height = sh;
+      const blurCtx = blurCan.getContext('2d');
+      blurCtx.imageSmoothingEnabled = true;
+      blurCtx.drawImage(tinyCan, 0, 0, sw, sh);
+      const blurData = blurCtx.getImageData(0, 0, sw, sh).data;
 
-      ctx.restore();
+      const sLumaSmooth = new Float32Array(sw * sh);
+      const torsoSamples = [];
+      const yTorso0 = Math.floor(sh * 0.25), yTorso1 = Math.floor(sh * 0.70);
+      const xTorso0 = Math.floor(sw * 0.28), xTorso1 = Math.floor(sw * 0.72);
+      for (let y = 0; y < sh; y++) {
+        for (let x = 0; x < sw; x++) {
+          const idx = (y * sw + x) * 4;
+          const l = 0.299 * blurData[idx] + 0.587 * blurData[idx + 1] + 0.114 * blurData[idx + 2];
+          sLumaSmooth[y * sw + x] = l;
+          if (y >= yTorso0 && y < yTorso1 && x >= xTorso0 && x < xTorso1 && ((x + y) & 1) === 0 && sData[idx + 3] > 120) {
+            torsoSamples.push(l);
+          }
+        }
+      }
+      torsoSamples.sort((a, b) => a - b);
+      const medSLuma = torsoSamples.length ? torsoSamples[torsoSamples.length >> 1] : 100.0;
+
+      // Lưu danh sách tọa độ x có pixel đặc (alpha > 90) trên từng hàng của `standSpr` để không bao giờ lấy nhầm khe trống giữa 2 ống quần
+      const rowOpaqueXs = new Array(sh);
+      const fallbackXs = [];
+      for (let x = Math.floor(sw * 0.20); x < Math.floor(sw * 0.80); x++) fallbackXs.push(x);
+      for (let y = 0; y < sh; y++) {
+        const xs = [];
+        const rowOff = y * sw * 4;
+        for (let x = 0; x < sw; x++) {
+          if (sData[rowOff + x * 4 + 3] > 90) xs.push(x);
+        }
+        rowOpaqueXs[y] = xs.length >= 4 ? xs : fallbackXs;
+      }
+
+      // --- A. Dựng `kneelUp` (185 x 398) — Hạ Gối Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D ---
+      const outK = new Uint8ClampedArray(kData);
+      outK.fill(0, 0, 76 * kw * 4);
+      for (let y = 72; y < kh; y++) {
+        const clothXs = [];
+        for (let x = 0; x < kw; x++) {
+          const p = (y * kw + x) * 4;
+          const ak = kData[p + 3];
+          if (ak <= 15) continue;
+          const rk = kData[p], gk = kData[p + 1], bk = kData[p + 2];
+          const kl = 0.299 * rk + 0.587 * gk + 0.114 * bk;
+          const isCushion = (y > kh * 0.72) && ((rk - bk) > 22) && (rk > 60);
+          const isSoles = (y > kh * 0.88) && (x > kw * 0.30) && (x < kw * 0.70) && (kl < 42);
+          if (!isCushion && !isSoles) clothXs.push(x);
+        }
+        if (clothXs.length < 4) continue;
+        const x0 = clothXs[0], x1 = clothXs[clothXs.length - 1];
+        const span = Math.max(1.0, x1 - x0);
+        const vNorm = Math.max(0.0, Math.min(1.0, (y - 74.0) / (354.0 - 74.0)));
+        const vSpr = 0.195 + (0.935 - 0.195) * Math.pow(vNorm, 0.95);
+        const syIdx = Math.min(sh - 1, Math.max(0, Math.round(vSpr * sh)));
+        const sXs = rowOpaqueXs[syIdx];
+        const nS = sXs.length;
+
+        for (let i = 0; i < clothXs.length; i++) {
+          const x = clothXs[i];
+          const uNorm = Math.max(0.0, Math.min(1.0, (x - x0) / span));
+          const sxIdx = sXs[Math.min(nS - 1, Math.round(uNorm * (nS - 1)))];
+          const sp = (syIdx * sw + sxIdx) * 4;
+          const sr = sData[sp], sg = sData[sp + 1], sb = sData[sp + 2];
+          const smL = Math.max(28.0, sLumaSmooth[syIdx * sw + sxIdx]);
+          const albedoNorm = Math.pow(medSLuma / smL, 0.55);
+
+          const kp = (y * kw + x) * 4;
+          const kl = 0.299 * kData[kp] + 0.587 * kData[kp + 1] + 0.114 * kData[kp + 2];
+          const shade3D = Math.pow(kl / 106.0, 0.90);
+          const spec = Math.max(0.0, (kl - 155.0) * 0.35);
+          const mult = albedoNorm * shade3D;
+          outK[kp]     = Math.min(255, Math.max(0, Math.round(sr * mult + spec)));
+          outK[kp + 1] = Math.min(255, Math.max(0, Math.round(sg * mult + spec * 0.9)));
+          outK[kp + 2] = Math.min(255, Math.max(0, Math.round(sb * mult + spec * 0.7)));
+        }
+      }
+
+      const padTop = 38;
+      const kBodyCan = document.createElement('canvas');
+      kBodyCan.width = kw;
+      kBodyCan.height = kh;
+      kBodyCan.getContext('2d').putImageData(new ImageData(outK, kw, kh), 0, 0);
+
+      const kneelUpCan = document.createElement('canvas');
+      kneelUpCan.width = kw;
+      kneelUpCan.height = kh + padTop; // 185 x 398
+      const kuCtx = kneelUpCan.getContext('2d');
+      kuCtx.drawImage(kBodyCan, 0, padTop);
+
+      const dstHh = Math.round(sh * 0.22);
+      const headCan = document.createElement('canvas');
+      headCan.width = sw;
+      headCan.height = dstHh;
+      const headCtx = headCan.getContext('2d');
+      headCtx.drawImage(standSpr, 0, 0, sw, dstHh, 0, 0, sw, dstHh);
+      const hImgD = headCtx.getImageData(0, 0, sw, dstHh);
+      for (let fy = Math.max(0, dstHh - 9); fy < dstHh; fy++) {
+        const fade = (dstHh - fy) / 9.0;
+        const off = fy * sw * 4;
+        for (let x = 0; x < sw; x++) hImgD.data[off + x * 4 + 3] = Math.round(hImgD.data[off + x * 4 + 3] * fade);
+      }
+      headCtx.putImageData(hImgD, 0, 0);
+      const headPasteY = Math.max(0, (84 + padTop) - dstHh);
+      kuCtx.drawImage(headCan, (kw - sw) >> 1, headPasteY);
+      kneelUpCan._visualTopY = headPasteY;
+      kneelUpCan._waistY = 200 + padTop;
+
+      // --- B. Dựng `bowFull` (208 x 198, thu 0.78x từ 266 x 254 để khớp chiều ngang bồ đoàn `kneelUp`) ---
+      const outB = new Uint8ClampedArray(bData);
+      for (let y = 4; y < bh; y++) {
+        const clothXs = [];
+        for (let x = 0; x < bw; x++) {
+          const p = (y * bw + x) * 4;
+          const ab = bData[p + 3];
+          if (ab <= 15) continue;
+          const rb = bData[p], gb = bData[p + 1], bb = bData[p + 2];
+          const bl = 0.299 * rb + 0.587 * gb + 0.114 * bb;
+          const isCushionB = (y > bh * 0.58) && ((rb - bb) > 22) && (rb > 60);
+          if (!isCushionB && bl > 22) clothXs.push(x);
+        }
+        if (clothXs.length < 4) continue;
+        const xMin = clothXs[0], xMax = clothXs[clothXs.length - 1];
+        const tY = Math.max(0.0, Math.min(1.0, (y - 6.0) / (248.0 - 6.0)));
+        const crevL = 56.0 + Math.max(0.0, (y - 65.0)) * 0.16;
+        const crevR = 210.0 - Math.max(0.0, (y - 65.0)) * 0.16;
+
+        const vCenter = 0.205 + (0.935 - 0.205) * Math.pow(tY, 0.92);
+        const syCenter = Math.min(sh - 1, Math.max(0, Math.round(vCenter * sh)));
+        const sXsC = rowOpaqueXs[syCenter];
+        const nC = sXsC.length;
+        const cStart = Math.max(0, Math.floor(nC * 0.12));
+        const cEnd = Math.max(cStart + 2, Math.min(nC, Math.floor(nC * 0.88)));
+
+        const tArm = Math.max(0.0, Math.min(1.0, (y - 20.0) / (180.0 - 20.0)));
+        const vArm = 0.22 + (0.54 - 0.22) * tArm;
+        const syArm = Math.min(sh - 1, Math.max(0, Math.round(vArm * sh)));
+        const sXsA = rowOpaqueXs[syArm];
+        const nA = sXsA.length;
+        const lArmEnd = Math.max(2, Math.floor(nA * 0.26));
+        const rArmStart = Math.min(nA - 2, Math.floor(nA * 0.74));
+
+        for (let i = 0; i < clothXs.length; i++) {
+          const x = clothXs[i];
+          let sxIdx = 0, syIdx = syCenter;
+          if (y > 68 && x < crevL) {
+            const uArm = Math.max(0.0, Math.min(1.0, (x - xMin) / Math.max(1.0, crevL - xMin)));
+            sxIdx = sXsA[Math.min(lArmEnd - 1, Math.round(uArm * (lArmEnd - 1)))];
+            syIdx = syArm;
+          } else if (y > 68 && x > crevR) {
+            const uArm = Math.max(0.0, Math.min(1.0, (x - crevR) / Math.max(1.0, xMax - crevR)));
+            const rLen = Math.max(1, nA - rArmStart);
+            sxIdx = sXsA[Math.min(nA - 1, rArmStart + Math.round(uArm * (rLen - 1)))];
+            syIdx = syArm;
+          } else {
+            const cLeft = Math.max(xMin, y > 68 ? crevL : xMin);
+            const cRight = Math.min(xMax, y > 68 ? crevR : xMax);
+            const uC = Math.max(0.0, Math.min(1.0, (x - cLeft) / Math.max(1.0, cRight - cLeft)));
+            const cLen = Math.max(1, cEnd - cStart);
+            sxIdx = sXsC[Math.min(nC - 1, cStart + Math.round(uC * (cLen - 1)))];
+            syIdx = syCenter;
+          }
+
+          const sp = (syIdx * sw + sxIdx) * 4;
+          const sr = sData[sp], sg = sData[sp + 1], sb = sData[sp + 2];
+          const smL = Math.max(28.0, sLumaSmooth[syIdx * sw + sxIdx]);
+          const albedoNorm = Math.pow(medSLuma / smL, 0.55);
+
+          const bp = (y * bw + x) * 4;
+          const bl = 0.299 * bData[bp] + 0.587 * bData[bp + 1] + 0.114 * bData[bp + 2];
+          const shade3D = Math.pow(bl / 112.0, 0.92);
+          const spec = Math.max(0.0, (bl - 160.0) * 0.40);
+          const mult = albedoNorm * shade3D;
+          outB[bp]     = Math.min(255, Math.max(0, Math.round(sr * mult + spec)));
+          outB[bp + 1] = Math.min(255, Math.max(0, Math.round(sg * mult + spec * 0.9)));
+          outB[bp + 2] = Math.min(255, Math.max(0, Math.round(sb * mult + spec * 0.7)));
+        }
+      }
+
+      const bowRawCan = document.createElement('canvas');
+      bowRawCan.width = bw;
+      bowRawCan.height = bh;
+      bowRawCan.getContext('2d').putImageData(new ImageData(outB, bw, bh), 0, 0);
+
+      const bowFullCan = document.createElement('canvas');
+      bowFullCan.width = Math.round(bw * 0.78);  // 208
+      bowFullCan.height = Math.round(bh * 0.78); // 198
+      const bfCtx = bowFullCan.getContext('2d');
+      bfCtx.imageSmoothingEnabled = true;
+      bfCtx.imageSmoothingQuality = 'high';
+      bfCtx.drawImage(bowRawCan, 0, 0, bowFullCan.width, bowFullCan.height);
+      bowFullCan._visualTopY = 4;
+
+      // --- C. Chuẩn bị thân dưới đứng (`lowCleanCan`) đã gọn mép tay áo rộng để ghép `vaiUp` & `vaiDeep` ---
+      const yRef = Math.min(sh - 1, Math.round(sh * 0.75));
+      const refXs = rowOpaqueXs[yRef];
+      const rx0 = refXs[0], rx1 = refXs[refXs.length - 1];
+      const sSkirtW = Math.max(40.0, rx1 - rx0);
+
+      const kuData = kuCtx.getImageData(0, 0, kw, kh + padTop).data;
+      const yWaistRef = (205 + padTop) * kw * 4;
+      let kx0 = 45, kx1 = 140;
+      for (let x = 0; x < kw; x++) {
+        if (kuData[yWaistRef + x * 4 + 3] > 60) { kx0 = x; break; }
+      }
+      for (let x = kw - 1; x >= 0; x--) {
+        if (kuData[yWaistRef + x * 4 + 3] > 60) { kx1 = x; break; }
+      }
+      const kWaistW = Math.max(50.0, kx1 - kx0);
+
+      const lowCleanData = new Uint8ClampedArray(sData);
+      const yTap0 = Math.floor(sh * 0.45), yTap1 = Math.floor(sh * 0.75);
+      const midX = 0.5 * (rx0 + rx1);
+      for (let y = yTap0; y < yTap1; y++) {
+        const u = (y - yTap0) / Math.max(1.0, yTap1 - yTap0);
+        const targetHalfW = 0.5 * ((1.0 - u) * kWaistW + u * sSkirtW);
+        const allowL = Math.round(midX - targetHalfW);
+        const allowR = Math.round(midX + targetHalfW);
+        const rOff = y * sw * 4;
+        for (let x = 0; x < Math.max(0, allowL); x++) lowCleanData[rOff + x * 4 + 3] = 0;
+        for (let x = Math.min(sw, allowR); x < sw; x++) lowCleanData[rOff + x * 4 + 3] = 0;
+        for (let fx = 0; fx < 4; fx++) {
+          const f = (fx + 1) / 4.0;
+          if (allowL + fx >= 0 && allowL + fx < sw) lowCleanData[rOff + (allowL + fx) * 4 + 3] = Math.round(lowCleanData[rOff + (allowL + fx) * 4 + 3] * f);
+          if (allowR - fx >= 0 && allowR - fx < sw) lowCleanData[rOff + (allowR - fx) * 4 + 3] = Math.round(lowCleanData[rOff + (allowR - fx) * 4 + 3] * f);
+        }
+      }
+      const lowCleanCan = document.createElement('canvas');
+      lowCleanCan.width = sw;
+      lowCleanCan.height = sh;
+      lowCleanCan.getContext('2d').putImageData(new ImageData(lowCleanData, sw, sh), 0, 0);
+
+      const vw = kw, vh = sh; // 185 x 420
+      const cx = vw >> 1;
+      const lowY0 = Math.round(sh * 0.48);
+
+      // --- D. Dựng `vaiUp` (185 x 420) — Đứng Chắp Tay Lễ 3D (Chiều cao 420px khớp 1:1 với `standSpr`) ---
+      const vaiUpCan = document.createElement('canvas');
+      vaiUpCan.width = vw;
+      vaiUpCan.height = vh;
+      const vuCtx = vaiUpCan.getContext('2d');
+      vuCtx.imageSmoothingEnabled = true;
+      vuCtx.imageSmoothingQuality = 'high';
+      vuCtx.drawImage(lowCleanCan, 0, lowY0, sw, sh - lowY0, cx - (sw >> 1), lowY0, sw, sh - lowY0);
+
+      const kuCropH = (210 + padTop) - headPasteY;
+      const targetKuH = lowY0 + 14;
+      const kuUpperCan = document.createElement('canvas');
+      kuUpperCan.width = kw;
+      kuUpperCan.height = targetKuH;
+      const kuuCtx = kuUpperCan.getContext('2d');
+      kuuCtx.imageSmoothingEnabled = true;
+      kuuCtx.imageSmoothingQuality = 'high';
+      kuuCtx.drawImage(kneelUpCan, 0, headPasteY, kw, kuCropH, 0, 0, kw, targetKuH);
+      const kuuImg = kuuCtx.getImageData(0, 0, kw, targetKuH);
+      for (let fy = Math.max(0, targetKuH - 14); fy < targetKuH; fy++) {
+        const fade = (targetKuH - fy) / 14.0;
+        const off = fy * kw * 4;
+        for (let x = 0; x < kw; x++) kuuImg.data[off + x * 4 + 3] = Math.round(kuuImg.data[off + x * 4 + 3] * fade);
+      }
+      kuuCtx.putImageData(kuuImg, 0, 0);
+      vuCtx.drawImage(kuUpperCan, 0, 0);
+      vaiUpCan._visualTopY = 0;
+      vaiUpCan._waistY = lowY0;
+
+      // --- E. Chuẩn bị Vòm Lưng Cong 3D (`bDomeCleanCan`) & Đầu Cúi Phối Cảnh 3D (`headBowCan`) cho `vaiDeep` & `kneelMid` ---
+      const bdH = 118, bdW = bw; // rows 4..122 of bowRawCan
+      const bDomeCleanCan = document.createElement('canvas');
+      bDomeCleanCan.width = bdW;
+      bDomeCleanCan.height = bdH;
+      const bdcCtx = bDomeCleanCan.getContext('2d');
+      bdcCtx.drawImage(bowRawCan, 0, 4, bdW, bdH, 0, 0, bdW, bdH);
+      const bdImg = bdcCtx.getImageData(0, 0, bdW, bdH);
+      for (let y = 0; y < bdH; y++) {
+        const uY = y / Math.max(1.0, bdH - 1.0);
+        const rOff = y * bdW * 4;
+        if (uY > 0.42) {
+          const tIn = (uY - 0.42) / 0.58;
+          const limL = Math.round(28 + tIn * 36);
+          const limR = Math.round(bdW - 28 - tIn * 36);
+          for (let x = 0; x < Math.max(0, limL); x++) bdImg.data[rOff + x * 4 + 3] = 0;
+          for (let x = Math.min(bdW, limR); x < bdW; x++) bdImg.data[rOff + x * 4 + 3] = 0;
+          for (let fx = 0; fx < 5; fx++) {
+            const f = (fx + 1) / 5.0;
+            if (limL + fx < bdW) bdImg.data[rOff + (limL + fx) * 4 + 3] = Math.round(bdImg.data[rOff + (limL + fx) * 4 + 3] * f);
+            if (limR - fx >= 0) bdImg.data[rOff + (limR - fx) * 4 + 3] = Math.round(bdImg.data[rOff + (limR - fx) * 4 + 3] * f);
+          }
+        }
+        if (y > bdH - 12) {
+          const fade = (bdH - y) / 12.0;
+          for (let x = 0; x < bdW; x++) bdImg.data[rOff + x * 4 + 3] = Math.round(bdImg.data[rOff + x * 4 + 3] * fade);
+        }
+      }
+      bdcCtx.putImageData(bdImg, 0, 0);
+
+      const headBCropH = Math.round(sh * 0.175);
+      const hw = Math.round(sw * 0.84);
+      const hh = Math.round(headBCropH * 0.54);
+      const headBowCan = document.createElement('canvas');
+      headBowCan.width = hw;
+      headBowCan.height = hh;
+      const hbCtx = headBowCan.getContext('2d');
+      hbCtx.imageSmoothingEnabled = true;
+      hbCtx.imageSmoothingQuality = 'high';
+      hbCtx.drawImage(standSpr, 0, 0, sw, headBCropH, 0, 0, hw, hh);
+      const hbImg = hbCtx.getImageData(0, 0, hw, hh);
+      for (let y = 0; y < hh; y++) {
+        const shade = 1.06 - 0.30 * (y / Math.max(1.0, hh - 1.0));
+        const rOff = y * hw * 4;
+        for (let x = 0; x < hw; x++) {
+          hbImg.data[rOff + x * 4]     = Math.min(255, Math.round(hbImg.data[rOff + x * 4] * shade));
+          hbImg.data[rOff + x * 4 + 1] = Math.min(255, Math.round(hbImg.data[rOff + x * 4 + 1] * shade));
+          hbImg.data[rOff + x * 4 + 2] = Math.min(255, Math.round(hbImg.data[rOff + x * 4 + 2] * shade));
+        }
+      }
+      hbCtx.putImageData(hbImg, 0, 0);
+
+      const domeScale = (kWaistW * 0.98) / 136.0;
+      const dstDw = Math.round(bdW * domeScale);
+      const dstDh = Math.round(bdH * domeScale * 1.12);
+
+      // --- F. Dựng `vaiDeep` (185 x 420) — Đứng Cúi Mình Vái Khấn Sâu 3D ---
+      const vaiDeepCan = document.createElement('canvas');
+      vaiDeepCan.width = vw;
+      vaiDeepCan.height = vh;
+      const vdCtx = vaiDeepCan.getContext('2d');
+      vdCtx.imageSmoothingEnabled = true;
+      vdCtx.imageSmoothingQuality = 'high';
+      vdCtx.drawImage(lowCleanCan, 0, lowY0, sw, sh - lowY0, cx - (sw >> 1), lowY0, sw, sh - lowY0);
+      const vdImg = vdCtx.getImageData(0, lowY0, vw, Math.min(34, vh - lowY0));
+      for (let y = 0; y < vdImg.height; y++) {
+        const wShade = 0.60 + 0.40 * (y / 34.0);
+        const rOff = y * vw * 4;
+        for (let x = 0; x < vw; x++) {
+          vdImg.data[rOff + x * 4]     = Math.round(vdImg.data[rOff + x * 4] * wShade);
+          vdImg.data[rOff + x * 4 + 1] = Math.round(vdImg.data[rOff + x * 4 + 1] * wShade);
+          vdImg.data[rOff + x * 4 + 2] = Math.round(vdImg.data[rOff + x * 4 + 2] * wShade);
+        }
+      }
+      vdCtx.putImageData(vdImg, 0, lowY0);
+
+      const domeTopY = lowY0 + Math.round(12 * domeScale) - dstDh;
+      const headY = domeTopY - Math.round(hh * 0.50);
+      vdCtx.drawImage(headBowCan, cx - (hw >> 1), headY);
+      vdCtx.drawImage(bDomeCleanCan, 0, 0, bdW, bdH, cx - (dstDw >> 1), domeTopY, dstDw, dstDh);
+      vaiDeepCan._visualTopY = Math.max(0, headY);
+      vaiDeepCan._waistY = lowY0;
+
+      // --- G. Dựng `kneelMid` (185 x 398) — Quỳ Nghiêng Lưng Cúi Lạy 45° Trên Bồ Đoàn 3D ---
+      const kneelMidCan = document.createElement('canvas');
+      kneelMidCan.width = kw;
+      kneelMidCan.height = kh + padTop;
+      const kmCtx = kneelMidCan.getContext('2d');
+      kmCtx.imageSmoothingEnabled = true;
+      kmCtx.imageSmoothingQuality = 'high';
+      const kLowY0 = 200 + padTop;
+      kmCtx.drawImage(kneelUpCan, 0, kLowY0, kw, (kh + padTop) - kLowY0, 0, kLowY0, kw, (kh + padTop) - kLowY0);
+      const kmImg = kmCtx.getImageData(0, kLowY0, kw, Math.min(28, (kh + padTop) - kLowY0));
+      for (let y = 0; y < kmImg.height; y++) {
+        const wShade = 0.62 + 0.38 * (y / 28.0);
+        const rOff = y * kw * 4;
+        for (let x = 0; x < kw; x++) {
+          kmImg.data[rOff + x * 4]     = Math.round(kmImg.data[rOff + x * 4] * wShade);
+          kmImg.data[rOff + x * 4 + 1] = Math.round(kmImg.data[rOff + x * 4 + 1] * wShade);
+          kmImg.data[rOff + x * 4 + 2] = Math.round(kmImg.data[rOff + x * 4 + 2] * wShade);
+        }
+      }
+      kmCtx.putImageData(kmImg, 0, kLowY0);
+
+      const kDomeTopY = kLowY0 + Math.round(12 * domeScale) - dstDh;
+      const kHeadY = kDomeTopY - Math.round(hh * 0.50);
+      kmCtx.drawImage(headBowCan, cx - (hw >> 1), kHeadY);
+      kmCtx.drawImage(bDomeCleanCan, 0, 0, bdW, bdH, cx - (dstDw >> 1), kDomeTopY, dstDw, dstDh);
+      kneelMidCan._visualTopY = Math.max(0, kHeadY);
+      kneelMidCan._waistY = kLowY0;
+
+      const poseSet = {
+        stand: standSpr,
+        vaiUp: vaiUpCan,
+        vaiDeep: vaiDeepCan,
+        kneelUp: kneelUpCan,
+        kneelMid: kneelMidCan,
+        bowFull: bowFullCan
+      };
+      _ritual3DPoseCache[cacheKey] = poseSet;
+      return poseSet;
+    }
+
+    // Vẽ 1 tư thế 3D có khớp bản lề thắt lưng (`_waistY`) để thân dưới/bồ đoàn bám chặt 100% xuống sàn, chỉ phần lưng trên & đầu chuyển động 3D mượt 60FPS!
+    function drawUpperBodyHinged3DPose(ctx, poseCan, unitScale, upperPitch = 1.0) {
+      const pw = poseCan.width;
+      const ph = poseCan.height;
+      const waistY = poseCan._waistY || Math.round(ph * 0.52);
+      const visualTopY = poseCan._visualTopY || 0;
+
+      const dstW = pw * unitScale;
+      const lowSrcH = ph - waistY;
+      const lowDstH = lowSrcH * unitScale;
+
+      // 1) Vẽ phần thân dưới / bồ đoàn cố định 100% trên mặt chiếu
+      ctx.drawImage(poseCan, 0, waistY, pw, lowSrcH, -dstW * 0.5, -lowDstH, dstW, lowDstH);
+
+      // 2) Vẽ phần thân trên & vòm lưng 3D gắn liền tại khớp thắt lưng (`-lowDstH`) với độ mở vai phối cảnh 3D
+      const upSrcH = waistY + 6;
+      const upDstH = (waistY * unitScale) * upperPitch;
+      const upDstW = dstW * (1.0 + (1.0 - upperPitch) * 0.16);
+      const overlapPx = 6 * unitScale;
+      ctx.drawImage(poseCan, 0, 0, pw, upSrcH, -upDstW * 0.5, -lowDstH - upDstH, upDstW, upDstH + overlapPx);
+
+      const visUpperH = Math.max(10, (waistY - visualTopY) * unitScale * upperPitch);
+      return lowDstH + visUpperH;
+    }
+
+    // Vẽ chuỗi hành động 3D Studio cho "🙏 Vái Khấn 3D" (`mode = 'vai'`), "🙇 Quỳ Lạy 3D — Ngũ Thể Đầu Địa" (`mode = 'bow_cycle'`) và "🧘 Quỳ Yên Tĩnh Tọa Trên Bồ Đoàn 3D" (`mode = 'kneel_still'`)
+    function draw3DRitualAnimation(ctx, standSpr, lv, gender, scale, mode, rawTick) {
+      const unitScale = scale * 0.56;
+      const poseSet = getOrCreate3DRitualPoseSet(standSpr, lv, gender);
+      if (!poseSet) {
+        if ((mode === 'kneel_still' || mode === 'bow_cycle') && images.kneel && images.kneel.complete && images.kneel.naturalWidth > 0) {
+          const kw = images.kneel.naturalWidth * unitScale;
+          const kh = images.kneel.naturalHeight * unitScale;
+          ctx.drawImage(images.kneel, -kw * 0.5, -kh, kw, kh);
+          return kh;
+        }
+        const sw = (standSpr.width || standSpr.naturalWidth || 154) * unitScale;
+        const sh = (standSpr.height || standSpr.naturalHeight || 420) * unitScale;
+        ctx.drawImage(standSpr, -sw * 0.5, -sh, sw, sh);
+        return sh;
+      }
+
+      if (mode === 'kneel_still') {
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelUp, unitScale, 1.0);
+      }
+
+      if (mode === 'vai') {
+        // Chu kỳ 72 frame: Đứng Chắp Tay Lễ 3D (`vaiUp`) -> Đứng Cúi Mình Vái Khấn Sâu 3D (`vaiDeep` + 2 nhịp khấn nguyện 3D) -> Ngẩng Lên Chắp Tay (`vaiUp`)
+        const cycle = ((rawTick % 72) + 72) % 72 / 72.0;
+        if (cycle < 0.16) {
+          const u = cycle / 0.16;
+          const ease = u * u * (3 - 2 * u);
+          return drawUpperBodyHinged3DPose(ctx, poseSet.vaiUp, unitScale, 1.0 - 0.10 * ease);
+        } else if (cycle < 0.80) {
+          const u = (cycle - 0.16) / 0.64;
+          let pitch = 1.0;
+          if (u < 0.20) {
+            const t = u / 0.20;
+            pitch = 1.06 - 0.08 * (t * t * (3 - 2 * t));
+          } else if (u < 0.80) {
+            // 2 nhịp khấn nguyện 3D thành tâm khi đang cúi vái sâu
+            const nod = Math.sin(((u - 0.20) / 0.60) * Math.PI * 2);
+            pitch = 0.96 - 0.05 * nod;
+          } else {
+            const t = (u - 0.80) / 0.20;
+            pitch = 0.98 + 0.08 * (t * t * (3 - 2 * t));
+          }
+          return drawUpperBodyHinged3DPose(ctx, poseSet.vaiDeep, unitScale, pitch);
+        } else {
+          const u = (cycle - 0.80) / 0.20;
+          const ease = u * u * (3 - 2 * u);
+          return drawUpperBodyHinged3DPose(ctx, poseSet.vaiUp, unitScale, 0.90 + 0.10 * ease);
+        }
+      }
+
+      // `mode === 'bow_cycle'`: Chu kỳ 84 frame Ngũ Thể Đầu Địa 3D:
+      // 1) Đứng Chắp Tay Lễ 3D (`vaiUp`) -> 2) Hạ Gối Quỳ Trên Bồ Đoàn (`kneelUp`) -> 3) Quỳ Cúi Lưng 45° (`kneelMid`)
+      // -> 4) Quỳ Cúi Lạy Sát Đất — Ngũ Thể Đầu Địa (`bowFull`) -> 5) Chống Tay Ngẩng Lưng 45° (`kneelMid`) -> 6) Quỳ Thẳng Chắp Tay (`kneelUp`)
+      const cycle = ((rawTick % 84) + 84) % 84 / 84.0;
+      if (cycle < 0.13) {
+        const u = cycle / 0.13;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.vaiUp, unitScale, 1.0 - 0.08 * u);
+      } else if (cycle < 0.28) {
+        const u = (cycle - 0.13) / 0.15;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelUp, unitScale, 1.02 - 0.08 * u);
+      } else if (cycle < 0.42) {
+        const u = (cycle - 0.28) / 0.14;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelMid, unitScale, 1.04 - 0.12 * u);
+      } else if (cycle < 0.72) {
+        const u = (cycle - 0.42) / 0.30;
+        const dip = Math.sin(u * Math.PI);
+        const bwCan = poseSet.bowFull;
+        const dstW = bwCan.width * unitScale * (1.0 + 0.03 * dip);
+        const dstH = bwCan.height * unitScale * (1.0 - 0.07 * dip);
+        ctx.drawImage(bwCan, -dstW * 0.5, -dstH, dstW, dstH);
+        return dstH;
+      } else if (cycle < 0.85) {
+        const u = (cycle - 0.72) / 0.13;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelMid, unitScale, 0.92 + 0.12 * u);
+      } else {
+        const u = (cycle - 0.85) / 0.15;
+        return drawUpperBodyHinged3DPose(ctx, poseSet.kneelUp, unitScale, 0.94 + 0.06 * u);
+      }
     }
 
     function drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) {
@@ -11853,6 +11959,7 @@
       ctx.ellipse(0, -2, 34 * scale, 11 * scale, 0, 0, Math.PI * 2);
       ctx.fill();
 
+      // XOAY 2 NGƯỜI ĐỐI DIỆN VÀO NHAU: người bên trái (faceDir = +1) nhìn sang phải (+1), người bên phải (faceDir = -1) lật ngang nhìn sang trái (-1)
       const dir = (faceDir >= 0) ? 1 : -1;
       ctx.scale(dir, 1);
 
@@ -11862,19 +11969,18 @@
       const kneelBow = images.poseKneelBow;
 
       if (mutualMode === 'mutual_kneel' && kneelUp && kneelUp.complete && kneelBow && kneelBow.complete) {
-        // CHU KỲ QUỲ LẠY NHAU 3D CHÂN THỰC TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa 60FPS):
-        // Pha 1 (0..0.28): Quỳ thẳng chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu
-        // Pha 2 (0.28..0.48): Khớp lưng gập dần xuống sàn chuyển mượt sang tư thế lạy sát đất
-        // Pha 3 (0.48..0.80): Cúi rạp trán và hai bàn tay chạm sàn trước bồ đoàn (pose_kneel_bow)
-        // Pha 4 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm trên bồ đoàn
+        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU QUỲ LẠY TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa đối diện nhau 60FPS):
+        // Pha 1 (0..0.30): Quỳ thẳng đối diện nhau chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu chào
+        // Pha 2 (0.30..0.46): Khớp lưng gập dần về phía nhau chuyển mượt sang tư thế lạy sát đất
+        // Pha 3 (0.46..0.80): Cúi rạp trán và hai bàn tay chạm sàn hướng thẳng vào nhau (pose_kneel_bow)
+        // Pha 4 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm đối diện nhau trên bồ đoàn
         const cycle = (frameCount % 84) / 84.0;
-        const baseH = 128 * scale;
+        const baseH = 136 * scale;
 
         if (cycle < 0.30) {
           const nodT = Math.sin((cycle / 0.30) * Math.PI);
           const h = baseH;
           const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-          // Khớp lưng trên bồ đoàn khẽ cúi chào trước khi lạy xuống
           const splitY = Math.round(kneelUp.naturalHeight * 0.56);
           const lowerH = h * 0.44;
           const upperH = h * 0.56;
@@ -11884,8 +11990,9 @@
           ctx.rotate(nodT * 0.18);
           ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
           ctx.restore();
+          ctx.restore();
+          return baseH;
         } else if (cycle < 0.46) {
-          // Chuyển khớp mượt từ Quỳ thẳng -> Cúi rạp lạy sát đất
           const t = (cycle - 0.30) / 0.16;
           const ease = t * t * (3 - 2 * t);
           if (ease < 0.55) {
@@ -11900,23 +12007,27 @@
             ctx.rotate(0.18 + ease * 0.62);
             ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
             ctx.restore();
+            ctx.restore();
+            return baseH * 0.88;
           } else {
-            const hBow = 78 * scale;
+            const hBow = 84 * scale;
             const wBow = hBow * (kneelBow.naturalWidth / kneelBow.naturalHeight);
             const dip = (1.0 - ease) * 0.14;
             ctx.save();
             ctx.rotate(-dip);
             ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
             ctx.restore();
+            ctx.restore();
+            return hBow + 12 * scale;
           }
         } else if (cycle < 0.80) {
-          // Ngũ thể đầu địa: Cúi rạp đầu và hai bàn tay chạm sát sàn chùa
           const breathe = Math.sin(((cycle - 0.46) / 0.34) * Math.PI);
-          const hBow = (77 - breathe * 2.5) * scale;
-          const wBow = (78 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
+          const hBow = (83 - breathe * 2.5) * scale;
+          const wBow = (84 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
           ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
+          ctx.restore();
+          return hBow + 12 * scale;
         } else {
-          // Ngẩng đầu dậy trở về tư thế quỳ thẳng chắp tay
           const t = (cycle - 0.80) / 0.20;
           const ease = t * t * (3 - 2 * t);
           const h = baseH;
@@ -11930,49 +12041,68 @@
           ctx.rotate((1.0 - ease) * 0.48);
           ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
           ctx.restore();
+          ctx.restore();
+          return baseH;
         }
-        ctx.restore();
-        return;
       }
 
       if (mutualMode === 'mutual_vai' && vaiUp && vaiUp.complete && vaiBow && vaiBow.complete) {
-        // V114 (#mw0gutk13h): ĐỨNG YÊN CỐ ĐỊNH CHÂN, CHỈ GẬP CÚI THẤP PHẦN LƯNG & ĐẦU XUỐNG (KHÔNG NHÚN CHÂN!)
-        const cycle = (frameCount % 72) / 72.0;
-        let bowWave = 0;
-        if (cycle < 0.28) {
-          const t = cycle / 0.28;
-          bowWave = t * t * (3 - 2 * t);
-        } else if (cycle < 0.62) {
-          bowWave = 1.0;
-        } else if (cycle < 0.88) {
-          const t = (cycle - 0.62) / 0.26;
-          bowWave = 1.0 - t * t * (3 - 2 * t);
+        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU ĐỨNG CHẮP TAY VÁI LẠY NHAU 3D CHÂN THỰC (60FPS):
+        // Chân giữ vững trên chiếu đỏ, khớp hông và lưng cúi gập 45 độ hướng thẳng về phía đối phương với hai tay chắp búp sen!
+        const bowWave = 0.5 - 0.5 * Math.cos(frameCount * 0.15); // 0.0 (đứng thẳng chắp tay đối diện) -> 1.0 (cúi vái sâu 45 độ vào nhau)
+        const baseH = 152 * scale;
+
+        if (bowWave < 0.42) {
+          const t = bowWave / 0.42;
+          const h = baseH;
+          const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
+          const splitY = Math.round(vaiUp.naturalHeight * 0.52);
+          const lowerH = h * 0.48;
+          const upperH = h * 0.52;
+          ctx.drawImage(vaiUp, 0, splitY, vaiUp.naturalWidth, vaiUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          ctx.save();
+          ctx.translate(0, -lowerH + 4);
+          ctx.rotate(t * 0.28);
+          ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 10, -w * 0.48, -upperH, w, upperH + 5);
+          ctx.restore();
         } else {
-          bowWave = 0;
+          const deepT = (bowWave - 0.42) / 0.58;
+          const h = baseH * (0.97 - deepT * 0.02);
+          const w = h * (vaiBow.naturalWidth / vaiBow.naturalHeight);
+          ctx.save();
+          ctx.translate(-w * 0.08, -4);
+          ctx.rotate((deepT - 0.3) * 0.09);
+          ctx.drawImage(vaiBow, -w * 0.26, -h + 4, w, h);
+          ctx.restore();
         }
-        const h = 142 * scale;
-        const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
-        const splitY = Math.round(vaiUp.naturalHeight * 0.48);
-        const lowerH = h * 0.52;
-        const upperH = h * 0.48;
-        // 1. Chân & thân dưới đứng yên 100% trên sàn chùa
-        ctx.drawImage(vaiUp, 0, splitY, vaiUp.naturalWidth, vaiUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
-        // 2. Chỉ phần thân trên & đầu cúi thấp xuống quanh khớp thắt lưng cố định (-lowerH)
+        ctx.restore();
+        return baseH;
+      }
+
+      if (mutualMode === 'salty_chat' && vaiUp && vaiUp.complete) {
+        // 2 NGƯỜI XOAY MẶT VÀO NHAU TRÒ CHUYỆN / CÀ KHỊA ĐỐI DIỆN (Nhịp nghiêng người đối đáp trực diện)
+        const baseH = 150 * scale;
+        const talkWave = Math.sin(frameCount * 0.22 + (isPlayer ? 0 : Math.PI));
+        const useLean = (talkWave > 0.35 && vaiBow && vaiBow.complete);
+        const sprChat = useLean ? vaiBow : vaiUp;
+        const h = (useLean ? 146 : 150) * scale;
+        const w = h * (sprChat.naturalWidth / sprChat.naturalHeight);
+        const nod = talkWave * 0.06;
         ctx.save();
-        ctx.translate(0, -lowerH + 2);
-        ctx.rotate(bowWave * 0.62);
-        ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 8, -w * 0.48, -upperH, w, upperH + 4);
+        ctx.translate(talkWave * 3 * scale, 0);
+        ctx.rotate(nod);
+        ctx.drawImage(sprChat, useLean ? (-w * 0.30) : (-w * 0.48), -h, w, h);
         ctx.restore();
         ctx.restore();
-        return;
+        return baseH;
       }
 
       if (mutualMode === 'brawl' && vaiBow && vaiBow.complete && vaiUp && vaiUp.complete) {
-        // ĐẤM NHAU TÚI BỤI 3D: Sử dụng nhân vật 3D thật nghiêng mình tung đòn liên hoàn + hiệu ứng găng đấm 3D & sóng xung kích!
+        // ĐẤM NHAU TÚI BỤI 3D: 2 nhân vật xoay mặt vào nhau nghiêng mình tung đòn liên hoàn + hiệu ứng găng đấm 3D & sóng xung kích!
         const phase = frameCount * 0.65 + (isPlayer ? 0 : Math.PI);
         const useBow = Math.sin(phase) > 0;
         const spr3d = useBow ? vaiBow : vaiUp;
-        const h = (useBow ? 135 : 140) * scale;
+        const h = (useBow ? 144 : 150) * scale;
         const w = h * (spr3d.naturalWidth / spr3d.naturalHeight);
         const lungeX = Math.sin(phase) * 7 * scale;
         const bobY = Math.abs(Math.cos(phase)) * 4 * scale;
@@ -11982,7 +12112,6 @@
         ctx.rotate(0.12 + Math.sin(phase) * 0.08);
         ctx.drawImage(spr3d, -w * 0.42, -h, w, h);
 
-        // Hiệu ứng vệt nắm đấm 3D & sóng xung kích khi tung cú đấm
         const punchExt = Math.max(0, Math.sin(phase)) * 26 * scale;
         if (punchExt > 6 * scale) {
           const fistX = w * 0.32 + punchExt;
@@ -11998,10 +12127,11 @@
         }
         ctx.restore();
         ctx.restore();
-        return;
+        return 150 * scale;
       }
 
       ctx.restore();
+      return 145 * scale;
     }
 
     function render() {
@@ -12031,7 +12161,10 @@
       if (Math.hypot(du, dv) > 0.002) {
         player.u += du * 0.16 * dt60;
         player.v += dv * 0.16 * dt60;
-      } else if (player.state === 'walk' && player.v < 0.62 && (!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
+        if ((!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
+          player.state = 'walk';
+        }
+      } else if (player.state === 'walk' && (!player.vaiTimer || player.vaiTimer <= 0) && (!player.bowTimer || player.bowTimer <= 0)) {
         player.state = 'kneel';
       }
 
@@ -12067,12 +12200,14 @@
 
       if (player.vaiTimer && player.vaiTimer > 0) {
         player.vaiTimer = Math.max(0, player.vaiTimer - dt60);
+        player.vaiCycleTick = (player.vaiCycleTick || 0) + dt60;
         player.state = 'vai';
-        if (player.vaiTimer === 0) player.state = 'walk';
+        if (player.vaiTimer === 0) player.state = 'kneel';
       } else if (player.bowTimer > 0) {
         player.bowTimer = Math.max(0, player.bowTimer - dt60);
         player.bowCycleTick = (player.bowCycleTick || 0) + dt60;
-        if (player.bowTimer === 0) player.state = 'walk';
+        player.state = 'bow_cycle';
+        if (player.bowTimer === 0) player.state = 'kneel';
       }
       if (player.chatTimer > 0) player.chatTimer = Math.max(0, player.chatTimer - dt60);
 
@@ -12194,11 +12329,120 @@
         ctx.fill();
       }
 
-      // V104 (#mw0axatt2p & #mw0b1sv52q): XOÁ SẠCH 100% CÁC CON BOT VÃNG LAI ĐI LẠI TRONG SẢNH & CHỈ ĐỂ LẠI ĐÚNG 1 NGƯỜI SỐ 1 (TOP #1)!
+      // KHÁCH VÃNG LAI ĐI RA ĐI VÀO LIÊN TỤC CHUẨN BOT CŨ (#2380 & #2385):
+      // Bước từ cửa vào bồ đoàn -> Quỳ lễ & khấn 1 câu ngắn gọn -> Đứng dậy đi ra cửa -> Đổi lượt khách mới bước vào!
       const renderables = [];
+      for (const g of visitingGuests) {
+        if (g.name === player.name) {
+          const alt = visitorNamesPool.find(p => p.name !== player.name && !visitingGuests.some(o => o !== g && o.name === p.name)) || visitorNamesPool[0];
+          if (alt) {
+            g.name = alt.name;
+            g.avatar = alt.avatar;
+            g.gender = alt.gender;
+          }
+        }
+        if (g.waitOutsideTimer > 0) {
+          g.waitOutsideTimer = Math.max(0, g.waitOutsideTimer - dt60);
+          if (g.waitOutsideTimer === 0) {
+            let nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
+            nextVisitorPoolIdx++;
+            for (let tries = 0; tries < visitorNamesPool.length; tries++) {
+              if (nextProfile.name !== player.name && !visitingGuests.some(o => o !== g && o.name === nextProfile.name)) {
+                break;
+              }
+              nextProfile = visitorNamesPool[nextVisitorPoolIdx % visitorNamesPool.length];
+              nextVisitorPoolIdx++;
+            }
+            g.name = nextProfile.name;
+            g.avatar = nextProfile.avatar;
+            g.gender = nextProfile.gender;
+            const sideLeft = (g.id.endsWith('1'));
+            g.u = sideLeft ? 0.12 : 0.88;
+            g.v = 0.94;
+            g.targetU = sideLeft ? (0.18 + Math.random() * 0.10) : (0.72 + Math.random() * 0.10);
+            g.targetV = 0.64 + Math.random() * 0.08;
+            g.phase = 'entering';
+            g.state = 'walk';
+            g.chat = '';
+            g.chatTimer = 0;
+            g.pendingSpeech = false;
+          }
+          continue;
+        }
+
+        const gdu = g.targetU - g.u;
+        const gdv = g.targetV - g.v;
+        const dist = Math.hypot(gdu, gdv);
+
+        if (g.phase === 'entering') {
+          if (dist > 0.008) {
+            g.u += gdu * 0.032 * dt60;
+            g.v += gdv * 0.032 * dt60;
+            g.state = 'walk';
+          } else {
+            g.phase = 'praying';
+            g.state = 'kneel';
+            g.phaseTick = 420; // Quỳ lễ ~7.0 giây thực tế
+            g.bowTimer = 90;
+            g.chat = pickRandomSpeechForChar(g.name, g.wing);
+            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
+            if (otherSpeaking) {
+              g.chatTimer = 0;
+              g.pendingSpeech = true;
+            } else {
+              g.chatTimer = 180; // Giữ lời nói của nhân vật đúng 3.0 giây thực tế (kể cả màn 120Hz) rồi mới tắt (#mvwe9kpj6t)
+              g.pendingSpeech = false;
+            }
+          }
+        } else if (g.phase === 'praying') {
+          if (g.bowTimer > 0) g.bowTimer = Math.max(0, g.bowTimer - dt60);
+          g.state = 'kneel';
+          if (g.pendingSpeech) {
+            const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
+            if (!otherSpeaking) {
+              g.chat = g.chat || pickRandomSpeechForChar(g.name, g.wing);
+              g.chatTimer = 180; // Đến lượt nói: giữ 3.0 giây thực tế (#mvwe9kpj6t)
+              g.pendingSpeech = false;
+              g.phaseTick = Math.max(g.phaseTick, 240);
+            }
+          } else if (g.chatTimer > 0) {
+            g.chatTimer = Math.max(0, g.chatTimer - dt60);
+          }
+          g.phaseTick -= dt60;
+          if (g.phaseTick <= 0 && g.chatTimer <= 0) {
+            if (g.name && allCharProfiles[g.name] && g.name !== player.name) {
+              allCharProfiles[g.name].merit = Number(allCharProfiles[g.name].merit || 100) + 12 + Math.floor(Math.random() * 18);
+              if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
+            }
+            g.phase = 'leaving';
+            g.state = 'walk';
+            g.chat = '';
+            g.chatTimer = 0;
+            g.pendingSpeech = false;
+            g.targetU = (g.u < 0.5) ? 0.08 : 0.92;
+            g.targetV = 0.95;
+          }
+        } else if (g.phase === 'leaving') {
+          if (dist > 0.012) {
+            g.u += gdu * 0.036 * dt60;
+            g.v += gdv * 0.036 * dt60;
+            g.state = 'walk';
+          } else {
+            g.waitOutsideTimer = 55; // Nghỉ ~0.9s ngoài cửa rồi có khách vãng lai mới đi vào
+          }
+        }
+
+        if (g.vaiTimer && g.vaiTimer > 0) {
+          g.vaiTimer = Math.max(0, g.vaiTimer - dt60);
+          g.state = 'vai';
+          if (g.vaiTimer === 0) g.state = (g.phase === 'praying') ? 'kneel' : 'walk';
+        }
+        renderables.push({ type: 'visitor', data: g, v: g.v });
+      }
+
       if (activeMutualInteraction && activeMutualInteraction.active && activeMutualInteraction.target) {
         const tgt = activeMutualInteraction.target;
-        if (tgt !== player && !Object.values(onlineCompanyPeers).includes(tgt)) {
+        if (tgt !== player && !Object.values(onlineCompanyPeers).includes(tgt) && !renderables.some(r => r.data === tgt)) {
           if (tgt.vaiTimer && tgt.vaiTimer > 0) tgt.vaiTimer = Math.max(0, tgt.vaiTimer - dt60);
           if (tgt.bowTimer && tgt.bowTimer > 0) tgt.bowTimer = Math.max(0, tgt.bowTimer - dt60);
           if (tgt.chatTimer && tgt.chatTimer > 0) tgt.chatTimer = Math.max(0, tgt.chatTimer - dt60);
@@ -12324,6 +12568,15 @@
         top3Map.set(ch.name, { ...ch, rank: idx + 1, seatU: top3SeatCoords[idx].u, seatV: top3SeatCoords[idx].v });
       });
 
+      // Không để khách vãng lai trùng tên với Top 1 đang ngồi ghế vinh danh chính giữa (TRỪ KHI đang tương tác đôi activeMutualInteraction!)
+      for (let i = renderables.length - 1; i >= 0; i--) {
+        const rItem = renderables[i];
+        const isMutualTgt = Boolean(activeMutualInteraction && activeMutualInteraction.active && rItem.data === activeMutualInteraction.target);
+        if (rItem.type === 'visitor' && top3Map.has(rItem.data.name) && !isMutualTgt) {
+          renderables.splice(i, 1);
+        }
+      }
+
       player._topRank = 0;
       if (top3Map.has(player.name)) {
         const myTop = top3Map.get(player.name);
@@ -12338,30 +12591,41 @@
         }
       }
 
+      window._lastTopHonorChars = [];
       top3Champions.forEach((ch, idx) => {
         const rank = idx + 1;
         const seat = top3SeatCoords[idx];
         if (ch.name === player.name) return;
-        const existingPeer = renderables.find(r => r.type === 'online_peer' && r.data && r.data.name === ch.name);
+        if (activeMutualInteraction && activeMutualInteraction.active && activeMutualInteraction.target && activeMutualInteraction.target.name === ch.name) {
+          activeMutualInteraction.target._topRank = rank;
+          activeMutualInteraction.target._topMerit = ch.merit;
+          return;
+        }
+        const existingPeer = renderables.find(r => r.type === 'online_peer' && r.data && r.data.name === ch.name && r.data.wing === player.wing);
         if (existingPeer) {
           existingPeer.data._topRank = rank;
           existingPeer.data._topMerit = ch.merit;
+          if (!existingPeer.data.bowTimer && !existingPeer.data.vaiTimer) {
+            existingPeer.data.state = 'kneel';
+          }
           return;
         }
+        const honorCharObj = {
+          name: ch.name,
+          gender: ch.gender,
+          avatar: ch.avatar,
+          merit: ch.merit,
+          wing: player.wing,
+          u: seat.u,
+          v: seat.v,
+          state: 'kneel',
+          _topRank: rank,
+          _topMerit: ch.merit
+        };
+        window._lastTopHonorChars.push(honorCharObj);
         renderables.push({
           type: 'top3_honor',
-          data: {
-            name: ch.name,
-            gender: ch.gender,
-            avatar: ch.avatar,
-            merit: ch.merit,
-            wing: player.wing,
-            u: seat.u,
-            v: seat.v,
-            state: 'kneel',
-            _topRank: rank,
-            _topMerit: ch.merit
-          },
+          data: honorCharObj,
           v: seat.v
         });
       });
@@ -12378,10 +12642,10 @@
         const sc = Math.max(0.38, 0.35 + (mi.midV - 0.46) * 1.12) * (wingH / 960);
 
         ctx.save();
-        if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel') {
-          // Thảm chiếu đỏ viền vàng kết nối 2 người đang xoay mặt vào vái / quỳ lạy nhau
-          ctx.fillStyle = 'rgba(155, 22, 12, 0.85)';
-          ctx.strokeStyle = '#ffd740';
+        if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel' || mi.mode === 'salty_chat') {
+          // Thảm chiếu đỏ viền vàng kết nối 2 người đang xoay mặt vào vái / quỳ lạy / đối đáp nhau
+          ctx.fillStyle = (mi.mode === 'salty_chat') ? 'rgba(88, 24, 135, 0.78)' : 'rgba(155, 22, 12, 0.85)';
+          ctx.strokeStyle = (mi.mode === 'salty_chat') ? '#ea80fc' : '#ffd740';
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.ellipse(midSx, midSy - 2, 95 * sc, 20 * sc, 0, 0, Math.PI * 2);
@@ -12432,6 +12696,7 @@
 
         const isVaiState = (mutualMode === 'mutual_vai') || (d.state === 'vai' || (d.vaiTimer && d.vaiTimer > 0));
         const isBowCycleState = (!isVaiState) && ((mutualMode === 'mutual_kneel') || d.state === 'bow_cycle' || d.state === 'bow' || (d.bowTimer && d.bowTimer > 0));
+        const isKneelStillState = (!isVaiState && !isBowCycleState) && (d.state === 'kneel');
 
         if (mutualMode === 'brawl') {
           // ĐỘNG TÁC 2 NGƯỜI XÔNG VÀO NHAU & ĐÁNH NHAU TÚI BỤI!
@@ -12453,48 +12718,35 @@
             poseStatusColor = '#ff5252';
           }
         } else if (isVaiState) {
-          // V114 (#mw0gutk13h): ĐỨNG YÊN CỐ ĐỊNH CHÂN, NGƯỜI CÚI THẤP XUỐNG (KHÔNG NHÚN CẢ NGƯỜI!)
           spr = (d.gender === 'M') ? images.walkM : images.walkF;
-          poseScaleY = 1.0;
-          poseOffsetY = 0;
+          const rawVaiTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : (frameCount + 11));
+          const vaiCycle = ((rawVaiTick % 72) + 72) % 72 / 72.0;
           if (faceDir !== 0) {
-            poseStatusText = '🙏🔄 Đang Xoay Người Cúi Vái Nhau';
+            poseStatusText = '🙏🔄 Đang Chắp Tay Cúi Mình Vái Khấn 3D';
+          } else if (vaiCycle < 0.16 || vaiCycle >= 0.80) {
+            poseStatusText = '🙏 Đang Nâng Tay Chắp Lễ 3D Trước Ngực';
           } else {
-            poseStatusText = '🙏 Đang Đứng Yên Cúi Thấp Người Vái Khấn';
+            poseStatusText = '🙏 Đang Cúi Mình Vái Khấn Sâu 3D';
           }
           poseStatusColor = '#80d8ff';
         } else if (isBowCycleState) {
-          // QUỲ LẠY (Nếu là mutual_kneel thì cả 2 xoay người vào nhau, cùng quỳ xuống và cúi lạy nhau sát đất!)
+          spr = (d.gender === 'M') ? images.walkM : images.walkF;
           const rawTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19));
-          const cycleTick = rawTick % 76;
-          if (cycleTick < 14) {
-            spr = (d.gender === 'M') ? images.walkM : images.walkF;
-            poseScaleY = 0.96;
-            if (faceDir !== 0) poseRotation = faceDir * 0.14;
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Xoay Người Chuẩn Bị Quỳ Lạy Nhau' : '🙇 Đứng Chắp Tay';
-          } else if (cycleTick < 30) {
-            spr = images.kneel;
-            const dropFrac = (cycleTick - 14) / 16;
-            poseScaleY = 1.02 - dropFrac * 0.06;
-            poseOffsetY = dropFrac * 5;
-            if (faceDir !== 0) poseRotation = faceDir * (0.16 + dropFrac * 0.16);
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Cả 2 Cùng Quỳ Xuống Đối Diện' : '🙇 Hạ Gối Quỳ Xuống';
-          } else if (cycleTick < 60) {
-            spr = images.bow;
-            const bowFrac = Math.sin(((cycleTick - 30) / 30) * Math.PI);
-            poseScaleY = 1.0 - bowFrac * 0.14;
-            poseOffsetY = bowFrac * 9;
-            if (faceDir !== 0) poseRotation = faceDir * (0.28 + bowFrac * 0.34);
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Đang Xoay Người Quỳ Lạy Nhau Sát Đất!' : '🙇 Cúi Lạy Sát Đất';
+          const cycle = ((rawTick % 84) + 84) % 84 / 84.0;
+          if (cycle < 0.13) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Đứng Chắp Tay Chuẩn Bị Quỳ Lạy 3D' : '🙇 Đứng Chắp Tay Lễ 3D';
+          } else if (cycle < 0.28) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Hạ Gối Quỳ Xuống Bồ Đoàn 3D' : '🙇 Hạ Gối Quỳ Trên Bồ Đoàn 3D';
+          } else if (cycle < 0.42) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Quỳ Nghiêng Lưng Cúi Lạy 45° 3D' : '🙇 Quỳ Nghiêng Lưng Cúi Lạy 45° 3D';
+          } else if (cycle < 0.72) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Quỳ Cúi Lạy Sát Đất (Ngũ Thể Đầu Địa 3D)!' : '🙇 Quỳ Cúi Lạy Sát Đất (Ngũ Thể Đầu Địa 3D)';
+          } else if (cycle < 0.85) {
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Chống Tay Ngẩng Lưng 45° 3D' : '🙇 Chống Tay Ngẩng Lưng 45° 3D';
           } else {
-            spr = images.kneel;
-            poseScaleY = 0.98;
-            if (faceDir !== 0) poseRotation = faceDir * 0.18;
-            poseStatusText = faceDir !== 0 ? '🙇🔄 Ngẩng Lên Tiếp Tục Quỳ Lạy Nhau' : '🙇 Ngẩng Đầu Lên';
+            poseStatusText = faceDir !== 0 ? '🙇🔄 Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D' : '🙇 Quỳ Thẳng Chắp Tay Trên Bồ Đoàn 3D';
           }
           poseStatusColor = '#69f0ae';
-        } else if (d.state === 'kneel') {
-          spr = images.kneel;
         } else {
           spr = (d.gender === 'M') ? images.walkM : images.walkF;
         }
@@ -12559,9 +12811,9 @@
           const charOutfitLv = getActiveCharacterOutfitLv(isPlayer, d);
           const charRealmCfg = getRealmConfigByLv(charOutfitLv);
           const charGender = (d.gender === 'M') ? 'M' : 'F';
-          const recoloredSpr = getRecoloredCharacterSprite(spr, charOutfitLv, charGender);
-          const mult = (spr === images.kneel || spr === images.bow) ? 0.54 : 0.60;
-          const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
+          const recoloredSpr = getRecoloredCharacterSprite((charGender === 'M') ? images.walkM : images.walkF, charOutfitLv, charGender);
+          const mult = 0.56;
+          const bob = (d.state === 'walk' && !isVaiState && !isBowCycleState && !isKneelStillState && mutualMode !== 'brawl') ? Math.abs(Math.sin(frameCount * 0.08)) * 2.5 : 0;
 
           const sprW = recoloredSpr.width || recoloredSpr.naturalWidth || spr.naturalWidth;
           const sprH = recoloredSpr.height || recoloredSpr.naturalHeight || spr.naturalHeight;
@@ -12571,47 +12823,27 @@
           // 1) Vẽ đế sáng dưới chân nhân vật theo bậc xã hội
           drawCharacterCultivationUnderlay(ctx, sx, sy, sw, sh, scale, charOutfitLv, frameCount);
 
-          // 2) Vẽ Nhân Vật Phật Tử Nam / Nữ Khoác Trang Phục 10 Bậc Địa Vị Xã Hội (Từ Ăn Mày Áo Vá -> Nông Dân -> ... -> Hoàng Đế / Hoàng Hậu)
+          // 2) Vẽ Nhân Vật Phật Tử Nam / Nữ Khoác Trang Phục 11 Bậc 3D Studio Thật (Từ Ăn Mày Áo Vá -> Công Nhân -> ... -> Hoàng Đế -> Tu Thành Tiên)
+          let actualRenderedH = sh;
           ctx.save();
-          if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl')) {
-            drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount);
+          if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl' || mutualMode === 'salty_chat')) {
+            actualRenderedH = drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) || sh;
           } else if (isVaiState) {
-            const fullSh = sprH * scale * mult;
-            // Nhịp cúi vái trang nghiêm (72 frame/chu kỳ): Cúi thấp người xuống -> Giữ tư thế cúi thấp kính cẩn -> Từ từ ngẩng lên -> Đứng thẳng
-            const vaiCycle = (frameCount % 72) / 72.0;
-            let vaiDip = 0;
-            if (vaiCycle < 0.28) {
-              const t = vaiCycle / 0.28;
-              vaiDip = t * t * (3 - 2 * t);
-            } else if (vaiCycle < 0.62) {
-              vaiDip = 0.94 + 0.06 * Math.sin(((vaiCycle - 0.28) / 0.34) * Math.PI);
-            } else if (vaiCycle < 0.88) {
-              const t = (vaiCycle - 0.62) / 0.26;
-              vaiDip = 1.0 - t * t * (3 - 2 * t);
-            } else {
-              vaiDip = 0;
-            }
+            const rawVaiTick = isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : (frameCount + 11);
             ctx.save();
             ctx.translate(sx, sy);
-            drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, vaiDip);
+            actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'vai', rawVaiTick);
             ctx.restore();
           } else if (isBowCycleState) {
-            const fullSh = sprH * scale * mult;
-            const rawTick = inMutual ? frameCount : (isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19));
-            const cycleTick = rawTick % 76;
+            const rawBowTick = isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19);
             ctx.save();
-            ctx.translate(sx, sy + poseOffsetY);
-            if (cycleTick < 14) {
-              const standBow = Math.sin((cycleTick / 14) * Math.PI) * 0.65;
-              drawPhotorealistic3DWaistBow(ctx, recoloredSpr, sw, fullSh, standBow);
-            } else if (cycleTick < 30) {
-              const kneelProg = (cycleTick - 14) / 16;
-              const recKneel = getRecoloredCharacterSprite(images.kneel, charOutfitLv, charGender);
-              const knH = (recKneel.height || recKneel.naturalHeight || images.kneel.naturalHeight) * scale * 0.54;
-              drawPhotorealistic3DWaistBow(ctx, recKneel, sw, knH, kneelProg * 0.45);
-            } else {
-              ctx.drawImage(recoloredSpr, -sw / 2, -sh, sw, sh);
-            }
+            ctx.translate(sx, sy);
+            actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'bow_cycle', rawBowTick);
+            ctx.restore();
+          } else if (isKneelStillState) {
+            ctx.save();
+            ctx.translate(sx, sy);
+            actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'kneel_still', 0);
             ctx.restore();
           } else {
             ctx.save();
@@ -12625,13 +12857,14 @@
           ctx.restore();
 
           // 3) Vẽ Dải Y Cà Sa Đắp Chéo Vai, Tràng Hạt, Mão Tỳ Lư / Bảo Quán & Ấn Vạn Tự 卍
-          drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, sh, scale, charOutfitLv, frameCount);
+          drawCharacterCultivationOverlay(ctx, sx, sy - bob + poseOffsetY, sw, actualRenderedH, scale, charOutfitLv, frameCount);
 
-          const headY = sy - sh - bob + poseOffsetY - 6;
+          const headY = sy - actualRenderedH - bob - 6;
+          const badgeSx = inMutual ? (sx + (faceDir >= 0 ? -42 : 42) * scale) : sx;
           const badgeLabel = isPlayer
             ? `${d.name} · ${(player.merit || 0).toLocaleString('vi-VN')} Phước`
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
-          drawRoundedBadge(sx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
+          drawRoundedBadge(badgeSx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
 
           // V98 (#mvzazvxf21): Chỉ hiện Nhãn Bậc Tu Hành & Pháp Phục trên đầu nhân vật người chơi chính ("🪷 Bậc 4 · Tỳ Kheo Tinh Tấn") để không gây chồng chữ rối mắt với các NPC xung quanh!
           if (isPlayer) {
@@ -12639,7 +12872,7 @@
             ctx.save();
             ctx.font = '800 8.8px sans-serif';
             const rtw = ctx.measureText(realmTitleTxt).width + 10;
-            const rtx = Math.max(6, Math.min(W - rtw - 6, Math.round(sx - rtw / 2)));
+            const rtx = Math.max(6, Math.min(W - rtw - 6, Math.round(badgeSx - rtw / 2)));
             const rty = (topRank >= 1 && topRank <= 3) ? (headY - 36) : (headY - 20);
             ctx.fillStyle = 'rgba(20, 8, 2, 0.92)';
             ctx.strokeStyle = charRealmCfg.colorHex;
@@ -12661,7 +12894,7 @@
             ctx.save();
             ctx.font = '900 9.2px sans-serif';
             const rw = ctx.measureText(rTxt).width + 12;
-            const rx = Math.max(6, Math.min(W - rw - 6, Math.round(sx - rw / 2)));
+            const rx = Math.max(6, Math.min(W - rw - 6, Math.round(badgeSx - rw / 2)));
             const ry = headY - 19;
             const rGrad = ctx.createLinearGradient(rx, ry - 7, rx + rw, ry + 7);
             if (topRank === 1) {
@@ -12713,13 +12946,13 @@
             if (activeMutualInteraction && activeMutualInteraction.active && !inMutual) {
               // Không vẽ bóng thoại phụ gây rối mắt lúc đang tương tác đôi
             } else {
-              const bubbleOffsetX = inMutual ? (isPlayer ? -Math.min(145, W * 0.24) : Math.min(145, W * 0.24)) : (W <= 560 && !isPlayer ? (sx < W * 0.5 ? -18 : 18) : 0);
+              const bubbleOffsetX = inMutual ? (faceDir >= 0 ? -Math.min(205, W * 0.28) : Math.min(205, W * 0.28)) : (W <= 560 && !isPlayer ? (sx < W * 0.5 ? -18 : 18) : 0);
               const bubbleOffsetY = inMutual ? -22 : -14;
               drawDarkChatBubble(sx + bubbleOffsetX, headY + bubbleOffsetY, d.chat);
             }
           }
           if (isPlayer) {
-            window._lastPlayerBadgePos = { sx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank, charRealmCfg };
+            window._lastPlayerBadgePos = { sx: badgeSx, headY, avatar: d.avatar || '🧘‍♂️', badgeLabel, topRank, charRealmCfg };
           }
         }
       }
@@ -12904,25 +13137,27 @@
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('🥊💥 XÔNG VÀO ĐÁNH NHAU TÚI BỤI! 💥🥊', midX, midY + 57);
-        } else if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel') {
-          const iconPair = (mi.mode === 'mutual_kneel') ? '🙇‍♂️ 🔄 🙇‍♀️' : '🙏 🔄 🙏';
+        } else if (mi.mode === 'mutual_vai' || mi.mode === 'mutual_kneel' || mi.mode === 'salty_chat') {
+          const iconPair = (mi.mode === 'mutual_kneel') ? '🙇‍♂️ 🔄 🙇‍♀️' : (mi.mode === 'salty_chat' ? '🤬 🔄 💬' : '🙏 🔄 🙏');
           const bannerTxt = (mi.mode === 'mutual_kneel')
             ? '🙇🔄 CẢ 2 XOAY NGƯỜI QUỲ LẠY NHAU 🔄🙇'
-            : '🙏🔄 CẢ 2 XOAY NGƯỜI VÁI LẠY NHAU 🔄🙏';
+            : (mi.mode === 'salty_chat'
+                ? '🤬🔄 CẢ 2 XOAY MẶT CÀ KHỊA / ĐỐI ĐÁP 🔄💬'
+                : '🙏🔄 CẢ 2 XOAY NGƯỜI VÁI LẠY NHAU 🔄🙏');
           ctx.font = '22px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(iconPair, midX, midY - 6 + Math.sin(frameCount * 0.18) * 5);
 
-          ctx.fillStyle = 'rgba(20, 48, 28, 0.94)';
-          ctx.strokeStyle = '#ffd54f';
+          ctx.fillStyle = (mi.mode === 'salty_chat') ? 'rgba(58, 16, 92, 0.94)' : 'rgba(20, 48, 28, 0.94)';
+          ctx.strokeStyle = (mi.mode === 'salty_chat') ? '#ea80fc' : '#ffd54f';
           ctx.lineWidth = 1.6;
           ctx.beginPath();
-          ctx.roundRect(midX - 122, midY + 46, 244, 21, 10);
+          ctx.roundRect(midX - 128, midY + 46, 256, 21, 10);
           ctx.fill();
           ctx.stroke();
           ctx.font = 'bold 10.5px sans-serif';
-          ctx.fillStyle = '#ffd740';
+          ctx.fillStyle = (mi.mode === 'salty_chat') ? '#ffeb3b' : '#ffd740';
           ctx.fillText(bannerTxt, midX, midY + 56.5);
         }
         ctx.restore();
@@ -13910,6 +14145,10 @@
           selectHallNpcFromDropdown("Anh Trung QL Kho HN");
           interactWithHallNpc("mutual_kneel");
           frameCount = 44;
+        } else if (dm === "salty_chat") {
+          toggleNpcInteractBar(true);
+          selectHallNpcFromDropdown("Trinh Kế Toán Trưởng");
+          interactWithHallNpc("salty_chat");
         } else if (dm === "kinh_dich") {
           openFortuneStickModal('dich');
         } else if (dm === "tu_vi") {
@@ -13942,27 +14181,8 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 114;
+        const CURRENT_BUILD_VER = 124;
         window._currentBuildVer = CURRENT_BUILD_VER;
-        function checkVer() {
-          try {
-            if (window.location.search && window.location.search.includes('demo=')) return;
-            const reqVer = Number(new URLSearchParams(window.location.search).get('v') || 0);
-            fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
-              .then(r => r.ok ? r.json() : null)
-              .then(data => {
-                if (data && (Number(data.version) > CURRENT_BUILD_VER || (reqVer > 0 && reqVer < Number(data.version)))) {
-                  const url = new URL(window.location.href);
-                  url.searchParams.set('v', String(data.version));
-                  url.searchParams.set('_t', String(Date.now()));
-                  window.location.replace(url.toString());
-                }
-              })
-              .catch(() => {});
-          } catch (e) {}
-        }
-        checkVer();
-        setInterval(checkVer, 4000);
       })();
     });
   </script>
