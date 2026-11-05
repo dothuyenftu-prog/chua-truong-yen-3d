@@ -7938,7 +7938,7 @@
       // 4. Bộ Phận Kho Vận · Tài Xế · Thi Công
       { name: 'Anh Trung QL Kho HN', dept: 'Kho Hà Nội', roleTag: 'kho', avatar: '📦', gender: 'M', initMerit: 82 },
       { name: 'Anh Tâm Kho HP', dept: 'Kho Hải Phòng', roleTag: 'kho', avatar: '⚓', gender: 'M', initMerit: 79 },
-      { name: 'Thế Anh Kho HN', dept: 'Điều Phối Kho', roleTag: 'kho', avatar: '🙏', gender: 'M', initMerit: 65 },
+      { name: 'Thế Anh Kho', dept: 'Điều Phối Kho HN', roleTag: 'kho', avatar: '🙏', gender: 'M', initMerit: 65 },
       { name: 'Anh Hải Thi Công', dept: 'Đội Thi Công', roleTag: 'thicong', avatar: '👷', gender: 'M', initMerit: 75 },
       { name: 'Anh Long Tài Xế', dept: 'Vận Chuyển', roleTag: 'taixe', avatar: '🚚', gender: 'M', initMerit: 62 },
       { name: 'Anh Cường Bốc Xếp', dept: 'Bốc Xếp Kho', roleTag: 'kho', avatar: '💪', gender: 'M', initMerit: 60 },
@@ -8084,7 +8084,8 @@
         state: 'kneel',
         phase: 'praying',
         phaseTick: 360,
-        bowTimer: 50,
+        bowTimer: 0,
+        bowCycleTick: 0,
         sentenceIdx: 0,
         chat: "🙏 Nam Mô A Di Đà Phật!",
         chatTimer: 180,
@@ -8106,7 +8107,8 @@
         state: 'kneel',
         phase: 'praying',
         phaseTick: 480,
-        bowTimer: 40,
+        bowTimer: 0,
+        bowCycleTick: 0,
         sentenceIdx: 1,
         chat: "🪷 Cầu gia đạo bình an, vạn sự cát tường!",
         chatTimer: 0,
@@ -8128,7 +8130,8 @@
         state: 'kneel',
         phase: 'praying',
         phaseTick: 360,
-        bowTimer: 50,
+        bowTimer: 0,
+        bowCycleTick: 0,
         sentenceIdx: 0,
         chat: "💰 Cầu Thần Tài gia hộ lộc phát rực rỡ!",
         chatTimer: 180,
@@ -8150,7 +8153,8 @@
         state: 'kneel',
         phase: 'praying',
         phaseTick: 480,
-        bowTimer: 30,
+        bowTimer: 0,
+        bowCycleTick: 0,
         sentenceIdx: 1,
         chat: "✨ Xin vía Thần Tài buôn may bán đắt!",
         chatTimer: 0,
@@ -9088,6 +9092,14 @@
           const tappedWing = Math.max(0, Math.min(1, Math.round(camWingX)));
           const wingCenterX = centerScreenX + (tappedWing - camWingX) * wingW;
           const localU = Math.max(0.05, Math.min(0.95, 0.5 + (clientX - wingCenterX) / effW));
+          if (activeMutualInteraction) {
+            if (activeMutualInteraction.target) activeMutualInteraction.target.faceDir = 0;
+            activeMutualInteraction = null;
+            player.faceDir = 0;
+          }
+          window._playerMovedFromHonorSeat = true;
+          player.vaiTimer = 0;
+          player.bowTimer = 0;
           player.targetWing = tappedWing;
           targetWingX = tappedWing;
           player.targetU = localU;
@@ -9138,8 +9150,8 @@
     function populateHallNpcTargetSelect() {
       const sel = document.getElementById('hallNpcTargetSelect');
       if (!sel) return;
-      const curVal = (selectedHallNpc && selectedHallNpc.name) || sel.value || '';
-      const presentChars = [...Object.values(onlineCompanyPeers), ...visitingGuests].filter(g => g && g.wing === player.wing && g.name !== player.name);
+      const curVal = normalizeCanonicalAccountName((selectedHallNpc && selectedHallNpc.name) || sel.value || '');
+      const presentChars = [...(window._lastTopHonorChars || []), ...Object.values(onlineCompanyPeers), ...visitingGuests].filter(g => g && g.wing === player.wing && g.name !== player.name);
       const groups = [
         { label: '👥 Đang Có Mặt Tại Sảnh', items: presentChars.map(g => ({ name: g.name, dept: getCharDeptName(g.name), avatar: g.avatar || '🙏' })) },
         { label: '🏢 Thành Viên & Quản Lý', items: CHARACTER_ROSTER_V57.filter(c => c.roleTag === 'bgd') },
@@ -9170,17 +9182,36 @@
     }
 
     function ensureTargetNpcInCurrentWing(charName) {
-      let target = [...Object.values(onlineCompanyPeers), ...visitingGuests].find(g => g && g.name === charName && g.wing === player.wing && (g.waitOutsideTimer === undefined || g.waitOutsideTimer === 0));
+      const normName = normalizeCanonicalAccountName(charName);
+      let target = [...Object.values(onlineCompanyPeers), ...visitingGuests].find(g => g && normalizeCanonicalAccountName(g.name) === normName && g.wing === player.wing && (g.waitOutsideTimer === undefined || g.waitOutsideTimer === 0));
       if (!target) {
-        // Triệu hồi nhân vật được chọn vào ngay sảnh hiện tại để tương tác!
-        const sameWingGuests = visitingGuests.filter(g => g.wing === player.wing);
-        target = sameWingGuests[0] || visitingGuests[0];
-        const rosterInfo = CHARACTER_ROSTER_V57.find(c => c.name === charName) || {
-          name: charName,
-          avatar: inferGenderFromName(charName, 'F') === 'M' ? '🧔🏻' : '🪷',
-          gender: inferGenderFromName(charName, 'F')
+        // Tạo đối tượng tương tác riêng biệt để KHÔNG ghi đè làm mất các NPC khách vãng lai đang quỳ lễ trên chiếu!
+        const rosterInfo = CHARACTER_ROSTER_V57.find(c => normalizeCanonicalAccountName(c.name) === normName) || {
+          name: normName,
+          avatar: inferGenderFromName(normName, 'F') === 'M' ? '🧔🏻' : '🪷',
+          gender: inferGenderFromName(normName, 'F')
         };
-        target.name = rosterInfo.name;
+        if (!window._summonedInteractNpc) {
+          window._summonedInteractNpc = {
+            id: 'guest_summoned_interact',
+            homeWing: player.wing,
+            wing: player.wing,
+            u: 0.58,
+            v: 0.66,
+            targetU: 0.58,
+            targetV: 0.66,
+            state: 'kneel',
+            phase: 'praying',
+            phaseTick: 500,
+            waitOutsideTimer: 0,
+            bowTimer: 0,
+            vaiTimer: 0,
+            chat: '',
+            chatTimer: 0
+          };
+        }
+        target = window._summonedInteractNpc;
+        target.name = normalizeCanonicalAccountName(rosterInfo.name);
         target.avatar = rosterInfo.avatar;
         target.gender = rosterInfo.gender;
         target.wing = player.wing;
@@ -9708,11 +9739,18 @@
 
     function donateTempleMeritCongDuc() {
       unlockAndStartAudio();
+      if (activeMutualInteraction) {
+        if (activeMutualInteraction.target) activeMutualInteraction.target.faceDir = 0;
+        activeMutualInteraction = null;
+        player.faceDir = 0;
+      }
       addMerit(20, 'Phát tâm Công Đức cúng dường Tam Bảo (+20 💎 Phước)');
       playBellSound();
       setTimeout(playMoSound, 300);
       player.state = 'vai';
+      player.vaiCycleTick = 0;
       player.vaiTimer = 220;
+      player.bowTimer = 0;
       player.chat = `🙏🏛️ Con là ${player.name} xin thành tâm phát tâm Công Đức cúng dường Tam Bảo! Nam Mô A Di Đà Phật!`;
       player.chatTimer = 320;
       showToast(`🧙‍♂️🙏 Sư Trụ Trì đang đọc lời cảm tạ Công Đức của thí chủ ${player.name} (+20 💎)!`);
@@ -9724,6 +9762,11 @@
     function performDirectHallAction(mode) {
       unlockAndStartAudio();
       closeCenterStage();
+      if (activeMutualInteraction) {
+        if (activeMutualInteraction.target) activeMutualInteraction.target.faceDir = 0;
+        activeMutualInteraction = null;
+        player.faceDir = 0;
+      }
       const roomName = (player.wing === 0) ? 'Ban Tam Bảo' : 'Ban Thần Tài';
 
       if (mode === 'mo' || mode === 'bell') {
@@ -11636,14 +11679,44 @@
       bowRawCan.height = bh;
       bowRawCan.getContext('2d').putImageData(new ImageData(outB, bw, bh), 0, 0);
 
+      // --- B2. Dựng `bowFull` (208 x 226) — Ngũ Thể Đầu Địa 3D Có Đầy Đủ Đầu & Mũ Mão Cúi Sát Chiếu (KHÔNG bị cụt đầu!) ---
+      const padBowTop = 28;
+      const bfBodyW = Math.round(bw * 0.78);  // 208
+      const bfBodyH = Math.round(bh * 0.78);  // 198
       const bowFullCan = document.createElement('canvas');
-      bowFullCan.width = Math.round(bw * 0.78);  // 208
-      bowFullCan.height = Math.round(bh * 0.78); // 198
+      bowFullCan.width = bfBodyW;
+      bowFullCan.height = bfBodyH + padBowTop; // 208 x 226
       const bfCtx = bowFullCan.getContext('2d');
       bfCtx.imageSmoothingEnabled = true;
       bfCtx.imageSmoothingQuality = 'high';
-      bfCtx.drawImage(bowRawCan, 0, 0, bowFullCan.width, bowFullCan.height);
-      bowFullCan._visualTopY = 4;
+
+      // Vẽ phần đầu / tóc / mũ mão cúi sát về phía trước của tư thế Ngũ Thể Đầu Địa
+      const bfHeadW = Math.round(sw * 0.86);
+      const bfHeadH = Math.round(dstHh * 0.74);
+      const bfHeadCan = document.createElement('canvas');
+      bfHeadCan.width = bfHeadW;
+      bfHeadCan.height = bfHeadH;
+      const bfhCtx = bfHeadCan.getContext('2d');
+      bfhCtx.imageSmoothingEnabled = true;
+      bfhCtx.imageSmoothingQuality = 'high';
+      bfhCtx.drawImage(headCan, 0, 0, sw, dstHh, 0, 0, bfHeadW, bfHeadH);
+      const bfhImg = bfhCtx.getImageData(0, 0, bfHeadW, bfHeadH);
+      for (let y = 0; y < bfHeadH; y++) {
+        const shade = 0.96 - 0.18 * (y / Math.max(1.0, bfHeadH - 1.0));
+        const fade = (y > bfHeadH - 12) ? ((bfHeadH - y) / 12.0) : 1.0;
+        const rOff = y * bfHeadW * 4;
+        for (let x = 0; x < bfHeadW; x++) {
+          bfhImg.data[rOff + x * 4]     = Math.min(255, Math.round(bfhImg.data[rOff + x * 4] * shade));
+          bfhImg.data[rOff + x * 4 + 1] = Math.min(255, Math.round(bfhImg.data[rOff + x * 4 + 1] * shade));
+          bfhImg.data[rOff + x * 4 + 2] = Math.min(255, Math.round(bfhImg.data[rOff + x * 4 + 2] * shade));
+          bfhImg.data[rOff + x * 4 + 3] = Math.round(bfhImg.data[rOff + x * 4 + 3] * fade);
+        }
+      }
+      bfhCtx.putImageData(bfhImg, 0, 0);
+
+      bfCtx.drawImage(bowRawCan, 0, padBowTop, bfBodyW, bfBodyH);
+      bfCtx.drawImage(bfHeadCan, (bfBodyW - bfHeadW) >> 1, 2);
+      bowFullCan._visualTopY = 2;
 
       // --- C. Chuẩn bị thân dưới đứng (`lowCleanCan`) đã gọn mép tay áo rộng để ghép `vaiUp` & `vaiDeep` ---
       const yRef = Math.min(sh - 1, Math.round(sh * 0.75));
@@ -11717,63 +11790,56 @@
       vaiUpCan._visualTopY = 0;
       vaiUpCan._waistY = lowY0;
 
-      // --- E. Chuẩn bị Vòm Lưng Cong 3D (`bDomeCleanCan`) & Đầu Cúi Phối Cảnh 3D (`headBowCan`) cho `vaiDeep` & `kneelMid` ---
-      const bdH = 118, bdW = bw; // rows 4..122 of bowRawCan
-      const bDomeCleanCan = document.createElement('canvas');
-      bDomeCleanCan.width = bdW;
-      bDomeCleanCan.height = bdH;
-      const bdcCtx = bDomeCleanCan.getContext('2d');
-      bdcCtx.drawImage(bowRawCan, 0, 4, bdW, bdH, 0, 0, bdW, bdH);
-      const bdImg = bdcCtx.getImageData(0, 0, bdW, bdH);
-      for (let y = 0; y < bdH; y++) {
-        const uY = y / Math.max(1.0, bdH - 1.0);
-        const rOff = y * bdW * 4;
-        if (uY > 0.42) {
-          const tIn = (uY - 0.42) / 0.58;
-          const limL = Math.round(28 + tIn * 36);
-          const limR = Math.round(bdW - 28 - tIn * 36);
-          for (let x = 0; x < Math.max(0, limL); x++) bdImg.data[rOff + x * 4 + 3] = 0;
-          for (let x = Math.min(bdW, limR); x < bdW; x++) bdImg.data[rOff + x * 4 + 3] = 0;
-          for (let fx = 0; fx < 5; fx++) {
-            const f = (fx + 1) / 5.0;
-            if (limL + fx < bdW) bdImg.data[rOff + (limL + fx) * 4 + 3] = Math.round(bdImg.data[rOff + (limL + fx) * 4 + 3] * f);
-            if (limR - fx >= 0) bdImg.data[rOff + (limR - fx) * 4 + 3] = Math.round(bdImg.data[rOff + (limR - fx) * 4 + 3] * f);
-          }
-        }
-        if (y > bdH - 12) {
-          const fade = (bdH - y) / 12.0;
-          for (let x = 0; x < bdW; x++) bdImg.data[rOff + x * 4 + 3] = Math.round(bdImg.data[rOff + x * 4 + 3] * fade);
+      // --- E. Chuẩn bị Thân Trên Chắp Tay Gập Khớp Lưng (`bowTorsoCan`) & Đầu Cúi Nguyên Vẹn 100% (`headNodCan`) ---
+      // Lấy phần thân trên chắp tay (từ cổ/vai y=76 đến thắt lưng y=212 của kBodyCan) để khi cúi vái / quỳ lạy giữ nguyên 100% tay áo chắp lễ và đầu/mũ mão!
+      const torsoSrcY0 = 76;
+      const torsoSrcH = 212 - torsoSrcY0; // 136px
+      const bowTorsoCan = document.createElement('canvas');
+      bowTorsoCan.width = kw;
+      bowTorsoCan.height = torsoSrcH;
+      const btCtx = bowTorsoCan.getContext('2d');
+      btCtx.imageSmoothingEnabled = true;
+      btCtx.imageSmoothingQuality = 'high';
+      btCtx.drawImage(kBodyCan, 0, torsoSrcY0, kw, torsoSrcH, 0, 0, kw, torsoSrcH);
+      const btImg = btCtx.getImageData(0, 0, kw, torsoSrcH);
+      for (let y = 0; y < torsoSrcH; y++) {
+        const uY = y / Math.max(1.0, torsoSrcH - 1.0);
+        // Ánh sáng 3D chiếu lên vai và lưng trên khi cúi về phía trước, thắt lưng hơi trầm xuống tạo độ cong 3D
+        const shade = 1.08 - 0.22 * uY;
+        const fade = (y > torsoSrcH - 14) ? ((torsoSrcH - y) / 14.0) : 1.0;
+        const rOff = y * kw * 4;
+        for (let x = 0; x < kw; x++) {
+          btImg.data[rOff + x * 4]     = Math.min(255, Math.round(btImg.data[rOff + x * 4] * shade));
+          btImg.data[rOff + x * 4 + 1] = Math.min(255, Math.round(btImg.data[rOff + x * 4 + 1] * shade));
+          btImg.data[rOff + x * 4 + 2] = Math.min(255, Math.round(btImg.data[rOff + x * 4 + 2] * shade));
+          btImg.data[rOff + x * 4 + 3] = Math.round(btImg.data[rOff + x * 4 + 3] * fade);
         }
       }
-      bdcCtx.putImageData(bdImg, 0, 0);
+      btCtx.putImageData(btImg, 0, 0);
 
-      const headBCropH = Math.round(sh * 0.175);
-      const hw = Math.round(sw * 0.84);
-      const hh = Math.round(headBCropH * 0.54);
-      const headBowCan = document.createElement('canvas');
-      headBowCan.width = hw;
-      headBowCan.height = hh;
-      const hbCtx = headBowCan.getContext('2d');
-      hbCtx.imageSmoothingEnabled = true;
-      hbCtx.imageSmoothingQuality = 'high';
-      hbCtx.drawImage(standSpr, 0, 0, sw, headBCropH, 0, 0, hw, hh);
-      const hbImg = hbCtx.getImageData(0, 0, hw, hh);
-      for (let y = 0; y < hh; y++) {
-        const shade = 1.06 - 0.30 * (y / Math.max(1.0, hh - 1.0));
-        const rOff = y * hw * 4;
-        for (let x = 0; x < hw; x++) {
-          hbImg.data[rOff + x * 4]     = Math.min(255, Math.round(hbImg.data[rOff + x * 4] * shade));
-          hbImg.data[rOff + x * 4 + 1] = Math.min(255, Math.round(hbImg.data[rOff + x * 4 + 1] * shade));
-          hbImg.data[rOff + x * 4 + 2] = Math.min(255, Math.round(hbImg.data[rOff + x * 4 + 2] * shade));
+      // Đầu cúi lễ nguyên vẹn 100% (lấy toàn bộ headCan dstHh, chỉ thu nhẹ chiều dọc 0.84x theo phối cảnh 3D cúi đầu, tuyệt đối KHÔNG cắt cụt đầu!)
+      const hnW = Math.round(sw * 0.96);
+      const hnH = Math.round(dstHh * 0.84);
+      const headNodCan = document.createElement('canvas');
+      headNodCan.width = hnW;
+      headNodCan.height = hnH;
+      const hnCtx = headNodCan.getContext('2d');
+      hnCtx.imageSmoothingEnabled = true;
+      hnCtx.imageSmoothingQuality = 'high';
+      hnCtx.drawImage(headCan, 0, 0, sw, dstHh, 0, 0, hnW, hnH);
+      const hnImg = hnCtx.getImageData(0, 0, hnW, hnH);
+      for (let y = 0; y < hnH; y++) {
+        const shade = 1.04 - 0.16 * (y / Math.max(1.0, hnH - 1.0));
+        const rOff = y * hnW * 4;
+        for (let x = 0; x < hnW; x++) {
+          hnImg.data[rOff + x * 4]     = Math.min(255, Math.round(hnImg.data[rOff + x * 4] * shade));
+          hnImg.data[rOff + x * 4 + 1] = Math.min(255, Math.round(hnImg.data[rOff + x * 4 + 1] * shade));
+          hnImg.data[rOff + x * 4 + 2] = Math.min(255, Math.round(hnImg.data[rOff + x * 4 + 2] * shade));
         }
       }
-      hbCtx.putImageData(hbImg, 0, 0);
+      hnCtx.putImageData(hnImg, 0, 0);
 
-      const domeScale = (kWaistW * 0.98) / 136.0;
-      const dstDw = Math.round(bdW * domeScale);
-      const dstDh = Math.round(bdH * domeScale * 1.12);
-
-      // --- F. Dựng `vaiDeep` (185 x 420) — Đứng Cúi Mình Vái Khấn Sâu 3D ---
+      // --- F. Dựng `vaiDeep` (185 x 420) — Đứng Cúi Mình Vái Khấn Sâu 3D (Giữ Nguyên Đầu, Mũ Mão & 2 Khuỷu Tay Chắp Lễ!) ---
       const vaiDeepCan = document.createElement('canvas');
       vaiDeepCan.width = vw;
       vaiDeepCan.height = vh;
@@ -11781,9 +11847,9 @@
       vdCtx.imageSmoothingEnabled = true;
       vdCtx.imageSmoothingQuality = 'high';
       vdCtx.drawImage(lowCleanCan, 0, lowY0, sw, sh - lowY0, cx - (sw >> 1), lowY0, sw, sh - lowY0);
-      const vdImg = vdCtx.getImageData(0, lowY0, vw, Math.min(34, vh - lowY0));
+      const vdImg = vdCtx.getImageData(0, lowY0, vw, Math.min(28, vh - lowY0));
       for (let y = 0; y < vdImg.height; y++) {
-        const wShade = 0.60 + 0.40 * (y / 34.0);
+        const wShade = 0.72 + 0.28 * (y / 28.0);
         const rOff = y * vw * 4;
         for (let x = 0; x < vw; x++) {
           vdImg.data[rOff + x * 4]     = Math.round(vdImg.data[rOff + x * 4] * wShade);
@@ -11793,14 +11859,16 @@
       }
       vdCtx.putImageData(vdImg, 0, lowY0);
 
-      const domeTopY = lowY0 + Math.round(12 * domeScale) - dstDh;
-      const headY = domeTopY - Math.round(hh * 0.50);
-      vdCtx.drawImage(headBowCan, cx - (hw >> 1), headY);
-      vdCtx.drawImage(bDomeCleanCan, 0, 0, bdW, bdH, cx - (dstDw >> 1), domeTopY, dstDw, dstDh);
-      vaiDeepCan._visualTopY = Math.max(0, headY);
+      const vdTorsoW = Math.round(kw * 1.04);
+      const vdTorsoH = Math.round(torsoSrcH * 0.80);
+      const vdTorsoTopY = (lowY0 + 12) - vdTorsoH;
+      const vdHeadY = vdTorsoTopY - Math.round(hnH * 0.70);
+      vdCtx.drawImage(bowTorsoCan, 0, 0, kw, torsoSrcH, cx - (vdTorsoW >> 1), vdTorsoTopY, vdTorsoW, vdTorsoH);
+      vdCtx.drawImage(headNodCan, cx - (hnW >> 1), vdHeadY);
+      vaiDeepCan._visualTopY = Math.max(0, vdHeadY);
       vaiDeepCan._waistY = lowY0;
 
-      // --- G. Dựng `kneelMid` (185 x 398) — Quỳ Nghiêng Lưng Cúi Lạy 45° Trên Bồ Đoàn 3D ---
+      // --- G. Dựng `kneelMid` (185 x 398) — Quỳ Nghiêng Lưng Cúi Lạy 45° Trên Bồ Đoàn 3D (Giữ Nguyên Đầu & Mũ Mão!) ---
       const kneelMidCan = document.createElement('canvas');
       kneelMidCan.width = kw;
       kneelMidCan.height = kh + padTop;
@@ -11809,9 +11877,9 @@
       kmCtx.imageSmoothingQuality = 'high';
       const kLowY0 = 200 + padTop;
       kmCtx.drawImage(kneelUpCan, 0, kLowY0, kw, (kh + padTop) - kLowY0, 0, kLowY0, kw, (kh + padTop) - kLowY0);
-      const kmImg = kmCtx.getImageData(0, kLowY0, kw, Math.min(28, (kh + padTop) - kLowY0));
+      const kmImg = kmCtx.getImageData(0, kLowY0, kw, Math.min(26, (kh + padTop) - kLowY0));
       for (let y = 0; y < kmImg.height; y++) {
-        const wShade = 0.62 + 0.38 * (y / 28.0);
+        const wShade = 0.72 + 0.28 * (y / 26.0);
         const rOff = y * kw * 4;
         for (let x = 0; x < kw; x++) {
           kmImg.data[rOff + x * 4]     = Math.round(kmImg.data[rOff + x * 4] * wShade);
@@ -11821,11 +11889,13 @@
       }
       kmCtx.putImageData(kmImg, 0, kLowY0);
 
-      const kDomeTopY = kLowY0 + Math.round(12 * domeScale) - dstDh;
-      const kHeadY = kDomeTopY - Math.round(hh * 0.50);
-      kmCtx.drawImage(headBowCan, cx - (hw >> 1), kHeadY);
-      kmCtx.drawImage(bDomeCleanCan, 0, 0, bdW, bdH, cx - (dstDw >> 1), kDomeTopY, dstDw, dstDh);
-      kneelMidCan._visualTopY = Math.max(0, kHeadY);
+      const kmTorsoW = Math.round(kw * 1.06);
+      const kmTorsoH = Math.round(torsoSrcH * 0.72);
+      const kmTorsoTopY = (kLowY0 + 12) - kmTorsoH;
+      const kmHeadY = kmTorsoTopY - Math.round(hnH * 0.64);
+      kmCtx.drawImage(bowTorsoCan, 0, 0, kw, torsoSrcH, cx - (kmTorsoW >> 1), kmTorsoTopY, kmTorsoW, kmTorsoH);
+      kmCtx.drawImage(headNodCan, cx - (hnW >> 1), kmHeadY);
+      kneelMidCan._visualTopY = Math.max(0, kmHeadY);
       kneelMidCan._waistY = kLowY0;
 
       const poseSet = {
@@ -11969,77 +12039,42 @@
       const kneelBow = images.poseKneelBow;
 
       if (mutualMode === 'mutual_kneel' && kneelUp && kneelUp.complete && kneelBow && kneelBow.complete) {
-        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU QUỲ LẠY TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa đối diện nhau 60FPS):
-        // Pha 1 (0..0.30): Quỳ thẳng đối diện nhau chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu chào
-        // Pha 2 (0.30..0.46): Khớp lưng gập dần về phía nhau chuyển mượt sang tư thế lạy sát đất
-        // Pha 3 (0.46..0.80): Cúi rạp trán và hai bàn tay chạm sàn hướng thẳng vào nhau (pose_kneel_bow)
-        // Pha 4 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm đối diện nhau trên bồ đoàn
+        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU QUỲ LẠY TRÊN BỒ ĐOÀN THÊU VÀNG (Ngũ thể đầu địa đối diện nhau 60FPS — Giữ nguyên thân liền mạch 100%, không cắt ngang hông!):
+        // Pha 1 (0..0.28): Quỳ thẳng đối diện nhau chắp tay trang nghiêm (pose_kneel_up) + khẽ cúi đầu chào
+        // Pha 2 (0.28..0.80): Cúi rạp trán và hai bàn tay chạm sàn hướng thẳng vào nhau (pose_kneel_bow)
+        // Pha 3 (0.80..1.00): Ngẩng mình ngồi dậy trang nghiêm đối diện nhau trên bồ đoàn (pose_kneel_up)
         const cycle = (frameCount % 84) / 84.0;
         const baseH = 136 * scale;
 
-        if (cycle < 0.30) {
-          const nodT = Math.sin((cycle / 0.30) * Math.PI);
-          const h = baseH;
-          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
-          const lowerH = h * 0.44;
-          const upperH = h * 0.56;
-          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+        if (cycle < 0.28) {
+          const nodT = Math.sin((cycle / 0.28) * Math.PI * 0.5);
+          const h = baseH * (1.0 - nodT * 0.04);
+          const w = baseH * (kneelUp.naturalWidth / kneelUp.naturalHeight);
           ctx.save();
-          ctx.translate(-w * 0.04, -lowerH + 4);
-          ctx.rotate(nodT * 0.18);
-          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+          ctx.translate(0, -h * 0.16);
+          ctx.rotate(nodT * 0.08);
+          ctx.drawImage(kneelUp, -w * 0.48, -h * 0.84, w, h);
           ctx.restore();
           ctx.restore();
           return baseH;
-        } else if (cycle < 0.46) {
-          const t = (cycle - 0.30) / 0.16;
-          const ease = t * t * (3 - 2 * t);
-          if (ease < 0.55) {
-            const h = baseH;
-            const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-            const splitY = Math.round(kneelUp.naturalHeight * 0.56);
-            const lowerH = h * 0.44;
-            const upperH = h * 0.56;
-            ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
-            ctx.save();
-            ctx.translate(-w * 0.04, -lowerH + 4);
-            ctx.rotate(0.18 + ease * 0.62);
-            ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
-            ctx.restore();
-            ctx.restore();
-            return baseH * 0.88;
-          } else {
-            const hBow = 84 * scale;
-            const wBow = hBow * (kneelBow.naturalWidth / kneelBow.naturalHeight);
-            const dip = (1.0 - ease) * 0.14;
-            ctx.save();
-            ctx.rotate(-dip);
-            ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
-            ctx.restore();
-            ctx.restore();
-            return hBow + 12 * scale;
-          }
         } else if (cycle < 0.80) {
-          const breathe = Math.sin(((cycle - 0.46) / 0.34) * Math.PI);
-          const hBow = (83 - breathe * 2.5) * scale;
-          const wBow = (84 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
+          const u = (cycle - 0.28) / 0.52;
+          const breathe = Math.sin(u * Math.PI);
+          const hBow = (86 - breathe * 3.5) * scale;
+          const wBow = (86 * scale) * (kneelBow.naturalWidth / kneelBow.naturalHeight);
           ctx.drawImage(kneelBow, -wBow * 0.42, -hBow + 2, wBow, hBow);
           ctx.restore();
           return hBow + 12 * scale;
         } else {
           const t = (cycle - 0.80) / 0.20;
           const ease = t * t * (3 - 2 * t);
-          const h = baseH;
-          const w = h * (kneelUp.naturalWidth / kneelUp.naturalHeight);
-          const splitY = Math.round(kneelUp.naturalHeight * 0.56);
-          const lowerH = h * 0.44;
-          const upperH = h * 0.56;
-          ctx.drawImage(kneelUp, 0, splitY, kneelUp.naturalWidth, kneelUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+          const nodT = 1.0 - ease;
+          const h = baseH * (1.0 - nodT * 0.04);
+          const w = baseH * (kneelUp.naturalWidth / kneelUp.naturalHeight);
           ctx.save();
-          ctx.translate(-w * 0.04, -lowerH + 4);
-          ctx.rotate((1.0 - ease) * 0.48);
-          ctx.drawImage(kneelUp, 0, 0, kneelUp.naturalWidth, splitY + 8, -w * 0.44, -upperH, w, upperH + 4);
+          ctx.translate(0, -h * 0.16);
+          ctx.rotate(nodT * 0.08);
+          ctx.drawImage(kneelUp, -w * 0.48, -h * 0.84, w, h);
           ctx.restore();
           ctx.restore();
           return baseH;
@@ -12047,32 +12082,27 @@
       }
 
       if (mutualMode === 'mutual_vai' && vaiUp && vaiUp.complete && vaiBow && vaiBow.complete) {
-        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU ĐỨNG CHẮP TAY VÁI LẠY NHAU 3D CHÂN THỰC (60FPS):
-        // Chân giữ vững trên chiếu đỏ, khớp hông và lưng cúi gập 45 độ hướng thẳng về phía đối phương với hai tay chắp búp sen!
+        // CHU KỲ 2 NGƯỜI XOAY MẶT VÀO NHAU ĐỨNG CHẮP TAY VÁI LẠY NHAU 3D CHÂN THỰC (60FPS — Giữ nguyên thân liền mạch 100%, không cắt đôi hông!):
         const bowWave = 0.5 - 0.5 * Math.cos(frameCount * 0.15); // 0.0 (đứng thẳng chắp tay đối diện) -> 1.0 (cúi vái sâu 45 độ vào nhau)
         const baseH = 152 * scale;
 
-        if (bowWave < 0.42) {
-          const t = bowWave / 0.42;
-          const h = baseH;
-          const w = h * (vaiUp.naturalWidth / vaiUp.naturalHeight);
-          const splitY = Math.round(vaiUp.naturalHeight * 0.52);
-          const lowerH = h * 0.48;
-          const upperH = h * 0.52;
-          ctx.drawImage(vaiUp, 0, splitY, vaiUp.naturalWidth, vaiUp.naturalHeight - splitY, -w * 0.48, -lowerH, w, lowerH);
+        if (bowWave < 0.36) {
+          const t = bowWave / 0.36;
+          const h = baseH * (1.0 - t * 0.02);
+          const w = baseH * (vaiUp.naturalWidth / vaiUp.naturalHeight);
           ctx.save();
-          ctx.translate(0, -lowerH + 4);
-          ctx.rotate(t * 0.28);
-          ctx.drawImage(vaiUp, 0, 0, vaiUp.naturalWidth, splitY + 10, -w * 0.48, -upperH, w, upperH + 5);
+          ctx.translate(0, -h * 0.22);
+          ctx.rotate(t * 0.07);
+          ctx.drawImage(vaiUp, -w * 0.48, -h * 0.78, w, h);
           ctx.restore();
         } else {
-          const deepT = (bowWave - 0.42) / 0.58;
+          const deepT = (bowWave - 0.36) / 0.64;
           const h = baseH * (0.97 - deepT * 0.02);
           const w = h * (vaiBow.naturalWidth / vaiBow.naturalHeight);
           ctx.save();
-          ctx.translate(-w * 0.08, -4);
-          ctx.rotate((deepT - 0.3) * 0.09);
-          ctx.drawImage(vaiBow, -w * 0.26, -h + 4, w, h);
+          ctx.translate(-w * 0.06, -2);
+          ctx.rotate((deepT - 0.3) * 0.06);
+          ctx.drawImage(vaiBow, -w * 0.28, -h + 2, w, h);
           ctx.restore();
         }
         ctx.restore();
@@ -12080,50 +12110,79 @@
       }
 
       if (mutualMode === 'salty_chat' && vaiUp && vaiUp.complete) {
-        // 2 NGƯỜI XOAY MẶT VÀO NHAU TRÒ CHUYỆN / CÀ KHỊA ĐỐI DIỆN (Nhịp nghiêng người đối đáp trực diện)
+        // 2 NGƯỜI XOAY MẶT VÀO NHAU TRÒ CHUYỆN / CÀ KHỊA ĐỐI DIỆN (Đứng thẳng đối diện chỉ trỏ tranh luận, KHÔNG cúi vái!)
         const baseH = 150 * scale;
-        const talkWave = Math.sin(frameCount * 0.22 + (isPlayer ? 0 : Math.PI));
-        const useLean = (talkWave > 0.35 && vaiBow && vaiBow.complete);
-        const sprChat = useLean ? vaiBow : vaiUp;
-        const h = (useLean ? 146 : 150) * scale;
-        const w = h * (sprChat.naturalWidth / sprChat.naturalHeight);
-        const nod = talkWave * 0.06;
+        const talkWave = Math.sin(frameCount * 0.24 + (isPlayer ? 0 : Math.PI));
+        const h = (150 + talkWave * 2.5) * scale;
+        const w = baseH * (vaiUp.naturalWidth / vaiUp.naturalHeight);
+        const stepX = talkWave * 4.5 * scale;
+        const leanAng = talkWave * 0.045;
         ctx.save();
-        ctx.translate(talkWave * 3 * scale, 0);
-        ctx.rotate(nod);
-        ctx.drawImage(sprChat, useLean ? (-w * 0.30) : (-w * 0.48), -h, w, h);
+        ctx.translate(stepX, 0);
+        ctx.rotate(leanAng);
+        ctx.drawImage(vaiUp, -w * 0.48, -h, w, h);
+        if (talkWave > 0.15) {
+          ctx.save();
+          ctx.scale(dir, 1);
+          ctx.font = `${Math.round(16 * scale)}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(isPlayer ? '💢' : '🔥', dir * (w * 0.36), -h * 0.72);
+          ctx.restore();
+        }
         ctx.restore();
         ctx.restore();
         return baseH;
       }
 
-      if (mutualMode === 'brawl' && vaiBow && vaiBow.complete && vaiUp && vaiUp.complete) {
-        // ĐẤM NHAU TÚI BỤI 3D: 2 nhân vật xoay mặt vào nhau nghiêng mình tung đòn liên hoàn + hiệu ứng găng đấm 3D & sóng xung kích!
-        const phase = frameCount * 0.65 + (isPlayer ? 0 : Math.PI);
-        const useBow = Math.sin(phase) > 0;
-        const spr3d = useBow ? vaiBow : vaiUp;
-        const h = (useBow ? 144 : 150) * scale;
-        const w = h * (spr3d.naturalWidth / spr3d.naturalHeight);
-        const lungeX = Math.sin(phase) * 7 * scale;
-        const bobY = Math.abs(Math.cos(phase)) * 4 * scale;
+      if (mutualMode === 'brawl' && vaiUp && vaiUp.complete) {
+        // ĐẤM NHAU TÚI BỤI 3D: 2 nhân vật đứng đối diện lao vào tung liên hoàn đấm / cước / dép tổ ong (KHÔNG cúi vái!)
+        const phase = frameCount * 0.68 + (isPlayer ? 0 : Math.PI);
+        const strike = Math.max(0, Math.sin(phase));
+        const h = (148 - strike * 4) * scale;
+        const w = (150 * scale) * (vaiUp.naturalWidth / vaiUp.naturalHeight);
+        const lungeX = Math.sin(phase) * 12 * scale;
+        const bobY = Math.abs(Math.cos(phase * 1.5)) * 6 * scale;
 
         ctx.save();
         ctx.translate(lungeX, -bobY);
-        ctx.rotate(0.12 + Math.sin(phase) * 0.08);
-        ctx.drawImage(spr3d, -w * 0.42, -h, w, h);
+        ctx.rotate(0.05 + strike * 0.11);
+        ctx.drawImage(vaiUp, -w * 0.46, -h, w, h);
 
-        const punchExt = Math.max(0, Math.sin(phase)) * 26 * scale;
-        if (punchExt > 6 * scale) {
-          const fistX = w * 0.32 + punchExt;
-          const fistY = -h * 0.68;
-          const fistGrad = ctx.createRadialGradient(fistX - 2, fistY - 2, 1, fistX, fistY, 10 * scale);
-          fistGrad.addColorStop(0, '#ffeb3b');
-          fistGrad.addColorStop(0.5, '#ff1744');
+        // Vẽ cánh tay & găng đấm 3D vung thẳng về phía đối phương khi ra đòn
+        const punchExt = strike * 34 * scale;
+        if (punchExt > 4 * scale) {
+          const shoulderX = w * 0.12;
+          const shoulderY = -h * 0.67;
+          const fistX = w * 0.28 + punchExt;
+          const fistY = -h * 0.68 + Math.sin(phase * 2) * 5 * scale;
+
+          // Cánh tay vung đòn
+          ctx.strokeStyle = '#4a5568';
+          ctx.lineWidth = Math.max(3, 7.5 * scale);
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(shoulderX, shoulderY);
+          ctx.lineTo(fistX - 4 * scale, fistY);
+          ctx.stroke();
+
+          // Quả đấm lửa / Găng boxing 3D
+          const fistGrad = ctx.createRadialGradient(fistX - 2, fistY - 2, 1, fistX, fistY, 12 * scale);
+          fistGrad.addColorStop(0, '#fff59d');
+          fistGrad.addColorStop(0.45, '#ff1744');
+          fistGrad.addColorStop(0.85, '#d50000');
           fistGrad.addColorStop(1, 'rgba(213, 0, 0, 0)');
           ctx.fillStyle = fistGrad;
           ctx.beginPath();
-          ctx.arc(fistX, fistY, 10 * scale, 0, Math.PI * 2);
+          ctx.arc(fistX, fistY, 12 * scale, 0, Math.PI * 2);
           ctx.fill();
+
+          // Vệt gió xung kích phía trước cú đấm
+          ctx.strokeStyle = 'rgba(255, 235, 59, 0.9)';
+          ctx.lineWidth = Math.max(1.5, 2.2 * scale);
+          ctx.beginPath();
+          ctx.arc(fistX + 3 * scale, fistY, 13 * scale, -0.7, 0.7);
+          ctx.stroke();
         }
         ctx.restore();
         ctx.restore();
@@ -12199,13 +12258,17 @@
       }
 
       if (player.vaiTimer && player.vaiTimer > 0) {
-        player.vaiTimer = Math.max(0, player.vaiTimer - dt60);
-        player.vaiCycleTick = (player.vaiCycleTick || 0) + dt60;
+        if (!window._freezePlayerPoseTick) {
+          player.vaiTimer = Math.max(0, player.vaiTimer - dt60);
+          player.vaiCycleTick = (player.vaiCycleTick || 0) + dt60;
+        }
         player.state = 'vai';
         if (player.vaiTimer === 0) player.state = 'kneel';
       } else if (player.bowTimer > 0) {
-        player.bowTimer = Math.max(0, player.bowTimer - dt60);
-        player.bowCycleTick = (player.bowCycleTick || 0) + dt60;
+        if (!window._freezePlayerPoseTick) {
+          player.bowTimer = Math.max(0, player.bowTimer - dt60);
+          player.bowCycleTick = (player.bowCycleTick || 0) + dt60;
+        }
         player.state = 'bow_cycle';
         if (player.bowTimer === 0) player.state = 'kneel';
       }
@@ -12383,7 +12446,8 @@
             g.phase = 'praying';
             g.state = 'kneel';
             g.phaseTick = 420; // Quỳ lễ ~7.0 giây thực tế
-            g.bowTimer = 90;
+            g.bowCycleTick = 0;
+            g.bowTimer = 84;
             g.chat = pickRandomSpeechForChar(g.name, g.wing);
             const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
             if (otherSpeaking) {
@@ -12395,7 +12459,10 @@
             }
           }
         } else if (g.phase === 'praying') {
-          if (g.bowTimer > 0) g.bowTimer = Math.max(0, g.bowTimer - dt60);
+          if (g.bowTimer > 0) {
+            g.bowTimer = Math.max(0, g.bowTimer - dt60);
+            g.bowCycleTick = (g.bowCycleTick || 0) + dt60;
+          }
           g.state = 'kneel';
           if (g.pendingSpeech) {
             const otherSpeaking = visitingGuests.some(o => o !== g && o.wing === g.wing && o.chatTimer > 0);
@@ -12495,17 +12562,17 @@
               player.faceDir = 1;
               tgt.faceDir = -1;
             } else if (mi.timer > 28) {
-              // Pha 2: Đánh nhau túi bụi (2 người lao qua lao lại đấm đá túi bụi, khói bụi mù mịt!)
-              const brawlWave = Math.sin(frameCount * 0.55) * 0.032;
-              const brawlJitter = Math.cos(frameCount * 0.85) * 0.012;
-              player.u = mi.midU - 0.018 + brawlWave;
-              tgt.u = mi.midU + 0.018 - brawlWave;
+              // Pha 2: Đánh nhau túi bụi (2 người đứng đối diện nhau đấm đá túi bụi, nhìn rõ 100% cả 2 nhân vật!)
+              const brawlWave = Math.sin(frameCount * 0.55) * 0.016;
+              const brawlJitter = Math.cos(frameCount * 0.85) * 0.008;
+              player.u = mi.midU - 0.048 + brawlWave;
+              tgt.u = mi.midU + 0.048 - brawlWave;
               player.v = mi.midV + brawlJitter * 0.35;
               tgt.v = mi.midV - brawlJitter * 0.35;
               player.targetU = player.u;
               tgt.targetU = tgt.u;
-              player.faceDir = (player.u <= tgt.u) ? 1 : -1;
-              tgt.faceDir = -player.faceDir;
+              player.faceDir = 1;
+              tgt.faceDir = -1;
               if (frameCount % 26 === 0) {
                 playHeavyPunchSfx((frameCount % 52 === 0) ? 'punch' : 'slipper');
               }
@@ -12829,13 +12896,13 @@
           if (inMutual && (mutualMode === 'mutual_vai' || mutualMode === 'mutual_kneel' || mutualMode === 'brawl' || mutualMode === 'salty_chat')) {
             actualRenderedH = drawArticulatedMutualDevotee(ctx, sx, sy, scale, faceDir, d, isPlayer, mutualMode, frameCount) || sh;
           } else if (isVaiState) {
-            const rawVaiTick = isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : (frameCount + 11);
+            const rawVaiTick = isPlayer ? Math.floor(player.vaiCycleTick || frameCount) : Math.floor(d.vaiCycleTick || (frameCount + 11));
             ctx.save();
             ctx.translate(sx, sy);
             actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'vai', rawVaiTick);
             ctx.restore();
           } else if (isBowCycleState) {
-            const rawBowTick = isPlayer ? Math.floor(player.bowCycleTick || frameCount) : (frameCount + 19);
+            const rawBowTick = isPlayer ? Math.floor(player.bowCycleTick || frameCount) : Math.floor(d.bowCycleTick !== undefined ? d.bowCycleTick : (frameCount + 19));
             ctx.save();
             ctx.translate(sx, sy);
             actualRenderedH = draw3DRitualAnimation(ctx, recoloredSpr, charOutfitLv, charGender, scale, 'bow_cycle', rawBowTick);
@@ -13099,26 +13166,26 @@
 
         ctx.save();
         if (mi.mode === 'brawl' && elapsed >= 28 && mi.timer > 24) {
-          // Đám mây khói bụi mù mịt + tia chớp + nắm đấm dép lào bay tứ tung ("Đánh nhau túi bụi")
-          for (let cIdx = 0; cIdx < 6; cIdx++) {
-            const ang = (frameCount * 0.14) + (cIdx * Math.PI / 3);
-            const rad = 22 + Math.sin(frameCount * 0.3 + cIdx) * 10;
+          // Tia nổ va chạm vừa vặn ở giữa 2 nắm đấm (KHÔNG che khuất 2 nhân vật đang đánh nhau!)
+          for (let cIdx = 0; cIdx < 4; cIdx++) {
+            const ang = (frameCount * 0.16) + (cIdx * Math.PI / 2);
+            const rad = 12 + Math.sin(frameCount * 0.3 + cIdx) * 6;
             const cx = midX + Math.cos(ang) * rad;
-            const cy = midY + Math.sin(ang) * (rad * 0.65);
-            const rCloud = 18 + (cIdx % 3) * 6;
-            ctx.fillStyle = (cIdx % 2 === 0) ? 'rgba(245, 235, 220, 0.72)' : 'rgba(255, 160, 64, 0.68)';
+            const cy = (midY - 12) + Math.sin(ang) * (rad * 0.55);
+            const rCloud = 10 + (cIdx % 2) * 4;
+            ctx.fillStyle = (cIdx % 2 === 0) ? 'rgba(255, 235, 180, 0.32)' : 'rgba(255, 140, 40, 0.30)';
             ctx.beginPath();
             ctx.arc(cx, cy, rCloud, 0, Math.PI * 2);
             ctx.fill();
           }
 
           const brawlIcons = ['💥', '🥊', '👊', '🦶', '🩴', '💢', '⚡'];
-          for (let k = 0; k < 5; k++) {
-            const a = (frameCount * 0.22) + k * 1.25;
-            const dist = 28 + Math.sin(frameCount * 0.45 + k) * 16;
+          for (let k = 0; k < 4; k++) {
+            const a = (frameCount * 0.22) + k * 1.57;
+            const dist = 20 + Math.sin(frameCount * 0.45 + k) * 10;
             const ix = midX + Math.cos(a) * dist;
-            const iy = midY + Math.sin(a) * (dist * 0.75);
-            ctx.font = '24px sans-serif';
+            const iy = (midY - 12) + Math.sin(a) * (dist * 0.65);
+            ctx.font = '20px sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(brawlIcons[(k + Math.floor(frameCount / 6)) % brawlIcons.length], ix, iy);
@@ -14165,6 +14232,18 @@
           if (tNpc) openNpcInteractChoiceMenu(tNpc);
         } else if (dm === "v72_bow") {
           performDirectHallAction("bow");
+        } else if (dm === "solo_vai") {
+          performDirectHallAction("pray");
+          player.vaiCycleTick = 26;
+          window._freezePlayerPoseTick = true;
+        } else if (dm === "solo_kneel_mid") {
+          performDirectHallAction("bow");
+          player.bowCycleTick = 26;
+          window._freezePlayerPoseTick = true;
+        } else if (dm === "solo_bow_full") {
+          performDirectHallAction("bow");
+          player.bowCycleTick = 42;
+          window._freezePlayerPoseTick = true;
         } else if (dm === "v72_abbot") {
           donateTempleMeritCongDuc();
           openFortuneStickModal('xam');
@@ -14181,7 +14260,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 124;
+        const CURRENT_BUILD_VER = 126;
         window._currentBuildVer = CURRENT_BUILD_VER;
       })();
     });

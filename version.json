@@ -1,4 +1,4 @@
 {
-  "version": 115,
-  "note": "V119: Instant stop for any cached V115-V117 reload loop + disable head auto-reload loop"
+  "version": 126,
+  "updatedAt": "2026-11-05T13:53:00+07:00"
 }
