@@ -9343,9 +9343,11 @@
       }
 
       // 'salty_chat' (Cà khịa / Than thở cay cú, bực bội, khó chịu)
+      const pPool = ROLE_SPEECH_DB[pTag] || ROLE_SPEECH_DB.sale;
+      const tPool = ROLE_SPEECH_DB[tTag] || ROLE_SPEECH_DB.kho;
       return {
-        pLine: pickRandomSpeechForChar(pName, player.wing),
-        tLine: pickRandomSpeechForChar(tName, player.wing)
+        pLine: pPool[Math.floor(Math.random() * pPool.length)],
+        tLine: tPool[Math.floor(Math.random() * tPool.length)]
       };
     }
 
