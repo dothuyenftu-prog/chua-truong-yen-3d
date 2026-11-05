@@ -6667,16 +6667,24 @@
     // V87 (#mvywqjzo1f & #mvywqfcz1e): PHẢI MUA BẰNG ĐIỂM PHƯỚC 💎 MỚI ĐƯỢC TRANG PHỤC + ĐỒNG BỘ 100% TRANG PHỤC CỦA MỌI NGƯỜI ĐANG ONLINE
     function getActiveCharacterOutfitLv(isPlayerChar, devoteeObj) {
       if (isPlayerChar) {
+        if (typeof previewOutfitLevel === 'number' && previewOutfitLevel >= 1 && previewOutfitLevel <= 11) {
+          return Math.max(1, Math.min(11, previewOutfitLevel));
+        }
         const st = getPlayerQuestState();
         const eqLv = Math.max(1, Math.min(11, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
-        return isOutfitUnlockedForState(st, eqLv) ? eqLv : 1;
+        if (isOutfitUnlockedForState(st, eqLv)) return eqLv;
+        if (typeof allCharProfiles === 'object' && player && player.name && allCharProfiles[player.name]?.outfitLv >= 1) {
+          return Math.max(1, Math.min(11, Number(allCharProfiles[player.name].outfitLv)));
+        }
+        return 1;
       }
       if (devoteeObj) {
-        if (devoteeObj.outfitLv >= 1 && devoteeObj.outfitLv <= 11) {
-          return Math.max(1, Math.min(11, Number(devoteeObj.outfitLv)));
+        let bestLv = 1;
+        if (devoteeObj.outfitLv > 1 && devoteeObj.outfitLv <= 11) {
+          bestLv = Math.max(bestLv, Math.min(11, Number(devoteeObj.outfitLv)));
         }
-        if (devoteeObj._realmLv >= 1 && devoteeObj._realmLv <= 11) {
-          return Math.max(1, Math.min(11, Number(devoteeObj._realmLv)));
+        if (devoteeObj._realmLv > 1 && devoteeObj._realmLv <= 11) {
+          bestLv = Math.max(bestLv, Math.min(11, Number(devoteeObj._realmLv)));
         }
         if (typeof devoteeObj.name === 'string') {
           if (typeof onlineCompanyPeers === 'object' && onlineCompanyPeers) {
@@ -6688,9 +6696,10 @@
             }
           }
           if (typeof allCharProfiles === 'object' && allCharProfiles[devoteeObj.name]?.outfitLv >= 1 && allCharProfiles[devoteeObj.name]?.outfitLv <= 11) {
-            return Math.max(1, Math.min(11, Number(allCharProfiles[devoteeObj.name].outfitLv)));
+            bestLv = Math.max(bestLv, Math.min(11, Number(allCharProfiles[devoteeObj.name].outfitLv)));
           }
         }
+        return bestLv;
       }
       return 1;
     }
@@ -9214,6 +9223,9 @@
         target.name = normalizeCanonicalAccountName(rosterInfo.name);
         target.avatar = rosterInfo.avatar;
         target.gender = rosterInfo.gender;
+        target.outfitLv = (typeof allCharProfiles === 'object' && allCharProfiles[target.name]?.outfitLv >= 1)
+          ? Math.max(1, Math.min(11, Number(allCharProfiles[target.name].outfitLv)))
+          : 1;
         target.wing = player.wing;
         target.waitOutsideTimer = 0;
         target.phase = 'praying';
@@ -14378,6 +14390,12 @@
             giver: 'Sếp Thành'
           };
         } else if (dm === "brawl") {
+          previewOutfitLevel = 10;
+          if (allCharProfiles["KH Hoàng Hỏi 100 Mẫu"]) {
+            allCharProfiles["KH Hoàng Hỏi 100 Mẫu"].outfitLv = 8;
+            allCharProfiles["KH Hoàng Hỏi 100 Mẫu"].cultivationLv = 8;
+            allCharProfiles["KH Hoàng Hỏi 100 Mẫu"].socialEpoch = 115;
+          }
           toggleNpcInteractBar(true);
           selectHallNpcFromDropdown("KH Hoàng Hỏi 100 Mẫu");
           interactWithHallNpc("brawl");
@@ -14405,13 +14423,13 @@
           frameCount = 44;
         } else if (dm === "mutual_kneel_outfits") {
           previewOutfitLevel = 10;
-          if (allCharProfiles["Anh Trung QL Kho HN"]) {
-            allCharProfiles["Anh Trung QL Kho HN"].outfitLv = 8;
-            allCharProfiles["Anh Trung QL Kho HN"].cultivationLv = 8;
-            allCharProfiles["Anh Trung QL Kho HN"].socialEpoch = 115;
-          }
+          allCharProfiles["Anh Trung QL Kho HN"] = allCharProfiles["Anh Trung QL Kho HN"] || {};
+          allCharProfiles["Anh Trung QL Kho HN"].outfitLv = 8;
+          allCharProfiles["Anh Trung QL Kho HN"].cultivationLv = 8;
+          allCharProfiles["Anh Trung QL Kho HN"].socialEpoch = 115;
           toggleNpcInteractBar(true);
           selectHallNpcFromDropdown("Anh Trung QL Kho HN");
+          if (selectedHallNpc) selectedHallNpc.outfitLv = 8;
           interactWithHallNpc("mutual_kneel");
           frameCount = 44;
         } else if (dm === "salty_chat") {
