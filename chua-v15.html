@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    window._currentBuildVer = 130;
+    window._currentBuildVer = 131;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -6794,8 +6794,9 @@
 
     function updateTopBarQuestRealmBadge(stInput) {
       const st = stInput || getPlayerQuestState();
-      const rawLv = Number(st.equippedOutfitLv || st.cultivationLv || 1);
-      const activeLv = isOutfitUnlockedForState(st, rawLv) ? rawLv : 1;
+      const activeLv = typeof getActiveCharacterOutfitLv === 'function'
+        ? getActiveCharacterOutfitLv(true, player)
+        : Math.max(1, Math.min(11, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
       const eq = getRealmConfigByLv(activeLv);
       const btn = document.getElementById('btnTopBarQuestUpgrade');
       if (btn) {
@@ -8324,32 +8325,22 @@
       } catch (e) {}
       const canonicalTheAnh = 'Thế Anh Kho';
       let rawTheAnhMerit = Number(profilesObj[canonicalTheAnh]?.merit ?? 312241200);
-      let v113SocialResetDone = false;
-      // V115 (#mw0gyum83j & #mw0hdguo3k): Đưa toàn bộ tài khoản về Bậc 1 chuẩn socialEpoch = 115, chặn 100% việc khôi phục bậc cũ từ tab chưa reload!
       try {
-        v113SocialResetDone = localStorage.getItem('ty_v115_reset_all_social_rank1') === '1';
-        if (!v113SocialResetDone) {
-          localStorage.setItem('ty_v115_reset_all_social_rank1', '1');
-          rawTheAnhMerit = 312241200;
-          localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200');
-        }
+        localStorage.setItem('ty_v115_reset_all_social_rank1', '1');
         Object.keys(profilesObj).forEach(k => {
           if (profilesObj[k]) {
-            if (!v113SocialResetDone) {
-              profilesObj[k].outfitLv = 1;
-              profilesObj[k].cultivationLv = 1;
-              profilesObj[k].unlockedOutfits = { 1: true };
-            } else {
-              profilesObj[k].outfitLv = Math.max(1, Math.min(11, Number(profilesObj[k].outfitLv || 1)));
-              profilesObj[k].cultivationLv = Math.max(1, Math.min(11, Number(profilesObj[k].cultivationLv || profilesObj[k].outfitLv || 1)));
-            }
+            const defLv = (typeof DEFAULT_NPC_OUTFIT_BY_NAME === 'object' && DEFAULT_NPC_OUTFIT_BY_NAME[k]) ? DEFAULT_NPC_OUTFIT_BY_NAME[k] : 1;
+            const meritLv = (typeof getRealmLvByMeritAmount === 'function') ? getRealmLvByMeritAmount(profilesObj[k].merit || 0) : 1;
+            const resolvedLv = Math.max(1, Math.min(11, Math.max(Number(profilesObj[k].outfitLv || 1), defLv, meritLv)));
+            profilesObj[k].outfitLv = resolvedLv;
+            profilesObj[k].cultivationLv = Math.max(resolvedLv, Math.min(11, Number(profilesObj[k].cultivationLv || 1)));
             profilesObj[k].socialEpoch = 115;
           }
         });
       } catch (e) {}
       let bestMerit = Math.max(0, rawTheAnhMerit);
       let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
-      let bestOutfitLv = !v113SocialResetDone ? 1 : Math.max(1, Math.min(11, Number(profilesObj[canonicalTheAnh]?.outfitLv || 1)));
+      let bestOutfitLv = Math.max(7, Math.min(11, Number(profilesObj[canonicalTheAnh]?.outfitLv || 7)));
       for (const k of Object.keys(profilesObj)) {
         const kLower = k.toLowerCase();
         if (k !== canonicalTheAnh && (normalizeCanonicalAccountName(k) === canonicalTheAnh || kLower.includes('thế anh') || kLower.includes('the anh'))) {
@@ -8368,8 +8359,8 @@
         dept: 'Điều Phối Kho',
         avatar: '🧘‍♂️',
         outfitLv: bestOutfitLv,
-        cultivationLv: !v113SocialResetDone ? 1 : Math.max(1, Math.min(11, Number(profilesObj[canonicalTheAnh]?.cultivationLv || 1), bestOutfitLv)),
-        unlockedOutfits: !v113SocialResetDone ? { 1: true } : (profilesObj[canonicalTheAnh]?.unlockedOutfits || { 1: true }),
+        cultivationLv: Math.max(bestOutfitLv, Number(profilesObj[canonicalTheAnh]?.cultivationLv || 7)),
+        unlockedOutfits: profilesObj[canonicalTheAnh]?.unlockedOutfits || { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true },
         socialEpoch: 115,
         registered: true
       };
@@ -8377,15 +8368,16 @@
     }
     function loadAllCharProfiles() {
       const defaults = {
-        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 312241200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 1, cultivationLv: 1, unlockedOutfits: { 1: true }, registered: true },
-        'Thành': { name: 'Thành', merit: 47291011, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 1, cultivationLv: 1, unlockedOutfits: { 1: true }, registered: true },
-        'Thu Trang': { name: 'Thu Trang', merit: 34663, congDuc: 8, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 1, registered: true },
-        'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 1, registered: true },
-        'Mia Xinh': { name: 'Mia Xinh', merit: 15800, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 1, registered: true },
-        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 12400, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 1, registered: true },
-        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 9800, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 1, registered: true },
-        'Sale Huế': { name: 'Sale Huế', merit: 8600, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 1, registered: true },
-        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 7200, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 1, registered: true }
+        'Thu Trang': { name: 'Thu Trang', merit: 6383552067, congDuc: 18, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌸', outfitLv: 9, cultivationLv: 9, unlockedOutfits: { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true }, registered: true },
+        'Thế Anh Kho': { name: 'Thế Anh Kho', merit: 312241200, congDuc: 18, gender: 'M', dept: 'Điều Phối Kho', avatar: '🧘‍♂️', outfitLv: 7, cultivationLv: 7, unlockedOutfits: { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true }, registered: true },
+        'Thành': { name: 'Thành', merit: 52802024, congDuc: 12, gender: 'M', dept: '', avatar: '🧘‍♂️', outfitLv: 6, cultivationLv: 6, unlockedOutfits: { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true }, registered: true },
+        'CEO Yến': { name: 'CEO Yến', merit: 18500, congDuc: 6, gender: 'F', dept: '', avatar: '👑', outfitLv: 8, cultivationLv: 8, registered: true },
+        'Trinh Kế Toán Trưởng': { name: 'Trinh Kế Toán Trưởng', merit: 16200, congDuc: 5, gender: 'F', dept: 'Kế Toán', avatar: '💼', outfitLv: 5, cultivationLv: 5, registered: true },
+        'Mia Xinh': { name: 'Mia Xinh', merit: 3775006, congDuc: 5, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌺', outfitLv: 5, cultivationLv: 5, registered: true },
+        'Sale Minh Anh': { name: 'Sale Minh Anh', merit: 17390, congDuc: 4, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🪷', outfitLv: 4, cultivationLv: 4, registered: true },
+        'Sale Kiều Trang': { name: 'Sale Kiều Trang', merit: 14039, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌼', outfitLv: 3, cultivationLv: 3, registered: true },
+        'Sale Huế': { name: 'Sale Huế', merit: 1064831, congDuc: 3, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌷', outfitLv: 4, cultivationLv: 4, registered: true },
+        'Sale Bích Thủy': { name: 'Sale Bích Thủy', merit: 11507, congDuc: 2, gender: 'F', dept: 'Sale Tư Vấn', avatar: '🌻', outfitLv: 3, cultivationLv: 3, registered: true }
       };
       let merged = { ...defaults };
       try {
@@ -11146,7 +11138,7 @@
       const payload = {
         type: 'presence',
         sender: clientId,
-        buildVer: window._currentBuildVer || 130,
+        buildVer: window._currentBuildVer || 131,
         name: player.name,
         avatar: player.avatar,
         gender: player.gender,
@@ -14666,7 +14658,7 @@
         }
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 130;
+        const CURRENT_BUILD_VER = 131;
         window._currentBuildVer = CURRENT_BUILD_VER;
         fetch('version.json?_t=' + Date.now(), { cache: 'no-store' })
           .then(r => r.ok ? r.json() : null)
