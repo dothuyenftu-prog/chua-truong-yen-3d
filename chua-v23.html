@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    window._currentBuildVer = 129;
+    window._currentBuildVer = 130;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -6714,10 +6714,33 @@
     }
 
     function getRealmLvByMeritAmount(meritVal) {
-      return 1;
+      const m = Number(meritVal || 0);
+      if (isNaN(m) || m <= 0) return 1;
+      let bestLv = 1;
+      for (const cfg of REALM_RANKS_CONFIG) {
+        if (m >= Number(cfg.meritCost || 0)) {
+          bestLv = Math.max(bestLv, Number(cfg.lv || 1));
+        }
+      }
+      return Math.max(1, Math.min(11, bestLv));
     }
 
-    // V87 + V128 (#mw8oazs5h): ĐỒNG BỘ 100% TRANG PHỤC CỦA MỌI NGƯỜI ĐANG ONLINE & LƯU HỒ SƠ CHÍNH XÁC
+    const DEFAULT_NPC_OUTFIT_BY_NAME = {
+      'Thu Trang': 9,
+      'Thế Anh Kho': 7,
+      'Thành': 6,
+      'CEO Yến': 8,
+      'Trinh Kế Toán Trưởng': 5,
+      'Anh Trung QL Kho HN': 5,
+      'Mia Xinh': 4,
+      'Sale Minh Anh': 4,
+      'Sale Kiều Trang': 3,
+      'Sale Huế': 3,
+      'Sale Bích Thủy': 3,
+      'KH Hùng Khất Nợ': 1
+    };
+
+    // V87 + V128 + V130 (#mw8oazs5h & #mw8ot4k4l): ĐỒNG BỘ 100% TRANG PHỤC CỦA MỌI NGƯỜI TRONG CHÙA (KHÔNG ĐỂ TOP 1 THU TRANG HAY CÁC NHÂN VẬT BỊ MẶC BỘ ĂN MÀY BẬC 1!)
     function getActiveCharacterOutfitLv(isPlayerChar, devoteeObj) {
       const isMe = (isPlayerChar === true || isPlayerChar === player || devoteeObj === player || (devoteeObj && player && devoteeObj.name === player.name));
       if (isMe) {
@@ -6726,31 +6749,37 @@
         }
         const st = getPlayerQuestState();
         const eqLv = Math.max(1, Math.min(11, Number(st.equippedOutfitLv || st.cultivationLv || 1)));
-        if (isOutfitUnlockedForState(st, eqLv)) return eqLv;
-        if (typeof allCharProfiles === 'object' && player && player.name && allCharProfiles[player.name]?.outfitLv >= 1) {
-          return Math.max(1, Math.min(11, Number(allCharProfiles[player.name].outfitLv)));
-        }
-        return 1;
+        if (isOutfitUnlockedForState(st, eqLv) && eqLv > 1) return eqLv;
+        const profLv = (typeof allCharProfiles === 'object' && player && player.name && allCharProfiles[player.name]?.outfitLv >= 1)
+          ? Number(allCharProfiles[player.name].outfitLv)
+          : 1;
+        const meritLv = getRealmLvByMeritAmount(player?.merit || 0);
+        return Math.max(1, Math.min(11, Math.max(eqLv, profLv, meritLv)));
       }
       const targetObj = devoteeObj || (typeof isPlayerChar === 'object' ? isPlayerChar : null);
       if (targetObj) {
-        if (typeof targetObj.name === 'string' && targetObj.name) {
+        let bestLv = Number(targetObj.outfitLv || targetObj._realmLv || 1);
+        let bestMerit = Number(targetObj._topMerit ?? targetObj.merit ?? 0);
+        const cName = typeof targetObj.name === 'string' ? targetObj.name.trim() : '';
+        if (cName) {
           if (typeof onlineCompanyPeers === 'object' && onlineCompanyPeers) {
             for (const peer of Object.values(onlineCompanyPeers)) {
-              if (peer && peer.name === targetObj.name) {
-                const pLv = Number(peer.outfitLv || peer._realmLv || 0);
-                if (pLv >= 1 && pLv <= 11) return Math.max(1, Math.min(11, pLv));
+              if (peer && peer.name === cName) {
+                bestLv = Math.max(bestLv, Number(peer.outfitLv || peer._realmLv || 1));
+                bestMerit = Math.max(bestMerit, Number(peer.merit || 0));
               }
             }
           }
-          if (typeof allCharProfiles === 'object' && allCharProfiles[targetObj.name]?.outfitLv >= 1 && allCharProfiles[targetObj.name]?.outfitLv <= 11) {
-            return Math.max(1, Math.min(11, Number(allCharProfiles[targetObj.name].outfitLv)));
+          if (typeof allCharProfiles === 'object' && allCharProfiles[cName]) {
+            bestLv = Math.max(bestLv, Number(allCharProfiles[cName].outfitLv || allCharProfiles[cName].cultivationLv || 1));
+            bestMerit = Math.max(bestMerit, Number(allCharProfiles[cName].merit || 0));
+          }
+          if (DEFAULT_NPC_OUTFIT_BY_NAME[cName]) {
+            bestLv = Math.max(bestLv, DEFAULT_NPC_OUTFIT_BY_NAME[cName]);
           }
         }
-        const objLv = Number(targetObj.outfitLv || targetObj._realmLv || 1);
-        if (objLv >= 1 && objLv <= 11) {
-          return Math.max(1, Math.min(11, objLv));
-        }
+        const meritTierLv = getRealmLvByMeritAmount(bestMerit);
+        return Math.max(1, Math.min(11, Math.max(bestLv, meritTierLv)));
       }
       return 1;
     }
@@ -11117,7 +11146,7 @@
       const payload = {
         type: 'presence',
         sender: clientId,
-        buildVer: window._currentBuildVer || 129,
+        buildVer: window._currentBuildVer || 130,
         name: player.name,
         avatar: player.avatar,
         gender: player.gender,
@@ -13271,9 +13300,9 @@
             : (topRank >= 1 && topRank <= 3 ? `${d.name} · ${(d._topMerit || d.merit || 0).toLocaleString('vi-VN')}💎` : d.name);
           drawRoundedBadge(badgeSx, headY, d.avatar || '🙏', badgeLabel, isPlayer || topRank === 1);
 
-          // V98 (#mvzazvxf21): Chỉ hiện Nhãn Bậc Tu Hành & Pháp Phục trên đầu nhân vật người chơi chính ("🪷 Bậc 4 · Tỳ Kheo Tinh Tấn") để không gây chồng chữ rối mắt với các NPC xung quanh!
-          if (isPlayer) {
-            const realmTitleTxt = previewOutfitLevel ? `👁️ MẶC THỬ: ${charRealmCfg.shortTitle}` : charRealmCfg.shortTitle;
+          // V98 (#mvzazvxf21) + V130 (#mw8ot4k4l): Hiện Nhãn Bậc Xã Hội & Trang Phục trên đầu người chơi chính, Top 1 Vinh Danh & người đang Online để ai cũng thấy rõ bậc trang phục!
+          if (isPlayer || topRank >= 1 || item.type === 'online_peer') {
+            const realmTitleTxt = (isPlayer && previewOutfitLevel) ? `👁️ MẶC THỬ: ${charRealmCfg.shortTitle}` : charRealmCfg.shortTitle;
             ctx.save();
             ctx.font = '800 8.8px sans-serif';
             const rtw = ctx.measureText(realmTitleTxt).width + 10;
@@ -14637,8 +14666,19 @@
         }
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 129;
+        const CURRENT_BUILD_VER = 130;
         window._currentBuildVer = CURRENT_BUILD_VER;
+        fetch('version.json?_t=' + Date.now(), { cache: 'no-store' })
+          .then(r => r.ok ? r.json() : null)
+          .then(d => {
+            if (d && Number(d.version) > CURRENT_BUILD_VER) {
+              const u = new URL(window.location.href);
+              u.searchParams.set('v', String(d.version));
+              u.searchParams.set('_t', String(Date.now()));
+              window.location.replace(u.toString());
+            }
+          })
+          .catch(() => {});
       })();
     });
   </script>
