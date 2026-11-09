@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>Chùa Trường Yến Online — Bản Đầy Đủ V9 (Chuông Mõ Tu Tập · 6 Nhạc Thiền · 8 Bài Khấn & Sớ Khách Hàng)</title>
   <script>
-    window._currentBuildVer = 127;
+    window._currentBuildVer = 128;
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -6612,18 +6612,6 @@
           try { localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200'); } catch (e) {}
         }
         try {
-          if (typeof allCharProfiles === 'object' && allCharProfiles) {
-            Object.keys(allCharProfiles).forEach(k => {
-              if (allCharProfiles[k]) {
-                allCharProfiles[k].outfitLv = 1;
-                allCharProfiles[k].cultivationLv = 1;
-                allCharProfiles[k].unlockedOutfits = { 1: true };
-                allCharProfiles[k].socialEpoch = 115;
-              }
-            });
-            if (allCharProfiles['Thế Anh Kho']) allCharProfiles['Thế Anh Kho'].merit = 312241200;
-            localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles));
-          }
           localStorage.setItem(storageKey, JSON.stringify(st));
         } catch (e) {}
       }
@@ -6664,9 +6652,10 @@
       return 1;
     }
 
-    // V87 (#mvywqjzo1f & #mvywqfcz1e): PHẢI MUA BẰNG ĐIỂM PHƯỚC 💎 MỚI ĐƯỢC TRANG PHỤC + ĐỒNG BỘ 100% TRANG PHỤC CỦA MỌI NGƯỜI ĐANG ONLINE
+    // V87 + V128 (#mw8oazs5h): ĐỒNG BỘ 100% TRANG PHỤC CỦA MỌI NGƯỜI ĐANG ONLINE & LƯU HỒ SƠ CHÍNH XÁC
     function getActiveCharacterOutfitLv(isPlayerChar, devoteeObj) {
-      if (isPlayerChar) {
+      const isMe = (isPlayerChar === true || isPlayerChar === player || devoteeObj === player || (devoteeObj && player && devoteeObj.name === player.name));
+      if (isMe) {
         if (typeof previewOutfitLevel === 'number' && previewOutfitLevel >= 1 && previewOutfitLevel <= 11) {
           return Math.max(1, Math.min(11, previewOutfitLevel));
         }
@@ -6678,28 +6667,25 @@
         }
         return 1;
       }
-      if (devoteeObj) {
-        let bestLv = 1;
-        if (devoteeObj.outfitLv > 1 && devoteeObj.outfitLv <= 11) {
-          bestLv = Math.max(bestLv, Math.min(11, Number(devoteeObj.outfitLv)));
-        }
-        if (devoteeObj._realmLv > 1 && devoteeObj._realmLv <= 11) {
-          bestLv = Math.max(bestLv, Math.min(11, Number(devoteeObj._realmLv)));
-        }
-        if (typeof devoteeObj.name === 'string') {
+      const targetObj = devoteeObj || (typeof isPlayerChar === 'object' ? isPlayerChar : null);
+      if (targetObj) {
+        if (typeof targetObj.name === 'string' && targetObj.name) {
           if (typeof onlineCompanyPeers === 'object' && onlineCompanyPeers) {
             for (const peer of Object.values(onlineCompanyPeers)) {
-              if (peer && peer.name === devoteeObj.name) {
+              if (peer && peer.name === targetObj.name) {
                 const pLv = Number(peer.outfitLv || peer._realmLv || 0);
                 if (pLv >= 1 && pLv <= 11) return Math.max(1, Math.min(11, pLv));
               }
             }
           }
-          if (typeof allCharProfiles === 'object' && allCharProfiles[devoteeObj.name]?.outfitLv >= 1 && allCharProfiles[devoteeObj.name]?.outfitLv <= 11) {
-            bestLv = Math.max(bestLv, Math.min(11, Number(allCharProfiles[devoteeObj.name].outfitLv)));
+          if (typeof allCharProfiles === 'object' && allCharProfiles[targetObj.name]?.outfitLv >= 1 && allCharProfiles[targetObj.name]?.outfitLv <= 11) {
+            return Math.max(1, Math.min(11, Number(allCharProfiles[targetObj.name].outfitLv)));
           }
         }
-        return bestLv;
+        const objLv = Number(targetObj.outfitLv || targetObj._realmLv || 1);
+        if (objLv >= 1 && objLv <= 11) {
+          return Math.max(1, Math.min(11, objLv));
+        }
       }
       return 1;
     }
@@ -8231,17 +8217,22 @@
           localStorage.setItem('ty_merit_backup_Thế Anh Kho', '312241200');
         }
         Object.keys(profilesObj).forEach(k => {
-          if (profilesObj[k] && (!v113SocialResetDone || (Number(profilesObj[k].socialEpoch) || 0) < 115)) {
-            profilesObj[k].outfitLv = 1;
-            profilesObj[k].cultivationLv = 1;
-            profilesObj[k].unlockedOutfits = { 1: true };
+          if (profilesObj[k]) {
+            if (!v113SocialResetDone) {
+              profilesObj[k].outfitLv = 1;
+              profilesObj[k].cultivationLv = 1;
+              profilesObj[k].unlockedOutfits = { 1: true };
+            } else {
+              profilesObj[k].outfitLv = Math.max(1, Math.min(11, Number(profilesObj[k].outfitLv || 1)));
+              profilesObj[k].cultivationLv = Math.max(1, Math.min(11, Number(profilesObj[k].cultivationLv || profilesObj[k].outfitLv || 1)));
+            }
             profilesObj[k].socialEpoch = 115;
           }
         });
       } catch (e) {}
       let bestMerit = Math.max(0, rawTheAnhMerit);
       let bestCongDuc = Math.max(Number(profilesObj[canonicalTheAnh]?.congDuc || 0), 18);
-      let bestOutfitLv = !v113SocialResetDone ? 1 : Math.max(1, Number(profilesObj[canonicalTheAnh]?.outfitLv || 1));
+      let bestOutfitLv = !v113SocialResetDone ? 1 : Math.max(1, Math.min(11, Number(profilesObj[canonicalTheAnh]?.outfitLv || 1)));
       for (const k of Object.keys(profilesObj)) {
         const kLower = k.toLowerCase();
         if (k !== canonicalTheAnh && (normalizeCanonicalAccountName(k) === canonicalTheAnh || kLower.includes('thế anh') || kLower.includes('the anh'))) {
@@ -8260,8 +8251,9 @@
         dept: 'Điều Phối Kho',
         avatar: '🧘‍♂️',
         outfitLv: bestOutfitLv,
-        cultivationLv: !v113SocialResetDone ? 1 : Math.max(1, Number(profilesObj[canonicalTheAnh]?.cultivationLv || 1), bestOutfitLv),
+        cultivationLv: !v113SocialResetDone ? 1 : Math.max(1, Math.min(11, Number(profilesObj[canonicalTheAnh]?.cultivationLv || 1), bestOutfitLv)),
         unlockedOutfits: !v113SocialResetDone ? { 1: true } : (profilesObj[canonicalTheAnh]?.unlockedOutfits || { 1: true }),
+        socialEpoch: 115,
         registered: true
       };
       return profilesObj;
@@ -8367,7 +8359,7 @@
       if (window.location.search && window.location.search.includes('demo=')) return;
       const isMe = (accName === player?.name);
       const st = isMe && typeof getPlayerQuestState === 'function' ? getPlayerQuestState() : null;
-      const resolvedOutfitLv = Number(outfitLvVal) || (isMe ? getActiveCharacterOutfitLv(player) : Number(allCharProfiles[accName]?.outfitLv || 1));
+      const resolvedOutfitLv = Number(outfitLvVal) || (isMe ? getActiveCharacterOutfitLv(true, player) : Number(allCharProfiles[accName]?.outfitLv || 1));
       const resolvedCultivationLv = st ? Math.max(Number(st.cultivationLv || 1), resolvedOutfitLv) : Math.max(Number(allCharProfiles[accName]?.cultivationLv || 1), resolvedOutfitLv);
       const payload = {
         type: 'account_merit_sync',
@@ -8379,6 +8371,7 @@
         dept: deptVal || (typeof getCharDeptName === 'function' ? getCharDeptName(accName) : 'Phật Tử'),
         outfitLv: resolvedOutfitLv,
         cultivationLv: resolvedCultivationLv,
+        socialEpoch: 115,
         unlockedOutfits: st ? st.unlockedOutfits : (allCharProfiles[accName]?.unlockedOutfits || { 1: true }),
         upgrades: st ? st.upgrades : (allCharProfiles[accName]?.upgrades || { mo: 1, bell: 1, incense: 1, furnace: 1 }),
         registered: true,
@@ -8410,14 +8403,14 @@
         player.gender || 'F',
         typeof getCharDeptName === 'function' ? getCharDeptName(player.name) : 'Phật Tử',
         allCharProfiles[player.name]?.honorNote || '',
-        getActiveCharacterOutfitLv(player)
+        getActiveCharacterOutfitLv(true, player)
       );
     }
 
     function saveCurrentCharProfile() {
       if (!player || isDeletedGhostAccount(player.name)) return;
       const prevHonorNote = allCharProfiles[player.name]?.honorNote || '';
-      const activeLv = getActiveCharacterOutfitLv(player);
+      const activeLv = getActiveCharacterOutfitLv(true, player);
       const st = typeof getPlayerQuestState === 'function' ? getPlayerQuestState() : null;
       allCharProfiles[player.name] = {
         ...(allCharProfiles[player.name] || {}),
@@ -8429,6 +8422,7 @@
         avatar: (player.name === 'Thành') ? '🧘‍♂️' : (player.avatar || (player.gender === 'M' ? '🧘‍♂️' : '🪷')),
         outfitLv: activeLv,
         cultivationLv: st ? Math.max(Number(st.cultivationLv || 1), activeLv) : activeLv,
+        socialEpoch: 115,
         unlockedOutfits: st ? st.unlockedOutfits : (allCharProfiles[player.name]?.unlockedOutfits || { 1: true }),
         upgrades: st ? st.upgrades : (allCharProfiles[player.name]?.upgrades || { mo: 1, bell: 1, incense: 1, furnace: 1 }),
         pin: allCharProfiles[player.name]?.pin || currentAccountPin || '1234',
@@ -10587,11 +10581,16 @@
             }
             allCharProfiles[accName].congDuc = Math.max(Number(allCharProfiles[accName].congDuc || 0), Number(accInfo.congDuc || 1));
             allCharProfiles[accName].gender = accInfo.gender || allCharProfiles[accName].gender || 'F';
-            if (!isMyActiveAcc && !isPeerCurrentlyOnline && !hasDirectLiveSync) {
-              const isValidV115 = (Number(accInfo.socialEpoch) || 0) >= 115;
-              allCharProfiles[accName].outfitLv = isValidV115 && accInfo.outfitLv ? Math.max(1, Math.min(11, Number(accInfo.outfitLv))) : 1;
-              allCharProfiles[accName].cultivationLv = isValidV115 && accInfo.cultivationLv ? Math.max(1, Math.min(11, Number(accInfo.cultivationLv))) : 1;
-              allCharProfiles[accName].unlockedOutfits = isValidV115 && accInfo.unlockedOutfits && typeof accInfo.unlockedOutfits === 'object' ? { 1: true, ...accInfo.unlockedOutfits } : { 1: true };
+            if (!isMyActiveAcc) {
+              if (accInfo.outfitLv >= 1) {
+                allCharProfiles[accName].outfitLv = Math.max(1, Math.min(11, Number(accInfo.outfitLv)));
+              }
+              if (accInfo.cultivationLv >= 1) {
+                allCharProfiles[accName].cultivationLv = Math.max(1, Math.min(11, Number(accInfo.cultivationLv)));
+              }
+              if (accInfo.unlockedOutfits && typeof accInfo.unlockedOutfits === 'object') {
+                allCharProfiles[accName].unlockedOutfits = { 1: true, ...(allCharProfiles[accName].unlockedOutfits || {}), ...accInfo.unlockedOutfits };
+              }
               allCharProfiles[accName].socialEpoch = 115;
             }
             if (accInfo.upgrades && typeof accInfo.upgrades === 'object') {
@@ -10608,6 +10607,13 @@
               if (typeof updateTopBarQuestRealmBadge === 'function') updateTopBarQuestRealmBadge();
             }
           }
+          if (data.peers && typeof data.peers === 'object') {
+            for (const [pSender, pData] of Object.entries(data.peers)) {
+              if (pSender !== clientId && pData && pData.name && pData.name !== player.name) {
+                handleIncomingPresence({ ...pData, type: 'presence', sender: pSender });
+              }
+            }
+          }
           mergeDuplicateAccountsInPlace(allCharProfiles);
           try { localStorage.setItem(CHAR_PROFILES_STORAGE_KEY, JSON.stringify(allCharProfiles)); } catch (e) {}
           if (typeof renderZaloCongDucLeaderboard === 'function') renderZaloCongDucLeaderboard();
@@ -10617,7 +10623,7 @@
       if (data.type === 'account_merit_sync' && data.name) {
         data.name = normalizeCanonicalAccountName(data.name);
         if (isDeletedGhostAccount(data.name)) return;
-        if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name };
+        if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name, socialEpoch: 115 };
         if (data.name === player.name) {
           allCharProfiles[data.name].merit = Number(player.merit || 0);
         } else {
@@ -10629,20 +10635,14 @@
         if (data.gender) allCharProfiles[data.name].gender = data.gender;
         if (data.dept) allCharProfiles[data.name].dept = data.dept;
         if (data.name !== player.name) {
-          const isValidV115 = (Number(data.socialEpoch) || 0) >= 115;
-          if (isValidV115 && data.outfitLv) {
+          if (data.outfitLv >= 1) {
             allCharProfiles[data.name].outfitLv = Math.max(1, Math.min(11, Number(data.outfitLv)));
-            allCharProfiles[data.name].socialEpoch = 115;
-          } else if ((Number(allCharProfiles[data.name].socialEpoch) || 0) < 115) {
-            allCharProfiles[data.name].outfitLv = 1;
-            allCharProfiles[data.name].cultivationLv = 1;
-            allCharProfiles[data.name].unlockedOutfits = { 1: true };
-            allCharProfiles[data.name].socialEpoch = 115;
           }
-          if (isValidV115 && data.cultivationLv) {
+          allCharProfiles[data.name].socialEpoch = 115;
+          if (data.cultivationLv >= 1) {
             allCharProfiles[data.name].cultivationLv = Math.max(1, Math.min(11, Number(data.cultivationLv)));
           }
-          if (isValidV115 && data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
+          if (data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
             allCharProfiles[data.name].unlockedOutfits = { ...(allCharProfiles[data.name].unlockedOutfits || {}), ...data.unlockedOutfits };
           }
         }
@@ -10662,11 +10662,18 @@
           updateTopBarQuestRealmBadge();
         }
         // Đồng bộ ngay vào nhân vật đang đứng trong điện của người chơi đó (peer hoặc NPC đại diện)
-        const syncSafeLv = ((Number(data.socialEpoch) || 0) >= 115 && data.outfitLv) ? Math.max(1, Math.min(11, Number(data.outfitLv))) : 1;
+        const syncSafeLv = data.outfitLv >= 1 ? Math.max(1, Math.min(11, Number(data.outfitLv))) : Math.max(1, Math.min(11, Number(allCharProfiles[data.name]?.outfitLv || 1)));
         for (const peerObj of Object.values(onlineCompanyPeers)) {
           if (peerObj && peerObj.name === data.name) {
             peerObj.merit = Number(data.merit ?? peerObj.merit ?? 50);
             peerObj.outfitLv = syncSafeLv;
+          }
+        }
+        if (typeof visitingGuests !== 'undefined' && Array.isArray(visitingGuests)) {
+          for (const gObj of visitingGuests) {
+            if (gObj && gObj.name === data.name) {
+              gObj.outfitLv = syncSafeLv;
+            }
           }
         }
         for (const npcObj of (hallNpcs || [])) {
@@ -10693,6 +10700,7 @@
             congDuc: Math.max(Number(data.congDuc || 1), Number(prevOld.congDuc || 1), Number(prevNew.congDuc || 1)),
             gender: data.gender || prevOld.gender || 'M',
             dept: data.dept || prevOld.dept || '',
+            socialEpoch: 115,
             registered: true,
             updatedAt: Date.now()
           };
@@ -10713,13 +10721,12 @@
       if (data.type === 'outfit_change' && data.name) {
         data.name = normalizeCanonicalAccountName(data.name);
         if (isDeletedGhostAccount(data.name)) return;
-        const isValidV115 = (Number(data.socialEpoch) || 0) >= 115;
-        const newLv = isValidV115 ? Math.max(1, Math.min(11, Number(data.outfitLv || 1))) : 1;
+        const newLv = Math.max(1, Math.min(11, Number(data.outfitLv || 1)));
         if (!allCharProfiles[data.name]) allCharProfiles[data.name] = { name: data.name };
         allCharProfiles[data.name].outfitLv = newLv;
-        allCharProfiles[data.name].cultivationLv = isValidV115 ? Math.max(Number(allCharProfiles[data.name].cultivationLv || 1), Number(data.cultivationLv || 1), newLv) : 1;
+        allCharProfiles[data.name].cultivationLv = Math.max(Number(allCharProfiles[data.name].cultivationLv || 1), Number(data.cultivationLv || 1), newLv);
         allCharProfiles[data.name].socialEpoch = 115;
-        if (isValidV115 && data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
+        if (data.unlockedOutfits && typeof data.unlockedOutfits === 'object') {
           allCharProfiles[data.name].unlockedOutfits = { ...(allCharProfiles[data.name].unlockedOutfits || {}), ...data.unlockedOutfits };
         }
         if (data.merit !== undefined && data.name !== player.name) {
@@ -10732,6 +10739,13 @@
           if (peerObj && peerObj.name === data.name) {
             peerObj.outfitLv = newLv;
             if (data.merit !== undefined) peerObj.merit = Number(data.merit);
+          }
+        }
+        if (typeof visitingGuests !== 'undefined' && Array.isArray(visitingGuests)) {
+          for (const gObj of visitingGuests) {
+            if (gObj && gObj.name === data.name) {
+              gObj.outfitLv = newLv;
+            }
           }
         }
         for (const npcObj of (hallNpcs || [])) {
@@ -10763,6 +10777,14 @@
         const actorA = resolveActorObj(aName, true);
         const actorB = resolveActorObj(bName, false);
         if (actorA && actorB) {
+          if (actorA !== player && (data.actorAOutfitLv >= 1 || data.outfitLv >= 1)) {
+            const aLv = Math.max(1, Math.min(11, Number(data.actorAOutfitLv || data.outfitLv || 1)));
+            actorA.outfitLv = aLv;
+            if (allCharProfiles[aName]) {
+              allCharProfiles[aName].outfitLv = aLv;
+              allCharProfiles[aName].socialEpoch = 115;
+            }
+          }
           actorA.wing = safeWing;
           actorB.wing = safeWing;
           if (actorA.waitOutsideTimer !== undefined) actorA.waitOutsideTimer = 0;
@@ -10826,7 +10848,9 @@
         }
         if (isDeletedGhostAccount(data.name)) return;
         const safeWing = (data.wing === 1) ? 1 : 0;
-        const incomingOutfitLv = ((Number(data.socialEpoch) || 0) >= 115 && data.outfitLv) ? Math.max(1, Math.min(11, Number(data.outfitLv))) : 1;
+        const wasNewPeer = !onlineCompanyPeers[data.sender];
+        const prevKnownLv = Math.max(1, Math.min(11, Number(onlineCompanyPeers[data.sender]?.outfitLv || allCharProfiles[data.name]?.outfitLv || 1)));
+        const incomingOutfitLv = (data.outfitLv >= 1) ? Math.max(1, Math.min(11, Number(data.outfitLv))) : prevKnownLv;
         const existing = onlineCompanyPeers[data.sender] || {
           id: data.sender,
           name: data.name || 'Thành Viên Công Ty',
@@ -10849,12 +10873,23 @@
         existing.name = data.name || existing.name;
         existing.avatar = data.avatar || existing.avatar;
         existing.gender = data.gender || existing.gender;
-        if (incomingOutfitLv) {
+        if (incomingOutfitLv >= 1) {
           existing.outfitLv = incomingOutfitLv;
           if (existing.name) {
             if (!allCharProfiles[existing.name]) allCharProfiles[existing.name] = { name: existing.name };
             allCharProfiles[existing.name].outfitLv = incomingOutfitLv;
+            allCharProfiles[existing.name].socialEpoch = 115;
           }
+          if (typeof visitingGuests !== 'undefined' && Array.isArray(visitingGuests)) {
+            for (const gObj of visitingGuests) {
+              if (gObj && gObj.name === existing.name) {
+                gObj.outfitLv = incomingOutfitLv;
+              }
+            }
+          }
+        }
+        if (wasNewPeer && typeof broadcastMyPresence === 'function') {
+          setTimeout(() => broadcastMyPresence(true), 60);
         }
         if (typeof data.merit === 'number') {
           let peerM = Math.max(0, Number(data.merit));
@@ -10971,15 +11006,16 @@
       const now = Date.now();
       if (!force && now - lastPresenceBroadcastMs < 350) return;
       lastPresenceBroadcastMs = now;
-      const myActiveOutfitLv = typeof getActiveCharacterOutfitLv === 'function' ? getActiveCharacterOutfitLv(player) : 1;
+      const myActiveOutfitLv = typeof getActiveCharacterOutfitLv === 'function' ? getActiveCharacterOutfitLv(true, player) : 1;
       const payload = {
         type: 'presence',
         sender: clientId,
-        buildVer: window._currentBuildVer || 93,
+        buildVer: window._currentBuildVer || 128,
         name: player.name,
         avatar: player.avatar,
         gender: player.gender,
         outfitLv: myActiveOutfitLv,
+        socialEpoch: 115,
         merit: Number(player.merit || 0),
         wing: player.wing === 1 ? 1 : 0,
         u: Math.round(player.targetU * 1000) / 1000,
@@ -11137,7 +11173,8 @@
     }, 3500);
 
     function publishMqtt(obj) {
-      const msg = { ...obj, sender: clientId };
+      const myLv = (typeof getActiveCharacterOutfitLv === 'function' && typeof player === 'object' && player) ? getActiveCharacterOutfitLv(true, player) : 1;
+      const msg = { socialEpoch: 115, outfitLv: myLv, ...obj, sender: clientId };
       const str = JSON.stringify(msg);
       if (lanConnected && lanWs && lanWs.readyState === WebSocket.OPEN) {
         try { lanWs.send(str); } catch (e) {}
@@ -12875,6 +12912,7 @@
           gender: ch.gender,
           avatar: ch.avatar,
           merit: ch.merit,
+          outfitLv: getActiveCharacterOutfitLv(false, ch),
           wing: player.wing,
           u: seat.u,
           v: seat.v,
@@ -14480,7 +14518,7 @@
         updateTopBarQuestRealmBadge();
       }
       (function autoCheckLatestBuildVersion() {
-        const CURRENT_BUILD_VER = 127;
+        const CURRENT_BUILD_VER = 128;
         window._currentBuildVer = CURRENT_BUILD_VER;
       })();
     });
